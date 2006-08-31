@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+	<appender name="out-all-std" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p (%F:%L) : %m%n" />
+		</layout>
+	</appender>
+
+
+	<appender name="out-level-error" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/level/error.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="error" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %c{1} : %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="error" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+
+	<appender name="out-level-warning" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/level/warning.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="warn" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %c{1} : %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="warn" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+
+	<appender name="out-level-info" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/level/info.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="info" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p %c{1} : %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="info" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+
+	<appender name="out-level-debug" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/level/debug.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="debug" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %c{1} : %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="debug" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+
+	<appender name="out-level-trace" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/level/trace.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %c{1} : %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="trace" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+
+
+	<appender name="out-package-contract" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/contract.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="out-package-index" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/index.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="out-package-input" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/input.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="out-package-output" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/output.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="out-package-request" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/request.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="out-package-servlet" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/servlet.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="out-package-tasklist" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/tasklist.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="out-package-util" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/util.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="out-package-unicorn" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/all.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %c{1} : %m%n" />
+		</layout>
+	</appender>
+
+
+	<logger name="org.w3c.unicorn.Framework">
+		<level value="trace"/>
+		<appender-ref ref="out-level-error" />
+		<appender-ref ref="out-level-warning" />
+		<appender-ref ref="out-level-info" />
+		<appender-ref ref="out-level-debug" />
+		<appender-ref ref="out-level-trace" />
+		<appender-ref ref="out-package-unicorn" />
+	</logger>
+
+	<logger name="org.w3c.unicorn.contract">
+		<level value="trace"/>
+		<appender-ref ref="out-level-error" />
+		<appender-ref ref="out-level-warning" />
+		<appender-ref ref="out-level-info" />
+		<appender-ref ref="out-level-debug" />
+		<appender-ref ref="out-level-trace" />
+		<appender-ref ref="out-package-contract" />
+		<appender-ref ref="out-package-unicorn" />
+	</logger>
+
+	<logger name="org.w3c.unicorn.index">
+		<level value="trace"/>
+		<appender-ref ref="out-level-error" />
+		<appender-ref ref="out-level-warning" />
+		<appender-ref ref="out-level-info" />
+		<appender-ref ref="out-level-debug" />
+		<appender-ref ref="out-level-trace" />
+		<appender-ref ref="out-package-index" />
+		<appender-ref ref="out-package-unicorn" />
+	</logger>
+
+	<logger name="org.w3c.unicorn.input">
+		<level value="trace"/>
+		<appender-ref ref="out-level-error" />
+		<appender-ref ref="out-level-warning" />
+		<appender-ref ref="out-level-info" />
+		<appender-ref ref="out-level-debug" />
+		<appender-ref ref="out-level-trace" />
+		<appender-ref ref="out-package-input" />
+		<appender-ref ref="out-package-unicorn" />
+	</logger>
+
+	<logger name="org.w3c.unicorn.output">
+		<level value="trace"/>
+		<appender-ref ref="out-level-error" />
+		<appender-ref ref="out-level-warning" />
+		<appender-ref ref="out-level-info" />
+		<appender-ref ref="out-level-debug" />
+		<appender-ref ref="out-level-trace" />
+		<appender-ref ref="out-package-output" />
+		<appender-ref ref="out-package-unicorn" />
+	</logger>
+
+	<logger name="org.w3c.unicorn.request">
+		<level value="trace"/>
+		<appender-ref ref="out-level-error" />
+		<appender-ref ref="out-level-warning" />
+		<appender-ref ref="out-level-info" />
+		<appender-ref ref="out-level-debug" />
+		<appender-ref ref="out-level-trace" />
+		<appender-ref ref="out-package-request" />
+		<appender-ref ref="out-package-unicorn" />
+	</logger>
+
+	<logger name="org.w3c.unicorn.servlet">
+		<level value="trace"/>
+		<appender-ref ref="out-level-error" />
+		<appender-ref ref="out-level-warning" />
+		<appender-ref ref="out-level-info" />
+		<appender-ref ref="out-level-debug" />
+		<appender-ref ref="out-level-trace" />
+		<appender-ref ref="out-package-servlet" />
+		<appender-ref ref="out-package-unicorn" />
+	</logger>
+
+	<logger name="org.w3c.unicorn.tasklist">
+		<level value="trace"/>
+		<appender-ref ref="out-level-error" />
+		<appender-ref ref="out-level-warning" />
+		<appender-ref ref="out-level-info" />
+		<appender-ref ref="out-level-debug" />
+		<appender-ref ref="out-level-trace" />
+		<appender-ref ref="out-package-tasklist" />
+		<appender-ref ref="out-package-unicorn" />
+	</logger>
+
+	<logger name="org.w3c.unicorn.util">
+		<level value="trace"/>
+		<appender-ref ref="out-level-error" />
+		<appender-ref ref="out-level-warning" />
+		<appender-ref ref="out-level-info" />
+		<appender-ref ref="out-level-debug" />
+		<appender-ref ref="out-level-trace" />
+		<appender-ref ref="out-package-util" />
+		<appender-ref ref="out-package-unicorn" />
+	</logger>
+
+
+	<root>
+		<level value="warn"/>
+	</root>
+
+</log4j:configuration>

@@ -1,0 +1,64 @@
+How to compile and deploy Unicorn under Tomcat
+- Move to unicorn directory (you're probably already inside)
+- Edit the file org/w3c/unicorn.configuration/unicorn.properties
+  Here is a list of default values for each property:
+	UNICORN_HOME = /usr/share/tomcat5/webapps/unicorn/
+	SERVER_TYPE = tomcat
+	UNICORN_URL = http://www.w3.org/unicorn/
+	UNICORN_ENCODING = UTF-8
+	UNICORN_PARAMETER_PREFIX = ucn_
+	UNICORN_PARAMETER_OUTPUT_PREFIX = opt_
+	FILESYSTEM_PREFIX = file:
+	PATH_TO_RESOURCES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/
+	PATH_TO_OBSERVER_LIST = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/
+	PATH_TO_TASKLIST = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/tasklist/
+	PATH_TO_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/templates/
+	PATH_TO_OUTPUT_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources//templates/output/
+	PATH_TO_OUTPUT_ERROR_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/templates//output//errors/
+	PATH_TO_INDEX_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/templates//index/
+	PATH_TO_ERROR_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/templates//errors/
+	PATH_TO_TEMPORARY_FILES = /usr/share/tomcat5/webapps/unicorn/temporary_files/
+	URL_TO_TEMPORARY_FILES = http://www.w3.org/unicorn/temporary_files/
+	PATH_TO_INDEX_OUTPUT = /usr/share/tomcat5/webapps/unicorn/
+	OBSERVER_LIST_FILE = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/observers.list
+	OBSERVER_RDF_MODEL = file:/usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/schemas/Observer.rdfs
+	OBSERVER_XML_FILENAME = observer.wadl
+	OBSERVER_RDF_FILENAME = observer.rdf
+	TASKLIST_RDF_FILENAME = /tasklist.rdf
+	TASKLIST_RDF_FILE = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/tasklist/tasklist.rdf
+	TASKLIST_XML_FILENAME = /tasklist.xml
+	TASKLIST_XML_FILE = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/tasklist/tasklist.xml
+	TASKLIST_RDF_MODEL = file:/usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/schemas/Task.rdfs
+	TEMPLATE_FILE_EXTENSION = .vm
+	UPLOADED_FILES_REPOSITORY = /usr/share/tomcat5/webapps/unicorn/WEB-INF/uploaded-files/
+	DELETE_UPLOADED_FILES = true
+	VELOCITY_CONFIG_FILE = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/velocity.properties
+  Each entry of this file has the following form:
+        PROPERTY_NAME = ($REF_TO_OTHER_PROPERTY ,)* [^$,]*
+  For example, the property PATH_TO_RESOURCES can be :
+	PATH_TO_RESOURCES = $UNICORN_HOME , WEB-INF/resources/
+  Which will produce the path /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/ , provided that UNICORN_HOME is set to /usr/share/tomcat5/webapps/unicorn/
+  The only property you should have to set is UNICORN_URL, since Unicorn+Tomcat will guess the others, such as UNICORN_HOME and adapt them automagically to your configuration. For example, once you've set UNICORN_URL, URL_TO_TEMPORARY_FILES sould automatically point to the correct directory of this server.
+- Eventually, edit the file log4j.xml th change the logging behaviour
+- Edit the file resources/observers.list to add observers
+- Edit the files under resources/tasklist to create your own tasklist
+- > ant war
+- As root, copy the file resources/tomcat_policy in the policy directory of tomcat (/etc/tomcat5/policy.d for Debian) and eventually edit it to fit your needs.
+  Note that this file is very important because it will give permissions to read and write files under unicorn servlet dir, but also to connect to distant hosts (observers).
+- Finally, place the generated unicorn.war in your tomcat webapps directory (as root) and wait for it to auto-deploy or deploy it through the tomcat manager. 
+  At the end of the deployment, 2 files should be created in the unicorn webapp directory : en_index.html and en_parameters.js. 
+  These are the auto-generated index files from the tasklist and observers. If they are not created, it's not normal. Check all the previous steps and see in the WEB-INF/logs/packages/info.log if the properties are correctly set.
+  If these files have been created, then, you could access Unicorn through en_index.html (it could be wise to rename it as index.html) and begin checking all sorts of documents :)
+
+
+
+N.B.: This is an alpha test, theres are probably many bugs and features lacking. If you find any problem, please report to qa-dev@w3.org list.
+N.B.2: Direct input size seems to be limited be Tomcat and/or browsers. So, big inputs won't work
+
+
+How does the log works :
+Under Tomcat logs files are on "webapps/unicorn/WEB-INF/logs/".
+There are split in two directory :
+	- "level" where log are split in one file by log level (trace, debug, info, warning and error).
+	- "package" where log are split by package where they come from. There are also one file called "all.log" which
+		contains all logs informations.

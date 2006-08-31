@@ -1,0 +1,46 @@
+<property name="app.name" value="unicorn"/>
+<property name="jar.file" value="${app.name}.jar"/>
+<property name="war.file" value="${app.name}.war"/>
+
+<target name="help">
+    <echo message="Please run: $ ant -v -projecthelp"/>
+</target>
+
+<target name="war" depends="build" description="Creates the webapp module">
+    <delete file="${war.file}"/>
+    <war warfile="${war.file}" webxml="web.xml" basedir="." excludes="*,**">
+        <classes dir="build">
+            <include name="org/**"/>
+        </classes>
+        <classes dir=".">
+            <exclude name="build/**"/>
+            <include name="**/*.properties"/>
+        </classes>
+        <classes file="log4j.xml"/>
+        <webinf dir=".">
+            <include name="uploaded-files/**"/>
+            <include name="logs/**"/>
+        </webinf>
+        <lib dir="lib"/>
+        <zipfileset dir="images" prefix="images"/>
+        <zipfileset dir="style" prefix="style"/>
+        <zipfileset dir="resources" prefix="WEB-INF/resources"/>
+        <zipfileset dir="tabtastic" prefix="tabtastic"/>
+        <zipfileset dir="temporary_files" prefix="temporary_files"/>
+        <!--<zipfileset dir="resources/schemas" prefix="schemas"/>-->
+    </war>
+</target>
+
+<target name="jar" depends="build" description="Creates the unicorn library">
+	<delete file="${jar.file}" />
+	<jar destfile="${jar.file}">
+		<fileset dir="build">
+			<include name="org/**/*.class" />
+			<include name="**/*.properties" />
+			<include name="log4j.xml" />
+		</fileset>
+		<fileset dir=".">
+			<include name="org/**/*.java" />
+		</fileset>
+	</jar>
+</target>
