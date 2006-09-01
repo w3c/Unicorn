@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.1.1.1 2006-08-31 09:09:28 dleroy Exp $
+// $Id: FirstServlet.java,v 1.2 2006-09-01 14:30:17 dleroy Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -305,6 +305,7 @@ public class FirstServlet extends HttpServlet {
 		}
 		// Global Unicorn parameter
 		if (sParamName.equals("task")) {
+			//FirstServlet.logger.debug("");
 			aUnicornCall.setTask(tStringParamValue[0]);
 		}
 		else if (sParamName.equals("uri")) {

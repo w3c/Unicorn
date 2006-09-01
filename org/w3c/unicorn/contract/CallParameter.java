@@ -1,4 +1,4 @@
-// $Id: CallParameter.java,v 1.1.1.1 2006-08-31 09:09:20 dleroy Exp $
+// $Id: CallParameter.java,v 1.2 2006-09-01 14:30:17 dleroy Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -19,13 +19,13 @@ public class CallParameter {
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.contract");
 
 	// Name of this parameter     
-	private String sName;    
+	private String sName = null;    
 	
 	// Possible values for this parameter    
-	private List<String> listOfPossibleValue;        
+	private List<String> listOfPossibleValue = null;        
 	
 	// Indicates wheter the parameter can be manually set or not
-	private String sFixed;
+	private String sFixed = null;
 	
 	// Is this parameter mandatory     
 	private boolean bRequired;

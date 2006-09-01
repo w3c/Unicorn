@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.1.1.1 2006-08-31 09:09:20 dleroy Exp $
+// $Id: UnicornCall.java,v 1.2 2006-09-01 14:30:17 dleroy Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -15,6 +15,7 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
+import org.w3c.unicorn.contract.CallParameter;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.contract.InputMethod;
 import org.w3c.unicorn.contract.Observer;
@@ -45,13 +46,13 @@ public class UnicornCall {
 	private static final Log logger = Framework.logger;
 
 	// Request
-	private Task aTask;
-	private EnumInputMethod aEnumInputMethod;
+	private Task aTask = null;
+	private EnumInputMethod aEnumInputMethod = null;
 	private Object oInputParameterValue = null;
-	private String sDocumentName;
+	private String sDocumentName = null;
 	private String sLang = null;
-	private RequestList aRequestList;
-	private Map<String, String[]> mapOfStringParameter;
+	private RequestList aRequestList = null;
+	private Map<String, String[]> mapOfStringParameter = null;
 
 	// Results
 	private Map<String, Observationresponse> mapOfResponseHigh;
@@ -61,8 +62,8 @@ public class UnicornCall {
 	private boolean bPassedHigh;
 	private boolean bPassedMedium;
 	private boolean bPassedLow;
-
-	public UnicornCall(
+/*
+	private UnicornCall(
 			final String sTask,
 			final EnumInputMethod aEnumInputMethod,
 			final String sDocumentName,
@@ -88,13 +89,22 @@ public class UnicornCall {
 		this.bPassedMedium = true;
 		this.bPassedLow = true;
 	}
-
+*/
 	/**
 	 * Creates a new UnicornCall.
 	 */
 	public UnicornCall () {
-		this(null, null, null, new LinkedHashMap<String, String[]>());
 		UnicornCall.logger.trace("Constructor()");
+
+		this.mapOfStringParameter = new LinkedHashMap<String, String[]>();
+
+		this.mapOfResponseHigh = new LinkedHashMap<String, Observationresponse>();		
+		this.mapOfResponseMedium = new LinkedHashMap<String, Observationresponse>();
+		this.mapOfResponseLow = new LinkedHashMap<String, Observationresponse>();
+
+		this.bPassedHigh = true;
+		this.bPassedMedium = true;
+		this.bPassedLow = true;
 	}
 
 	public void doTask () throws Exception {
@@ -323,7 +333,16 @@ public class UnicornCall {
 							sObserverID);
 					// log debug information
 					if (UnicornCall.logger.isDebugEnabled()) {
-						UnicornCall.logger.debug("Redirect request : "+aRequest+".");
+						UnicornCall.logger.debug(
+								"Redirect request " + aRequest +
+								" from " + aEnumInputMethod +
+								" to " + aEIM + " added to request list.");
+					}
+					// add required parameter
+					for (final CallParameter aCallParameter : aObserver.getCallMethod(aEIM).getMapOfCallParameter().values()) {
+						if (aCallParameter.isRequired() && aCallParameter.isFixed()) {
+							aRequest.addParameter(aCallParameter.getName(), aCallParameter.getFixed());
+						}
 					}
 					break;
 				}
@@ -335,7 +354,7 @@ public class UnicornCall {
 							"Observation " +
 							sObserverID +
 							" does not handle mimetype " +
-							aMimeType.toString() + ".");
+							aMimeType.toString() + " with any input method.");
 				}
 				continue;
 			}
@@ -353,9 +372,15 @@ public class UnicornCall {
 					sObserverID);
 			// log debug information
 			if (UnicornCall.logger.isDebugEnabled()) {
-				UnicornCall.logger.debug("Request : "+aRequest+".");
+				UnicornCall.logger.debug("Request "+aRequest+" added to request list.");
 			}
-		}
+			// add required parameter
+			for (final CallParameter aCallParameter : aObserver.getCallMethod(aEnumInputMethod).getMapOfCallParameter().values()) {
+				if (aCallParameter.isRequired() && aCallParameter.isFixed()) {
+					aRequest.addParameter(aCallParameter.getName(), aCallParameter.getFixed());
+				}
+			}
+		} // foreach this.aTask.getMapOfObservation().values()
 
 		// Iterate over all parameter of this task to add at the
 		// request list the parameter input by the framework client
@@ -363,9 +388,7 @@ public class UnicornCall {
 			final Parameter aTaskParameter =
 				this.aTask.getMapOfParameter().get(sTaskParameterName);
 			if (UnicornCall.logger.isDebugEnabled()) {
-				UnicornCall.logger.debug(
-						"Parameter : " +
-						sTaskParameterName + ".");
+				UnicornCall.logger.debug("Parameter : " + sTaskParameterName + ".");
 			}
 			// check if this parameter have a given value
 			String[] tStringUseParameterValue = mapOfArrayUseParameter.get(sTaskParameterName);
@@ -392,7 +415,9 @@ public class UnicornCall {
 				}
 			}
 			if (UnicornCall.logger.isDebugEnabled()) {
-				UnicornCall.logger.debug("Parameter Value : "+tStringUseParameterValue+".");
+				for (final String sParameterValue : tStringUseParameterValue) {
+					UnicornCall.logger.debug("Parameter Value : "+sParameterValue+".");
+				}
 			}
 			final Map<String, Value> mapOfValue = aTaskParameter.getMapOfValue();
 			// if there no value the parameter allow all string
@@ -425,7 +450,7 @@ public class UnicornCall {
 						}
 						aRequest.addParameter(
 								aMapping.getParam(),
-								aMapping.getValue());
+								sValue);
 					}
 				} // foreach mapOfMapping.keySet()
 				continue;
@@ -510,12 +535,14 @@ public class UnicornCall {
 	}		
 
 	public void setTask (final String sTaskID) {
-		if (sTaskID != null) {
-			this.aTask = Framework.mapOfTask.get(sTaskID);
-			
-			if (this.aTask == null) {
-				UnicornCall.logger.error("The task " + sTaskID + " does not exists.");
-			}
+		if (null == sTaskID) {
+			UnicornCall.logger.error("Call setTask with null argument.");
+			return;
+		}
+		this.aTask = Framework.mapOfTask.get(sTaskID);
+		
+		if (null == this.aTask) {
+			UnicornCall.logger.error("The task " + sTaskID + " does not exists.");
 		}
 	}
 
@@ -526,7 +553,7 @@ public class UnicornCall {
 	/**
 	 * @return Returns the documentName.
 	 */
-	public String getDocumentName() {
+	public String getDocumentName () {
 		return this.sDocumentName;
 	}
 
@@ -537,7 +564,7 @@ public class UnicornCall {
 		this.sDocumentName = sDocumentName;
 	}
 
-	public Map<String, Observationresponse> getObservationList() {
+	public Map<String, Observationresponse> getObservationList () {
 		final Map<String, Observationresponse> mapOfObservationResponse;
 		mapOfObservationResponse = new LinkedHashMap<String, Observationresponse>();
 		mapOfObservationResponse.putAll(this.mapOfResponseHigh);
@@ -549,7 +576,7 @@ public class UnicornCall {
 	/**
 	 * @return Returns the mapOfStringParameter.
 	 */
-	public Map<String, String[]> getMapOfStringParameter() {
+	public Map<String, String[]> getMapOfStringParameter () {
 		return mapOfStringParameter;
 	}
 
@@ -585,23 +612,9 @@ public class UnicornCall {
 	/**
 	 * @return Returns the task.
 	 */
-	public Task getTask() {
+	public Task getTask () {
 		return this.aTask;
 	}
-
-	/**
-	 * @param aTask The task to set.
-	 *//*
-	private void setTask (final Task aTask) {
-		this.aTask = aTask;
-	}*/
-
-	/**
-	 * @return Returns the aEnumInputMethod.
-	 *//*
-	private EnumInputMethod getEnumInputMethod () {
-		return this.aEnumInputMethod;
-	}*/
 
 	/**
 	 * @param enumInputMethod The aEnumInputMethod to set.

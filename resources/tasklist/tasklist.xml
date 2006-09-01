@@ -31,10 +31,10 @@
 			<observation ref="appc-checker">
 				<handle mimetype="text/html" priority="high" />
 			</observation>
-			<parameters>
-				<parameter name="output" type="radio" default="xml" observer="appc-checker" ui="none" />
-			</parameters>
 		</subtasks>
+		<parameters>
+			<parameter name="output" type="radio" default="xml" observer="appc-checker" ui="none" />
+		</parameters>
 	</task>
 
 	<task id="css">

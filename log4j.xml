@@ -166,7 +166,7 @@
 	</appender>
 
 	<appender name="out-package-unicorn" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/package/all.log" />
+		<param name="File" value="${catalina.home}/webapps/unicorn/WEB-INF/logs/all.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />

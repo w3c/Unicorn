@@ -1,4 +1,4 @@
-// $Id: XMLOutputFormater.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: XMLOutputFormater.java,v 1.2 2006-09-01 14:30:17 dleroy Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -43,10 +43,25 @@ public class XMLOutputFormater implements OutputFormater {
 			XMLOutputFormater.logger.debug("Output format : " + sOutputFormat + ".");
 			XMLOutputFormater.logger.debug("Output language : " + sLang + ".");
 		}
-		final String sFileName;
-		sFileName = sLang + "_" +	sOutputFormat + Property.get("TEMPLATE_FILE_EXTENSION");
-		this.aTemplateOutput = XMLOutputFormater.aVelocityEngineOutput.getTemplate(sFileName);
-		this.aTemplateError = XMLOutputFormater.aVelocityEngineError.getTemplate(sFileName);
+		String sFileName;
+		sFileName = sLang + "_" + sOutputFormat + Property.get("TEMPLATE_FILE_EXTENSION");
+		// TODO check if sFileName exist
+		try {
+			this.aTemplateOutput = XMLOutputFormater.aVelocityEngineOutput.getTemplate(sFileName);
+		} catch (final ResourceNotFoundException aRNFE) {
+			XMLOutputFormater.logger.warn("Resource "+sFileName+" not found.", aRNFE);
+			sFileName = Property.get("DEFAULT_LANGUAGE") + "_" + sOutputFormat + Property.get("TEMPLATE_FILE_EXTENSION");
+			XMLOutputFormater.logger.warn("Redirect to resource : "+sFileName+".");
+			this.aTemplateOutput = XMLOutputFormater.aVelocityEngineOutput.getTemplate(sFileName);
+		}
+		try {
+			this.aTemplateError = XMLOutputFormater.aVelocityEngineError.getTemplate(sFileName);
+		} catch (final ResourceNotFoundException aRNFE) {
+			XMLOutputFormater.logger.warn("Resource "+sFileName+" not found.", aRNFE);
+			sFileName = Property.get("DEFAULT_LANGUAGE") + "_" + sOutputFormat + Property.get("TEMPLATE_FILE_EXTENSION");
+			XMLOutputFormater.logger.warn("Redirect to resource : "+sFileName+".");
+			this.aTemplateError = XMLOutputFormater.aVelocityEngineError.getTemplate(sFileName);
+		}
 	}
 
 	/* (non-Javadoc)
