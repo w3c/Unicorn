@@ -1,4 +1,4 @@
-// $Id: TextAreaParameter.java,v 1.1.1.1 2006-08-31 09:09:27 dleroy Exp $
+// $Id: TextAreaParameter.java,v 1.2 2006-09-04 09:45:55 dleroy Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -24,6 +24,14 @@ public class TextAreaParameter extends Parameter {
 
 	public void addValue (final Value aValue) {
 		this.aValueDefault = aValue;
+	}
+
+	/**
+	 * For velocity engine.
+	 * @return
+	 */
+	public Value getDefaultValue () {
+		return this.aValueDefault;
 	}
 
 	public Value getValue (final String sName) {

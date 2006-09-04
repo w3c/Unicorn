@@ -1,43 +1,43 @@
 #macro(createDropdown $param)
-  #set($defaults = $param.getDefault())
+  #set($defaults = $param.getMapOfDefaultValue())
   '    $param.getLongName("en") : ' +
   '<select name="$param.Name">' +
-     #foreach ($value in $param.getValues())
+     #foreach ($value in $param.getMapOfValue())
   '   <option value="$value.Name"#if($defaults.containsKey($value.getName())) selected="selected" #end>$value.getLongName("en")</option>' +
   #end
   '</select>' +
 #end
 
 #macro(createRadio $param)
-  #set($defaults = $param.getDefault())
+  #set($defaults = $param.getMapOfDefaultValue())
   '    $param.getLongName("en") : ' +
-  #foreach ($value in $param.getValues())
+  #foreach ($value in $param.getMapOfValue())
     '    <input type="radio" name="$param.Name" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end/> $value.getLongName("en")' +
   #end
 #end
 
 #macro(createCheckbox $param)
-  #set($defaults = $param.getDefault())
+  #set($defaults = $param.getMapOfDefaultValue())
   '    $param.getLongName("en") : ' +
   '    <input type="checkbox" name="$param.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end/>' +
 #end
 
 #macro(createCheckboxList $param)
-  #set($defaults = $param.getDefault())
+  #set($defaults = $param.getMapOfDefaultValue())
   '    $param.getLongName("en") : ' +
-  #foreach ($value in $param.getValues())
+  #foreach ($value in $param.getMapOfValue())
   '    <input type="checkbox" name="$param.getName()" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end/> $value.getLongName("en")' +
   #end
 #end
 
 #macro(createTextarea $param)
-  #set($defaults = $param.Default)
+  #set($defaults = $param.getDefaultValue())
   '    $param.getLongName("en") : ' +
   '    <textarea name="$param.Name">#foreach($default in $defaults)$default.Name#end</textarea>' +
 #end
 
 #macro(createTextfield $param)
-  #set($defaults = $param.Default)
+  #set($defaults = $param.getDefaultValue())
   '    $param.getLongName("en") : ' +
   '    <input type="textfield" name="$param.Name" value="#foreach($default in $defaults)$default.Name#end"/>' +
 #end
@@ -87,24 +87,6 @@
 				#if($alreadyPresent.add($mime.toString())) #end
 			#end
 		#end
-		'<!--' +
-		#foreach($mime in $obs.getMapOfMimeTypePriority("upload").keySet())
-			#set($sMime = $mime.toString())
-			#if(!$alreadyPresent.contains($sMime))
-				'<option value="$mime">$mime</option>' +
-				## if to avoid output print from add function call
-				#if($alreadyPresent.add($mime.toString())) #end
-			#end
-		#end
-		#foreach($mime in $obs.getMapOfMimeTypePriority("uri").keySet())
-			#set($sMime = $mime.toString())
-			#if(!$alreadyPresent.contains($sMime))
-				'<option value="$mime">$mime</option>' +
-				## if to avoid output print from add function call
-				#if($alreadyPresent.add($mime.toString())) #end
-			#end
-		#end
-		'-->' +
 	#end
 	'</select>'
 #end
