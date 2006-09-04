@@ -76,35 +76,37 @@
 #end
 
 #macro(createMimes $task)
-  #set($alreadyPresent = [])
-  '<select name="ucn_text_mime">' +
-  #foreach($obs in $task.getMapOfObservation())  
-    #foreach($mime in $obs.getMapOfMimeTypePriority("direct").keySet())
-      #set($sMime = $mime.toString())
-      #if(!$alreadyPresent.contains($sMime))
-        '<option value="$mime">$mime</option>' +
-        ## if to avoid output print from add function call
-        #if($alreadyPresent.add($mime.toString())) #end
-      #end
-    #end
-    #foreach($mime in $obs.getMapOfMimeTypePriority("upload").keySet())
-      #set($sMime = $mime.toString())
-      #if(!$alreadyPresent.contains($sMime))
-        '<option value="$mime">$mime</option>' +
-        ## if to avoid output print from add function call
-        #if($alreadyPresent.add($mime.toString())) #end
-      #end
-    #end
-    #foreach($mime in $obs.getMapOfMimeTypePriority("uri").keySet())
-      #set($sMime = $mime.toString())
-      #if(!$alreadyPresent.contains($sMime))
-        '<option value="$mime">$mime</option>' +
-        ## if to avoid output print from add function call
-        #if($alreadyPresent.add($mime.toString())) #end
-      #end
-    #end
-  #end
-  '</select>'
+	#set($alreadyPresent = [])
+	'<select name="ucn_text_mime">' +
+	#foreach($obs in $task.getMapOfObservation())  
+		#foreach($mime in $obs.getMapOfMimeTypePriority().keySet())
+			#set($sMime = $mime.toString())
+			#if(!$alreadyPresent.contains($sMime))
+				'<option value="$mime">$mime</option>' +
+				## if to avoid output print from add function call
+				#if($alreadyPresent.add($mime.toString())) #end
+			#end
+		#end
+		'<!--' +
+		#foreach($mime in $obs.getMapOfMimeTypePriority("upload").keySet())
+			#set($sMime = $mime.toString())
+			#if(!$alreadyPresent.contains($sMime))
+				'<option value="$mime">$mime</option>' +
+				## if to avoid output print from add function call
+				#if($alreadyPresent.add($mime.toString())) #end
+			#end
+		#end
+		#foreach($mime in $obs.getMapOfMimeTypePriority("uri").keySet())
+			#set($sMime = $mime.toString())
+			#if(!$alreadyPresent.contains($sMime))
+				'<option value="$mime">$mime</option>' +
+				## if to avoid output print from add function call
+				#if($alreadyPresent.add($mime.toString())) #end
+			#end
+		#end
+		'-->' +
+	#end
+	'</select>'
 #end
 
 var simpleParameters = new Array();
@@ -135,29 +137,29 @@ function getElementsByClass(val) {
 } 
 
 function taskChanged(value, method) {
-  var simpleParamsContainers = getElementsByClass("simpleParamList");
-  var advancedParamsContainers = getElementsByClass("advancedParamList");
-  
-  simpleParamsContainers[method].innerHTML = simpleParameters[value];
-  advancedParamsContainers[method].innerHTML = advancedParameters[value];
-  
-  if(simpleParameters[value] == '<ul></ul>') {
-      simpleParamsContainers[method].parentNode.style.display = 'none';
-  }
-  else {      
-      simpleParamsContainers[method].parentNode.style.display = 'block';
-  }
-  if(advancedParameters[value] == '<ul></ul>') {
-      advancedParamsContainers[method].parentNode.style.display = 'none';
-  }
-  else {      
-      advancedParamsContainers[method].parentNode.style.display = 'block';
-  }
-  
-  // mimetypes dropdown
-  if(method == 2) {
-      document.getElementById("ucn_text_mime").innerHTML = mimeContainer[value];
-  }
+	var simpleParamsContainers = getElementsByClass("simpleParamList");
+	var advancedParamsContainers = getElementsByClass("advancedParamList");
+
+	simpleParamsContainers[method].innerHTML = simpleParameters[value];
+	advancedParamsContainers[method].innerHTML = advancedParameters[value];
+
+	if(simpleParameters[value] == '<ul></ul>') {
+		simpleParamsContainers[method].parentNode.style.display = 'none';
+	}
+	else {      
+		simpleParamsContainers[method].parentNode.style.display = 'block';
+	}
+	if(advancedParameters[value] == '<ul></ul>') {
+		advancedParamsContainers[method].parentNode.style.display = 'none';
+	}
+	else {      
+		advancedParamsContainers[method].parentNode.style.display = 'block';
+	}
+
+	// mimetypes dropdown
+	if(method == 2) {
+		document.getElementById("ucn_text_mime").innerHTML = mimeContainer[value];
+	}
 }
 
 function init() {
