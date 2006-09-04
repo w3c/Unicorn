@@ -97,7 +97,7 @@
 	<task id="appc">
 		<subtasks>
 			<observation ref="appc-checker">
-				<handle mimetype="text/html" priority="high" />
+				<handle mimetype="text/html" priority="medium" />
 			</observation>
 		</subtasks>
 		<parameters>
