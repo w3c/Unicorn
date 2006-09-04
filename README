@@ -1,6 +1,6 @@
 How to compile and deploy Unicorn under Tomcat
 - Move to unicorn directory (you're probably already inside)
-- Edit the file org/w3c/unicorn.configuration/unicorn.properties
+- Edit the file org/w3c/unicorn/util/unicorn.properties
   Here is a list of default values for each property:
 	UNICORN_HOME = /usr/share/tomcat5/webapps/unicorn/
 	SERVER_TYPE = tomcat
