@@ -5,10 +5,8 @@
    Copyright 2000 W3C (MIT, INRIA, Keio). All Rights Reserved.
    See http://www.w3.org/Consortium/Legal/ipr-notice.html#Copyright
 
-   $Id: base.css,v 1.1.1.1 2006-08-31 09:09:31 dleroy Exp $
+   $Id: base.css,v 1.2 2006-09-04 07:02:38 ot Exp $
 */
-
-@import url("results.css"); /* CSS for validation results. */
 
 /*                 
    General styling 
@@ -40,14 +38,14 @@ p {
 #banner {
     background-color: white;
     color: #11111A;
-    background-image: url(images/header.jpg);
+    background-image: url(../images/header.jpg);
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: top right;
     padding: 4px 0 0 0;
     height: 55px; 
     margin-bottom: 0;
-    margin-top: 4px;
+    margin-top: 12px;
     border: 0;
 
 }
@@ -222,14 +220,14 @@ ul.toc {
 /* generic style for form fields */
 fieldset {
     border: 1px solid #005A9C;
-    background-color: #dfebf7;
+    background-color: transparent;
     color: #11111A;
     margin-bottom: 3em;
     margin-left: 0;
 }
 fieldset legend {
     font-weight: bold;
-    background-color: #dfebf7;
+    background-color: white;
     color: #11111A;
     border: 1px solid #005A9C;
     padding: .5em;
@@ -252,9 +250,66 @@ fieldset p.submit_button input {
     padding: 0.2em 2em;
     border: 2px outset #005A9C;
 }
-fieldset .options {
-    border: 1px dotted;
+
+/* home page fieldsets */
+
+.tabset_tabs	{ 
+    margin:0; 
+    padding:0; 
+    list-style-type:none; 
+    position:relative; 
+    z-index:2; 
+    white-space:nowrap; 
 }
+
+.tabset_tabs li	{ 
+    margin:0; 
+    padding:0; 
+    display:inline;
+}
+
+.tabset_tabs a	{  
+    border: 0;
+    border-left: 1px solid #ADDBFE; 
+    text-decoration:none; 
+    padding: 0 0.6em; 
+    padding-top: .4em; 
+    background: white;
+    font-weight: bold;
+}
+
+.tabset_tabs a:hover	{ 
+    color:#424242 ! important; 
+    background: #E1F0FD url(../images/sm_gradient_hover.gif) 0 0 repeat-x;
+    text-decoration:none;  
+}
+
+.tabset_tabs a.active	{ 
+    color:#424242 ! important; 
+    background-color: #8FCFFD !important;
+    background: #8FCFFD url(../images/sm_gradient_active.gif) 0 0 repeat-x;
+    border-color: #ADDBFE; 
+    border-left-width:1px; 
+    cursor:default; 
+    border-bottom: white; 
+    padding-top:.4em; 
+    padding-bottom:1px; 
+    color: #fffff0 !important; 
+ }
+
+.tabset_tabs li.firstchild a	{ 
+    border-left: 1px solid white !important; 
+}
+
+.tabset_content	{ 
+    border: 1px solid #ADDBFE; 
+    background-color: #8FCFFD; 
+    position:relative; 
+    z-index:1; 
+    padding:0.5em 1em; 
+    border-left: 1px solid white;
+}
+
 input {
     vertical-align: middle;
 }
@@ -271,22 +326,22 @@ input.default {
 
 .toggle
 {
-    background: transparent url('images/arrow-down.gif')  0 0 no-repeat;
-    text-indent: 20px;
-    cursor:pointer;
+        background: transparent url('../images/arrow-down.gif')  0 0 no-repeat;
+        text-indent: 20px;
+        cursor:pointer;
 }
 
 .toggle.closed
 {
-    background: transparent url('images/arrow-right.gif') 0 0 no-repeat;
+        background: transparent url('../images/arrow-right.gif') 0 0 no-repeat;
 }
 
 p.toggle {
     color: #005A9C;
-    background-color: #dfebf7;
+    background-color: transparent;
 }
 p.toggle:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 .hidden
@@ -294,16 +349,17 @@ p.toggle:hover {
         display:none;
 }
 fieldset.moreoptions {
-    border-style: dotted;
-    margin-bottom: 0;
-    padding-left: 0;
+border-color: white;
+border-style: dotted;
+margin-bottom: 0;
+padding-left: .3em;
 }
 fieldset.moreoptions div {
-    margin-left: .5em;
-    font-size: smaller;
+margin-left: .5em;
+font-size: smaller;
 }
 fieldset.closed {
-    border: 0;
+border: 0;
 }
 
 
@@ -457,10 +513,3 @@ div#jumpbar li a:hover {
   border-bottom: solid 1px #fff;
 }
 
-.advancedParamList {
-  display:none;
-}
-/*
-.toggle:hover .advancedParamList {
-  display: block;
-}*/
