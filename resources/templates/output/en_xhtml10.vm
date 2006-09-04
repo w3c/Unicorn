@@ -10,6 +10,7 @@
     #end
     <link rev="start" href="./" title="Home Page" />
     <style type="text/css" media="all">@import "./style/base.css";</style>
+    <style type="text/css" media="all">@import "./style/results.css";</style>
     <meta name="keywords" content="Unicorn, Observation"/>
   </head>
 
