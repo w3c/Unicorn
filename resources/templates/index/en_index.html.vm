@@ -39,12 +39,12 @@
 		<p id="tagline">the Web's Universal Conformance Checker - <strong>ALPHA Test Version</strong></p>
 
 		<div id="frontforms">
-
 			<ul class="tabset_tabs">
 				<li><a href="#validate-by-uri" class="active">by URI</a></li><!--
 				--><li><a href="#validate-by-upload">by File Upload</a></li><!--
 				--><li><a href="#validate-by-input">by direct Input</a></li>
 			</ul>
+		    <div id="fields">
 
 			<fieldset id="validate-by-uri" class="tabset_content front">
 				<legend class="tabset_label">Validate by URI</legend>
@@ -128,7 +128,7 @@
 					</p>
 				</form>
 			</fieldset>
-
+		    </div><!-- fiends -->
 		</div><!-- end div id = frontforms -->
 
 		<p><strong>Note</strong>: You need to enable Javascript to be able to check documents</a>.</p>

@@ -5,7 +5,7 @@
    Copyright 2000 W3C (MIT, INRIA, Keio). All Rights Reserved.
    See http://www.w3.org/Consortium/Legal/ipr-notice.html#Copyright
 
-   $Id: base.css,v 1.4 2006-09-04 08:55:57 ot Exp $
+   $Id: base.css,v 1.5 2006-09-05 03:01:32 ot Exp $
 */
 
 /*                 
@@ -279,8 +279,7 @@ fieldset p.submit_button input {
     border: 0;
     border-left: 1px solid #ADDBFE; 
     text-decoration:none; 
-    padding: 0 0.6em; 
-    padding-top: .4em; 
+    padding: 0.8em 0.6em 0 0.6em;
     background: white;
     font-weight: bold;
 }
@@ -299,18 +298,21 @@ fieldset p.submit_button input {
     border-left-width:1px; 
     cursor:default; 
     border-bottom: white; 
-    padding-top:.4em; 
+    padding-top:0.8em; 
     padding-bottom:1px; 
     color: #fffff0 !important; 
  }
 
-.tabset_tabs li.firstchild a	{ 
-    border-left: 1px solid white !important; 
+.tabset_tabs li.firstchild a, .tabset_tabs li:first-child a { 
+    border-left: 1px solid white; 
 }
-
+div#fields {
+    background: #8FCFFD url(../images/lg_gradient.gif) bottom left repeat-x;
+    margin: 0;
+    padding: 0;
+}
 .tabset_content	{ 
     border: none;
-    background: #8FCFFD url(../images/lg_gradient.gif) bottom left repeat-x;
     position:relative; 
     z-index:1; 
     padding:0.5em 1em; 

@@ -118,8 +118,8 @@
 <body>
   <div id="banner">
     <h1 id="title"><a href="http://www.w3.org/"><img height="48" alt="W3C" id="logo" src="http://www.w3.org/Icons/WWW/w3c_home_nb" /></a>
-    <img src="images/unicorn.png" alt="Unicorn" /></h1>
-    
+<img src="images/unicorn.png" alt="Unicorn" /></h1>
+ 
   </div>
   <p id="tagline">
         the Web's Universal Conformance Checker - <strong>ALPHA Test Version</strong>
