@@ -27,7 +27,7 @@ vertical-align:middle;'>
 <p>Below is a view of the code repository for W3C's Unicorn Project, 
 aimed at creating the Web's Universal Conformance Checker.</p>
 
-<p>The project is currently entering <strong>alpha testing</strong> stage.</p>
+<p>The project is currently entering <a href="http://qa-dev.w3.org/unicorn/"><strong>alpha testing</strong> stage</a>.</p>
 
 <h2 style='color:#005A9C'>Download and install</h2>
 
