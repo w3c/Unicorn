@@ -29,7 +29,7 @@ aimed at creating the Web's Universal Conformance Checker.</p>
 
 <p>The project is currently entering <strong>alpha testing</strong> stage.</p>
 
-<h2>Download and install</h2>
+<h2 style='color:#005A9C'>Download and install</h2>
 
 <p>In order to get the latest development code:</p>
 
@@ -45,7 +45,7 @@ aimed at creating the Web's Universal Conformance Checker.</p>
 
 <p>Read the README file for installation instructions (under Tomcat)</p>
 
-<h2>Documentation</h2>
+<h2 style='color:#005A9C'>Documentation</h2>
 
 <p>The principles and architecture of the tool are available in its
 <a href="http://www.w3.org/QA/2006/obs_framework/">online documentation</a>.
