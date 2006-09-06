@@ -1,0 +1,27 @@
+<p>Below is a view of the code repository for W3C's Unicorn Project, 
+aimed at creating the Web's Universal Conformance Checker.</p>
+
+<p>The project is currently entering <strong>alpha testing</strong> stage.</p>
+
+<h2>Download and install</h2>
+
+<p>In order to get the latest development code:</p>
+
+          <pre>
+
+    bash$ <kbd>export CVSROOT=":pserver:anonymous@dev.w3.org:/sources/public"</kbd>
+    bash$ <kbd>cvs login</kbd>
+    (Logging in to anonymous@dev.w3.org)
+    CVS password: <kbd>anonymous</kbd>
+    bash$ <kbd>cvs get 2006/unicorn</kbd>
+    ...
+          </pre>
+
+<p>Read the README file for installation instructions (under Tomcat)</p>
+
+<h2>Documentation</h2>
+
+<p>The principles and architecture of the tool are available in its
+<a href="http://www.w3.org/QA/2006/obs_framework/">online documentation</a>.
+The documentation also explains and shows the formats used to create plugins (observers)
+</p>
