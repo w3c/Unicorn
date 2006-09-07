@@ -130,8 +130,11 @@
 			</fieldset>
 		    </div><!-- fiends -->
 		</div><!-- end div id = frontforms -->
-
-		<p><strong>Note</strong>: You need to enable Javascript to be able to check documents</a>.</p>
+<h2>Latest News</h2>
+<h3>7 September 2006: public preview</h3>
+<p>Welcome to the public preview of the unicorn tool. To learn more about this tool
+or how you can provide feedback for this preview, check the <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
+<p><strong>Note</strong>: You need to enable Javascript to be able to check documents</a>.</p>
 
 		<ul class="navbar"  id="menu">
 			<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
