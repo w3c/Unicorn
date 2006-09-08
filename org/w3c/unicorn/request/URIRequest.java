@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: URIRequest.java,v 1.2 2006-09-08 15:35:53 dleroy Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -63,6 +63,10 @@ public class URIRequest extends Request {
 
 	public Observationresponse doRequest () throws IOException, JAXBException {
 		URIRequest.logger.trace("doRequest");
+		if (URIRequest.logger.isDebugEnabled()) {
+			URIRequest.logger.debug("URL : "+this.sURL+" .");
+			URIRequest.logger.debug("Parameters : "+this.sParameter+" .");
+		}
 		final URL aURL;
 		if (null == this.sParameter) {
 			aURL = new URL(this.sURL);
@@ -70,7 +74,7 @@ public class URIRequest extends Request {
 			URIRequest.logger.debug(this.sParameter);
 			aURL = new URL(this.sURL + "?" + this.sParameter);
 		}
-		URIRequest.logger.debug("URL : " + aURL + ".");
+		URIRequest.logger.debug("URL : " + aURL + " .");
 		final URLConnection aURLConnection = aURL.openConnection();
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
 		return (Observationresponse) URIRequest.aUnmarshaller.unmarshal(aURLConnection.getInputStream());

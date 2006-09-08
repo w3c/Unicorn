@@ -36,10 +36,10 @@
 				<handle mimetype="text/html" priority="high" />
 			</observation>
 			<observation ref="css-validator">
-				<handle mimetype="application/xhtml+xml" priority="medium" />
-				<handle mimetype="image/svg+xml" priority="medium" />
+				<handle mimetype="application/xhtml+xml" priority="low" />
+				<handle mimetype="image/svg+xml" priority="low" />
 				<handle mimetype="text/css" priority="high" />
-				<handle mimetype="text/html" priority="medium" />
+				<handle mimetype="text/html" priority="low" />
 			</observation>
 			<observation ref="appc-checker">
 				<handle mimetype="text/html" priority="medium" />

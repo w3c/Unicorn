@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.2 2006-09-01 14:30:17 dleroy Exp $
+// $Id: UnicornCall.java,v 1.3 2006-09-08 15:35:53 dleroy Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -62,34 +62,7 @@ public class UnicornCall {
 	private boolean bPassedHigh;
 	private boolean bPassedMedium;
 	private boolean bPassedLow;
-/*
-	private UnicornCall(
-			final String sTask,
-			final EnumInputMethod aEnumInputMethod,
-			final String sDocumentName,
-			final Map<String, String[]> mapOfStringParameter) {
-		UnicornCall.logger.trace("Constructor(String, EnumInputMethod, String, Map<String, String[]>)");
-		if (UnicornCall.logger.isDebugEnabled()) {
-			UnicornCall.logger.debug("Task : "+sTask+".");
-			UnicornCall.logger.debug("Input method : "+aEnumInputMethod+".");
-			UnicornCall.logger.debug("Document name : "+sDocumentName+".");
-			UnicornCall.logger.debug("Map of parameter : "+mapOfStringParameter+".");
-		}
 
-		this.setTask(sTask);
-		this.aEnumInputMethod = aEnumInputMethod;
-		this.mapOfStringParameter = mapOfStringParameter;
-		this.sDocumentName = sDocumentName;
-
-		this.mapOfResponseHigh = new LinkedHashMap<String, Observationresponse>();		
-		this.mapOfResponseMedium = new LinkedHashMap<String, Observationresponse>();
-		this.mapOfResponseLow = new LinkedHashMap<String, Observationresponse>();
-
-		this.bPassedHigh = true;
-		this.bPassedMedium = true;
-		this.bPassedLow = true;
-	}
-*/
 	/**
 	 * Creates a new UnicornCall.
 	 */
@@ -244,6 +217,11 @@ public class UnicornCall {
 				UnicornCall.logger.error("JAXB Exception : "+e.getMessage(), e);
 				aObservationResponse = (Observationresponse) Request.aUnmarshaller.unmarshal(
 						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_unmarshalling_error.vm"));
+			}
+			catch (final NullPointerException e) {
+				UnicornCall.logger.error("Null Pointer Exception : "+e.getMessage(), e);
+				aObservationResponse = (Observationresponse) Request.aUnmarshaller.unmarshal(
+						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_io_error.vm"));
 			}
 			catch (final IOException e) {
 				UnicornCall.logger.error("IO Exception : "+e.getMessage(), e);
