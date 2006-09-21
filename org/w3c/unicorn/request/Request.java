@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: Request.java,v 1.2 2006-09-21 16:01:18 dleroy Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,6 +11,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.generated.observationresponse.Observationresponse;
 import org.w3c.unicorn.input.InputModule;
@@ -21,7 +22,7 @@ import org.w3c.unicorn.input.InputModule;
  */
 public abstract class Request {
 
-	protected static final Log logger = RequestList.logger;
+	protected static final Log logger = LogFactory.getLog("org.w3c.unicorn.request");
 
 	public static Unmarshaller aUnmarshaller = null;
 	protected static JAXBContext aJAXBContext = null;
@@ -39,7 +40,8 @@ public abstract class Request {
 
 	protected String sLang = null;
 
-	public void setLang (final String sLang) {
+	public void setLang (final String sLang) throws IOException {
+		Request.logger.debug("setLang("+sLang+")");
 		this.sLang = sLang;
 	}
 
@@ -52,16 +54,22 @@ public abstract class Request {
 	public static Request createRequest (
 			final InputModule aInputModule,
 			final String sURL,
-			final String sInputParameterName) throws IOException {
+			final String sInputParameterName,
+			final boolean bIsPost) throws IOException {
 		Request.logger.trace("createRequest");
 		if (Request.logger.isDebugEnabled()) {
 			Request.logger.debug("InputModule : " + aInputModule + ".");
 			Request.logger.debug("URL : " + sURL + ".");
 			Request.logger.debug("Input parameter name : " + sInputParameterName + ".");
+			Request.logger.debug("POST method : " + bIsPost + ".");
 		}
 		switch (aInputModule.getEnumInputMethod()) {
 			case DIRECT :
-				return new DirectRequest(sURL, sInputParameterName, aInputModule);
+				if ( bIsPost) {
+					return new DirectRequestPOST(sURL, sInputParameterName, aInputModule);
+				} else {
+					return new DirectRequestGET(sURL, sInputParameterName, aInputModule);
+				}
 			case UPLOAD :
 				return new UploadRequest(sURL, sInputParameterName, aInputModule);
 			case URI :

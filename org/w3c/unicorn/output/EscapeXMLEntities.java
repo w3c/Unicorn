@@ -29,7 +29,7 @@ public class EscapeXMLEntities implements ReferenceInsertionEventHandler {
 	 * @param sValue
 	 * @return
 	 */
-	public static Object escapeText (final String sValue) {
+	public static String escapeText (final String sValue) {
 		final StringBuffer aStringBuffer = new StringBuffer(sValue.length());
 		final int iLength = sValue.length();
 		int iPosition = 0;

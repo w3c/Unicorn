@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.3 2006-09-08 15:35:53 dleroy Exp $
+// $Id: UnicornCall.java,v 1.4 2006-09-21 16:01:25 dleroy Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -28,7 +28,6 @@ import org.w3c.unicorn.generated.tasklist.TPriority;
 import org.w3c.unicorn.input.InputFactory;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.request.RequestList;
-import org.w3c.unicorn.request.RequestListImpl;
 import org.w3c.unicorn.tasklist.Observation;
 import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
@@ -158,8 +157,6 @@ public class UnicornCall {
 				aInputFactory,
 				this.mapOfStringParameter);
 
-		aInputFactory.dispose();
-
 		if (UnicornCall.logger.isDebugEnabled()) {
 			UnicornCall.logger.debug("RequestList : "+this.aRequestList+".");
 		}
@@ -170,6 +167,8 @@ public class UnicornCall {
 		this.bPassedMedium = this.doRequests(TPriority.MEDIUM);
 		if (!this.bPassedMedium) return;
 		this.bPassedLow = this.doRequests(TPriority.LOW);
+
+		aInputFactory.dispose();
 	}
 
 	/**
@@ -250,7 +249,7 @@ public class UnicornCall {
 		final MimeType aMimeType = aInputFactory.getMimeType();
 		final EnumInputMethod aEnumInputMethod = aInputFactory.getDefaultInputModule().getEnumInputMethod();
 
-		final RequestList aRequestList = new RequestListImpl(this.sLang);
+		final RequestList aRequestList = new RequestList(this.sLang);
 		// Iterate over all observation of this task to build a basic
 		// request list with only the url of observator and input parameter
 		for (final Observation aObservation : this.aTask.getMapOfObservation().values()) {
@@ -303,7 +302,8 @@ public class UnicornCall {
 					final Request aRequest = Request.createRequest(
 							aInputFactory.getInputModule(aEIM),
 							aInputMethod.getCallMethod().getURL().toString(),
-							aInputMethod.getCallParameter().getName());
+							aInputMethod.getCallParameter().getName(),
+							aInputMethod.getCallMethod().isPost());
 					// add this request to request list
 					aRequestList.addRequest(
 							aRequest,
@@ -342,7 +342,8 @@ public class UnicornCall {
 			final Request aRequest = Request.createRequest(
 					aInputFactory.getInputModule(aEnumInputMethod),
 					aInputMethod.getCallMethod().getURL().toString(),
-					aInputMethod.getCallParameter().getName());
+					aInputMethod.getCallParameter().getName(),
+					aInputMethod.getCallMethod().isPost());
 			// add this request to request list
 			aRequestList.addRequest(
 					aRequest,
@@ -525,6 +526,7 @@ public class UnicornCall {
 	}
 
 	public void setLang (final String sLang) {
+		UnicornCall.logger.debug("setLang("+sLang+")");
 		this.sLang = sLang;
 	}
 

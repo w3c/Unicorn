@@ -1,4 +1,4 @@
-// $Id: DirectRequest.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: DirectRequestGET.java,v 1.1 2006-09-21 16:01:21 dleroy Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -21,20 +21,20 @@ import org.w3c.unicorn.util.Property;
  * 
  * @author Damien LEROY
  */
-public class DirectRequest extends Request {
+public class DirectRequestGET extends Request {
 
 	private String sURL = null;
 	private String sParameter = null;
 
-	protected DirectRequest (
+	protected DirectRequestGET (
 			final String sURL,
 			final String sInputParameterName,
 			final InputModule aInputModule) throws IOException {
-		DirectRequest.logger.trace("Constructor");
-		if (DirectRequest.logger.isDebugEnabled()) {
-			DirectRequest.logger.debug("URL : " + sURL + ".");
-			DirectRequest.logger.debug("Input parameter name : " + sInputParameterName + ".");
-			DirectRequest.logger.debug("Input module : " + aInputModule + ".");
+		DirectRequestGET.logger.trace("Constructor");
+		if (DirectRequestGET.logger.isDebugEnabled()) {
+			DirectRequestGET.logger.debug("URL : " + sURL + ".");
+			DirectRequestGET.logger.debug("Input parameter name : " + sInputParameterName + ".");
+			DirectRequestGET.logger.debug("Input module : " + aInputModule + ".");
 		}
 		if (!(aInputModule instanceof DirectInputModule)) {
 			throw new IllegalArgumentException("InputModule : " + aInputModule.toString() + ".");
@@ -45,10 +45,10 @@ public class DirectRequest extends Request {
 
 	@Override
 	public void addParameter (final String sName, final String sValue) throws IOException {
-		DirectRequest.logger.trace("addParameter");
-		if (DirectRequest.logger.isDebugEnabled()) {
-			DirectRequest.logger.debug("Name :" + sName + ".");
-			DirectRequest.logger.debug("Value :" + sValue + ".");
+		DirectRequestGET.logger.trace("addParameter");
+		if (DirectRequestGET.logger.isDebugEnabled()) {
+			DirectRequestGET.logger.debug("Name :" + sName + ".");
+			DirectRequestGET.logger.debug("Value :" + sValue + ".");
 		}
 		if (null == this.sParameter) {
 			this.sParameter = "";
@@ -56,27 +56,27 @@ public class DirectRequest extends Request {
 			this.sParameter += "&";
 		}
 		this.sParameter += sName + "=" + URLEncoder.encode(sValue, Property.get("UNICORN_ENCODING"));
-		DirectRequest.logger.debug("Parameters : "+this.sParameter+".");
+		DirectRequestGET.logger.debug("Parameters : "+this.sParameter+".");
 	}
 
 	@Override
 	public Observationresponse doRequest () throws JAXBException, IOException {
-		DirectRequest.logger.trace("doRequest");
+		DirectRequestGET.logger.trace("doRequest");
 		final URL aURL;
 		if (null == this.sParameter) {
 			aURL = new URL(this.sURL);
 		} else {
-			DirectRequest.logger.debug(this.sParameter);
+			DirectRequestGET.logger.debug(this.sParameter);
 			aURL = new URL(this.sURL + "?" + this.sParameter);
 		}
 		final URLConnection aURLConnection = aURL.openConnection();
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
-		return (Observationresponse) DirectRequest.aUnmarshaller.unmarshal(aURLConnection.getInputStream());
+		return (Observationresponse) DirectRequestGET.aUnmarshaller.unmarshal(aURLConnection.getInputStream());
 	}
 
 	@Override
 	public EnumInputMethod getInputMethod () {
-		DirectRequest.logger.trace("getInputMethod");
+		DirectRequestGET.logger.trace("getInputMethod");
 		return EnumInputMethod.DIRECT;
 	}
 

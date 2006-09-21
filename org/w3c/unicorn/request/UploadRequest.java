@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: UploadRequest.java,v 1.2 2006-09-21 16:01:22 dleroy Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,6 +6,8 @@ package org.w3c.unicorn.request;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Hashtable;
+import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
@@ -21,7 +23,11 @@ import org.w3c.unicorn.util.ClientHttpRequest;
  */
 public class UploadRequest extends Request {
 
+	private String sURL = null;
+	private String sInputParameterName = null;
 	private ClientHttpRequest aClientHttpRequest = null;
+	private UploadInputModule aUploadInputModule = null;
+	private Map<String, String> mapOfParameter = null;
 
 	protected UploadRequest (
 			final String sURL,
@@ -36,12 +42,15 @@ public class UploadRequest extends Request {
 		if (!(aInputModule instanceof UploadInputModule)) {
 			throw new IllegalArgumentException("InputModule : " + aInputModule.toString() + ".");
 		}
-		this.aClientHttpRequest = new ClientHttpRequest(sURL);
-		final UploadInputModule aUploadInputModule = (UploadInputModule) aInputModule;
-		this.aClientHttpRequest.setParameter(
-				sInputParameterName,
-				aUploadInputModule.getFileName(),
-				aUploadInputModule.getInputStream());
+		this.sURL = sURL;
+		this.sInputParameterName = sInputParameterName;
+		this.aUploadInputModule = (UploadInputModule) aInputModule;
+		this.mapOfParameter = new Hashtable<String, String>();
+		//this.aClientHttpRequest = new ClientHttpRequest(sURL);
+		/*this.aClientHttpRequest.setParameter(
+				this.sInputParameterName,
+				this.aUploadInputModule.getFileName(),
+				this.aUploadInputModule.getInputStream());*/
 	}
 
 	@Override
@@ -51,12 +60,29 @@ public class UploadRequest extends Request {
 			UploadRequest.logger.debug("Name :" + sName + ".");
 			UploadRequest.logger.debug("Value :" + sValue + ".");
 		}
-		this.aClientHttpRequest.setParameter(sName, sValue);
+		this.mapOfParameter.put(sName, sValue);
+		//this.aClientHttpRequest.setParameter(sName, sValue);
 	}
 
 	@Override
 	public Observationresponse doRequest() throws JAXBException, IOException {
 		UploadRequest.logger.trace("doRequest");
+		this.aClientHttpRequest = new ClientHttpRequest(sURL);
+		UploadRequest.logger.debug("Lang : "+this.sLang+".");
+		this.aClientHttpRequest.setLang(sLang); // meme place que pour directpost
+		this.aClientHttpRequest.setParameter(
+				this.sInputParameterName,
+				this.aUploadInputModule.getFileName(),
+				this.aUploadInputModule.getInputStream());
+		for (final String sName : this.mapOfParameter.keySet()) {
+			final String sValue = this.mapOfParameter.get(sName);
+			DirectRequestPOST.logger.trace("addParameter");
+			if (DirectRequestPOST.logger.isDebugEnabled()) {
+				DirectRequestPOST.logger.debug("Name :" + sName + ".");
+				DirectRequestPOST.logger.debug("Value :" + sValue + ".");
+			}
+			this.aClientHttpRequest.setParameter(sName, sValue);
+		}
 		final Observationresponse aObservationResponse;
 		aObservationResponse = (Observationresponse) UploadRequest.aUnmarshaller.unmarshal(this.aClientHttpRequest.post());
 		return aObservationResponse;
@@ -66,10 +92,6 @@ public class UploadRequest extends Request {
 	public EnumInputMethod getInputMethod () {
 		UploadRequest.logger.trace("getInputMethod");
 		return EnumInputMethod.UPLOAD;
-	}
-
-	public void setLang (final String sLang) {
-		this.aClientHttpRequest.setLang(sLang);
 	}
 
 	public String toString () {

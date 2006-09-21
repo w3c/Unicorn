@@ -40,7 +40,7 @@ public class ClientHttpRequest {
 		ClientHttpRequest.randomString();
 
 	private void connect () throws IOException {
-		ClientHttpRequest.logger.trace("connect");
+		//ClientHttpRequest.logger.trace("connect");
 		if (null == this.aOutputStream) {
 			this.aOutputStream = this.aURLConnection.getOutputStream();
 		}
@@ -48,11 +48,13 @@ public class ClientHttpRequest {
 
 	private void write (final char c) throws IOException {
 		this.connect();
+		ClientHttpRequest.logger.debug(c);
 		this.aOutputStream.write(c);
 	}
 
 	protected void write (final String s) throws IOException {
 		this.connect();
+		ClientHttpRequest.logger.debug(s);
 		this.aOutputStream.write(s.getBytes());
 	}
 
@@ -89,7 +91,7 @@ public class ClientHttpRequest {
 		this.aURLConnection.setDoOutput(true);
 		this.aURLConnection.setRequestProperty(
 				"Content-Type",
-				"multipart/form-data; boundary=" + sBoundary);
+				"multipart/form-data; boundary=" + this.sBoundary);
 	}
 
 	/**
@@ -158,6 +160,7 @@ public class ClientHttpRequest {
 	}
 
 	public void setLang (final String sLang) {
+		ClientHttpRequest.logger.debug("setLang("+sLang+")");
 		this.aURLConnection.setRequestProperty("Accept-Language", sLang);
 	}
 

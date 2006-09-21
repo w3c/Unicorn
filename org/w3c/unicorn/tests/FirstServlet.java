@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.2 2006-09-01 14:30:17 dleroy Exp $
+// $Id: FirstServlet.java,v 1.3 2006-09-21 16:01:25 dleroy Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -125,14 +125,15 @@ public class FirstServlet extends HttpServlet {
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
 		final Locale aLocale = aHttpServletRequest.getLocale();
+		final UnicornCall aUnicornCall = new UnicornCall();
 		if (null == aLocale) {
 			mapOfOutputParameter.put("lang", LocalizedString.DEFAULT_LANGUAGE);
+			aUnicornCall.setLang(LocalizedString.DEFAULT_LANGUAGE);
 		} else {
 			mapOfOutputParameter.put("lang", aLocale.toString());
+			aUnicornCall.setLang(aLocale.toString());
 		}
 
-		final UnicornCall aUnicornCall = new UnicornCall();
-		aUnicornCall.setLang(mapOfOutputParameter.get("lang").toString());
 		
 		for (
 				final Enumeration aEnumParamName = aHttpServletRequest.getParameterNames();
@@ -207,8 +208,15 @@ public class FirstServlet extends HttpServlet {
 		mapOfOutputParameter.put("format", "xhtml10");
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
-		mapOfOutputParameter.put("lang", LocalizedString.DEFAULT_LANGUAGE);
-		final Map<String, String[]> mapOfSpecificParameter = new Hashtable<String, String[]>();		
+		final Locale aLocale = aHttpServletRequest.getLocale();
+		if (null == aLocale) {
+			mapOfOutputParameter.put("lang", LocalizedString.DEFAULT_LANGUAGE);
+			aUnicornCall.setLang(LocalizedString.DEFAULT_LANGUAGE);
+		} else {
+			mapOfOutputParameter.put("lang", aLocale.toString());
+			aUnicornCall.setLang(aLocale.toString());
+		}
+		final Map<String, String[]> mapOfSpecificParameter = new Hashtable<String, String[]>();
 		
 		FileItem aFileItemUploaded = null;
 		
