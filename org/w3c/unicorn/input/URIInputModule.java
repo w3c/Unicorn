@@ -1,4 +1,4 @@
-// $Id: URIInputModule.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: URIInputModule.java,v 1.2 2006-09-25 15:42:55 dleroy Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,6 +14,7 @@ import javax.activation.MimeType;
 
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.contract.EnumInputMethod;
+import org.w3c.unicorn.output.EscapeXMLEntities;
 import org.w3c.unicorn.util.Property;
 
 /**
@@ -40,6 +41,7 @@ public class URIInputModule implements InputModule {
 		}
 		this.aMimeType = aMimeType;
 		this.sURI = (String) oInputParameterValue;
+		this.sURI = EscapeXMLEntities.escapeText(this.sURI);
 	}
 
 	protected URIInputModule (final InputModule aInputModule) throws IOException {
