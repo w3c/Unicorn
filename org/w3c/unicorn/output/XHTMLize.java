@@ -36,7 +36,7 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 			Code code = (Code) oValue;
 			return insertCode(code);
 		}
-		return EscapeXMLEntities.escapeText(oValue.toString());	
+		return EscapeXMLEntities.escapeText(oValue.toString());
 	}
 	
 	private Object insertA (final A aLink) {

@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.1.1.1 2006-08-31 09:09:20 dleroy Exp $
+// $Id: Framework.java,v 1.2 2006-09-29 09:25:12 dleroy Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -33,6 +33,7 @@ import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.TasksListUnmarshaller;
 import org.w3c.unicorn.tasklist.TasksListUnmarshallerJAXB;
 import org.w3c.unicorn.util.ListFiles;
+import org.w3c.unicorn.util.LocalizedString;
 import org.w3c.unicorn.util.Property;
 import org.xml.sax.SAXException;
 
@@ -72,6 +73,10 @@ public class Framework {
 	static {
 		if (Framework.logger.isDebugEnabled()) {
 			Framework.logger.debug("Observer initialisation.");
+		}
+		final String sLanguage = Property.get("DEFAULT_LANGUAGE");
+		if (null != sLanguage) {
+			LocalizedString.DEFAULT_LANGUAGE = sLanguage;
 		}
 		Framework.mapOfObserver = new LinkedHashMap<String, Observer>();
 		try {			

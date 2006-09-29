@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.4 2006-09-21 16:01:25 dleroy Exp $
+// $Id: UnicornCall.java,v 1.5 2006-09-29 09:25:12 dleroy Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -174,7 +174,7 @@ public class UnicornCall {
 	/**
 	 * @param aTPriority
 	 * @throws JAXBException 
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	private boolean doRequests (final TPriority aTPriority)
 	throws IOException, JAXBException {

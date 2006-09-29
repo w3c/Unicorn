@@ -1,4 +1,4 @@
-// $Id: DirectRequestPOST.java,v 1.1 2006-09-21 16:01:19 dleroy Exp $
+// $Id: DirectRequestPOST.java,v 1.2 2006-09-29 09:25:12 dleroy Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -149,7 +149,6 @@ public class DirectRequestPOST extends Request {
 		aStringBuffer.append("url:").append(this.sURL);
 		//aStringBuffer.append(sVariableSeparator);
 		//aStringBuffer.append("param:").append(this.sParameter);
-		
 
 		return aStringBuffer.toString();
 	}

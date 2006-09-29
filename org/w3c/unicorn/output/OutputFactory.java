@@ -1,4 +1,4 @@
-// $Id: OutputFactory.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: OutputFactory.java,v 1.2 2006-09-29 09:25:11 dleroy Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -42,7 +42,7 @@ public class OutputFactory {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Create a new output module and add it to the map.
 	 * @param aEnumOutputModule To identify which type of output module will be created.
