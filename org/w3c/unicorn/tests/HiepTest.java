@@ -13,19 +13,21 @@ import org.w3c.unicorn.output.OutputModule;
 public class HiepTest {
 
 	public static void main(String[] args) {
-		Map<String, String[]> mapOfParameter = new LinkedHashMap<String, String[]>();
-		
+
+		/*
 		// lang par defaut
+		Map<String, String[]> mapOfParameter = new LinkedHashMap<String, String[]>();
 		String[] tmp = {"en"};
 		mapOfParameter.put("ucn_lang", tmp); 
+		aUnicornCall.setMapOfStringParameter(mapOfParameter);
+		*/
 		
 		UnicornCall aUnicornCall = new UnicornCall();
-		aUnicornCall.setTask("markup"); //task id
+		aUnicornCall.setTask("conformance"); //task id
 		aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
 		aUnicornCall.setDocumentName("http://w3.org");
-		aUnicornCall.setMapOfStringParameter(mapOfParameter);
 		aUnicornCall.setInputParameterValue("http://w3.org");
-		
+		aUnicornCall.setLang("en");
 		
 		try {
 			aUnicornCall.doTask();
