@@ -15,7 +15,7 @@
 	<!-- TEXT APPENDER - LEVEL APPENDER -->
 
 	<appender name="out-level-error-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/level/error.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/error.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="error" />
@@ -30,7 +30,7 @@
 	</appender>
 
 	<appender name="out-level-warning-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/level/warning.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/warning.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="warn" />
@@ -45,7 +45,7 @@
 	</appender>
 
 	<appender name="out-level-info-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/level/info.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/info.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="info" />
@@ -60,7 +60,7 @@
 	</appender>
 
 	<appender name="out-level-debug-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/level/debug.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/debug.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="debug" />
@@ -75,7 +75,7 @@
 	</appender>
 
 	<appender name="out-level-trace-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/level/trace.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/trace.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
@@ -94,7 +94,7 @@
 	<!-- TEXT APPENDER - PACKAGE APPENDER -->
 
 	<appender name="out-package-contract-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/package/contract.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/contract.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
@@ -104,7 +104,7 @@
 	</appender>
 
 	<appender name="out-package-index-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/package/index.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/index.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
@@ -114,7 +114,7 @@
 	</appender>
 
 	<appender name="out-package-input-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/package/input.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/input.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
@@ -124,7 +124,7 @@
 	</appender>
 
 	<appender name="out-package-output-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/package/output.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/output.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
@@ -134,7 +134,7 @@
 	</appender>
 
 	<appender name="out-package-request-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/package/request.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/request.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
@@ -144,7 +144,7 @@
 	</appender>
 
 	<appender name="out-package-servlet-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/package/servlet.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/servlet.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
@@ -154,7 +154,7 @@
 	</appender>
 
 	<appender name="out-package-tasklist-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/package/tasklist.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/tasklist.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
@@ -164,7 +164,7 @@
 	</appender>
 
 	<appender name="out-package-util-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/package/util.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/util.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
@@ -174,7 +174,7 @@
 	</appender>
 
 	<appender name="out-package-unicorn-text" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="D:/unicorn/WEB-INF/logs/all.log" />
+		<param name="File" value="D:/w3c/unicorn/logs/all.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
 		<param name="Threshold" value="trace" />
