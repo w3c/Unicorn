@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.2 2006-09-21 16:01:22 dleroy Exp $
+// $Id: UploadRequest.java,v 1.3 2007-11-29 14:11:58 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -33,6 +33,7 @@ public class UploadRequest extends Request {
 			final String sURL,
 			final String sInputParameterName,
 			final InputModule aInputModule) throws MalformedURLException, IOException {
+		super();
 		UploadRequest.logger.trace("Constructor");
 		if (UploadRequest.logger.isDebugEnabled()) {
 			UploadRequest.logger.debug("URL : " + sURL + ".");
@@ -84,7 +85,7 @@ public class UploadRequest extends Request {
 			this.aClientHttpRequest.setParameter(sName, sValue);
 		}
 		final Observationresponse aObservationResponse;
-		aObservationResponse = (Observationresponse) UploadRequest.aUnmarshaller.unmarshal(this.aClientHttpRequest.post());
+		aObservationResponse = (Observationresponse) this.aUnmarshaller.unmarshal(this.aClientHttpRequest.post());
 		return aObservationResponse;
 	}
 

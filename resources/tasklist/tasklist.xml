@@ -104,7 +104,41 @@
 			<parameter name="output" type="radio" default="xml" observer="appc-checker" ui="none" />
 		</parameters>
 	</task>
+	
+	<task id="calculator">
+		<subtasks>
+			<observation ref="calculator">
+				<handle mimetype="text/plain" priority="high" />
+			</observation>
+		</subtasks>
+		<parameters>
+			<parameter name="x2" type="checkbox" default="unchecked" ui="simple"> 
 
+				<value name="unchecked">
+					<mapped param="x2" observer="calculator" value="0" />
+				</value>
+				
+				<value name="on">
+					<mapped param="x2" observer="calculator" value="1" />
+				</value>
+			</parameter>
+		</parameters>
+	</task>
 
+	<task id="multithreading">
+		<subtasks>
+			<observation ref="sleeper1">
+				<handle mimetype="text/plain" priority="high" />
+			</observation>
+			
+			<observation ref="sleeper2">
+				<handle mimetype="text/plain" priority="high" />
+			</observation>
+			
+			<observation ref="sleeper3">
+				<handle mimetype="text/plain" priority="high" />
+			</observation>
+		</subtasks>
+	</task>
 
 </tasklist>

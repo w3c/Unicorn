@@ -1,4 +1,4 @@
-// $Id: DirectRequestPOST.java,v 1.2 2006-09-29 09:25:12 dleroy Exp $
+// $Id: DirectRequestPOST.java,v 1.3 2007-11-29 14:11:58 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -45,6 +45,7 @@ public class DirectRequestPOST extends Request {
 			final String sURL,
 			final String sInputParameterName,
 			final InputModule aInputModule) throws IOException {
+		super();
 		DirectRequestPOST.logger.trace("Constructor");
 		if (DirectRequestPOST.logger.isDebugEnabled()) {
 			DirectRequestPOST.logger.debug("URL : " + sURL + ".");
@@ -132,7 +133,7 @@ public class DirectRequestPOST extends Request {
 			sResponse += new String(tByte);
 		}
 		DirectRequestPOST.logger.debug(sResponse);*/
-		return (Observationresponse) DirectRequestPOST.aUnmarshaller.unmarshal(aURLConnection.getInputStream());
+		return (Observationresponse) this.aUnmarshaller.unmarshal(aURLConnection.getInputStream());
 	}
 
 	@Override

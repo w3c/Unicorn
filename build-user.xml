@@ -6,7 +6,14 @@
     <echo message="Please run: $ ant -v -projecthelp"/>
 </target>
 
-<target name="war" depends="build" description="Creates the webapp module">
+<target name="remoteConfiguration" depends="build" description="Workspace configuration for remote">
+	<copy file="./org/w3c/unicorn/util/remote-unicorn.properties" tofile="./build/org/w3c/unicorn/util/unicorn.properties" overwrite="true"/>
+	<copy file="./remote_log4j.xml" tofile="./build/log4j.xml" overwrite="true"/>
+	<copy file="./org/w3c/unicorn/extensions.properties" tofile="./build/org/w3c/unicorn/extensions.properties" overwrite="true"/>
+	<copy file="./org/w3c/unicorn/output/specialFormaters.properties" tofile="./build/org/w3c/unicorn/output/specialFormaters.properties" overwrite="true"/>
+</target>
+
+<target name="war" depends="remoteConfiguration" description="Creates the webapp module">
     <delete file="${war.file}"/>
     <war warfile="${war.file}" webxml="web.xml" basedir="." excludes="*,**">
         <classes dir="build">
@@ -14,9 +21,9 @@
         </classes>
         <classes dir=".">
             <exclude name="build/**"/>
-            <include name="**/*.properties"/>
+            <include name="build/**/*.properties"/>
         </classes>
-        <classes file="log4j.xml"/>
+        <classes file="./build/log4j.xml"/>
         <webinf dir=".">
             <include name="uploaded-files/**"/>
             <include name="logs/**"/>
@@ -30,6 +37,11 @@
         <!--<zipfileset dir="resources/schemas" prefix="schemas"/>-->
     </war>
 </target>
+
+<target name="localConfiguration" depends="war">
+	<copy file="./org/w3c/unicorn/util/unicorn.properties" tofile="./build/org/w3c/unicorn/util/unicorn.properties" overwrite="true"/>
+</target>
+
 
 <target name="jar" depends="build" description="Creates the unicorn library">
 	<delete file="${jar.file}" />

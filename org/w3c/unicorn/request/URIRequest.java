@@ -1,10 +1,11 @@
-// $Id: URIRequest.java,v 1.2 2006-09-08 15:35:53 dleroy Exp $
+// $Id: URIRequest.java,v 1.3 2007-11-29 14:11:58 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -30,6 +31,7 @@ public class URIRequest extends Request {
 			final String sURL,
 			final String sInputParameterName,
 			final InputModule aInputModule) throws IOException {
+		super();
 		URIRequest.logger.trace("Constructor");
 		if (URIRequest.logger.isDebugEnabled()) {
 			URIRequest.logger.debug("URL : " + sURL + ".");
@@ -76,8 +78,11 @@ public class URIRequest extends Request {
 		}
 		URIRequest.logger.debug("URL : " + aURL + " .");
 		final URLConnection aURLConnection = aURL.openConnection();
+		
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
-		return (Observationresponse) URIRequest.aUnmarshaller.unmarshal(aURLConnection.getInputStream());
+		InputStream is = aURLConnection.getInputStream();
+		Observationresponse res = (Observationresponse) this.aUnmarshaller.unmarshal(is);
+		return res;
 	}
 
 	@Override

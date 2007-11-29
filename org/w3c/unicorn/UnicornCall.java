@@ -1,14 +1,18 @@
-// $Id: UnicornCall.java,v 1.5 2006-09-29 09:25:12 dleroy Exp $
+// $Id: UnicornCall.java,v 1.6 2007-11-29 14:11:59 dtea Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.activation.MimeType;
 import javax.xml.bind.JAXBException;
@@ -61,6 +65,11 @@ public class UnicornCall {
 	private boolean bPassedHigh;
 	private boolean bPassedMedium;
 	private boolean bPassedLow;
+	
+	// Active threads number in doRequests() method
+	private int nbActiveThreads;
+	
+	private boolean bPassed;
 
 	/**
 	 * Creates a new UnicornCall.
@@ -77,6 +86,8 @@ public class UnicornCall {
 		this.bPassedHigh = true;
 		this.bPassedMedium = true;
 		this.bPassedLow = true;
+		
+		this.nbActiveThreads = 0;
 	}
 
 	public void doTask () throws Exception {
@@ -171,69 +182,77 @@ public class UnicornCall {
 		aInputFactory.dispose();
 	}
 
+	// Adds 1 to active threads number
+	public synchronized void incCounter (){
+		this.nbActiveThreads++;
+	}
+	
+	// Substracts 1 to active threads number
+	public synchronized void decCounter (){
+		this.nbActiveThreads--;
+	}
+	
+	public void setbPassed(boolean b){
+		this.bPassed = b;
+	}
+	
+	public boolean getBPassed(){
+		return this.bPassed;
+	}
+	
 	/**
 	 * @param aTPriority
 	 * @throws JAXBException 
 	 * @throws IOException
 	 */
 	private boolean doRequests (final TPriority aTPriority)
-	throws IOException, JAXBException {
-		UnicornCall.logger.trace("doRequest");
-		if (UnicornCall.logger.isDebugEnabled()) {
-			UnicornCall.logger.debug("Priority : "+aTPriority+".");
-		}
-
-		boolean bPassed = true;
-		
-		final Map<String, Observationresponse> mapOfObservationResponse;
-		switch (aTPriority) {
-			case HIGH:
-				mapOfObservationResponse = this.mapOfResponseHigh;
-				break;
-			case LOW:
-				mapOfObservationResponse = this.mapOfResponseLow;
-				break;
-			case MEDIUM: 
-				mapOfObservationResponse = this.mapOfResponseMedium;
-				break;
-			default :
-				mapOfObservationResponse = null;
-		}
-
-		final Map<String, Request> requests = this.aRequestList.getRequest(aTPriority);
-		for (final String obsID : requests.keySet()) {
-			final Request aRequest = requests.get(obsID);
-			// send request to observer
+		throws IOException, JAXBException {
+			UnicornCall.logger.trace("doRequest");
 			if (UnicornCall.logger.isDebugEnabled()) {
-				UnicornCall.logger.debug("Request : "+aRequest.toString());
+				UnicornCall.logger.debug("Priority : "+aTPriority+".");
 			}
+	
+			bPassed = true;
 			
-			Observationresponse aObservationResponse;
-			try {
-				aObservationResponse = aRequest.doRequest();
+			final Map<String, Observationresponse> mapOfObservationResponse;
+			switch (aTPriority) {
+				case HIGH:
+					mapOfObservationResponse = this.mapOfResponseHigh;
+					break;
+				case LOW:
+					mapOfObservationResponse = this.mapOfResponseLow;
+					break;
+				case MEDIUM: 
+					mapOfObservationResponse = this.mapOfResponseMedium;
+					break;
+				default :
+					mapOfObservationResponse = null;
 			}
-			catch (final JAXBException e) {
-				UnicornCall.logger.error("JAXB Exception : "+e.getMessage(), e);
-				aObservationResponse = (Observationresponse) Request.aUnmarshaller.unmarshal(
-						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_unmarshalling_error.vm"));
-			}
-			catch (final NullPointerException e) {
-				UnicornCall.logger.error("Null Pointer Exception : "+e.getMessage(), e);
-				aObservationResponse = (Observationresponse) Request.aUnmarshaller.unmarshal(
-						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_io_error.vm"));
-			}
-			catch (final IOException e) {
-				UnicornCall.logger.error("IO Exception : "+e.getMessage(), e);
-				aObservationResponse = (Observationresponse) Request.aUnmarshaller.unmarshal(
-						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_io_error.vm"));
-			}
+			final Map<String, Request> requests = this.aRequestList.getRequest(aTPriority);
+			ArrayList <Thread> threadsList = new ArrayList<Thread>();
 			
-			mapOfObservationResponse.put(obsID, aObservationResponse);
+			for (final String obsID : requests.keySet()) {
+				// send request to observer
+				if (UnicornCall.logger.isDebugEnabled()) {
+					UnicornCall.logger.debug("Request : "+requests.get(obsID).toString());
+				}
+				
+				threadsList.add(new RequestThread(mapOfObservationResponse, requests.get(obsID), obsID, this));	
+			}
+			for (int i=0; i<threadsList.size();i++) threadsList.get(i).start();
+	
+			for (int i=0; i<threadsList.size();i++) {
+				try {
+					threadsList.get(i).join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return bPassed;
 			
-			bPassed = bPassed && aObservationResponse.isPassed();
-		}
-		return bPassed;
 	}
+
 
 	private RequestList generateRequestList (
 			final InputFactory aInputFactory,
@@ -611,3 +630,86 @@ public class UnicornCall {
 	}
 
 }
+
+
+class RequestThread extends Thread {
+	private static final Log logger = Framework.logger;
+    private Map<String, Observationresponse> mapOfObservationResponse;
+    private Request aRequest;
+    private String obsID;
+    private UnicornCall unicornCall;
+    
+    public RequestThread (Map<String, Observationresponse> mapOfObservationResponse, Request aRequest, String obsID, UnicornCall unicorn) {
+    	this.mapOfObservationResponse = mapOfObservationResponse;
+    	this.aRequest = aRequest;
+    	this.obsID = obsID;
+    	this.unicornCall = unicorn;
+    	
+
+    }
+    
+    public void run () {
+    	
+    	this.unicornCall.incCounter();
+    	Observationresponse aObservationResponse= null;
+    	try {
+				aObservationResponse = this.aRequest.doRequest();		
+    	}
+		catch (final JAXBException e) {
+			RequestThread.logger.error("JAXB Exception : "+e.getMessage(), e);
+			
+			try {
+				aObservationResponse = (Observationresponse) this.aRequest.aUnmarshaller.unmarshal(
+						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_unmarshalling_error.vm"));
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JAXBException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+		catch (final NullPointerException e) {
+			RequestThread.logger.error("Null Pointer Exception : "+e.getMessage(), e);
+			try {
+				aObservationResponse = (Observationresponse) this.aRequest.aUnmarshaller.unmarshal(
+						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_io_error.vm"));
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JAXBException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		catch (final IOException e) {
+			RequestThread.logger.error("IO Exception : "+e.getMessage(), e);
+			try {
+				aObservationResponse = (Observationresponse) this.aRequest.aUnmarshaller.unmarshal(
+						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_io_error.vm"));
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JAXBException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		synchronized(mapOfObservationResponse) {
+			mapOfObservationResponse.put(obsID, aObservationResponse);
+		}
+		
+		if (!aObservationResponse.isPassed() && this.unicornCall.getBPassed())
+			this.unicornCall.setbPassed(false);
+		
+		this.unicornCall.decCounter();
+		
+		
+    }
+    
+}
+
+
+

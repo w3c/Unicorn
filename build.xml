@@ -7,6 +7,12 @@
 <project name="unicorn" default="build" basedir=".">
     &buildfile;
     <property name="unicorn.location" value="."/>
+
+	<!-- Configure properties to access the Manager application -->
+	<property name="url"      value="http://flyingman.sophia.w3.org:8180/manager"/>
+	<property name="username" value="manager"/>
+	<property name="password" value="sdkSm58P"/>
+	
     <path id="project.classpath">
         <pathelement location="build"/>
         <pathelement location="${unicorn.location}/lib/activation.jar"/>
@@ -24,7 +30,21 @@
         <pathelement location="${unicorn.location}/lib/servlet.jar"/>
         <pathelement location="${unicorn.location}/lib/velocity-1.5-dev.jar"/>
         <pathelement location="${unicorn.location}/lib/xercesImpl.jar"/>
+    	<pathelement location="${unicorn.location}/lib/catalina-ant.jar"/>
     </path>
+	
+	<!-- Configure the custom Ant tasks for the Manager application -->
+	<taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="deploy" classname="org.apache.catalina.ant.DeployTask"/>
+	<taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="list"      classname="org.apache.catalina.ant.ListTask"/>
+	<taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="reload"    classname="org.apache.catalina.ant.ReloadTask"/>
+	<taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="resources" classname="org.apache.catalina.ant.ResourcesTask"/>
+	<taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="roles"     classname="org.apache.catalina.ant.RolesTask"/>
+	<taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="start"     classname="org.apache.catalina.ant.StartTask"/>
+	<taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="stop"      classname="org.apache.catalina.ant.StopTask"/>
+	<taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"/>
+	
+	
+	
     <target name="init">
         <mkdir dir="build"/>
     </target>
@@ -89,4 +109,18 @@
             <classpath refid="project.classpath"/>
         </java>
     </target>
+	
+    <target name="deploy" description="Install web application" depends="localConfiguration">
+    	<deploy url="${url}" username="${username}" password="${password}" path="/unicorn"
+    	            war="unicorn.war"/>
+    </target>
+
+   	<target name="reload" description="Reload web application">
+   		<reload  url="${url}" username="${username}" password="${password}" path="/unicorn"/>
+   	</target>
+
+   	<target name="undeploy" description="Remove web application">
+   		<undeploy url="${url}" username="${username}" password="${password}" path="/unicorn"/>
+    </target>      
+	
 </project>

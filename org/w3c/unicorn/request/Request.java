@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.2 2006-09-21 16:01:18 dleroy Exp $
+// $Id: Request.java,v 1.3 2007-11-29 14:11:58 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -24,13 +24,13 @@ public abstract class Request {
 
 	protected static final Log logger = LogFactory.getLog("org.w3c.unicorn.request");
 
-	public static Unmarshaller aUnmarshaller = null;
+	public Unmarshaller aUnmarshaller = null;
 	protected static JAXBContext aJAXBContext = null;
 
 	static {
 		try {
 			Request.aJAXBContext = JAXBContext.newInstance("org.w3c.unicorn.generated.observationresponse");
-			Request.aUnmarshaller = Request.aJAXBContext.createUnmarshaller();
+			
 		}
 		catch (final JAXBException e) {
 			Request.logger.error("JAXBException : " + e.getMessage(), e);
@@ -39,6 +39,15 @@ public abstract class Request {
 	}
 
 	protected String sLang = null;
+	
+	public Request(){
+		try {
+			this.aUnmarshaller = Request.aJAXBContext.createUnmarshaller();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public void setLang (final String sLang) throws IOException {
 		Request.logger.debug("setLang("+sLang+")");
@@ -47,7 +56,7 @@ public abstract class Request {
 
 	public abstract void addParameter (final String sName, final String sValue) throws IOException;
 
-	public abstract Observationresponse doRequest () throws JAXBException, IOException;
+    public abstract Observationresponse doRequest () throws JAXBException, IOException;
 
 	public abstract EnumInputMethod getInputMethod ();
 
@@ -56,6 +65,8 @@ public abstract class Request {
 			final String sURL,
 			final String sInputParameterName,
 			final boolean bIsPost) throws IOException {
+		
+		
 		Request.logger.trace("createRequest");
 		if (Request.logger.isDebugEnabled()) {
 			Request.logger.debug("InputModule : " + aInputModule + ".");

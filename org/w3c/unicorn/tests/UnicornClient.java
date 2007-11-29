@@ -13,10 +13,10 @@ import org.w3c.unicorn.output.OutputModule;
 public class UnicornClient {
 
 	public static void main(String[] args) {
-		String task = "conformance";
-		String pageToValid = "http://w3.org";
+		String task = "multithreading";
+		String pageToValid = "http://flyingman.sophia.w3.org/test.txt";
 		String language = "en";
-		String outputTemplate = "text10";
+		String outputTemplate = "xhtml10";
 
 		/*
 		// read parameters

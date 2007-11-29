@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.2 2006-09-29 09:25:12 dleroy Exp $
+// $Id: Framework.java,v 1.3 2007-11-29 14:11:59 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -74,6 +74,7 @@ public class Framework {
 		if (Framework.logger.isDebugEnabled()) {
 			Framework.logger.debug("Observer initialisation.");
 		}
+		//final String sLanguage = Property.get("DEFAULT_LANGUAGE");
 		final String sLanguage = Property.get("DEFAULT_LANGUAGE");
 		if (null != sLanguage) {
 			LocalizedString.DEFAULT_LANGUAGE = sLanguage;

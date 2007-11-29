@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.1 2006-09-21 16:01:21 dleroy Exp $
+// $Id: DirectRequestGET.java,v 1.2 2007-11-29 14:11:58 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -30,6 +30,7 @@ public class DirectRequestGET extends Request {
 			final String sURL,
 			final String sInputParameterName,
 			final InputModule aInputModule) throws IOException {
+		super();
 		DirectRequestGET.logger.trace("Constructor");
 		if (DirectRequestGET.logger.isDebugEnabled()) {
 			DirectRequestGET.logger.debug("URL : " + sURL + ".");
@@ -71,7 +72,7 @@ public class DirectRequestGET extends Request {
 		}
 		final URLConnection aURLConnection = aURL.openConnection();
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
-		return (Observationresponse) DirectRequestGET.aUnmarshaller.unmarshal(aURLConnection.getInputStream());
+		return (Observationresponse) this.aUnmarshaller.unmarshal(aURLConnection.getInputStream());
 	}
 
 	@Override
