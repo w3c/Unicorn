@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+
+<!--
+   3 priorites : low, medium (defaut), high
+
+   si meme priorite : execution en ~parallele
+   si priorites differents : + faibles ne s'executent que si les plus forts ont TOUS reussi
+
+   one-of: cas special de subtasks : mimetypes disjoints
+   observateur identique : dans une task (evite de recopier les mimetypes)
+   
+   visible : indique si la tache est selectionnable par l'utilisateur (ou simplement une tache "raccourci")
+             defaut: true
+  
+   une subtask est remplacee par la liste d'observateurs et de parametres de la task correspondante (un peu comme un include)
+   
+  dans une version future, on reflechira a la possibilite de supprimer un parametre lors d'un include, ou d'en fusionner
+  deux portant des noms differents
+  
+   NB1: dans cet exemple, seule la premiere tache est decrite "completement", les autres n'ont aucun parametre
+   NB2: le schema et les documents associes ne permettent pas d'exprimer la totalite des contraintes. Par exemple,
+           les boucles d'include devront etre verifiees, de meme que les listes de mimetypes doivent correspondre
+           a celles supportees par les observateurs, ...
+-->
+<tasklist xmlns="http://www.w3.org/unicorn/tasklist"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/unicorn/tasklist file:./task.xsd">
+
+	<task id="conformance">
+		<subtasks>
+			<observation ref="markup-validator">
+				<handle mimetype="application/mathml+xml" priority="high" />
+				<handle mimetype="application/smil+xml" priority="high" />
+				<handle mimetype="application/xhtml+xml" priority="high" />
+				<handle mimetype="image/svg+xml" priority="high" />
+				<handle mimetype="text/html" priority="high" />
+			</observation>
+			<observation ref="css-validator">
+				<handle mimetype="application/xhtml+xml" priority="low" />
+				<handle mimetype="image/svg+xml" priority="low" />
+				<handle mimetype="text/css" priority="high" />
+				<handle mimetype="text/html" priority="low" />
+			</observation>
+			<observation ref="appc-checker">
+				<handle mimetype="text/html" priority="medium" />
+			</observation>
+		</subtasks>
+		<parameters>
+			<parameter name="output" type="radio" default="ucn" ui="none">
+				<value name="ucn">
+					<mapped param="output" observer="appc-checker" value="xml" />
+					<mapped param="output" observer="css-validator" value="ucn" />
+					<mapped param="output" observer="markup-validator" value="ucn" />
+				</value>
+			</parameter>
+			<parameter name="warning" type="radio" default="0" observer="css-validator" ui="none" />
+		</parameters>
+	</task>
+	<task id="css">
+		<subtasks>
+			<observation ref="css-validator">
+				<handle mimetype="application/xhtml+xml" />
+				<handle mimetype="image/svg+xml" />
+				<handle mimetype="text/css" priority="high" />
+				<handle mimetype="text/html" priority="medium" />
+			</observation>
+		</subtasks>
+		<parameters>
+			<parameter name="profile" type="dropdown" default="css2" observer="css-validator" />
+			<parameter name="output" type="radio" default="ucn" observer="css-validator" ui="none" />
+			<parameter name="usermedium" type="checkboxlist" default="all" observer="css-validator" />
+			<parameter name="warning" type="radio" default="0" observer="css-validator" />
+			<!--<parameter name="toto" ui="simple" type="textfield">
+				<value>
+					<mapped param="titi" observer="css-validator" />
+				</value>
+			</parameter>-->
+		</parameters>
+	</task>
+
+	<task id="markup">
+		<subtasks>
+			<observation ref="markup-validator">
+				<handle mimetype="application/mathml+xml" priority="high" />
+				<handle mimetype="application/smil+xml" priority="high" />
+				<handle mimetype="application/xhtml+xml" priority="high" />
+				<handle mimetype="image/svg+xml" priority="high" />
+				<handle mimetype="text/html" priority="high" />
+			</observation>
+		</subtasks>
+		<parameters>
+			<parameter name="charset" type="dropdown" default="(detect automatically)" observer="markup-validator" />
+			<parameter name="doctype" type="dropdown" default="Inline" observer="markup-validator" />
+			<parameter name="output" type="radio" default="ucn" observer="markup-validator" ui="none" />
+		</parameters>
+	</task>
+	<task id="appc">
+		<subtasks>
+			<observation ref="appc-checker">
+				<handle mimetype="text/html" priority="high" />
+			</observation>
+		</subtasks>
+		<parameters>
+			<parameter name="output" type="radio" default="xml" observer="appc-checker" ui="none" />
+		</parameters>
+	</task>
+	
+	<task id="calculator">
+		<subtasks>
+			<observation ref="calculator">
+				<handle mimetype="text/plain" priority="high" />
+			</observation>
+		</subtasks>
+		<parameters>
+			<parameter name="x2" type="checkbox" default="unchecked" ui="simple"> 
+
+				<value name="unchecked">
+					<mapped param="x2" observer="calculator" value="0" />
+				</value>
+				
+				<value name="on">
+					<mapped param="x2" observer="calculator" value="1" />
+				</value>
+			</parameter>
+		</parameters>
+	</task>
+
+	<task id="multithreading">
+		<subtasks>
+			<observation ref="sleeper1">
+				<handle mimetype="text/plain" priority="high" />
+			</observation>
+			
+			<observation ref="sleeper2">
+				<handle mimetype="text/plain" priority="high" />
+			</observation>
+			
+			<observation ref="sleeper3">
+				<handle mimetype="text/plain" priority="high" />
+			</observation>
+		</subtasks>
+	</task>
+
+</tasklist>

@@ -1,0 +1,159 @@
+#macro(createDropdown $param)
+  #set($defaults = $param.getMapOfDefaultValue())
+  '    $param.getLongName("en") : ' +
+  '<select name="$param.Name">' +
+     #foreach ($value in $param.getMapOfValue())
+  '   <option value="$value.Name"#if($defaults.containsKey($value.getName())) selected="selected" #end>$value.getLongName("en")</option>' +
+  #end
+  '</select>' +
+#end
+
+#macro(createRadio $param)
+  #set($defaults = $param.getMapOfDefaultValue())
+  '    $param.getLongName("en") : ' +
+  #foreach ($value in $param.getMapOfValue())
+    '    <input type="radio" name="$param.Name" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end/> $value.getLongName("en")' +
+  #end
+#end
+
+#macro(createCheckbox $param)
+  #set($defaults = $param.getMapOfDefaultValue())
+  '    $param.getLongName("en") : ' +
+  '    <input type="checkbox" name="$param.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end/>' +
+#end
+
+#macro(createCheckboxList $param)
+  #set($defaults = $param.getMapOfDefaultValue())
+  '    $param.getLongName("en") : ' +
+  #foreach ($value in $param.getMapOfValue())
+  '    <input type="checkbox" name="$param.getName()" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end/> $value.getLongName("en")' +
+  #end
+#end
+
+#macro(createTextarea $param)
+  #set($defaults = $param.getDefaultValue())
+  '    $param.getLongName("en") : ' +
+  '    <textarea name="$param.Name">#foreach($default in $defaults)$default.Name#end</textarea>' +
+#end
+
+#macro(createTextfield $param)
+  #set($defaults = $param.getDefaultValue())
+  '    $param.getLongName("en") : ' +
+  '    <input type="textfield" name="$param.Name" value="#foreach($default in $defaults)$default.Name#end"/>' +
+#end
+
+#macro(createParameter $param)
+  #set($type = $param.getType())
+  #if($type == $checkbox)
+    #createCheckbox($param)
+  #elseif($type == $checkboxlist)
+    #createCheckboxList($param)
+  #elseif($type == $radio)
+    #createRadio($param)
+  #elseif($type == $textarea)
+    #createTextarea($param)
+  #elseif($type == $textfield)
+    #createTextfield($param)
+  #else
+    #createDropdown($param)
+  #end
+#end
+
+#macro(createParameters $task)
+  #foreach ($param in $task.getMapOfParameter())
+    #if($param.UiLevel == $simple)
+     simpleParameters["$task.getID()"] +=
+     '  <li>' +
+        #createParameter($param)
+     '  </li>'
+    #elseif($param.UiLevel == $advanced)
+     advancedParameters["$task.getID()"] +=
+     '  <li>' +
+        #createParameter($param)
+     '  </li>'
+    #end
+  #end
+#end
+
+#macro(createMimes $task)
+	#set($alreadyPresent = [])
+	'<select name="ucn_text_mime">' +
+	#foreach($obs in $task.getMapOfObservation())  
+		#foreach($mime in $obs.getMapOfMimeTypePriority().keySet())
+			#set($sMime = $mime.toString())
+			#if(!$alreadyPresent.contains($sMime))
+				'<option value="$mime">$mime</option>' +
+				## if to avoid output print from add function call
+				#if($alreadyPresent.add($mime.toString())) #end
+			#end
+		#end
+	#end
+	'</select>'
+#end
+
+var simpleParameters = new Array();
+var advancedParameters = new Array();
+var mimeContainer = new Array();
+      
+#foreach($task in $tasklist)
+  simpleParameters["$task.getID()"] = '<ul>';
+  advancedParameters["$task.getID()"] = '<ul>';
+  #createParameters($task);
+  simpleParameters["$task.getID()"] += '</ul>';
+  advancedParameters["$task.getID()"] += '</ul>';
+  mimeContainer["$task.getID()"] = #createMimes($task);
+#end
+
+function getElementsByClass(val) {
+  var all = document.getElementsByTagName('*');
+  var arr = [];
+
+  for(var k = 0; k < all.length; k++) {      
+    className = all[k].className;
+    if(className && className.indexOf(val) > -1) {
+      arr[arr.length] = all[k];
+      //alert(attribute);
+    }
+  }
+  return arr;
+} 
+
+function taskChanged(value, method) {
+	var simpleParamsContainers = getElementsByClass("simpleParamList");
+	var advancedParamsContainers = getElementsByClass("advancedParamList");
+
+	simpleParamsContainers[method].innerHTML = simpleParameters[value];
+	advancedParamsContainers[method].innerHTML = advancedParameters[value];
+
+	if(simpleParameters[value] == '<ul></ul>') {
+		simpleParamsContainers[method].parentNode.style.display = 'none';
+	}
+	else {      
+		simpleParamsContainers[method].parentNode.style.display = 'block';
+	}
+	if(advancedParameters[value] == '<ul></ul>') {
+		advancedParamsContainers[method].parentNode.style.display = 'none';
+	}
+	else {      
+		advancedParamsContainers[method].parentNode.style.display = 'block';
+	}
+
+	// mimetypes dropdown
+	if(method == 2) {
+		document.getElementById("ucn_text_mime").innerHTML = mimeContainer[value];
+	}
+}
+
+function init() {
+  var tasklists = document.getElementsByName('ucn_task');
+  for(var i = 0; i < tasklists.length; i++) {
+    taskChanged(tasklists[i].options[tasklists[i].options.selectedIndex].value, i);
+  }
+}
+
+function expand() {
+  var adv = this.getElementsByClass("advancedParamList");
+  for(var i = 0; i < adv.length; i++) {
+    adv[i].style.display = (adv[i].style.display == 'block') ? 'none' : 'block';
+  }
+}
