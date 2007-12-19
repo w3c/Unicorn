@@ -13,15 +13,27 @@ import org.w3c.unicorn.output.OutputModule;
 public class UnicornClient {
 
 	public static void main(String[] args) {
-		String task = "multithreading";
-		String pageToValid = "http://flyingman.sophia.w3.org/test.txt";
-		String language = "en";
-		String outputTemplate = "xhtml10";
-
+		UnicornCall aUnicornCall = new UnicornCall();
 		/*
+		String task = "css";
+		String pageToValid = "http://w3.org";
+		String language = "en";
+		String outputTemplate = "text10";
+		String pParams="";
+		*/
+		/*
+		String task = "calculator";
+		String pageToValid = "http://flyingman.sophia.w3.org/test";
+		String language = "fr";
+		String outputTemplate = "text10";
+		String pParams = "x2=on";
+		*/
+		
 		// read parameters
 		if (args.length<4) {
-			System.out.println("[Usage] UnicornClient task pageToValid language outputTemplate");
+			System.out.println("[Usage] UnicornClient task pageToValid templateLanguage outputTemplate [otherParameters]");
+			System.out.println("[Example] UnicornClient calculator http://flyingman.sophia.w3.org/test en text10 x2=on,ptoto=titi");
+			System.out.println("[Example] UnicornClient markup http://w3.org en xhtml10");
 			System.out.println("[Example] UnicornClient markup http://w3.org en xhtml10");
 			System.out.println("[Example] UnicornClient css http://w3.org en text10");
 		}
@@ -29,17 +41,32 @@ public class UnicornClient {
 		String pageToValid = args[1];
 		String language = args[2];
 		String outputTemplate = args[3];
-		*/
+		String pParams = ""; //pParam = "x2=on,toto=tata"
+		if (args.length>4) {
+			pParams = args[4];
+		}
 		
-		
-		long before = System.currentTimeMillis() ;
-		
-		UnicornCall aUnicornCall = new UnicornCall();
-		aUnicornCall.setTask(task); //task id
-		aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
-		aUnicornCall.setDocumentName(pageToValid);
-		aUnicornCall.setInputParameterValue(pageToValid);
-		aUnicornCall.setLang(language);
+		// simple parser des paramètres
+		if (pParams!=null && !pParams.isEmpty()) {
+			Map<String, String[]> mapOfParameter = new LinkedHashMap<String, String[]>();
+			String[] couples = pParams.split(",");
+			for (int i=0; i<couples.length; i++) {
+				String[] couple = couples[i].split("=");
+				if (couple.length==2) {
+					String[] tmp = {couple[1]}; 
+					mapOfParameter.put(couple[0], tmp);
+				}
+				else 
+					System.err.println("Error parameter!");
+			}
+			aUnicornCall.setMapOfStringParameter(mapOfParameter);
+	
+			aUnicornCall.setTask(task); //task id
+			aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
+			aUnicornCall.setDocumentName(pageToValid);
+			aUnicornCall.setInputParameterValue(pageToValid);
+			aUnicornCall.setLang(language);
+		}
 
 		/*
 		// lang par defaut
@@ -49,6 +76,8 @@ public class UnicornClient {
 		aUnicornCall.setMapOfStringParameter(mapOfParameter);
 		*/
 		
+		
+		long before = System.currentTimeMillis() ;
 		try {
 			aUnicornCall.doTask();
 			
