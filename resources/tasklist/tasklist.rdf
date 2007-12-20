@@ -47,6 +47,12 @@
 				<ucn:longName xml:lang="fr">Sortie</ucn:longName>
 			</ucn:Parameter>
 		</ucn:hasParameter>
+		<ucn:hasParameter>
+			<ucn:Parameter ucn:reference="xlang">
+				<ucn:longName xml:lang="en">Language</ucn:longName>
+				<ucn:longName xml:lang="fr">Langue</ucn:longName>
+			</ucn:Parameter>
+		</ucn:hasParameter>
 	</ucn:Task>
 	
 	<ucn:Task ucn:reference="markup">
@@ -106,6 +112,13 @@
 				<ucn:longName xml:lang="en">x2</ucn:longName>
 				<ucn:longName xml:lang="fr">x2</ucn:longName>
 			</ucn:CheckBox>
+		</ucn:hasParameter>
+		
+		<ucn:hasParameter>
+			<ucn:DropDown ucn:reference="lang">
+				<ucn:longName xml:lang="en">Language</ucn:longName>
+				<ucn:longName xml:lang="fr">Langue</ucn:longName>
+			</ucn:DropDown>
 		</ucn:hasParameter>
 	</ucn:Task>
 	
