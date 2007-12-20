@@ -70,11 +70,18 @@
 			<parameter name="output" type="radio" default="ucn" observer="css-validator" ui="none" />
 			<parameter name="usermedium" type="checkboxlist" default="all" observer="css-validator" />
 			<parameter name="warning" type="radio" default="0" observer="css-validator" />
+			<parameter name="xlang" ui="simple" type="textfield">
+				<value>
+					<mapped param="lang" observer="css-validator" />
+				</value>
+			</parameter>
+			
 			<!--<parameter name="toto" ui="simple" type="textfield">
 				<value>
 					<mapped param="titi" observer="css-validator" />
 				</value>
 			</parameter>-->
+			
 		</parameters>
 	</task>
 
@@ -113,7 +120,6 @@
 		</subtasks>
 		<parameters>
 			<parameter name="x2" type="checkbox" default="unchecked" ui="simple"> 
-
 				<value name="unchecked">
 					<mapped param="x2" observer="calculator" value="0" />
 				</value>
@@ -122,6 +128,14 @@
 					<mapped param="x2" observer="calculator" value="1" />
 				</value>
 			</parameter>
+			<!-- 
+			<parameter name="xlang" ui="simple" type="textfield">
+				<value>
+					<mapped param="lang" observer="calculator" />
+				</value>
+			</parameter>
+			-->
+			<parameter name="lang" type="dropdown" default="fr" observer="calculator" />
 		</parameters>
 	</task>
 
