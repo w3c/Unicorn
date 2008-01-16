@@ -46,8 +46,8 @@ public class UnicornClient {
 			pParams = args[4];
 		}
 		
-		// simple parser des paramètres
-		if (pParams!=null && !pParams.isEmpty()) {
+		// simple parser des paramï¿½tres
+		if (pParams!=null && !"".equals(pParams)) {
 			Map<String, String[]> mapOfParameter = new LinkedHashMap<String, String[]>();
 			String[] couples = pParams.split(",");
 			for (int i=0; i<couples.length; i++) {
