@@ -1,7 +1,3 @@
 http://qa-dev.w3.org/~ot/ucn_contracts/css-validator.wadl http://qa-dev.w3.org/~ot/ucn_contracts/css-validator.rdf
 http://qa-dev.w3.org/~ot/ucn_contracts/markup-validator.wadl http://qa-dev.w3.org/~ot/ucn_contracts/markup-validator.rdf
 http://qa-dev.w3.org/~ot/ucn_contracts/appc-checker.wadl http://qa-dev.w3.org/~ot/ucn_contracts/appc-checker.rdf
-http://localhost/calculator_contract
-http://localhost/sleeper1_contract
-http://localhost/sleeper2_contract
-http://localhost/sleeper3_contract

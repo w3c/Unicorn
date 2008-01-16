@@ -111,7 +111,7 @@
 			<parameter name="output" type="radio" default="xml" observer="appc-checker" ui="none" />
 		</parameters>
 	</task>
-	
+<!-- 
 	<task id="calculator">
 		<subtasks>
 			<observation ref="calculator">
@@ -128,13 +128,13 @@
 					<mapped param="x2" observer="calculator" value="1" />
 				</value>
 			</parameter>
-			<!-- 
+			
 			<parameter name="xlang" ui="simple" type="textfield">
 				<value>
 					<mapped param="lang" observer="calculator" />
 				</value>
 			</parameter>
-			-->
+			
 			<parameter name="lang" type="dropdown" default="fr" observer="calculator" />
 		</parameters>
 	</task>
@@ -154,5 +154,5 @@
 			</observation>
 		</subtasks>
 	</task>
-
+-->
 </tasklist>

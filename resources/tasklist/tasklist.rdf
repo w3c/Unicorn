@@ -102,7 +102,7 @@
 			</ucn:Radio>
 		</ucn:hasParameter>
 	</ucn:Task>
-	
+	<!--
 	<ucn:Task ucn:reference="calculator">
 		<ucn:longName xml:lang="en">Calculator</ucn:longName>
 		<ucn:description xml:lang="en">An observer who evaluate simple arithmetic operations.</ucn:description>
@@ -126,5 +126,5 @@
 		<ucn:longName xml:lang="en">multithreading</ucn:longName>
 		<ucn:description xml:lang="en">Calls 3 observators. Each observator sleeps during 5 second. It's to test multithreading.</ucn:description>
 	</ucn:Task>
-
+	-->
 </rdf:RDF>
