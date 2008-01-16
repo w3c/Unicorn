@@ -1,4 +1,4 @@
-// $Id: ListFiles.java,v 1.1.1.1 2006-08-31 09:09:28 dleroy Exp $
+// $Id: ListFiles.java,v 1.2 2008-01-16 17:19:56 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -17,13 +17,20 @@ import org.apache.commons.logging.LogFactory;
 /**
  * ListFiles<br />
  * Created: Jun 26, 2006 2:17:42 PM<br />
- * This class provide static method to list file into a directory.
+ * This class provides static methods to list files into a directory.
  * @author Jean-Guilhem ROUEL
  */
 public class ListFiles {
 
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.util");
 
+	/**
+	 * List all files matching a pattern in a directory
+	 * @param sDirectory the directory to list
+	 * @param sFilterPattern only filenames matching this pattern will be returned
+	 * @return an array of files matching the pattern
+	 * @throws FileNotFoundException
+	 */
 	public static File[] listFiles (
 			final String sDirectory,
 			final String sFilterPattern) throws
@@ -59,6 +66,12 @@ public class ListFiles {
 		return tFile;
 	}
 
+	/**
+	 * List all filesin a directory
+	 * @param sDirectory the directory to list
+	 * @return an array of files
+	 * @throws FileNotFoundException
+	 */
 	public static File[] listFiles (final String sDirectory) 
 	throws FileNotFoundException {
 		ListFiles.logger.trace("listFiles(String)");
@@ -80,6 +93,11 @@ public class ListFiles {
 		return tFile;
 	}
 
+	/**
+	 * For testing purpose 
+	 * @param args
+	 * @throws FileNotFoundException
+	 */
 	public static void main (String[] args) throws FileNotFoundException {
 		File[] files = listFiles("/home/jean");
 		for (final File file : files) {
