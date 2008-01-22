@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.3 2007-11-29 14:11:59 dtea Exp $
+// $Id: Framework.java,v 1.4 2008-01-22 13:53:07 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -117,6 +117,7 @@ public class Framework {
 						aRDFContractUnmarshaller = new RDFContractUnmarshallerJena(aObserver.getListOfCallMethod());
 						aRDFContractUnmarshaller.addURL(new URL(sRDF));
 						aRDFContractUnmarshaller.unmarshal();
+						aObserver.setParamLangName(aRDFContractUnmarshaller.getNameOfLangParameter());
 						//this.aObserverDescription = aRDFUnmarshaller.getDescription();
 						aObserver.setID(aRDFContractUnmarshaller.getID());
 						aObserver.setName(aRDFContractUnmarshaller.getName());
