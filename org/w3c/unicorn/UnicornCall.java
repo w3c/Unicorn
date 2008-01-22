@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.6 2007-11-29 14:11:59 dtea Exp $
+// $Id: UnicornCall.java,v 1.7 2008-01-22 13:53:47 dtea Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -264,6 +264,7 @@ public class UnicornCall {
 			UnicornCall.logger.debug("InputFactory : " + aInputFactory + ".");
 			UnicornCall.logger.debug("Map of string parameter : " + mapOfArrayUseParameter + ".");
 		}
+		
 
 		final MimeType aMimeType = aInputFactory.getMimeType();
 		final EnumInputMethod aEnumInputMethod = aInputFactory.getDefaultInputModule().getEnumInputMethod();
@@ -276,7 +277,6 @@ public class UnicornCall {
 			final String sObserverID = aObserver.getID();
 			// add only observer who handle the current mimetype
 			if (!aObserver.canHandleMimeType(aMimeType, aEnumInputMethod)) {
-				
 				if (UnicornCall.logger.isDebugEnabled()) {
 					UnicornCall.logger.debug(
 							"Observer " +
@@ -324,6 +324,7 @@ public class UnicornCall {
 							aInputMethod.getCallParameter().getName(),
 							aInputMethod.getCallMethod().isPost());
 					// add this request to request list
+					
 					aRequestList.addRequest(
 							aRequest,
 							aObservation.getPriority(aMimeType),
@@ -363,6 +364,19 @@ public class UnicornCall {
 					aInputMethod.getCallMethod().getURL().toString(),
 					aInputMethod.getCallParameter().getName(),
 					aInputMethod.getCallMethod().isPost());
+			
+			// get value of ucn_lang parameter to associate it with parameter lang of the observer (if it has one). 
+			// ucn_lang is defined in forms of index templates (xx_index.html.vm) 
+			String[] valOfUcnLang = this.mapOfStringParameter.get("ucn_lang");
+			
+			// get name of the lang parameter (defined in RDF file)
+			String observerParamLangName = aObservation.getObserver().getParamLangName();
+			
+			// if lang parameter exists, we add name and value in parameters of the request.
+			if (observerParamLangName!=null && valOfUcnLang != null){
+				aRequest.addParameter(observerParamLangName, valOfUcnLang[0]);
+			}
+			
 			// add this request to request list
 			aRequestList.addRequest(
 					aRequest,
@@ -373,6 +387,7 @@ public class UnicornCall {
 				UnicornCall.logger.debug("Request "+aRequest+" added to request list.");
 			}
 			// add required parameter
+			
 			for (final CallParameter aCallParameter : aObserver.getCallMethod(aEnumInputMethod).getMapOfCallParameter().values()) {
 				if (aCallParameter.isRequired() && aCallParameter.isFixed()) {
 					aRequest.addParameter(aCallParameter.getName(), aCallParameter.getFixed());
@@ -582,6 +597,7 @@ public class UnicornCall {
 	public void addParameter (
 			final String sName,
 			final String[] tStringValue) {
+		
 		final String[] tStringValueLocal = mapOfStringParameter.get(sName);
 		if (tStringValueLocal != null) {
 			int tValuesLength = tStringValueLocal.length;
