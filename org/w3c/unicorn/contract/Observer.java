@@ -1,4 +1,4 @@
-// $Id: Observer.java,v 1.1.1.1 2006-08-31 09:09:20 dleroy Exp $
+// $Id: Observer.java,v 1.2 2008-01-22 13:52:30 dtea Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -31,6 +31,7 @@ public class Observer {
 	private LocalizedString aLocalizedStringDescription = null;
 	private LocalizedString aLocalizedStringHelpLocation = null;
 	private LocalizedString aLocalizedStringProvider = null;
+	private String sParamLangName = null;
 
 	/**
 	 * List of method who can be used to call this observer.
@@ -55,6 +56,7 @@ public class Observer {
 	public String getDescription (final String sLang) {return this.aLocalizedStringDescription.getLocalization(sLang);}
 	public String getHelpLocation (final String sLang) {return this.aLocalizedStringHelpLocation.getLocalization(sLang);}
 	public String getProvider (final String sLang) {return this.aLocalizedStringProvider.getLocalization(sLang);}
+	public String getParamLangName () {return this.sParamLangName;}
 
 	/* (non-Javadoc)
 	 * @see org.w3c.unicorn.contract.Observer#getMethods()
@@ -68,7 +70,8 @@ public class Observer {
 	public void setDescription (final LocalizedString aLocalizedString) {this.aLocalizedStringDescription = aLocalizedString;}
 	public void setHelpLocation (final LocalizedString aLocalizedString) {this.aLocalizedStringHelpLocation = aLocalizedString;}
 	public void setProvider (final LocalizedString aLocalizedString) {this.aLocalizedStringProvider = aLocalizedString;}
-
+	public void setParamLangName (final String sParamLangName) {this.sParamLangName = sParamLangName;}
+	
 	/* (non-Javadoc)
 	 * @see org.w3c.unicorn.contract.Observer#setMethods(java.util.ArrayList)
 	 */
