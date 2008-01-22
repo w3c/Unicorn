@@ -1,7 +1,7 @@
 
 #macro(genTasklist $i)
 	<div>
-		T�che :
+		Tâche :
 		<select name="ucn_task" onchange="javascript:taskChanged(this.options[this.options.selectedIndex].value, $i);">
 			#foreach( $task in $tasklist ) 
 				<option value="$task.getID()">$task.getLongName("fr")</option> 
@@ -10,11 +10,12 @@
 	</div>
 #end
 
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Unicorn</title>
 		<link rev="start" href="./" title="Home Page" />
 		<style type="text/css" media="all">@import "style/base.css";</style>
@@ -74,7 +75,8 @@
 							Adresse:
 							<input type="text" name="ucn_uri" id="ucn_uri" size="45" />
 						</label>
-						<input type="hidden" name="ucn_lang" value="fr" />
+						<input type="hidden" name="ucn_lang" id="ucn_lang" value="fr" />
+
 					</p>
 					<fieldset id="opt_uri" class="options">
 						<p title="Simple options">Options de base</p>
@@ -157,7 +159,7 @@
 		<ul class="navbar"  id="menu">
 			<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
 			<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="Download the source for this service">Téléchargement</a> <span class="hideme">|</span></li>
-			<li><a href="mailto:public-qa-dev@w3.org" title="send us your thoughts and bug reports on the PUBLIC development mailing-list">Retour</a> <span class="hideme">|</span></li>
+			<li><a href="mailto:public-qa-dev@w3.org" title="send us your thoughts and bug reports on the PUBLIC development mailing-list">Feedback</a> <span class="hideme">|</span></li>
 		</ul>
 
 		<p id="activity_logos">

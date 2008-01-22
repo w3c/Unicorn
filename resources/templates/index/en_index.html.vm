@@ -38,6 +38,25 @@
 
 		<p id="tagline">the Web's Universal Conformance Checker - <strong>ALPHA Test Version</strong></p>
 
+		<ul id="lang_choice">
+	        
+	          <li><a href="fr_index.html"
+	              lang="fr"
+	              xml:lang="fr"
+	              hreflang="fr"
+	              rel="alternate">Français</a>
+	
+	          </li>
+	        
+	          <li><a href="en_index.html"
+	              lang="en"
+	              xml:lang="en"
+	              hreflang="en"
+	              rel="alternate">English</a>
+	          </li>
+	     </ul>
+
+
 		<div id="frontforms">
 			<ul class="tabset_tabs">
 				<li><a href="#validate-by-uri" class="active">by URI</a></li><!--
@@ -56,6 +75,7 @@
 							Address:
 							<input type="text" name="ucn_uri" id="ucn_uri" size="45" />
 						</label>
+						<input type="hidden" name="ucn_lang" id="ucn_lang" value="en" />
 					</p>
 					<fieldset id="opt_uri" class="options">
 						<p title="Simple options">Simple options</p>
