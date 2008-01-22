@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.3 2006-09-21 16:01:25 dleroy Exp $
+// $Id: FirstServlet.java,v 1.4 2008-01-22 13:55:09 dtea Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -29,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.exceptions.NoTaskException;
@@ -116,7 +117,6 @@ public class FirstServlet extends HttpServlet {
 	throws ServletException, IOException {
 		FirstServlet.logger.trace("doGet");
 
-
 		// Variables related to the output
 		final Map<String, String[]> mapOfSpecificParameter = new Hashtable<String, String[]>();
 		final Map<String, String> mapOfOutputParameter = new Hashtable<String, String>();
@@ -124,17 +124,31 @@ public class FirstServlet extends HttpServlet {
 		mapOfOutputParameter.put("format", "xhtml10");
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
-		final Locale aLocale = aHttpServletRequest.getLocale();
-		final UnicornCall aUnicornCall = new UnicornCall();
+		
+		// Returns the preferred Locale that the client will accept content in, 
+		// based on the Accept-Language header
+		final String aLocale = aHttpServletRequest.getHeader("Accept-Language");
+		
+		final UnicornCall aUnicornCall = new UnicornCall();	
+		
+		// Language of the template
+		// ucn_lang is a parameter which is define in xx_index.html.vm.
+		// It is an hidden parameter of a form.
+		String templateLang = null;
+		if (aHttpServletRequest.getParameterValues("ucn_lang") != null){
+			templateLang = aHttpServletRequest.getParameterValues("ucn_lang")[0];
+		}
+		else
+			templateLang = aLocale.toString();
+		
+		mapOfOutputParameter.put("lang", templateLang);
+		
 		if (null == aLocale) {
-			mapOfOutputParameter.put("lang", LocalizedString.DEFAULT_LANGUAGE);
 			aUnicornCall.setLang(LocalizedString.DEFAULT_LANGUAGE);
 		} else {
-			mapOfOutputParameter.put("lang", aLocale.toString());
-			aUnicornCall.setLang(aLocale.toString());
+			aUnicornCall.setLang(templateLang + "," + aLocale);		
 		}
-
-		
+	
 		for (
 				final Enumeration aEnumParamName = aHttpServletRequest.getParameterNames();
 				aEnumParamName.hasMoreElements();) {
@@ -182,6 +196,8 @@ public class FirstServlet extends HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
+	
+	
 	protected void doPost (
 			final HttpServletRequest aHttpServletRequest,
 			final HttpServletResponse aHttpServletResponse)
@@ -209,13 +225,18 @@ public class FirstServlet extends HttpServlet {
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
 		final Locale aLocale = aHttpServletRequest.getLocale();
-		if (null == aLocale) {
+		
+		if (null == aLocale) {		
 			mapOfOutputParameter.put("lang", LocalizedString.DEFAULT_LANGUAGE);
 			aUnicornCall.setLang(LocalizedString.DEFAULT_LANGUAGE);
+			
 		} else {
 			mapOfOutputParameter.put("lang", aLocale.toString());
-			aUnicornCall.setLang(aLocale.toString());
+			
+			//aUnicornCall.setLang(aLocale.toString());
+			aUnicornCall.setLang("fr");
 		}
+	
 		final Map<String, String[]> mapOfSpecificParameter = new Hashtable<String, String[]>();
 		
 		FileItem aFileItemUploaded = null;
@@ -304,13 +325,19 @@ public class FirstServlet extends HttpServlet {
 		
 		// Unicorn parameter
 		sParamName = sParamName.substring(4);
-
+		
+		
 		// Output specific parameter
 		if (sParamName.startsWith(Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX"))) {
 			sParamName = sParamName.substring(4);
 			mapOfSpecificParameter.put(sParamName, tStringParamValue);
 			return;
 		}
+		
+		if (sParamName.equals("lang")) {
+			aUnicornCall.addParameter("ucn_lang", tStringParamValue);
+		}
+		
 		// Global Unicorn parameter
 		if (sParamName.equals("task")) {
 			//FirstServlet.logger.debug("");
