@@ -52,6 +52,7 @@ public class RDFContractUnmarshallerJena implements RDFContractUnmarshaller {
 	private static Property PROPERTY_PARAMETERNAME = null;
 	private static Property PROPERTY_REFERENCE = null;
 	private static Property PROPERTY_TYPE = null;
+	private static Property PROPERTY_LANG = null;
 
 	static {
 		try {
@@ -76,6 +77,8 @@ public class RDFContractUnmarshallerJena implements RDFContractUnmarshaller {
 			RDFContractUnmarshallerJena.PROPERTY_PROVIDER = RDFContractUnmarshallerJena.MODEL.getProperty(RDFContractUnmarshallerJena.UCN_NAMESPACE+"provider");
 			RDFContractUnmarshallerJena.PROPERTY_REFERENCE = RDFContractUnmarshallerJena.MODEL.getProperty(RDFContractUnmarshallerJena.UCN_NAMESPACE+"reference");
 			RDFContractUnmarshallerJena.PROPERTY_TYPE = RDFContractUnmarshallerJena.MODEL.getProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+			RDFContractUnmarshallerJena.PROPERTY_LANG = RDFContractUnmarshallerJena.MODEL.getProperty(RDFContractUnmarshallerJena.UCN_NAMESPACE+"lang");
+		
 
 		} catch (final MalformedURLException e) {
 			RDFContractUnmarshallerJena.logger.error("MalformedURLException : "+e.getMessage(), e);
@@ -97,6 +100,9 @@ public class RDFContractUnmarshallerJena implements RDFContractUnmarshaller {
 	private LocalizedString aLocalizedStringDescription = null;
 	private LocalizedString aLocalizedStringHelpLocation = null;
 	private LocalizedString aLocalizedStringProvider = null;
+	
+	// name of parameter lang if observer has one
+	private String nameOfLangParameter = null;
 
 	public String getID () {
 		return this.sID;
@@ -116,6 +122,10 @@ public class RDFContractUnmarshallerJena implements RDFContractUnmarshaller {
 	
 	public LocalizedString getProvider () {
 		return this.aLocalizedStringProvider;
+	}
+	
+	public String getNameOfLangParameter () {
+		return this.nameOfLangParameter;
 	}
 
 	/**
@@ -198,6 +208,13 @@ public class RDFContractUnmarshallerJena implements RDFContractUnmarshaller {
 
 			this.sID = subject.getProperty(RDFContractUnmarshallerJena.PROPERTY_REFERENCE).getLiteral().getString();
 
+			
+			// find and add lang
+			for (StmtIterator si = subject.listProperties(RDFContractUnmarshallerJena.PROPERTY_LANG); si.hasNext();) {
+				final Literal l = si.nextStatement().getLiteral();
+				this.nameOfLangParameter=l.getString();
+			}
+			
 			// find and add input method
 			for (
 					StmtIterator aStatementIterator =
@@ -300,6 +317,7 @@ public class RDFContractUnmarshallerJena implements RDFContractUnmarshaller {
 				}
 				this.aLocalizedStringHelpLocation.addLocalization(l.getLanguage(), l.getString());
 			}
+			
 
 		} // find Observer into the RDF graph
 

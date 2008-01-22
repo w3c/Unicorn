@@ -1,4 +1,4 @@
-// $Id: RDFContractUnmarshaller.java,v 1.1.1.1 2006-08-31 09:09:20 dleroy Exp $
+// $Id: RDFContractUnmarshaller.java,v 1.2 2008-01-22 13:52:05 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -24,6 +24,8 @@ public interface RDFContractUnmarshaller extends Unmarshaller {
 	public LocalizedString getHelpLocation ();
 	
 	public LocalizedString getProvider ();
+	
+	public String getNameOfLangParameter ();
 
 	//ObserverDescription getDescription();
 
