@@ -101,6 +101,13 @@
 		<rdfs:domain rdf:resource="#Observer" />
 		<rdfs:range rdf:resource="#InputParameter" />
 	</rdf:Property>
+	
+	<rdf:Property rdf:ID="lang">
+		<rdfs:subPropertyOf rdf:resource="#property" />
+		<rdfs:domain rdf:resource="#Observer" />
+		<rdfs:range rdf:resource="&rdfs;Literal" />
+	</rdf:Property>
+	
 
 	<!--
 		INPUT PARAMETER DEFINITION
