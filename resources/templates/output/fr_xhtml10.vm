@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    #if($unicorncall.DocumentName)
+      <title>Result for $unicorncall.DocumentName</title>
+    #else
+      <title>Result for the document you submitted</title>
+    #end
+    <link rev="start" href="./" title="Home Page" />
+    <style type="text/css" media="all">@import "./style/base.css";</style>
+    <style type="text/css" media="all">@import "./style/results.css";</style>
+    <meta name="keywords" content="Unicorn, Observation"/>
+  </head>
+
+#macro(error $error)
+  <span class="err_type">Error</span>
+  <em>#if($error.Line)Line $error.Line #end #if($error.Column)Column $error.Column #end</em>:
+  #foreach($message in $error.Message)
+    <span class="msg">$message</span>
+  #end
+  #if($error.Context && $error.Context != "")
+    <pre><code class="input">$error.Context</code></pre>
+  #end
+  <div class="ve mid-127">
+  #foreach($longMessage in $error.Longmessage)
+      <p>
+      	#foreach($longMessagePiece in $longMessage.Content)
+			$longMessagePiece
+        #end
+      </p>
+  #end
+  </div>
+#end
+
+#macro(info $information)
+  <span class="err_type">Info</span>
+  <em>#if($information.Line)Line $information.Line #end #if($information.Column)Column $information.Column #end</em>:
+  #foreach($message in $information.Message)
+    <span class="msg">$message</span>
+  #end
+  #if($information.Context && $information.Context != "")
+    <pre><code class="input">$information.Context</code></pre>
+  #end
+  <div class="ve mid-127">
+  #foreach($longMessage in $information.Longmessage)
+      <p>
+        #foreach($longMessagePiece in $longMessage.Content)
+            $longMessagePiece
+        #end
+      </p>
+  #end
+  </div>
+#end
+
+#macro(warning $warning)
+  <span class="err_type">Warning</span>
+  <em>#if($warning.Line)Line $warning.Line #end #if($warning.Column)Column $warning.Column #end</em>:
+  #foreach($message in $warning.Message)
+    <span class="msg">$message</span>
+  #end
+  #if($warning.Context && $warning.Context != "")
+    <pre><code class="input">$warning.Context</code></pre>
+  #end
+  <div class="ve mid-127">
+  #foreach($longMessage in $warning.Longmessage)
+      <p>
+        #foreach($longMessagePiece in $longMessage.Content)
+            $longMessagePiece
+        #end
+      </p>
+  #end
+  </div>
+#end
+
+#macro(produceErrors $errors)
+  #foreach($errorList in $errors.Errorlist)
+    <h3>Location: $errorList.Uri</h3>
+    <ol class="error_list">
+    #foreach($error in $errorList.Error)
+      <li class="msg_err">
+        #error($error)
+      </li>
+    #end
+  </ol>
+  #end
+#end
+
+#macro(produceWarnings $warnings)
+  #foreach($warningList in $warnings.Warninglist)
+    #if($warningList.Warning && $warningList.Warning.size() != 0)
+      <h3>Location: $warningList.Uri</h3>
+      <ol class="warning_list">
+      #foreach($warning in $warningList.Warning)
+        <li class="msg_warn">
+          #warning($warning)
+        </li>
+      #end
+      </ol>
+    #end
+  #end
+#end
+
+#macro(produceInfos $infos)
+  #foreach($infoList in $infos.Infolist)
+    <h3>Location: $infoList.Uri</h3>
+    <ol class="info_list">
+    #foreach($information in $infoList.Info)
+      <li class="msg_info">
+        #info($information)
+      </li>
+    #end
+    </ol>
+  #end
+#end
+
+<body>
+  <div id="banner">
+    <h1 id="title"><a href="http://www.w3.org/"><img height="48" alt="W3C" id="logo" src="http://www.w3.org/Icons/WWW/w3c_home_nb" /></a>
+<img src="images/unicorn.png" alt="Unicorn" /></h1>
+ 
+  </div>
+  <p id="tagline">
+        the Web's Universal Conformance Checker - <strong>ALPHA Test Version</strong>
+  </p>
+  
+  <div id="result">
+  #set($observationList = $unicorncall.ObservationList)
+  #foreach($observationName in $observationList.keySet())
+    #set($observation = $observationList.get($observationName))
+    #if($observation.isPassed())
+      <h2 class="valid">Ce document a passé le test
+      #if($observation.getVersion())
+        $observation.getVersion().toUpperCase()
+      #else 
+        $observationName
+      #end
+      test!</h2>
+    #else
+      <h2 id="results" class="invalid">This document has <strong>not</strong> passed the 
+      #if($observation.getVersion())
+        $observation.getVersion().toUpperCase()
+      #else 
+        $observationName
+      #end
+      test!</h2>
+      #produceErrors($observation.Result.Errors)
+    #end
+    #if($observation.Result.Informations)
+      #produceInfos($observation.Result.Informations)
+    #end
+    #if($observation.Result.Warnings)
+      #produceWarnings($observation.Result.Warnings)
+    #end
+   <hr/>
+  #end
+
+  #if(!$unicorncall.haveHighPassed())
+    <p>
+      Some observations might not have been made because one or more with high
+      priority failed.
+    </p>
+  #end
+  #if(!$unicorncall.haveMediumPassed())
+    <p>
+      Some observations might not have been made because one or more with medium
+      priority failed.
+    </p>
+  #end
+
+  </div>
+
+     <ul class="navbar"  id="menu">
+       	<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
+		<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="Download the source for this service">Download</a> <span class="hideme">|</span></li>
+		<li><a href="mailto:public-qa-dev@w3.org" title="send us your thoughts and bug reports on the PUBLIC development mailing-list">Feedback</a> <span class="hideme">|</span></li>
+	      </ul>
+
+   <p id="activity_logos">
+      <a href="http://www.w3.org/QA/" title="W3C's Quality Assurance Activity, bringing you free Web quality tools and more"><img src="http://www.w3.org/QA/2002/12/qa.png" alt="QA" /></a><a href="http://www.w3.org/Style/CSS/learning" title="Learn more about Cascading Style Sheets"></a>
+   </p>
+   <p id="support_logo">
+Support this tool, become a<br />
+<a href="http://www.w3.org/Consortium/supporters"><img src="http://www.w3.org/Consortium/supporter-logos/csupporter.png" alt="W3C Supporter" /></a>
+   </p>
+
+    <p class="copyright">
+      <a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-2006
+      <a href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a>&reg;
+
+      (<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>,
+      <a href="http://www.ercim.org/"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>,
+      <a href="http://www.keio.ac.jp/">Keio</a>),
+      All Rights Reserved.
+      W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+      <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>,
+      <a rel="Copyright" href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+      and <a rel="Copyright" href="http://www.w3.org/Consortium/Legal/copyright-software">software licensing</a>
+
+      rules apply. Your interactions with this site are in accordance
+      with our <a href="http://www.w3.org/Consortium/Legal/privacy-statement#Public">public</a> and
+      <a href="http://www.w3.org/Consortium/Legal/privacy-statement#Members">Member</a> privacy
+      statements.
+    </p>
+
+</body>
+</html>
