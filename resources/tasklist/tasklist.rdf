@@ -47,12 +47,6 @@
 				<ucn:longName xml:lang="fr">Sortie</ucn:longName>
 			</ucn:Parameter>
 		</ucn:hasParameter>
-		<ucn:hasParameter>
-			<ucn:Parameter ucn:reference="xlang">
-				<ucn:longName xml:lang="en">Language</ucn:longName>
-				<ucn:longName xml:lang="fr">Langue</ucn:longName>
-			</ucn:Parameter>
-		</ucn:hasParameter>
 	</ucn:Task>
 	
 	<ucn:Task ucn:reference="markup">
@@ -102,7 +96,7 @@
 			</ucn:Radio>
 		</ucn:hasParameter>
 	</ucn:Task>
-	<!--
+	
 	<ucn:Task ucn:reference="calculator">
 		<ucn:longName xml:lang="en">Calculator</ucn:longName>
 		<ucn:description xml:lang="en">An observer who evaluate simple arithmetic operations.</ucn:description>
@@ -126,5 +120,5 @@
 		<ucn:longName xml:lang="en">multithreading</ucn:longName>
 		<ucn:description xml:lang="en">Calls 3 observators. Each observator sleeps during 5 second. It's to test multithreading.</ucn:description>
 	</ucn:Task>
-	-->
+
 </rdf:RDF>
