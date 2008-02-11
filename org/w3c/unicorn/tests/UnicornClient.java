@@ -1,7 +1,14 @@
 package org.w3c.unicorn.tests;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -38,11 +45,22 @@ public class UnicornClient {
 		String pParams="";
 		*/
 		
+		/*
 		String task = "calculator";
 		String pageToValid = "uri=http://flyingman.sophia.w3.org/test";
 		String language = "fr";
 		String outputTemplate = "text10";
 		String pParams = "x2=on,ucn_lang=vn";
+		*/
+
+		
+		String task = "calculator";
+		String pageToValid = "file=text/plain=D:/stageW3C/tmp/test.txt";
+		String language = "en";
+		String outputTemplate = "text10";
+		String pParams = "x2=on,ucn_lang=fr";
+		
+		
 		
 		/*
 		// read parameters
@@ -78,23 +96,33 @@ public class UnicornClient {
 			aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
 			aUnicornCall.setDocumentName(pInput[1]);
 			aUnicornCall.setInputParameterValue(pInput[1]);
-		} else {
-			aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
-			File f = new File(pInput[2]);
-			//TODO: read content in the file couple[2]
-			String content=".h1{color:#FA0012}";
-			
-			//TODO: ajouter mime type dans map of parameter
-	
-			Map<String, String[]> mapOfParameter = aUnicornCall.getMapOfStringParameter();
-			if (mapOfParameter==null) {
-				mapOfParameter = new LinkedHashMap<String, String[]>();
-				aUnicornCall.setMapOfStringParameter(mapOfParameter);
+		} else { // direct input
+			try {
+				aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
+				
+				//read content in the file pInput[2], example: pInput[2]=base.css alors content=".h1{color:#FA0012}";
+				BufferedReader bfr = new BufferedReader(new FileReader(pInput[2]));
+				String content="";
+				String line;
+				while ((line = bfr.readLine()) != null) {
+					content = content+line+"\n";
+				}
+				bfr.close();
+				
+				//Ajouter mime type dans map of parameter
+				Map<String, String[]> mapOfParameter = aUnicornCall.getMapOfStringParameter();
+				if (mapOfParameter == null) {
+					mapOfParameter = new LinkedHashMap<String, String[]>();
+					aUnicornCall.setMapOfStringParameter(mapOfParameter);
+				}
+				String[] tmp = {pInput[1]};
+				mapOfParameter.put("ucn_mime", tmp);
+
+				aUnicornCall.setInputParameterValue(content);
+				
+			} catch(IOException e) {
+				e.printStackTrace();
 			}
-			String[] tmp = {pInput[1]};
-			mapOfParameter.put("ucn_mime", tmp);
-			
-			aUnicornCall.setInputParameterValue(content);
 		}
 		
 		aUnicornCall.setTask(task); //task id
