@@ -6,14 +6,21 @@
     <echo message="Please run: $ ant -v -projecthelp"/>
 </target>
 
-<target name="remoteConfiguration" depends="build" description="Workspace configuration for remote">
+<target name="remoteConfiguration" description="Workspace configuration for remote">
 	<copy file="./org/w3c/unicorn/util/remote-unicorn.properties" tofile="./build/org/w3c/unicorn/util/unicorn.properties" overwrite="true"/>
 	<copy file="./remote_log4j.xml" tofile="./build/log4j.xml" overwrite="true"/>
 	<copy file="./org/w3c/unicorn/extensions.properties" tofile="./build/org/w3c/unicorn/extensions.properties" overwrite="true"/>
 	<copy file="./org/w3c/unicorn/output/specialFormaters.properties" tofile="./build/org/w3c/unicorn/output/specialFormaters.properties" overwrite="true"/>
 </target>
 
-<target name="war" depends="remoteConfiguration" description="Creates the webapp module">
+<target name="localConfiguration" >
+	<copy file="./org/w3c/unicorn/util/local-unicorn.properties" tofile="./build/org/w3c/unicorn/util/unicorn.properties" overwrite="true"/>
+	<copy file="./log4j.xml" tofile="./build/log4j.xml" overwrite="true"/>
+	<copy file="./org/w3c/unicorn/extensions.properties" tofile="./build/org/w3c/unicorn/extensions.properties" overwrite="true"/>
+	<copy file="./org/w3c/unicorn/output/specialFormaters.properties" tofile="./build/org/w3c/unicorn/output/specialFormaters.properties" overwrite="true"/>
+</target>
+
+<target name="make-war" depends="build" description="Creates the webapp module">
     <delete file="${war.file}"/>
     <war warfile="${war.file}" webxml="web.xml" basedir="." excludes="*,**">
         <classes dir="build">
@@ -38,10 +45,7 @@
     </war>
 </target>
 
-<target name="localConfiguration" depends="war">
-	<copy file="./org/w3c/unicorn/util/unicorn.properties" tofile="./build/org/w3c/unicorn/util/unicorn.properties" overwrite="true"/>
-</target>
-
+<target name="war" depends="remoteConfiguration,make-war,localConfiguration" />
 
 <target name="jar" depends="build" description="Creates the unicorn library">
 	<delete file="${jar.file}" />
