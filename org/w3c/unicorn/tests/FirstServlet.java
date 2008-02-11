@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.4 2008-01-22 13:55:09 dtea Exp $
+// $Id: FirstServlet.java,v 1.5 2008-02-11 14:17:56 dtea Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -139,7 +139,7 @@ public class FirstServlet extends HttpServlet {
 			templateLang = aHttpServletRequest.getParameterValues("ucn_lang")[0];
 		}
 		else
-			templateLang = aLocale.toString();
+			templateLang = LocalizedString.DEFAULT_LANGUAGE;
 		
 		mapOfOutputParameter.put("lang", templateLang);
 		
@@ -224,32 +224,44 @@ public class FirstServlet extends HttpServlet {
 		mapOfOutputParameter.put("format", "xhtml10");
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
-		final Locale aLocale = aHttpServletRequest.getLocale();
 		
-		if (null == aLocale) {		
-			mapOfOutputParameter.put("lang", LocalizedString.DEFAULT_LANGUAGE);
-			aUnicornCall.setLang(LocalizedString.DEFAULT_LANGUAGE);
-			
-		} else {
-			mapOfOutputParameter.put("lang", aLocale.toString());
-			
-			//aUnicornCall.setLang(aLocale.toString());
-			aUnicornCall.setLang("fr");
-		}
+		// Returns the preferred Locale that the client will accept content in, 
+		// based on the Accept-Language header
+		final String aLocale = aHttpServletRequest.getHeader("Accept-Language");
+		
+		
+		// Language of the template
+		// ucn_lang is a parameter which is define in xx_index.html.vm.
+		// It is an hidden parameter of a form.
+		String templateLang = LocalizedString.DEFAULT_LANGUAGE;
+		
+		FirstServlet.logger.trace("doPost");
+		
+		
+		
 	
 		final Map<String, String[]> mapOfSpecificParameter = new Hashtable<String, String[]>();
 		
 		FileItem aFileItemUploaded = null;
 		
+		
 		try {
 			listOfItem = FirstServlet.upload.parseRequest(aHttpServletRequest);
+			
 			
 			// Process the uploaded items
 			for (final Iterator aIterator = listOfItem.iterator(); aIterator.hasNext();) {
 				final FileItem aFileItem = (FileItem) aIterator.next();
 				if (aFileItem.isFormField()) {					
+					
+					if(aFileItem.getFieldName().equals("ucn_lang")) {
+						templateLang = aFileItem.getString();
+					}
+					
+					
 					addParameter(aFileItem.getFieldName(), aFileItem.getString(),
-							aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);	    	
+							aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
+					
 				} else if(aFileItem.getFieldName().equals("ucn_file")) {	
 					aFileItemUploaded = aFileItem;
 					aUnicornCall.setDocumentName(aFileItemUploaded.getName());
@@ -257,7 +269,16 @@ public class FirstServlet extends HttpServlet {
 					aUnicornCall.setEnumInputMethod(EnumInputMethod.UPLOAD);
 				}
 			}
+			
+			if (null == aLocale) {
+				aUnicornCall.setLang(LocalizedString.DEFAULT_LANGUAGE);
+			} else {
+				aUnicornCall.setLang(templateLang + "," + aLocale);		
+			}
+			mapOfOutputParameter.put("lang", templateLang);
+			
 		}
+		
 		catch (final FileUploadException aFileUploadException) {
 			FirstServlet.logger.error(
 					"FileUploadException : "+aFileUploadException.getMessage(),
@@ -271,7 +292,8 @@ public class FirstServlet extends HttpServlet {
 		
 		try {
 			aUnicornCall.doTask();
-
+			
+			
 			this.createOutput(
 					aHttpServletResponse,
 					aUnicornCall,
