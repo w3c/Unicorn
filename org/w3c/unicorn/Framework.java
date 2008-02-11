@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.4 2008-01-22 13:53:07 dtea Exp $
+// $Id: Framework.java,v 1.5 2008-02-11 15:34:17 hduong Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,15 +6,21 @@ package org.w3c.unicorn;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -54,6 +60,8 @@ public class Framework {
 
 	public static Properties aPropertiesExtension;
 
+	public static Set<String> outputLang; //list of availables output lang in PATH_TO_OUTPUT_TEMPLATES
+	
 	static {
 		// Load the list of extensions
 		try {
@@ -170,6 +178,7 @@ public class Framework {
 			// TODO parser tout les fichiers de taches
 
 			final File[] tFileXML = ListFiles.listFiles(Property.get("PATH_TO_TASKLIST"), "\\.xml");
+
 			final TasksListUnmarshaller aTaskListUnmarshaller =
 				new TasksListUnmarshallerJAXB(Framework.mapOfObserver);
 			for (final File aFile : tFileXML) {
@@ -197,6 +206,19 @@ public class Framework {
 			Framework.logger.error("Exception : "+e.getMessage(), e);
 			e.printStackTrace();
 		}
+		
+		/*
+		 * retreive output lang from PATH_TO_OUTPUT_TEMPLATES 
+		 */
+		File[] listFD = (new File(Property.get("PATH_TO_OUTPUT_TEMPLATES"))).listFiles(new FileFilter(){
+			public boolean accept(File pathname) {
+				return pathname.getName().matches(".*\\.vm$");
+			}});
+		outputLang = new HashSet<String>();
+		for (int i=0; i<listFD.length; i++) {
+			outputLang.add((listFD[i].getName().split("_"))[0]);
+		}
+		
 		Framework.logger.info("End of initialisation of UniCORN.");
 	}
 
