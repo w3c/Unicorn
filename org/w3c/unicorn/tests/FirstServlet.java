@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.6 2008-02-12 09:20:52 dtea Exp $
+// $Id: FirstServlet.java,v 1.7 2008-02-12 15:23:29 dtea Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -128,8 +128,7 @@ public class FirstServlet extends HttpServlet {
 		
 		// Returns the preferred Locale that the client will accept content in, 
 		// based on the Accept-Language header
-		final String aLocale = aHttpServletRequest.getHeader("Accept-Language");
-		
+		final String aLocale = convertEnumerationToString(aHttpServletRequest.getLocales());
 		final UnicornCall aUnicornCall = new UnicornCall();	
 		
 		// Language of the template
@@ -229,7 +228,7 @@ public class FirstServlet extends HttpServlet {
 		
 		// Returns the preferred Locale that the client will accept content in, 
 		// based on the Accept-Language header
-		final String aLocale = aHttpServletRequest.getHeader("Accept-Language");
+		final String aLocale = convertEnumerationToString(aHttpServletRequest.getLocales());
 		
 		
 		// Language of the template
@@ -480,7 +479,6 @@ public class FirstServlet extends HttpServlet {
 	 */
 	private String chooseTemplateLang(String aLocale){
 		String[] tabLang = aLocale.split(";|,");
-		
 		for (int i=0; i<tabLang.length; i++){
 			if (Framework.outputLang.contains(tabLang[i]))
 				return tabLang[i];
@@ -489,6 +487,14 @@ public class FirstServlet extends HttpServlet {
 		}
 		
 		return LocalizedString.DEFAULT_LANGUAGE;
+	}
+	
+	private String convertEnumerationToString(Enumeration myEnum){
+		String ret = "";
+		while (myEnum.hasMoreElements()){
+			ret += myEnum.nextElement().toString() + ",";
+		}
+		return ret.substring(0,ret.length()-1);
 	}
 
 }
