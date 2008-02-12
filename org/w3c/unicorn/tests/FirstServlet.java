@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.5 2008-02-11 14:17:56 dtea Exp $
+// $Id: FirstServlet.java,v 1.6 2008-02-12 09:20:52 dtea Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -138,8 +139,9 @@ public class FirstServlet extends HttpServlet {
 		if (aHttpServletRequest.getParameterValues("ucn_lang") != null){
 			templateLang = aHttpServletRequest.getParameterValues("ucn_lang")[0];
 		}
-		else
-			templateLang = LocalizedString.DEFAULT_LANGUAGE;
+		else {
+			templateLang = chooseTemplateLang(aLocale);
+		}
 		
 		mapOfOutputParameter.put("lang", templateLang);
 		
@@ -233,7 +235,7 @@ public class FirstServlet extends HttpServlet {
 		// Language of the template
 		// ucn_lang is a parameter which is define in xx_index.html.vm.
 		// It is an hidden parameter of a form.
-		String templateLang = LocalizedString.DEFAULT_LANGUAGE;
+		String templateLang = null;
 		
 		FirstServlet.logger.trace("doPost");
 		
@@ -269,6 +271,9 @@ public class FirstServlet extends HttpServlet {
 					aUnicornCall.setEnumInputMethod(EnumInputMethod.UPLOAD);
 				}
 			}
+			
+			if (templateLang == null)
+				templateLang = chooseTemplateLang(aLocale);
 			
 			if (null == aLocale) {
 				aUnicornCall.setLang(LocalizedString.DEFAULT_LANGUAGE);
@@ -466,6 +471,24 @@ public class FirstServlet extends HttpServlet {
 			e.printStackTrace(aHttpServletResponse.getWriter());
 			aHttpServletResponse.getWriter().println("</pre>");
 		}
+	}
+	
+	
+	/*
+	 * This method returns the first language of the accept language list
+	 * which is equal to one of available index template language
+	 */
+	private String chooseTemplateLang(String aLocale){
+		String[] tabLang = aLocale.split(";|,");
+		
+		for (int i=0; i<tabLang.length; i++){
+			if (Framework.outputLang.contains(tabLang[i]))
+				return tabLang[i];
+			else if (Framework.outputLang.contains(tabLang[i].split("-")[0]))
+				return tabLang[i].split("-")[0];
+		}
+		
+		return LocalizedString.DEFAULT_LANGUAGE;
 	}
 
 }
