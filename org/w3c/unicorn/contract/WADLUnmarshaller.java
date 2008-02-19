@@ -1,11 +1,13 @@
-// $Id: WADLUnmarshaller.java,v 1.1.1.1 2006-08-31 09:09:21 dleroy Exp $
+// $Id: WADLUnmarshaller.java,v 1.2 2008-02-19 12:51:01 dtea Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.contract;
 
 import java.util.List;
+import java.util.Map;
 
+import org.w3c.unicorn.util.LocalizedString;
 import org.w3c.unicorn.util.Unmarshaller;
 
 /**
@@ -18,5 +20,19 @@ public interface WADLUnmarshaller extends Unmarshaller {
 	 * @return Returns a list of methods.
 	 */
 	public abstract List<CallMethod> getListOfCallMethod();
+
+	Map<EnumInputMethod, InputMethod> getMapOfInputMethod();
+	
+	public String getID ();
+
+	public LocalizedString getName ();
+
+	public LocalizedString getDescription ();
+
+	public LocalizedString getHelpLocation ();
+	
+	public LocalizedString getProvider ();
+	
+	public String getNameOfLangParameter ();
 
 }

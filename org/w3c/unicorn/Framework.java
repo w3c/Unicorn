@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.5 2008-02-11 15:34:17 hduong Exp $
+// $Id: Framework.java,v 1.6 2008-02-19 12:47:35 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -92,47 +92,48 @@ public class Framework {
 			// Add all observer contract
 			final BufferedReader aBufferedReader;
 			aBufferedReader = new BufferedReader(new FileReader(Property.get("OBSERVER_LIST_FILE")));
+		
+			
+			// Observer list file contains URL contracts of observers
 			for (
 					String sReadLine = aBufferedReader.readLine();
 					null != sReadLine;
 					sReadLine = aBufferedReader.readLine()) {
+				
 				if ("".equals(sReadLine.trim())) {
 					continue;
 				}
+				
+				// Get URL of the contract. If the name of wadl file is not defined,
+				// the contract's name will be observer.wadl
 				final String sWADL;
-				final String sRDF;
-				String[] tString = sReadLine.split(" ");
-				if (1 == tString.length) {
-					sWADL = tString[0] + "/" + Property.get("OBSERVER_XML_FILENAME");
-					sRDF = tString[0] + "/" + Property.get("OBSERVER_RDF_FILENAME");
-				} else {
-					sWADL = tString[0];
-					sRDF = tString[1];
+				if (sReadLine.matches(".*\\.wadl$")) {
+					sWADL = sReadLine;
 				}
+				else {
+					sWADL = sReadLine + "/" + Property.get("OBSERVER_XML_FILENAME");
+				}
+				
 				try {
 					if (Framework.logger.isDebugEnabled()) {
 						Framework.logger.debug("Observer WADL file : "+sWADL+".");
-						Framework.logger.debug("Observer RDF file : "+sRDF+".");
 					}
-
+						
 					try {
+						
 						final Observer aObserver = new Observer();
 						final WADLUnmarshaller aWADLUnmarshaller = new WADLUnmarshallerXPath();
 						aWADLUnmarshaller.addURL(new URL(sWADL));
 						aWADLUnmarshaller.unmarshal();
+						
 						aObserver.setListOfCallMethod(aWADLUnmarshaller.getListOfCallMethod());
-						final RDFContractUnmarshaller aRDFContractUnmarshaller;
-						aRDFContractUnmarshaller = new RDFContractUnmarshallerJena(aObserver.getListOfCallMethod());
-						aRDFContractUnmarshaller.addURL(new URL(sRDF));
-						aRDFContractUnmarshaller.unmarshal();
-						aObserver.setParamLangName(aRDFContractUnmarshaller.getNameOfLangParameter());
-						//this.aObserverDescription = aRDFUnmarshaller.getDescription();
-						aObserver.setID(aRDFContractUnmarshaller.getID());
-						aObserver.setName(aRDFContractUnmarshaller.getName());
-						aObserver.setDescription(aRDFContractUnmarshaller.getDescription());
-						aObserver.setHelpLocation(aRDFContractUnmarshaller.getHelpLocation());
-						aObserver.setProvider(aRDFContractUnmarshaller.getProvider());
-						aObserver.setMapOfInputMethod(aRDFContractUnmarshaller.getMapOfInputMethod());
+						aObserver.setParamLangName(aWADLUnmarshaller.getNameOfLangParameter());
+						aObserver.setID(aWADLUnmarshaller.getID());
+						aObserver.setName(aWADLUnmarshaller.getName());
+						aObserver.setDescription(aWADLUnmarshaller.getDescription());
+						aObserver.setHelpLocation(aWADLUnmarshaller.getHelpLocation());
+						aObserver.setProvider(aWADLUnmarshaller.getProvider());
+						aObserver.setMapOfInputMethod(aWADLUnmarshaller.getMapOfInputMethod());
 						Framework.mapOfObserver.put(new String(aObserver.getID()), aObserver);
 					}
 					catch (final ParserConfigurationException e) {
@@ -155,21 +156,27 @@ public class Framework {
 						Framework.logger.error("URISyntaxException : "+e.getMessage(), e);
 						e.printStackTrace();
 					}
-				} catch (final Exception aException) {
+				}
+				catch (final Exception aException) {
 					aException.printStackTrace();
 					Framework.logger.error("Exception : "+aException.getMessage(), aException);
 				}
 			}
-		} catch (final FileNotFoundException aFileNotFoundException) {
+				
+		}
+		catch (final FileNotFoundException aFileNotFoundException) {
 			Framework.logger.error(
-					"FileNotFoundException : "+aFileNotFoundException.getMessage(),
-					aFileNotFoundException);
+				"FileNotFoundException : "+aFileNotFoundException.getMessage(),
+				aFileNotFoundException);
 			aFileNotFoundException.printStackTrace();
-		} catch (final IOException ioe) {
+		} 
+			
+		catch (final IOException ioe) {
 			Framework.logger.error("IOException : "+ioe.getMessage(), ioe);
 			ioe.printStackTrace();
 		}
-
+		
+		
 		if (Framework.logger.isDebugEnabled()) {
 			Framework.logger.debug("Task initialisation.");
 		}
@@ -182,7 +189,7 @@ public class Framework {
 			final TasksListUnmarshaller aTaskListUnmarshaller =
 				new TasksListUnmarshallerJAXB(Framework.mapOfObserver);
 			for (final File aFile : tFileXML) {
-				aTaskListUnmarshaller.addURL(aFile.toURL());
+				aTaskListUnmarshaller.addURL(aFile.toURL());			
 				aTaskListUnmarshaller.unmarshal();
 			}
 
@@ -196,6 +203,8 @@ public class Framework {
 			aRDFUnmarshaller.unmarshal();
 
 			Framework.mapOfTask = aTaskListUnmarshaller.getMapOfTask();
+			System.out.println(">>>>"+mapOfObserver);
+			System.out.println(mapOfTask);
 		} catch (final JAXBException e) {
 			Framework.logger.error("JAXBException : "+e.getMessage(), e);
 			e.printStackTrace();
