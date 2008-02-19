@@ -1,4 +1,4 @@
-// $Id: CallParameter.java,v 1.2 2006-09-01 14:30:17 dleroy Exp $
+// $Id: CallParameter.java,v 1.3 2008-02-19 12:49:08 dtea Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,20 +18,19 @@ public class CallParameter {
 
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.contract");
 
-	// Name of this parameter     
-	private String sName = null;    
-	
+	// Attributes of the parameter  
+	private String sName = null;    	
+	private String sStyle = null;
+	private String sID = null;
+	private String sType = null;
+	private String sDefaultValue;
+	private boolean bRequired; // Is this parameter mandatory 
+	private boolean bRepeating; // Can this parameter be repeated
+	private String sFixed = null; // Indicates if the parameter can be manually set or not
+	private String sPath = null;
+
 	// Possible values for this parameter    
 	private List<String> listOfPossibleValue = null;        
-	
-	// Indicates wheter the parameter can be manually set or not
-	private String sFixed = null;
-	
-	// Is this parameter mandatory     
-	private boolean bRequired;
-	
-	// Can this parameter be repeated
-	private boolean bRepeating;
 	
 	/**
 	 * @param sName
@@ -60,11 +59,8 @@ public class CallParameter {
 		this.sFixed = sFixed;
 		this.bRequired = bRequired;
 		this.bRepeating = bRepeating;
-	}	
+	}
 	
-	/**
-	 * @param sName
-	 */
 	public CallParameter (final String sName) {
 		this(sName, new ArrayList<String>(), null, false, false);
 		CallParameter.logger.trace("Constructor(String)");
@@ -75,18 +71,96 @@ public class CallParameter {
 		CallParameter.logger.trace("Constructor()");
 	}
 
+	
+	//===================
+	//===== GETTERS =====
+	//===================
 	public String getName() {
 		return this.sName;
 	}
-
-	public void setName (final String sName) {
-		this.sName = sName;
+	
+	public String getStyle() {
+		return this.sStyle;
+	}
+	
+	public String getID() {
+		return this.sID;
+	}
+	
+	public String getType() {
+		return this.sType;
+	}
+	
+	public String getDefaultValue() {
+		return this.sDefaultValue;
+	}
+	
+	public boolean isRequired() {
+		return this.bRequired;
+	}
+	
+	public boolean isRepeating() {
+		return this.bRepeating;
 	}
 
+	public boolean isFixed() {
+		return this.sFixed != null;
+	}
+	
+	public String getFixed() {
+		return this.sFixed;
+	}
+	
+	public String getPath() {
+		return this.sPath;
+	}	
+	
 	public List<String> getListOfPossibleValue () {
 		return listOfPossibleValue;
 	}
 
+	
+	//==================
+	//===== SETTERS ====
+	//==================
+	public void setName (final String sName) {
+		this.sName = sName;
+	}
+
+	public void setStyle(String style) {
+		this.sStyle = style;
+	}
+	
+	public void setID(String sid) {
+		this.sID = sid;
+	}
+	
+	public void setType(String type) {
+		this.sType = type;
+	}
+	
+	public void setDefaultValue(String defaultValue) {
+		this.sDefaultValue = defaultValue;
+	}
+	
+	public void setRequired (final boolean bRequired) {
+		this.bRequired = bRequired;
+	}
+	
+	public void setRepeating (final boolean bRepeating) {
+		this.bRepeating = bRepeating;
+	}
+	
+	public void setFixed (final String sFixed) {
+		this.sFixed = sFixed;
+	}
+	
+	public void setPath (final String sPath) {
+		this.sPath = sPath;
+	}
+	
+	
+	
 	public void setPossibleValues (final List<String> listOfValue) {
 		this.listOfPossibleValue = listOfValue;
 	}
@@ -107,71 +181,40 @@ public class CallParameter {
 			(this.listOfPossibleValue.size() == 1 && this.listOfPossibleValue.contains(""));
 	}
 	
-	/**
-	 * @return Returns the fixed.
-	 */
-	public boolean isFixed() {
-		return this.sFixed != null;
-	}
-	
-	public String getFixed() {
-		return this.sFixed;
-	}
-	
-	/**
-	 * @param sFixed The fixed to set.
-	 */
-	public void setFixed (final String sFixed) {
-		this.sFixed = sFixed;
-	}
-	
-	/**
-	 * @return Returns the repeating.
-	 */
-	public boolean isRepeating() {
-		return this.bRepeating;
-	}
-	
-	/**
-	 * @param bRepeating The repeating to set.
-	 */
-	public void setRepeating(final boolean bRepeating) {
-		this.bRepeating = bRepeating;
-	}
-	
-	/**
-	 * @return Returns the required.
-	 */
-	public boolean isRequired() {
-		return this.bRequired;
-	}
-	
-	/**
-	 * @param bRequired The required to set.
-	 */
-	public void setRequired (final boolean bRequired) {
-		this.bRequired = bRequired;
-	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	public String toString() {
 		final int iSize = 1000;
-		final String sVariableSeparator = "  ";
+		final String sVariableSeparator = "\n";
 		final StringBuffer aStringBuffer = new StringBuffer(iSize);
 		
-		aStringBuffer.append("name=").append(sName);
+		aStringBuffer.append("[begin CallParameter]\n");
+		aStringBuffer.append("name:=").append(sName);
 		aStringBuffer.append(sVariableSeparator);
-		aStringBuffer.append("possibleValues=").append(listOfPossibleValue);
+		aStringBuffer.append("id:=").append(sID);
 		aStringBuffer.append(sVariableSeparator);
-		aStringBuffer.append("fixed=").append(sFixed);
+		aStringBuffer.append("possibleValues:=").append(listOfPossibleValue);
 		aStringBuffer.append(sVariableSeparator);
-		aStringBuffer.append("required=").append(bRequired);
+		aStringBuffer.append("fixed:=").append(sFixed);
 		aStringBuffer.append(sVariableSeparator);
-		aStringBuffer.append("repeating=").append(bRepeating);
+		aStringBuffer.append("required:=").append(bRequired);
+		aStringBuffer.append(sVariableSeparator);
+		aStringBuffer.append("repeating:=").append(bRepeating);
+		aStringBuffer.append(sVariableSeparator);
+		aStringBuffer.append("style:=").append(sStyle);
+		aStringBuffer.append(sVariableSeparator);
+		aStringBuffer.append("path:=").append(sPath);
+		aStringBuffer.append(sVariableSeparator);
+		aStringBuffer.append("style:=").append(sStyle);
+		aStringBuffer.append(sVariableSeparator);
+		aStringBuffer.append("default:=").append(sDefaultValue);
+		aStringBuffer.append("[end CallParameter]\n");
 		
 		return aStringBuffer.toString();
 	}
 	
 }
+
+

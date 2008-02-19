@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.6 2008-02-19 12:47:35 dtea Exp $
+// $Id: Framework.java,v 1.7 2008-02-19 12:50:18 dtea Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -29,8 +29,6 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.Observer;
-import org.w3c.unicorn.contract.RDFContractUnmarshaller;
-import org.w3c.unicorn.contract.RDFContractUnmarshallerJena;
 import org.w3c.unicorn.contract.WADLUnmarshaller;
 import org.w3c.unicorn.contract.WADLUnmarshallerXPath;
 import org.w3c.unicorn.tasklist.RDFUnmarshaller;
