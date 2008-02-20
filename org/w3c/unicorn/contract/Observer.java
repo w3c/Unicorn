@@ -1,4 +1,4 @@
-// $Id: Observer.java,v 1.2 2008-01-22 13:52:30 dtea Exp $
+// $Id: Observer.java,v 1.3 2008-02-20 15:21:58 hduong Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -32,6 +32,7 @@ public class Observer {
 	private LocalizedString aLocalizedStringHelpLocation = null;
 	private LocalizedString aLocalizedStringProvider = null;
 	private String sParamLangName = null;
+	private String responseType = null;
 
 	/**
 	 * List of method who can be used to call this observer.
@@ -168,6 +169,14 @@ public class Observer {
 			}
 		}
 		return false;
+	}
+
+	public String getResponseType() {
+		return responseType;
+	}
+
+	public void setResponseType(String responseType) {
+		this.responseType = responseType;
 	}
 
 }

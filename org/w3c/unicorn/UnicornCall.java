@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.7 2008-01-22 13:53:47 dtea Exp $
+// $Id: UnicornCall.java,v 1.8 2008-02-20 15:25:44 hduong Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.activation.MimeType;
 import javax.xml.bind.JAXBException;
@@ -27,11 +25,12 @@ import org.w3c.unicorn.exceptions.EmptyDocumentException;
 import org.w3c.unicorn.exceptions.NoDocumentException;
 import org.w3c.unicorn.exceptions.NoMimeTypeException;
 import org.w3c.unicorn.exceptions.UnsupportedMimeTypeException;
-import org.w3c.unicorn.generated.observationresponse.Observationresponse;
 import org.w3c.unicorn.generated.tasklist.TPriority;
 import org.w3c.unicorn.input.InputFactory;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.request.RequestList;
+import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.response.parser.ResponseParserFactory;
 import org.w3c.unicorn.tasklist.Observation;
 import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
@@ -58,9 +57,9 @@ public class UnicornCall {
 	private Map<String, String[]> mapOfStringParameter = null;
 
 	// Results
-	private Map<String, Observationresponse> mapOfResponseHigh;
-	private Map<String, Observationresponse> mapOfResponseMedium;
-	private Map<String, Observationresponse> mapOfResponseLow;
+	private Map<String, Response> mapOfResponseHigh;
+	private Map<String, Response> mapOfResponseMedium;
+	private Map<String, Response> mapOfResponseLow;
 
 	private boolean bPassedHigh;
 	private boolean bPassedMedium;
@@ -79,9 +78,9 @@ public class UnicornCall {
 
 		this.mapOfStringParameter = new LinkedHashMap<String, String[]>();
 
-		this.mapOfResponseHigh = new LinkedHashMap<String, Observationresponse>();		
-		this.mapOfResponseMedium = new LinkedHashMap<String, Observationresponse>();
-		this.mapOfResponseLow = new LinkedHashMap<String, Observationresponse>();
+		this.mapOfResponseHigh = new LinkedHashMap<String, Response>();		
+		this.mapOfResponseMedium = new LinkedHashMap<String, Response>();
+		this.mapOfResponseLow = new LinkedHashMap<String, Response>();
 
 		this.bPassedHigh = true;
 		this.bPassedMedium = true;
@@ -214,19 +213,19 @@ public class UnicornCall {
 	
 			bPassed = true;
 			
-			final Map<String, Observationresponse> mapOfObservationResponse;
+			final Map<String, Response> mapOfResponse;
 			switch (aTPriority) {
 				case HIGH:
-					mapOfObservationResponse = this.mapOfResponseHigh;
+					mapOfResponse = this.mapOfResponseHigh;
 					break;
 				case LOW:
-					mapOfObservationResponse = this.mapOfResponseLow;
+					mapOfResponse = this.mapOfResponseLow;
 					break;
 				case MEDIUM: 
-					mapOfObservationResponse = this.mapOfResponseMedium;
+					mapOfResponse = this.mapOfResponseMedium;
 					break;
 				default :
-					mapOfObservationResponse = null;
+					mapOfResponse = null;
 			}
 			final Map<String, Request> requests = this.aRequestList.getRequest(aTPriority);
 			ArrayList <Thread> threadsList = new ArrayList<Thread>();
@@ -237,7 +236,7 @@ public class UnicornCall {
 					UnicornCall.logger.debug("Request : "+requests.get(obsID).toString());
 				}
 				
-				threadsList.add(new RequestThread(mapOfObservationResponse, requests.get(obsID), obsID, this));	
+				threadsList.add(new RequestThread(mapOfResponse, requests.get(obsID), obsID, this));	
 			}
 			for (int i=0; i<threadsList.size();i++) threadsList.get(i).start();
 	
@@ -322,7 +321,8 @@ public class UnicornCall {
 							aInputFactory.getInputModule(aEIM),
 							aInputMethod.getCallMethod().getURL().toString(),
 							aInputMethod.getCallParameter().getName(),
-							aInputMethod.getCallMethod().isPost());
+							aInputMethod.getCallMethod().isPost(),
+							aObserver.getResponseType());
 					// add this request to request list
 					
 					aRequestList.addRequest(
@@ -363,7 +363,8 @@ public class UnicornCall {
 					aInputFactory.getInputModule(aEnumInputMethod),
 					aInputMethod.getCallMethod().getURL().toString(),
 					aInputMethod.getCallParameter().getName(),
-					aInputMethod.getCallMethod().isPost());
+					aInputMethod.getCallMethod().isPost(),
+					aObserver.getResponseType());
 			
 			// get value of ucn_lang parameter to associate it with parameter lang of the observer (if it has one). 
 			// ucn_lang is defined in forms of index templates (xx_index.html.vm) 
@@ -508,21 +509,21 @@ public class UnicornCall {
 	/**
 	 * @return Returns the responses of high priority observations.
 	 */
-	public Map<String, Observationresponse> getHighResponses() {
+	public Map<String, Response> getHighResponses() {
 		return this.mapOfResponseHigh;
 	}
 
 	/**
 	 * @return Returns the responses of high priority observations.
 	 */
-	public Map<String, Observationresponse> getMediumResponses() {
+	public Map<String, Response> getMediumResponses() {
 		return this.mapOfResponseMedium;
 	}
 
 	/**
 	 * @return Returns the responses of high priority observations.
 	 */
-	public Map<String, Observationresponse> getLowResponses() {
+	public Map<String, Response> getLowResponses() {
 		return this.mapOfResponseLow;
 	}
 
@@ -578,13 +579,13 @@ public class UnicornCall {
 		this.sDocumentName = sDocumentName;
 	}
 
-	public Map<String, Observationresponse> getObservationList () {
-		final Map<String, Observationresponse> mapOfObservationResponse;
-		mapOfObservationResponse = new LinkedHashMap<String, Observationresponse>();
-		mapOfObservationResponse.putAll(this.mapOfResponseHigh);
-		mapOfObservationResponse.putAll(this.mapOfResponseMedium);
-		mapOfObservationResponse.putAll(this.mapOfResponseLow);
-		return mapOfObservationResponse;
+	public Map<String, Response> getObservationList () {
+		final Map<String, Response> mapOfResponse;
+		mapOfResponse = new LinkedHashMap<String, Response>();
+		mapOfResponse.putAll(this.mapOfResponseHigh);
+		mapOfResponse.putAll(this.mapOfResponseMedium);
+		mapOfResponse.putAll(this.mapOfResponseLow);
+		return mapOfResponse;
 	}
 
 	/**
@@ -650,13 +651,13 @@ public class UnicornCall {
 
 class RequestThread extends Thread {
 	private static final Log logger = Framework.logger;
-    private Map<String, Observationresponse> mapOfObservationResponse;
+    private Map<String, Response> mapOfResponse;
     private Request aRequest;
     private String obsID;
     private UnicornCall unicornCall;
     
-    public RequestThread (Map<String, Observationresponse> mapOfObservationResponse, Request aRequest, String obsID, UnicornCall unicorn) {
-    	this.mapOfObservationResponse = mapOfObservationResponse;
+    public RequestThread (Map<String, Response> mapOfResponse, Request aRequest, String obsID, UnicornCall unicorn) {
+    	this.mapOfResponse = mapOfResponse;
     	this.aRequest = aRequest;
     	this.obsID = obsID;
     	this.unicornCall = unicorn;
@@ -667,57 +668,28 @@ class RequestThread extends Thread {
     public void run () {
     	
     	this.unicornCall.incCounter();
-    	Observationresponse aObservationResponse= null;
+    	Response aResponse= null;
     	try {
-				aObservationResponse = this.aRequest.doRequest();		
+			aResponse = this.aRequest.doRequest();		
     	}
-		catch (final JAXBException e) {
-			RequestThread.logger.error("JAXB Exception : "+e.getMessage(), e);
-			
+		catch (final Exception e) {
+			RequestThread.logger.error("Exception : "+e.getMessage(), e);
+			e.printStackTrace();
 			try {
-				aObservationResponse = (Observationresponse) this.aRequest.aUnmarshaller.unmarshal(
-						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_unmarshalling_error.vm"));
+				//aResponse = this.aRequest.aResponseParser.parse((new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_io_error.vm")).openConnection().getInputStream());
+				aResponse = ResponseParserFactory.parse((new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_io_error.vm")).openConnection().getInputStream(),aRequest.getResponseType());
 			} catch (MalformedURLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} catch (JAXBException e1) {
-				// TODO Auto-generated catch block
+			} catch (IOException e1) {
 				e1.printStackTrace();
-			}
-			
-		}
-		catch (final NullPointerException e) {
-			RequestThread.logger.error("Null Pointer Exception : "+e.getMessage(), e);
-			try {
-				aObservationResponse = (Observationresponse) this.aRequest.aUnmarshaller.unmarshal(
-						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_io_error.vm"));
-			} catch (MalformedURLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (JAXBException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-		catch (final IOException e) {
-			RequestThread.logger.error("IO Exception : "+e.getMessage(), e);
-			try {
-				aObservationResponse = (Observationresponse) this.aRequest.aUnmarshaller.unmarshal(
-						new URL("file:" + Property.get("PATH_TO_ERROR_TEMPLATES") + "en_io_error.vm"));
-			} catch (MalformedURLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (JAXBException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			} 
 		}
 		
-		synchronized(mapOfObservationResponse) {
-			mapOfObservationResponse.put(obsID, aObservationResponse);
+		synchronized(mapOfResponse) {
+			mapOfResponse.put(obsID, aResponse);
 		}
 		
-		if (!aObservationResponse.isPassed() && this.unicornCall.getBPassed())
+		if (!aResponse.isPassed() && this.unicornCall.getBPassed())
 			this.unicornCall.setbPassed(false);
 		
 		this.unicornCall.decCounter();

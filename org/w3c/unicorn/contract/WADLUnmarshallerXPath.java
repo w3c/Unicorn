@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.2 2008-02-19 12:51:16 dtea Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.3 2008-02-20 15:19:58 hduong Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -63,6 +63,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	private LocalizedString aLocalizedStringHelpLocation = new LocalizedString();
 	private LocalizedString aLocalizedStringProvider = new LocalizedString();
 	private List<MimeType> listOfMimeType = new ArrayList<MimeType>();
+	private String responseType;
 	
 	//name of parameter lang if observer has one
 	private String nameOfLangParameter = null;
@@ -142,6 +143,8 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 				listOfMimeType.add(new MimeType(vText));
 			} else if ("reference".equals(vTitle)) {
 				sID=vText;
+			} else if ("responseType".equals(vTitle)) {
+				responseType=vText;
 			}
 		}
 	}
@@ -379,5 +382,8 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 			System.out.println("---------------------------------");
 		}
 	}
-	
+
+	public String getResponseType() {
+		return responseType;
+	}
 }

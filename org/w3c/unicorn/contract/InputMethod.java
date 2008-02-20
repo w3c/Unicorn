@@ -1,4 +1,4 @@
-// $Id: InputMethod.java,v 1.1.1.1 2006-08-31 09:09:20 dleroy Exp $
+// $Id: InputMethod.java,v 1.2 2008-02-20 15:23:53 hduong Exp $
 // Author: Damien LEROY
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -64,12 +64,21 @@ public class InputMethod {
 		final int iStringBufferSize = 1000;
 		final String sVariableSeparator = "\n";
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
-
-		aStringBuffer.append("CallMethod:[").append(this.aCallMethod).append("]");
+		aStringBuffer.append("/BeginInputMethod/");
 		aStringBuffer.append(sVariableSeparator);
-		aStringBuffer.append("CallParameter:[").append(this.aCallParameter).append("]");
-
+		aStringBuffer.append("CallMethod:{").append(this.aCallMethod).append("}");
+		aStringBuffer.append(sVariableSeparator);
+		aStringBuffer.append("CallParameter:{").append(this.aCallParameter).append("}");
+		aStringBuffer.append(sVariableSeparator);
+		aStringBuffer.append("MimeType:{").append(this.listOfMimeType).append("}");
+		aStringBuffer.append(sVariableSeparator);
+		aStringBuffer.append("/EndInputMethod/");
+		
 		return aStringBuffer.toString();
+	}
+
+	public void setListOfMimeType(List<MimeType> listOfMimeType) {
+		this.listOfMimeType = listOfMimeType;
 	}
 
 }
