@@ -1,4 +1,4 @@
-// $Id: InputMethod.java,v 1.2 2008-02-20 15:23:53 hduong Exp $
+// $Id: InputMethod.java,v 1.3 2008-02-20 15:37:13 dtea Exp $
 // Author: Damien LEROY
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -80,5 +80,6 @@ public class InputMethod {
 	public void setListOfMimeType(List<MimeType> listOfMimeType) {
 		this.listOfMimeType = listOfMimeType;
 	}
+
 
 }
