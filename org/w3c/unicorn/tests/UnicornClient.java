@@ -46,6 +46,14 @@ public class UnicornClient {
 		*/
 		
 		/*
+		String task = "css";
+		String pageToValid = "uri=http://w3.org";
+		String language = "en";
+		String outputTemplate = "xhtml20";
+		String pParams="";
+		*/
+		
+		/*
 		String task = "calculator";
 		String pageToValid = "uri=http://flyingman.sophia.w3.org/test";
 		String language = "fr";
@@ -53,16 +61,16 @@ public class UnicornClient {
 		String pParams = "x2=on,ucn_lang=vn";
 		*/
 
-		
+		/*
 		String task = "calculator";
 		String pageToValid = "file=text/plain=D:/stageW3C/tmp/test.txt";
 		String language = "en";
 		String outputTemplate = "text10";
 		String pParams = "x2=on,ucn_lang=fr";
+		*/
 		
 		
 		
-		/*
 		// read parameters
 		String task = args[0];
 		String pageToValid = args[1];
@@ -72,7 +80,7 @@ public class UnicornClient {
 		if (args.length>4) { //this argument is optional
 			pParams = args[4]; 
 		}
-		*/
+		
 
 		//parse other parameters: "x2=on,toto=titi" to a map<String,String[]>  
 		if (pParams.length()!=0) {
@@ -128,13 +136,6 @@ public class UnicornClient {
 		aUnicornCall.setTask(task); //task id
 		aUnicornCall.setLang(language);
 
-		/*
-		// lang par defaut
-		Map<String, String[]> mapOfParameter = new LinkedHashMap<String, String[]>();
-		String[] tmp = {"en"};
-		mapOfParameter.put("ucn_lang", tmp); 
-		aUnicornCall.setMapOfStringParameter(mapOfParameter);
-		*/
 		
 		long before = System.currentTimeMillis() ;
 		try {
@@ -145,7 +146,7 @@ public class UnicornClient {
 			OutputFormater aOutputFormater = OutputFactory.getOutputFormater(
 					outputTemplate, // le template --> text ou xhtml10, see unicorn.properties
 					language,   // la langue
-					"text/plain"); // MIME Type
+					"text/html"); // MIME Type
 			OutputModule aOutputModule = OutputFactory.getOutputModule("simple");
 			PrintWriter pw = new PrintWriter(System.out);
 			aOutputModule.produceOutput(aOutputFormater, mapOfStringObject, null, pw);
