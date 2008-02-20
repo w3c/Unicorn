@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.7 2008-02-12 15:23:29 dtea Exp $
+// $Id: FirstServlet.java,v 1.8 2008-02-20 15:45:29 hduong Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -122,7 +122,7 @@ public class FirstServlet extends HttpServlet {
 		final Map<String, String[]> mapOfSpecificParameter = new Hashtable<String, String[]>();
 		final Map<String, String> mapOfOutputParameter = new Hashtable<String, String>();
 		mapOfOutputParameter.put("output", "simple");
-		mapOfOutputParameter.put("format", "xhtml10");
+		mapOfOutputParameter.put("format", "xhtml20");
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
 		
@@ -222,7 +222,7 @@ public class FirstServlet extends HttpServlet {
 		// Variables related to the output
 		final Map<String, String> mapOfOutputParameter = new Hashtable<String, String>();
 		mapOfOutputParameter.put("output", "simple");
-		mapOfOutputParameter.put("format", "xhtml10");
+		mapOfOutputParameter.put("format", "xhtml20");
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
 		
