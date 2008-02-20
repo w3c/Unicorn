@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.3 2007-11-29 14:11:58 dtea Exp $
+// $Id: Request.java,v 1.4 2008-02-20 15:09:57 hduong Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,49 +6,25 @@ package org.w3c.unicorn.request;
 
 import java.io.IOException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.generated.observationresponse.Observationresponse;
 import org.w3c.unicorn.input.InputModule;
+import org.w3c.unicorn.response.parser.ResponseParser;
 
 /**
  * 
  * @author Damien LEROY
  */
 public abstract class Request {
-
 	protected static final Log logger = LogFactory.getLog("org.w3c.unicorn.request");
-
-	public Unmarshaller aUnmarshaller = null;
-	protected static JAXBContext aJAXBContext = null;
-
-	static {
-		try {
-			Request.aJAXBContext = JAXBContext.newInstance("org.w3c.unicorn.generated.observationresponse");
-			
-		}
-		catch (final JAXBException e) {
-			Request.logger.error("JAXBException : " + e.getMessage(), e);
-			e.printStackTrace();
-		}
-	}
+	
+	//public ResponseParser aResponseParser;
 
 	protected String sLang = null;
-	
-	public Request(){
-		try {
-			this.aUnmarshaller = Request.aJAXBContext.createUnmarshaller();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
+	protected String responseType=null;
+	
 	public void setLang (final String sLang) throws IOException {
 		Request.logger.debug("setLang("+sLang+")");
 		this.sLang = sLang;
@@ -56,7 +32,7 @@ public abstract class Request {
 
 	public abstract void addParameter (final String sName, final String sValue) throws IOException;
 
-    public abstract Observationresponse doRequest () throws JAXBException, IOException;
+    public abstract org.w3c.unicorn.response.Response doRequest () throws IOException;
 
 	public abstract EnumInputMethod getInputMethod ();
 
@@ -64,7 +40,8 @@ public abstract class Request {
 			final InputModule aInputModule,
 			final String sURL,
 			final String sInputParameterName,
-			final boolean bIsPost) throws IOException {
+			final boolean bIsPost,
+			final String responseType) throws IOException {
 		
 		
 		Request.logger.trace("createRequest");
@@ -77,20 +54,28 @@ public abstract class Request {
 		switch (aInputModule.getEnumInputMethod()) {
 			case DIRECT :
 				if ( bIsPost) {
-					return new DirectRequestPOST(sURL, sInputParameterName, aInputModule);
+					return new DirectRequestPOST(sURL, sInputParameterName, aInputModule, responseType);
 				} else {
-					return new DirectRequestGET(sURL, sInputParameterName, aInputModule);
+					return new DirectRequestGET(sURL, sInputParameterName, aInputModule, responseType);
 				}
 			case UPLOAD :
-				return new UploadRequest(sURL, sInputParameterName, aInputModule);
+				return new UploadRequest(sURL, sInputParameterName, aInputModule, responseType);
 			case URI :
-				return new URIRequest(sURL, sInputParameterName, aInputModule);
+				return new URIRequest(sURL, sInputParameterName, aInputModule, responseType);
 		}
 		return null;
 	}
 
 	public String toString () {
 		return "Abstract class org.w3c.unicorn.request.Request, toString function must be overrided.";
+	}
+
+	public String getResponseType() {
+		return responseType;
+	}
+
+	public void setResponseType(String responseType) {
+		this.responseType = responseType;
 	}
 
 }

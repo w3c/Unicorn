@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.3 2007-11-29 14:11:58 dtea Exp $
+// $Id: URIRequest.java,v 1.4 2008-02-20 15:09:57 hduong Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,12 +11,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
-import javax.xml.bind.JAXBException;
-
 import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.generated.observationresponse.Observationresponse;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.input.URIInputModule;
+import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.response.parser.ResponseParserFactory;
 
 /**
  * Use to handle a request to a observer.
@@ -30,7 +29,8 @@ public class URIRequest extends Request {
 	protected URIRequest (
 			final String sURL,
 			final String sInputParameterName,
-			final InputModule aInputModule) throws IOException {
+			final InputModule aInputModule,
+			final String responseType) throws IOException {
 		super();
 		URIRequest.logger.trace("Constructor");
 		if (URIRequest.logger.isDebugEnabled()) {
@@ -44,6 +44,7 @@ public class URIRequest extends Request {
 		this.sURL = sURL;
 		final URIInputModule aURIInputModule = (URIInputModule) aInputModule;
 		this.addParameter(sInputParameterName, aURIInputModule.getURI());
+		this.setResponseType(responseType);
 	}
 
 	public void addParameter (
@@ -63,7 +64,7 @@ public class URIRequest extends Request {
 		URIRequest.logger.debug("Parameters : "+this.sParameter+".");
 	}
 
-	public Observationresponse doRequest () throws IOException, JAXBException {
+	public Response doRequest () throws IOException {
 		URIRequest.logger.trace("doRequest");
 		if (URIRequest.logger.isDebugEnabled()) {
 			URIRequest.logger.debug("URL : "+this.sURL+" .");
@@ -81,7 +82,8 @@ public class URIRequest extends Request {
 		
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
 		InputStream is = aURLConnection.getInputStream();
-		Observationresponse res = (Observationresponse) this.aUnmarshaller.unmarshal(is);
+		//Response res = this.aResponseParser.parse(is);
+		Response res = ResponseParserFactory.parse(is, this.getResponseType());
 		return res;
 	}
 

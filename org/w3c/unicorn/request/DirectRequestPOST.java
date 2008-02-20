@@ -1,4 +1,4 @@
-// $Id: DirectRequestPOST.java,v 1.3 2007-11-29 14:11:58 dtea Exp $
+// $Id: DirectRequestPOST.java,v 1.4 2008-02-20 15:09:57 hduong Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,12 +12,11 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 
-import javax.xml.bind.JAXBException;
-
 import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.generated.observationresponse.Observationresponse;
 import org.w3c.unicorn.input.DirectInputModule;
 import org.w3c.unicorn.input.InputModule;
+import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.response.parser.ResponseParserFactory;
 
 /**
  * @author Damien LEROY
@@ -44,7 +43,8 @@ public class DirectRequestPOST extends Request {
 	protected DirectRequestPOST (
 			final String sURL,
 			final String sInputParameterName,
-			final InputModule aInputModule) throws IOException {
+			final InputModule aInputModule,
+			final String responseType) throws IOException {
 		super();
 		DirectRequestPOST.logger.trace("Constructor");
 		if (DirectRequestPOST.logger.isDebugEnabled()) {
@@ -58,6 +58,7 @@ public class DirectRequestPOST extends Request {
 		this.mapOfParameter = new Hashtable<String, String>();
 		this.sURL = sURL;
 		this.addParameter(sInputParameterName, aInputModule.getStringContent());
+		this.setResponseType(responseType);
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class DirectRequestPOST extends Request {
 	}
 
 	@Override
-	public Observationresponse doRequest () throws JAXBException, IOException {
+	public Response doRequest () throws IOException {
 		DirectRequestPOST.logger.trace("doRequest");
 		final URL aURL = new URL(sURL);
 		this.aURLConnection = aURL.openConnection();
@@ -133,7 +134,8 @@ public class DirectRequestPOST extends Request {
 			sResponse += new String(tByte);
 		}
 		DirectRequestPOST.logger.debug(sResponse);*/
-		return (Observationresponse) this.aUnmarshaller.unmarshal(aURLConnection.getInputStream());
+		//return this.aResponseParser.parse(aURLConnection.getInputStream());
+		return ResponseParserFactory.parse(aURLConnection.getInputStream(), this.getResponseType());
 	}
 
 	@Override

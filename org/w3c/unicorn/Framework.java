@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.7 2008-02-19 12:50:18 dtea Exp $
+// $Id: Framework.java,v 1.8 2008-02-20 15:14:34 hduong Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,14 +13,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.contract.WADLUnmarshaller;
 import org.w3c.unicorn.contract.WADLUnmarshallerXPath;
+import org.w3c.unicorn.response.parser.ResponseParser;
 import org.w3c.unicorn.tasklist.RDFUnmarshaller;
 import org.w3c.unicorn.tasklist.RDFUnmarshallerJena;
 import org.w3c.unicorn.tasklist.Task;
@@ -60,6 +59,8 @@ public class Framework {
 
 	public static Set<String> outputLang; //list of availables output lang in PATH_TO_OUTPUT_TEMPLATES
 	
+	public static Map<String, ResponseParser> mapOfReponseParser = null; 
+	
 	static {
 		// Load the list of extensions
 		try {
@@ -73,6 +74,32 @@ public class Framework {
 		}
 	}
 
+	static {
+		// TODO load the map of ResponseParser
+		try {
+			mapOfReponseParser = new LinkedHashMap<String, ResponseParser>();
+			final URL aURLPropFile = Framework.class.getResource("responseParsers.properties");			
+			final Properties aProperties = new Properties();
+			aProperties.load(aURLPropFile.openStream());
+			for (Entry<Object, Object> e : aProperties.entrySet()) {
+				ResponseParser aResponseParser = (ResponseParser)(Class.forName((String)(e.getValue())).newInstance());
+				mapOfReponseParser.put((String)(e.getKey()),aResponseParser);
+			}
+		} catch (final IOException e) {
+			Framework.logger.error("IOException : "+e.getMessage(), e);
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			Framework.logger.error("InstantiationException : "+e.getMessage(), e);
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			Framework.logger.error("IllegalAccessException : "+e.getMessage(), e);
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			Framework.logger.error("ClassNotFoundException : "+e.getMessage(), e);
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Statics operations to initialise framework the first time this class is used.
 	 */
@@ -132,6 +159,7 @@ public class Framework {
 						aObserver.setHelpLocation(aWADLUnmarshaller.getHelpLocation());
 						aObserver.setProvider(aWADLUnmarshaller.getProvider());
 						aObserver.setMapOfInputMethod(aWADLUnmarshaller.getMapOfInputMethod());
+						aObserver.setResponseType(aWADLUnmarshaller.getResponseType());
 						Framework.mapOfObserver.put(new String(aObserver.getID()), aObserver);
 					}
 					catch (final ParserConfigurationException e) {
@@ -201,8 +229,6 @@ public class Framework {
 			aRDFUnmarshaller.unmarshal();
 
 			Framework.mapOfTask = aTaskListUnmarshaller.getMapOfTask();
-			System.out.println(">>>>"+mapOfObserver);
-			System.out.println(mapOfTask);
 		} catch (final JAXBException e) {
 			Framework.logger.error("JAXBException : "+e.getMessage(), e);
 			e.printStackTrace();
@@ -228,5 +254,4 @@ public class Framework {
 		
 		Framework.logger.info("End of initialisation of UniCORN.");
 	}
-
 }

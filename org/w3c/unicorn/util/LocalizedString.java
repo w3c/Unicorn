@@ -1,4 +1,4 @@
-// $Id: LocalizedString.java,v 1.2 2006-09-29 09:25:12 dleroy Exp $
+// $Id: LocalizedString.java,v 1.3 2008-02-20 15:09:59 hduong Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -29,6 +29,11 @@ public class LocalizedString {
 		this.mapOfString = new LinkedHashMap<String, String>();
 	}
 
+	public LocalizedString (String s, String lang) {
+		this();
+		mapOfString.put(lang, s);
+	}
+	
 	public boolean hasLocale (final String sLocale) {
 		return null != this.mapOfString.get(sLocale);
 	}
@@ -56,8 +61,18 @@ public class LocalizedString {
 		return this.mapOfString.keySet();
 	}
 
+	// return the message in DEFAULT_LANGUAGE (en) or in the first language in
+	// the list
 	public String toString () {
-		return this.mapOfString.get(LocalizedString.DEFAULT_LANGUAGE);
+		String res = this.mapOfString.get(LocalizedString.DEFAULT_LANGUAGE);
+		if (res==null) {
+			for (String s: this.mapOfString.values()) {
+				return s; 
+			}
+		}
+		if (res==null)
+			return "";
+		return res;
 	}
 
 }

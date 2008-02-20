@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.3 2007-11-29 14:11:58 dtea Exp $
+// $Id: UploadRequest.java,v 1.4 2008-02-20 15:09:57 hduong Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -9,12 +9,11 @@ import java.net.MalformedURLException;
 import java.util.Hashtable;
 import java.util.Map;
 
-import javax.xml.bind.JAXBException;
-
 import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.generated.observationresponse.Observationresponse;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.input.UploadInputModule;
+import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.response.parser.ResponseParserFactory;
 import org.w3c.unicorn.util.ClientHttpRequest;
 
 /**
@@ -32,7 +31,8 @@ public class UploadRequest extends Request {
 	protected UploadRequest (
 			final String sURL,
 			final String sInputParameterName,
-			final InputModule aInputModule) throws MalformedURLException, IOException {
+			final InputModule aInputModule,
+			final String responseType) throws MalformedURLException, IOException {
 		super();
 		UploadRequest.logger.trace("Constructor");
 		if (UploadRequest.logger.isDebugEnabled()) {
@@ -52,6 +52,7 @@ public class UploadRequest extends Request {
 				this.sInputParameterName,
 				this.aUploadInputModule.getFileName(),
 				this.aUploadInputModule.getInputStream());*/
+		this.setResponseType(responseType);
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class UploadRequest extends Request {
 	}
 
 	@Override
-	public Observationresponse doRequest() throws JAXBException, IOException {
+	public Response doRequest() throws IOException {
 		UploadRequest.logger.trace("doRequest");
 		this.aClientHttpRequest = new ClientHttpRequest(sURL);
 		UploadRequest.logger.debug("Lang : "+this.sLang+".");
@@ -84,8 +85,9 @@ public class UploadRequest extends Request {
 			}
 			this.aClientHttpRequest.setParameter(sName, sValue);
 		}
-		final Observationresponse aObservationResponse;
-		aObservationResponse = (Observationresponse) this.aUnmarshaller.unmarshal(this.aClientHttpRequest.post());
+		final Response aObservationResponse;
+		//aObservationResponse = this.aResponseParser.parse(this.aClientHttpRequest.post());
+		aObservationResponse = ResponseParserFactory.parse(this.aClientHttpRequest.post(), this.getResponseType());
 		return aObservationResponse;
 	}
 

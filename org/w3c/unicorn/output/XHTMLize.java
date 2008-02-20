@@ -1,9 +1,9 @@
 package org.w3c.unicorn.output;
 
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
-import org.w3c.unicorn.generated.observationresponse.Code;
-import org.w3c.unicorn.generated.observationresponse.A;
-import org.w3c.unicorn.generated.observationresponse.Img;
+import org.w3c.unicorn.response.Code;
+import org.w3c.unicorn.response.A;
+import org.w3c.unicorn.response.Img;
 
 
 /**
@@ -45,6 +45,9 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 			if (oElement instanceof Img) {
 				sResultat += insertImg((Img) oElement);
 			}
+			//else if (oElement instanceof Code) {
+			//	sResultat += insertCode((Code) oElement);
+			//}
 			else {				
 				sResultat += EscapeXMLEntities.escapeText(oElement.toString());
 			}
