@@ -45,7 +45,7 @@
 	              lang="fr"
 	              xml:lang="fr"
 	              hreflang="fr"
-	              rel="alternate">Français</a>
+	              rel="alternate">Fran&ccedil;ais</a>
 	
 	          </li>
 	        
@@ -60,7 +60,7 @@
 		<div id="frontforms">
 			<ul class="tabset_tabs">
 				<li><a href="#validate-by-uri" class="active">Par URI</a></li><!--
-				--><li><a href="#validate-by-upload">Par upload de fichier</a></li><!--
+				--><li><a href="#validate-by-upload">Par chargement de fichier</a></li><!--
 				--><li><a href="#validate-by-input">Par saisie directe</a></li>
 			</ul>
 		    <div id="fields">
@@ -69,7 +69,7 @@
 				<legend class="tabset_label">Validate by URI</legend>
 				<form method="get" action="observe">
 					#genTasklist(0)
-					<p class="instructions">Entrez l'URI du document que vous désirez vérifier :</p>
+					<p class="instructions">Entrez l'URI du document que vous d&eacute;sirez v&eacute;rifier :</p>
 					<p>
 						<label title="Address of page to Validate" for="ucn_uri">
 							Adresse:
@@ -89,7 +89,7 @@
 						<!-- / invisible -->
 					</fieldset>
 					<p class="submit_button">
-						<label title="Submit file for validation"><input type="submit" value="Vérifier" /></label>
+						<label title="Submit file for validation"><input type="submit" value="V&eacute;rifier" /></label>
 					</p>
 				</form>
 			</fieldset>
@@ -99,7 +99,7 @@
 				<form method="post" enctype="multipart/form-data" action="observe">
 					#genTasklist(1)
 					
-					<p class="instructions">Choisissez le document que vous désirez vérifier:</p>
+					<p class="instructions">Choisissez le document que vous d&eacute;sirez v&eacute;rifier:</p>
 					<p>
 						<label title="Choose a Local File to Upload and Validate" for="ucn_file">
 							Local file:
@@ -113,14 +113,14 @@
 						<div class="simpleParamList"></div>
 					</fieldset>
 					<fieldset id="extra_opt_upload" class="moreoptions">
-						<p class="toggle closed" title="Show/Hide extra options" onclick="expand()">More Options</p>
+						<p class="toggle closed" title="Show/Hide extra options" onclick="expand()">Plus d'options</p>
 						<!-- invisible -->
 						<div class="advancedParamList"></div>
 						<!-- / invisible -->
 					</fieldset>
 					<p class="submit_button">
 						<label title="Submit file for validation">
-							<input type="submit" value="Vérifier" />
+							<input type="submit" value="V&eacute;rifier" />
 						</label>
 					</p>
 				</form>
@@ -130,7 +130,7 @@
 				<legend class="tabset_label">Validate by direct input</legend>
 				<form action="observe" method="get">
 					#genTasklist(2)
-					<p class="instructions">Saisissez le document que vous désirez vérifier :</p>
+					<p class="instructions">Saisissez le document que vous d&eacute;sirez v&eacute;rifier :</p>
 					<p>
 						<textarea name="ucn_text" rows="12" cols="70"></textarea>
 						<span id="ucn_text_mime"></span>
@@ -141,28 +141,28 @@
 						<div class="simpleParamList"></div>
 					</fieldset>
 					<fieldset id="extra_opt_direct" class="moreoptions">
-						<p class="toggle closed" title="Show/Hide extra options" onclick="expand()">Plus d'option</p>
+						<p class="toggle closed" title="Show/Hide extra options" onclick="expand()">Plus d'options</p>
 						<!-- invisible -->
 						<div class="advancedParamList"></div>
 						<!-- / invisible -->
 					</fieldset>
 					<p class="submit_button">
 						<label title="Submit file for validation">
-							<input type="submit" value="Vérifier" />
+							<input type="submit" value="V&eacute;rifier" />
 						</label>
 					</p>
 				</form>
 			</fieldset>
 		    </div><!-- fiends -->
 		</div><!-- end div id = frontforms -->
-<h2>Dernières informations</h2>
+<h2>Derni&egrave;res nouvelles</h2>
 <h3>7 Septembre 2006: Preview publique</h3>
-<p>Bienvenue sur la preview publique de l'outil Unicorn. Pour en savoir plus sur cet outil ou pour faire un retour sur cette preview, rendez-vous sur <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
-<p><strong>Note</strong>: Vous devez activer JavaScript pour pouvoir vérifier des documents</a>.</p>
+<p>Bienvenue sur la preview publique de l'outil Unicorn. Pour en savoir plus sur cet outil ou pour faire un feedback sur cette preview, rendez-vous sur <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
+<p><strong>Note</strong>: Vous devez activer JavaScript pour pouvoir v&eacute;rifier des documents</a>.</p>
 
 		<ul class="navbar"  id="menu">
 			<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
-			<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="Download the source for this service">Téléchargement</a> <span class="hideme">|</span></li>
+			<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="Download the source for this service">T&eacute;l&eacute;chargement</a> <span class="hideme">|</span></li>
 			<li><a href="mailto:public-qa-dev@w3.org" title="send us your thoughts and bug reports on the PUBLIC development mailing-list">Feedback</a> <span class="hideme">|</span></li>
 		</ul>
 
