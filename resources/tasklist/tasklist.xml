@@ -26,6 +26,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.w3.org/unicorn/tasklist file:./task.xsd">
 
+
 	<task id="conformance">
 		<subtasks>
 			<observation ref="markup-validator">
@@ -56,6 +57,7 @@
 			<parameter name="warning" type="radio" default="0" observer="css-validator" ui="none" />
 		</parameters>
 	</task>
+	
 	<task id="css">
 		<subtasks>
 			<observation ref="css-validator">
@@ -80,7 +82,7 @@
 			
 		</parameters>
 	</task>
-
+	
 	<task id="markup">
 		<subtasks>
 			<observation ref="markup-validator">
@@ -97,6 +99,7 @@
 			<parameter name="output" type="radio" default="ucn" observer="markup-validator" ui="none" />
 		</parameters>
 	</task>
+	
 	<task id="appc">
 		<subtasks>
 			<observation ref="appc-checker">
@@ -107,46 +110,5 @@
 			<parameter name="output" type="radio" default="xml" observer="appc-checker" ui="none" />
 		</parameters>
 	</task>
-<!-- 
-	<task id="calculator">
-		<subtasks>
-			<observation ref="calculator">
-				<handle mimetype="text/plain" priority="high" />
-			</observation>
-		</subtasks>
-		<parameters>
-			<parameter name="x2" type="checkbox" default="unchecked" ui="simple"> 
-				<value name="unchecked">
-					<mapped param="x2" observer="calculator" value="0" />
-				</value>
-				
-				<value name="on">
-					<mapped param="x2" observer="calculator" value="1" />
-				</value>
-			</parameter>
-			
-			<!--
-			<parameter name="lang" type="dropdown" default="fr" observer="calculator" />
-			
-			-->
-		
-		</parameters>
-	</task>
-
-	<task id="multithreading">
-		<subtasks>
-			<observation ref="sleeper1">
-				<handle mimetype="text/plain" priority="high" />
-			</observation>
-			
-			<observation ref="sleeper2">
-				<handle mimetype="text/plain" priority="high" />
-			</observation>
-			
-			<observation ref="sleeper3">
-				<handle mimetype="text/plain" priority="high" />
-			</observation>
-		</subtasks>
-	</task>
--->
+	
 </tasklist>

@@ -15,10 +15,11 @@
 	xml:base="&ucn;#"
 	>
 
+
 	<ucn:Task ucn:reference="appc">
 		<ucn:longName xml:lang="en">Check HTML Compatibility Guidelines for XHTML 1.0</ucn:longName>
 	</ucn:Task>
-
+	
 	<ucn:Task ucn:reference="css">
 		<ucn:longName xml:lang="en">Check CSS Style Sheets</ucn:longName>
 		<ucn:description xml:lang="en">This task will call the  CSS observer.</ucn:description>
@@ -72,7 +73,7 @@
 			</ucn:Parameter>
 		</ucn:hasParameter>
 	</ucn:Task>
-
+	
 	<ucn:Task ucn:reference="conformance">
 		<ucn:longName xml:lang="en">General Conformance Check</ucn:longName>
 		<ucn:description xml:lang="en">This task will do as much observations as possible.</ucn:description>
@@ -97,28 +98,5 @@
 		</ucn:hasParameter>
 	</ucn:Task>
 	
-	<ucn:Task ucn:reference="calculator">
-		<ucn:longName xml:lang="en">Calculator</ucn:longName>
-		<ucn:description xml:lang="en">An observer who evaluate simple arithmetic operations.</ucn:description>
-
-		<ucn:hasParameter>
-			<ucn:CheckBox ucn:reference="x2" ucn:default="unchecked">
-				<ucn:longName xml:lang="en">x2</ucn:longName>
-				<ucn:longName xml:lang="fr">x2</ucn:longName>
-			</ucn:CheckBox>
-		</ucn:hasParameter>
-		
-		<ucn:hasParameter>
-			<ucn:DropDown ucn:reference="lang">
-				<ucn:longName xml:lang="en">Language</ucn:longName>
-				<ucn:longName xml:lang="fr">Langue</ucn:longName>
-			</ucn:DropDown>
-		</ucn:hasParameter>
-	</ucn:Task>
-	
-	<ucn:Task ucn:reference="multithreading">
-		<ucn:longName xml:lang="en">multithreading</ucn:longName>
-		<ucn:description xml:lang="en">Calls 3 observators. Each observator sleeps during 5 second. It's to test multithreading.</ucn:description>
-	</ucn:Task>
 
 </rdf:RDF>
