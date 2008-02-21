@@ -4,9 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     #if($unicorncall.DocumentName)
-      <title>Result for $unicorncall.DocumentName</title>
+      <title>R&eacute;sultat pour $unicorncall.DocumentName</title>
     #else
-      <title>Result for the document you submitted</title>
+      <title>R&eacute;sultat pour le document que vous avez soumis</title>
     #end
     <link rev="start" href="./" title="Home Page" />
     <style type="text/css" media="all">@import "./style/base.css";</style>
@@ -21,7 +21,7 @@
       Universal Conformance Observation Report Notation
     </p>
     <div id="result">
-      <h2 id="results" class="invalid">Erreur critique</h2>
+      <h2 id="results" class="invalid">Erreur critique !</h2>
       <ol class="error_list">
         <li class="msg_err">
           <span class="err_type">Error</span> :

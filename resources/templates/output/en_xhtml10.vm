@@ -75,44 +75,33 @@
 #end
 
 #macro(produceErrors $errors)
-  #foreach($errorList in $errors.Errorlist)
-    <h3>Location: $errorList.Uri</h3>
     <ol class="error_list">
-    #foreach($error in $errorList.Error)
+    #foreach($error in $errors)
       <li class="msg_err">
         #error($error)
       </li>
     #end
-  </ol>
-  #end
+    </ol>
 #end
 
 #macro(produceWarnings $warnings)
-  #foreach($warningList in $warnings.Warninglist)
-    #if($warningList.Warning && $warningList.Warning.size() != 0)
-      <h3>Location: $warningList.Uri</h3>
       <ol class="warning_list">
-      #foreach($warning in $warningList.Warning)
+      #foreach($warning in $warnings)
         <li class="msg_warn">
           #warning($warning)
         </li>
       #end
       </ol>
-    #end
-  #end
 #end
 
 #macro(produceInfos $infos)
-  #foreach($infoList in $infos.Infolist)
-    <h3>Location: $infoList.Uri</h3>
     <ol class="info_list">
-    #foreach($information in $infoList.Info)
+    #foreach($information in $infos)
       <li class="msg_info">
         #info($information)
       </li>
     #end
     </ol>
-  #end
 #end
 
 <body>
@@ -144,15 +133,30 @@
         $observationName
       #end
       test!</h2>
-      #produceErrors($observation.Result.Errors)
+      #foreach($result in $observation.getResultsList())
+        #if(!$result.Errors.isEmpty())
+          <h3><u>Location: $result.Uri</u></h3>
+      	  #produceErrors($result.Errors)
+      	#end
+      #end
     #end
-    #if($observation.Result.Informations)
-      #produceInfos($observation.Result.Informations)
-    #end
-    #if($observation.Result.Warnings)
-      #produceWarnings($observation.Result.Warnings)
+    
+    
+    #foreach($result in $observation.getResultsList())
+      #if(!$result.Infos.isEmpty() || !$result.Warnings.isEmpty())
+        <h3><u>Location: $result.Uri</u></h3>
+      #end
+  
+      #if(!$result.Infos.isEmpty())
+        #produceInfos($result.Infos)
+      #end
+    
+      #if(!$result.Warnings.isEmpty())
+        #produceWarnings($result.Warnings)
+      #end
     #end
    <hr/>
+   
   #end
 
   #if(!$unicorncall.haveHighPassed())

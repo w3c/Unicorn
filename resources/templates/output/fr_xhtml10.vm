@@ -4,9 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     #if($unicorncall.DocumentName)
-      <title>Result for $unicorncall.DocumentName</title>
+      <title>R&eacute;sultat pour $unicorncall.DocumentName</title>
     #else
-      <title>Result for the document you submitted</title>
+      <title>R&eacute;sultat pour le document que vous avez soumis</title>
     #end
     <link rev="start" href="./" title="Home Page" />
     <style type="text/css" media="all">@import "./style/base.css";</style>
@@ -75,44 +75,33 @@
 #end
 
 #macro(produceErrors $errors)
-  #foreach($errorList in $errors.Errorlist)
-    <h3>Location: $errorList.Uri</h3>
     <ol class="error_list">
-    #foreach($error in $errorList.Error)
+    #foreach($error in $errors)
       <li class="msg_err">
         #error($error)
       </li>
     #end
-  </ol>
-  #end
+    </ol>
 #end
 
 #macro(produceWarnings $warnings)
-  #foreach($warningList in $warnings.Warninglist)
-    #if($warningList.Warning && $warningList.Warning.size() != 0)
-      <h3>Location: $warningList.Uri</h3>
       <ol class="warning_list">
-      #foreach($warning in $warningList.Warning)
+      #foreach($warning in $warnings)
         <li class="msg_warn">
           #warning($warning)
         </li>
       #end
       </ol>
-    #end
-  #end
 #end
 
 #macro(produceInfos $infos)
-  #foreach($infoList in $infos.Infolist)
-    <h3>Location: $infoList.Uri</h3>
     <ol class="info_list">
-    #foreach($information in $infoList.Info)
+    #foreach($information in $infos)
       <li class="msg_info">
         #info($information)
       </li>
     #end
     </ol>
-  #end
 #end
 
 <body>
@@ -124,48 +113,62 @@
   <p id="tagline">
         the Web's Universal Conformance Checker - <strong>ALPHA Test Version</strong>
   </p>
-  
   <div id="result">
   #set($observationList = $unicorncall.ObservationList)
   #foreach($observationName in $observationList.keySet())
     #set($observation = $observationList.get($observationName))
     #if($observation.isPassed())
-      <h2 class="valid">Ce document a passé le test
+      <h2 class="valid">Ce document a pass&eacute; le test
       #if($observation.getVersion())
         $observation.getVersion().toUpperCase()
       #else 
         $observationName
       #end
-      test!</h2>
+      !</h2>
     #else
-      <h2 id="results" class="invalid">This document has <strong>not</strong> passed the 
+      <h2 id="results" class="invalid">Ce document <strong>n'a pas</strong> pass&eacute; le test 
       #if($observation.getVersion())
         $observation.getVersion().toUpperCase()
       #else 
         $observationName
       #end
-      test!</h2>
-      #produceErrors($observation.Result.Errors)
+      !</h2>
+      #foreach($result in $observation.getResultsList())
+        #if(!$result.Errors.isEmpty())
+          <h3><u>Emplacement: $result.Uri</u></h3>
+      	  #produceErrors($result.Errors)
+      	#end
+      #end
     #end
-    #if($observation.Result.Informations)
-      #produceInfos($observation.Result.Informations)
-    #end
-    #if($observation.Result.Warnings)
-      #produceWarnings($observation.Result.Warnings)
+    
+    
+    #foreach($result in $observation.getResultsList())
+      #if(!$result.Infos.isEmpty() || !$result.Warnings.isEmpty())
+        <h3><u>Emplacement: $result.Uri</u></h3>
+      #end
+  
+      #if(!$result.Infos.isEmpty())
+        #produceInfos($result.Infos)
+      #end
+    
+      #if(!$result.Warnings.isEmpty())
+        #produceWarnings($result.Warnings)
+      #end
     #end
    <hr/>
+   
   #end
 
   #if(!$unicorncall.haveHighPassed())
     <p>
-      Some observations might not have been made because one or more with high
-      priority failed.
+      Plusieurs observations peuvent ne pas avoir été effectuées car une ou plusieurs 
+      observations de priorité haute ont échouées.
     </p>
   #end
   #if(!$unicorncall.haveMediumPassed())
     <p>
-      Some observations might not have been made because one or more with medium
-      priority failed.
+      Plusieurs observations peuvent ne pas avoir été effectuées car une ou plusieurs 
+      observations de priorité moyenne ont échouées.
     </p>
   #end
 
@@ -173,7 +176,7 @@
 
      <ul class="navbar"  id="menu">
        	<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
-		<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="Download the source for this service">Download</a> <span class="hideme">|</span></li>
+		<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="Download the source for this service">T&eacute;l&eacute;chargement</a> <span class="hideme">|</span></li>
 		<li><a href="mailto:public-qa-dev@w3.org" title="send us your thoughts and bug reports on the PUBLIC development mailing-list">Feedback</a> <span class="hideme">|</span></li>
 	      </ul>
 
