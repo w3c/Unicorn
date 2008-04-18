@@ -135,7 +135,7 @@
       !</h2>
       #foreach($result in $observation.getResultsList())
         #if(!$result.Errors.isEmpty())
-          <h3><u>Emplacement: $result.Uri</u></h3>
+          <h3>Emplacement: $result.Uri</h3>
       	  #produceErrors($result.Errors)
       	#end
       #end
@@ -144,7 +144,7 @@
     
     #foreach($result in $observation.getResultsList())
       #if(!$result.Infos.isEmpty() || !$result.Warnings.isEmpty())
-        <h3><u>Emplacement: $result.Uri</u></h3>
+        <h3>Emplacement: $result.Uri</h3>
       #end
   
       #if(!$result.Infos.isEmpty())
