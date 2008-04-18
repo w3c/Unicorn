@@ -157,7 +157,7 @@
 <h2>Derni&egrave;res nouvelles</h2>
 <h3>7 Septembre 2006: Preview publique</h3>
 <p>Bienvenue sur la preview publique de l'outil Unicorn. Pour en savoir plus sur cet outil ou pour faire un feedback sur cette preview, rendez-vous sur <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
-<p><strong>Note</strong>: Vous devez activer JavaScript pour pouvoir v&eacute;rifier des documents</a>.</p>
+<p><strong>Note</strong>: Vous devez activer JavaScript pour pouvoir v&eacute;rifier des documents.</p>
 
 		<ul class="navbar"  id="menu">
 			<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
@@ -180,7 +180,7 @@
 		</p>
 
 		<p class="copyright">
-			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-2006
+			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-2008
 			<a href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a>&reg;
 
 			(<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>,

@@ -74,7 +74,6 @@
 							Address:
 							<input type="text" name="ucn_uri" id="ucn_uri" size="45" />
 						</label>
-						<input type="hidden" name="ucn_lang" id="ucn_lang" value="en" />
 					</p>
 					<fieldset id="opt_uri" class="options">
 						<p title="Simple options">Simple options</p>
@@ -102,7 +101,6 @@
 							Local file:
 							<input type="file" id="ucn_file" name="ucn_file" size="30" />
 						</label>
-						<input type="hidden" name="ucn_lang" id="ucn_lang" value="en" />
 					</p>
 					<fieldset id="opt_upload" class="options">
 						<p title="Simple options">Simple options</p>
@@ -130,7 +128,6 @@
 					<p>
 						<textarea name="ucn_text" rows="12" cols="70"></textarea>
 						<span id="ucn_text_mime"></span>
-						<input type="hidden" name="ucn_lang" id="ucn_lang" value="en" />
 					</p>      
 					<fieldset id="opt_direct" class="options">
 						<p title="Simple options">Simple options</p>
@@ -155,7 +152,7 @@
 <h3>7 September 2006: public preview</h3>
 <p>Welcome to the public preview of the unicorn tool. To learn more about this tool
 or how you can provide feedback for this preview, check the <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
-<p><strong>Note</strong>: You need to enable Javascript to be able to check documents</a>.</p>
+<p><strong>Note</strong>: You need to enable Javascript to be able to check documents.</p>
 
 		<ul class="navbar"  id="menu">
 			<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
@@ -178,7 +175,7 @@ or how you can provide feedback for this preview, check the <a href="http://www.
 		</p>
 
 		<p class="copyright">
-			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-2006
+			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-2008
 			<a href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a>&reg;
 
 			(<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>,
