@@ -1,4 +1,4 @@
-// $Id: Property.java,v 1.1.1.1 2006-08-31 09:09:28 dleroy Exp $
+// $Id: Property.java,v 1.2 2008-04-18 12:35:22 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class Property {
 
-	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.util");
+	private static final Log logger = LogFactory.getLog(Property.class);
 	private static final Map<String, Property> mapOfProperty = new Hashtable<String, Property>();
 
 	private static void addProperty (final Property aProperty) {

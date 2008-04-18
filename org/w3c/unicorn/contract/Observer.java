@@ -1,4 +1,4 @@
-// $Id: Observer.java,v 1.3 2008-02-20 15:21:58 hduong Exp $
+// $Id: Observer.java,v 1.4 2008-04-18 12:35:21 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -23,7 +23,7 @@ public class Observer {
 	/**
 	 * Use to log any information during use of this class.
 	 */
-	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.contract");
+	private static final Log logger = LogFactory.getLog(Observer.class);
 
 	private String sID;
 	

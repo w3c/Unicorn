@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.8 2008-02-20 15:14:34 hduong Exp $
+// $Id: Framework.java,v 1.9 2008-04-18 12:35:21 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -21,8 +20,6 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,7 +35,6 @@ import org.w3c.unicorn.tasklist.TasksListUnmarshallerJAXB;
 import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.LocalizedString;
 import org.w3c.unicorn.util.Property;
-import org.xml.sax.SAXException;
 
 /**
  * Main class of the central module of UniCORN.
@@ -76,6 +72,9 @@ public class Framework {
 
 	static {
 		// TODO load the map of ResponseParser
+		if (Framework.logger.isDebugEnabled()) {
+			Framework.logger.debug("Loading available parsers...");
+		}
 		try {
 			mapOfReponseParser = new LinkedHashMap<String, ResponseParser>();
 			final URL aURLPropFile = Framework.class.getResource("responseParsers.properties");			
@@ -85,18 +84,13 @@ public class Framework {
 				ResponseParser aResponseParser = (ResponseParser)(Class.forName((String)(e.getValue())).newInstance());
 				mapOfReponseParser.put((String)(e.getKey()),aResponseParser);
 			}
-		} catch (final IOException e) {
-			Framework.logger.error("IOException : "+e.getMessage(), e);
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (InstantiationException e) {
-			Framework.logger.error("InstantiationException : "+e.getMessage(), e);
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			Framework.logger.error("IllegalAccessException : "+e.getMessage(), e);
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			Framework.logger.error("ClassNotFoundException : "+e.getMessage(), e);
-			e.printStackTrace();
+		}
+		finally {
+			if (Framework.logger.isDebugEnabled()) {
+				Framework.logger.debug("... Parsers loaded");
+			}		
 		}
 	}
 	
@@ -105,7 +99,7 @@ public class Framework {
 	 */
 	static {
 		if (Framework.logger.isDebugEnabled()) {
-			Framework.logger.debug("Observer initialisation.");
+			Framework.logger.debug("Loading available observers...");
 		}
 		//final String sLanguage = Property.get("DEFAULT_LANGUAGE");
 		final String sLanguage = Property.get("DEFAULT_LANGUAGE");
@@ -143,52 +137,31 @@ public class Framework {
 					if (Framework.logger.isDebugEnabled()) {
 						Framework.logger.debug("Observer WADL file : "+sWADL+".");
 					}
-						
-					try {
-						
-						final Observer aObserver = new Observer();
-						final WADLUnmarshaller aWADLUnmarshaller = new WADLUnmarshallerXPath();
-						aWADLUnmarshaller.addURL(new URL(sWADL));
-						aWADLUnmarshaller.unmarshal();
-						
-						aObserver.setListOfCallMethod(aWADLUnmarshaller.getListOfCallMethod());
-						aObserver.setParamLangName(aWADLUnmarshaller.getNameOfLangParameter());
-						aObserver.setID(aWADLUnmarshaller.getID());
-						aObserver.setName(aWADLUnmarshaller.getName());
-						aObserver.setDescription(aWADLUnmarshaller.getDescription());
-						aObserver.setHelpLocation(aWADLUnmarshaller.getHelpLocation());
-						aObserver.setProvider(aWADLUnmarshaller.getProvider());
-						aObserver.setMapOfInputMethod(aWADLUnmarshaller.getMapOfInputMethod());
-						aObserver.setResponseType(aWADLUnmarshaller.getResponseType());
-						Framework.mapOfObserver.put(new String(aObserver.getID()), aObserver);
-					}
-					catch (final ParserConfigurationException e) {
-						Framework.logger.error("ParserConfigurationException : "+e.getMessage(), e);
-						e.printStackTrace();
-					}
-					catch (final XPathExpressionException e) {
-						Framework.logger.error("XPathExpressionException : "+e.getMessage(), e);
-						e.printStackTrace();
-					}
-					catch (final SAXException e) {
-						Framework.logger.error("SAXException : "+e.getMessage(), e);
-						e.printStackTrace();
-					}
-					catch (final IOException e) {
-						Framework.logger.error("IOException : "+e.getMessage(), e);
-						e.printStackTrace();
-					}
-					catch (final URISyntaxException e) {
-						Framework.logger.error("URISyntaxException : "+e.getMessage(), e);
-						e.printStackTrace();
-					}
+
+					final Observer aObserver = new Observer();
+					final WADLUnmarshaller aWADLUnmarshaller = new WADLUnmarshallerXPath();
+					aWADLUnmarshaller.addURL(new URL(sWADL));
+					aWADLUnmarshaller.unmarshal();
+					
+					aObserver.setListOfCallMethod(aWADLUnmarshaller.getListOfCallMethod());
+					aObserver.setParamLangName(aWADLUnmarshaller.getNameOfLangParameter());
+					aObserver.setID(aWADLUnmarshaller.getID());
+					aObserver.setName(aWADLUnmarshaller.getName());
+					aObserver.setDescription(aWADLUnmarshaller.getDescription());
+					aObserver.setHelpLocation(aWADLUnmarshaller.getHelpLocation());
+					aObserver.setProvider(aWADLUnmarshaller.getProvider());
+					aObserver.setMapOfInputMethod(aWADLUnmarshaller.getMapOfInputMethod());
+					aObserver.setResponseType(aWADLUnmarshaller.getResponseType());
+					Framework.mapOfObserver.put(new String(aObserver.getID()), aObserver);
 				}
-				catch (final Exception aException) {
-					aException.printStackTrace();
-					Framework.logger.error("Exception : "+aException.getMessage(), aException);
+				catch (final Exception e) {					
+					Framework.logger.error("Exception : "+e.getMessage(), e);
+					e.printStackTrace();
 				}
 			}
-				
+			if (Framework.logger.isDebugEnabled()) {
+				Framework.logger.debug("... Observers loaded.");
+			}				
 		}
 		catch (final FileNotFoundException aFileNotFoundException) {
 			Framework.logger.error(

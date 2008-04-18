@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.3 2008-02-20 15:19:58 hduong Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.4 2008-04-18 12:35:22 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -40,7 +40,7 @@ import org.xml.sax.SAXException;
  */
 public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 
-	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.contract");
+	private static final Log logger = LogFactory.getLog(WADLUnmarshaller.class);
 
 	private static NamespaceContext aNamespaceContext;
 
@@ -80,7 +80,6 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 		this.aDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 		this.aDocumentBuilder = this.aDocumentBuilderFactory.newDocumentBuilder();
 		this.aXPath = XPathFactory.newInstance().newXPath();
-
 		this.aXPath.setNamespaceContext(WADLUnmarshallerXPath.aNamespaceContext);
 	}
 
@@ -90,6 +89,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 			WADLUnmarshallerXPath.logger.debug("URL : " + aURL + ".");
 		}
 		this.aDocument = this.aDocumentBuilder.parse(aURL.openStream());
+		
 	}
 
 	
