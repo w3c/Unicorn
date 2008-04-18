@@ -74,6 +74,8 @@
 							Address:
 							<input type="text" name="ucn_uri" id="ucn_uri" size="45" />
 						</label>
+						<input type="hidden" name="ucn_lang" id="ucn_lang" value="en" />
+
 					</p>
 					<fieldset id="opt_uri" class="options">
 						<p title="Simple options">Simple options</p>
@@ -101,6 +103,8 @@
 							Local file:
 							<input type="file" id="ucn_file" name="ucn_file" size="30" />
 						</label>
+						<input type="hidden" name="ucn_lang" id="ucn_lang" value="en" />
+
 					</p>
 					<fieldset id="opt_upload" class="options">
 						<p title="Simple options">Simple options</p>
@@ -128,6 +132,8 @@
 					<p>
 						<textarea name="ucn_text" rows="12" cols="70"></textarea>
 						<span id="ucn_text_mime"></span>
+						<input type="hidden" name="ucn_lang" id="ucn_lang" value="en" />
+
 					</p>      
 					<fieldset id="opt_direct" class="options">
 						<p title="Simple options">Simple options</p>
