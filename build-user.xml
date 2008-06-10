@@ -16,6 +16,9 @@
 	<copy file="./org/w3c/unicorn/extensions.properties"
         tofile="./build/org/w3c/unicorn/extensions.properties" 
         overwrite="true"/>
+	<copy file="./org/w3c/unicorn/responseParsers.properties"
+        tofile="./build/org/w3c/unicorn/responseParsers.properties" 
+        overwrite="true"/>
 	<copy file="./org/w3c/unicorn/output/specialFormaters.properties" 
         tofile="./build/org/w3c/unicorn/output/specialFormaters.properties"
         overwrite="true"/>
@@ -28,6 +31,9 @@
 	<copy file="./log4j.xml" tofile="./build/log4j.xml" overwrite="true"/>
 	<copy file="./org/w3c/unicorn/extensions.properties" 
         tofile="./build/org/w3c/unicorn/extensions.properties" 
+        overwrite="true"/>
+	<copy file="./org/w3c/unicorn/responseParsers.properties"
+        tofile="./build/org/w3c/unicorn/responseParsers.properties" 
         overwrite="true"/>
 	<copy file="./org/w3c/unicorn/output/specialFormaters.properties" 
         tofile="./build/org/w3c/unicorn/output/specialFormaters.properties" 

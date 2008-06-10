@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.9 2008-04-18 12:35:21 jean-gui Exp $
+// $Id: Framework.java,v 1.10 2008-06-10 12:41:42 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -80,6 +80,7 @@ public class Framework {
 			final URL aURLPropFile = Framework.class.getResource("responseParsers.properties");			
 			final Properties aProperties = new Properties();
 			aProperties.load(aURLPropFile.openStream());
+
 			for (Entry<Object, Object> e : aProperties.entrySet()) {
 				ResponseParser aResponseParser = (ResponseParser)(Class.forName((String)(e.getValue())).newInstance());
 				mapOfReponseParser.put((String)(e.getKey()),aResponseParser);

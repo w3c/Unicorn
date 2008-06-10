@@ -11,7 +11,7 @@
 	<!-- Configure properties to access the Manager application -->
 	<property name="url"      value="http://flyingman.sophia.w3.org:8180/manager"/>
 	<property name="username" value="manager"/>
-	<property name="password" value="sdkSm58P"/>
+	<property name="password" value="******"/>
 	
     <path id="project.classpath">
         <pathelement location="build"/>
