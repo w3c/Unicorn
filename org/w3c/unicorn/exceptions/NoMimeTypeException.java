@@ -1,4 +1,4 @@
-// $Id: NoMimeTypeException.java,v 1.3 2008-06-17 14:03:09 fbatard Exp $
+// $Id: NoMimeTypeException.java,v 1.4 2008-06-17 14:09:50 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -7,9 +7,9 @@ package org.w3c.unicorn.exceptions;
 /**
  * NoMimeTypeException<br />
  * Created: Jul 7, 2006 5:30:51 PM<br />
- * 
- * @author Jean-Guilhem Rouel 
  * Exception that occurs when mime-type isn't specified
+ * @author Jean-Guilhem Rouel 
+ * 
  */
 public class NoMimeTypeException extends Exception {
 

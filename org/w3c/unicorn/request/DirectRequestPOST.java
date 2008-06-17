@@ -1,4 +1,4 @@
-// $Id: DirectRequestPOST.java,v 1.5 2008-06-17 13:41:11 fbatard Exp $
+// $Id: DirectRequestPOST.java,v 1.6 2008-06-17 14:09:50 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -19,7 +19,8 @@ import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.response.parser.ResponseParserFactory;
 
 /**
- * @author Damien LEROY Class to make a request directly using POST method
+ * Class to make a request directly using POST method
+ * @author Damien LEROY 
  */
 public class DirectRequestPOST extends Request {
 

@@ -1,4 +1,4 @@
-// $Id: InputFactory.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
+// $Id: InputFactory.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,7 +14,8 @@ import org.apache.commons.logging.Log;
 import org.w3c.unicorn.contract.EnumInputMethod;
 
 /**
- * @author Damien LEROY Class which deals with the creation of input method
+ * Class which deals with the creation of input method
+ * @author Damien LEROY 
  */
 public class InputFactory {
 

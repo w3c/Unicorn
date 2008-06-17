@@ -1,4 +1,4 @@
-// $Id: InputModule.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
+// $Id: InputModule.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,7 +13,8 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.EnumInputMethod;
 
 /**
- * @author Damien LEROY Interface for an input module
+ * Interface for an input module
+ * @author Damien LEROY 
  */
 public interface InputModule {
 

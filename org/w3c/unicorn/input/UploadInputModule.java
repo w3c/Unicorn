@@ -1,4 +1,4 @@
-// $Id: UploadInputModule.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
+// $Id: UploadInputModule.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -10,7 +10,8 @@ import java.io.InputStream;
 import org.w3c.unicorn.contract.EnumInputMethod;
 
 /**
- * @author Damien LEROY Interface for the UploadInputModule
+ * Interface for the UploadInputModule
+ * @author Damien LEROY 
  */
 public interface UploadInputModule extends InputModule {
 

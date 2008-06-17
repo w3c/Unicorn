@@ -1,4 +1,4 @@
-// $Id: URIInputModule.java,v 1.3 2008-06-17 13:41:12 fbatard Exp $
+// $Id: URIInputModule.java,v 1.4 2008-06-17 14:09:50 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,7 +18,8 @@ import org.w3c.unicorn.output.EscapeXMLEntities;
 import org.w3c.unicorn.util.Property;
 
 /**
- * @author Damien LEROY Class used to deal with the URI method for inputs
+ * Class used to deal with the URI method for inputs
+ * @author Damien LEROY 
  */
 public class URIInputModule implements InputModule {
 

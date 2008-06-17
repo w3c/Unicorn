@@ -1,4 +1,4 @@
-// $Id: DirectInputModule.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
+// $Id: DirectInputModule.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,7 +11,8 @@ import javax.activation.MimeType;
 import org.w3c.unicorn.contract.EnumInputMethod;
 
 /**
- * @author Damien LEROY Class used for the direct input method check
+ * Class used for the direct input method check
+ * @author Damien LEROY 
  */
 public class DirectInputModule implements InputModule {
 

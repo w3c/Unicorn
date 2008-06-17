@@ -1,4 +1,4 @@
-// $Id: CallMethod.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
+// $Id: CallMethod.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -22,7 +22,7 @@ public class CallMethod {
 			.getLog("org.w3c.unicorn.contract");
 
 	/**
-	 * 
+	 * URL for the call
 	 */
 	private URL aURL;
 

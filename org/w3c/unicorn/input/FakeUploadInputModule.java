@@ -1,4 +1,4 @@
-// $Id: FakeUploadInputModule.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
+// $Id: FakeUploadInputModule.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,9 +14,10 @@ import javax.activation.MimeType;
 import org.w3c.unicorn.contract.EnumInputMethod;
 
 /**
- * @author Damien LEROY Class used for the fake upload input method check It
- *         means make the observer believe it was a direct input whereas it
- *         wasn't
+ * Class used for the fake upload input method check It
+ * means make the observer believe it was a direct input whereas it
+ * wasn't
+ * @author Damien LEROY 
  */
 public class FakeUploadInputModule implements UploadInputModule {
 
