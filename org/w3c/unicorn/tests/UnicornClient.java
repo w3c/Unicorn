@@ -20,6 +20,10 @@ import org.w3c.unicorn.output.OutputModule;
 
 public class UnicornClient {
 
+	/**
+	 * Prints help contents on the standard output.
+	 *
+	 */
 	public static void print_help() {
 		System.out.println("[Usage] UnicornClient task inputType=[mimetype=]pageToValid templateLanguage outputTemplate [otherParameters]");
 		System.out.println("");
@@ -34,41 +38,12 @@ public class UnicornClient {
 		System.out.println("[Example] UnicornClient css file=text/css=./style/base.css fr text10 profile=css2,usermedium=screen,warning=2,lang=en");
 	}
 	
+	/**
+	 * Tests Unicorn client.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		UnicornCall aUnicornCall = new UnicornCall();
-		
-		/*
-		String task = "css";
-		String pageToValid = "file=text/css=D:/stageW3C/unicorn/style/base_result.css";
-		String language = "en";
-		String outputTemplate = "text10";
-		String pParams="";
-		*/
-		
-		/*
-		String task = "css";
-		String pageToValid = "uri=http://w3.org";
-		String language = "en";
-		String outputTemplate = "xhtml20";
-		String pParams="";
-		*/
-		
-		/*
-		String task = "calculator";
-		String pageToValid = "uri=http://flyingman.sophia.w3.org/test";
-		String language = "fr";
-		String outputTemplate = "text10";
-		String pParams = "x2=on,ucn_lang=vn";
-		*/
-
-		/*
-		String task = "calculator";
-		String pageToValid = "file=text/plain=D:/stageW3C/tmp/test.txt";
-		String language = "en";
-		String outputTemplate = "text10";
-		String pParams = "x2=on,ucn_lang=fr";
-		*/
-		
 		
 		
 		// read parameters

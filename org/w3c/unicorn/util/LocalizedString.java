@@ -1,4 +1,4 @@
-// $Id: LocalizedString.java,v 1.4 2008-04-18 12:35:22 jean-gui Exp $
+// $Id: LocalizedString.java,v 1.5 2008-06-17 13:45:31 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -24,20 +24,42 @@ public class LocalizedString {
 
 	private Map<String, String> mapOfString = null;
 
+	/**
+	 * Default constructor for LocalizedString.
+	 *
+	 */
 	public LocalizedString () {
 		LocalizedString.logger.trace("Constructor");
 		this.mapOfString = new LinkedHashMap<String, String>();
 	}
 
+	/**
+	 * Constructs a LocalizedString with an initial string paired with a language.
+	 * @param s The string to be localized.
+	 * @param lang The corresponding language.
+	 */
 	public LocalizedString (String s, String lang) {
 		this();
 		mapOfString.put(lang, s);
 	}
 	
+	/**
+	 * Looks for the existence of a specified sLocale string in the map.
+	 * @param sLocale The string to look for.
+	 * @return True if the sLocale string is in the map, else false.
+	 */
 	public boolean hasLocale (final String sLocale) {
 		return null != this.mapOfString.get(sLocale);
 	}
 
+	/**
+	 * Adds a message and its corresponding localization 
+	 * to the mapOfString attribute.
+	 * @param sLocale The localization.
+	 * @param sMessage The message to be written.
+	 * @return The previous value associated with
+	 *  specified key, or null if there was no mapping for key.
+	 */
 	public String addLocalization (
 			final String sLocale,
 			final String sMessage) {
@@ -49,6 +71,13 @@ public class LocalizedString {
 		return this.mapOfString.put(sLocale, sMessage);
 	}
 
+	/**
+	 * Finds and returns the message corresponding to the specified
+	 * localization in the mapOfString.
+	 * @param sLocale The localization wanted.
+	 * @return The message corresponding to the localization
+	 * or if there's none, the one corresponding to the default language.
+	 */
 	public String getLocalization (final String sLocale) {
 		final String sMessage = this.mapOfString.get(sLocale);
 		if (null != sMessage) {
@@ -57,12 +86,18 @@ public class LocalizedString {
 		return this.mapOfString.get(LocalizedString.DEFAULT_LANGUAGE);
 	}
 
+	/**
+	 * Returns the keys available in the mapOfString.
+	 * @return A set with all the keys.
+	 */
 	public Set<String> getSetOfLocale () {
 		return this.mapOfString.keySet();
 	}
 
-	// return the message in DEFAULT_LANGUAGE (en) or in the first language in
-	// the list
+	/**
+	 * Returns the message in in DEFAULT_LANGUAGE (en) or in the first language
+	 * in the list. 
+	 */
 	public String toString () {
 		String res = this.mapOfString.get(LocalizedString.DEFAULT_LANGUAGE);
 		if (res==null) {

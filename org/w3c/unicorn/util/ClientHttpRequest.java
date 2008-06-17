@@ -39,6 +39,11 @@ public class ClientHttpRequest {
 		ClientHttpRequest.randomString() +
 		ClientHttpRequest.randomString();
 
+	
+	/**
+	 * Connects to the output stream of the URLConnection.
+	 * @throws IOException
+	 */
 	private void connect () throws IOException {
 		//ClientHttpRequest.logger.trace("connect");
 		if (null == this.aOutputStream) {
@@ -46,33 +51,60 @@ public class ClientHttpRequest {
 		}
 	}
 
+	/**
+	 * Writes a single character on the output stream.
+	 * @param c The character to write.
+	 * @throws IOException
+	 */
 	private void write (final char c) throws IOException {
 		this.connect();
 		ClientHttpRequest.logger.debug(c);
 		this.aOutputStream.write(c);
 	}
 
+	/**
+	 * Writes a character string on the output stream.
+	 * @param s The string to write.
+	 * @throws IOException
+	 */
 	protected void write (final String s) throws IOException {
 		this.connect();
 		ClientHttpRequest.logger.debug(s);
 		this.aOutputStream.write(s.getBytes());
 	}
 
+	/**
+	 * Writes a new line on the output stream (carriage return).
+	 * @throws IOException
+	 */
 	protected void newline () throws IOException {
 		this.connect();
 		this.write("\r\n");
 	}
 
+	/**
+	 * Writes a string and a new line on the output stream.
+	 * @param s The string to write before the new line.
+	 * @throws IOException
+	 */
 	protected void writeln (final String s) throws IOException {
 		this.connect();
 		this.write(s);
 		this.newline();
 	}
 
+	/**
+	 * Computes a random string.
+	 * @return A string containing a random long which radix is 36. 
+	 */
 	protected static String randomString () {
 		return Long.toString(ClientHttpRequest.aRandom.nextLong(), 36);
 	}
 
+	/**
+	 * Writes the sBoundary on the output, composed of three random strings.
+	 * @throws IOException
+	 */
 	private void boundary () throws IOException {
 		this.write("--");
 		this.write(this.sBoundary);
@@ -159,11 +191,20 @@ public class ClientHttpRequest {
 		}
 	}
 
+	/**
+	 * Sets a new language.  
+	 * @param sLang The new language chosen.
+	 */
 	public void setLang (final String sLang) {
 		ClientHttpRequest.logger.debug("setLang("+sLang+")");
 		this.aURLConnection.setRequestProperty("Accept-Language", sLang);
 	}
 
+	/**
+	 * Writes a name in the appropriate format on the output.
+	 * @param sName The name to write.
+	 * @throws IOException
+	 */
 	private void writeName (final String sName) throws IOException {
 		this.newline();
 		this.write("Content-Disposition: form-data; name=\"");
@@ -192,6 +233,12 @@ public class ClientHttpRequest {
 		this.writeln(sValue);
 	}
 
+	/**
+	 * 
+	 * @param aInputStream
+	 * @param aOutputStream
+	 * @throws IOException
+	 */
 	private static void pipe (
 			final InputStream aInputStream,
 			final OutputStream aOutputStream) throws IOException {

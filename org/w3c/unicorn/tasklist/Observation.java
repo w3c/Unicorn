@@ -1,4 +1,4 @@
-// $Id: Observation.java,v 1.1.1.1 2006-08-31 09:09:26 dleroy Exp $
+// $Id: Observation.java,v 1.2 2008-06-17 13:45:32 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -116,6 +116,12 @@ public class Observation {
 		}
 	}
 
+	/**
+	 * Parses the mapOfMimeTypePriority in order to check if the given type
+	 * matches an existing one.
+	 * @param aMimeType The type to check.
+	 * @return True if the given type matches an existing one, else false.
+	 */
 	public boolean allowMimeType (
 			final MimeType aMimeType) {
 		for (final MimeType aLocalMimeType : this.mapOfMimeTypePriority.keySet()) {

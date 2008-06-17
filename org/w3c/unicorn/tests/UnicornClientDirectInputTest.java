@@ -20,13 +20,6 @@ public class UnicornClientDirectInputTest {
 
 	public static void main(String[] args) {
 
-		/*
-		// lang par defaut
-		Map<String, String[]> mapOfParameter = new LinkedHashMap<String, String[]>();
-		String[] tmp = {"en"};
-		mapOfParameter.put("ucn_lang", tmp); 
-		aUnicornCall.setMapOfStringParameter(mapOfParameter);
-		*/
 		
 		UnicornCall aUnicornCall = new UnicornCall();
 		aUnicornCall.setTask("css"); //task id
@@ -41,11 +34,6 @@ public class UnicornClientDirectInputTest {
 		aUnicornCall.setMapOfStringParameter(mapOfParameter);
 
 		aUnicornCall.setInputParameterValue("p#msie { /* msie-bug note for text/plain */ float: right; border: 1px solid black; background: white;}");
-		
-		//aUnicornCall.setInputParameterValue("2+3");
-
-		
-		//if (isAcceptDirectInput("calculator"))
 		
 		try {
 			

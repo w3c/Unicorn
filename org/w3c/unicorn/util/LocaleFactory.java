@@ -1,4 +1,4 @@
-// $Id: LocaleFactory.java,v 1.1.1.1 2006-08-31 09:09:28 dleroy Exp $
+// $Id: LocaleFactory.java,v 1.2 2008-06-17 13:45:31 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -17,10 +17,19 @@ public class LocaleFactory {
 
 	private static final LinkedHashMap<String, Locale> mapOfLocale = new LinkedHashMap<String, Locale>();
 
+	/**
+	 * Finds a Locale object among the mapOfLocale entries, given its name.
+	 * @param sLocale The name of the Locale.
+	 * @return The corresponding Locale object.
+	 */
 	public static Locale getLocale (final String sLocale) {
 		return LocaleFactory.mapOfLocale.get(sLocale);
 	}
 
+	/**
+	 * Returns the values available in the mapOfLocale.
+	 * @return The collection of values.
+	 */
 	public static Collection<Locale> values () {
 		return LocaleFactory.mapOfLocale.values();
 	}

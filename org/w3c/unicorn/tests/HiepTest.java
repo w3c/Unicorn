@@ -13,14 +13,6 @@ import org.w3c.unicorn.output.OutputModule;
 public class HiepTest {
 
 	public static void main(String[] args) {
-
-		/*
-		// lang par defaut
-		Map<String, String[]> mapOfParameter = new LinkedHashMap<String, String[]>();
-		String[] tmp = {"en"};
-		mapOfParameter.put("ucn_lang", tmp); 
-		aUnicornCall.setMapOfStringParameter(mapOfParameter);
-		*/
 		
 		UnicornCall aUnicornCall = new UnicornCall();
 		aUnicornCall.setTask("conformance"); //task id

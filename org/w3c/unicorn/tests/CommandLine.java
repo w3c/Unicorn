@@ -1,4 +1,4 @@
-// $Id: CommandLine.java,v 1.2 2006-09-01 14:30:17 dleroy Exp $
+// $Id: CommandLine.java,v 1.3 2008-06-17 13:45:31 jbarouh Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -34,6 +34,7 @@ public class CommandLine {
 	private static OutputModule aOutputModule = null; 
 
 	/**
+	 * Launches the Unicorn Framework.
 	 * @param args
 	 * @throws Exception 
 	 */

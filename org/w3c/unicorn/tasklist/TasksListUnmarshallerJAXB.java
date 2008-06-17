@@ -1,4 +1,4 @@
-// $Id: TasksListUnmarshallerJAXB.java,v 1.1.1.1 2006-08-31 09:09:27 dleroy Exp $
+// $Id: TasksListUnmarshallerJAXB.java,v 1.2 2008-06-17 13:45:32 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -537,32 +537,6 @@ public class TasksListUnmarshallerJAXB implements TasksListUnmarshaller {
 		}		
 	}
 	
-	/**
-	 * Main method used to test this class
-	 * @param args
-	 * @throws Exception
-	 *//*
-	public static void main(String[] args) throws Exception {
-		Map<String, Observer> observers = new LinkedHashMap<String, Observer>();
-		
-		Observer o = new Observer();
-		observers.put("css-validator", o);
-		
-		Observer o2 = new Observer();
-		observers.put("link-checker", o2);
 
-		TasksListUnmarshaller tlu = new TasksListUnmarshallerJAXB(observers);
-		tlu.addURL(new URL("http://w3cstag8/~jean/xml/task2.xml"));
-		tlu.unmarshal();
-		
-		RDFUnmarshaller rdfu = new RDFUnmarshallerJena(tlu.getMapOfTask());
-		rdfu.addURL(new URL("http://w3cstag8/~jean/xml/task.rdf"));
-		rdfu.unmarshal();
-		
-		for (org.w3c.unicorn.tasklist.Task t : tlu.getMapOfTask().values()) {
-			System.out.println(t);
-			System.out.println("---------------------------------------");
-		}
-	}*/
 	
 }

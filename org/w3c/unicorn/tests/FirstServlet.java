@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.9 2008-02-21 14:30:53 hduong Exp $
+// $Id: FirstServlet.java,v 1.10 2008-06-17 13:45:31 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -50,14 +50,13 @@ public class FirstServlet extends HttpServlet {
 
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn");
 
-	/**
-	 * 
-	 */
 	private static final long	serialVersionUID	= -1375355420965607571L;
 
 	private static final DiskFileItemFactory factory = new DiskFileItemFactory();	
 	
-	// Create a new file upload handler
+	/**
+	 * Creates a new file upload handler.
+	 */
 	private static final ServletFileUpload upload = new ServletFileUpload(FirstServlet.factory);
 
 	/* (non-Javadoc)
@@ -320,6 +319,14 @@ public class FirstServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * Adds a parameter at the correct call.
+	 * @param sParamName Name of the parameter.
+	 * @param sParamValue Value of the parameter.
+	 * @param aUnicornCall 
+	 * @param mapOfSpecificParameter
+	 * @param mapOfOutputParameter
+	 */
 	private void addParameter (
 			final String sParamName,
 			final String sParamValue,
@@ -330,6 +337,14 @@ public class FirstServlet extends HttpServlet {
 		this.addParameter(sParamName, tStringValues, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
 	}
 	
+	/**
+	 * 
+	 * @param sParamName
+	 * @param tStringParamValue
+	 * @param aUnicornCall
+	 * @param mapOfSpecificParameter
+	 * @param mapOfOutputParameter
+	 */
 	private void addParameter (
 			String sParamName,
 			final String[] tStringParamValue,
@@ -472,10 +487,12 @@ public class FirstServlet extends HttpServlet {
 		}
 	}
 	
-	
-	/*
+	/**
 	 * This method returns the first language of the accept language list
 	 * which is equal to one of available index template language
+	 * 
+	 * @param aLocale
+	 * @return The selected language or the default language.
 	 */
 	private String chooseTemplateLang(String aLocale){
 		String[] tabLang = aLocale.split(";|,");
@@ -489,6 +506,13 @@ public class FirstServlet extends HttpServlet {
 		return LocalizedString.DEFAULT_LANGUAGE;
 	}
 	
+	
+	/**
+	 * Converts an Enumeration object to a string, the terms being
+	 * separated by a coma.
+	 * @param myEnum The enumeration to convert.
+	 * @return The converted string.
+	 */
 	private String convertEnumerationToString(Enumeration myEnum){
 		String ret = "";
 		while (myEnum.hasMoreElements()){

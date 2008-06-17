@@ -158,6 +158,12 @@ public class Response {
     	return resultList;
     }
     
+    /**
+     * Gets the result of the specified URI given a language.
+     * @param lang The language to consider.
+     * @param uri  The URI to consider.
+     * @return The result in the given language for the URI.
+     */
     public Result getResult(String lang, String uri) {
     	if (mapOfLangURIResult.get(lang)==null)
     		mapOfLangURIResult.put(lang, new LinkedHashMap<String, Result>());
@@ -167,9 +173,10 @@ public class Response {
     }
 
     /**
-	 * add a Result r to the map, if theres is already a result which have the
+	 * Adds a Result r to the map, if there is already a result which has the
 	 * same uri and the same language, we will append r to this result otherwise
-	 * we'll simply add r to the list
+	 * we'll simply add r to the list.
+	 * @param value The value of the result.
 	 */
     public void addResult(Result value) {
     	//search in the list a result which have the same uri and the same language
@@ -186,6 +193,10 @@ public class Response {
     	}
     }
 
+    /**
+     * 
+     * @return The list of errors corresponding to the results.
+     */
     List<Error> getErrorList() {
     	List<Error> xList = new ArrayList<Error>();
     	//iterate all language
@@ -198,6 +209,10 @@ public class Response {
     	return xList;
     }
     
+    /**
+     * 
+     * @return The list of warnings corresponding to the results.
+     */
     List<Warning> getWarningList() {
     	List<Warning> xList = new ArrayList<Warning>();
     	//iterate all language
@@ -210,6 +225,10 @@ public class Response {
     	return xList;
     }
     
+    /**
+     * 
+     * @return The list of infos corresponding to the results.
+     */
     List<Info> getAllInfo() {
     	List<Info> xList = new ArrayList<Info>();
     	//iterate all language

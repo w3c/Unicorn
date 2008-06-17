@@ -1,4 +1,4 @@
-// $Id: TextFieldParameter.java,v 1.1.1.1 2006-08-31 09:09:27 dleroy Exp $
+// $Id: TextFieldParameter.java,v 1.2 2008-06-17 13:45:31 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,15 +18,28 @@ public class TextFieldParameter extends Parameter {
 
 	private Value aValueDefault;
 
+	/**
+	 * Default constructor for a TextFieldParameter 
+	 * (see the Parameter default constructor).
+	 */
 	protected TextFieldParameter () {
 		super();
 		TextFieldParameter.logger.trace("Constructor()");
 	}
 
+	/**
+	 * Adds a Value object to the mapOfValue.
+	 *  @param aValue The value to add.
+	 */
 	public void addValue (final Value aValue) {
 		this.aValueDefault = aValue;
 	}
 
+	/**
+	 * Finds a Value object in the map given its name.
+	 *  @param sName The name of the Value.
+	 *  @return The Value object if the String corresponds to a key.
+	 */
 	public Value getValue (final String sName) {
 		if (this.aValueDefault.getName().equals(sName)) {
 			return this.aValueDefault;
@@ -44,6 +57,10 @@ public class TextFieldParameter extends Parameter {
 		return mapOfValue;
 	}
 
+	/**
+	 * Sets the default Value in the mapOfDefaultValue.
+	 * @param sDefaultValues The new default value.
+	 */
 	public void setDefaultValues (final String sDefaultValues) {
 		this.aValueDefault.setName(sDefaultValues);
 	}
@@ -56,7 +73,11 @@ public class TextFieldParameter extends Parameter {
 		// no value because we allow any text
 		return null;
 	}
-
+	
+	/**
+	 * Defines or replaces the mapOfValue.
+	 * @param mapOfValue The new map of values.
+	 */
 	public void setMapOfValue (final Map<String, Value> mapOfValue) throws ParameterException {
 		if (mapOfValue.size() != 1) {
 			TextFieldParameter.logger.error("TextField parameter should have exactly one value.");
@@ -64,11 +85,19 @@ public class TextFieldParameter extends Parameter {
 		}
 		this.aValueDefault = mapOfValue.values().iterator().next();
 	}
-
+	/**
+	 * Returns the type of the parameter.
+	 * @return The type TEXTFIELD.
+	 */
 	public ParameterType getType () {
 		return ParameterType.TEXTFIELD;
 	}
-
+	
+	/**
+	 * Merges a Parameter with this one if the type complies.
+	 * @param aParameter The parameter to merge with the current one.
+	 * @return True if they merged correctly, else false.
+	 */
 	public boolean merge (final Parameter aParameter) {
 		TextFieldParameter.logger.trace("merge");
 		// Types must match

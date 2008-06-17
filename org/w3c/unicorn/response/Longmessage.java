@@ -40,6 +40,10 @@ public class Longmessage {
     protected List<Object> content = new ArrayList<Object>();
     protected String lang;
 
+    /**
+     * 
+     * @return The list of the contents.
+     */
     public List<Object> getContent() {
         if (content == null) {
             content = new ArrayList<Object>();
@@ -47,6 +51,10 @@ public class Longmessage {
         return this.content;
     }
 
+    /**
+     * Sets the contents of the message.
+     * @param content The list to set.
+     */
 	public void setContent(List<Object> content) {
 		this.content = content;
 	}
@@ -60,10 +68,17 @@ public class Longmessage {
 		return res;
 	}
 */
+	/**
+	 * @return The language of the message.
+	 */
 	public String getLang() {
 		return lang;
 	}
 
+	/**
+	 * Sets the language for this message.
+	 * @param lang The language of the message.
+	 */
 	public void setLang(String lang) {
 		this.lang = lang;
 	}

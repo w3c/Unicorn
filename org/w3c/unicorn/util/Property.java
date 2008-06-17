@@ -1,4 +1,4 @@
-// $Id: Property.java,v 1.2 2008-04-18 12:35:22 jean-gui Exp $
+// $Id: Property.java,v 1.3 2008-06-17 13:45:31 jbarouh Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -24,6 +24,10 @@ public class Property {
 	private static final Log logger = LogFactory.getLog(Property.class);
 	private static final Map<String, Property> mapOfProperty = new Hashtable<String, Property>();
 
+	/**
+	 * Adds a Property object to the static mapOfProperty.
+	 * @param aProperty The Property to be add.
+	 */
 	private static void addProperty (final Property aProperty) {
 		Property.logger.trace("addProperty");
 		if (Property.logger.isDebugEnabled()) {
@@ -33,14 +37,30 @@ public class Property {
 		Property.mapOfProperty.put(aProperty.getID(), aProperty);
 	}
 
+	/**
+	 * Finds a Property in the map given its ID.
+	 * @param sID The ID of the Property wanted.
+	 * @return The corresponding Property object 
+	 * or null if there's none. 
+	 */
 	public static Property getProperty (final String sID) {
 		return Property.mapOfProperty.get(sID);
 	}
 
+	/**
+	 * Gets the value of a Property in the map given its ID.
+	 * @param sID The ID of the Property wanted.
+	 * @return The value of the corresponding Property
+	 * or null if there's none.
+	 */
 	public static String get (final String sID) {
 		return Property.mapOfProperty.get(sID).getValue();
 	}
 
+	/**
+	 * Adds the given properties in the map.
+	 * @param aProperties The properties to be loaded.
+	 */
 	public static void load (final Properties aProperties) {
 		Property.logger.trace("load");
 		for (
@@ -52,6 +72,11 @@ public class Property {
 		}
 	}
 
+	/**
+	 * Adds a Property in the map with the given name and value.
+	 * @param sPropName The name of the Property.
+	 * @param sPropValue The value of the Property.
+	 */
 	private static void parseValue (final String sPropName, final String sPropValue) {
 		Property.logger.trace("parseValue");
 		if (Property.logger.isDebugEnabled()) {
@@ -100,27 +125,51 @@ public class Property {
 	private String sSpecificElement = "";
 	private String sID = null;
 
+	/**
+	 * Gives the ID of the current Property.
+	 * @return The ID of the Property.
+	 */
 	private String getID () {
 		return this.sID;
 	}
 
+	/**
+	 * Sets the ID of the Property.
+	 * @param sID The ID to set.
+	 */
 	private void setID (final String sID) {
 		this.sID = sID;
 	}
 
+	/**
+	 * Adds a Property to the listOfElement.
+	 * @param aProperty The property to add.
+	 */
 	private void addElement (final Property aProperty) {
 		this.listOfElement.add(aProperty);
 	}
 	
+	/**
+	 * Erases the contents of listOfElement.
+	 *
+	 */
 	public void clear () {
 		this.listOfElement.clear();
 		this.sSpecificElement = "";
 	}
 	
+	/**
+	 * Sets a specific element in the list.
+	 * @param sSpecific The name of the specific element.
+	 */
 	public void setSpecific (final String sSpecific) {
 		this.sSpecificElement = sSpecific;
 	}
 
+	/**
+	 * Gives the value of the Property.
+	 * @return The value of the Property.
+	 */
 	public String getValue () {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
@@ -161,6 +210,10 @@ public class Property {
 		}
 	}
 
+	/**
+	 * For each Property in the map, prints its ID and value.
+	 * @param tArgument
+	 */
 	public static void main (final String[] tArgument) {
 		System.out.println("Begin.");
 		

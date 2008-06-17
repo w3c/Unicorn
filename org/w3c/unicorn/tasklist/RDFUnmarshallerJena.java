@@ -1,4 +1,4 @@
-// $Id: RDFUnmarshallerJena.java,v 1.1.1.1 2006-08-31 09:09:26 dleroy Exp $
+// $Id: RDFUnmarshallerJena.java,v 1.2 2008-06-17 13:45:32 jbarouh Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -85,11 +85,19 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	private Map<String, Task> mapOfTask = null;
 	private Model aModel = null;
 
+	/**
+	 * Default constructor.
+	 *
+	 */
 	public RDFUnmarshallerJena () {
 		RDFUnmarshallerJena.logger.trace("Constructor");
 		this.aModel = ModelFactory.createDefaultModel();
 	}
 
+	/**
+	 * Adds a Model with the given URL to this aModel.
+	 * @param aURL The URL to add.
+	 */
 	public void addURL (final URL aURL) throws IOException {
 		RDFUnmarshallerJena.logger.trace("addURL");
 		if (RDFUnmarshallerJena.logger.isDebugEnabled()) {
@@ -100,6 +108,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 		this.aModel.add(aModel);
 	}
 
+	/**
+	 * Adds a name (with its language) to the given task.
+	 * @param aTask The task to name.
+	 * @param aLiteral The name of the task.
+	 */
 	private void addLongName (final Task aTask, final Literal aLiteral) {
 		RDFUnmarshallerJena.logger.debug(
 				"LongName lang:" + aLiteral.getLanguage() +
@@ -107,6 +120,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 		aTask.addLongName(aLiteral.getLanguage(), aLiteral.getString());
 	}
 
+	/**
+	 * Adds a description (with its language) to the given task.
+	 * @param aTask The task to describe.
+	 * @param aLiteral The description of the task.
+	 */
 	private void addDescription (final Task aTask, final Literal aLiteral) {
 		RDFUnmarshallerJena.logger.debug(
 				"Description lang:" + aLiteral.getLanguage() +
@@ -114,6 +132,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 		aTask.addDescription(aLiteral.getLanguage(), aLiteral.getString());
 	}
 
+	/**
+	 * Adds a name (with its language) to the given parameter.
+	 * @param aTask The parameter to name.
+	 * @param aLiteral The name of the parameter.
+	 */
 	private void addLongName (final Parameter aParameter, final Literal aLiteral) {
 		RDFUnmarshallerJena.logger.debug(
 				"Parameter long name lang:" + aLiteral.getLanguage() +
@@ -121,6 +144,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 		aParameter.addLongName(aLiteral.getLanguage(), aLiteral.getString());
 	}
 
+	/**
+	 * Adds a name (with its language) to the given value.
+	 * @param aTask The value to name.
+	 * @param aLiteral The name of the value.
+	 */
 	private void addLongName (final Value aValue, final Literal aLiteral) {
 		RDFUnmarshallerJena.logger.debug(
 				"Value long name lang:" + aLiteral.getLanguage() +
@@ -128,6 +156,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 		aValue.addLongName(aLiteral.getLanguage(), aLiteral.getString());
 	}
 
+	/**
+	 * Adds a mapping to the given value.
+	 * @param value The value to map.
+	 * @param aMapping The mapping for the value.
+	 */
 	private void addMapping (final Value aValue, final Resource aMapping) {
 		RDFUnmarshallerJena.logger.trace("addMapping");
 		if (RDFUnmarshallerJena.logger.isDebugEnabled()) {
@@ -144,6 +177,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 		oMapping.setValue(sValue);
 	}
 
+	/**
+	 * Adds a value to the given parameter.
+	 * @param aParameter The parameter to consider.
+	 * @param aValue The value to add.
+	 */
 	private void addValue (final Parameter aParameter, final Resource aValue) {
 		final String sValue =
 			aValue.getProperty(RDFUnmarshallerJena.PROPERTY_VALUE).getLiteral().getString();
@@ -174,6 +212,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 		} // find and add mapping of the Value
 	}
 
+	/**
+	 * Adds a parameter to the given task.
+	 * @param aTask The task to consider.
+	 * @param aParameter The parameter to add.
+	 */
 	private void addParameter (final Task aTask, final Resource aParameter) {
 		final String sParameterReference =
 			aParameter.getProperty(RDFUnmarshallerJena.PROPERTY_REFERENCE).getLiteral().getString();
@@ -209,6 +252,12 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 		} // find and add value of the Parameter
 	}
 
+	/**
+	 * Adds a handler to the given task.
+	 * @param aTask The task to consider.
+	 * @param aHandler The handler to add.
+	 * @throws MimeTypeParseException
+	 */
 	private void addHandler (final Task aTask, final Resource aHandler) throws MimeTypeParseException {
 		RDFUnmarshallerJena.logger.trace("addHandler");
 		final String sMimeType = aHandler.getProperty(RDFUnmarshallerJena.PROPERTY_MIMETYPE).getLiteral().getString();
@@ -225,6 +274,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 				TPriority.fromValue(sPriority));
 	}
 
+	/**
+	 * Adds a task to this object.
+	 * @param aTask The task to add.
+	 * @throws Exception
+	 */
 	private void addTask (final Resource aTask) throws Exception {
 		final Statement aReference = aTask.getProperty(RDFUnmarshallerJena.PROPERTY_REFERENCE);
 		final Task oTask = this.mapOfTask.get(aReference.getLiteral().getString());

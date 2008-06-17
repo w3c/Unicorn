@@ -1,4 +1,4 @@
-// $Id: ExpandTest.java,v 1.1.1.1 2006-08-31 09:09:28 dleroy Exp $
+// $Id: ExpandTest.java,v 1.2 2008-06-17 13:45:31 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -23,10 +23,19 @@ public class ExpandTest {
 	private String id;
 	private List<String> references;
 	
+	/**
+	 * Default constructor for ExpandTest.
+	 *
+	 */
 	public ExpandTest() {
 		references = new ArrayList<String>();
 	}
 	
+	/**
+	 * Removes the old references and updates the oldRefs list with the 
+	 * current references before adding the new references. 
+	 *
+	 */
 	public void expand() {
 		enCours = true;
 		List<String> oldRefs = new ArrayList<String>();
@@ -49,10 +58,12 @@ public class ExpandTest {
 		return id + "=" + references;
 	}
 	
+	/**
+	 * Tests the expand process.
+	 * @param args
+	 */
 	public static void main(String[] args) {	
 		ExpandTest test1 = new ExpandTest();
-		//test1.references.add("test2");
-		//test1.references.add("test5");
 		test1.id = "css";
 		testList.put("css", test1);
 		
@@ -63,27 +74,10 @@ public class ExpandTest {
 		
 		ExpandTest test3 = new ExpandTest();
 		test3.references.add("css");
-		//test3.references.add("test6");
 		test3.id = "foo";
 		testList.put("foo", test3);
-		/*
-		ExpandTest test4 = new ExpandTest();
-		test4.references.add("test1");	
-		test4.id = "test4";
-		testList.put("test4", test4);
-		
-		ExpandTest test5 = new ExpandTest();	
-		test5.id = "test5";
-		test5.references.add("test6");
-		testList.put("test5", test5);
-		
-		ExpandTest test6 = new ExpandTest();	
-		test6.id = "test6";
-		testList.put("test6", test6);*/
-		//test6.references.add("test4");
 		
 		for (ExpandTest test : testList.values()) {
-			//System.out.println(test.id);
 			test.expand();
 		}
 		

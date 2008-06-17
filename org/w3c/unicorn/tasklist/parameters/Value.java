@@ -1,4 +1,4 @@
-// $Id: Value.java,v 1.1.1.1 2006-08-31 09:09:28 dleroy Exp $
+// $Id: Value.java,v 1.2 2008-06-17 13:45:31 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -91,14 +91,29 @@ public class Value {
 		this.longNames = longNames;
 	}
 
+	/**
+	 * Adds a list of mapping to the mapOfListOfMapping.
+	 * @param sKey The key for the list.
+	 * @param listOfMapping The list to add.
+	 */
 	public void addListOfMapping (final String sKey, final List<Mapping> listOfMapping) {
 		this.mapOfListOfMapping.put(sKey, listOfMapping);
 	}
 
+	/**
+	 * Checks if the given mapping exists.
+	 * @param sMapping 
+	 * @return True if the map contains sMapping, else false.
+	 */
 	public boolean hasMapping (final String sMapping) {
 		return null != this.mapOfListOfMapping.get(sMapping);
 	}
 
+	/**
+	 * Finds a list of mapping given its name.
+	 * @param sName The name of the mapping.
+	 * @return The list of mapping if the name matches an entry.
+	 */
 	public List<Mapping> getListOfMapping (final String sName) {
 		return this.mapOfListOfMapping.get(sName);
 	}
