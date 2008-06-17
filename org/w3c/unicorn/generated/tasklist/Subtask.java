@@ -5,7 +5,6 @@
 // Generated on: 2006.06.29 at 06:09:33 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.tasklist;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,22 +13,24 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for subtask element declaration.
+ * <p>
+ * Java class for subtask element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="subtask">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;attribute name="ref" use="required" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;subtask&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;attribute name=&quot;ref&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anySimpleType&quot; /&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
@@ -39,31 +40,28 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "subtask")
 public class Subtask {
 
-    @XmlAttribute(required = true)
-    protected String ref;
+	@XmlAttribute(required = true)
+	protected String ref;
 
-    /**
-     * Gets the value of the ref property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRef() {
-        return ref;
-    }
+	/**
+	 * Gets the value of the ref property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getRef() {
+		return ref;
+	}
 
-    /**
-     * Sets the value of the ref property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRef(String value) {
-        this.ref = value;
-    }
+	/**
+	 * Sets the value of the ref property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setRef(String value) {
+		this.ref = value;
+	}
 
 }

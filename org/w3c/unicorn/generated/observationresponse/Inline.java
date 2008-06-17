@@ -5,7 +5,6 @@
 // Generated on: 2006.07.26 at 04:29:37 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.observationresponse;
 
 import java.util.ArrayList;
@@ -17,69 +16,67 @@ import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlMixed;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Inline complex type.
+ * <p>
+ * Java class for Inline complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="Inline">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;choice maxOccurs="unbounded" minOccurs="0">
- *         &lt;element ref="{http://www.w3.org/unicorn/observationresponse}a"/>
- *         &lt;element ref="{http://www.w3.org/unicorn/observationresponse}img"/>
- *       &lt;/choice>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;Inline&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;choice maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;&gt;
+ *         &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}a&quot;/&gt;
+ *         &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}img&quot;/&gt;
+ *       &lt;/choice&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Inline", propOrder = {
-    "content"
-})
+@XmlType(name = "Inline", propOrder = { "content" })
 public class Inline {
 
-    @XmlElementRefs({
-        @XmlElementRef(name = "a", namespace = "http://www.w3.org/unicorn/observationresponse", type = A.class),
-        @XmlElementRef(name = "img", namespace = "http://www.w3.org/unicorn/observationresponse", type = Img.class)
-    })
-    @XmlMixed
-    protected List<Object> content;
+	@XmlElementRefs( {
+			@XmlElementRef(name = "a", namespace = "http://www.w3.org/unicorn/observationresponse", type = A.class),
+			@XmlElementRef(name = "img", namespace = "http://www.w3.org/unicorn/observationresponse", type = Img.class) })
+	@XmlMixed
+	protected List<Object> content;
 
-    /**
-     * Gets the value of the content property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the content property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getContent().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link A }
-     * {@link String }
-     * {@link Img }
-     * 
-     * 
-     */
-    public List<Object> getContent() {
-        if (content == null) {
-            content = new ArrayList<Object>();
-        }
-        return this.content;
-    }
+	/**
+	 * Gets the value of the content property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a <CODE>set</CODE>
+	 * method for the content property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getContent().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link A }
+	 * {@link String } {@link Img }
+	 * 
+	 * 
+	 */
+	public List<Object> getContent() {
+		if (content == null) {
+			content = new ArrayList<Object>();
+		}
+		return this.content;
+	}
 
 }

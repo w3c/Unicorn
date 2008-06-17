@@ -5,7 +5,6 @@
 // Generated on: 2006.07.26 at 04:29:37 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.observationresponse;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,22 +13,24 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for a element declaration.
+ * <p>
+ * Java class for a element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="a">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;extension base="{http://www.w3.org/unicorn/observationresponse}inA">
- *         &lt;attribute name="href" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
- *       &lt;/extension>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;a&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;extension base=&quot;{http://www.w3.org/unicorn/observationresponse}inA&quot;&gt;
+ *         &lt;attribute name=&quot;href&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anyURI&quot; /&gt;
+ *       &lt;/extension&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
@@ -37,35 +38,30 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "a")
-public class A
-    extends InA
-{
+public class A extends InA {
 
-    @XmlAttribute
-    protected String href;
+	@XmlAttribute
+	protected String href;
 
-    /**
-     * Gets the value of the href property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getHref() {
-        return href;
-    }
+	/**
+	 * Gets the value of the href property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getHref() {
+		return href;
+	}
 
-    /**
-     * Sets the value of the href property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setHref(String value) {
-        this.href = value;
-    }
+	/**
+	 * Sets the value of the href property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setHref(String value) {
+		this.href = value;
+	}
 
 }

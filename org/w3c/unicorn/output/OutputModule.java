@@ -1,4 +1,4 @@
-// $Id: OutputModule.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: OutputModule.java,v 1.2 2008-06-17 13:41:11 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -15,6 +15,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
  * Interface for all output module.
+ * 
  * @author Damien LEROY
  */
 public interface OutputModule {
@@ -23,42 +24,32 @@ public interface OutputModule {
 
 	/**
 	 * Generate the output of all response.
-	 * @throws IOException 
-	 * @throws Exception 
-	 * @throws MethodInvocationException 
-	 * @throws ParseErrorException 
-	 * @throws ResourceNotFoundException 
+	 * 
+	 * @throws IOException
+	 * @throws Exception
+	 * @throws MethodInvocationException
+	 * @throws ParseErrorException
+	 * @throws ResourceNotFoundException
 	 */
-	public abstract void produceOutput (
-			final OutputFormater aOutputFormater,
+	public abstract void produceOutput(final OutputFormater aOutputFormater,
 			final Map<String, Object> mapOfStringObject,
-			final Map<String, String[]> mapOfParameter,
-			final Writer aWriter)
-	throws
-	IOException,
-	ResourceNotFoundException,
-	ParseErrorException,
-	MethodInvocationException,
-	Exception;
+			final Map<String, String[]> mapOfParameter, final Writer aWriter)
+			throws IOException, ResourceNotFoundException, ParseErrorException,
+			MethodInvocationException, Exception;
 
 	/**
 	 * Generates an error output
-	 * @throws IOException 
-	 * @throws Exception 
-	 * @throws MethodInvocationException 
-	 * @throws ParseErrorException 
-	 * @throws ResourceNotFoundException 
+	 * 
+	 * @throws IOException
+	 * @throws Exception
+	 * @throws MethodInvocationException
+	 * @throws ParseErrorException
+	 * @throws ResourceNotFoundException
 	 */
-	public abstract void produceError (
-			final OutputFormater aOutputFormater,
-			final Exception error,
-			final Map<String, String[]> mapOfParameter,
-			final Writer aWriter)
-	throws
-	IOException,
-	ResourceNotFoundException,
-	ParseErrorException,
-	MethodInvocationException,
-	Exception;
-	
+	public abstract void produceError(final OutputFormater aOutputFormater,
+			final Exception error, final Map<String, String[]> mapOfParameter,
+			final Writer aWriter) throws IOException,
+			ResourceNotFoundException, ParseErrorException,
+			MethodInvocationException, Exception;
+
 }

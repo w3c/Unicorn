@@ -5,7 +5,6 @@
 // Generated on: 2006.06.29 at 06:09:33 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.tasklist;
 
 import java.util.ArrayList;
@@ -18,70 +17,69 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for subtasks element declaration.
+ * <p>
+ * Java class for subtasks element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="subtasks">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;choice maxOccurs="unbounded">
- *           &lt;element ref="{http://www.w3.org/unicorn/tasklist}observation"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/tasklist}subtask"/>
- *         &lt;/choice>
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;subtasks&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;choice maxOccurs=&quot;unbounded&quot;&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/tasklist}observation&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/tasklist}subtask&quot;/&gt;
+ *         &lt;/choice&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "observationOrSubtask"
-})
+@XmlType(name = "", propOrder = { "observationOrSubtask" })
 @XmlRootElement(name = "subtasks")
 public class Subtasks {
 
-    @XmlElements({
-        @XmlElement(name = "subtask", namespace = "http://www.w3.org/unicorn/tasklist", required = true, type = Subtask.class),
-        @XmlElement(name = "observation", namespace = "http://www.w3.org/unicorn/tasklist", required = true, type = Observation.class)
-    })
-    protected List<Object> observationOrSubtask;
+	@XmlElements( {
+			@XmlElement(name = "subtask", namespace = "http://www.w3.org/unicorn/tasklist", required = true, type = Subtask.class),
+			@XmlElement(name = "observation", namespace = "http://www.w3.org/unicorn/tasklist", required = true, type = Observation.class) })
+	protected List<Object> observationOrSubtask;
 
-    /**
-     * Gets the value of the observationOrSubtask property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the observationOrSubtask property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getObservationOrSubtask().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Subtask }
-     * {@link Observation }
-     * 
-     * 
-     */
-    public List<Object> getObservationOrSubtask() {
-        if (observationOrSubtask == null) {
-            observationOrSubtask = new ArrayList<Object>();
-        }
-        return this.observationOrSubtask;
-    }
+	/**
+	 * Gets the value of the observationOrSubtask property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a <CODE>set</CODE>
+	 * method for the observationOrSubtask property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getObservationOrSubtask().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Subtask }
+	 * {@link Observation }
+	 * 
+	 * 
+	 */
+	public List<Object> getObservationOrSubtask() {
+		if (observationOrSubtask == null) {
+			observationOrSubtask = new ArrayList<Object>();
+		}
+		return this.observationOrSubtask;
+	}
 
 }

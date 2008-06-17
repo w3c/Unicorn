@@ -5,7 +5,6 @@
 // Generated on: 2006.07.26 at 04:29:37 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.observationresponse;
 
 import java.math.BigInteger;
@@ -17,121 +16,115 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for errorlist element declaration.
+ * <p>
+ * Java class for errorlist element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="errorlist">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;sequence>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}uri"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}errorcount" minOccurs="0"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}error" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;/sequence>
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;errorlist&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;sequence&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}uri&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}errorcount&quot; minOccurs=&quot;0&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}error&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;/sequence&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "uri",
-    "errorcount",
-    "error"
-})
+@XmlType(name = "", propOrder = { "uri", "errorcount", "error" })
 @XmlRootElement(name = "errorlist")
 public class Errorlist {
 
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
-    protected String uri;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
-    protected BigInteger errorcount;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
-    protected List<Error> error;
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
+	protected String uri;
 
-    /**
-     * Gets the value of the uri property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUri() {
-        return uri;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
+	protected BigInteger errorcount;
 
-    /**
-     * Sets the value of the uri property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUri(String value) {
-        this.uri = value;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
+	protected List<Error> error;
 
-    /**
-     * Gets the value of the errorcount property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getErrorcount() {
-        return errorcount;
-    }
+	/**
+	 * Gets the value of the uri property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getUri() {
+		return uri;
+	}
 
-    /**
-     * Sets the value of the errorcount property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setErrorcount(BigInteger value) {
-        this.errorcount = value;
-    }
+	/**
+	 * Sets the value of the uri property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setUri(String value) {
+		this.uri = value;
+	}
 
-    /**
-     * Gets the value of the error property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the error property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getError().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Error }
-     * 
-     * 
-     */
-    public List<Error> getError() {
-        if (error == null) {
-            error = new ArrayList<Error>();
-        }
-        return this.error;
-    }
+	/**
+	 * Gets the value of the errorcount property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getErrorcount() {
+		return errorcount;
+	}
+
+	/**
+	 * Sets the value of the errorcount property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setErrorcount(BigInteger value) {
+		this.errorcount = value;
+	}
+
+	/**
+	 * Gets the value of the error property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a <CODE>set</CODE>
+	 * method for the error property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getError().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Error }
+	 * 
+	 * 
+	 */
+	public List<Error> getError() {
+		if (error == null) {
+			error = new ArrayList<Error>();
+		}
+		return this.error;
+	}
 
 }

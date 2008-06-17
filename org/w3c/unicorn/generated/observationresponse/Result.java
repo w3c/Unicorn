@@ -5,7 +5,6 @@
 // Generated on: 2006.07.26 at 04:29:37 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.observationresponse;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,116 +13,107 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for result element declaration.
+ * <p>
+ * Java class for result element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="result">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;sequence>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}errors" minOccurs="0"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}warnings" minOccurs="0"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}informations" minOccurs="0"/>
- *         &lt;/sequence>
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;result&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;sequence&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}errors&quot; minOccurs=&quot;0&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}warnings&quot; minOccurs=&quot;0&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}informations&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;/sequence&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "errors",
-    "warnings",
-    "informations"
-})
+@XmlType(name = "", propOrder = { "errors", "warnings", "informations" })
 @XmlRootElement(name = "result")
 public class Result {
 
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
-    protected Errors errors;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
-    protected Warnings warnings;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
-    protected Informations informations;
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
+	protected Errors errors;
 
-    /**
-     * Gets the value of the errors property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Errors }
-     *     
-     */
-    public Errors getErrors() {
-        return errors;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
+	protected Warnings warnings;
 
-    /**
-     * Sets the value of the errors property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Errors }
-     *     
-     */
-    public void setErrors(Errors value) {
-        this.errors = value;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
+	protected Informations informations;
 
-    /**
-     * Gets the value of the warnings property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Warnings }
-     *     
-     */
-    public Warnings getWarnings() {
-        return warnings;
-    }
+	/**
+	 * Gets the value of the errors property.
+	 * 
+	 * @return possible object is {@link Errors }
+	 * 
+	 */
+	public Errors getErrors() {
+		return errors;
+	}
 
-    /**
-     * Sets the value of the warnings property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Warnings }
-     *     
-     */
-    public void setWarnings(Warnings value) {
-        this.warnings = value;
-    }
+	/**
+	 * Sets the value of the errors property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Errors }
+	 * 
+	 */
+	public void setErrors(Errors value) {
+		this.errors = value;
+	}
 
-    /**
-     * Gets the value of the informations property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Informations }
-     *     
-     */
-    public Informations getInformations() {
-        return informations;
-    }
+	/**
+	 * Gets the value of the warnings property.
+	 * 
+	 * @return possible object is {@link Warnings }
+	 * 
+	 */
+	public Warnings getWarnings() {
+		return warnings;
+	}
 
-    /**
-     * Sets the value of the informations property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Informations }
-     *     
-     */
-    public void setInformations(Informations value) {
-        this.informations = value;
-    }
+	/**
+	 * Sets the value of the warnings property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Warnings }
+	 * 
+	 */
+	public void setWarnings(Warnings value) {
+		this.warnings = value;
+	}
+
+	/**
+	 * Gets the value of the informations property.
+	 * 
+	 * @return possible object is {@link Informations }
+	 * 
+	 */
+	public Informations getInformations() {
+		return informations;
+	}
+
+	/**
+	 * Sets the value of the informations property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Informations }
+	 * 
+	 */
+	public void setInformations(Informations value) {
+		this.informations = value;
+	}
 
 }

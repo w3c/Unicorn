@@ -5,7 +5,6 @@
 // Generated on: 2006.07.26 at 04:29:37 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.observationresponse;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,21 +12,23 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for code element declaration.
+ * <p>
+ * Java class for code element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="code">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;extension base="{http://www.w3.org/unicorn/observationresponse}Inline">
- *       &lt;/extension>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;code&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;extension base=&quot;{http://www.w3.org/unicorn/observationresponse}Inline&quot;&gt;
+ *       &lt;/extension&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
@@ -35,9 +36,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "code")
-public class Code
-    extends Inline
-{
-
+public class Code extends Inline {
 
 }

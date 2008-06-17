@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.4 2008-02-20 15:09:57 hduong Exp $
+// $Id: UploadRequest.java,v 1.5 2008-06-17 13:41:11 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -17,65 +17,97 @@ import org.w3c.unicorn.response.parser.ResponseParserFactory;
 import org.w3c.unicorn.util.ClientHttpRequest;
 
 /**
+ * Class to deal with the upload request
  * 
  * @author Damien LEROY
  */
 public class UploadRequest extends Request {
 
+	/**
+	 * URL for the request
+	 */
 	private String sURL = null;
+
+	/**
+	 * Name of the parameter
+	 */
 	private String sInputParameterName = null;
+
+	/**
+	 * A http client for the request in upload
+	 */
 	private ClientHttpRequest aClientHttpRequest = null;
+
+	/**
+	 * An input module with upload
+	 */
 	private UploadInputModule aUploadInputModule = null;
+
+	/**
+	 * Data structure for the parameters
+	 */
 	private Map<String, String> mapOfParameter = null;
 
-	protected UploadRequest (
-			final String sURL,
-			final String sInputParameterName,
-			final InputModule aInputModule,
-			final String responseType) throws MalformedURLException, IOException {
+	/**
+	 * Create a upload request
+	 * 
+	 * @param sURL
+	 *            URL for the request
+	 * @param sInputParameterName
+	 *            name of the parameter
+	 * @param aInputModule
+	 *            module for the input of the request
+	 * @param responseType
+	 *            type of the response
+	 * @throws MalformedURLException
+	 *             error if the URL is not well formed
+	 * @throws IOException
+	 *             odd error occured
+	 */
+	protected UploadRequest(final String sURL,
+			final String sInputParameterName, final InputModule aInputModule,
+			final String responseType) throws MalformedURLException,
+			IOException {
 		super();
 		UploadRequest.logger.trace("Constructor");
 		if (UploadRequest.logger.isDebugEnabled()) {
 			UploadRequest.logger.debug("URL : " + sURL + ".");
-			UploadRequest.logger.debug("Input parameter name : " + sInputParameterName + ".");
+			UploadRequest.logger.debug("Input parameter name : "
+					+ sInputParameterName + ".");
 			UploadRequest.logger.debug("Input module : " + aInputModule + ".");
 		}
 		if (!(aInputModule instanceof UploadInputModule)) {
-			throw new IllegalArgumentException("InputModule : " + aInputModule.toString() + ".");
+			throw new IllegalArgumentException("InputModule : "
+					+ aInputModule.toString() + ".");
 		}
 		this.sURL = sURL;
 		this.sInputParameterName = sInputParameterName;
 		this.aUploadInputModule = (UploadInputModule) aInputModule;
 		this.mapOfParameter = new Hashtable<String, String>();
-		//this.aClientHttpRequest = new ClientHttpRequest(sURL);
-		/*this.aClientHttpRequest.setParameter(
-				this.sInputParameterName,
-				this.aUploadInputModule.getFileName(),
-				this.aUploadInputModule.getInputStream());*/
 		this.setResponseType(responseType);
 	}
 
 	@Override
-	public void addParameter (final String sName, final String sValue) throws IOException {
+	public void addParameter(final String sName, final String sValue)
+			throws IOException {
 		UploadRequest.logger.trace("addParameter");
 		if (UploadRequest.logger.isDebugEnabled()) {
 			UploadRequest.logger.debug("Name :" + sName + ".");
 			UploadRequest.logger.debug("Value :" + sValue + ".");
 		}
 		this.mapOfParameter.put(sName, sValue);
-		//this.aClientHttpRequest.setParameter(sName, sValue);
 	}
 
 	@Override
 	public Response doRequest() throws IOException {
 		UploadRequest.logger.trace("doRequest");
 		this.aClientHttpRequest = new ClientHttpRequest(sURL);
-		UploadRequest.logger.debug("Lang : "+this.sLang+".");
-		this.aClientHttpRequest.setLang(sLang); // meme place que pour directpost
-		this.aClientHttpRequest.setParameter(
-				this.sInputParameterName,
-				this.aUploadInputModule.getFileName(),
-				this.aUploadInputModule.getInputStream());
+		UploadRequest.logger.debug("Lang : " + this.sLang + ".");
+		this.aClientHttpRequest.setLang(sLang); // meme place que pour
+												// directpost
+		this.aClientHttpRequest.setParameter(this.sInputParameterName,
+				this.aUploadInputModule.getFileName(), this.aUploadInputModule
+						.getInputStream());
 		for (final String sName : this.mapOfParameter.keySet()) {
 			final String sValue = this.mapOfParameter.get(sName);
 			DirectRequestPOST.logger.trace("addParameter");
@@ -86,21 +118,22 @@ public class UploadRequest extends Request {
 			this.aClientHttpRequest.setParameter(sName, sValue);
 		}
 		final Response aObservationResponse;
-		//aObservationResponse = this.aResponseParser.parse(this.aClientHttpRequest.post());
-		aObservationResponse = ResponseParserFactory.parse(this.aClientHttpRequest.post(), this.getResponseType());
+		aObservationResponse = ResponseParserFactory.parse(
+				this.aClientHttpRequest.post(), this.getResponseType());
 		return aObservationResponse;
 	}
 
 	@Override
-	public EnumInputMethod getInputMethod () {
+	public EnumInputMethod getInputMethod() {
 		UploadRequest.logger.trace("getInputMethod");
 		return EnumInputMethod.UPLOAD;
 	}
 
-	public String toString () {
+	public String toString() {
 		final int iStringBufferSize = 1000;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
-		aStringBuffer.append("ClientHttpRequest:").append(this.aClientHttpRequest);
+		aStringBuffer.append("ClientHttpRequest:").append(
+				this.aClientHttpRequest);
 		return aStringBuffer.toString();
 	}
 

@@ -5,7 +5,6 @@
 // Generated on: 2006.06.29 at 06:09:33 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.tasklist;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,146 +14,136 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for task element declaration.
+ * <p>
+ * Java class for task element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="task">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;sequence>
- *           &lt;element ref="{http://www.w3.org/unicorn/tasklist}subtasks"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/tasklist}parameters" minOccurs="0"/>
- *         &lt;/sequence>
- *         &lt;attribute name="id" use="required" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
- *         &lt;attribute name="visible" type="{http://www.w3.org/2001/XMLSchema}boolean" default="true" />
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;task&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;sequence&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/tasklist}subtasks&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/tasklist}parameters&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;/sequence&gt;
+ *         &lt;attribute name=&quot;id&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anySimpleType&quot; /&gt;
+ *         &lt;attribute name=&quot;visible&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}boolean&quot; default=&quot;true&quot; /&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "subtasks",
-    "parameters"
-})
+@XmlType(name = "", propOrder = { "subtasks", "parameters" })
 @XmlRootElement(name = "task")
 public class Task {
 
-    @XmlElement(namespace = "http://www.w3.org/unicorn/tasklist", required = true)
-    protected Subtasks subtasks;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/tasklist")
-    protected Parameters parameters;
-    @XmlAttribute(required = true)
-    protected String id;
-    @XmlAttribute
-    protected Boolean visible;
+	@XmlElement(namespace = "http://www.w3.org/unicorn/tasklist", required = true)
+	protected Subtasks subtasks;
 
-    /**
-     * Gets the value of the subtasks property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Subtasks }
-     *     
-     */
-    public Subtasks getSubtasks() {
-        return subtasks;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/tasklist")
+	protected Parameters parameters;
 
-    /**
-     * Sets the value of the subtasks property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Subtasks }
-     *     
-     */
-    public void setSubtasks(Subtasks value) {
-        this.subtasks = value;
-    }
+	@XmlAttribute(required = true)
+	protected String id;
 
-    /**
-     * Gets the value of the parameters property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Parameters }
-     *     
-     */
-    public Parameters getParameters() {
-        return parameters;
-    }
+	@XmlAttribute
+	protected Boolean visible;
 
-    /**
-     * Sets the value of the parameters property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Parameters }
-     *     
-     */
-    public void setParameters(Parameters value) {
-        this.parameters = value;
-    }
+	/**
+	 * Gets the value of the subtasks property.
+	 * 
+	 * @return possible object is {@link Subtasks }
+	 * 
+	 */
+	public Subtasks getSubtasks() {
+		return subtasks;
+	}
 
-    /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getId() {
-        return id;
-    }
+	/**
+	 * Sets the value of the subtasks property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Subtasks }
+	 * 
+	 */
+	public void setSubtasks(Subtasks value) {
+		this.subtasks = value;
+	}
 
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setId(String value) {    	
-        this.id = value;
-    }
+	/**
+	 * Gets the value of the parameters property.
+	 * 
+	 * @return possible object is {@link Parameters }
+	 * 
+	 */
+	public Parameters getParameters() {
+		return parameters;
+	}
 
-    /**
-     * Gets the value of the visible property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public boolean isVisible() {
-        if (visible == null) {
-            return true;
-        } else {
-            return visible;
-        }
-    }
+	/**
+	 * Sets the value of the parameters property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Parameters }
+	 * 
+	 */
+	public void setParameters(Parameters value) {
+		this.parameters = value;
+	}
 
-    /**
-     * Sets the value of the visible property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setVisible(Boolean value) {
-        this.visible = value;
-    }
+	/**
+	 * Gets the value of the id property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * Sets the value of the id property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setId(String value) {
+		this.id = value;
+	}
+
+	/**
+	 * Gets the value of the visible property.
+	 * 
+	 * @return possible object is {@link Boolean }
+	 * 
+	 */
+	public boolean isVisible() {
+		if (visible == null) {
+			return true;
+		} else {
+			return visible;
+		}
+	}
+
+	/**
+	 * Sets the value of the visible property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Boolean }
+	 * 
+	 */
+	public void setVisible(Boolean value) {
+		this.visible = value;
+	}
 
 }

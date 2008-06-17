@@ -5,7 +5,6 @@
 // Generated on: 2006.07.26 at 04:29:37 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.observationresponse;
 
 import java.math.BigInteger;
@@ -18,120 +17,116 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for errors element declaration.
+ * <p>
+ * Java class for errors element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="errors">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;sequence>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}errorcount" minOccurs="0"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}errorlist" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;/sequence>
- *         &lt;attribute ref="{http://www.w3.org/XML/1998/namespace}lang use="required""/>
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;errors&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;sequence&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}errorcount&quot; minOccurs=&quot;0&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}errorlist&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;/sequence&gt;
+ *         &lt;attribute ref=&quot;{http://www.w3.org/XML/1998/namespace}lang use=&quot;required&quot;&quot;/&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "errorcount",
-    "errorlist"
-})
+@XmlType(name = "", propOrder = { "errorcount", "errorlist" })
 @XmlRootElement(name = "errors")
 public class Errors {
 
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
-    protected BigInteger errorcount;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
-    protected List<Errorlist> errorlist;
-    @XmlAttribute(namespace = "http://www.w3.org/XML/1998/namespace", required = true)
-    protected String lang;
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
+	protected BigInteger errorcount;
 
-    /**
-     * Gets the value of the errorcount property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getErrorcount() {
-        return errorcount;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
+	protected List<Errorlist> errorlist;
 
-    /**
-     * Sets the value of the errorcount property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setErrorcount(BigInteger value) {
-        this.errorcount = value;
-    }
+	@XmlAttribute(namespace = "http://www.w3.org/XML/1998/namespace", required = true)
+	protected String lang;
 
-    /**
-     * Gets the value of the errorlist property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the errorlist property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getErrorlist().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Errorlist }
-     * 
-     * 
-     */
-    public List<Errorlist> getErrorlist() {
-        if (errorlist == null) {
-            errorlist = new ArrayList<Errorlist>();
-        }
-        return this.errorlist;
-    }
+	/**
+	 * Gets the value of the errorcount property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getErrorcount() {
+		return errorcount;
+	}
 
-    /**
-     * Gets the value of the lang property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLang() {
-        return lang;
-    }
+	/**
+	 * Sets the value of the errorcount property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setErrorcount(BigInteger value) {
+		this.errorcount = value;
+	}
 
-    /**
-     * Sets the value of the lang property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLang(String value) {
-        this.lang = value;
-    }
+	/**
+	 * Gets the value of the errorlist property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a <CODE>set</CODE>
+	 * method for the errorlist property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getErrorlist().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link Errorlist }
+	 * 
+	 * 
+	 */
+	public List<Errorlist> getErrorlist() {
+		if (errorlist == null) {
+			errorlist = new ArrayList<Errorlist>();
+		}
+		return this.errorlist;
+	}
+
+	/**
+	 * Gets the value of the lang property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getLang() {
+		return lang;
+	}
+
+	/**
+	 * Sets the value of the lang property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setLang(String value) {
+		this.lang = value;
+	}
 
 }

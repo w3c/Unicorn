@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: IndexGenerator.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -29,115 +29,121 @@ import org.w3c.unicorn.util.Property;
 /**
  * IndexGenerator<br />
  * Created: Jun 20, 2006 3:07:09 PM<br />
+ * 
  * @author Jean-Guilhem Rouel
  */
 public class IndexGenerator {
 
+	/**
+	 * Object used for complex logging purpose
+	 */
 	public static final Log logger = LogFactory.getLog("org.w3c.unicorn.index");
 
+	/**
+	 * Context to generate pages using Apache Velocity
+	 */
 	private static VelocityContext aVelocityContext;
+
+	/**
+	 * Properties of the index generator framework
+	 */
 	private static Properties aProperties = new Properties();
+
+	/**
+	 * Velocity Engine to create pages from the templates
+	 */
 	private static VelocityEngine aVelocityEngine = new VelocityEngine();
-	
+
+	/**
+	 * Load the properties and initialize apache velocity
+	 */
 	static {
-		/*
-		Properties props = new Properties();
 		try {
-			props.load(Configuration.class.getResource("unicorn.properties").openStream());
-			System.out.println("Properties : "+props);
-		}
-		catch (IOException e1) {
-			IndexGenerator.logger.error("IOException : "+e1.getMessage()+".");
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		Configuration.loadConfiguration(props);*/
-		try {
-			IndexGenerator.aProperties.load(
-					new URL(
-							"file:" +
-							Property.get("VELOCITY_CONFIG_FILE")).openStream());
-			IndexGenerator.aProperties.put(
-					Velocity.FILE_RESOURCE_LOADER_PATH, 
+			IndexGenerator.aProperties.load(new URL("file:"
+					+ Property.get("VELOCITY_CONFIG_FILE")).openStream());
+			IndexGenerator.aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH,
 					Property.get("PATH_TO_INDEX_TEMPLATES"));
 			IndexGenerator.aVelocityEngine.init(IndexGenerator.aProperties);
 		} catch (final MalformedURLException e) {
-			IndexGenerator.logger.error("MalformedURLException : "+e.getMessage(), e);
+			IndexGenerator.logger.error("MalformedURLException : "
+					+ e.getMessage(), e);
 			e.printStackTrace();
 		} catch (final IOException e) {
-			IndexGenerator.logger.error("IOException : "+e.getMessage(), e);
+			IndexGenerator.logger.error("IOException : " + e.getMessage(), e);
 			e.printStackTrace();
 		} catch (final Exception e) {
-			IndexGenerator.logger.error("Exception : "+e.getMessage(), e);
+			IndexGenerator.logger.error("Exception : " + e.getMessage(), e);
 			e.printStackTrace();
 		}
-		
+
 		IndexGenerator.aVelocityContext = new VelocityContext();
 		IndexGenerator.aVelocityContext.put("tasklist", Framework.mapOfTask);
-		
+
 		IndexGenerator.aVelocityContext.put("dropdown", ParameterType.DROPDOWN);
 		IndexGenerator.aVelocityContext.put("checkbox", ParameterType.CHECKBOX);
-		IndexGenerator.aVelocityContext.put("checkboxlist", ParameterType.CHECKBOXLIST);
+		IndexGenerator.aVelocityContext.put("checkboxlist",
+				ParameterType.CHECKBOXLIST);
 		IndexGenerator.aVelocityContext.put("radio", ParameterType.RADIO);
 		IndexGenerator.aVelocityContext.put("textarea", ParameterType.TEXTAREA);
-		IndexGenerator.aVelocityContext.put("textfield", ParameterType.TEXTFIELD);
-		
+		IndexGenerator.aVelocityContext.put("textfield",
+				ParameterType.TEXTFIELD);
+
 		IndexGenerator.aVelocityContext.put("simple", TUi.SIMPLE);
 		IndexGenerator.aVelocityContext.put("advanced", TUi.ADVANCED);
 		IndexGenerator.aVelocityContext.put("none", TUi.NONE);
 	}
-	
-	public static void generateIndexes () throws
-	ResourceNotFoundException, ParseErrorException, Exception {
+
+	/**
+	 * Generate the multiple indexes for unicorn
+	 * 
+	 * @throws ResourceNotFoundException
+	 *             when templates not found
+	 * @throws ParseErrorException
+	 *             when error while parsing the configuration
+	 * @throws Exception
+	 *             any unknown error
+	 */
+	public static void generateIndexes() throws ResourceNotFoundException,
+			ParseErrorException, Exception {
 		IndexGenerator.logger.trace("generateIndexes");
 
-		final File[] tFile = ListFiles.listFiles(Property.get("PATH_TO_INDEX_TEMPLATES"), "\\.vm$");
+		final File[] tFile = ListFiles.listFiles(Property
+				.get("PATH_TO_INDEX_TEMPLATES"), "\\.vm$");
 		for (final File aFile : tFile) {
 			final String sName = aFile.getName();
-			final String sOutputName = sName.substring(0, sName.length() - 3);	
-			
-			final Template aTemplate = IndexGenerator.aVelocityEngine.getTemplate(sName, "UTF-8");
-			
-			final FileWriter aFileWriter = new FileWriter(
-					Property.get("PATH_TO_INDEX_OUTPUT") + 
-					sOutputName);			
+			final String sOutputName = sName.substring(0, sName.length() - 3);
+
+			final Template aTemplate = IndexGenerator.aVelocityEngine
+					.getTemplate(sName, "UTF-8");
+
+			final FileWriter aFileWriter = new FileWriter(Property
+					.get("PATH_TO_INDEX_OUTPUT")
+					+ sOutputName);
 			aTemplate.merge(IndexGenerator.aVelocityContext, aFileWriter);
 			aFileWriter.close();
-			
-			IndexGenerator.logger.debug(
-					"Index file " +
-					Property.get("PATH_TO_INDEX_OUTPUT") + 
-					sOutputName +
-					" generated.");
+
+			IndexGenerator.logger.debug("Index file "
+					+ Property.get("PATH_TO_INDEX_OUTPUT") + sOutputName
+					+ " generated.");
 		}
 	}
-	
-	public static void main (final String[] args) {
+
+	/**
+	 * Launch the creation of the indexes
+	 * 
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		try {
-			/*
-			Properties props = new Properties();
-			try {
-				props.load(Configuration.class.getResource("unicorn.properties").openStream());
-			}
-			catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			Configuration.loadConfiguration(props);*/
 			IndexGenerator.generateIndexes();
-		}
-		catch (final FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		}
-		catch (final ResourceNotFoundException e) {
+		} catch (final ResourceNotFoundException e) {
 			e.printStackTrace();
-		}
-		catch (final ParseErrorException e) {
+		} catch (final ParseErrorException e) {
 			e.printStackTrace();
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
-

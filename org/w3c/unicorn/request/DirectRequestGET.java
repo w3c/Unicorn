@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.3 2008-02-20 15:09:57 hduong Exp $
+// $Id: DirectRequestGET.java,v 1.4 2008-06-17 13:41:11 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -17,28 +17,51 @@ import org.w3c.unicorn.response.parser.ResponseParserFactory;
 import org.w3c.unicorn.util.Property;
 
 /**
+ * Class to make a request directly using GET method
  * 
  * @author Damien LEROY
  */
 public class DirectRequestGET extends Request {
 
+	/**
+	 * URL of for the request
+	 */
 	private String sURL = null;
+
+	/**
+	 * Parameter for the request
+	 */
 	private String sParameter = null;
 
-	protected DirectRequestGET (
-			final String sURL,
-			final String sInputParameterName,
-			final InputModule aInputModule,
+	/**
+	 * Constructor for the direct request with GET method
+	 * 
+	 * @param sURL
+	 *            URL for the request
+	 * @param sInputParameterName
+	 *            name of the parameter
+	 * @param aInputModule
+	 *            input module to do the request
+	 * @param responseType
+	 *            type of the response of the observer
+	 * @throws IOException
+	 *             odd error occured
+	 */
+	protected DirectRequestGET(final String sURL,
+			final String sInputParameterName, final InputModule aInputModule,
 			final String responseType) throws IOException {
 		super();
 		DirectRequestGET.logger.trace("Constructor");
 		if (DirectRequestGET.logger.isDebugEnabled()) {
 			DirectRequestGET.logger.debug("URL : " + sURL + ".");
-			DirectRequestGET.logger.debug("Input parameter name : " + sInputParameterName + ".");
-			DirectRequestGET.logger.debug("Input module : " + aInputModule + ".");
+			DirectRequestGET.logger.debug("Input parameter name : "
+					+ sInputParameterName + ".");
+			DirectRequestGET.logger.debug("Input module : " + aInputModule
+					+ ".");
 		}
 		if (!(aInputModule instanceof DirectInputModule)) {
-			throw new IllegalArgumentException("InputModule : " + aInputModule.toString() + ".");
+			throw new IllegalArgumentException("InputModule : "
+					+ aInputModule.toString() + ".");
 		}
 		this.sURL = sURL;
 		this.addParameter(sInputParameterName, aInputModule.getStringContent());
@@ -46,7 +69,8 @@ public class DirectRequestGET extends Request {
 	}
 
 	@Override
-	public void addParameter (final String sName, final String sValue) throws IOException {
+	public void addParameter(final String sName, final String sValue)
+			throws IOException {
 		DirectRequestGET.logger.trace("addParameter");
 		if (DirectRequestGET.logger.isDebugEnabled()) {
 			DirectRequestGET.logger.debug("Name :" + sName + ".");
@@ -57,12 +81,13 @@ public class DirectRequestGET extends Request {
 		} else {
 			this.sParameter += "&";
 		}
-		this.sParameter += sName + "=" + URLEncoder.encode(sValue, Property.get("UNICORN_ENCODING"));
-		DirectRequestGET.logger.debug("Parameters : "+this.sParameter+".");
+		this.sParameter += sName + "="
+				+ URLEncoder.encode(sValue, Property.get("UNICORN_ENCODING"));
+		DirectRequestGET.logger.debug("Parameters : " + this.sParameter + ".");
 	}
 
 	@Override
-	public Response doRequest () throws IOException {
+	public Response doRequest() throws IOException {
 		DirectRequestGET.logger.trace("doRequest");
 		final URL aURL;
 		if (null == this.sParameter) {
@@ -73,17 +98,17 @@ public class DirectRequestGET extends Request {
 		}
 		final URLConnection aURLConnection = aURL.openConnection();
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
-		//return this.aResponseParser.parse(aURLConnection.getInputStream());
-		return ResponseParserFactory.parse(aURLConnection.getInputStream(), this.getResponseType());
+		return ResponseParserFactory.parse(aURLConnection.getInputStream(),
+				this.getResponseType());
 	}
 
 	@Override
-	public EnumInputMethod getInputMethod () {
+	public EnumInputMethod getInputMethod() {
 		DirectRequestGET.logger.trace("getInputMethod");
 		return EnumInputMethod.DIRECT;
 	}
 
-	public String toString () {
+	public String toString() {
 		final int iStringBufferSize = 1000;
 		final String sVariableSeparator = " ";
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);

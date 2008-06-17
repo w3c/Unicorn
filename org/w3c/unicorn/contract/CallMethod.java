@@ -1,4 +1,4 @@
-// $Id: CallMethod.java,v 1.1.1.1 2006-08-31 09:09:20 dleroy Exp $
+// $Id: CallMethod.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,25 +11,57 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * CallMethod<br />
- * Created: May 23, 2006 11:46:50 AM<br />
+ * CallMethod Created: May 23, 2006 11:46:50 AM
  */
 public class CallMethod {
 
-	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.contract");
+	/**
+	 * Object for complex logging purpose
+	 */
+	private static final Log logger = LogFactory
+			.getLog("org.w3c.unicorn.contract");
 
+	/**
+	 * 
+	 */
 	private URL aURL;
 
 	// GET or POST
+	/**
+	 * The url to call
+	 */
 	private String sName;
+
+	/**
+	 * The name to call
+	 */
 	private String sID;
+
+	/**
+	 * the ID of the call
+	 */
 	private boolean bPost;
+
+	/**
+	 * whether the call is sent or not
+	 */
 	private Map<String, CallParameter> mapOfCallParameter;
 
-	public CallMethod (
-			final URL aURL,
-			final boolean bPost,
-			final String sName,
+	/**
+	 * Set the parameter for the object call
+	 * 
+	 * @param aURL
+	 *            the url to call
+	 * @param bPost
+	 *            whether or not the call is post
+	 * @param sName
+	 *            the name to call
+	 * @param sID
+	 *            the id of the call
+	 * @param mapOfCallParameter
+	 *            the parameter of the call
+	 */
+	public CallMethod(final URL aURL, final boolean bPost, final String sName,
 			final String sID,
 			final Map<String, CallParameter> mapOfCallParameter) {
 		CallMethod.logger.trace("Constructor");
@@ -38,7 +70,8 @@ public class CallMethod {
 			CallMethod.logger.debug("Post : " + bPost + ".");
 			CallMethod.logger.debug("Name : " + sName + ".");
 			CallMethod.logger.debug("ID : " + sID + ".");
-			CallMethod.logger.debug("Map of call parameter : " + mapOfCallParameter + ".");
+			CallMethod.logger.debug("Map of call parameter : "
+					+ mapOfCallParameter + ".");
 		}
 
 		this.aURL = aURL;
@@ -49,45 +82,75 @@ public class CallMethod {
 	}
 
 	/**
+	 * Returns all the parameters of the call
+	 * 
 	 * @return Returns the parameters.
 	 */
-	public Map<String, CallParameter> getMapOfCallParameter () {
+	public Map<String, CallParameter> getMapOfCallParameter() {
 		return this.mapOfCallParameter;
 	}
 
-	
-	public void addParameter (final CallParameter aCallParameter) {
+	/**
+	 * Add a parameter to the call
+	 * 
+	 * @param aCallParameter
+	 *            a parameter to add
+	 */
+	public void addParameter(final CallParameter aCallParameter) {
 		this.mapOfCallParameter.put(aCallParameter.getName(), aCallParameter);
 	}
 
 	/**
+	 * Gets the parameter by its name
+	 * 
 	 * @param sName
-	 * @return
+	 *            name of the parameter to get
+	 * @return the Call parameter researched
 	 */
-	public CallParameter getCallParameterByName (final String sName) {
+	public CallParameter getCallParameterByName(final String sName) {
 		return this.mapOfCallParameter.get(sName);
 	}
 
 	/**
+	 * Returns if the call is post
+	 * 
 	 * @return Returns the post.
 	 */
-	public boolean isPost () {return this.bPost;}
+	public boolean isPost() {
+		return this.bPost;
+	}
 
 	/**
+	 * Returns the URI
+	 * 
 	 * @return Returns the uri.
 	 */
-	public URL getURL () {return this.aURL;}
+	public URL getURL() {
+		return this.aURL;
+	}
 
 	/**
+	 * Returns the ID
+	 * 
 	 * @return Returns the id.
 	 */
-	public String getID () {return this.sID;}
-	public String getName () {return this.sName;}
+	public String getID() {
+		return this.sID;
+	}
 
 	/**
-	 * {@inheritDoc}
+	 * Get the name of the call
+	 * 
+	 * @return the name of the call
 	 */
-	public String toString () {
+	public String getName() {
+		return this.sName;
+	}
+
+	/**
+	 * Print the object
+	 */
+	public String toString() {
 		final int iSize = 1000;
 		final String sVariableSeparator = "\n";
 		final StringBuffer aStringBuffer = new StringBuffer(iSize);
@@ -99,7 +162,8 @@ public class CallMethod {
 		aStringBuffer.append("post=").append(this.bPost);
 		aStringBuffer.append(sVariableSeparator);
 		aStringBuffer.append("parameters=\n");
-		aStringBuffer.append(this.mapOfCallParameter).append(sVariableSeparator);
+		aStringBuffer.append(this.mapOfCallParameter)
+				.append(sVariableSeparator);
 
 		return aStringBuffer.toString();
 	}

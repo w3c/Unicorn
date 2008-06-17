@@ -1,4 +1,4 @@
-// $Id: InputMethod.java,v 1.3 2008-02-20 15:37:13 dtea Exp $
+// $Id: InputMethod.java,v 1.4 2008-06-17 13:41:12 fbatard Exp $
 // Author: Damien LEROY
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -9,46 +9,101 @@ import java.util.List;
 
 import javax.activation.MimeType;
 
-
 /**
  * @author Damien LEROY
- *
+ * 
  */
 public class InputMethod {
 
+	/**
+	 * Method of the call
+	 */
 	private CallMethod aCallMethod = null;
+
+	/**
+	 * Parameter of the call
+	 */
 	private CallParameter aCallParameter = null;
+
+	/**
+	 * List of the mime-types of the calls
+	 */
 	private List<MimeType> listOfMimeType = null;
 
-	public InputMethod () {
+	/**
+	 * Set the list of mime-types
+	 */
+	public InputMethod() {
 		this.listOfMimeType = new ArrayList<MimeType>();
 	}
 
-	public CallMethod getCallMethod () {
+	/**
+	 * Get the current calling method
+	 * 
+	 * @return current calling method
+	 */
+	public CallMethod getCallMethod() {
 		return this.aCallMethod;
 	}
 
-	public void setCallMethod (final CallMethod aCallMethod) {
+	/**
+	 * Set the method of the call
+	 * 
+	 * @param aCallMethod
+	 *            new calling method to add
+	 */
+	public void setCallMethod(final CallMethod aCallMethod) {
 		this.aCallMethod = aCallMethod;
 	}
 
-	public CallParameter getCallParameter () {
+	/**
+	 * Get the current call parameter
+	 * 
+	 * @return the current call parameter
+	 */
+	public CallParameter getCallParameter() {
 		return this.aCallParameter;
 	}
 
-	public void setCallParameter (final CallParameter aCallParameter) {
+	/**
+	 * Set the current Call parameter
+	 * 
+	 * @param aCallParameter
+	 *            call parameter to set
+	 */
+	public void setCallParameter(final CallParameter aCallParameter) {
 		this.aCallParameter = aCallParameter;
 	}
 
-	public CallParameter getCallParameterByName (final String sCallParameterName) {
+	/**
+	 * Get a parameter by its name
+	 * 
+	 * @param sCallParameterName
+	 *            name of the parameter to look for
+	 * @return the parameter researched
+	 */
+	public CallParameter getCallParameterByName(final String sCallParameterName) {
 		return aCallMethod.getCallParameterByName(sCallParameterName);
 	}
 
-	public void addMimeType (final MimeType aMimeType) {
+	/**
+	 * Add a mime-type
+	 * 
+	 * @param aMimeType
+	 *            mime-type to add
+	 */
+	public void addMimeType(final MimeType aMimeType) {
 		this.listOfMimeType.add(aMimeType);
 	}
 
-	public boolean canHandleMimeType (final MimeType aMimeType) {
+	/**
+	 * Tells if the mime-types can be handled
+	 * 
+	 * @param aMimeType
+	 *            mime-type to check
+	 * @return true if the mime type is handled
+	 */
+	public boolean canHandleMimeType(final MimeType aMimeType) {
 		for (final MimeType handler : this.listOfMimeType) {
 			if (handler.match(aMimeType)) {
 				return true;
@@ -57,29 +112,37 @@ public class InputMethod {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * Set the list of the MIME-Types
+	 * 
+	 * @param listOfMimeType
+	 *            list of the mime-type
 	 */
-	public final String toString () {		
+	public void setListOfMimeType(List<MimeType> listOfMimeType) {
+		this.listOfMimeType = listOfMimeType;
+	}
+
+	/**
+	 * Prints the object
+	 */
+	public final String toString() {
 		final int iStringBufferSize = 1000;
 		final String sVariableSeparator = "\n";
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
 		aStringBuffer.append("/BeginInputMethod/");
 		aStringBuffer.append(sVariableSeparator);
-		aStringBuffer.append("CallMethod:{").append(this.aCallMethod).append("}");
+		aStringBuffer.append("CallMethod:{").append(this.aCallMethod).append(
+				"}");
 		aStringBuffer.append(sVariableSeparator);
-		aStringBuffer.append("CallParameter:{").append(this.aCallParameter).append("}");
+		aStringBuffer.append("CallParameter:{").append(this.aCallParameter)
+				.append("}");
 		aStringBuffer.append(sVariableSeparator);
-		aStringBuffer.append("MimeType:{").append(this.listOfMimeType).append("}");
+		aStringBuffer.append("MimeType:{").append(this.listOfMimeType).append(
+				"}");
 		aStringBuffer.append(sVariableSeparator);
 		aStringBuffer.append("/EndInputMethod/");
-		
+
 		return aStringBuffer.toString();
 	}
-
-	public void setListOfMimeType(List<MimeType> listOfMimeType) {
-		this.listOfMimeType = listOfMimeType;
-	}
-
 
 }

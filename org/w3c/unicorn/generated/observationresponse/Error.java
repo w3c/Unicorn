@@ -5,7 +5,6 @@
 // Generated on: 2006.07.26 at 04:29:37 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.observationresponse;
 
 import java.math.BigInteger;
@@ -17,210 +16,200 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for error element declaration.
+ * <p>
+ * Java class for error element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="error">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;sequence>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}line" minOccurs="0"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}column" minOccurs="0"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}errortype" minOccurs="0"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}context" minOccurs="0"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}message" maxOccurs="unbounded"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}longmessage" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;/sequence>
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;error&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;sequence&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}line&quot; minOccurs=&quot;0&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}column&quot; minOccurs=&quot;0&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}errortype&quot; minOccurs=&quot;0&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}context&quot; minOccurs=&quot;0&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}message&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}longmessage&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;/sequence&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "line",
-    "column",
-    "errortype",
-    "context",
-    "message",
-    "longmessage"
-})
+@XmlType(name = "", propOrder = { "line", "column", "errortype", "context",
+		"message", "longmessage" })
 @XmlRootElement(name = "error")
 public class Error {
 
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
-    protected BigInteger line;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
-    protected BigInteger column;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
-    protected String errortype;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
-    protected String context;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
-    protected List<String> message;
-    @XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
-    protected List<Longmessage> longmessage;
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
+	protected BigInteger line;
 
-    /**
-     * Gets the value of the line property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getLine() {
-        return line;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
+	protected BigInteger column;
 
-    /**
-     * Sets the value of the line property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setLine(BigInteger value) {
-        this.line = value;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
+	protected String errortype;
 
-    /**
-     * Gets the value of the column property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getColumn() {
-        return column;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse")
+	protected String context;
 
-    /**
-     * Sets the value of the column property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setColumn(BigInteger value) {
-        this.column = value;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
+	protected List<String> message;
 
-    /**
-     * Gets the value of the errortype property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getErrortype() {
-        return errortype;
-    }
+	@XmlElement(namespace = "http://www.w3.org/unicorn/observationresponse", required = true)
+	protected List<Longmessage> longmessage;
 
-    /**
-     * Sets the value of the errortype property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setErrortype(String value) {
-        this.errortype = value;
-    }
+	/**
+	 * Gets the value of the line property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getLine() {
+		return line;
+	}
 
-    /**
-     * Gets the value of the context property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getContext() {
-        return context;
-    }
+	/**
+	 * Sets the value of the line property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setLine(BigInteger value) {
+		this.line = value;
+	}
 
-    /**
-     * Sets the value of the context property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setContext(String value) {
-        this.context = value;
-    }
+	/**
+	 * Gets the value of the column property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getColumn() {
+		return column;
+	}
 
-    /**
-     * Gets the value of the message property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the message property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getMessage().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
-     */
-    public List<String> getMessage() {
-        if (message == null) {
-            message = new ArrayList<String>();
-        }
-        return this.message;
-    }
+	/**
+	 * Sets the value of the column property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setColumn(BigInteger value) {
+		this.column = value;
+	}
 
-    /**
-     * Gets the value of the longmessage property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the longmessage property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getLongmessage().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Longmessage }
-     * 
-     * 
-     */
-    public List<Longmessage> getLongmessage() {
-        if (longmessage == null) {
-            longmessage = new ArrayList<Longmessage>();
-        }
-        return this.longmessage;
-    }
+	/**
+	 * Gets the value of the errortype property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getErrortype() {
+		return errortype;
+	}
+
+	/**
+	 * Sets the value of the errortype property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setErrortype(String value) {
+		this.errortype = value;
+	}
+
+	/**
+	 * Gets the value of the context property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getContext() {
+		return context;
+	}
+
+	/**
+	 * Sets the value of the context property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setContext(String value) {
+		this.context = value;
+	}
+
+	/**
+	 * Gets the value of the message property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a <CODE>set</CODE>
+	 * method for the message property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getMessage().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link String }
+	 * 
+	 * 
+	 */
+	public List<String> getMessage() {
+		if (message == null) {
+			message = new ArrayList<String>();
+		}
+		return this.message;
+	}
+
+	/**
+	 * Gets the value of the longmessage property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a <CODE>set</CODE>
+	 * method for the longmessage property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getLongmessage().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link Longmessage }
+	 * 
+	 * 
+	 */
+	public List<Longmessage> getLongmessage() {
+		if (longmessage == null) {
+			longmessage = new ArrayList<Longmessage>();
+		}
+		return this.longmessage;
+	}
 
 }

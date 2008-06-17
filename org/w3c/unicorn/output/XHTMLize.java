@@ -5,25 +5,28 @@ import org.w3c.unicorn.response.Code;
 import org.w3c.unicorn.response.A;
 import org.w3c.unicorn.response.Img;
 
-
 /**
- * Escape all XML Entities in the reference insertion.
- * Specifically, the following conversions are performed:
+ * Escape all XML Entities in the reference insertion. Specifically, the
+ * following conversions are performed:
  * <DL>
- * <DT>&amp;</DT><DD>&amp;amp;</DD>
- * <DT>&lt;</DT><DD>&amp;lt;</DD>
- * <DT>&gt;</DT><DD>&amp;gt;</DD>
- * <DT>&quot;</DT><DD>&amp;quot;</DD>
+ * <DT>&amp;</DT>
+ * <DD>&amp;amp;</DD>
+ * <DT>&lt;</DT>
+ * <DD>&amp;lt;</DD>
+ * <DT>&gt;</DT>
+ * <DD>&amp;gt;</DD>
+ * <DT>&quot;</DT>
+ * <DD>&amp;quot;</DD>
  * </DL>
- *
+ * 
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  */
 public class XHTMLize implements ReferenceInsertionEventHandler {
-	
+
 	/**
 	 * Escape the XML entities for all inserted references.
 	 */
-	public Object referenceInsert (final String sUnused, final Object oValue) {
+	public Object referenceInsert(final String sUnused, final Object oValue) {
 		if (oValue instanceof A) {
 			A link = (A) oValue;
 			return insertA(link);
@@ -38,34 +41,43 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 		}
 		return EscapeXMLEntities.escapeText(oValue.toString());
 	}
-	
-	private Object insertA (final A aLink) {
-		String sResultat = "<a href=\"" + EscapeXMLEntities.escapeText(aLink.getHref()) + "\">";
+
+	/**
+	 * Insert a link
+	 * 
+	 * @param aLink
+	 *            link to insert
+	 * @return return the object containing the link
+	 */
+	private Object insertA(final A aLink) {
+		String sResultat = "<a href=\""
+				+ EscapeXMLEntities.escapeText(aLink.getHref()) + "\">";
 		for (final Object oElement : aLink.getContent()) {
 			if (oElement instanceof Img) {
 				sResultat += insertImg((Img) oElement);
-			}
-			//else if (oElement instanceof Code) {
-			//	sResultat += insertCode((Code) oElement);
-			//}
-			else {				
+			} else {
 				sResultat += EscapeXMLEntities.escapeText(oElement.toString());
 			}
 		}
 		sResultat += "</a>";
 		return sResultat;
 	}
-	
-	private Object insertCode (final Code aCode) {
+
+	/**
+	 * Insert code tag into the tags
+	 * 
+	 * @param aCode
+	 *            code to insert
+	 * @return object with code inserted
+	 */
+	private Object insertCode(final Code aCode) {
 		String sResultat = "<code>";
-		for (final Object oElement : aCode.getContent()) {			
+		for (final Object oElement : aCode.getContent()) {
 			if (oElement instanceof A) {
-				sResultat += insertA((A) oElement);			
-			}
-			else if(oElement instanceof Img) {
+				sResultat += insertA((A) oElement);
+			} else if (oElement instanceof Img) {
 				sResultat += insertImg((Img) oElement);
-			}
-			else {
+			} else {
 				sResultat += EscapeXMLEntities.escapeText(oElement.toString());
 			}
 		}
@@ -74,13 +86,16 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 	}
 
 	/**
+	 * Insert an img tag
+	 * 
 	 * @param img
-	 * @return
+	 *            image path to insert
+	 * @return the string containing the image tag
 	 */
-	private String insertImg (final Img aImage) {
+	private String insertImg(final Img aImage) {
 		return "<img src=\"" + EscapeXMLEntities.escapeText(aImage.getSrc())
-		+ "\" alt=\"" + EscapeXMLEntities.escapeText(aImage.getAlt())
-		+ "\"/>";
+				+ "\" alt=\"" + EscapeXMLEntities.escapeText(aImage.getAlt())
+				+ "\"/>";
 	}
 
 }

@@ -1,4 +1,4 @@
-// $Id: RDFContractUnmarshaller.java,v 1.2 2008-01-22 13:52:05 dtea Exp $
+// $Id: RDFContractUnmarshaller.java,v 1.3 2008-06-17 13:41:12 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,23 +11,22 @@ import org.w3c.unicorn.util.Unmarshaller;
 
 /**
  * Interface to unmarshall RDF file.
+ * 
  * @author Damien LEROY
  */
 public interface RDFContractUnmarshaller extends Unmarshaller {
 
-	public String getID ();
+	public String getID();
 
-	public LocalizedString getName ();
+	public LocalizedString getName();
 
-	public LocalizedString getDescription ();
+	public LocalizedString getDescription();
 
-	public LocalizedString getHelpLocation ();
-	
-	public LocalizedString getProvider ();
-	
-	public String getNameOfLangParameter ();
+	public LocalizedString getHelpLocation();
 
-	//ObserverDescription getDescription();
+	public LocalizedString getProvider();
+
+	public String getNameOfLangParameter();
 
 	Map<EnumInputMethod, InputMethod> getMapOfInputMethod();
 

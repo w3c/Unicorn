@@ -5,7 +5,6 @@
 // Generated on: 2006.06.29 at 06:09:33 PM CEST 
 //
 
-
 package org.w3c.unicorn.generated.tasklist;
 
 import java.util.ArrayList;
@@ -19,29 +18,31 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for mapped element declaration.
+ * <p>
+ * Java class for mapped element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="mapped">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;attribute name="inputmethod" default="uri direct file">
- *           &lt;simpleType>
- *             &lt;list itemType="{http://www.w3.org/unicorn/tasklist}tInputMethod" />
- *           &lt;/simpleType>
- *         &lt;/attribute>
- *         &lt;attribute name="observer" use="required" type="{http://www.w3.org/2001/XMLSchema}NCName" />
- *         &lt;attribute name="param" use="required" type="{http://www.w3.org/2001/XMLSchema}NCName" />
- *         &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;mapped&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;attribute name=&quot;inputmethod&quot; default=&quot;uri direct file&quot;&gt;
+ *           &lt;simpleType&gt;
+ *             &lt;list itemType=&quot;{http://www.w3.org/unicorn/tasklist}tInputMethod&quot; /&gt;
+ *           &lt;/simpleType&gt;
+ *         &lt;/attribute&gt;
+ *         &lt;attribute name=&quot;observer&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}NCName&quot; /&gt;
+ *         &lt;attribute name=&quot;param&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}NCName&quot; /&gt;
+ *         &lt;attribute name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
@@ -51,116 +52,111 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement(name = "mapped")
 public class Mapped {
 
-    @XmlAttribute
-    protected List<TInputMethod> inputmethod;
-    @XmlAttribute(required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String observer;
-    @XmlAttribute(required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String param;
-    @XmlAttribute
-    protected String value;
+	@XmlAttribute
+	protected List<TInputMethod> inputmethod;
 
-    /**
-     * Gets the value of the inputmethod property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the inputmethod property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getInputmethod().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TInputMethod }
-     * 
-     * 
-     */
-    public List<TInputMethod> getInputmethod() {
-        if (inputmethod == null) {
-            inputmethod = new ArrayList<TInputMethod>();
-        }
-        return this.inputmethod;
-    }
+	@XmlAttribute(required = true)
+	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+	protected String observer;
 
-    /**
-     * Gets the value of the observer property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getObserver() {
-        return observer;
-    }
+	@XmlAttribute(required = true)
+	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+	protected String param;
 
-    /**
-     * Sets the value of the observer property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setObserver(String value) {
-        this.observer = value;
-    }
+	@XmlAttribute
+	protected String value;
 
-    /**
-     * Gets the value of the param property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getParam() {
-        return param;
-    }
+	/**
+	 * Gets the value of the inputmethod property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a <CODE>set</CODE>
+	 * method for the inputmethod property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getInputmethod().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link TInputMethod }
+	 * 
+	 * 
+	 */
+	public List<TInputMethod> getInputmethod() {
+		if (inputmethod == null) {
+			inputmethod = new ArrayList<TInputMethod>();
+		}
+		return this.inputmethod;
+	}
 
-    /**
-     * Sets the value of the param property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setParam(String value) {
-        this.param = value;
-    }
+	/**
+	 * Gets the value of the observer property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getObserver() {
+		return observer;
+	}
 
-    /**
-     * Gets the value of the value property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getValue() {
-        return value;
-    }
+	/**
+	 * Sets the value of the observer property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setObserver(String value) {
+		this.observer = value;
+	}
 
-    /**
-     * Sets the value of the value property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
+	/**
+	 * Gets the value of the param property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getParam() {
+		return param;
+	}
+
+	/**
+	 * Sets the value of the param property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setParam(String value) {
+		this.param = value;
+	}
+
+	/**
+	 * Gets the value of the value property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * Sets the value of the value property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}
 
 }

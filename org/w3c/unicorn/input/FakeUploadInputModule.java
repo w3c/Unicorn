@@ -1,4 +1,4 @@
-// $Id: FakeUploadInputModule.java,v 1.1.1.1 2006-08-31 09:09:25 dleroy Exp $
+// $Id: FakeUploadInputModule.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,32 +14,61 @@ import javax.activation.MimeType;
 import org.w3c.unicorn.contract.EnumInputMethod;
 
 /**
- * @author Damien LEROY
- *
+ * @author Damien LEROY Class used for the fake upload input method check It
+ *         means make the observer believe it was a direct input whereas it
+ *         wasn't
  */
 public class FakeUploadInputModule implements UploadInputModule {
 
+	/**
+	 * Set the Input method to UPLOAD
+	 */
 	private final EnumInputMethod aEnumInputMethod = EnumInputMethod.UPLOAD;
 
+	/**
+	 * Content of the input
+	 */
 	private String sContent = null;
+
+	/**
+	 * Name of the file to input
+	 */
 	private String sFileName = null;
+
+	/**
+	 * Mime type of the input
+	 */
 	private MimeType aMimeType = null;
 
-	protected FakeUploadInputModule (final InputModule aInputModule) throws IOException {
+	/**
+	 * Build the input Module by setting the properties
+	 * 
+	 * @param aInputModule
+	 * @throws IOException
+	 */
+	protected FakeUploadInputModule(final InputModule aInputModule)
+			throws IOException {
 		FakeUploadInputModule.logger.trace("Constructor");
 		if (FakeUploadInputModule.logger.isDebugEnabled()) {
-			FakeUploadInputModule.logger.debug("Input module : " + aInputModule + ".");
+			FakeUploadInputModule.logger.debug("Input module : " + aInputModule
+					+ ".");
 		}
 		this.aMimeType = aInputModule.getMimeType();
 		this.sContent = aInputModule.getStringContent();
 	}
 
-	public String getFileName () {
+	/**
+	 * Get the filename of the input
+	 */
+	public String getFileName() {
 		FakeUploadInputModule.logger.trace("getFileName");
 		return this.sFileName;
 	}
 
-	public InputStream getInputStream () throws IOException {
+	/**
+	 * Get the stream of the input using the content
+	 */
+	public InputStream getInputStream() throws IOException {
 		FakeUploadInputModule.logger.trace("getInputStream");
 		final PipedOutputStream aPipedOutputStream = new PipedOutputStream();
 		aPipedOutputStream.write(this.sContent.getBytes());
@@ -49,17 +78,17 @@ public class FakeUploadInputModule implements UploadInputModule {
 		return aPipedInputStream;
 	}
 
-	public EnumInputMethod getEnumInputMethod () {
+	public EnumInputMethod getEnumInputMethod() {
 		FakeUploadInputModule.logger.trace("getEnumInputMethod");
 		return this.aEnumInputMethod;
 	}
 
-	public MimeType getMimeType () {
+	public MimeType getMimeType() {
 		FakeUploadInputModule.logger.trace("getMimeType");
 		return this.aMimeType;
 	}
 
-	public Object getParameterValue () {
+	public Object getParameterValue() {
 		FakeUploadInputModule.logger.trace("getParameterValue");
 		return this.sContent;
 	}
@@ -69,11 +98,17 @@ public class FakeUploadInputModule implements UploadInputModule {
 		return this.sContent;
 	}
 
-	public void dispose () {
+	/**
+	 * Dispose the object
+	 */
+	public void dispose() {
 		FakeUploadInputModule.logger.trace("dispose");
 	}
 
-	public String toString () {
+	/**
+	 * prints the object
+	 */
+	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
 		aStringBuffer.append("FakeUploadInputModule");
