@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE owl [
 	<!ENTITY ucn "http://www.w3.org/unicorn">
 	<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">
@@ -18,10 +18,12 @@
 
 	<ucn:Task ucn:reference="appc">
 		<ucn:longName xml:lang="en">Check HTML Compatibility Guidelines for XHTML 1.0</ucn:longName>
+		<ucn:longName xml:lang="fr">Vérifie la compatibilité HTML pour XHTML 1.0</ucn:longName>
 	</ucn:Task>
 	
 	<ucn:Task ucn:reference="css">
 		<ucn:longName xml:lang="en">Check CSS Style Sheets</ucn:longName>
+		<ucn:longName xml:lang="fr">Vérifie les feuilles de styles CSS</ucn:longName>
 		<ucn:description xml:lang="en">This task will call the  CSS observer.</ucn:description>
 		<ucn:description xml:lang="fr">Cette tache appele l'observeur CSS.</ucn:description>
 		<ucn:hasParameter>
@@ -52,6 +54,7 @@
 	
 	<ucn:Task ucn:reference="markup">
 		<ucn:longName xml:lang="en">Validate Markup (HTML, etc.)</ucn:longName>
+		<ucn:longName xml:lang="fr">Valide les balises (HTML,etc...)</ucn:longName>
 		<ucn:description xml:lang="en">This task will call the  Markup observer.</ucn:description>
 		<ucn:description xml:lang="fr">Cette tache appele l'observateur de markup.</ucn:description>
 		<ucn:hasParameter>
@@ -76,6 +79,7 @@
 	
 	<ucn:Task ucn:reference="conformance">
 		<ucn:longName xml:lang="en">General Conformance Check</ucn:longName>
+		<ucn:longName xml:lang="fr">Vérifie la conformité générale</ucn:longName>
 		<ucn:description xml:lang="en">This task will do as much observations as possible.</ucn:description>
 		<ucn:hasParameter>
 			<ucn:Parameter ucn:reference="warning">
