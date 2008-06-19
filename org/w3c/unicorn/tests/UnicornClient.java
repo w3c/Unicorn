@@ -45,7 +45,10 @@ public class UnicornClient {
 	public static void main(String[] args) {
 		UnicornCall aUnicornCall = new UnicornCall();
 		
-		
+		if(args.length==1){
+			if(args[0].equals("help"))print_help();
+		}
+		else{
 		// read parameters
 		String task = args[0];
 		String pageToValid = args[1];
@@ -55,6 +58,7 @@ public class UnicornClient {
 		if (args.length>4) { //this argument is optional
 			pParams = args[4]; 
 		}
+		
 		
 
 		//parse other parameters: "x2=on,toto=titi" to a map<String,String[]>  
@@ -107,7 +111,6 @@ public class UnicornClient {
 				e.printStackTrace();
 			}
 		}
-		
 		aUnicornCall.setTask(task); //task id
 		aUnicornCall.setLang(language);
 
@@ -131,5 +134,6 @@ public class UnicornClient {
 		}
 		long after = System.currentTimeMillis() ;
 		System.out.println("Elapsed time (s): "+(double)(after - before)/1000);
+	}
 	}
 }
