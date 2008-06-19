@@ -1,17 +1,17 @@
 #macro(error $error)
--- Error -------------------------
-#if($error.Line)Ligne $error.Line #end #if($error.Column)Column $error.Column #end:
-#foreach($message in $error.Message)
->> error.Message: $message
-#end
-#if($error.Context && $error.Context != "")
->> error.Context: $error.Context
-#end
-#foreach($longMessage in $error.Longmessage)
-#foreach($longMessagePiece in $longMessage.Content)
->> error.longMessagePiece: $longMessagePiece
-#end
-#end
+  ---Error--------------------------
+  #if($error.Line)Line $error.Line #end #if($error.Column)Column $error.Column #end :
+  #foreach($message in $error.Message)
+    error : $message
+  #end
+  #if($error.Context && $error.Context != "")
+    error context : $error.Context
+  #end
+  #foreach($longMessage in $error.Longmessage)
+      	#foreach($longMessagePiece in $longMessage.Content)
+			$longMessagePiece
+        #end
+  #end
 #end
 
 #macro(info $information)
@@ -46,19 +46,17 @@
 #end
 #end
 
-#macro(produceErrors $errors)
-// Errors /////////////////////////////////////////
 
-#foreach($errorList in $errors.Errorlist)
->>>> Location: $errorList.Uri
-#foreach($error in $errorList.Error)
-#error($error)
-#end
-#end
+#macro(produceErrors $errors)
+============== Errors ===================
+
+	#foreach($error in $errors)
+		#error($error)
+	#end
 #end
 
 #macro(produceWarnings $warnings)
-// Alerts ///////////////////////////////////////
+// Alertes ///////////////////////////////////////
 
 #foreach($warningList in $warnings.Warninglist)
 #if($warningList.Warning && $warningList.Warning.size() != 0)
@@ -90,11 +88,17 @@
 
 ========================= $observationName ====================================
 
+
 #if($observation.isPassed())
-> Le document est valide le test #if($observation.getVersion()) $observation.getVersion().toUpperCase() #else $observationName #end !
+> This document has passed the #if($observation.getVersion()) $observation.getVersion().toUpperCase() #else $observationName #end test!
 #else
-> Le document ne passe pas le test #if($observation.getVersion()) $observation.getVersion().toUpperCase() #else $observationName #end !
-#produceErrors($observation.Result.Errors)
+> This document has not passed the #if($observation.getVersion()) $observation.getVersion().toUpperCase() #else $observationName #end test!
+#foreach($result in $observation.getResultsList())
+        #if(!$result.Errors.isEmpty())
+          Location: $result.Uri
+      	  #produceErrors($result.Errors)
+      	#end
+      #end
 #end
 
 
@@ -107,8 +111,8 @@
 #end
 
 #if(!$unicorncall.haveHighPassed())
-Quelques observations ne sont pas effectuer car one or more with high priority failed.
+Quelques observations ne sont pas effectuer car une ou plusieurs haute priorites ont echouees.
 #end
 #if(!$unicorncall.haveMediumPassed())
-Quelques observations ne sont pas effectuer car one or more with medium priority failed.
+Quelques observations ne sont pas effectuer car une ou plusieurs moyenne priorites ont echouees.
 #end
