@@ -1,4 +1,4 @@
-// $Id: SimpleOutputFormater.java,v 1.2 2008-06-17 13:41:11 fbatard Exp $
+// $Id: SimpleOutputFormater.java,v 1.3 2008-06-19 11:15:39 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -49,9 +49,9 @@ public class SimpleOutputFormater implements OutputFormater {
 		sFileName = sLang + "_" + sOutputFormat
 				+ Property.get("TEMPLATE_FILE_EXTENSION");
 		this.aTemplateOutput = SimpleOutputFormater.aVelocityEngineOutput
-				.getTemplate(sFileName);
+				.getTemplate(sFileName,"UTF-8");
 		this.aTemplateError = SimpleOutputFormater.aVelocityEngineError
-				.getTemplate(sFileName);
+				.getTemplate(sFileName,"UTF-8");
 	}
 
 	/*

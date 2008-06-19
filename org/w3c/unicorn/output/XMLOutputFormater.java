@@ -1,4 +1,4 @@
-// $Id: XMLOutputFormater.java,v 1.3 2008-06-17 13:41:11 fbatard Exp $
+// $Id: XMLOutputFormater.java,v 1.4 2008-06-19 11:15:54 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -74,7 +74,7 @@ public class XMLOutputFormater implements OutputFormater {
 		// check if sFileName exist
 		try {
 			this.aTemplateOutput = XMLOutputFormater.aVelocityEngineOutput
-					.getTemplate(sFileName);
+					.getTemplate(sFileName,"UTF-8");
 		} catch (final ResourceNotFoundException aRNFE) {
 			XMLOutputFormater.logger.warn("Resource " + sFileName
 					+ " not found.", aRNFE);
