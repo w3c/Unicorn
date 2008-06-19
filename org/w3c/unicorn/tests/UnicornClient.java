@@ -45,9 +45,9 @@ public class UnicornClient {
 	public static void main(String[] args) {
 		UnicornCall aUnicornCall = new UnicornCall();
 		
-		if(args.length==1){
-			if(args[0].equals("help"))print_help();
-		}
+
+		if(args.length==0) print_help();
+		else if(args.length==1 && args[0].equals("help"))print_help();
 		else{
 		// read parameters
 		String task = args[0];
