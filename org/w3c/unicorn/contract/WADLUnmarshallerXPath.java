@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.5 2008-06-17 13:41:12 fbatard Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.6 2008-07-02 17:34:46 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -22,7 +22,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,6 +31,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.unicorn.util.LocalizedString;
 import org.xml.sax.SAXException;
+
+import com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl;
 
 /**
  * WADLUnmarshallerXPath<br />
@@ -112,9 +113,10 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 		WADLUnmarshallerXPath.logger.trace("Constructor");
 
 		this.aDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
+		
 		this.aDocumentBuilder = this.aDocumentBuilderFactory
 				.newDocumentBuilder();
-		this.aXPath = XPathFactory.newInstance().newXPath();
+		this.aXPath = new XPathFactoryImpl().newXPath();
 		this.aXPath
 				.setNamespaceContext(WADLUnmarshallerXPath.aNamespaceContext);
 	}
@@ -141,7 +143,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 			MimeTypeParseException {
 		WADLUnmarshallerXPath.logger.trace("unmarshal");
 		this.parseDocsHeader();
-		this.parseMethods();
+		this.parseMethods();		
 	}
 
 	/**

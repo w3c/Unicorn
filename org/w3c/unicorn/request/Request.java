@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.5 2008-06-17 13:41:11 fbatard Exp $
+// $Id: Request.java,v 1.6 2008-07-02 17:34:47 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -10,7 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.InputModule;
-import org.w3c.unicorn.response.parser.ResponseParser;
 
 /**
  * 

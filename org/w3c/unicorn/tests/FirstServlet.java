@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.10 2008-06-17 13:45:31 jbarouh Exp $
+// $Id: FirstServlet.java,v 1.11 2008-07-02 17:34:47 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,9 +11,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

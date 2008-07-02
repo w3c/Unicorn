@@ -1,14 +1,9 @@
 package org.w3c.unicorn.tests;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -43,8 +38,6 @@ public class UnicornClient {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		UnicornCall aUnicornCall = new UnicornCall();
-		
 
 		if(args.length==0) print_help();
 		else if(args.length==1 && args[0].equals("help"))print_help();
@@ -59,7 +52,7 @@ public class UnicornClient {
 			pParams = args[4]; 
 		}
 		
-		
+		UnicornCall aUnicornCall = new UnicornCall();		
 
 		//parse other parameters: "x2=on,toto=titi" to a map<String,String[]>  
 		if (pParams.length()!=0) {
@@ -122,8 +115,8 @@ public class UnicornClient {
 			Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 			mapOfStringObject.put("unicorncall", aUnicornCall);
 			OutputFormater aOutputFormater = OutputFactory.getOutputFormater(
-					outputTemplate, // le template --> text ou xhtml10, see unicorn.properties
-					language,   // la langue
+					outputTemplate, // text or xhtml10, see unicorn.properties
+					language, 
 					"text/html"); // MIME Type
 			OutputModule aOutputModule = OutputFactory.getOutputModule("simple");
 			PrintWriter pw = new PrintWriter(System.out);

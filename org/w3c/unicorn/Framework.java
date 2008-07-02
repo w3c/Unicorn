@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.11 2008-06-17 13:41:11 fbatard Exp $
+// $Id: Framework.java,v 1.12 2008-07-02 17:34:47 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -216,7 +216,7 @@ public class Framework {
 			final TasksListUnmarshaller aTaskListUnmarshaller = new TasksListUnmarshallerJAXB(
 					Framework.mapOfObserver);
 			for (final File aFile : tFileXML) {
-				aTaskListUnmarshaller.addURL(aFile.toURL());
+				aTaskListUnmarshaller.addURL(aFile.toURI().toURL());			
 				aTaskListUnmarshaller.unmarshal();
 			}
 
@@ -226,7 +226,7 @@ public class Framework {
 			aRDFUnmarshaller.setMapOfTask(aTaskListUnmarshaller.getMapOfTask());
 			aRDFUnmarshaller.setMapOfObserver(Framework.mapOfObserver);
 			for (final File aFile : tFileRDF) {
-				aRDFUnmarshaller.addURL(aFile.toURL());
+				aRDFUnmarshaller.addURL(aFile.toURI().toURL());
 			}
 			aRDFUnmarshaller.unmarshal();
 
