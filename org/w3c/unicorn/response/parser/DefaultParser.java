@@ -1,31 +1,29 @@
 package org.w3c.unicorn.response.parser;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.unicorn.generated.observationresponse.Errorlist;
-import org.w3c.unicorn.generated.observationresponse.Errors;
-import org.w3c.unicorn.generated.observationresponse.Infolist;
-import org.w3c.unicorn.generated.observationresponse.Informations;
-import org.w3c.unicorn.generated.observationresponse.Observationresponse;
-import org.w3c.unicorn.generated.observationresponse.Warninglist;
-import org.w3c.unicorn.generated.observationresponse.Warnings;
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlException;
 import org.w3c.unicorn.response.A;
 import org.w3c.unicorn.response.Code;
 import org.w3c.unicorn.response.Error;
 import org.w3c.unicorn.response.Img;
 import org.w3c.unicorn.response.Info;
 import org.w3c.unicorn.response.Longmessage;
-import org.w3c.unicorn.response.Warning;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.response.Result;
+import org.w3c.unicorn.response.Warning;
 import org.w3c.unicorn.util.LocalizedString;
 
 /**
@@ -36,35 +34,24 @@ public class DefaultParser implements ResponseParser {
 	protected static final Log logger = LogFactory
 			.getLog("org.w3c.unicorn.response.parser.DefaultParser");
 
-	private static JAXBContext aJAXBContext = null;
-
-	private static Unmarshaller aUnmarshaller = null;
-
-	static {
-		try {
-			aJAXBContext = JAXBContext
-					.newInstance("org.w3c.unicorn.generated.observationresponse");
-			aUnmarshaller = aJAXBContext.createUnmarshaller();
-		} catch (final JAXBException e) {
-			logger.error("JAXBException : " + e.getMessage(), e);
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Parses the input and returns the response.
 	 * @param inputStream The input stream.
 	 * @return The corresponding response.
 	 */
 	public Response parse(InputStream inputStream) {
-		try {
-			return swap((Observationresponse) (aUnmarshaller
-					.unmarshal(inputStream)));
-		} catch (JAXBException e) {
-			logger.error("JAXBException : " + e.getMessage(), e);
-			e.printStackTrace();
-			return null;
-		}
+			try {
+				return swap(org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory.parse(inputStream));
+			} catch (XmlException e) {
+				e.printStackTrace();
+				logger.error("XMLBeansException : " + e.getMessage(), e);
+				return null;
+			} catch (IOException e) {
+				e.printStackTrace();
+				logger.error("XMLBeansException : " + e.getMessage(), e);
+				return null;
+			}
+		
 	}
 
 	/**
@@ -74,7 +61,7 @@ public class DefaultParser implements ResponseParser {
 	 * @param lang The language of the list.
 	 * @return The new list of localized strings.
 	 */
-	private List<LocalizedString> swapListMessage(List<String> x, String lang) {
+	private List<LocalizedString> swapListMessage(String[] x, String lang) {
 		List<LocalizedString> y = new ArrayList<LocalizedString>();
 		for (Object ox : x) {
 			String cox = (String) ox;
@@ -98,19 +85,124 @@ public class DefaultParser implements ResponseParser {
 				String cox = (String) ox;
 				LocalizedString coy = new LocalizedString(cox, lang);
 				y.add(coy);
-			} else if (ox instanceof org.w3c.unicorn.generated.observationresponse.A) {
-				org.w3c.unicorn.generated.observationresponse.A cox = (org.w3c.unicorn.generated.observationresponse.A) ox;
+			} else if (ox instanceof org.w3.unicorn.observationresponse.ADocument.A) {
+				org.w3.unicorn.observationresponse.ADocument.A cox = (org.w3.unicorn.observationresponse.ADocument.A) ox;
 				A coy = new A();
 				coy.setHref(cox.getHref());
-				coy.setContent(swap(cox.getContent(), lang));
+				
+				
+				XmlCursor cursor=cox.newCursor();
+				//System.err.println("Debut");
+				//System.err.println(cursor.xmlText());
+				
+			    ArrayList<Object> listObj = new ArrayList<Object>();
+				
+				while (cursor.hasNextToken()) {
+					cursor.toNextToken();
+					//System.err.println(cursor.currentTokenType().intValue()==TokenType.INT_END);
+					Object current = cursor.getObject();
+					if(current!=null) {
+						//System.err.println(current.getClass());
+						
+						if (current.getClass()==
+							org.w3.unicorn.observationresponse.impl.LongmessageDocumentImpl.LongmessageImpl.class) {
+							break;
+						}
+						// Case : A
+						if (current.getClass()==
+							org.w3.unicorn.observationresponse.impl.ADocumentImpl.AImpl.class) {
+							org.w3.unicorn.observationresponse.ADocument.A
+							a = (org.w3.unicorn.observationresponse.ADocument.A) current;
+							listObj.add(a);
+							//We skip 3 tokens to forget about the inner text in the A tag.
+							//We don't want it in the object list
+							cursor.toNextToken();
+							cursor.toNextToken();
+							cursor.toNextToken();
+						}
+						// Case : Code
+						if (current.getClass()==
+							org.w3.unicorn.observationresponse.impl.CodeDocumentImpl.CodeImpl.class) {
+							org.w3.unicorn.observationresponse.CodeDocument.Code code=(org.w3.unicorn.observationresponse.CodeDocument.Code) current;
+							
+							listObj.add(code);
+						}
+						// Case : Img
+						if (current.getClass()==
+							org.w3.unicorn.observationresponse.impl.ImgDocumentImpl.ImgImpl.class) {
+							org.w3.unicorn.observationresponse.ImgDocument.Img
+							img = (org.w3.unicorn.observationresponse.ImgDocument.Img) current;
+							listObj.add(img);
+						}
+					}
+					else if(cursor.isText()){
+						listObj.add(cursor.getTextValue());
+					}
+				
+				}
+				coy.setContent(swap(listObj, lang));
 				y.add(coy);
-			} else if (ox instanceof org.w3c.unicorn.generated.observationresponse.Code) {
-				org.w3c.unicorn.generated.observationresponse.Code cox = (org.w3c.unicorn.generated.observationresponse.Code) ox;
+				
+				} else if (ox instanceof org.w3.unicorn.observationresponse.CodeDocument.Code) {
+				org.w3.unicorn.observationresponse.CodeDocument.Code cox = (org.w3.unicorn.observationresponse.CodeDocument.Code) ox;
 				Code coy = new Code();
-				coy.setContent(swap(cox.getContent(), lang));
+				
+				
+				XmlCursor cursor=cox.newCursor();
+				//System.err.println("Debut");
+				//System.err.println(cursor.xmlText());
+				
+			    ArrayList<Object> listObj = new ArrayList<Object>();
+				
+				while (cursor.hasNextToken()) {
+					cursor.toNextToken();
+					//System.err.println(cursor.currentTokenType().intValue()==TokenType.INT_END);
+					Object current = cursor.getObject();
+					if(current!=null) {
+						//System.err.println(current.getClass());
+						
+						if (current.getClass()==
+							org.w3.unicorn.observationresponse.impl.LongmessageDocumentImpl.LongmessageImpl.class) {
+							break;
+						}
+						// Case : A
+						if (current.getClass()==
+							org.w3.unicorn.observationresponse.impl.ADocumentImpl.AImpl.class) {
+							org.w3.unicorn.observationresponse.ADocument.A
+							a = (org.w3.unicorn.observationresponse.ADocument.A) current;
+							listObj.add(a);
+//							We skip 3 tokens to forget about the inner text in the A tag.
+							//We don't want it in the object list
+							cursor.toNextToken();
+							cursor.toNextToken();
+							cursor.toNextToken();
+						}
+						// Case : Code
+						if (current.getClass()==
+							org.w3.unicorn.observationresponse.impl.CodeDocumentImpl.CodeImpl.class) {
+							org.w3.unicorn.observationresponse.CodeDocument.Code code=(org.w3.unicorn.observationresponse.CodeDocument.Code) current;
+							
+							listObj.add(code);
+						}
+						// Case : Img
+						if (current.getClass()==
+							org.w3.unicorn.observationresponse.impl.ImgDocumentImpl.ImgImpl.class) {
+							org.w3.unicorn.observationresponse.ImgDocument.Img
+							img = (org.w3.unicorn.observationresponse.ImgDocument.Img) current;
+							listObj.add(img);
+						}
+					}
+					else if(cursor.isText()){
+						listObj.add(cursor.getTextValue());
+					}
+				
+				}
+				
+				
+				coy.setContent(swap(listObj, lang));
 				y.add(coy);
-			} else if (ox instanceof org.w3c.unicorn.generated.observationresponse.Img) {
-				org.w3c.unicorn.generated.observationresponse.Img cox = (org.w3c.unicorn.generated.observationresponse.Img) ox;
+			} else if (ox instanceof org.w3.unicorn.observationresponse.ImgDocument.Img) {
+				org.w3.unicorn.observationresponse.ImgDocument.Img cox = (org.w3.unicorn.observationresponse.ImgDocument.Img) ox;
 				Img coy = new Img();
 				coy.setAlt(cox.getAlt());
 				coy.setHeight(cox.getHeight());
@@ -131,10 +223,63 @@ public class DefaultParser implements ResponseParser {
 	 * @return The swapped message.
 	 */
 	private Longmessage swap(
-			org.w3c.unicorn.generated.observationresponse.Longmessage x,
+			org.w3.unicorn.observationresponse.LongmessageDocument.Longmessage x,
 			String lang) {
 		Longmessage y = new Longmessage();
-		y.setContent(swap(x.getContent(), lang));
+		XmlCursor cursor=x.newCursor();
+		//System.err.println("Debut");
+		//System.err.println(cursor.xmlText());
+		
+	    ArrayList<Object> listObj = new ArrayList<Object>();
+		
+		while (cursor.hasNextToken()) {
+			cursor.toNextToken();
+			//System.err.println(cursor.currentTokenType().intValue()==TokenType.INT_END);
+			Object current = cursor.getObject();
+			if(current!=null) {
+				//System.err.println(current.getClass());
+				
+				if (current.getClass()==
+					org.w3.unicorn.observationresponse.impl.LongmessageDocumentImpl.LongmessageImpl.class) {
+					break;
+				}
+				// Case : A
+				if (current.getClass()==
+					org.w3.unicorn.observationresponse.impl.ADocumentImpl.AImpl.class) {
+					org.w3.unicorn.observationresponse.ADocument.A
+					a = (org.w3.unicorn.observationresponse.ADocument.A) current;
+					listObj.add(a);
+					//We skip 3 tokens to forget about the inner text in the A tag.
+					//We don't want it in the object list
+					cursor.toNextToken();
+					cursor.toNextToken();
+					cursor.toNextToken();
+				}
+				// Case : Code
+				if (current.getClass()==
+					org.w3.unicorn.observationresponse.impl.CodeDocumentImpl.CodeImpl.class) {
+					org.w3.unicorn.observationresponse.CodeDocument.Code code=(org.w3.unicorn.observationresponse.CodeDocument.Code) current;
+					
+					listObj.add(code);
+				}
+				// Case : Img
+				if (current.getClass()==
+					org.w3.unicorn.observationresponse.impl.ImgDocumentImpl.ImgImpl.class) {
+					org.w3.unicorn.observationresponse.ImgDocument.Img
+					img = (org.w3.unicorn.observationresponse.ImgDocument.Img) current;
+					listObj.add(img);
+				}
+			}
+			else if(cursor.isText()){
+				listObj.add(cursor.getTextValue());
+			}
+		
+		}
+		
+		//System.err.println("List : " + listObj);
+		//System.err.println("Fin");
+			
+		y.setContent(swap(listObj, lang));
 		return y;
 	}
 
@@ -146,11 +291,11 @@ public class DefaultParser implements ResponseParser {
 	 * @return The new list of localized messages.
 	 */
 	private List<Longmessage> swapListLongmessage(
-			List<org.w3c.unicorn.generated.observationresponse.Longmessage> x,
+			org.w3.unicorn.observationresponse.LongmessageDocument.Longmessage[] x,
 			String lang) {
 		List<Longmessage> y = new ArrayList<Longmessage>();
 		for (Object ox : x) {
-			org.w3c.unicorn.generated.observationresponse.Longmessage cox = (org.w3c.unicorn.generated.observationresponse.Longmessage) ox;
+			org.w3.unicorn.observationresponse.LongmessageDocument.Longmessage cox = (org.w3.unicorn.observationresponse.LongmessageDocument.Longmessage) ox;
 			Longmessage coy = swap(cox, lang);
 			y.add(coy);
 		}
@@ -164,14 +309,14 @@ public class DefaultParser implements ResponseParser {
 	 * @return The swapped warning.
 	 */
 	private Warning swap(
-			org.w3c.unicorn.generated.observationresponse.Warning x, String lang) {
+			org.w3.unicorn.observationresponse.WarningDocument.Warning x, String lang) {
 		Warning y = new Warning();
 		y.setLine(x.getLine());
 		y.setColumn(x.getColumn());
 		y.setContext(x.getContext());
 		y.setLevel(x.getLevel());
-		y.setMessage(swapListMessage(x.getMessage(), lang));
-		y.setLongmessage(swapListLongmessage(x.getLongmessage(), lang));
+		y.setMessage(swapListMessage(x.getMessageArray(), lang));
+		y.setLongmessage(swapListLongmessage(x.getLongmessageArray(), lang));
 		return y;
 	}
 
@@ -181,15 +326,15 @@ public class DefaultParser implements ResponseParser {
 	 * @param lang The language of the error.
 	 * @return The swapped error.
 	 */
-	private Error swap(org.w3c.unicorn.generated.observationresponse.Error x,
+	private Error swap(org.w3.unicorn.observationresponse.ErrorDocument.Error x,
 			String lang) {
 		Error y = new Error();
 		y.setLine(x.getLine());
 		y.setColumn(x.getColumn());
 		y.setErrortype(x.getErrortype());
 		y.setContext(x.getContext());
-		y.setMessage(swapListMessage(x.getMessage(), lang));
-		y.setLongmessage(swapListLongmessage(x.getLongmessage(), lang));
+		y.setMessage(swapListMessage(x.getMessageArray(), lang));
+		y.setLongmessage(swapListLongmessage(x.getLongmessageArray(), lang));
 		return y;
 	}
 
@@ -199,14 +344,14 @@ public class DefaultParser implements ResponseParser {
 	 * @param lang The language of the info.
 	 * @return The swapped info.
 	 */
-	private Info swap(org.w3c.unicorn.generated.observationresponse.Info x,
+	private Info swap(org.w3.unicorn.observationresponse.InfoDocument.Info x,
 			String lang) {
 		Info y = new Info();
 		y.setLine(x.getLine());
 		y.setColumn(x.getColumn());
 		y.setContext(x.getContext());
-		y.setMessage(swapListMessage(x.getMessage(), lang));
-		y.setLongmessage(swapListLongmessage(x.getLongmessage(), lang));
+		y.setMessage(swapListMessage(x.getMessageArray(), lang));
+		y.setLongmessage(swapListLongmessage(x.getLongmessageArray(), lang));
 		return y;
 	}
 
@@ -216,51 +361,59 @@ public class DefaultParser implements ResponseParser {
 	 * @param lang The language of the response.
 	 * @return The swapped response.
 	 */
-	private Response swap(Observationresponse or) {
+	private Response swap(org.w3.unicorn.observationresponse.ObservationresponseDocument ord) {
 		Response res = new Response();
+		org.w3.unicorn.observationresponse.ObservationresponseDocument.Observationresponse or=ord.getObservationresponse();
 		res.setUri(or.getUri());
 		res.setCheckedby(or.getCheckedby());
 		res.setVersion(or.getVersion());
-		res.setDate(or.getDate());
-		res.setPassed(or.isPassed());
+		XMLGregorianCalendar xmlGregorianCalendar;
+		try {
+			xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar((GregorianCalendar)or.getDate());
+		} catch (DatatypeConfigurationException e) {
+			e.printStackTrace();
+			logger.error("DatatypeConfigurationException erreur de date : " + e.getMessage(), e);
+			return null;
+		}
+		or.setDate(Calendar.getInstance());
+		res.setDate(xmlGregorianCalendar);
+		res.setPassed(or.getPassed());
 
 		// Fill res.result
-		org.w3c.unicorn.generated.observationresponse.Result rrr = or
-				.getResult();
+		org.w3.unicorn.observationresponse.ResultDocument.Result rrr = or.getResult();
 		if (rrr != null) {
-			Warnings warnings = rrr.getWarnings();
-			if (warnings != null && warnings.getWarninglist() != null) {
-				for (Warninglist wl : warnings.getWarninglist()) {
+			org.w3.unicorn.observationresponse.WarningsDocument.Warnings warnings = rrr.getWarnings();
+			if (warnings != null && warnings.getWarninglistArray() != null) {
+				for (org.w3.unicorn.observationresponse.WarninglistDocument.Warninglist wl : warnings.getWarninglistArray()) {
 					String lang = warnings.getLang();
 					Result r = new Result(lang, wl.getUri());
-					for (org.w3c.unicorn.generated.observationresponse.Warning w : wl
-							.getWarning()) {
+					for (org.w3.unicorn.observationresponse.WarningDocument.Warning w : wl.getWarningArray()) {
 						r.getWarnings().add(swap(w, lang));
 					}
 					res.addResult(r);
 				}
 			}
 
-			Errors errors = rrr.getErrors();
-			if (errors != null && errors.getErrorlist() != null) {
-				for (Errorlist wl : errors.getErrorlist()) {
+			org.w3.unicorn.observationresponse.ErrorsDocument.Errors errors = rrr.getErrors();
+			if (errors != null && errors.getErrorlistArray() != null) {
+				for (org.w3.unicorn.observationresponse.ErrorlistDocument.Errorlist wl : errors.getErrorlistArray()) {
 					String lang = errors.getLang();
 					Result r = new Result(errors.getLang(), wl.getUri());
-					for (org.w3c.unicorn.generated.observationresponse.Error w : wl
-							.getError()) {
+					for (org.w3.unicorn.observationresponse.ErrorDocument.Error w : wl
+							.getErrorArray()) {
 						r.getErrors().add(swap(w, lang));
 					}
 					res.addResult(r);
 				}
 			}
 
-			Informations informations = rrr.getInformations();
-			if (informations != null && informations.getInfolist() != null) {
+			org.w3.unicorn.observationresponse.InformationsDocument.Informations informations = rrr.getInformations();
+			if (informations != null && informations.getInfolistArray() != null) {
 				String lang = informations.getLang();
-				for (Infolist wl : informations.getInfolist()) {
+				for (org.w3.unicorn.observationresponse.InfolistDocument.Infolist wl : informations.getInfolistArray()) {
 					Result r = new Result(informations.getLang(), wl.getUri());
-					for (org.w3c.unicorn.generated.observationresponse.Info w : wl
-							.getInfo()) {
+					for (org.w3.unicorn.observationresponse.InfoDocument.Info w : wl
+							.getInfoArray()) {
 						r.getInfos().add(swap(w, lang));
 					}
 					res.addResult(r);
