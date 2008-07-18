@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.activation.MimeTypeParseException;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
@@ -28,6 +29,8 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.contract.InputMethod;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.exceptions.ParameterException;
+import org.w3c.unicorn.generated.tasklist.Observation;
+import org.w3c.unicorn.generated.tasklist.Subtask;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklist.parameters.ParameterFactory;
@@ -76,6 +79,39 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		
 		final Task aTaskCurrent = new Task();
 		
+//		 id
+		aTaskCurrent.setID(aTask.getId());
+		
+		// subtasks
+		// TODO Refaire l'analyse des subtasks et l'ajout d'observations
+		/*
+		for (final Object oObserverOrTask : aTask.getSubtasks().getObservationOrSubtask()) {
+			if (oObserverOrTask instanceof Observation) {
+				// observer
+				try {
+					this.addObservation(
+							aTaskCurrent,
+							(Observation) oObserverOrTask);
+				}
+				catch (final MimeTypeParseException e) {
+					TaskListUnmarshallerBeans.logger.warn("MimeTypeParseException : "+e.getMessage(), e);
+				}
+				continue;
+			}
+			if (oObserverOrTask instanceof Subtask) {
+				final Subtask aSubtask = (Subtask) oObserverOrTask;
+				final String sReference = aSubtask.getRef();		
+				
+				if (sReference.equals(aTaskCurrent.getID())) {
+					TaskListUnmarshallerBeans.logger.warn(
+							"Simple reference loop detected in " +
+							"task " + sReference + "... Ignoring");
+					continue;
+				}
+				aTaskCurrent.addReference(sReference);
+			}
+		}
+		*/
 		
 //		 parameters
 		final ParametersType aParameters = aTask.getParameters();
@@ -400,20 +436,13 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		return this.mapOfTask;
 	}
 
-	public void addURL(URL aURL) throws IOException, JAXBException,
-			SAXException {
+	public void addURL(URL aURL) throws IOException, XmlException{
 		TaskListUnmarshallerBeans.logger.trace("addURL");
 		if (TaskListUnmarshallerBeans.logger.isDebugEnabled()) {
 			TaskListUnmarshallerBeans.logger.debug("URL : "+aURL+".");
 		}
 
-		try {
-			this.aTaskList = (TasklistType) TasklistType.Factory.parse(aURL.openStream());
-		} catch (XmlException e) {
-			TaskListUnmarshallerBeans.logger.error("Parsing Error with XMLBeans", e);
-			e.printStackTrace();
-		}		
-	
+			this.aTaskList = (TasklistType) TasklistType.Factory.parse(aURL.openStream());	
 	}
 	
 	
