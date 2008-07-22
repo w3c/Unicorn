@@ -1,5 +1,7 @@
 package org.w3c.unicorn.tasklisttree;
 
+import java.util.ArrayList;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -13,8 +15,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class TLTIf {
 
-	private String id;
-	private TLTCond cond;
+	private ArrayList<TLTCond> cond;
 	private TLTNode ifOk;
 	private TLTNode ifNotOk;
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.tasklisttree");
@@ -25,8 +26,7 @@ public class TLTIf {
 	 */
 	public TLTIf() {
 		TLTIf.logger.trace("Constructor");
-		this.id = "defaultIf";
-		this.cond = new TLTCond();
+		this.cond = new ArrayList<TLTCond>();
 		this.ifOk = new TLTNode();
 		this.ifNotOk = new TLTNode();
 	}
@@ -37,11 +37,9 @@ public class TLTIf {
 	 * @param cond The condition to check
 	 * @param ifOK The next node if the condition is ok
 	 */
-	public TLTIf(String id, TLTCond cond, TLTNode ifOk) {
+	public TLTIf(ArrayList<TLTCond> cond, TLTNode ifOk) {
 		TLTIf.logger.trace("Constructor");
-		TLTIf.logger.trace("Id : " + id);
-		TLTIf.logger.trace("Cond : " + cond.getId());
-		this.id = id;
+		TLTIf.logger.trace("Cond : ");
 		this.cond = cond;
 		this.ifOk = ifOk;
 		this.ifNotOk = new TLTNode();
@@ -54,23 +52,12 @@ public class TLTIf {
 	 * @param ifOk The next node if the condition is ok
 	 * @param ifNotOK The next node if the condition is not ok
 	 */
-	public TLTIf(String id,TLTCond cond, TLTNode ifOk, TLTNode ifNotOK) {
+	public TLTIf(ArrayList<TLTCond> cond, TLTNode ifOk, TLTNode ifNotOK) {
 		TLTIf.logger.trace("Constructor");
-		TLTIf.logger.trace("Id : " + id);
-		TLTIf.logger.trace("Cond : " + cond.getId());
-		this.id = id;
+		TLTIf.logger.trace("Cond : ");
 		this.cond = cond;
 		this.ifOk = ifOk;
 		this.ifNotOk = ifNotOK;
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 */
-	public void setId(String id) {
-		TLTIf.logger.trace("setId : " + id);
-		this.id = id;
 	}
 	
 	/**
@@ -95,9 +82,9 @@ public class TLTIf {
 	 * Sets the condition to check.
 	 * @param cond
 	 */
-	public void setCond(TLTCond cond) {
-		TLTIf.logger.trace("setCond : " + cond.getId());
-		this.cond = cond;
+	public void addCond(TLTCond cond) {
+		TLTIf.logger.trace("addCond : " + cond.getId());
+		this.cond.add(cond);
 	}
 	
 	/**
@@ -122,16 +109,16 @@ public class TLTIf {
 	 * 
 	 * @return The condition
 	 */
-	public TLTCond getCond() {
+	public ArrayList<TLTCond> getCondArray() {
 		TLTIf.logger.trace("getCond");
 		return cond;
 	}
 	
-	public String getId() {
-		TLTIf.logger.trace("getId");
-		return id;
+	public String toString(){
+		String res=new String("TLTIf ");
+			for(TLTCond conds : this.cond)
+				res+=conds.toString();
+		return res;
 	}
-	
-	
 	
 }

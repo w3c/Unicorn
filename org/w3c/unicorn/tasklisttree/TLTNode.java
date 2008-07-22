@@ -72,7 +72,7 @@ public class TLTNode {
 	 * @param tltIf The "if" to add
 	 */
 	public void addIf(TLTIf tltIf) {
-		TLTNode.logger.trace("addIf : " + tltIf.getId());
+		TLTNode.logger.trace("addIf : ");
 		ifList.add(tltIf);
 	}
 	
@@ -103,4 +103,12 @@ public class TLTNode {
 		return level;
 	}
 
+	public String toString(){
+		String res=new String("TLTNode ");
+			for(TLTIf conds : this.ifList)
+				res+=conds.toString();
+			for(TLTExec exec : this.executionList)
+				res+=exec.toString();
+		return res;
+	}
 }

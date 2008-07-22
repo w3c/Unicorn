@@ -18,6 +18,7 @@ public class TLTCond {
 	private String observer;
 	private EnumCondType type; 
 	private boolean result;
+	private String value;
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.tasklisttree");
 	
 	
@@ -27,7 +28,7 @@ public class TLTCond {
 	 * @param observer The name of the observer corresponding to the condition
 	 * @param type The type of the condition
 	 */
-	public TLTCond(String id, String observer, EnumCondType type) {
+	public TLTCond(String id, String observer, EnumCondType type, String value) {
 		TLTCond.logger.trace("Constructor");
 		TLTCond.logger.trace("Id : " + id);
 		TLTCond.logger.trace("Observer : " + observer);
@@ -80,6 +81,27 @@ public class TLTCond {
 		this.type = type;
 		}
 	
+	
+	/**
+	 * 
+	 * @param type The type of the condition
+	 */
+	public void setType(String type){ 
+		TLTCond.logger.trace("setType : " + type);
+		for(EnumCondType val : EnumCondType.values()){
+			if(val.value().equals(type))this.type=val;
+		}
+		}
+	
+	/**
+	 * 
+	 * @param value value of the condition
+	 */
+	public void setValue(String value){
+		TLTCond.logger.trace("setValue : " + value);
+		this.value=value;
+	}
+	
 	/**
 	 * @return The id of the condition
 	 */
@@ -115,6 +137,17 @@ public class TLTCond {
 		return type;	
 	}
 	
+	/**
+	 * 
+	 * @return The value of the condition
+	 */
+	public String getValue(){ 
+		TLTCond.logger.trace("getValue");
+		return value;	
+	}
 	
+	public String toString(){
+		return new String("TLTCond "+this.id+" observer "+this.observer+" value "+this.value);
+	}
 	
 }
