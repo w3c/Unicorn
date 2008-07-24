@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.9 2008-06-17 13:41:11 fbatard Exp $
+// $Id: UnicornCall.java,v 1.10 2008-07-24 09:51:53 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -342,6 +342,9 @@ public class UnicornCall {
 	 * @throws Exception
 	 *             error occured during the process
 	 */
+	//TODO Changer la génération de la liste pour prendre en compte les level d'execution
+	//Adapter la Map dans la RequestList 
+	//Dans le doTask on bouclera tant qu'on trouve des lvl d'execution superieur
 	private RequestList generateRequestList(final InputFactory aInputFactory,
 			final Map<String, String[]> mapOfArrayUseParameter)
 			throws Exception {
