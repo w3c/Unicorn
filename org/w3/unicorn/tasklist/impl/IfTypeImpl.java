@@ -80,13 +80,13 @@ public class IfTypeImpl extends org.apache.xmlbeans.impl.values.XmlComplexConten
     /**
      * Gets the "else" element
      */
-    public org.w3.unicorn.tasklist.ElseType getElse()
+    public org.w3.unicorn.tasklist.ThenType getElse()
     {
         synchronized (monitor())
         {
             check_orphaned();
-            org.w3.unicorn.tasklist.ElseType target = null;
-            target = (org.w3.unicorn.tasklist.ElseType)get_store().find_element_user(ELSE$2, 0);
+            org.w3.unicorn.tasklist.ThenType target = null;
+            target = (org.w3.unicorn.tasklist.ThenType)get_store().find_element_user(ELSE$2, 0);
             if (target == null)
             {
                 return null;
@@ -98,16 +98,16 @@ public class IfTypeImpl extends org.apache.xmlbeans.impl.values.XmlComplexConten
     /**
      * Sets the "else" element
      */
-    public void setElse(org.w3.unicorn.tasklist.ElseType xelse)
+    public void setElse(org.w3.unicorn.tasklist.ThenType xelse)
     {
         synchronized (monitor())
         {
             check_orphaned();
-            org.w3.unicorn.tasklist.ElseType target = null;
-            target = (org.w3.unicorn.tasklist.ElseType)get_store().find_element_user(ELSE$2, 0);
+            org.w3.unicorn.tasklist.ThenType target = null;
+            target = (org.w3.unicorn.tasklist.ThenType)get_store().find_element_user(ELSE$2, 0);
             if (target == null)
             {
-                target = (org.w3.unicorn.tasklist.ElseType)get_store().add_element_user(ELSE$2);
+                target = (org.w3.unicorn.tasklist.ThenType)get_store().add_element_user(ELSE$2);
             }
             target.set(xelse);
         }
@@ -116,13 +116,13 @@ public class IfTypeImpl extends org.apache.xmlbeans.impl.values.XmlComplexConten
     /**
      * Appends and returns a new empty "else" element
      */
-    public org.w3.unicorn.tasklist.ElseType addNewElse()
+    public org.w3.unicorn.tasklist.ThenType addNewElse()
     {
         synchronized (monitor())
         {
             check_orphaned();
-            org.w3.unicorn.tasklist.ElseType target = null;
-            target = (org.w3.unicorn.tasklist.ElseType)get_store().add_element_user(ELSE$2);
+            org.w3.unicorn.tasklist.ThenType target = null;
+            target = (org.w3.unicorn.tasklist.ThenType)get_store().add_element_user(ELSE$2);
             return target;
         }
     }

@@ -16,7 +16,7 @@ package org.w3.unicorn.tasklist;
 public interface ParametersType extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(ParametersType.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s3149679C42AE7ADEA40C6B779897203B").resolveHandle("parameterstypeeca1type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(ParametersType.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s827B008E50A34C0C117CE5EE957219C8").resolveHandle("parameterstypeeca1type");
     
     /**
      * Gets array of all "parameter" elements

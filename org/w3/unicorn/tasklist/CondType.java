@@ -16,7 +16,7 @@ package org.w3.unicorn.tasklist;
 public interface CondType extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(CondType.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s3149679C42AE7ADEA40C6B779897203B").resolveHandle("condtypea5a9type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(CondType.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s827B008E50A34C0C117CE5EE957219C8").resolveHandle("condtypea5a9type");
     
     /**
      * Gets the "value" element
