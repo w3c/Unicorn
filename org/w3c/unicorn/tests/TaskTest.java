@@ -7,8 +7,12 @@ package org.w3c.unicorn.tests;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.xmlbeans.XmlException;
+import org.w3.unicorn.tasklist.TaskType;
 import org.w3.unicorn.tasklist.TasklistDocument;
 import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklisttree.TLTExec;
@@ -25,16 +29,16 @@ public class TaskTest {
 		try {
 			TasklistDocument tasklist=TasklistDocument.Factory.parse(new File("resources/tasklist/new-tasklist.xml"));
 			Task aTask=new Task(tasklist.getTasklist().getTaskArray(0));
-			ArrayList<TLTExec> liste=new ArrayList<TLTExec>();
-			aTask.getExecs(liste, aTask.getTree());
-			for(TLTExec exec: liste){
-				System.out.println(exec);
+			Map<String, Task> mapOfTask = new LinkedHashMap<String, Task>();
+			for(TaskType myTask : tasklist.getTasklist().getTaskArray()){
+				Task bTask=new Task(myTask);
+				mapOfTask.put(bTask.getID(), bTask);
 			}
+			aTask.setRoot(aTask.expandNode(mapOfTask, aTask.getRoot()));
+			aTask.displayTree(aTask.getRoot()); 
 		} catch (XmlException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
