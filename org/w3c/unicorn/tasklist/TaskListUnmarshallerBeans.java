@@ -58,7 +58,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	private Map<String, Observer> mapOfObserver;
 	
 	
-	private TaskListUnmarshallerBeans(){}
+	public TaskListUnmarshallerBeans(){}
 	
 	public TaskListUnmarshallerBeans(final Map<String, Observer> mapOfObserver) {
 		TaskListUnmarshallerBeans.logger.trace("Constructor");	
@@ -360,7 +360,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	 * @param myTask
 	 *            the task to transform into a tree
 	 */
-	private TLTNode ExpandTree(TaskType myTask) {
+	public TLTNode ExpandTree(TaskType myTask) {
 		int level=0;
 		TaskListUnmarshallerBeans.logger.trace("Creation of the tree based on the Task "
 				+ myTask.getId());
