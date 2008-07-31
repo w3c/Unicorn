@@ -20,6 +20,8 @@ public class TLTNode {
 	private ArrayList<TLTIf> ifList; // list of conditions and child nodes
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.tasklisttree");
 	
+	public boolean bExpandingOrExpanded = false;
+	
 	/**
 	 * Default constructor for a node.
 	 *
