@@ -106,7 +106,7 @@ public class TLTNode {
 	}
 
 	public String toString(){
-		String res=new String("TLTNode ");
+		String res=new String("TLTNode level"+this.level+" ");
 			for(TLTIf conds : this.ifList)
 				res+=conds.toString();
 			for(TLTExec exec : this.executionList)

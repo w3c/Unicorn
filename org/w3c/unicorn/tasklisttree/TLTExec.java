@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.w3.unicorn.tasklist.ParamType;
 import org.w3.unicorn.tasklist.ValueType;
+import org.w3c.unicorn.contract.Observer;
 
 /**
  * Class made to manage the XML type execType of the tasklist.
@@ -20,6 +21,7 @@ public class TLTExec {
 	private String value;
 	private String type;
 	private ParamType param;
+	private Observer observer;
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.tasklisttree");
 	
 	/**
@@ -28,17 +30,37 @@ public class TLTExec {
 	 * @param value The observer to run
 	 * @param param The parameter of the exec
 	 */
-	public TLTExec(String id, String value,String type, ParamType param) {
+	public TLTExec(String id,Observer obs, String value,String type, ParamType param) {
 		TLTExec.logger.trace("Constructor");
 		TLTExec.logger.trace("Id : " + id);
 		TLTExec.logger.trace("Type : " + type);
 		TLTExec.logger.trace("Value : " + value);
 		TLTExec.logger.trace("Param : " + param);
+		TLTExec.logger.trace("Observer : " + observer.getID());
 		this.id = id;
 		this.value = value;
 		this.type=type;
 		this.param = param;
+		this.observer=obs;
 	}
+	
+	/**
+	 * 
+	 * @param id The id of the exec
+	 */
+	public void setObserver(Observer obs) {
+		TLTExec.logger.trace("setObserver : " + obs.getID());
+		this.observer = obs;
+	}
+	
+	/**
+	 * 
+	 */
+	public Observer getObserver() {
+		TLTExec.logger.trace("getObserver");
+		return this.observer;
+	}
+	
 	
 	/**
 	 * 

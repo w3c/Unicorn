@@ -3,6 +3,7 @@ package org.w3c.unicorn.tasklisttree;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3.unicorn.tasklist.TUi.Enum;
+import org.w3c.unicorn.contract.Observer;
 
 /**
  * Class made to manage the XML type condType of the tasklist.
@@ -15,7 +16,7 @@ import org.w3.unicorn.tasklist.TUi.Enum;
 public class TLTCond {
 	
 	private String id;
-	private String observer;
+	private Observer observer;
 	private EnumCondType type; 
 	private boolean result;
 	private String value;
@@ -28,7 +29,7 @@ public class TLTCond {
 	 * @param observer The name of the observer corresponding to the condition
 	 * @param type The type of the condition
 	 */
-	public TLTCond(String id, String observer, EnumCondType type, String value) {
+	public TLTCond(String id, Observer observer, EnumCondType type, String value) {
 		TLTCond.logger.trace("Constructor");
 		TLTCond.logger.trace("Id : " + id);
 		TLTCond.logger.trace("Observer : " + observer);
@@ -59,7 +60,7 @@ public class TLTCond {
 	 * 
 	 * @param observer The observer the condition depends on
 	 */
-	public void setObserver(String observer) {
+	public void setObserver(Observer observer) {
 		TLTCond.logger.trace("setObserver : " + observer);
 		this.observer = observer;
 	}
@@ -114,7 +115,7 @@ public class TLTCond {
 	 * 
 	 * @return The observer the condition depends on
 	 */
-	public String getObserver() {
+	public Observer getObserver() {
 		TLTCond.logger.trace("getObserver");
 		return observer;
 	}
