@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.10 2008-07-24 09:51:53 fbatard Exp $
+// $Id: UnicornCall.java,v 1.11 2008-08-26 15:32:42 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.activation.MimeType;
-import javax.xml.bind.JAXBException;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
@@ -24,18 +23,19 @@ import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.exceptions.EmptyDocumentException;
 import org.w3c.unicorn.exceptions.NoDocumentException;
 import org.w3c.unicorn.exceptions.NoMimeTypeException;
-import org.w3c.unicorn.exceptions.UnsupportedMimeTypeException;
-import org.w3c.unicorn.generated.tasklist.TPriority;
 import org.w3c.unicorn.input.InputFactory;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.request.RequestList;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.response.parser.ResponseParserFactory;
-import org.w3c.unicorn.tasklist.Observation;
 import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklist.parameters.Value;
+import org.w3c.unicorn.tasklisttree.TLTCond;
+import org.w3c.unicorn.tasklisttree.TLTExec;
+import org.w3c.unicorn.tasklisttree.TLTIf;
+import org.w3c.unicorn.tasklisttree.TLTNode;
 import org.w3c.unicorn.util.Property;
 
 /**
@@ -71,36 +71,10 @@ public class UnicornCall {
 
 	private Map<String, String[]> mapOfStringParameter = null;
 
-	// Results
 	/**
-	 * Data Structure for the response with high priority
+	 * Data Structure for the response
 	 */
-	private Map<String, Response> mapOfResponseHigh;
-
-	/**
-	 * Data Structure for the response with medium priority
-	 */
-	private Map<String, Response> mapOfResponseMedium;
-
-	/**
-	 * Data Structure for the response with low priority
-	 */
-	private Map<String, Response> mapOfResponseLow;
-
-	/**
-	 * Tells if the high priority check passed
-	 */
-	private boolean bPassedHigh;
-
-	/**
-	 * Tells if the medium priority check passed
-	 */
-	private boolean bPassedMedium;
-
-	/**
-	 * Tells if the low priority check passed
-	 */
-	private boolean bPassedLow;
+	private Map<String, Response> mapOfResponse;
 
 	/**
 	 * Active threads number in doRequests() method
@@ -120,14 +94,7 @@ public class UnicornCall {
 
 		this.mapOfStringParameter = new LinkedHashMap<String, String[]>();
 
-		this.mapOfResponseHigh = new LinkedHashMap<String, Response>();
-		this.mapOfResponseMedium = new LinkedHashMap<String, Response>();
-		this.mapOfResponseLow = new LinkedHashMap<String, Response>();
-
-		this.bPassedHigh = true;
-		this.bPassedMedium = true;
-		this.bPassedLow = true;
-
+		this.mapOfResponse = new LinkedHashMap<String, Response>();
 		this.nbActiveThreads = 0;
 	}
 
@@ -199,25 +166,36 @@ public class UnicornCall {
 			UnicornCall.logger
 					.debug("MimeType : " + aMimeType.toString() + ".");
 		}
-		/*
-		 * Check if the mimetype is handle by the asked task redirect
-		 * automatically to another input method if this one does not support
-		 * this mimetype
-		 */
-		if (!this.aTask.allowMimeType(aMimeType)) {
-			UnicornCall.logger.error("Task " + this.aTask.getID()
-					+ " does not support the mimetype " + aMimeType.toString()
-					+ ".");
-			throw new UnsupportedMimeTypeException(aMimeType.toString() + ".");
-		}
+
 
 		// Create input method
 		final InputFactory aInputFactory = new InputFactory(aMimeType,
 				this.aEnumInputMethod, this.oInputParameterValue);
 
+		this.doNode(aInputFactory,this.aTask.getTree());
+		
+		
+		aInputFactory.dispose();
+	}
+	
+	/**
+	 * Main function called to do the recursion over the Task tree to launch the requests
+	 * @param aInputFactory InputFactory used for the resquests
+	 * @param node the current node that we're parsing in the Task tree
+	 * @throws Exception raised from generateRequestList and doRequest
+	 */
+	private void doNode(InputFactory aInputFactory,TLTNode node) throws Exception{
 		// Generate the list of request
+		UnicornCall.logger.trace("doNode.");
+		if (UnicornCall.logger.isDebugEnabled()) {
+			UnicornCall.logger.debug("InputFactory : " + aInputFactory
+					+ ".");
+			UnicornCall.logger.debug("Current node : "
+					+ node + ".");
+		}
+		if(node!=null){
 		this.aRequestList = this.generateRequestList(aInputFactory,
-				this.mapOfStringParameter);
+				this.mapOfStringParameter,node);
 
 		if (UnicornCall.logger.isDebugEnabled()) {
 			UnicornCall.logger
@@ -225,17 +203,58 @@ public class UnicornCall {
 		}
 
 		// send requests to observer
-		this.bPassedHigh = this.doRequests(TPriority.HIGH);
-		if (!this.bPassedHigh)
-			return;
-		this.bPassedMedium = this.doRequests(TPriority.MEDIUM);
-		if (!this.bPassedMedium)
-			return;
-		this.bPassedLow = this.doRequests(TPriority.LOW);
-
-		aInputFactory.dispose();
+		this.doRequests();
+		
+		UnicornCall.logger.info("Check the condition of the Ifs");
+		//browse the conditions to do the connection
+		for(TLTIf ifs: node.getIfList()){
+			if(this.checkCond(ifs))this.doNode(aInputFactory,ifs.getIfOk());
+			else this.doNode(aInputFactory,ifs.getIfNotOk());
+		}
+		}
+		else{
+			//Inform if the node is null
+			if (UnicornCall.logger.isDebugEnabled()) {
+				UnicornCall.logger
+						.debug("The node is null at this point.");
+			}
+		}
+		
 	}
-
+	
+	/**
+	 * Check the conditions of the if branch it makes a OR between all conditions
+	 * @param ifs the if branch to check
+	 * @return whether or not the conditions are true
+	 */
+	private boolean checkCond(TLTIf ifs){
+		UnicornCall.logger.trace("checkCond.");
+		if (UnicornCall.logger.isDebugEnabled()) {
+			UnicornCall.logger.debug("If node : " + ifs
+					+ ".");
+		}
+		boolean conditionOK=true;
+		//TODO boolean to manage the OR in the conditions, if the donc is false we change the boolean to false , if not we don't care
+		//that will simulate the OR
+		for(TLTCond cond:ifs.getCondArray()){
+			
+		}
+		return conditionOK;
+	}
+	
+	/**
+	 * Creates the map of all the Observer to call in the current node
+	 * @param node the current node of the Task tree we are parsing
+	 */
+	private Map<String,Observer> createExecList(TLTNode node){
+		Map<String,Observer> mapOfCurrentNodeObserver=new LinkedHashMap<String, Observer>();
+		for (TLTExec exec : node.getExecutionList()) {
+			mapOfCurrentNodeObserver.put(exec.getValue(),exec.getObserver());
+		}
+		return mapOfCurrentNodeObserver;
+	}
+	
+	
 	/**
 	 * Adds 1 to active threads number
 	 */
@@ -279,31 +298,13 @@ public class UnicornCall {
 	 * @throws IOException
 	 *             Input/Output error
 	 */
-	private boolean doRequests(final TPriority aTPriority) throws IOException,
-			JAXBException {
+	private boolean doRequests() throws IOException{
 		UnicornCall.logger.trace("doRequest");
-		if (UnicornCall.logger.isDebugEnabled()) {
-			UnicornCall.logger.debug("Priority : " + aTPriority + ".");
-		}
 
 		bPassed = true;
-
-		final Map<String, Response> mapOfResponse;
-		switch (aTPriority) {
-		case HIGH:
-			mapOfResponse = this.mapOfResponseHigh;
-			break;
-		case LOW:
-			mapOfResponse = this.mapOfResponseLow;
-			break;
-		case MEDIUM:
-			mapOfResponse = this.mapOfResponseMedium;
-			break;
-		default:
-			mapOfResponse = null;
-		}
+		
 		final Map<String, Request> requests = this.aRequestList
-				.getRequest(aTPriority);
+				.getRequestMap();
 		// Creation of the thread list
 		ArrayList<Thread> threadsList = new ArrayList<Thread>();
 
@@ -338,15 +339,13 @@ public class UnicornCall {
 	 *            Input factory for the parameter
 	 * @param mapOfArrayUseParameter
 	 *            array of the parameter
+	 * @param node the current node that we are parsing           
 	 * @return the list of the request for the call
 	 * @throws Exception
 	 *             error occured during the process
 	 */
-	//TODO Changer la génération de la liste pour prendre en compte les level d'execution
-	//Adapter la Map dans la RequestList 
-	//Dans le doTask on bouclera tant qu'on trouve des lvl d'execution superieur
 	private RequestList generateRequestList(final InputFactory aInputFactory,
-			final Map<String, String[]> mapOfArrayUseParameter)
+			final Map<String, String[]> mapOfArrayUseParameter,TLTNode node)
 			throws Exception {
 
 		// Log information
@@ -356,7 +355,7 @@ public class UnicornCall {
 			UnicornCall.logger.debug("Map of string parameter : "
 					+ mapOfArrayUseParameter + ".");
 		}
-
+		 
 		final MimeType aMimeType = aInputFactory.getMimeType();
 		final EnumInputMethod aEnumInputMethod = aInputFactory
 				.getDefaultInputModule().getEnumInputMethod();
@@ -364,9 +363,10 @@ public class UnicornCall {
 		final RequestList aRequestList = new RequestList(this.sLang);
 		// Iterate over all observation of this task to build a basic
 		// request list with only the url of observator and input parameter
-		for (final Observation aObservation : this.aTask.getMapOfObservation()
-				.values()) {
-			final Observer aObserver = aObservation.getObserver();
+		//Il faut creer une list avec tous les exec et toutes les rencardeur de ifs
+		//Une liste d'Observer
+		
+		for (final Observer aObserver : this.createExecList(node).values()) {
 			final String sObserverID = aObserver.getID();
 			// add only observer who handle the current mimetype
 			if (!aObserver.canHandleMimeType(aMimeType, aEnumInputMethod)) {
@@ -402,7 +402,7 @@ public class UnicornCall {
 										+ aEIM.toString() + ".");
 					}
 
-					final InputMethod aInputMethod = aObservation.getObserver()
+					final InputMethod aInputMethod = aObserver
 							.getInputMethod(aEIM);
 					// create a new request with input parameter
 					final Request aRequest = Request.createRequest(
@@ -413,8 +413,7 @@ public class UnicornCall {
 									.getResponseType());
 					// add this request to request list
 
-					aRequestList.addRequest(aRequest, aObservation
-							.getPriority(aMimeType), sObserverID);
+					aRequestList.addRequest(aRequest,""+node.getID());
 					// log debug information
 					if (UnicornCall.logger.isDebugEnabled()) {
 						UnicornCall.logger.debug("Redirect request " + aRequest
@@ -460,7 +459,7 @@ public class UnicornCall {
 			String[] valOfUcnLang = this.mapOfStringParameter.get("ucn_lang");
 
 			// Get name of the lang parameter (defined in RDF file)
-			String observerParamLangName = aObservation.getObserver()
+			String observerParamLangName = aObserver
 					.getParamLangName();
 
 			// If lang parameter exists, we add name and value in parameters of
@@ -470,8 +469,7 @@ public class UnicornCall {
 			}
 
 			// Add this request to request list
-			aRequestList.addRequest(aRequest, aObservation
-					.getPriority(aMimeType), sObserverID);
+			aRequestList.addRequest(aRequest,""+node.getID());
 			// Log debug information
 			if (UnicornCall.logger.isDebugEnabled()) {
 				UnicornCall.logger.debug("Request " + aRequest
@@ -512,7 +510,6 @@ public class UnicornCall {
 				if (null == mapOfDefaultValue || 0 == mapOfDefaultValue.size()) {
 					UnicornCall.logger.warn("Parameter " + sTaskParameterName
 							+ " has no value intput and no default value.");
-					// TODO check if this parameter is required
 					continue;
 				}
 				tStringUseParameterValue = new String[mapOfDefaultValue
@@ -539,21 +536,12 @@ public class UnicornCall {
 						.next();
 				final Map<String, List<Mapping>> mapOfMapping = aValue
 						.getMapOfMapping();
+				
 				for (final String sObserverName : mapOfMapping.keySet()) {
-					final Observation aObservation = this.aTask
-							.getMapOfObservation().get(sObserverName);
+					
 					final Request aRequest = aRequestList
 							.getRequest(sObserverName);
-					final TPriority aTPriority = aObservation
-							.getPriority(aMimeType);
-					if (null == aTPriority) {
-						if (UnicornCall.logger.isDebugEnabled()) {
-							UnicornCall.logger.debug("Observator "
-									+ sObserverName + " unhandle mimetype "
-									+ aMimeType.getBaseType() + ".");
-						}
-						continue;
-					}
+					
 					for (final Mapping aMapping : mapOfMapping
 							.get(sObserverName)) {
 						final String sValue = aMapping.getValue();
@@ -565,28 +553,20 @@ public class UnicornCall {
 						}
 						aRequest.addParameter(aMapping.getParam(), sValue);
 					}
+					
 				} // foreach mapOfMapping.keySet()
+				
 				continue;
 			}
+			
 			for (final String sUseParameterValue : tStringUseParameterValue) {
 				final Value aValue = mapOfValue.get(sUseParameterValue);
 				final Map<String, List<Mapping>> mapOfMapping = aValue
 						.getMapOfMapping();
 				for (final String sObserverName : mapOfMapping.keySet()) {
-					final Observation aObservation = this.aTask
-							.getMapOfObservation().get(sObserverName);
 					final Request aRequest = aRequestList
 							.getRequest(sObserverName);
-					final TPriority aTPriority = aObservation
-							.getPriority(aMimeType);
-					if (null == aTPriority) {
-						if (UnicornCall.logger.isDebugEnabled()) {
-							UnicornCall.logger.debug("Observator "
-									+ sObserverName + " unhandle mimetype "
-									+ aMimeType.getBaseType() + ".");
-						}
-						continue;
-					}
+					
 					for (final Mapping aMapping : mapOfMapping
 							.get(sObserverName)) {
 						final String sValue = aMapping.getValue();
@@ -601,26 +581,10 @@ public class UnicornCall {
 					}
 				} // foreach mapOfMapping.keySet()
 			} // foreach sArrayParameterValue
+			
 		} // foreach this.parameters.values()
+	
 		return aRequestList;
-	}
-
-	/**
-	 * Returns the responses of high priority observations.
-	 * 
-	 * @return responses of high priority observations.
-	 */
-	public Map<String, Response> getHighResponses() {
-		return this.mapOfResponseHigh;
-	}
-
-	/**
-	 * Returns the responses of medium priority observations.
-	 * 
-	 * @return Returns the responses of medium priority observations.
-	 */
-	public Map<String, Response> getMediumResponses() {
-		return this.mapOfResponseMedium;
 	}
 
 	/**
@@ -628,35 +592,8 @@ public class UnicornCall {
 	 * 
 	 * @return responses of low priority observations.
 	 */
-	public Map<String, Response> getLowResponses() {
-		return this.mapOfResponseLow;
-	}
-
-	/**
-	 * Return the boolean if high checks have passed
-	 * 
-	 * @return Returns the highPassed.
-	 */
-	public boolean haveHighPassed() {
-		return this.bPassedHigh;
-	}
-
-	/**
-	 * Return the boolean if low checks have passed
-	 * 
-	 * @return Returns the lowPassed.
-	 */
-	public boolean haveLowPassed() {
-		return this.bPassedLow;
-	}
-
-	/**
-	 * Return the boolean if medium checks have passed
-	 * 
-	 * @return Returns the mediumPassed.
-	 */
-	public boolean haveMediumPassed() {
-		return this.bPassedMedium;
+	public Map<String, Response> getResponses() {
+		return this.mapOfResponse;
 	}
 
 	/**
@@ -714,11 +651,6 @@ public class UnicornCall {
 	 * @return map of the observations of the check
 	 */
 	public Map<String, Response> getObservationList() {
-		final Map<String, Response> mapOfResponse;
-		mapOfResponse = new LinkedHashMap<String, Response>();
-		mapOfResponse.putAll(this.mapOfResponseHigh);
-		mapOfResponse.putAll(this.mapOfResponseMedium);
-		mapOfResponse.putAll(this.mapOfResponseLow);
 		return mapOfResponse;
 	}
 
@@ -874,6 +806,7 @@ class RequestThread extends Thread {
 				e1.printStackTrace();
 			}
 		}
+		
 
 		synchronized (mapOfResponse) {
 			mapOfResponse.put(obsID, aResponse);

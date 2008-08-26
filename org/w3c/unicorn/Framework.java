@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.12 2008-07-02 17:34:47 jean-gui Exp $
+// $Id: Framework.java,v 1.13 2008-08-26 15:32:42 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -30,8 +30,8 @@ import org.w3c.unicorn.response.parser.ResponseParser;
 import org.w3c.unicorn.tasklist.RDFUnmarshaller;
 import org.w3c.unicorn.tasklist.RDFUnmarshallerJena;
 import org.w3c.unicorn.tasklist.Task;
+import org.w3c.unicorn.tasklist.TaskListUnmarshallerBeans;
 import org.w3c.unicorn.tasklist.TasksListUnmarshaller;
-import org.w3c.unicorn.tasklist.TasksListUnmarshallerJAXB;
 import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.LocalizedString;
 import org.w3c.unicorn.util.Property;
@@ -213,7 +213,7 @@ public class Framework {
 			final File[] tFileXML = ListFiles.listFiles(Property
 					.get("PATH_TO_TASKLIST"), "\\.xml");
 
-			final TasksListUnmarshaller aTaskListUnmarshaller = new TasksListUnmarshallerJAXB(
+			final TasksListUnmarshaller aTaskListUnmarshaller = new TaskListUnmarshallerBeans(
 					Framework.mapOfObserver);
 			for (final File aFile : tFileXML) {
 				aTaskListUnmarshaller.addURL(aFile.toURI().toURL());			
