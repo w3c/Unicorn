@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.6 2008-07-02 17:34:46 jean-gui Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.7 2008-08-26 15:31:56 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -123,13 +123,19 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 
 	/**
 	 * Get the document from an URL
+	 * @throws SAXException 
 	 */
-	public void addURL(final URL aURL) throws SAXException, IOException {
+	public void addURL(final URL aURL) throws IOException{
 		WADLUnmarshallerXPath.logger.trace("addURL");
 		if (WADLUnmarshallerXPath.logger.isDebugEnabled()) {
 			WADLUnmarshallerXPath.logger.debug("URL : " + aURL + ".");
 		}
-		this.aDocument = this.aDocumentBuilder.parse(aURL.openStream());
+		try {
+			this.aDocument = this.aDocumentBuilder.parse(aURL.openStream());
+		} catch (SAXException e) {
+			WADLUnmarshallerXPath.logger.error("Parsing error with SAX in WADLUnmarshaller",e);
+			e.printStackTrace();
+		}
 
 	}
 
