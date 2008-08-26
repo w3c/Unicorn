@@ -1,4 +1,4 @@
-// $Id: ParameterFactory.java,v 1.1.1.1 2006-08-31 09:09:27 dleroy Exp $
+// $Id: ParameterFactory.java,v 1.2 2008-08-26 15:31:35 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,7 +6,7 @@ package org.w3c.unicorn.tasklist.parameters;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.unicorn.generated.tasklist.TParamType;
+import org.w3.unicorn.tasklist.TParamType;
 
 /**
  * Factory to create any type of parameter.
@@ -16,20 +16,19 @@ public class ParameterFactory {
 
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.tasklist");
 
-	public static Parameter getParameter (final TParamType aTParamType) {
-
-		switch (aTParamType) {
-			case CHECKBOX :
+	public static Parameter getParameter (final TParamType.Enum aTParamType) {
+		switch (aTParamType.intValue()) {
+			case TParamType.INT_CHECKBOX :
 				return new CheckboxParameter();
-			case CHECKBOXLIST :
+			case TParamType.INT_CHECKBOXLIST :
 				return new CheckboxListParameter();			
-			case DROPDOWN :
+			case TParamType.INT_DROPDOWN :
 				return new DropDownParameter();
-			case RADIO :
+			case TParamType.INT_RADIO :
 				return new RadioParameter();
-			case TEXTAREA :
+			case TParamType.INT_TEXTAREA :
 				return new TextAreaParameter();
-			case TEXTFIELD :
+			case TParamType.INT_TEXTFIELD :
 				return new TextFieldParameter();
 			default :
 				ParameterFactory.logger.error("Unknown parameter type.");

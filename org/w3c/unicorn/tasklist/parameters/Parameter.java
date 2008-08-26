@@ -1,4 +1,4 @@
-// $Id: Parameter.java,v 1.1.1.1 2006-08-31 09:09:27 dleroy Exp $
+// $Id: Parameter.java,v 1.2 2008-08-26 15:31:35 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -9,7 +9,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.exceptions.ParameterException;
-import org.w3c.unicorn.generated.tasklist.TUi;
+import org.w3.unicorn.tasklist.TUi;
 import org.w3c.unicorn.util.LocalizedString;
 
 /**
@@ -35,7 +35,7 @@ public abstract class Parameter {
 	/**
 	 * Level of the interface in which the parameter appears
 	 */
-	private TUi aTUiLevel;
+	private TUi.Enum aTUiLevel;
 
 	/**
 	 * Returns the default values of this parameter.
@@ -53,7 +53,7 @@ public abstract class Parameter {
 	 * Creates a new Parameter.
 	 */
 	public Parameter () {
-		this("", new LocalizedString(), TUi.ADVANCED);		
+		this("", new LocalizedString(),TUi.ADVANCED);		
 	}
 
 	/**
@@ -65,7 +65,7 @@ public abstract class Parameter {
 	public Parameter (
 			final String sName,
 			final LocalizedString aLocalizedString,
-			final TUi aTUi) {
+			final TUi.Enum aTUi) {
 		super();
 		this.longnames = aLocalizedString;
 		this.sName = sName;
@@ -126,7 +126,7 @@ public abstract class Parameter {
 	 * Returns the interface level
 	 * @return Returns the uiLevel.
 	 */
-	public TUi getUiLevel () {
+	public TUi.Enum getUiLevel () {
 		return this.aTUiLevel;
 	}
 	
@@ -134,7 +134,7 @@ public abstract class Parameter {
 	 * Sets the interface level
 	 * @param aTUiLevel The uiLevel to set.
 	 */
-	public void setUiLevel (final TUi aTUiLevel) {
+	public void setUiLevel (final TUi.Enum aTUiLevel) {
 		this.aTUiLevel = aTUiLevel;
 	}
 
