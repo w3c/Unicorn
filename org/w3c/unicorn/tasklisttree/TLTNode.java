@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class TLTNode {
 	
-	private int level;
+	private int NodeID;
 	private ArrayList<TLTExec> executionList; // list of observations to perform
 	private ArrayList<TLTIf> ifList; // list of conditions and child nodes
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.tasklisttree");
@@ -28,7 +28,7 @@ public class TLTNode {
 	 */
 	public TLTNode() {
 		TLTNode.logger.trace("Constructor");
-		level = 1;
+		NodeID=0;
 		executionList = new ArrayList<TLTExec>();
 		ifList = new ArrayList<TLTIf>();
 	}
@@ -39,12 +39,12 @@ public class TLTNode {
 	 * @param executionList The list of executions for the node
 	 * @param ifList The list of tltIf for the node
 	 */
-	public TLTNode(int level,ArrayList<TLTExec> executionList, ArrayList<TLTIf> ifList) {
+	public TLTNode(int NodeID,ArrayList<TLTExec> executionList, ArrayList<TLTIf> ifList) {
 		TLTNode.logger.trace("Constructor");
-		TLTNode.logger.trace("Level : " + level);
+		TLTNode.logger.trace("NodeID : " + NodeID);
 		TLTNode.logger.trace("Number of executions : " + executionList.size());
 		TLTNode.logger.trace("Number of ifs : " + ifList.size());
-		this.level = level;
+		this.NodeID = NodeID;
 		this.executionList  = executionList;
 		this.ifList = ifList;
 	}
@@ -54,9 +54,9 @@ public class TLTNode {
 	 * 
 	 * @param level The level of execution
 	 */
-	public void setLevel(int level) {
-		TLTNode.logger.trace("setLevel : " + level);
-		this.level = level;
+	public void setID(int NodeID) {
+		TLTNode.logger.trace("setID : " + NodeID);
+		this.NodeID = NodeID;
 	}
 	
 	/**
@@ -100,13 +100,13 @@ public class TLTNode {
 	 * 
 	 * @return The level of execution
 	 */
-	public int getLevel() {
+	public int getID() {
 		TLTNode.logger.trace("getLevel");
-		return level;
+		return NodeID;
 	}
 
 	public String toString(){
-		String res=new String("TLTNode level"+this.level+" ");
+		String res=new String("TLTNode level"+this.NodeID+" ");
 			for(TLTIf conds : this.ifList)
 				res+=conds.toString();
 			for(TLTExec exec : this.executionList)
