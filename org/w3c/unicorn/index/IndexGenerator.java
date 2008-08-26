@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.2 2008-06-17 13:41:12 fbatard Exp $
+// $Id: IndexGenerator.java,v 1.3 2008-08-26 15:30:04 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -21,7 +21,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.w3c.unicorn.Framework;
-import org.w3c.unicorn.generated.tasklist.TUi;
+import org.w3.unicorn.tasklist.TUi;
 import org.w3c.unicorn.tasklist.parameters.ParameterType;
 import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.Property;
