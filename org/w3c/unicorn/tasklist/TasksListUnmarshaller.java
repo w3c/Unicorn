@@ -1,4 +1,4 @@
-// $Id: TasksListUnmarshaller.java,v 1.2 2008-07-29 14:03:14 fbatard Exp $
+// $Id: TasksListUnmarshaller.java,v 1.3 2008-08-26 15:26:37 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,7 +6,6 @@ package org.w3c.unicorn.tasklist;
 
 import java.util.Map;
 
-import org.w3c.unicorn.tasklisttree.TLTNode;
 import org.w3c.unicorn.util.Unmarshaller;
 
 /**

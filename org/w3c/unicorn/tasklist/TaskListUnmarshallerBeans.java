@@ -28,6 +28,7 @@ import org.w3c.unicorn.contract.CallParameter;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.contract.InputMethod;
 import org.w3c.unicorn.contract.Observer;
+import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.exceptions.ParameterException;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
@@ -45,6 +46,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.tasklist");
 	
+	private int NodeID=0;
 
 	
 	/**
@@ -81,11 +83,9 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		}
 		
 		final Task aTaskCurrent = new Task();
-		aTaskCurrent.setTree(this.ExpandTree(aTask));
-		
-//		 id
+//		Create the execution level tree
 		aTaskCurrent.setID(aTask.getId());
-		
+		aTaskCurrent.setTree(this.ExpandTree(aTask));
 		
 //		 parameters
 		final ParametersType aParameters = aTask.getParameters();
@@ -361,17 +361,17 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	 *            the task to transform into a tree
 	 */
 	public TLTNode ExpandTree(TaskType myTask) {
-		int level=0;
 		TaskListUnmarshallerBeans.logger.trace("Creation of the tree based on the Task "
 				+ myTask.getId());
 		TLTNode root = new TLTNode();
-		root.setLevel(level++);
+		root.setID(NodeID++);
 		for (ExecType exec : myTask.getRoutine().getExecArray()) {
-			root.addExec(new TLTExec(exec.getId(), exec.getValue(), exec
+			final Observer obs=Framework.mapOfObserver.get(exec.getValue());
+			root.addExec(new TLTExec(exec.getId(), obs,exec.getValue(), exec
 					.getType(), exec.getParam()));
 		}
 		for (IfType iflist : myTask.getRoutine().getIfArray()) {
-			root.addIf(fillIfs(myTask,iflist,level));
+			root.addIf(fillIfs(myTask,iflist));
 		}
 		return root;
 	}
@@ -383,16 +383,17 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	 *            the ThenType node for the recursion
 	 * @return the node created
 	 */
-	private TLTNode FillNode(TaskType myTask,ThenType myThen,int level) {
+	private TLTNode FillNode(TaskType myTask,ThenType myThen) {
 		TaskListUnmarshallerBeans.logger.trace("Creation of a then branch ");
 		TLTNode node = new TLTNode();
-		node.setLevel(level++);
+		node.setID(NodeID++);
 		for (ExecType exec : myThen.getExecArray()) {
-			node.addExec(new TLTExec(exec.getId(), exec.getValue(), exec
+			final Observer obs=Framework.mapOfObserver.get(exec.getValue());
+			node.addExec(new TLTExec(exec.getId(),obs, exec.getValue(), exec
 					.getType(), exec.getParam()));
 		}
 		for (IfType iflist : myThen.getIfArray()) {
-			node.addIf(fillIfs(myTask,iflist,level));
+			node.addIf(fillIfs(myTask,iflist));
 		}
 		return node;
 	}
@@ -404,7 +405,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	 *            the IfType node template to create the Ifnode
 	 * @return the node created
 	 */
-	private TLTIf fillIfs(TaskType myTask,IfType ifs,int level) {
+	private TLTIf fillIfs(TaskType myTask,IfType ifs) {
 		TaskListUnmarshallerBeans.logger.trace("Creation of an If ");
 		// Create the if node
 		TLTIf ifnode = new TLTIf();
@@ -418,7 +419,8 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 				if (condlist.getId().equals(cond)) {
 					TaskListUnmarshallerBeans.logger.trace("Creation of a condition " + cond);
 					myCond.setId(condlist.getId());
-					myCond.setObserver(condlist.getObserver());
+					final Observer obs=Framework.mapOfObserver.get(condlist.getObserver());
+					myCond.setObserver(obs);
 					myCond
 							.setResult(condlist.getResult().equals("passed") ? true
 									: false);
@@ -435,11 +437,11 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		// Add recursively the inner ifs in the then part
 		if (ifs.getThen() != null) {
 			TaskListUnmarshallerBeans.logger.trace("Call recursion for the Then ");
-			ifnode.setIfOk(FillNode(myTask,ifs.getThen(),level));
+			ifnode.setIfOk(FillNode(myTask,ifs.getThen()));
 			// Add recursively the inner if in the else part
 			if (ifs.getElse() != null) {
 				TaskListUnmarshallerBeans.logger.trace("Call recursion for the else");
-				ifnode.setIfNotOk(FillNode(myTask,ifs.getElse(),level));
+				ifnode.setIfNotOk(FillNode(myTask,ifs.getElse()));
 			}
 		}
 		return ifnode;
@@ -531,7 +533,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		// and parameters
 		for (final org.w3c.unicorn.tasklist.Task aTask : this.mapOfTask.values()) {
 			TaskListUnmarshallerBeans.logger.debug("Expand task : "+aTask.getID()+".");
-			aTask.expand(this.mapOfTask);
+			aTask.setTree(aTask.expandNode(mapOfTask, aTask.getTree()));
 		}
 
 	}

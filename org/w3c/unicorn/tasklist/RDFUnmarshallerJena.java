@@ -1,4 +1,4 @@
-// $Id: RDFUnmarshallerJena.java,v 1.2 2008-06-17 13:45:32 jbarouh Exp $
+// $Id: RDFUnmarshallerJena.java,v 1.3 2008-08-26 15:26:37 fbatard Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,13 +8,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import javax.activation.MimeType;
-import javax.activation.MimeTypeParseException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.Observer;
-import org.w3c.unicorn.generated.tasklist.TPriority;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklist.parameters.Value;
@@ -43,15 +39,12 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	private static Resource RESOURCE_TASK = null;
 
 	private static Property PROPERTY_DESCRIPTION = null;
-	private static Property PROPERTY_HANDLE = null;
 	private static Property PROPERTY_HASMAPPING = null;
 	private static Property PROPERTY_HASPARAMETER = null;
 	private static Property PROPERTY_HASVALUE = null;
 	private static Property PROPERTY_LONGNAME = null;
-	private static Property PROPERTY_MIMETYPE = null;
 	private static Property PROPERTY_OBSERVER = null;
 	private static Property PROPERTY_PARAMETER = null;
-	private static Property PROPERTY_PRIORITY = null;
 	private static Property PROPERTY_REFERENCE = null;
 	private static Property PROPERTY_TYPE = null;
 	private static Property PROPERTY_VALUE = null;
@@ -66,15 +59,12 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 
 		// define property use to find information into the RDF graph
 		RDFUnmarshallerJena.PROPERTY_DESCRIPTION = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"description");
-		RDFUnmarshallerJena.PROPERTY_HANDLE = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"handle");
 		RDFUnmarshallerJena.PROPERTY_HASMAPPING = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"hasMapping");
 		RDFUnmarshallerJena.PROPERTY_HASPARAMETER = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"hasParameter");
 		RDFUnmarshallerJena.PROPERTY_HASVALUE = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"hasValue");
 		RDFUnmarshallerJena.PROPERTY_LONGNAME = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"longName");
-		RDFUnmarshallerJena.PROPERTY_MIMETYPE = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"mimetype");
 		RDFUnmarshallerJena.PROPERTY_OBSERVER = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"observer");
 		RDFUnmarshallerJena.PROPERTY_PARAMETER = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"parameter");
-		RDFUnmarshallerJena.PROPERTY_PRIORITY = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"priority");
 		RDFUnmarshallerJena.PROPERTY_REFERENCE = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"reference");
 		RDFUnmarshallerJena.PROPERTY_TYPE = RDFUnmarshallerJena.MODEL.getProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 		RDFUnmarshallerJena.PROPERTY_VALUE = RDFUnmarshallerJena.MODEL.getProperty(RDFUnmarshallerJena.UCN_NAMESPACE+"value");
@@ -253,28 +243,6 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	}
 
 	/**
-	 * Adds a handler to the given task.
-	 * @param aTask The task to consider.
-	 * @param aHandler The handler to add.
-	 * @throws MimeTypeParseException
-	 */
-	private void addHandler (final Task aTask, final Resource aHandler) throws MimeTypeParseException {
-		RDFUnmarshallerJena.logger.trace("addHandler");
-		final String sMimeType = aHandler.getProperty(RDFUnmarshallerJena.PROPERTY_MIMETYPE).getLiteral().getString();
-		final String sObserver = aHandler.getProperty(RDFUnmarshallerJena.PROPERTY_OBSERVER).getLiteral().getString();
-		final String sPriority = aHandler.getProperty(RDFUnmarshallerJena.PROPERTY_PRIORITY).getLiteral().getString();
-		if (RDFUnmarshallerJena.logger.isDebugEnabled()) {
-			RDFUnmarshallerJena.logger.debug("Task : "+aTask.getID()+".");
-			RDFUnmarshallerJena.logger.debug("Observer : "+sObserver+".");
-			RDFUnmarshallerJena.logger.debug("Mime type : "+sMimeType+".");
-			RDFUnmarshallerJena.logger.debug("Priority : "+sPriority+".");
-		}
-		aTask.getMapOfObservation().get(sObserver).addMimeType(
-				new MimeType(sMimeType),
-				TPriority.fromValue(sPriority));
-	}
-
-	/**
 	 * Adds a task to this object.
 	 * @param aTask The task to add.
 	 * @throws Exception
@@ -322,20 +290,6 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 			}
 			this.addParameter(oTask, aParameter);
 		} // find and add Parameter of the task
-		// find and add Handler of the Task
-		for (
-				final StmtIterator siHandler = this.aModel.listStatements(
-						aTask,
-						RDFUnmarshallerJena.PROPERTY_HANDLE,
-						(RDFNode) null);
-				siHandler.hasNext();) {
-			final Resource aHandler = (Resource) siHandler.nextStatement().getObject();
-			if (null == aHandler) {
-				RDFUnmarshallerJena.logger.error("Resource handler == null.");
-				continue;
-			}
-			this.addHandler(oTask, aHandler);
-		} // find and add Handler of the Task
 	}
 
 	/* (non-Javadoc)
