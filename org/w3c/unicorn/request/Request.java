@@ -1,10 +1,11 @@
-// $Id: Request.java,v 1.6 2008-07-02 17:34:47 jean-gui Exp $
+// $Id: Request.java,v 1.7 2008-08-27 12:09:45 jbarouh Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,6 +23,10 @@ public abstract class Request {
 	protected static final Log logger = LogFactory
 			.getLog("org.w3c.unicorn.request");
 
+	protected InputStream responseStream;
+	protected StringBuffer responseBuffer;
+	
+	
 	/**
 	 * Language of the request
 	 */
@@ -85,7 +90,7 @@ public abstract class Request {
 	 *            type of the response
 	 * @return a request ready to be done
 	 * @throws IOException
-	 *             odd error occurend
+	 *             odd error occurred
 	 */
 	public static Request createRequest(final InputModule aInputModule,
 			final String sURL, final String sInputParameterName,
@@ -129,6 +134,22 @@ public abstract class Request {
 
 	public void setResponseType(String responseType) {
 		this.responseType = responseType;
+	}
+	
+	public InputStream getResponseStream() {
+		return responseStream;
+	}
+	
+	public void setResponseStream(InputStream is) {
+		this.responseStream = is;
+	}
+	
+	public StringBuffer getResponseBuffer() {
+		return responseBuffer;
+	}
+	
+	public void setResponseBuffer(StringBuffer sb) {
+		this.responseBuffer = sb;
 	}
 
 }

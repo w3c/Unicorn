@@ -1,11 +1,15 @@
-// $Id: DirectRequestPOST.java,v 1.6 2008-06-17 14:09:50 fbatard Exp $
+// $Id: DirectRequestPOST.java,v 1.7 2008-08-27 12:09:45 jbarouh Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.StringBufferInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Hashtable;
@@ -169,8 +173,23 @@ public class DirectRequestPOST extends Request {
 		this.aOutputStream.write("--".getBytes());
 		this.aOutputStream.write("\r\n".getBytes());
 		this.aOutputStream.close();
-		return ResponseParserFactory.parse(aURLConnection.getInputStream(),
+		
+		InputStream is = aURLConnection.getInputStream();
+		StringBuffer sb = new StringBuffer();
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		String s;
+		while ((s = br.readLine()) != null) {
+			sb.append(s + "\n");
+		}
+		br.close();
+		this.setResponseBuffer(sb);
+		
+		StringBufferInputStream sbis = new StringBufferInputStream(sb.toString());
+		Response aObservationResponse = ResponseParserFactory.parse(sbis,
 				this.getResponseType());
+		aObservationResponse.setXml(sb);
+		return aObservationResponse;
 	}
 
 	@Override

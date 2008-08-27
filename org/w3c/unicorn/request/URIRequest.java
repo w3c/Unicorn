@@ -1,11 +1,14 @@
-// $Id: URIRequest.java,v 1.5 2008-06-17 13:41:11 fbatard Exp $
+// $Id: URIRequest.java,v 1.6 2008-08-27 12:09:59 jbarouh Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringBufferInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -48,7 +51,7 @@ public class URIRequest extends Request {
 	 * @throws IOException
 	 *             odd error occured
 	 */
-	protected URIRequest(final String sURL, final String sInputParameterName,
+	public URIRequest(final String sURL, final String sInputParameterName,
 			final InputModule aInputModule, final String responseType)
 			throws IOException {
 		super();
@@ -116,9 +119,33 @@ public class URIRequest extends Request {
 		final URLConnection aURLConnection = aURL.openConnection();
 
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
+
 		InputStream is = aURLConnection.getInputStream();
-		// Response res = this.aResponseParser.parse(is);
-		Response res = ResponseParserFactory.parse(is, this.getResponseType());
+		//System.out.println("mark supported : " + is.markSupported());
+		//System.out.println("is class : " + is.getClass());
+		setResponseStream(is);
+		
+		StringBuffer sb = new StringBuffer();
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		String s;
+		while ((s = br.readLine()) != null) {
+			sb.append(s + "\n");
+			//System.out.println(s);
+		}
+		br.close();
+		this.setResponseBuffer(sb);
+		
+
+		StringBufferInputStream sbis = new StringBufferInputStream(sb.toString());
+		//System.out.println(sb.toString());
+		//System.out.println("response stream set");
+		//Response res = this.aResponseParser.parse(is);
+		Response res = ResponseParserFactory.parse(sbis, this.getResponseType());
+		res.setXml(sb);
+		//Response res = null;
+		//System.out.println("response created");
+		//is.reset();
 		return res;
 	}
 
