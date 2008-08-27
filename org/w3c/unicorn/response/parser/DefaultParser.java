@@ -368,15 +368,17 @@ public class DefaultParser implements ResponseParser {
 		res.setCheckedby(or.getCheckedby());
 		res.setVersion(or.getVersion());
 		XMLGregorianCalendar xmlGregorianCalendar;
+		if (or.getDate()!=null)
 		try {
 			xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar((GregorianCalendar)or.getDate());
+			or.setDate(Calendar.getInstance());
+			res.setDate(xmlGregorianCalendar);
 		} catch (DatatypeConfigurationException e) {
 			e.printStackTrace();
 			logger.error("DatatypeConfigurationException erreur de date : " + e.getMessage(), e);
 			return null;
 		}
-		or.setDate(Calendar.getInstance());
-		res.setDate(xmlGregorianCalendar);
+
 		res.setPassed(or.getPassed());
 
 		// Fill res.result
