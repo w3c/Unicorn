@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.11 2008-08-26 15:32:42 fbatard Exp $
+// $Id: UnicornCall.java,v 1.12 2008-08-27 14:16:03 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,9 +13,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.activation.MimeType;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
+import org.w3c.dom.Document;
 import org.w3c.unicorn.contract.CallParameter;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.contract.InputMethod;
@@ -32,6 +39,7 @@ import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklist.parameters.Value;
+import org.w3c.unicorn.tasklisttree.EnumCondType;
 import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
@@ -728,6 +736,127 @@ public class UnicornCall {
 		this.oInputParameterValue = oInputParameterValue;
 	}
 
+	
+	/**
+	 * Giving a TLTCond, checks in the map of response
+	 * if the condition passes or fails and 
+	 * consequently returns a boolean.
+	 * @param cond The condition to check
+	 * @return true if there is a matching response and if 
+	 * the condition passes else false
+	 */
+	public boolean checkCond(TLTCond cond) throws Exception {
+		UnicornCall.logger.trace("checkCond : ");
+		UnicornCall.logger.trace(cond);
+		boolean passed = false;
+
+		Response res = mapOfResponse.get(cond.getObserver());
+
+		// Testing if there is a matching response in the map
+		// and if it is passed
+		if (res != null && res.isPassed()) {
+
+			if (cond.getType().equals(EnumCondType.MIMETYPE)) {
+				passed = cond.getValue().equals(getMimeType().toString());
+			}
+
+			else if (cond.getType().equals(EnumCondType.XPATH)) {
+			
+				String xmlStr = res.getXml().toString();
+				
+	            DocumentBuilderFactory xmlFact =	
+	                DocumentBuilderFactory.newInstance();
+	
+	            xmlFact.setNamespaceAware(false);
+	
+	            DocumentBuilder builder = xmlFact.newDocumentBuilder();
+	
+	            Document doc = builder.parse(	
+	                    new java.io.ByteArrayInputStream(	
+	                            xmlStr.getBytes()));
+				
+				
+				String xpathStr = cond.getValue();
+				
+				XPathFactory xpathFact =			
+	                XPathFactory.newInstance();
+	
+	            XPath xpath = xpathFact.newXPath();
+	            XPathExpression xpe = xpath.compile(xpathStr);
+	            passed = (Boolean) xpe.evaluate(doc, XPathConstants.BOOLEAN);
+				
+			}
+
+		}
+
+		cond.setResult(passed);
+		UnicornCall.logger.trace("cond : " + passed);
+		return passed;
+	}
+
+	/**
+	 * 
+	 * @return The MimeType of the document
+	 * @throws Exception
+	 */
+	public MimeType getMimeType() throws Exception {
+
+		UnicornCall.logger.trace("getMimeType");
+		MimeType aMimeType = null;
+		String sMimeType;
+		switch (this.aEnumInputMethod) {
+		case URI:
+			sMimeType = (new URL(this.sDocumentName)).openConnection()
+					.getContentType();
+			if (null == sMimeType || "".equals(sMimeType)) {
+				UnicornCall.logger.error("No specified mimetype for upload.");
+				throw new NoMimeTypeException("Mimetype not found");
+			}
+			if (UnicornCall.logger.isDebugEnabled()) {
+				UnicornCall.logger.debug("URI MimeType : " + sMimeType + ".");
+			}
+			sMimeType = sMimeType.split(";")[0];
+			aMimeType = new MimeType(sMimeType);
+			break;
+		case UPLOAD:
+			FileItem f = (FileItem) this.oInputParameterValue;
+			if (f.getName() == null || f.getName().equals("")) {
+				UnicornCall.logger.error("No document provided.");
+				throw new NoDocumentException("No document provided");
+			}
+			if (f.getSize() == 0) {
+				UnicornCall.logger.error("Empty document provided.");
+				throw new EmptyDocumentException("Empty document provided");
+			}
+
+			sMimeType = ((FileItem) this.oInputParameterValue).getContentType();
+			if (null == sMimeType || "".equals(sMimeType)) {
+				UnicornCall.logger.error("No specified mimetype for upload.");
+				throw new NoMimeTypeException("Mimetype not found");
+			}
+			aMimeType = new MimeType(sMimeType);
+			break;
+		case DIRECT:
+			sMimeType = this.mapOfStringParameter.get("ucn_mime")[0];
+			if (null == sMimeType || "".equals(sMimeType)) {
+				UnicornCall.logger
+						.error("No mimetype specified for direct input.");
+				throw new NoMimeTypeException("Mimetype not found.");
+			}
+			aMimeType = new MimeType(sMimeType);
+			break;
+		}
+		if (UnicornCall.logger.isDebugEnabled()) {
+			UnicornCall.logger
+					.debug("MimeType : " + aMimeType.toString() + ".");
+		}
+
+		return aMimeType;
+
+	}
+	
+	
+	
 }
 
 /**
