@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.12 2008-08-27 14:16:03 jbarouh Exp $
+// $Id: UnicornCall.java,v 1.13 2008-08-29 12:18:49 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -234,20 +234,23 @@ public class UnicornCall {
 	 * Check the conditions of the if branch it makes a OR between all conditions
 	 * @param ifs the if branch to check
 	 * @return whether or not the conditions are true
+	 * @throws Exception 
 	 */
-	private boolean checkCond(TLTIf ifs){
+	private boolean checkCond(TLTIf ifs) throws Exception{
 		UnicornCall.logger.trace("checkCond.");
 		if (UnicornCall.logger.isDebugEnabled()) {
 			UnicornCall.logger.debug("If node : " + ifs
 					+ ".");
 		}
 		boolean conditionOK=true;
-		//TODO boolean to manage the OR in the conditions, if the donc is false we change the boolean to false , if not we don't care
+		//FIXME boolean to manage the OR in the conditions, if the donc is false we change the boolean to false , if not we don't care
 		//that will simulate the OR
 		for(TLTCond cond:ifs.getCondArray()){
+				this.checkCond(cond);
 			
 		}
 		return conditionOK;
+		
 	}
 	
 	/**
