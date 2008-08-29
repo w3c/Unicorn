@@ -1,4 +1,4 @@
-// $Id: XMLBeansTest.java,v 1.3 2008-07-10 14:53:46 fbatard Exp $
+// $Id: XMLBeansTest.java,v 1.4 2008-08-29 12:19:09 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -28,10 +28,8 @@ public class XMLBeansTest {
 		try {
 			ObsDoc = ObservationresponseDocument.Factory.parse(url.openStream());
 		} catch (XmlException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 
