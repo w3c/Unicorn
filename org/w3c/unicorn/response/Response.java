@@ -13,6 +13,8 @@ public class Response {
     protected String version;
     protected XMLGregorianCalendar date;
     protected Boolean passed;
+    protected StringBuffer xml; // the xml version of the response
+    
     /**
      * Result aResult = mapOfLangURIResult.get("fr").get("http://w3.org/home.css")
      */
@@ -239,5 +241,13 @@ public class Response {
     		}
     	}
     	return xList;
+    }
+    
+    public void setXml(StringBuffer xmlString) {
+    	this.xml = xmlString;
+    }
+    
+    public StringBuffer getXml() {
+    	return this.xml;
     }
 }
