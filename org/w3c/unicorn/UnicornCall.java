@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.13 2008-08-29 12:18:49 fbatard Exp $
+// $Id: UnicornCall.java,v 1.14 2008-09-01 08:36:21 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -751,6 +751,7 @@ public class UnicornCall {
 	public boolean checkCond(TLTCond cond) throws Exception {
 		UnicornCall.logger.trace("checkCond : ");
 		UnicornCall.logger.trace(cond);
+		UnicornCall.logger.trace("condType : " + cond.getType());
 		boolean passed = false;
 
 		Response res = mapOfResponse.get(cond.getObserver());
@@ -769,7 +770,9 @@ public class UnicornCall {
 				
 	            DocumentBuilderFactory xmlFact =	
 	                DocumentBuilderFactory.newInstance();
-	
+	            
+	            // namespace awareness is escaped since we don't use it 
+	            // for the moment
 	            xmlFact.setNamespaceAware(false);
 	
 	            DocumentBuilder builder = xmlFact.newDocumentBuilder();
@@ -793,7 +796,7 @@ public class UnicornCall {
 		}
 
 		cond.setResult(passed);
-		UnicornCall.logger.trace("cond : " + passed);
+		UnicornCall.logger.trace("cond result : " + passed);
 		return passed;
 	}
 
