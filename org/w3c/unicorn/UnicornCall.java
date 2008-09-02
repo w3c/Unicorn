@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.15 2008-09-02 07:27:15 fbatard Exp $
+// $Id: UnicornCall.java,v 1.16 2008-09-02 13:22:16 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.activation.MimeType;
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;

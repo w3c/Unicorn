@@ -1,4 +1,4 @@
-// $Id: Parameter.java,v 1.2 2008-08-26 15:31:35 fbatard Exp $
+// $Id: Parameter.java,v 1.3 2008-09-02 13:22:16 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.unicorn.exceptions.ParameterException;
 import org.w3.unicorn.tasklist.TUi;
+import org.w3c.unicorn.exceptions.ParameterException;
 import org.w3c.unicorn.util.LocalizedString;
 
 /**

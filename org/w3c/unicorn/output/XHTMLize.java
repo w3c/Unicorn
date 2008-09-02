@@ -1,8 +1,8 @@
 package org.w3c.unicorn.output;
 
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
-import org.w3c.unicorn.response.Code;
 import org.w3c.unicorn.response.A;
+import org.w3c.unicorn.response.Code;
 import org.w3c.unicorn.response.Img;
 
 /**

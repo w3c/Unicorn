@@ -1,4 +1,4 @@
-// $Id: Task.java,v 1.2 2008-08-26 15:26:37 fbatard Exp $
+// $Id: Task.java,v 1.3 2008-09-02 13:22:15 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -9,15 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.activation.MimeType;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3.unicorn.tasklist.ExecType;
-import org.w3.unicorn.tasklist.TaskType;
-import org.w3.unicorn.tasklist.IfType;
-import org.w3.unicorn.tasklist.ThenType;
-import org.w3.unicorn.tasklist.CondType;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;

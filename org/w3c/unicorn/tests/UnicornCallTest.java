@@ -1,12 +1,6 @@
 package org.w3c.unicorn.tests;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Iterator;
 
 import javax.activation.MimeType;
@@ -19,19 +13,11 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.xmlbeans.XmlObject;
-import org.w3.unicorn.observationresponse.ObservationresponseDocument;
 import org.w3c.dom.Document;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.InputFactory;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.request.Request;
-import org.w3c.unicorn.request.URIRequest;
-import org.w3c.unicorn.util.LocalizedString;
-import org.w3c.unicorn.util.Property;
 import org.xml.sax.InputSource;
 
 public class UnicornCallTest {
@@ -39,10 +25,10 @@ public class UnicornCallTest {
 	public static Boolean evaluer(InputStream stream, String expression) {
 		Boolean b = null;
 		try {
-			// création de la source
+			// crï¿½ation de la source
 			InputSource source = new InputSource(stream);
 
-			// création du XPath
+			// crï¿½ation du XPath
 			XPathFactory fabrique = XPathFactory.newInstance();
 			
 			XPath xpath = fabrique.newXPath();
@@ -64,7 +50,7 @@ public class UnicornCallTest {
 			  }; xpath.setNamespaceContext(namespace);
 			 
 
-			// évaluation de l'expression XPath
+			// ï¿½valuation de l'expression XPath
 			XPathExpression exp = xpath.compile(expression);
 
 			b = (Boolean) exp.evaluate(source, XPathConstants.BOOLEAN);
@@ -190,17 +176,17 @@ public class UnicornCallTest {
 			// System.out.println(expression);
 			// System.out.println("--> " + b);
 
-			// System.out.println("Deuxième test : UPLOAD");
+			// System.out.println("Deuxiï¿½me test : UPLOAD");
 			// Object fichier = (Object) (new File("C:/w3.xht"));
 			// FileItem f = (FileItem) fichier;
 			// expression = "//html";
 
-			// à tester plus tard (voir firstservlet pour un exemple)
+			// ï¿½ tester plus tard (voir firstservlet pour un exemple)
 
 			// b = evaluer(f.getInputStream(),expression);
 			// System.out.println("On verra plus tard");
 
-			// ystem.out.println("Troisième test : DIRECT");
+			// ystem.out.println("Troisiï¿½me test : DIRECT");
 
 			// System.out.println(b);
 

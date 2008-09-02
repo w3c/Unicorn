@@ -2,7 +2,6 @@ package org.w3c.unicorn.tasklisttree;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3.unicorn.tasklist.TUi.Enum;
 import org.w3c.unicorn.contract.Observer;
 
 /**
