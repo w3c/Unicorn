@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.14 2008-09-01 08:36:21 jbarouh Exp $
+// $Id: UnicornCall.java,v 1.15 2008-09-02 07:27:15 fbatard Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -243,10 +243,10 @@ public class UnicornCall {
 					+ ".");
 		}
 		boolean conditionOK=true;
-		//FIXME boolean to manage the OR in the conditions, if the donc is false we change the boolean to false , if not we don't care
+		//boolean to manage the OR in the conditions, if the cond is false we change the boolean to false , if not we don't care
 		//that will simulate the OR
 		for(TLTCond cond:ifs.getCondArray()){
-				this.checkCond(cond);
+				if(!this.checkCond(cond))conditionOK=false;
 			
 		}
 		return conditionOK;
