@@ -67,7 +67,7 @@
         <xs:attribute type="xs:string" name="type" use="optional"/>
   </xs:complexType>
   <xs:complexType name="routineType">
-    <xs:sequence>
+    <xs:sequence maxOccurs="unbounded">
       <xs:element type="tas:ifType" name="if" maxOccurs="unbounded" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
       <xs:element type="tas:execType" name="exec" maxOccurs="unbounded" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
     </xs:sequence>
