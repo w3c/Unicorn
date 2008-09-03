@@ -52,7 +52,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	/**
 	 * The tasklist corresponding to the xml file
 	 */
-	private Map<String, org.w3c.unicorn.tasklist.Task> mapOfTask;
+	private Map<String,Task> mapOfTask;
 	
 	/**
 	 * The observers' list used to check some constraints on the tasks
@@ -161,7 +161,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 				}
 			}
 		}
-		
+		this.mapOfTask.put(aTaskCurrent.getID(),aTaskCurrent);
 	}
 	
 	
