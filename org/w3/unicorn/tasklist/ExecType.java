@@ -16,7 +16,7 @@ package org.w3.unicorn.tasklist;
 public interface ExecType extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(ExecType.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s827B008E50A34C0C117CE5EE957219C8").resolveHandle("exectypeed5atype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(ExecType.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s0C8A417BD98E3FFD0D623CD344DF3F40").resolveHandle("exectypeed5atype");
     
     /**
      * Gets the "param" element

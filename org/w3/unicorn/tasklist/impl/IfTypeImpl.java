@@ -96,6 +96,18 @@ public class IfTypeImpl extends org.apache.xmlbeans.impl.values.XmlComplexConten
     }
     
     /**
+     * True if has "else" element
+     */
+    public boolean isSetElse()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            return get_store().count_elements(ELSE$2) != 0;
+        }
+    }
+    
+    /**
      * Sets the "else" element
      */
     public void setElse(org.w3.unicorn.tasklist.ThenType xelse)
@@ -124,6 +136,18 @@ public class IfTypeImpl extends org.apache.xmlbeans.impl.values.XmlComplexConten
             org.w3.unicorn.tasklist.ThenType target = null;
             target = (org.w3.unicorn.tasklist.ThenType)get_store().add_element_user(ELSE$2);
             return target;
+        }
+    }
+    
+    /**
+     * Unsets the "else" element
+     */
+    public void unsetElse()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            get_store().remove_element(ELSE$2, 0);
         }
     }
     

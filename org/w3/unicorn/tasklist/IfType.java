@@ -16,7 +16,7 @@ package org.w3.unicorn.tasklist;
 public interface IfType extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(IfType.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s827B008E50A34C0C117CE5EE957219C8").resolveHandle("iftypee50etype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(IfType.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s0C8A417BD98E3FFD0D623CD344DF3F40").resolveHandle("iftypee50etype");
     
     /**
      * Gets the "then" element
@@ -39,6 +39,11 @@ public interface IfType extends org.apache.xmlbeans.XmlObject
     org.w3.unicorn.tasklist.ThenType getElse();
     
     /**
+     * True if has "else" element
+     */
+    boolean isSetElse();
+    
+    /**
      * Sets the "else" element
      */
     void setElse(org.w3.unicorn.tasklist.ThenType xelse);
@@ -47,6 +52,11 @@ public interface IfType extends org.apache.xmlbeans.XmlObject
      * Appends and returns a new empty "else" element
      */
     org.w3.unicorn.tasklist.ThenType addNewElse();
+    
+    /**
+     * Unsets the "else" element
+     */
+    void unsetElse();
     
     /**
      * Gets the "test" attribute
