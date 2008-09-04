@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.13 2008-08-26 15:32:42 fbatard Exp $
+// $Id: Framework.java,v 1.14 2008-09-04 13:17:44 jbarouh Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -213,13 +213,13 @@ public class Framework {
 			final File[] tFileXML = ListFiles.listFiles(Property
 					.get("PATH_TO_TASKLIST"), "\\.xml");
 
-			final TasksListUnmarshaller aTaskListUnmarshaller = new TaskListUnmarshallerBeans(
-					Framework.mapOfObserver);
+			final TasksListUnmarshaller aTaskListUnmarshaller = 
+				new TaskListUnmarshallerBeans(Framework.mapOfObserver);
 			for (final File aFile : tFileXML) {
 				aTaskListUnmarshaller.addURL(aFile.toURI().toURL());			
-				aTaskListUnmarshaller.unmarshal();
 			}
-
+			aTaskListUnmarshaller.unmarshal();
+			
 			final File[] tFileRDF = ListFiles.listFiles(Property
 					.get("PATH_TO_TASKLIST"), "\\.rdf");
 			final RDFUnmarshaller aRDFUnmarshaller = new RDFUnmarshallerJena();
