@@ -22,8 +22,6 @@
         <pathelement location="${unicorn.location}/lib/commons-logging-1.1.jar"/>
         <pathelement location="${unicorn.location}/lib/icu4j_3_4.jar"/>
         <pathelement location="${unicorn.location}/lib/iri.jar"/>
-        <pathelement location="${unicorn.location}/lib/jaxb-api.jar"/>
-        <pathelement location="${unicorn.location}/lib/jaxb-impl.jar"/>
         <pathelement location="${unicorn.location}/lib/jena.jar"/>
         <pathelement location="${unicorn.location}/lib/jsr173_1.0_api.jar"/>
         <pathelement location="${unicorn.location}/lib/log4j-1.2.12.jar"/>
@@ -31,6 +29,16 @@
         <pathelement location="${unicorn.location}/lib/velocity-1.5-dev.jar"/>
         <pathelement location="${unicorn.location}/lib/xercesImpl.jar"/>
     	<pathelement location="${unicorn.location}/lib/catalina-ant.jar"/>
+    	<pathelement location="${unicorn.location}/lib/observationresponse.jar"/>
+    	<pathelement location="${unicorn.location}/lib/tasklist.jar"/>
+    	<pathelement location="${unicorn.location}/lib/xbean.jar"/>
+    	<pathelement location="${unicorn.location}/lib/xbean_xpath.jar"/>
+    	<pathelement location="${unicorn.location}/lib/xmlbeans-qname.jar"/>
+    	<pathelement location="${unicorn.location}/lib/xmlpublic.jar"/>
+    	<pathelement location="${unicorn.location}/lib/saxon8.jar"/>
+    	<pathelement location="${unicorn.location}/lib/saxon8-dom.jar"/>
+    	<pathelement location="${unicorn.location}/lib/saxon8-jdom.jar"/>
+    	<pathelement location="${unicorn.location}/lib/saxon8-xpath.jar"/>
     </path>
 	
 	<!-- Configure the custom Ant tasks for the Manager application -->
@@ -69,11 +77,6 @@
             <classpath refid="project.classpath"/>
         </java>
     </target>
-    <target name="JAXBTest">
-        <java fork="yes" classname="org.w3c.unicorn.tests.JAXBTest" failonerror="true">
-            <classpath refid="project.classpath"/>
-        </java>
-    </target>
     <target name="DigesterDriver">
         <java fork="yes" classname="bordel.DigesterDriver" failonerror="true">
             <classpath refid="project.classpath"/>
@@ -89,18 +92,13 @@
             <classpath refid="project.classpath"/>
         </java>
     </target>
-    <target name="TasksListUnmarshallerJAXB">
-        <java fork="yes" classname="org.w3c.unicorn.tasklist.TasksListUnmarshallerJAXB" failonerror="true">
+    <target name="TaskListUnmarshallerBeans">
+        <java fork="yes" classname="org.w3c.unicorn.tasklist.TaskListUnmarshallerBeans" failonerror="true">
             <classpath refid="project.classpath"/>
         </java>
     </target>
     <target name="IndexGenerator">
         <java fork="yes" classname="org.w3c.unicorn.index.IndexGenerator" failonerror="true">
-            <classpath refid="project.classpath"/>
-        </java>
-    </target>
-    <target name="ExpandTest (2)">
-        <java fork="yes" classname="org.w3c.unicorn.tests.ExpandTest" failonerror="true">
             <classpath refid="project.classpath"/>
         </java>
     </target>
