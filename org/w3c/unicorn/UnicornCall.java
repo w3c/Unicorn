@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.16 2008-09-02 13:22:16 fbatard Exp $
+// $Id: UnicornCall.java,v 1.17 2008-09-04 13:16:19 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -425,7 +425,7 @@ public class UnicornCall {
 									.getResponseType());
 					// add this request to request list
 
-					aRequestList.addRequest(aRequest,""+node.getID());
+					aRequestList.addRequest(aRequest,aObserver.getID());
 					// log debug information
 					if (UnicornCall.logger.isDebugEnabled()) {
 						UnicornCall.logger.debug("Redirect request " + aRequest
@@ -481,7 +481,7 @@ public class UnicornCall {
 			}
 
 			// Add this request to request list
-			aRequestList.addRequest(aRequest,""+node.getID());
+			aRequestList.addRequest(aRequest,aObserver.getID());
 			// Log debug information
 			if (UnicornCall.logger.isDebugEnabled()) {
 				UnicornCall.logger.debug("Request " + aRequest
