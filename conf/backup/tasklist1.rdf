@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE owl [
+	<!ENTITY ucn "http://www.w3.org/unicorn">
+	<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">
+	<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">
+	<!ENTITY xs "http://www.w3.org/2001/XMLSchema">
+	]>
+
+<rdf:RDF
+	xmlns:rdf="&rdf;#"
+	xmlns:rdfs="&rdfs;#"
+	xmlns:ucn="&ucn;#"
+	xmlns:xs="&xs;"
+	xmlns="&ucn;#"
+	xml:base="&ucn;#"
+	>
+
+
+
+	
+	<ucn:Task ucn:reference="conformance">
+		<ucn:longName xml:lang="en">General Conformance Check</ucn:longName>
+		<ucn:longName xml:lang="fr">Vérifie la conformité générale</ucn:longName>
+		<ucn:description xml:lang="en">This task will do as much observations as possible.</ucn:description>
+		
+	</ucn:Task>
+	
+
+</rdf:RDF>

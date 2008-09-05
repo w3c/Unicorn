@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<tasklist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.w3.org/unicorn/tasklist ../schemas/tasklist-schema.xsd"
+ xmlns="http://www.w3.org/unicorn/tasklist">
+	
+	<task id="conformance">
+
+		<conds>
+			<cond id="mathml" result="passed"  type="mimetype">
+				<value>application/mathml+xml</value>
+			</cond>
+			<cond id="smil" result="passed"  type="mimetype">
+				<value>application/smil+xml</value>
+			</cond>
+			<cond id="xhtml" result="passed"  type="mimetype">
+				<value>application/xhtml+xml</value>
+			</cond>
+			<cond id="image" result="passed"  type="mimetype">
+				<value>image/svg+xml</value>
+			</cond>
+			<cond id="text" result="passed" type="mimetype">
+				<value>text/html</value>
+			</cond>
+		</conds>
+		
+		<routine ref="conformance">
+			<exec id="appc-check" value="appc-checker" type="observation"/>
+	
+		</routine>
+		
+		<outputseq>
+			<outputgroup id="1">
+				<tasksort>appc-checker</tasksort>
+			</outputgroup>
+		</outputseq>
+		<parameters>
+			<parameter name="output" type="radio" default="ucn" ui="none">
+				<value name="ucn">
+					<mapped param="output" observer="appc-checker" value="xml" />
+				</value>
+			</parameter>
+		</parameters>
+		
+	</task>
+	
+	
+	
+	<task id="markup_and_css">
+		<conds>
+			<cond id="html" result="passed" observer="markup-validator" type="mimetype">
+				<value>text/html</value>
+			</cond>
+			<cond id="css" result="passed" observer="markup-validator" type="mimetype">
+				<value>text/css</value>
+			</cond>
+			<cond id="svg" result="passed" observer="markup-validator" type="mimetype">
+				<value>image/svg+xml</value>
+			</cond>
+			<cond id="xhtml" result="passed" observer="markup-validator" type="mimetype">
+				<value>application/xhtml+xml</value>
+			</cond>
+		</conds>
+		<routine ref="markup_and_css">
+			<exec id="markup" value="markup-validator" type="observation" >
+			</exec>
+
+		</routine>
+		
+		<outputseq>
+			<outputgroup id="2">
+				<tasksort>css-validator</tasksort>
+				<tasksort>markup-validator</tasksort>
+			</outputgroup>
+		</outputseq>
+		
+		<parameters>
+			<parameter name="output" type="radio" default="ucn" ui="none">
+				<value name="ucn">
+					<mapped param="output" observer="css-validator" value="ucn" />		
+					<mapped param="output" observer="markup-validator" value="ucn" />
+				</value>
+			</parameter>
+			<parameter name="warning" type="radio" default="0" observer="css-validator" ui="none" />
+		</parameters>
+		
+	</task>
+	
+	
+
+	
+	
+</tasklist>
