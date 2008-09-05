@@ -33,13 +33,16 @@ public class TLTExec {
 		TLTExec.logger.trace("Id : " + id);
 		TLTExec.logger.trace("Type : " + type);
 		TLTExec.logger.trace("Value : " + value);
-		TLTExec.logger.trace("Param : " + param);
-		TLTExec.logger.trace("Observer : " + observer.getID());
+		TLTExec.logger.trace("Param : " + param); 
+		if (type.equals("observation")) {
+			TLTExec.logger.trace("Observer : " + obs.getID());
+			this.observer=obs;
+		}
 		this.id = id;
 		this.value = value;
 		this.type=type;
 		this.param = param;
-		this.observer=obs;
+
 	}
 	
 	/**
