@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.17 2008-09-04 13:16:19 jbarouh Exp $
+// $Id: UnicornCall.java,v 1.18 2008-09-05 14:51:23 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -176,97 +176,104 @@ public class UnicornCall {
 					.debug("MimeType : " + aMimeType.toString() + ".");
 		}
 
-
 		// Create input method
 		final InputFactory aInputFactory = new InputFactory(aMimeType,
 				this.aEnumInputMethod, this.oInputParameterValue);
 
-		this.doNode(aInputFactory,this.aTask.getTree());
-		
-		
+		this.doNode(aInputFactory, this.aTask.getTree());
+
 		aInputFactory.dispose();
 	}
-	
+
 	/**
-	 * Main function called to do the recursion over the Task tree to launch the requests
-	 * @param aInputFactory InputFactory used for the resquests
-	 * @param node the current node that we're parsing in the Task tree
-	 * @throws Exception raised from generateRequestList and doRequest
+	 * Main function called to do the recursion over the Task tree to launch the
+	 * requests
+	 * 
+	 * @param aInputFactory
+	 *            InputFactory used for the resquests
+	 * @param node
+	 *            the current node that we're parsing in the Task tree
+	 * @throws Exception
+	 *             raised from generateRequestList and doRequest
 	 */
-	private void doNode(InputFactory aInputFactory,TLTNode node) throws Exception{
+	private void doNode(InputFactory aInputFactory, TLTNode node)
+			throws Exception {
 		// Generate the list of request
 		UnicornCall.logger.trace("doNode.");
 		if (UnicornCall.logger.isDebugEnabled()) {
-			UnicornCall.logger.debug("InputFactory : " + aInputFactory
-					+ ".");
-			UnicornCall.logger.debug("Current node : "
-					+ node + ".");
+			UnicornCall.logger.debug("InputFactory : " + aInputFactory + ".");
+			UnicornCall.logger.debug("Current node : " + node + ".");
 		}
-		if(node!=null){
-		this.aRequestList = this.generateRequestList(aInputFactory,
-				this.mapOfStringParameter,node);
+		if (node != null) {
+			this.aRequestList = this.generateRequestList(aInputFactory,
+					this.mapOfStringParameter, node);
 
-		if (UnicornCall.logger.isDebugEnabled()) {
-			UnicornCall.logger
-					.debug("RequestList : " + this.aRequestList + ".");
-		}
-
-		// send requests to observer
-		this.doRequests();
-		
-		UnicornCall.logger.info("Check the condition of the Ifs");
-		//browse the conditions to do the connection
-		for(TLTIf ifs: node.getIfList()){
-			if(this.checkCond(ifs))this.doNode(aInputFactory,ifs.getIfOk());
-			else this.doNode(aInputFactory,ifs.getIfNotOk());
-		}
-		}
-		else{
-			//Inform if the node is null
 			if (UnicornCall.logger.isDebugEnabled()) {
-				UnicornCall.logger
-						.debug("The node is null at this point.");
+				UnicornCall.logger.debug("RequestList : " + this.aRequestList
+						+ ".");
+			}
+
+			// send requests to observer
+			this.doRequests();
+
+			UnicornCall.logger.info("Check the condition of the Ifs");
+			// browse the conditions to do the connection
+			for (TLTIf ifs : node.getIfList()) {
+				if (this.checkCond(ifs))
+					this.doNode(aInputFactory, ifs.getIfOk());
+				else
+					this.doNode(aInputFactory, ifs.getIfNotOk());
+			}
+		} else {
+			// Inform if the node is null
+			if (UnicornCall.logger.isDebugEnabled()) {
+				UnicornCall.logger.debug("The node is null at this point.");
 			}
 		}
-		
+
 	}
-	
+
 	/**
-	 * Check the conditions of the if branch it makes a OR between all conditions
-	 * @param ifs the if branch to check
+	 * Check the conditions of the if branch it makes a OR between all
+	 * conditions
+	 * 
+	 * @param ifs
+	 *            the if branch to check
 	 * @return whether or not the conditions are true
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	private boolean checkCond(TLTIf ifs) throws Exception{
+	private boolean checkCond(TLTIf ifs) throws Exception {
 		UnicornCall.logger.trace("checkCond.");
 		if (UnicornCall.logger.isDebugEnabled()) {
-			UnicornCall.logger.debug("If node : " + ifs
-					+ ".");
+			UnicornCall.logger.debug("If node : " + ifs + ".");
 		}
-		boolean conditionOK=true;
-		//boolean to manage the OR in the conditions, if the cond is false we change the boolean to false , if not we don't care
-		//that will simulate the OR
-		for(TLTCond cond:ifs.getCondArray()){
-				if(!this.checkCond(cond))conditionOK=false;
-			
+		boolean conditionOK = false;
+		// boolean to manage the OR in the conditions, if the cond is false we
+		// change the boolean to true , if not we don't care
+		// that will simulate the OR
+		for (TLTCond cond : ifs.getCondArray()) {
+			if (this.checkCond(cond))
+				conditionOK = true;
+
 		}
 		return conditionOK;
-		
+
 	}
-	
+
 	/**
 	 * Creates the map of all the Observer to call in the current node
-	 * @param node the current node of the Task tree we are parsing
+	 * 
+	 * @param node
+	 *            the current node of the Task tree we are parsing
 	 */
-	private Map<String,Observer> createExecList(TLTNode node){
-		Map<String,Observer> mapOfCurrentNodeObserver=new LinkedHashMap<String, Observer>();
+	private Map<String, Observer> createExecList(TLTNode node) {
+		Map<String, Observer> mapOfCurrentNodeObserver = new LinkedHashMap<String, Observer>();
 		for (TLTExec exec : node.getExecutionList()) {
-			mapOfCurrentNodeObserver.put(exec.getValue(),exec.getObserver());
+			mapOfCurrentNodeObserver.put(exec.getValue(), exec.getObserver());
 		}
 		return mapOfCurrentNodeObserver;
 	}
-	
-	
+
 	/**
 	 * Adds 1 to active threads number
 	 */
@@ -310,13 +317,12 @@ public class UnicornCall {
 	 * @throws IOException
 	 *             Input/Output error
 	 */
-	private boolean doRequests() throws IOException{
+	private boolean doRequests() throws IOException {
 		UnicornCall.logger.trace("doRequest");
 
 		bPassed = true;
-		
-		final Map<String, Request> requests = this.aRequestList
-				.getRequestMap();
+
+		final Map<String, Request> requests = this.aRequestList.getRequestMap();
 		// Creation of the thread list
 		ArrayList<Thread> threadsList = new ArrayList<Thread>();
 
@@ -351,13 +357,14 @@ public class UnicornCall {
 	 *            Input factory for the parameter
 	 * @param mapOfArrayUseParameter
 	 *            array of the parameter
-	 * @param node the current node that we are parsing           
+	 * @param node
+	 *            the current node that we are parsing
 	 * @return the list of the request for the call
 	 * @throws Exception
 	 *             error occured during the process
 	 */
 	private RequestList generateRequestList(final InputFactory aInputFactory,
-			final Map<String, String[]> mapOfArrayUseParameter,TLTNode node)
+			final Map<String, String[]> mapOfArrayUseParameter, TLTNode node)
 			throws Exception {
 
 		// Log information
@@ -367,7 +374,7 @@ public class UnicornCall {
 			UnicornCall.logger.debug("Map of string parameter : "
 					+ mapOfArrayUseParameter + ".");
 		}
-		 
+
 		final MimeType aMimeType = aInputFactory.getMimeType();
 		final EnumInputMethod aEnumInputMethod = aInputFactory
 				.getDefaultInputModule().getEnumInputMethod();
@@ -375,9 +382,9 @@ public class UnicornCall {
 		final RequestList aRequestList = new RequestList(this.sLang);
 		// Iterate over all observation of this task to build a basic
 		// request list with only the url of observator and input parameter
-		//Il faut creer une list avec tous les exec et toutes les rencardeur de ifs
-		//Une liste d'Observer
-		
+		// Il faut creer une list avec tous les exec et toutes les rencardeur de
+		// ifs
+		// Une liste d'Observer
 		for (final Observer aObserver : this.createExecList(node).values()) {
 			final String sObserverID = aObserver.getID();
 			// add only observer who handle the current mimetype
@@ -425,7 +432,7 @@ public class UnicornCall {
 									.getResponseType());
 					// add this request to request list
 
-					aRequestList.addRequest(aRequest,aObserver.getID());
+					aRequestList.addRequest(aRequest, aObserver.getID());
 					// log debug information
 					if (UnicornCall.logger.isDebugEnabled()) {
 						UnicornCall.logger.debug("Redirect request " + aRequest
@@ -471,8 +478,7 @@ public class UnicornCall {
 			String[] valOfUcnLang = this.mapOfStringParameter.get("ucn_lang");
 
 			// Get name of the lang parameter (defined in RDF file)
-			String observerParamLangName = aObserver
-					.getParamLangName();
+			String observerParamLangName = aObserver.getParamLangName();
 
 			// If lang parameter exists, we add name and value in parameters of
 			// the request.
@@ -481,7 +487,7 @@ public class UnicornCall {
 			}
 
 			// Add this request to request list
-			aRequestList.addRequest(aRequest,aObserver.getID());
+			aRequestList.addRequest(aRequest, aObserver.getID());
 			// Log debug information
 			if (UnicornCall.logger.isDebugEnabled()) {
 				UnicornCall.logger.debug("Request " + aRequest
@@ -548,12 +554,12 @@ public class UnicornCall {
 						.next();
 				final Map<String, List<Mapping>> mapOfMapping = aValue
 						.getMapOfMapping();
-				
+
 				for (final String sObserverName : mapOfMapping.keySet()) {
-					
+
 					final Request aRequest = aRequestList
 							.getRequest(sObserverName);
-					
+
 					for (final Mapping aMapping : mapOfMapping
 							.get(sObserverName)) {
 						final String sValue = aMapping.getValue();
@@ -565,37 +571,40 @@ public class UnicornCall {
 						}
 						aRequest.addParameter(aMapping.getParam(), sValue);
 					}
-					
+
 				} // foreach mapOfMapping.keySet()
-				
+
 				continue;
 			}
-			
+
 			for (final String sUseParameterValue : tStringUseParameterValue) {
 				final Value aValue = mapOfValue.get(sUseParameterValue);
 				final Map<String, List<Mapping>> mapOfMapping = aValue
 						.getMapOfMapping();
 				for (final String sObserverName : mapOfMapping.keySet()) {
-					final Request aRequest = aRequestList
-							.getRequest(sObserverName);
 					
-					for (final Mapping aMapping : mapOfMapping
-							.get(sObserverName)) {
-						final String sValue = aMapping.getValue();
-						// check
-						if (null == sValue || "".equals(sValue)) {
-							aRequest.addParameter(aMapping.getParam(),
-									sUseParameterValue);
-							continue;
+					if (aRequestList.getRequest(sObserverName)!=null) {
+						final Request aRequest = aRequestList
+								.getRequest(sObserverName);
+						for (final Mapping aMapping : mapOfMapping
+								.get(sObserverName)) {
+
+							final String sValue = aMapping.getValue();
+							// check
+							if (null == sValue || "".equals(sValue)) {
+								aRequest.addParameter(aMapping.getParam(),
+										sUseParameterValue);
+								continue;
+							}
+							aRequest.addParameter(aMapping.getParam(), aMapping
+									.getValue());
 						}
-						aRequest.addParameter(aMapping.getParam(), aMapping
-								.getValue());
 					}
 				} // foreach mapOfMapping.keySet()
 			} // foreach sArrayParameterValue
-			
+
 		} // foreach this.parameters.values()
-	
+
 		return aRequestList;
 	}
 
@@ -740,22 +749,24 @@ public class UnicornCall {
 		this.oInputParameterValue = oInputParameterValue;
 	}
 
-	
 	/**
-	 * Giving a TLTCond, checks in the map of response
-	 * if the condition passes or fails and 
-	 * consequently returns a boolean.
-	 * @param cond The condition to check
-	 * @return true if there is a matching response and if 
-	 * the condition passes else false
+	 * Giving a TLTCond, checks in the map of response if the condition passes
+	 * or fails and consequently returns a boolean.
+	 * 
+	 * @param cond
+	 *            The condition to check
+	 * @return true if there is a matching response and if the condition passes
+	 *         else false
 	 */
 	public boolean checkCond(TLTCond cond) throws Exception {
 		UnicornCall.logger.trace("checkCond : ");
 		UnicornCall.logger.trace(cond);
+		UnicornCall.logger.trace("condId : " + cond.getId());
 		UnicornCall.logger.trace("condType : " + cond.getType());
+		UnicornCall.logger.trace("condObserver : " + cond.getObserver().getID());
+		UnicornCall.logger.trace("condValue : " + cond.getValue());
 		boolean passed = false;
-
-		Response res = mapOfResponse.get(cond.getObserver());
+		Response res = mapOfResponse.get(cond.getObserver().getID());
 
 		// Testing if there is a matching response in the map
 		// and if it is passed
@@ -766,32 +777,29 @@ public class UnicornCall {
 			}
 
 			else if (cond.getType().equals(EnumCondType.XPATH)) {
-			
+
 				String xmlStr = res.getXml().toString();
-				
-	            DocumentBuilderFactory xmlFact =	
-	                DocumentBuilderFactory.newInstance();
-	            
-	            // namespace awareness is escaped since we don't use it 
-	            // for the moment
-	            xmlFact.setNamespaceAware(false);
-	
-	            DocumentBuilder builder = xmlFact.newDocumentBuilder();
-	
-	            Document doc = builder.parse(	
-	                    new java.io.ByteArrayInputStream(	
-	                            xmlStr.getBytes()));
-				
-				
+
+				DocumentBuilderFactory xmlFact = DocumentBuilderFactory
+						.newInstance();
+
+				// namespace awareness is escaped since we don't use it
+				// for the moment
+				xmlFact.setNamespaceAware(false);
+
+				DocumentBuilder builder = xmlFact.newDocumentBuilder();
+
+				Document doc = builder.parse(new java.io.ByteArrayInputStream(
+						xmlStr.getBytes()));
+
 				String xpathStr = cond.getValue();
-				
-				XPathFactory xpathFact =			
-	                XPathFactory.newInstance();
-	
-	            XPath xpath = xpathFact.newXPath();
-	            XPathExpression xpe = xpath.compile(xpathStr);
-	            passed = (Boolean) xpe.evaluate(doc, XPathConstants.BOOLEAN);
-				
+
+				XPathFactory xpathFact = XPathFactory.newInstance();
+
+				XPath xpath = xpathFact.newXPath();
+				XPathExpression xpe = xpath.compile(xpathStr);
+				passed = (Boolean) xpe.evaluate(doc, XPathConstants.BOOLEAN);
+
 			}
 
 		}
@@ -861,9 +869,7 @@ public class UnicornCall {
 		return aMimeType;
 
 	}
-	
-	
-	
+
 }
 
 /**
@@ -942,7 +948,6 @@ class RequestThread extends Thread {
 				e1.printStackTrace();
 			}
 		}
-		
 
 		synchronized (mapOfResponse) {
 			mapOfResponse.put(obsID, aResponse);
