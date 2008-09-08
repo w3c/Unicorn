@@ -110,9 +110,4 @@
 #end
 #end
 
-#if(!$unicorncall.haveHighPassed())
-Quelques observations ne sont pas effectuer car une ou plusieurs haute priorites ont echouees.
-#end
-#if(!$unicorncall.haveMediumPassed())
-Quelques observations ne sont pas effectuer car une ou plusieurs moyenne priorites ont echouees.
-#end
+

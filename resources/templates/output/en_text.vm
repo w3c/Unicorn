@@ -108,11 +108,3 @@
 #end
 #end
 
-#if(!$unicorncall.haveHighPassed())
-Some observations might not have been made because one or more with high
-priority failed.
-#end
-#if(!$unicorncall.haveMediumPassed())
-Some observations might not have been made because one or more with medium
-priority failed.
-#end
