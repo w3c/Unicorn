@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.18 2008-09-05 14:51:23 jbarouh Exp $
+// $Id: UnicornCall.java,v 1.19 2008-09-08 13:44:30 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.activation.MimeType;
-import javax.xml.bind.JAXBException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -312,8 +311,6 @@ public class UnicornCall {
 	 * 
 	 * @param aTPriority
 	 *            priority of the request
-	 * @throws JAXBException
-	 *             xml parser error
 	 * @throws IOException
 	 *             Input/Output error
 	 */

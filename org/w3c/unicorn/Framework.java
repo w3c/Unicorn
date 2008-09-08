@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.14 2008-09-04 13:17:44 jbarouh Exp $
+// $Id: Framework.java,v 1.15 2008-09-08 13:43:47 jbarouh Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -19,7 +19,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import javax.xml.bind.JAXBException;
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -231,9 +231,6 @@ public class Framework {
 			aRDFUnmarshaller.unmarshal();
 
 			Framework.mapOfTask = aTaskListUnmarshaller.getMapOfTask();
-		} catch (final JAXBException e) {
-			Framework.logger.error("JAXBException : " + e.getMessage(), e);
-			e.printStackTrace();
 		} catch (final MalformedURLException e) {
 			Framework.logger.error("MalformedURLException : " + e.getMessage(),
 					e);
