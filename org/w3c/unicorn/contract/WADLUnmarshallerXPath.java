@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.7 2008-08-26 15:31:56 fbatard Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.8 2008-09-08 12:48:38 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -125,11 +125,13 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	 * Get the document from an URL
 	 * @throws SAXException 
 	 */
-	public void addURL(final URL aURL) throws IOException{
+	public void addURL(final URL aURL) throws IOException {
+
 		WADLUnmarshallerXPath.logger.trace("addURL");
 		if (WADLUnmarshallerXPath.logger.isDebugEnabled()) {
 			WADLUnmarshallerXPath.logger.debug("URL : " + aURL + ".");
 		}
+
 		try {
 			this.aDocument = this.aDocumentBuilder.parse(aURL.openStream());
 		} catch (SAXException e) {
@@ -173,7 +175,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 
 			String vText = nodeDoc.getTextContent();
 
-			// parcours les attrb d un doc
+			// browse the attributes of a document
 			String vTitle = null;
 			String vLang = null;
 			NamedNodeMap nnm = nodeDoc.getAttributes();
@@ -318,7 +320,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 					mapOfCallParameter);
 			this.listOfCallMethod.add(aCallMethod);
 
-			// remplir mapOfInputMethod
+			// fill mapOfInputMethod
 
 			NodeList listChildMethod = aNodeMethod.getChildNodes();
 			String sInputMethod = null;

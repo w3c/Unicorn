@@ -20,6 +20,7 @@ import org.w3.unicorn.tasklist.TInputMethod;
 import org.w3.unicorn.tasklist.TParamType;
 import org.w3.unicorn.tasklist.TUi;
 import org.w3.unicorn.tasklist.TaskType;
+import org.w3.unicorn.tasklist.TasklistDocument;
 import org.w3.unicorn.tasklist.TasklistType;
 import org.w3.unicorn.tasklist.ThenType;
 import org.w3.unicorn.tasklist.ValueType;
@@ -40,9 +41,15 @@ import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
 import org.w3c.unicorn.util.LocalizedString;
 
+/**
+ * Unmarshals the tasklist thanks to the XMLBeans tools.
+ * 
+ * @author Florent Batard, Jonathan Barouh
+ * 
+ */
 public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
-	private TasklistType aTaskList;	
+	private TasklistDocument aTaskList;	
 	
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.tasklist");
 	
@@ -161,7 +168,9 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 				}
 			}
 		}
+
 		this.mapOfTask.put(aTaskCurrent.getID(),aTaskCurrent);
+
 	}
 	
 	
@@ -196,8 +205,13 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		final List<EnumInputMethod> listOfEnumInputMethod = new ArrayList<EnumInputMethod>();
 		
 		// The list of mapped input methods
-		final List<TInputMethod.Enum> listOfTInputMethodBeans = aMapped.getInputmethod();									
 		
+		final List<TInputMethod.Enum> listOfTInputMethodBeans = 
+			new ArrayList<TInputMethod.Enum>();									
+		for (Object methodString : aMapped.getInputmethod()) {
+			listOfTInputMethodBeans.add(
+					TInputMethod.Enum.forString(methodString.toString()));
+		}
 		// by default a parameter is mapped to all input methods
 		if (listOfTInputMethodBeans.size() == 0) {
 			listOfTInputMethodBeans.add(TInputMethod.DIRECT);
@@ -206,13 +220,13 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		}
 		
 		/*
-		 * For each JAXB input method, we check that the mapped observer:
+		 * For each input method, we check that the mapped observer:
 		 *  - can handle this input method
 		 *  - has a parameter with the corresponding name for this input 
 		 *    method
 		 *  - can handle this value for this parameter 
 		 */
-		
+
 		for (final TInputMethod.Enum aTInputMethod : listOfTInputMethodBeans) {
 			final EnumInputMethod aEnumInputMethod;
 			aEnumInputMethod = TaskListUnmarshallerBeans.getEnumInputMethod(aTInputMethod);
@@ -389,6 +403,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		node.setID(NodeID++);
 		for (ExecType exec : myThen.getExecArray()) {
 			final Observer obs=Framework.mapOfObserver.get(exec.getValue());
+			System.out.println("exec value : " + exec.getValue());
 			node.addExec(new TLTExec(exec.getId(),obs, exec.getValue(), exec
 					.getType(), exec.getParam()));
 		}
@@ -498,6 +513,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	
 	
 	public Map<String, org.w3c.unicorn.tasklist.Task> getMapOfTask() {
+		TaskListUnmarshallerBeans.logger.trace("getMapOfTask");
 		return this.mapOfTask;
 	}
 
@@ -508,7 +524,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		}
 
 			try {
-				this.aTaskList = (TasklistType) TasklistType.Factory.parse(aURL.openStream());
+				this.aTaskList = TasklistDocument.Factory.parse(aURL.openStream());			
 			} catch (XmlException e) {
 				TaskListUnmarshallerBeans.logger.error("Parsing error in TasklistUnmarshaller",e);
 				e.printStackTrace();
@@ -519,9 +535,8 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
 	public void unmarshal() throws Exception {
 		TaskListUnmarshallerBeans.logger.trace("unmarshal");
-
 		// creates the tasklist without computing references
-		for (final TaskType aTask : this.aTaskList.getTaskArray()) {
+		for (final TaskType aTask : this.aTaskList.getTasklist().getTaskArray()) {
 			if (this.mapOfTask.containsKey(aTask.getId())) {
 				TaskListUnmarshallerBeans.logger.warn("Task with id "+aTask.getId()+" already defined.");
 			} else {

@@ -1,10 +1,11 @@
-// $Id: RequestList.java,v 1.4 2008-08-26 15:30:59 fbatard Exp $
+// $Id: RequestList.java,v 1.5 2008-09-08 12:45:30 jbarouh Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -51,6 +52,7 @@ public class RequestList {
 	 * @return
 	 */
 	public Map<String,Request> getRequestMap() {
+		RequestList.logger.trace("getRequestMap");
 		return this.mapOfRequest;
 	}
  
@@ -69,14 +71,17 @@ public class RequestList {
 		return this.mapOfRequest.get(sNodeID);
 	}
 
+
 	/**
 	 * Adds a request to the map
 	 * @param aRequest
 	 * @param sNodeID The ID of the corresponding node
 	 * @throws IOException
 	 */
+
 	public void addRequest(final Request aRequest, 
 			final String sNodeID) throws IOException {
+
 		RequestList.logger.trace("addRequest");
 		if (RequestList.logger.isDebugEnabled()) {
 			RequestList.logger.debug("Request : " + aRequest + ".");
