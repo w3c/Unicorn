@@ -159,18 +159,7 @@
    
   #end
 
-  #if(!$unicorncall.haveHighPassed())
-    <p>
-      Some observations might not have been made because one or more with high
-      priority failed.
-    </p>
-  #end
-  #if(!$unicorncall.haveMediumPassed())
-    <p>
-      Some observations might not have been made because one or more with medium
-      priority failed.
-    </p>
-  #end
+
 
   </div>
 

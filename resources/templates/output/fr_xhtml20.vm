@@ -159,18 +159,6 @@
    
   #end
 
-  #if(!$unicorncall.haveHighPassed())
-    <p>
-      Plusieurs observations peuvent ne pas avoir été effectuées car une ou plusieurs 
-      observations de priorité haute ont échouées.
-    </p>
-  #end
-  #if(!$unicorncall.haveMediumPassed())
-    <p>
-      Plusieurs observations peuvent ne pas avoir été effectuées car une ou plusieurs 
-      observations de priorité moyenne ont échouées.
-    </p>
-  #end
 
   </div>
 
