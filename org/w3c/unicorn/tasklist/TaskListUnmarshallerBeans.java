@@ -403,7 +403,6 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		node.setID(NodeID++);
 		for (ExecType exec : myThen.getExecArray()) {
 			final Observer obs=Framework.mapOfObserver.get(exec.getValue());
-			System.out.println("exec value : " + exec.getValue());
 			node.addExec(new TLTExec(exec.getId(),obs, exec.getValue(), exec
 					.getType(), exec.getParam()));
 		}
@@ -534,7 +533,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	
 
 	public void unmarshal() throws Exception {
-		TaskListUnmarshallerBeans.logger.trace("unmarshal");
+		TaskListUnmarshallerBeans.logger.trace("unmarshal tasklist");
 		// creates the tasklist without computing references
 		for (final TaskType aTask : this.aTaskList.getTasklist().getTaskArray()) {
 			if (this.mapOfTask.containsKey(aTask.getId())) {
