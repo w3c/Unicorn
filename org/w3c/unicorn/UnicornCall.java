@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.19 2008-09-08 13:44:30 jbarouh Exp $
+// $Id: UnicornCall.java,v 1.20 2008-09-09 10:16:16 jbarouh Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -45,6 +45,8 @@ import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
 import org.w3c.unicorn.util.Property;
+
+import com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl;
 
 /**
  * UnicornCall Created: Jun 29, 2006 2:44:12 PM
@@ -791,7 +793,7 @@ public class UnicornCall {
 
 				String xpathStr = cond.getValue();
 
-				XPathFactory xpathFact = XPathFactory.newInstance();
+				XPathFactory xpathFact = new XPathFactoryImpl();
 
 				XPath xpath = xpathFact.newXPath();
 				XPathExpression xpe = xpath.compile(xpathStr);
