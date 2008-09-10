@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.6 2008-08-27 12:09:59 jbarouh Exp $
+// $Id: URIRequest.java,v 1.7 2008-09-10 10:10:40 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -121,32 +121,8 @@ public class URIRequest extends Request {
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
 
 		InputStream is = aURLConnection.getInputStream();
-		//System.out.println("mark supported : " + is.markSupported());
-		//System.out.println("is class : " + is.getClass());
-		setResponseStream(is);
-		
-		StringBuffer sb = new StringBuffer();
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		String s;
-		while ((s = br.readLine()) != null) {
-			sb.append(s + "\n");
-			//System.out.println(s);
-		}
-		br.close();
-		this.setResponseBuffer(sb);
-		
 
-		StringBufferInputStream sbis = new StringBufferInputStream(sb.toString());
-		//System.out.println(sb.toString());
-		//System.out.println("response stream set");
-		//Response res = this.aResponseParser.parse(is);
-		Response res = ResponseParserFactory.parse(sbis, this.getResponseType());
-		res.setXml(sb);
-		//Response res = null;
-		//System.out.println("response created");
-		//is.reset();
-		return res;
+		return streamToResponse(is);
 	}
 
 	@Override

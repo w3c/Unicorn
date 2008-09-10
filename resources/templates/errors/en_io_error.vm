@@ -2,9 +2,7 @@
 <observationresponse xmlns="http://www.w3.org/unicorn/observationresponse"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.w3.org/unicorn/observationresponse file:/home/jean/observer-response.xsd"> 
-    <uri><![CDATA[$documentName]]></uri> 
     <checkedby>Unicorn</checkedby>
-    <date>$date</date>
     <passed>false</passed>
     <result>
         <errors xml:lang="en">

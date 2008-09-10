@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.7 2008-08-27 12:09:45 jbarouh Exp $
+// $Id: Request.java,v 1.8 2008-09-10 10:10:40 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,11 +6,14 @@ package org.w3c.unicorn.request;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.InputModule;
+import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.response.parser.ResponseParserFactory;
 
 /**
  * 
@@ -23,10 +26,6 @@ public abstract class Request {
 	protected static final Log logger = LogFactory
 			.getLog("org.w3c.unicorn.request");
 
-	protected InputStream responseStream;
-	protected StringBuffer responseBuffer;
-	
-	
 	/**
 	 * Language of the request
 	 */
@@ -136,20 +135,19 @@ public abstract class Request {
 		this.responseType = responseType;
 	}
 	
-	public InputStream getResponseStream() {
-		return responseStream;
-	}
-	
-	public void setResponseStream(InputStream is) {
-		this.responseStream = is;
-	}
-	
-	public StringBuffer getResponseBuffer() {
-		return responseBuffer;
-	}
-	
-	public void setResponseBuffer(StringBuffer sb) {
-		this.responseBuffer = sb;
-	}
+  protected Response streamToResponse(InputStream is) throws IOException {
+      StringBuilder builder = new StringBuilder();
+      InputStreamReader isr = new InputStreamReader(is);
+      char[] chararray = new char[8192];
+      int readLength = 0;
+      while((readLength = isr.read(chararray, 0, 8192)) > -1) {
+          builder.append(chararray, 0, readLength);
+      }
+      
+      Response res = ResponseParserFactory.parse(builder.toString(), 
+                                                 this.getResponseType());
+      res.setXml(builder);
 
+      return res;
+  }
 }

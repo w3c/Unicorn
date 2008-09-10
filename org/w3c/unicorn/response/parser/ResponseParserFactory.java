@@ -50,4 +50,18 @@ public class ResponseParserFactory {
 		}
 		return null;
 	} 
+
+    public static Response parse(String r, String responseType) {
+		try {
+			Response response = createResponseParser(responseType).parse(r);
+			return response;
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	} 
 }

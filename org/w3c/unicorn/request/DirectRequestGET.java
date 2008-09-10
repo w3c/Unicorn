@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.5 2008-08-27 12:09:45 jbarouh Exp $
+// $Id: DirectRequestGET.java,v 1.6 2008-09-10 10:10:40 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -103,21 +103,8 @@ public class DirectRequestGET extends Request {
 		final URLConnection aURLConnection = aURL.openConnection();
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
 		InputStream is = aURLConnection.getInputStream();
-		StringBuffer sb = new StringBuffer();
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		String s;
-		while ((s = br.readLine()) != null) {
-			sb.append(s + "\n");
-		}
-		br.close();
-		this.setResponseBuffer(sb);
-		
-		StringBufferInputStream sbis = new StringBufferInputStream(sb.toString());
-		Response aObservationResponse = ResponseParserFactory.parse(sbis,
-				this.getResponseType());
-		aObservationResponse.setXml(sb);
-		return aObservationResponse;
+
+    return streamToResponse(is);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-// $Id: DirectRequestPOST.java,v 1.7 2008-08-27 12:09:45 jbarouh Exp $
+// $Id: DirectRequestPOST.java,v 1.8 2008-09-10 10:10:40 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -175,21 +175,8 @@ public class DirectRequestPOST extends Request {
 		this.aOutputStream.close();
 		
 		InputStream is = aURLConnection.getInputStream();
-		StringBuffer sb = new StringBuffer();
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		String s;
-		while ((s = br.readLine()) != null) {
-			sb.append(s + "\n");
-		}
-		br.close();
-		this.setResponseBuffer(sb);
-		
-		StringBufferInputStream sbis = new StringBufferInputStream(sb.toString());
-		Response aObservationResponse = ResponseParserFactory.parse(sbis,
-				this.getResponseType());
-		aObservationResponse.setXml(sb);
-		return aObservationResponse;
+    return streamToResponse(is);
 	}
 
 	@Override

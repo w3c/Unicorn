@@ -15,6 +15,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlOptions;
+
 import org.w3c.unicorn.response.A;
 import org.w3c.unicorn.response.Code;
 import org.w3c.unicorn.response.Error;
@@ -25,6 +27,7 @@ import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.response.Result;
 import org.w3c.unicorn.response.Warning;
 import org.w3c.unicorn.util.LocalizedString;
+import java.io.*;
 
 /**
  * Default parser class.
@@ -41,7 +44,8 @@ public class DefaultParser implements ResponseParser {
 	 */
 	public Response parse(InputStream inputStream) {
 			try {
-				return swap(org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory.parse(inputStream));
+          org.w3.unicorn.observationresponse.ObservationresponseDocument ord = org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory.parse(inputStream);
+          return swap(ord);
 			} catch (XmlException e) {
 				e.printStackTrace();
 				logger.error("XMLBeansException : " + e.getMessage(), e);
@@ -50,8 +54,25 @@ public class DefaultParser implements ResponseParser {
 				e.printStackTrace();
 				logger.error("XMLBeansException : " + e.getMessage(), e);
 				return null;
-			}
-		
+      }
+
+	}
+
+    /**
+	 * Parses the input and returns the response.
+	 * @param inputStream The input stream.
+	 * @return The corresponding response.
+	 */
+	public Response parse(String r) {
+			try {
+          org.w3.unicorn.observationresponse.ObservationresponseDocument ord = org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory.parse(r);
+          return swap(ord);
+			} catch (XmlException e) {
+				e.printStackTrace();
+				logger.error("XMLBeansException : " + e.getMessage(), e);
+				return null;
+      }
+
 	}
 
 	/**

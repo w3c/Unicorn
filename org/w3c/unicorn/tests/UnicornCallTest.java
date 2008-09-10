@@ -18,6 +18,8 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.InputFactory;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.request.Request;
+import org.w3c.unicorn.response.Response;
+
 import org.xml.sax.InputSource;
 
 public class UnicornCallTest {
@@ -100,27 +102,13 @@ public class UnicornCallTest {
 			req.addParameter("output", "ucn");
 			System.out.println("request created");
 			System.out.println(req.getResponseType());
-			req.doRequest();
+			Response res = req.doRequest();
 			System.out.println("request done");
-			
-			
-			String xmlStr = req.getResponseBuffer().toString();
-		
-		            DocumentBuilderFactory xmlFact =
-		
-		                DocumentBuilderFactory.newInstance();
-		
-		            xmlFact.setNamespaceAware(false);
-		
-		            DocumentBuilder builder = xmlFact.
-		
-		                newDocumentBuilder();
-		
-		            Document doc = builder.parse(
-		
-		                    new java.io.ByteArrayInputStream(
-		
-		                            xmlStr.getBytes()));
+					
+      DocumentBuilderFactory xmlFact = DocumentBuilderFactory.newInstance();
+      xmlFact.setNamespaceAware(false);
+      DocumentBuilder builder = xmlFact.newDocumentBuilder();
+      Document doc = builder.parse(res.getXml().toString());
 		
 		           
 		

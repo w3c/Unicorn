@@ -6,4 +6,5 @@ import org.w3c.unicorn.response.Response;
 
 public interface ResponseParser {
 	public Response parse(InputStream inputStream);
+  public Response parse(String r);
 }
