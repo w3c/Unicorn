@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.4 2008-09-02 13:22:16 fbatard Exp $
+// $Id: IndexGenerator.java,v 1.5 2008-09-12 18:01:51 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -106,7 +106,6 @@ public class IndexGenerator {
 	public static void generateIndexes() throws ResourceNotFoundException,
 			ParseErrorException, Exception {
 		IndexGenerator.logger.trace("generateIndexes");
-
 		final File[] tFile = ListFiles.listFiles(Property
 				.get("PATH_TO_INDEX_TEMPLATES"), "\\.vm$");
 		for (final File aFile : tFile) {

@@ -43,97 +43,97 @@ import org.w3c.unicorn.util.LocalizedString;
 
 /**
  * Unmarshals the tasklist thanks to the XMLBeans tools.
- * 
+ *
  * @author Florent Batard, Jonathan Barouh
- * 
+ *
  */
 public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
-	private TasklistDocument aTaskList;	
-	
+	private TasklistDocument aTaskList;
+
 	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.tasklist");
-	
+
 	private int NodeID=0;
 
-	
+
 	/**
 	 * The tasklist corresponding to the xml file
 	 */
 	private Map<String,Task> mapOfTask;
-	
+
 	/**
 	 * The observers' list used to check some constraints on the tasks
 	 */
 	private Map<String, Observer> mapOfObserver;
-	
-	
+
+
 	public TaskListUnmarshallerBeans(){}
-	
+
 	public TaskListUnmarshallerBeans(final Map<String, Observer> mapOfObserver) {
-		TaskListUnmarshallerBeans.logger.trace("Constructor");	
+		TaskListUnmarshallerBeans.logger.trace("Constructor");
 		this.mapOfTask = new LinkedHashMap<String, org.w3c.unicorn.tasklist.Task>();
 		this.mapOfObserver = mapOfObserver;
 	}
-	
 
-	
+
+
 	private void addTask(final TaskType aTask) throws ParameterException {
 		TaskListUnmarshallerBeans.logger.trace("addTask");
-		
+
 		if (aTask == null) {
 			TaskListUnmarshallerBeans.logger.warn("Task : null");
 			return;
 		}
-		
+
 		if (TaskListUnmarshallerBeans.logger.isDebugEnabled()) {
 			TaskListUnmarshallerBeans.logger.trace("Add task : " + aTask.getId());
 		}
-		
+
 		final Task aTaskCurrent = new Task();
 //		Create the execution level tree
 		aTaskCurrent.setID(aTask.getId());
 		aTaskCurrent.setTree(this.ExpandTree(aTask));
-		
+
 //		 parameters
 		final ParametersType aParameters = aTask.getParameters();
 		if (aParameters != null) {
 			final ParameterType[] listOfParameter;
-			listOfParameter = aParameters.getParameterArray();		
-			
+			listOfParameter = aParameters.getParameterArray();
+
 			for (final ParameterType aParameterBeans : listOfParameter) {
-				
+
 				final TUi.Enum aTUi = aParameterBeans.getUi();
 				final String sObserver = aParameterBeans.getObserver();
 				final String sName = aParameterBeans.getName();
-				
+
 				// default values as string
 				final String sDefaultValues = aParameterBeans.getDefault();
-				
-				final TParamType.Enum aParamType = aParameterBeans.getType();				
-				
-				Parameter aParameter = null; 
-				
+
+				final TParamType.Enum aParamType = aParameterBeans.getType();
+
+				Parameter aParameter = null;
+
 				if (sObserver != null && !"".equals(sObserver)) {
 					aParameter = getParameterFromObserver(
 							sName,
 							sObserver,
 							aTUi,
 							sDefaultValues,
-							aParamType);					
-				}								
+							aParamType);
+				}
 				else {
-					
+
 					// Values
 					final Map<String, Value> mapOfValue = new LinkedHashMap<String, Value>();
-					for (final ValueType aValue : 
+					for (final ValueType aValue :
 						aParameterBeans.getValueArray()) {
-						
+
 						// name of the value
 						String sValueName = aValue.getName();
 						if (sValueName == null) {
 							sValueName = "";
 						}
-						
+
 						// Mappings of the value
 						final Map<String, List<Mapping>> mapOfMapping = new LinkedHashMap<String, List<Mapping>>();
 						for (final MappedType aMappedBeans : aValue.getMappedArray()) {
@@ -154,16 +154,16 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 										mapOfMapping,
 										sValueName));
 					}
-					
+
 					aParameter = this.createParameter(
 							aParamType,
 							sName,
 							aTUi,
-							sDefaultValues, 
+							sDefaultValues,
 							mapOfValue);
 				}
-				
-				if (aParameter != null) {					
+
+				if (aParameter != null) {
 					aTaskCurrent.addParameter(aParameter);
 				}
 			}
@@ -172,8 +172,8 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		this.mapOfTask.put(aTaskCurrent.getID(),aTaskCurrent);
 
 	}
-	
-	
+
+
 	/**
 	 * Creates a usable mapping from a JAXB-generated one.
 	 * @param aMappedJAXB the JAXB-generated mapping
@@ -194,20 +194,20 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		}
 
 		// the mapped parameter
-		final String sMappingParam = aMapped.getParam();		
+		final String sMappingParam = aMapped.getParam();
 		// the value mapped
 		String sMappingValue = aMapped.getValue();
 		if (sMappingValue == null) {
 			sMappingValue = "";
 		}
-		
+
 		// TODO check if is useful to add input method in mapping
 		final List<EnumInputMethod> listOfEnumInputMethod = new ArrayList<EnumInputMethod>();
-		
+
 		// The list of mapped input methods
-		
-		final List<TInputMethod.Enum> listOfTInputMethodBeans = 
-			new ArrayList<TInputMethod.Enum>();									
+
+		final List<TInputMethod.Enum> listOfTInputMethodBeans =
+			new ArrayList<TInputMethod.Enum>();
 		for (Object methodString : aMapped.getInputmethod()) {
 			listOfTInputMethodBeans.add(
 					TInputMethod.Enum.forString(methodString.toString()));
@@ -218,13 +218,13 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			listOfTInputMethodBeans.add(TInputMethod.FILE);
 			listOfTInputMethodBeans.add(TInputMethod.URI);
 		}
-		
+
 		/*
 		 * For each input method, we check that the mapped observer:
 		 *  - can handle this input method
-		 *  - has a parameter with the corresponding name for this input 
+		 *  - has a parameter with the corresponding name for this input
 		 *    method
-		 *  - can handle this value for this parameter 
+		 *  - can handle this value for this parameter
 		 */
 
 		for (final TInputMethod.Enum aTInputMethod : listOfTInputMethodBeans) {
@@ -233,12 +233,12 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			// the observer can handle this input method
 			if (aObserverMapped.getInputMethod(aEnumInputMethod) == null) {
 				TaskListUnmarshallerBeans.logger.warn(
-						sMappingObserver + " does not support " + 
+						sMappingObserver + " does not support " +
 						aEnumInputMethod.value() + " input method.");
 				continue;
 			}
 			final CallParameter aCallParameterMapped;
-			aCallParameterMapped = aObserverMapped.getInputMethod(aEnumInputMethod).getCallParameterByName(sMappingParam);		
+			aCallParameterMapped = aObserverMapped.getInputMethod(aEnumInputMethod).getCallParameterByName(sMappingParam);
 			// the parameter exists
 			if (aCallParameterMapped == null) {
 				TaskListUnmarshallerBeans.logger.error(
@@ -249,26 +249,26 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			// the value exists
 			if (!aCallParameterMapped.contains(sMappingValue)) {
 				TaskListUnmarshallerBeans.logger.error(
-						"Parameter " + sMappingParam + 
+						"Parameter " + sMappingParam +
 						" does not accept " + sMappingValue +
 						" as a value.");
 				continue;
 			}
 			listOfEnumInputMethod.add(aEnumInputMethod);
 		}
-		
+
 		if (listOfEnumInputMethod.size() == 0) {
 			return null;
 		}
-		
+
 		return new Mapping(
 				aObserverMapped,
 				sMappingParam,
-				sMappingValue/*, 
+				sMappingValue/*,
 				listOfEnumInputMethod*/);
 	}
-	
-	
+
+
 	private Parameter getParameterFromObserver (
 			final String sParamName,
 			final String sObserverName,
@@ -283,9 +283,9 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			TaskListUnmarshallerBeans.logger.debug("Default values : "+sDefaultValues+".");
 			TaskListUnmarshallerBeans.logger.debug("TParamType : "+aTParamType+".");
 		}
-		
+
 		final Observer aObserver = this.mapOfObserver.get(sObserverName);
-		
+
 		// does the requested observer exist?
 		if (aObserver == null) {
 			TaskListUnmarshallerBeans.logger.warn(
@@ -293,38 +293,38 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 					"non-existing observer: " + sObserverName + ".");
 			return null;
 		}
-		
+
 		// the name of the parameter
 		// TODO Change when the RDF is done
 		final LocalizedString aLocalizedString = new LocalizedString();
-		aLocalizedString.addLocalization("en", sParamName);		
-		
+		aLocalizedString.addLocalization("en", sParamName);
+
 		final Map<String, Value> mapOfValue = new LinkedHashMap<String, Value>();
-		
+
 		// iterate over the observer's methods
 		final Map<EnumInputMethod, InputMethod> mapOfInputMethod = aObserver.getMapOfInputMethod();
 		for (final EnumInputMethod aEnumInputMethod : mapOfInputMethod.keySet()) {
-			final InputMethod aInputMethod = mapOfInputMethod.get(aEnumInputMethod);			
-			
+			final InputMethod aInputMethod = mapOfInputMethod.get(aEnumInputMethod);
+
 			if (aInputMethod.getCallParameter().getName().equals(sParamName)) {
-				// the referenced parameter is an input one for the current 
+				// the referenced parameter is an input one for the current
 				// method, so it must be ignored
 				TaskListUnmarshallerBeans.logger.info(
 						"The referenced parameter is an input one for the current method, so it must be ignored.");
 				continue;
-			}			
-			
+			}
+
 			final CallMethod aCallMethod = aInputMethod.getCallMethod();
-			final CallParameter aCallParameter = aCallMethod.getCallParameterByName(sParamName);			
-			// A parameter with this name exists for this method			
+			final CallParameter aCallParameter = aCallMethod.getCallParameterByName(sParamName);
+			// A parameter with this name exists for this method
 			if (aCallParameter != null) {
 				for (final String sValue : aCallParameter.getListOfPossibleValue()) {
 					final Value aValueCurrent = mapOfValue.get(sValue);
 					if (aValueCurrent != null) {
 						// the newly created parameter already contains a
 						// similar value
-						
-						// we know that the created parameter contains exactly 
+
+						// we know that the created parameter contains exactly
 						// ONE mapping for this value
 						//aValueCurrent.getMappings().get(sObserverName).get(0).addInputMethod(aEnumInputMethod);
 					}
@@ -335,12 +335,12 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 						aInternationalizedMessageValueName = new LocalizedString();
 						// TODO Add localized names in RDF contract
 						aInternationalizedMessageValueName.addLocalization("en", sValue);
-						
+
 						final List<EnumInputMethod> mapOfNewInputMethod = new ArrayList<EnumInputMethod>();
 						mapOfNewInputMethod.add(aEnumInputMethod);
 						final Mapping aMapping = new Mapping(
 								aObserver,
-								sParamName, 
+								sParamName,
 								sValue);
 
 						final List<Mapping> listOfMapping = new ArrayList<Mapping>();
@@ -356,21 +356,21 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 								sValue);
 						mapOfValue.put(sValue, aValueToAdd);
 					}
-				}				
+				}
 			}
 		}
 		return this.createParameter(
 				aTParamType,
 				sParamName,
 				aTUi,
-				sDefaultValues, 
-				mapOfValue);	
+				sDefaultValues,
+				mapOfValue);
 	}
-	
-	
+
+
 	/**
 	 * Create the tree from a TaskType element
-	 * 
+	 *
 	 * @param myTask
 	 *            the task to transform into a tree
 	 */
@@ -392,7 +392,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
 	/**
 	 * Recursion over the Then tag to fill the tree
-	 * 
+	 *
 	 * @param myThen
 	 *            the ThenType node for the recursion
 	 * @return the node created
@@ -414,7 +414,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
 	/**
 	 * Created the Ifnode in the tree
-	 * 
+	 *
 	 * @param ifs
 	 *            the IfType node template to create the Ifnode
 	 * @return the node created
@@ -460,10 +460,10 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		}
 		return ifnode;
 	}
-	
-	
-	
-	
+
+
+
+
 	private org.w3c.unicorn.tasklist.parameters.Parameter createParameter (
 			final TParamType.Enum aTParamType,
 			final String sName,
@@ -489,8 +489,8 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		aParameter.setDefaultValues(sDefaultValues);
 		return aParameter;
 	}
-	
-	
+
+
 	/**
 	 * Wraps a TInputMethod instance on an EnumInputMethod
 	 * @param aTInputMethod
@@ -506,11 +506,11 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 				return EnumInputMethod.URI;
 			default:
 				return EnumInputMethod.URI;
-		}		
+		}
 	}
-	
-	
-	
+
+
+
 	public Map<String, org.w3c.unicorn.tasklist.Task> getMapOfTask() {
 		TaskListUnmarshallerBeans.logger.trace("getMapOfTask");
 		return this.mapOfTask;
@@ -523,14 +523,15 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		}
 
 			try {
-				this.aTaskList = TasklistDocument.Factory.parse(aURL.openStream());			
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+				this.aTaskList = TasklistDocument.Factory.parse(aURL.openStream());
 			} catch (XmlException e) {
 				TaskListUnmarshallerBeans.logger.error("Parsing error in TasklistUnmarshaller",e);
 				e.printStackTrace();
-			}	
+			}
 	}
-	
-	
+
+
 
 	public void unmarshal() throws Exception {
 		TaskListUnmarshallerBeans.logger.trace("unmarshal tasklist");
@@ -542,7 +543,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 				this.addTask(aTask);
 			}
 		}
-		
+
 		// computes and replaces references by their corresponding observations
 		// and parameters
 		for (final org.w3c.unicorn.tasklist.Task aTask : this.mapOfTask.values()) {

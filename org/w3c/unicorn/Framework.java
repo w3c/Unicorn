@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.15 2008-09-08 13:43:47 jbarouh Exp $
+// $Id: Framework.java,v 1.16 2008-09-12 18:01:51 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -134,6 +134,7 @@ public class Framework {
 		try {
 			// Add all observer contract
 			final BufferedReader aBufferedReader;
+      
 			aBufferedReader = new BufferedReader(new FileReader(Property
 					.get("OBSERVER_LIST_FILE")));
 
@@ -209,7 +210,6 @@ public class Framework {
 		}
 		try {
 			// parse all the task files
-
 			final File[] tFileXML = ListFiles.listFiles(Property
 					.get("PATH_TO_TASKLIST"), "\\.xml");
 

@@ -6,7 +6,7 @@
     <echo message="Please run: $ ant -v -projecthelp"/>
 </target>
 
-<target name="remoteConfiguration" description="Workspace configuration for remote">
+<target name="remoteConfiguration"  depends="build" description="Workspace configuration for remote">
 	<copy file="./org/w3c/unicorn/util/remote-unicorn.properties"
         tofile="./build/org/w3c/unicorn/util/unicorn.properties"
         overwrite="true"/>
@@ -24,7 +24,7 @@
         overwrite="true"/>
 </target>
 
-<target name="localConfiguration" >
+<target name="localConfiguration" depends="war" >
 	<copy file="./org/w3c/unicorn/util/local-unicorn.properties" 
         tofile="./build/org/w3c/unicorn/util/unicorn.properties"
         overwrite="true"/>
@@ -65,7 +65,7 @@
     </war>
 </target>
 
-<target name="war" depends="remoteConfiguration,make-war,localConfiguration" />
+<target name="war" depends="remoteConfiguration,make-war" />
 
 <target name="jar" depends="build" description="Creates the unicorn library">
 	<delete file="${jar.file}" />

@@ -1,18 +1,22 @@
-// $Id: UnicornCall.java,v 1.20 2008-09-09 10:16:16 jbarouh Exp $
+// $Id: UnicornCall.java,v 1.21 2008-09-12 18:01:51 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.activation.MimeType;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -22,7 +26,9 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
+
 import org.w3c.dom.Document;
+
 import org.w3c.unicorn.contract.CallParameter;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.contract.InputMethod;
@@ -762,46 +768,42 @@ public class UnicornCall {
 		UnicornCall.logger.trace(cond);
 		UnicornCall.logger.trace("condId : " + cond.getId());
 		UnicornCall.logger.trace("condType : " + cond.getType());
-		UnicornCall.logger.trace("condObserver : " + cond.getObserver().getID());
 		UnicornCall.logger.trace("condValue : " + cond.getValue());
+
 		boolean passed = false;
-		Response res = mapOfResponse.get(cond.getObserver().getID());
-
-		// Testing if there is a matching response in the map
-		// and if it is passed
-		if (res != null && res.isPassed()) {
-
-			if (cond.getType().equals(EnumCondType.MIMETYPE)) {
+    
+    if (cond.getType().equals(EnumCondType.MIMETYPE)) {
 				passed = cond.getValue().equals(getMimeType().toString());
-			}
-
-			else if (cond.getType().equals(EnumCondType.XPATH)) {
-
-				String xmlStr = res.getXml().toString();
-
-				DocumentBuilderFactory xmlFact = DocumentBuilderFactory
-						.newInstance();
-
-				// namespace awareness is escaped since we don't use it
-				// for the moment
-				xmlFact.setNamespaceAware(false);
-
-				DocumentBuilder builder = xmlFact.newDocumentBuilder();
-
-				Document doc = builder.parse(new java.io.ByteArrayInputStream(
-						xmlStr.getBytes()));
-
-				String xpathStr = cond.getValue();
-
-				XPathFactory xpathFact = new XPathFactoryImpl();
-
-				XPath xpath = xpathFact.newXPath();
-				XPathExpression xpe = xpath.compile(xpathStr);
-				passed = (Boolean) xpe.evaluate(doc, XPathConstants.BOOLEAN);
-
-			}
-
-		}
+    }
+    else if (cond.getType().equals(EnumCondType.XPATH)) {
+        UnicornCall.logger.trace("condObserver : " + cond.getObserver().getID());
+        Response res = mapOfResponse.get(cond.getObserver().getID());
+        // Testing if there is a matching response in the map
+        // and if it is passed
+        if (res != null) {
+            String xmlStr = res.getXml().toString();
+            
+            DocumentBuilderFactory xmlFact = DocumentBuilderFactory
+                .newInstance();
+            
+            // namespace awareness is escaped since we don't use it
+            // for the moment
+            xmlFact.setNamespaceAware(false);
+            
+            DocumentBuilder builder = xmlFact.newDocumentBuilder();
+            
+            Document doc = builder.parse(new java.io.ByteArrayInputStream(
+                                                                          xmlStr.getBytes()));
+            
+            String xpathStr = cond.getValue();
+            
+            XPathFactory xpathFact = new XPathFactoryImpl();
+            
+            XPath xpath = xpathFact.newXPath();
+            XPathExpression xpe = xpath.compile(xpathStr);
+            passed = (Boolean) xpe.evaluate(doc, XPathConstants.BOOLEAN);
+        }
+    }
 
 		cond.setResult(passed);
 		UnicornCall.logger.trace("cond result : " + passed);
@@ -937,10 +939,20 @@ class RequestThread extends Thread {
 			RequestThread.logger.error("Exception : " + e.getMessage(), e);
 			e.printStackTrace();
 			try {
-				aResponse = ResponseParserFactory.parse((new URL("file:"
-						+ Property.get("PATH_TO_ERROR_TEMPLATES")
-						+ "en_io_error.vm")).openConnection().getInputStream(),
-						aRequest.getResponseType());
+          StringBuilder builder = new StringBuilder();
+          // TODO should be first processed as a template
+          InputStreamReader isr = new InputStreamReader(new URL("file:"
+                                        + Property.get("PATH_TO_ERROR_TEMPLATES")
+                                        + "en_io_error.vm").openConnection().getInputStream());
+          char[] chararray = new char[8192];
+          int readLength = 0;
+          while((readLength = isr.read(chararray, 0, 8192)) > -1) {
+              builder.append(chararray, 0, readLength);
+          }
+          
+          aResponse = ResponseParserFactory.parse(builder.toString(), 
+                                                  this.aRequest.getResponseType());
+          aResponse.setXml(builder);
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			} catch (IOException e1) {

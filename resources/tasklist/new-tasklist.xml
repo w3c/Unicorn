@@ -4,77 +4,67 @@
  xmlns="http://www.w3.org/unicorn/tasklist">
 	
 	<task id="conformance">
-		
-		<routine ref="conformance">
-			<exec id="appc-check" value="appc-checker" type="observation"/>
-			<exec id="markup_and_css" value="markup_and_css" type="subtask"/>
-		</routine>
-		
+    
+    <conds>
+      <cond id="markup-valid" result="passed" observer="markup-validator" type="xpath">
+        <value>//passed = 'true'</value>
+      </cond>
+      
+      <cond id="is-html" result="passed" type="mimetype">
+        <value>text/html</value>
+      </cond>
+      <cond id="is-css" result="passed" type="mimetype">
+        <value>text/css</value>
+      </cond>
+    </conds>
+    <!--
+    <cond id="mathml" result="passed"  type="mimetype">
+      <value>application/mathml+xml</value>
+    </cond>
+    <cond id="smil" result="passed"  type="mimetype">
+      <value>application/smil+xml</value>
+    </cond>
+
+    <cond id="svg" result="passed" type="mimetype">
+      <value>image/svg+xml</value>
+    </cond>
+    <cond id="xhtml" result="passed" type="mimetype">
+      <value>application/xhtml+xml</value>
+    </cond>
+    -->
+
+    <routine>
+      <if test="is-css">
+        <then>
+          <exec id="css" value="css-validator" type="observation"/>
+        </then>
+        <else>
+          <exec id="markup" value="markup-validator" type="observation"/>
+          <if test="markup-valid">
+            <then>
+              <if test="is-html">
+                <then>
+                  <exec id="appc" value="appc-checker" type="observation"/>
+                </then>
+              </if>
+              <exec id="css" value="css-validator" type="observation"/>
+            </then>
+          </if>
+        </else>
+      </if>
+    </routine>
+
 		<outputseq>
 			<outputgroup id="1">
-				<tasksort>appc-checker</tasksort>
+				<tasksort>markup</tasksort>
+				<tasksort>appc</tasksort>
+			</outputgroup>
+      <outputgroup id="2">
+				<tasksort>css</tasksort>
 			</outputgroup>
 		</outputseq>
 
 		
-	</task>
-	
-	
-	
-	<task id="markup_and_css">
-
-		<conds>
-		
-			<cond id="xpath" result="passed" observer="markup-validator" type="xpath">
-				<value>//result</value>
-			</cond>
-		
-			<cond id="mathml" result="passed"  type="mimetype">
-				<value>application/mathml+xml</value>
-			</cond>
-			<cond id="smil" result="passed"  type="mimetype">
-				<value>application/smil+xml</value>
-			</cond>
-			
-			<cond id="html" result="passed" type="mimetype">
-				<value>text/html</value>
-			</cond>
-			<cond id="css" result="passed" type="mimetype">
-				<value>text/css</value>
-			</cond>
-			<cond id="svg" result="passed" type="mimetype">
-				<value>image/svg+xml</value>
-			</cond>
-			<cond id="xhtml" result="passed" type="mimetype">
-				<value>application/xhtml+xml</value>
-			</cond>
-		</conds>
-		
-		<routine ref="markup_and_css">
-			<exec id="markup" value="markup-validator" type="observation" >
-			</exec>
-
-			<if test ="xpath">
-				<then>
-					<exec id="css" value="css-validator" type="observation" >
-					</exec>
-				</then>
-			</if>
-
-		</routine>
-		
-		<outputseq>
-			<outputgroup id="2">
-				<tasksort>css-validator</tasksort>
-				<tasksort>markup-validator</tasksort>
-			</outputgroup>
-		</outputseq>
-		
-		
-	</task>
-	
-	
-
-	
+	</task>	
 	
 </tasklist>

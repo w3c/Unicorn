@@ -1,4 +1,4 @@
-// $Id: Property.java,v 1.3 2008-06-17 13:45:31 jbarouh Exp $
+// $Id: Property.java,v 1.4 2008-09-12 18:01:51 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -117,7 +117,7 @@ public class Property {
 				// the specific part is the last part of the property
 				break;
 			}
-		}
+		}    
 		Property.addProperty(aProperty);
 	}
 

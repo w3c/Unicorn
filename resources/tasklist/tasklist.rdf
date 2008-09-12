@@ -24,13 +24,5 @@
 		<ucn:description xml:lang="en">This task will do as much observations as possible.</ucn:description>
 		
 	</ucn:Task>
-	
-		<ucn:Task ucn:reference="markup_and_css">
-		<ucn:longName xml:lang="en">Markup and CSS Check</ucn:longName>
-		<ucn:longName xml:lang="fr">Vérifie la conformité Markup et CSS</ucn:longName>
-		<ucn:description xml:lang="en">This task will do Markup and CSS observations.</ucn:description>
-		
-	</ucn:Task>
-	
 
 </rdf:RDF>

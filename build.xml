@@ -14,7 +14,7 @@
 	<property name="password" value="******"/>
 	
     <path id="project.classpath">
-        <pathelement location="build"/>
+        <pathelement location="."/>
         <pathelement location="${unicorn.location}/lib/activation.jar"/>
         <pathelement location="${unicorn.location}/lib/commons-collections-3.1.jar"/>
         <pathelement location="${unicorn.location}/lib/commons-fileupload-1.1.1.jar"/>
@@ -61,7 +61,7 @@
     </target>
     <target name="build" depends="init">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac destdir="build">
+        <javac destdir="." debug="on" debuglevel="lines,vars,source">
             <src path="."/>
             <exclude name="lib/"/>
             <classpath refid="project.classpath"/>

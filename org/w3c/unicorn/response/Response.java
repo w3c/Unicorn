@@ -19,7 +19,7 @@ public class Response {
      * Result aResult = mapOfLangURIResult.get("fr").get("http://w3.org/home.css")
      */
     protected Map<String, Map<String, Result>> mapOfLangURIResult = new LinkedHashMap<String, Map<String,Result>>();
-    
+
     /**
      * Gets the value of the uri property.
      * 

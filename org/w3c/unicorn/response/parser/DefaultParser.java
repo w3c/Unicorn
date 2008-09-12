@@ -27,7 +27,6 @@ import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.response.Result;
 import org.w3c.unicorn.response.Warning;
 import org.w3c.unicorn.util.LocalizedString;
-import java.io.*;
 
 /**
  * Default parser class.
@@ -36,27 +35,6 @@ import java.io.*;
 public class DefaultParser implements ResponseParser {
 	protected static final Log logger = LogFactory
 			.getLog("org.w3c.unicorn.response.parser.DefaultParser");
-
-	/**
-	 * Parses the input and returns the response.
-	 * @param inputStream The input stream.
-	 * @return The corresponding response.
-	 */
-	public Response parse(InputStream inputStream) {
-			try {
-          org.w3.unicorn.observationresponse.ObservationresponseDocument ord = org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory.parse(inputStream);
-          return swap(ord);
-			} catch (XmlException e) {
-				e.printStackTrace();
-				logger.error("XMLBeansException : " + e.getMessage(), e);
-				return null;
-			} catch (IOException e) {
-				e.printStackTrace();
-				logger.error("XMLBeansException : " + e.getMessage(), e);
-				return null;
-      }
-
-	}
 
     /**
 	 * Parses the input and returns the response.

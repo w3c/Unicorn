@@ -31,26 +31,12 @@ public class ResponseParserFactory {
 	}
 	
 	/**
-	 * Parses the input stream thanks to a response parse and 
+	 * Parses the string thanks to a response parser and 
 	 * returns the response.
-	 * @param is The input stream.
+	 * @param r the string
 	 * @param responseType The type of the response.
 	 * @return The response parsed corresponding to the input.
 	 */
-	public static Response parse(InputStream is, String responseType) {
-		try {
-			Response response = createResponseParser(responseType).parse(is);
-			return response;
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	} 
-
     public static Response parse(String r, String responseType) {
 		try {
 			Response response = createResponseParser(responseType).parse(r);

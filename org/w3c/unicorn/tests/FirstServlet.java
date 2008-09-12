@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.11 2008-07-02 17:34:47 jean-gui Exp $
+// $Id: FirstServlet.java,v 1.12 2008-09-12 18:01:51 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -63,32 +63,12 @@ public class FirstServlet extends HttpServlet {
 	@Override
 	public void init (final ServletConfig aServletConfig) throws ServletException {
 		FirstServlet.logger.trace("init");
-		// UNICORN_HOME is not set by the properties file, so we try to get it
-		// from the servlet
-		//if(props.getProperty("UNICORN_HOME") == null) {
-		String sPathToServlet = aServletConfig.getServletContext().getRealPath("/") + "/";
-		// Hack for Jigsaw
-		if ("jigsaw".equals(Property.get("SERVER_TYPE"))) {
-			sPathToServlet += aServletConfig.getServletName() + "/";
-		}
-		/* // TODO replace by org.w3c.unicorn.util.Property
-		if (Configuration.get("SERVER_TYPE").equals("jigsaw")) {
-			sPathToServlet += aServletConfig.getServletName() + "/";				
-		}
-		*/
-		final Property aProperty = Property.getProperty("UNICORN_HOME");
-		aProperty.clear();
-		aProperty.setSpecific(sPathToServlet);
-		
-		/*// TODO change to use util.Property
-		for (final String sProp : Configuration.getConfiguration()) {
-			FirstServlet.logger.debug("Property : "+sProp+".");
-		}*/
-		
+
 		FirstServlet.factory.setRepository(
 				new File(Property.get("UPLOADED_FILES_REPOSITORY")));
+
 		try {
-			IndexGenerator.generateIndexes();
+        IndexGenerator.generateIndexes();
 		}
 		catch (final ResourceNotFoundException e) {
 			FirstServlet.logger.error("ResourceNotFoundException : "+e.getMessage(), e);
@@ -103,6 +83,7 @@ public class FirstServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		FirstServlet.logger.info("End of initialisation of servlet.");
+
 	}
 
 	/* (non-Javadoc)
