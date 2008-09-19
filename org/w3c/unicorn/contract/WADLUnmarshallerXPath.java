@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.8 2008-09-08 12:48:38 jbarouh Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.9 2008-09-19 18:57:12 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -341,12 +341,10 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 				}
 			}
 
-			InputMethod aInputMethod = new InputMethod();
+			InputMethod aInputMethod = new InputMethod(sInputMethod);
 			aInputMethod.setCallMethod(aCallMethod);
 			aInputMethod.setCallParameter(aCallMethod
 					.getCallParameterByName(sInputParamName));
-			aInputMethod.setListOfMimeType(this.listOfMimeType);
-			// aInputMethod.setCallParameter(aInputMethod.getCallMethod().getMapOfCallParameter().get(sParameterName));
 			if ("URI".equals(sInputMethod)) {
 				this.mapOfInputMethod.put(EnumInputMethod.URI, aInputMethod);
 			} else if ("UPLOAD".equals(sInputMethod)) {
@@ -431,6 +429,10 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	public String getResponseType() {
 		return responseType;
 	}
+
+  public List<MimeType> getSupportedMimeTypes() {
+    return this.listOfMimeType;
+  }
 
 	/**
 	 * Main method of the class only for testing purpose

@@ -27,6 +27,9 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 	 * Escape the XML entities for all inserted references.
 	 */
 	public Object referenceInsert(final String sUnused, final Object oValue) {
+    if(oValue == null) {
+      return null;
+    }
 		if (oValue instanceof A) {
 			A link = (A) oValue;
 			return insertA(link);

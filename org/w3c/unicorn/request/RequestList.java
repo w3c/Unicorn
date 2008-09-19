@@ -1,4 +1,4 @@
-// $Id: RequestList.java,v 1.5 2008-09-08 12:45:30 jbarouh Exp $
+// $Id: RequestList.java,v 1.6 2008-09-19 18:57:12 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

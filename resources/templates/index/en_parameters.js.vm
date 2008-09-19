@@ -76,17 +76,9 @@
 #end
 
 #macro(createMimes $task)
-	#set($alreadyPresent = [])
 	'<select name="ucn_text_mime">' +
-	#foreach($obs in $task.getMapOfObservation())  
-		#foreach($mime in $obs.getMapOfMimeTypePriority().keySet())
-			#set($sMime = $mime.toString())
-			#if(!$alreadyPresent.contains($sMime))
-				'<option value="$mime">$mime</option>' +
-				## if to avoid output print from add function call
-				#if($alreadyPresent.add($mime.toString())) #end
-			#end
-		#end
+	#foreach($mime in $task.SupportedMimeTypes)  
+			'<option value="$mime">$mime</option>' +
 	#end
 	'</select>'
 #end

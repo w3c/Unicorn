@@ -1,4 +1,4 @@
-// $Id: Task.java,v 1.3 2008-09-02 13:22:15 fbatard Exp $
+// $Id: Task.java,v 1.4 2008-09-19 18:57:12 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.activation.MimeType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +18,7 @@ import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
 import org.w3c.unicorn.util.LocalizedString;
+import org.w3c.unicorn.contract.Observer;
 
 /**
  * Task<br />
@@ -282,6 +284,30 @@ public class Task {
 	public List<String> getListOfReference() {
 		return this.listOfReference;
 	}
+
+    public List<Observer> getAllObservers() {
+        if(this.getTree() != null) {
+            return this.getTree().getAllObservers();
+        }
+        return new ArrayList<Observer>();
+    }
+
+    // MimeType's equals() doesn't work as expected
+    // so it's easier to store the String representation
+    // of mime types :-/
+    public List<String> getSupportedMimeTypes() {
+        List<String> res = new ArrayList<String>();
+        List<Observer> observers = getAllObservers();
+        for(Observer o : observers) {
+            List<MimeType> mimes = o.getSupportedMimeTypes();
+            for(MimeType m : mimes) {
+                if(!res.contains(m.toString())) {
+                    res.add(m.toString());
+                }
+            }
+        }
+        return res;
+    }
 
 	/**
 	 * Recursively expands this task and referenced ones and merges observations

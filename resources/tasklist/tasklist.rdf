@@ -21,8 +21,31 @@
 	<ucn:Task ucn:reference="conformance">
 		<ucn:longName xml:lang="en">General Conformance Check</ucn:longName>
 		<ucn:longName xml:lang="fr">Vérifie la conformité générale</ucn:longName>
-		<ucn:description xml:lang="en">This task will do as much observations as possible.</ucn:description>
-		
+		<ucn:description xml:lang="en">This task will do as much observations as possible.</ucn:description>		
+	</ucn:Task>
+
+	<ucn:Task ucn:reference="full-css">
+		<ucn:longName xml:lang="en">Global CSS Validation</ucn:longName>
+
+    <ucn:hasParameter>
+			<ucn:Radio ucn:reference="warning" ucn:default="0" ucn:observer="css-validator">
+				<ucn:longName xml:lang="en">Warning</ucn:longName>
+				<ucn:longName xml:lang="fr">Alerte</ucn:longName>
+			</ucn:Radio>
+		</ucn:hasParameter>
+		<ucn:hasParameter>
+			<ucn:CheckBoxList ucn:reference="usermedium" ucn:default="all" ucn:observer="css-validator">
+				<ucn:longName xml:lang="en">User Medium</ucn:longName>
+				<ucn:longName xml:lang="fr">Medium</ucn:longName>
+			</ucn:CheckBoxList>
+		</ucn:hasParameter>
+		<ucn:hasParameter>
+			<ucn:Parameter ucn:reference="output">
+				<ucn:longName xml:lang="en">Output</ucn:longName>
+				<ucn:longName xml:lang="fr">Sortie</ucn:longName>
+			</ucn:Parameter>
+		</ucn:hasParameter>
+
 	</ucn:Task>
 
 </rdf:RDF>

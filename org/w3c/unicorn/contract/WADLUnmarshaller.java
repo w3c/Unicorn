@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshaller.java,v 1.4 2008-06-17 13:41:12 fbatard Exp $
+// $Id: WADLUnmarshaller.java,v 1.5 2008-09-19 18:57:11 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.w3c.unicorn.util.LocalizedString;
 import org.w3c.unicorn.util.Unmarshaller;
+
+import javax.activation.MimeType;
 
 /**
  * WADLUnmarshallerXPath<br />
@@ -36,5 +38,7 @@ public interface WADLUnmarshaller extends Unmarshaller {
 	public String getNameOfLangParameter();
 
 	public String getResponseType();
+
+  public List<MimeType> getSupportedMimeTypes();
 
 }

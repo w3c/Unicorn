@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.21 2008-09-12 18:01:51 jean-gui Exp $
+// $Id: UnicornCall.java,v 1.22 2008-09-19 18:57:11 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -56,7 +56,7 @@ import com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl;
 
 /**
  * UnicornCall Created: Jun 29, 2006 2:44:12 PM
- * 
+ *
  * @author Jean-Guilhem Rouel
  */
 public class UnicornCall {
@@ -116,7 +116,7 @@ public class UnicornCall {
 
 	/**
 	 * Execute the task aTask
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void doTask() throws Exception {
@@ -133,55 +133,7 @@ public class UnicornCall {
 		}
 
 		// find mimetype of the document
-		UnicornCall.logger.info("Check MimeType.");
-		MimeType aMimeType = null;
-		String sMimeType;
-		switch (this.aEnumInputMethod) {
-		case URI:
-			sMimeType = (new URL(this.sDocumentName)).openConnection()
-					.getContentType();
-			if (null == sMimeType || "".equals(sMimeType)) {
-				UnicornCall.logger.error("No specified mimetype for upload.");
-				throw new NoMimeTypeException("Mimetype not found");
-			}
-			if (UnicornCall.logger.isDebugEnabled()) {
-				UnicornCall.logger.debug("URI MimeType : " + sMimeType + ".");
-			}
-			sMimeType = sMimeType.split(";")[0];
-			aMimeType = new MimeType(sMimeType);
-			break;
-		case UPLOAD:
-			FileItem f = (FileItem) this.oInputParameterValue;
-			if (f.getName() == null || f.getName().equals("")) {
-				UnicornCall.logger.error("No document privided.");
-				throw new NoDocumentException("No document provided");
-			}
-			if (f.getSize() == 0) {
-				UnicornCall.logger.error("Empty document provided.");
-				throw new EmptyDocumentException("Empty document provided");
-			}
-
-			sMimeType = ((FileItem) this.oInputParameterValue).getContentType();
-			if (null == sMimeType || "".equals(sMimeType)) {
-				UnicornCall.logger.error("No specified mimetype for upload.");
-				throw new NoMimeTypeException("Mimetype not found");
-			}
-			aMimeType = new MimeType(sMimeType);
-			break;
-		case DIRECT:
-			sMimeType = this.mapOfStringParameter.get("ucn_mime")[0];
-			if (null == sMimeType || "".equals(sMimeType)) {
-				UnicornCall.logger
-						.error("No mimetype specified for direct input.");
-				throw new NoMimeTypeException("Mimetype not found.");
-			}
-			aMimeType = new MimeType(sMimeType);
-			break;
-		}
-		if (UnicornCall.logger.isDebugEnabled()) {
-			UnicornCall.logger
-					.debug("MimeType : " + aMimeType.toString() + ".");
-		}
+		MimeType aMimeType = this.getMimeType();
 
 		// Create input method
 		final InputFactory aInputFactory = new InputFactory(aMimeType,
@@ -195,7 +147,7 @@ public class UnicornCall {
 	/**
 	 * Main function called to do the recursion over the Task tree to launch the
 	 * requests
-	 * 
+	 *
 	 * @param aInputFactory
 	 *            InputFactory used for the resquests
 	 * @param node
@@ -243,7 +195,7 @@ public class UnicornCall {
 	/**
 	 * Check the conditions of the if branch it makes a OR between all
 	 * conditions
-	 * 
+	 *
 	 * @param ifs
 	 *            the if branch to check
 	 * @return whether or not the conditions are true
@@ -269,7 +221,7 @@ public class UnicornCall {
 
 	/**
 	 * Creates the map of all the Observer to call in the current node
-	 * 
+	 *
 	 * @param node
 	 *            the current node of the Task tree we are parsing
 	 */
@@ -297,7 +249,7 @@ public class UnicornCall {
 
 	/**
 	 * Change the value the boolean bPassed
-	 * 
+	 *
 	 * @param b
 	 *            new value
 	 */
@@ -307,7 +259,7 @@ public class UnicornCall {
 
 	/**
 	 * getter for bPassed
-	 * 
+	 *
 	 * @return the value of bPassed
 	 */
 	public boolean getBPassed() {
@@ -316,7 +268,7 @@ public class UnicornCall {
 
 	/**
 	 * Execute the request depending on the priority
-	 * 
+	 *
 	 * @param aTPriority
 	 *            priority of the request
 	 * @throws IOException
@@ -357,7 +309,7 @@ public class UnicornCall {
 
 	/**
 	 * Generate the list of the request for the call
-	 * 
+	 *
 	 * @param aInputFactory
 	 *            Input factory for the parameter
 	 * @param mapOfArrayUseParameter
@@ -393,89 +345,41 @@ public class UnicornCall {
 		for (final Observer aObserver : this.createExecList(node).values()) {
 			final String sObserverID = aObserver.getID();
 			// add only observer who handle the current mimetype
-			if (!aObserver.canHandleMimeType(aMimeType, aEnumInputMethod)) {
+			if (!aObserver.canHandleMimeType(aMimeType)) {
 				if (UnicornCall.logger.isDebugEnabled()) {
 					UnicornCall.logger.debug("Observer " + sObserverID
-							+ " not handle mime type " + aMimeType.toString()
-							+ " with input method "
-							+ aEnumInputMethod.toString() + ".");
+                      + " does not handle mime type " + aMimeType.toString());
 				}
+        continue;
+      }
+      // the best available observation method
+      final InputMethod aInputMethod = aObserver.getBestInputMethod(aEnumInputMethod);
 
-				for (final EnumInputMethod aEIM : EnumInputMethod.values()) {
-					if (aEnumInputMethod == aEIM) {
-						continue;
-					}
-					if (!aObserver.canHandleMimeType(aMimeType, aEIM)) {
+      // create a new request with input parameter
+      final Request aRequest = Request.createRequest(
+                                                     // the corresponding best input module
+                                                     aInputFactory.getInputModule(aInputMethod.getMethod()),
+                                                     // URL of the service to call
+                                                     aInputMethod.getCallMethod().getURL().toString(),
+                                                     // Name of the parameter holding resource information
+                                                     // (uri,url,txt,text,file,...)
+                                                     aInputMethod.getCallParameter().getName(),
+                                                     // Has a file been uploaded?
+                                                     aInputMethod.getCallMethod().isPost(),
+                                                     // Response format
+                                                     aObserver.getResponseType());
 
-						if (UnicornCall.logger.isDebugEnabled()) {
-							UnicornCall.logger.debug("Observer " + sObserverID
-									+ " not handle mime type "
-									+ aMimeType.toString()
-									+ " with input method " + aEIM.toString()
-									+ ".");
-						}
-						continue;
-					}
+      // add this request to request list
+      aRequestList.addRequest(aRequest, aObserver.getID());
+			
+      // log debug information
+      if (UnicornCall.logger.isDebugEnabled()) {
+          UnicornCall.logger.debug("Redirect request " + aRequest
+                                   + " from " + aEnumInputMethod + " to " + aInputMethod.getMethod()
+                                   + " added to request list.");
+      }
 
-					if (UnicornCall.logger.isDebugEnabled()) {
-						UnicornCall.logger
-								.debug("Observer " + sObserverID
-										+ " handle mime type "
-										+ aMimeType.toString()
-										+ " with input method "
-										+ aEIM.toString() + ".");
-					}
-
-					final InputMethod aInputMethod = aObserver
-							.getInputMethod(aEIM);
-					// create a new request with input parameter
-					final Request aRequest = Request.createRequest(
-							aInputFactory.getInputModule(aEIM), aInputMethod
-									.getCallMethod().getURL().toString(),
-							aInputMethod.getCallParameter().getName(),
-							aInputMethod.getCallMethod().isPost(), aObserver
-									.getResponseType());
-					// add this request to request list
-
-					aRequestList.addRequest(aRequest, aObserver.getID());
-					// log debug information
-					if (UnicornCall.logger.isDebugEnabled()) {
-						UnicornCall.logger.debug("Redirect request " + aRequest
-								+ " from " + aEnumInputMethod + " to " + aEIM
-								+ " added to request list.");
-					}
-					// add required parameter
-					for (final CallParameter aCallParameter : aObserver
-							.getCallMethod(aEIM).getMapOfCallParameter()
-							.values()) {
-						if (aCallParameter.isRequired()
-								&& aCallParameter.isFixed()) {
-							aRequest.addParameter(aCallParameter.getName(),
-									aCallParameter.getFixed());
-						}
-					}
-					break;
-				}
-
-				// check the code to redirect to an other
-				// input method if it handle mime type
-				if (UnicornCall.logger.isDebugEnabled()) {
-					UnicornCall.logger.debug("Observation " + sObserverID
-							+ " does not handle mimetype "
-							+ aMimeType.toString() + " with any input method.");
-				}
-				continue;
-			}
-			final InputMethod aInputMethod = aObserver
-					.getInputMethod(aEnumInputMethod);
-
-			// Create a new request with input parameter
-			final Request aRequest = Request.createRequest(aInputFactory
-					.getInputModule(aEnumInputMethod), aInputMethod
-					.getCallMethod().getURL().toString(), aInputMethod
-					.getCallParameter().getName(), aInputMethod.getCallMethod()
-					.isPost(), aObserver.getResponseType());
-
+    
 			// Get value of ucn_lang parameter to associate it with parameter
 			// lang of the observer (if it has one).
 			// ucn_lang is defined in forms of index templates
@@ -493,20 +397,24 @@ public class UnicornCall {
 
 			// Add this request to request list
 			aRequestList.addRequest(aRequest, aObserver.getID());
+
 			// Log debug information
 			if (UnicornCall.logger.isDebugEnabled()) {
 				UnicornCall.logger.debug("Request " + aRequest
 						+ " added to request list.");
 			}
-			// Add required parameter
+			
+      // Add fixed parameter
+      for (final CallParameter aCallParameter : aObserver
+               .getCallMethod(aInputMethod.getMethod()).getMapOfCallParameter()
+               .values()) {
+          if (aCallParameter.isRequired()
+              && aCallParameter.isFixed()) {
+							aRequest.addParameter(aCallParameter.getName(),
+                                    aCallParameter.getFixed());
+          }
+      }
 
-			for (final CallParameter aCallParameter : aObserver.getCallMethod(
-					aEnumInputMethod).getMapOfCallParameter().values()) {
-				if (aCallParameter.isRequired() && aCallParameter.isFixed()) {
-					aRequest.addParameter(aCallParameter.getName(),
-							aCallParameter.getFixed());
-				}
-			}
 		} // foreach this.aTask.getMapOfObservation().values()
 
 		// Iterate over all parameter of this task to add at the
@@ -586,8 +494,9 @@ public class UnicornCall {
 				final Value aValue = mapOfValue.get(sUseParameterValue);
 				final Map<String, List<Mapping>> mapOfMapping = aValue
 						.getMapOfMapping();
+
 				for (final String sObserverName : mapOfMapping.keySet()) {
-					
+
 					if (aRequestList.getRequest(sObserverName)!=null) {
 						final Request aRequest = aRequestList
 								.getRequest(sObserverName);
@@ -615,7 +524,7 @@ public class UnicornCall {
 
 	/**
 	 * Returns the responses of low priority observations.
-	 * 
+	 *
 	 * @return responses of low priority observations.
 	 */
 	public Map<String, Response> getResponses() {
@@ -624,7 +533,7 @@ public class UnicornCall {
 
 	/**
 	 * Set the task to perform
-	 * 
+	 *
 	 * @param sTaskID
 	 *            ID of the task to perform
 	 */
@@ -643,7 +552,7 @@ public class UnicornCall {
 
 	/**
 	 * define the lang of the check
-	 * 
+	 *
 	 * @param sLang
 	 *            defines the lang to configure
 	 */
@@ -654,7 +563,7 @@ public class UnicornCall {
 
 	/**
 	 * Returns the document name
-	 * 
+	 *
 	 * @return Returns the documentName.
 	 */
 	public String getDocumentName() {
@@ -663,7 +572,7 @@ public class UnicornCall {
 
 	/**
 	 * Set the name of the document
-	 * 
+	 *
 	 * @param sDocumentName
 	 *            The documentName to set.
 	 */
@@ -673,7 +582,7 @@ public class UnicornCall {
 
 	/**
 	 * Gives the list of the observations
-	 * 
+	 *
 	 * @return map of the observations of the check
 	 */
 	public Map<String, Response> getObservationList() {
@@ -689,7 +598,7 @@ public class UnicornCall {
 
 	/**
 	 * Enter a new parameter in the list
-	 * 
+	 *
 	 * @param sName
 	 *            Name of the parameter
 	 * @param tStringValue
@@ -716,7 +625,7 @@ public class UnicornCall {
 
 	/**
 	 * Set the map of String Parameter
-	 * 
+	 *
 	 * @param mapOfStringParameter
 	 *            The mapOfStringParameter to set.
 	 */
@@ -727,7 +636,7 @@ public class UnicornCall {
 
 	/**
 	 * Returns the current task
-	 * 
+	 *
 	 * @return Returns the current task.
 	 */
 	public Task getTask() {
@@ -736,7 +645,7 @@ public class UnicornCall {
 
 	/**
 	 * Set the aEnumInputMethod
-	 * 
+	 *
 	 * @param enumInputMethod
 	 *            The aEnumInputMethod to set.
 	 */
@@ -746,7 +655,7 @@ public class UnicornCall {
 
 	/**
 	 * Set the uploadedFile
-	 * 
+	 *
 	 * @param uploadedFile
 	 *            The uploadedFile to set.
 	 */
@@ -757,7 +666,7 @@ public class UnicornCall {
 	/**
 	 * Giving a TLTCond, checks in the map of response if the condition passes
 	 * or fails and consequently returns a boolean.
-	 * 
+	 *
 	 * @param cond
 	 *            The condition to check
 	 * @return true if there is a matching response and if the condition passes
@@ -771,7 +680,7 @@ public class UnicornCall {
 		UnicornCall.logger.trace("condValue : " + cond.getValue());
 
 		boolean passed = false;
-    
+
     if (cond.getType().equals(EnumCondType.MIMETYPE)) {
 				passed = cond.getValue().equals(getMimeType().toString());
     }
@@ -782,23 +691,23 @@ public class UnicornCall {
         // and if it is passed
         if (res != null) {
             String xmlStr = res.getXml().toString();
-            
+
             DocumentBuilderFactory xmlFact = DocumentBuilderFactory
                 .newInstance();
-            
+
             // namespace awareness is escaped since we don't use it
             // for the moment
             xmlFact.setNamespaceAware(false);
-            
+
             DocumentBuilder builder = xmlFact.newDocumentBuilder();
-            
+
             Document doc = builder.parse(new java.io.ByteArrayInputStream(
                                                                           xmlStr.getBytes()));
-            
+
             String xpathStr = cond.getValue();
-            
+
             XPathFactory xpathFact = new XPathFactoryImpl();
-            
+
             XPath xpath = xpathFact.newXPath();
             XPathExpression xpe = xpath.compile(xpathStr);
             passed = (Boolean) xpe.evaluate(doc, XPathConstants.BOOLEAN);
@@ -811,11 +720,11 @@ public class UnicornCall {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The MimeType of the document
 	 * @throws Exception
 	 */
-	public MimeType getMimeType() throws Exception {
+	private MimeType getMimeType() throws Exception {
 
 		UnicornCall.logger.trace("getMimeType");
 		MimeType aMimeType = null;
@@ -875,9 +784,9 @@ public class UnicornCall {
 
 /**
  * Thread executing a request
- * 
+ *
  * @author Damien Leroy
- * 
+ *
  */
 class RequestThread extends Thread {
 	/**
@@ -907,7 +816,7 @@ class RequestThread extends Thread {
 
 	/**
 	 * Initialize the thread by filling the properties
-	 * 
+	 *
 	 * @param mapOfResponse
 	 *            the map of the responses
 	 * @param aRequest
@@ -930,7 +839,6 @@ class RequestThread extends Thread {
 	 * Allow to launch the thread
 	 */
 	public void run() {
-
 		this.unicornCall.incCounter();
 		Response aResponse = null;
 		try {
@@ -949,8 +857,8 @@ class RequestThread extends Thread {
           while((readLength = isr.read(chararray, 0, 8192)) > -1) {
               builder.append(chararray, 0, readLength);
           }
-          
-          aResponse = ResponseParserFactory.parse(builder.toString(), 
+
+          aResponse = ResponseParserFactory.parse(builder.toString(),
                                                   this.aRequest.getResponseType());
           aResponse.setXml(builder);
 			} catch (MalformedURLException e1) {

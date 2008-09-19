@@ -45,7 +45,7 @@ public class DefaultParser implements ResponseParser {
 			try {
           org.w3.unicorn.observationresponse.ObservationresponseDocument ord = org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory.parse(r);
           return swap(ord);
-			} catch (XmlException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error("XMLBeansException : " + e.getMessage(), e);
 				return null;

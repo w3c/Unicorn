@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.16 2008-09-12 18:01:51 jean-gui Exp $
+// $Id: Framework.java,v 1.17 2008-09-19 18:57:11 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -183,6 +183,7 @@ public class Framework {
 							.getMapOfInputMethod());
 					aObserver.setResponseType(aWADLUnmarshaller
 							.getResponseType());
+          aObserver.setSupportedMimeTypes(aWADLUnmarshaller.getSupportedMimeTypes());
 					Framework.mapOfObserver.put(new String(aObserver.getID()),
 							aObserver);
 				} catch (final Exception e) {
@@ -211,7 +212,7 @@ public class Framework {
 		try {
 			// parse all the task files
 			final File[] tFileXML = ListFiles.listFiles(Property
-					.get("PATH_TO_TASKLIST"), "\\.xml");
+					.get("PATH_TO_TASKLIST"), "\\.xml$");
 
 			final TasksListUnmarshaller aTaskListUnmarshaller = 
 				new TaskListUnmarshallerBeans(Framework.mapOfObserver);
@@ -221,7 +222,7 @@ public class Framework {
 			aTaskListUnmarshaller.unmarshal();
 			
 			final File[] tFileRDF = ListFiles.listFiles(Property
-					.get("PATH_TO_TASKLIST"), "\\.rdf");
+					.get("PATH_TO_TASKLIST"), "\\.rdf$");
 			final RDFUnmarshaller aRDFUnmarshaller = new RDFUnmarshallerJena();
 			aRDFUnmarshaller.setMapOfTask(aTaskListUnmarshaller.getMapOfTask());
 			aRDFUnmarshaller.setMapOfObserver(Framework.mapOfObserver);

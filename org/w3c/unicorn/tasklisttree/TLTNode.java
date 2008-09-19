@@ -1,9 +1,12 @@
 package org.w3c.unicorn.tasklisttree;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.w3c.unicorn.contract.Observer;
 
 /**
  * Class made to manage the execution
@@ -82,11 +85,33 @@ public class TLTNode {
 	 * 
 	 * @return The list of executions
 	 */
-	public ArrayList<TLTExec> getExecutionList() {
+	public List<TLTExec> getExecutionList() {
 		TLTNode.logger.trace("getExecutionList");
 		return executionList;
 	}
 	
+    public List<Observer> getAllObservers() {
+        List<Observer> res = new ArrayList();
+        getAllObserversRec(res);
+        return res;
+    }
+
+    private void getAllObserversRec(List<Observer> res) {
+        // Add every observers directly under this TLTNode
+        for(TLTExec exec : this.executionList) {
+            Observer o = exec.getObserver();
+            if(!res.contains(o)) {
+                res.add(o);
+            }
+        }
+
+        // Recursively add observers in <if> elements
+        for(TLTIf ifNode : this.ifList) {
+            ifNode.getIfOk().getAllObserversRec(res);
+            ifNode.getIfNotOk().getAllObserversRec(res);
+        }
+    }
+
 	/**
 	 * 
 	 * @return The list of "ifs"
