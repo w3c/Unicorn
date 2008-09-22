@@ -39,12 +39,6 @@
 				<ucn:longName xml:lang="fr">Medium</ucn:longName>
 			</ucn:CheckBoxList>
 		</ucn:hasParameter>
-		<ucn:hasParameter>
-			<ucn:Parameter ucn:reference="output">
-				<ucn:longName xml:lang="en">Output</ucn:longName>
-				<ucn:longName xml:lang="fr">Sortie</ucn:longName>
-			</ucn:Parameter>
-		</ucn:hasParameter>
 
 	</ucn:Task>
 

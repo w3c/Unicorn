@@ -105,70 +105,70 @@
 
       <parameter name="usermedium" type="checkboxlist" default="all">
         <value name="all">
-          <mapped param="output" observer="css1-validator" value="all" />
-          <mapped param="output" observer="css2-validator" value="all" />
-          <mapped param="output" observer="css21-validator" value="all" />
-          <mapped param="output" observer="css3-validator" value="all" />
+          <mapped param="usermedium" observer="css1-validator" value="all" />
+          <mapped param="usermedium" observer="css2-validator" value="all" />
+          <mapped param="usermedium" observer="css21-validator" value="all" />
+          <mapped param="usermedium" observer="css3-validator" value="all" />
         </value>
         <value name="aural">
-          <mapped param="output" observer="css1-validator" value="aural" />
-          <mapped param="output" observer="css2-validator" value="aural" />
-          <mapped param="output" observer="css21-validator" value="aural" />
-          <mapped param="output" observer="css3-validator" value="aural" />
+          <mapped param="usermedium" observer="css1-validator" value="aural" />
+          <mapped param="usermedium" observer="css2-validator" value="aural" />
+          <mapped param="usermedium" observer="css21-validator" value="aural" />
+          <mapped param="usermedium" observer="css3-validator" value="aural" />
         </value>
         <value name="braille">
-          <mapped param="output" observer="css1-validator" value="braille" />
-          <mapped param="output" observer="css2-validator" value="braille" />
-          <mapped param="output" observer="css21-validator" value="braille" />
-          <mapped param="output" observer="css3-validator" value="braille" />
+          <mapped param="usermedium" observer="css1-validator" value="braille" />
+          <mapped param="usermedium" observer="css2-validator" value="braille" />
+          <mapped param="usermedium" observer="css21-validator" value="braille" />
+          <mapped param="usermedium" observer="css3-validator" value="braille" />
         </value>
         <value name="embossed">
-          <mapped param="output" observer="css1-validator" value="embossed" />
-          <mapped param="output" observer="css2-validator" value="embossed" />
-          <mapped param="output" observer="css21-validator" value="embossed" />
-          <mapped param="output" observer="css3-validator" value="embossed" />
+          <mapped param="usermedium" observer="css1-validator" value="embossed" />
+          <mapped param="usermedium" observer="css2-validator" value="embossed" />
+          <mapped param="usermedium" observer="css21-validator" value="embossed" />
+          <mapped param="usermedium" observer="css3-validator" value="embossed" />
         </value>
         <value name="handheld">
-          <mapped param="output" observer="css1-validator" value="handheld" />
-          <mapped param="output" observer="css2-validator" value="handheld" />
-          <mapped param="output" observer="css21-validator" value="handheld" />
-          <mapped param="output" observer="css3-validator" value="handheld" />
+          <mapped param="usermedium" observer="css1-validator" value="handheld" />
+          <mapped param="usermedium" observer="css2-validator" value="handheld" />
+          <mapped param="usermedium" observer="css21-validator" value="handheld" />
+          <mapped param="usermedium" observer="css3-validator" value="handheld" />
         </value>
         <value name="print">
-          <mapped param="output" observer="css1-validator" value="print" />
-          <mapped param="output" observer="css2-validator" value="print" />
-          <mapped param="output" observer="css21-validator" value="print" />
-          <mapped param="output" observer="css3-validator" value="print" />
+          <mapped param="usermedium" observer="css1-validator" value="print" />
+          <mapped param="usermedium" observer="css2-validator" value="print" />
+          <mapped param="usermedium" observer="css21-validator" value="print" />
+          <mapped param="usermedium" observer="css3-validator" value="print" />
         </value>
         <value name="projection">
-          <mapped param="output" observer="css1-validator" value="projection" />
-          <mapped param="output" observer="css2-validator" value="projection" />
-          <mapped param="output" observer="css21-validator" value="projection" />
-          <mapped param="output" observer="css3-validator" value="projection" />
+          <mapped param="usermedium" observer="css1-validator" value="projection" />
+          <mapped param="usermedium" observer="css2-validator" value="projection" />
+          <mapped param="usermedium" observer="css21-validator" value="projection" />
+          <mapped param="usermedium" observer="css3-validator" value="projection" />
         </value>
         <value name="screen">
-          <mapped param="output" observer="css1-validator" value="screen" />
-          <mapped param="output" observer="css2-validator" value="screen" />
-          <mapped param="output" observer="css21-validator" value="screen" />
-          <mapped param="output" observer="css3-validator" value="screen" />
+          <mapped param="usermedium" observer="css1-validator" value="screen" />
+          <mapped param="usermedium" observer="css2-validator" value="screen" />
+          <mapped param="usermedium" observer="css21-validator" value="screen" />
+          <mapped param="usermedium" observer="css3-validator" value="screen" />
         </value>
         <value name="tty">
-          <mapped param="output" observer="css1-validator" value="tty" />
-          <mapped param="output" observer="css2-validator" value="tty" />
-          <mapped param="output" observer="css21-validator" value="tty" />
-          <mapped param="output" observer="css3-validator" value="tty" />
+          <mapped param="usermedium" observer="css1-validator" value="tty" />
+          <mapped param="usermedium" observer="css2-validator" value="tty" />
+          <mapped param="usermedium" observer="css21-validator" value="tty" />
+          <mapped param="usermedium" observer="css3-validator" value="tty" />
         </value>
         <value name="tv">
-          <mapped param="output" observer="css1-validator" value="tv" />
-          <mapped param="output" observer="css2-validator" value="tv" />
-          <mapped param="output" observer="css21-validator" value="tv" />
-          <mapped param="output" observer="css3-validator" value="tv" />
+          <mapped param="usermedium" observer="css1-validator" value="tv" />
+          <mapped param="usermedium" observer="css2-validator" value="tv" />
+          <mapped param="usermedium" observer="css21-validator" value="tv" />
+          <mapped param="usermedium" observer="css3-validator" value="tv" />
         </value>
         <value name="presentation">
-          <mapped param="output" observer="css1-validator" value="presentation" />
-          <mapped param="output" observer="css2-validator" value="presentation" />
-          <mapped param="output" observer="css21-validator" value="presentation" />
-          <mapped param="output" observer="css3-validator" value="presentation" />
+          <mapped param="usermedium" observer="css1-validator" value="presentation" />
+          <mapped param="usermedium" observer="css2-validator" value="presentation" />
+          <mapped param="usermedium" observer="css21-validator" value="presentation" />
+          <mapped param="usermedium" observer="css3-validator" value="presentation" />
         </value>
       </parameter>
 
