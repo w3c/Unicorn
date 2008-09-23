@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.9 2008-09-23 13:53:58 jean-gui Exp $
+// $Id: Request.java,v 1.10 2008-09-23 14:26:19 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -137,7 +137,7 @@ public abstract class Request {
 	
   protected Response streamToResponse(InputStream is) throws IOException {
       StringBuilder builder = new StringBuilder();
-      InputStreamReader isr = new InputStreamReader(is);
+      InputStreamReader isr = new InputStreamReader(is, "UTF-8");
       char[] chararray = new char[8192];
       int readLength = 0;
       while((readLength = isr.read(chararray, 0, 8192)) > -1) {
