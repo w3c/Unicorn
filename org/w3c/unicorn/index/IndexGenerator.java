@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.5 2008-09-12 18:01:51 jean-gui Exp $
+// $Id: IndexGenerator.java,v 1.6 2008-09-23 13:53:58 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,11 +6,12 @@ package org.w3c.unicorn.index;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -115,9 +116,9 @@ public class IndexGenerator {
 			final Template aTemplate = IndexGenerator.aVelocityEngine
 					.getTemplate(sName, "UTF-8");
 
-			final FileWriter aFileWriter = new FileWriter(Property
-					.get("PATH_TO_INDEX_OUTPUT")
-					+ sOutputName);
+      OutputStreamWriter aFileWriter = new OutputStreamWriter(new FileOutputStream(Property.get("PATH_TO_INDEX_OUTPUT") 
+                                                                                   + sOutputName),
+                                                              "UTF-8");
 			aTemplate.merge(IndexGenerator.aVelocityContext, aFileWriter);
 			aFileWriter.close();
 

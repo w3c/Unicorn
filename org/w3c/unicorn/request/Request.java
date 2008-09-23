@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.8 2008-09-10 10:10:40 jean-gui Exp $
+// $Id: Request.java,v 1.9 2008-09-23 13:53:58 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -143,7 +143,7 @@ public abstract class Request {
       while((readLength = isr.read(chararray, 0, 8192)) > -1) {
           builder.append(chararray, 0, readLength);
       }
-      
+
       Response res = ResponseParserFactory.parse(builder.toString(), 
                                                  this.getResponseType());
       res.setXml(builder);

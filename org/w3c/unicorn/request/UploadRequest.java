@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.7 2008-09-10 10:10:40 jean-gui Exp $
+// $Id: UploadRequest.java,v 1.8 2008-09-23 13:53:58 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -107,8 +107,7 @@ public class UploadRequest extends Request {
 		UploadRequest.logger.trace("doRequest");
 		this.aClientHttpRequest = new ClientHttpRequest(sURL);
 		UploadRequest.logger.debug("Lang : " + this.sLang + ".");
-		this.aClientHttpRequest.setLang(sLang); // meme place que pour
-												// directpost
+		this.aClientHttpRequest.setLang(sLang);
 		this.aClientHttpRequest.setParameter(this.sInputParameterName,
 				this.aUploadInputModule.getFileName(), this.aUploadInputModule
 						.getInputStream());

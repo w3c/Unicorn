@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.6 2008-09-10 10:10:40 jean-gui Exp $
+// $Id: DirectRequestGET.java,v 1.7 2008-09-23 13:53:58 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -102,6 +102,7 @@ public class DirectRequestGET extends Request {
 		}
 		final URLConnection aURLConnection = aURL.openConnection();
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
+
 		InputStream is = aURLConnection.getInputStream();
 
     return streamToResponse(is);

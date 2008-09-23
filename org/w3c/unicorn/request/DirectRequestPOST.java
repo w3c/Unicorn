@@ -1,4 +1,4 @@
-// $Id: DirectRequestPOST.java,v 1.8 2008-09-10 10:10:40 jean-gui Exp $
+// $Id: DirectRequestPOST.java,v 1.9 2008-09-23 13:53:58 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -126,6 +126,7 @@ public class DirectRequestPOST extends Request {
 		this.aURLConnection.setRequestProperty("Content-Type",
 				"multipart/form-data; boundary=" + sBoundary);
 		this.aURLConnection.setRequestProperty("Accept-Language", this.sLang);
+
 		if (null == this.aOutputStream) {
 			this.aOutputStream = this.aURLConnection.getOutputStream();
 		}

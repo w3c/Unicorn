@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.12 2008-09-12 18:01:51 jean-gui Exp $
+// $Id: FirstServlet.java,v 1.13 2008-09-23 13:53:58 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -50,8 +50,8 @@ public class FirstServlet extends HttpServlet {
 
 	private static final long	serialVersionUID	= -1375355420965607571L;
 
-	private static final DiskFileItemFactory factory = new DiskFileItemFactory();	
-	
+	private static final DiskFileItemFactory factory = new DiskFileItemFactory();
+
 	/**
 	 * Creates a new file upload handler.
 	 */
@@ -92,7 +92,7 @@ public class FirstServlet extends HttpServlet {
 	@Override
 	protected void doGet (
 			final HttpServletRequest aHttpServletRequest,
-			final HttpServletResponse aHttpServletResponse) 
+			final HttpServletResponse aHttpServletResponse)
 	throws ServletException, IOException {
 		FirstServlet.logger.trace("doGet");
 
@@ -103,12 +103,12 @@ public class FirstServlet extends HttpServlet {
 		mapOfOutputParameter.put("format", "xhtml10");
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
-		
-		// Returns the preferred Locale that the client will accept content in, 
+
+		// Returns the preferred Locale that the client will accept content in,
 		// based on the Accept-Language header
 		final String aLocale = convertEnumerationToString(aHttpServletRequest.getLocales());
-		final UnicornCall aUnicornCall = new UnicornCall();	
-		
+		final UnicornCall aUnicornCall = new UnicornCall();
+
 		// Language of the template
 		// ucn_lang is a parameter which is define in xx_index.html.vm.
 		// It is an hidden parameter of a form.
@@ -119,25 +119,25 @@ public class FirstServlet extends HttpServlet {
 		else {
 			templateLang = chooseTemplateLang(aLocale);
 		}
-		
+
 		mapOfOutputParameter.put("lang", templateLang);
-		
+
 		if (null == aLocale) {
 			aUnicornCall.setLang(LocalizedString.DEFAULT_LANGUAGE);
 		} else {
-			aUnicornCall.setLang(templateLang + "," + aLocale);		
+			aUnicornCall.setLang(templateLang + "," + aLocale);
 		}
-	
+
 		for (
 				final Enumeration aEnumParamName = aHttpServletRequest.getParameterNames();
 				aEnumParamName.hasMoreElements();) {
 			final String sParamName = (String) aEnumParamName.nextElement();
 			final String[] tStringParamValue = aHttpServletRequest.getParameterValues(sParamName);
-			
+
 			this.addParameter(
 					sParamName,
 					tStringParamValue,
-					aUnicornCall, 
+					aUnicornCall,
 					mapOfSpecificParameter,
 					mapOfOutputParameter);
 		} // For
@@ -146,9 +146,9 @@ public class FirstServlet extends HttpServlet {
 			FirstServlet.logger.error("No task selected.");
 			this.createError(
 					aHttpServletResponse,
-					new NoTaskException(), 
+					new NoTaskException(),
 					mapOfSpecificParameter,
-					mapOfOutputParameter);			
+					mapOfOutputParameter);
 			return;
 		}
 
@@ -166,116 +166,116 @@ public class FirstServlet extends HttpServlet {
 			this.createError(
 					aHttpServletResponse,
 					aException,
-					mapOfSpecificParameter, 
+					mapOfSpecificParameter,
 					mapOfOutputParameter);
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	
-	
+
+
 	protected void doPost (
 			final HttpServletRequest aHttpServletRequest,
 			final HttpServletResponse aHttpServletResponse)
 	throws ServletException, IOException {
 		FirstServlet.logger.trace("doPost");
-		
+
 		// Check that we have a file upload request
 		final boolean bIsMultipart = ServletFileUpload.isMultipartContent(
 				new ServletRequestContext(aHttpServletRequest));
-		
+
 		if (!bIsMultipart) {
 			this.doGet(aHttpServletRequest, aHttpServletResponse);
 			return;
 		}
-		
+
 		// Parse the request
 		final List listOfItem;
-		
-		final UnicornCall aUnicornCall = new UnicornCall();	
-		
+
+		final UnicornCall aUnicornCall = new UnicornCall();
+
 		// Variables related to the output
 		final Map<String, String> mapOfOutputParameter = new Hashtable<String, String>();
 		mapOfOutputParameter.put("output", "simple");
 		mapOfOutputParameter.put("format", "xhtml10");
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
-		
-		// Returns the preferred Locale that the client will accept content in, 
+
+		// Returns the preferred Locale that the client will accept content in,
 		// based on the Accept-Language header
 		final String aLocale = convertEnumerationToString(aHttpServletRequest.getLocales());
-		
-		
+
+
 		// Language of the template
 		// ucn_lang is a parameter which is define in xx_index.html.vm.
 		// It is an hidden parameter of a form.
 		String templateLang = null;
-		
+
 		FirstServlet.logger.trace("doPost");
-		
-		
-		
-	
+
+
+
+
 		final Map<String, String[]> mapOfSpecificParameter = new Hashtable<String, String[]>();
-		
+
 		FileItem aFileItemUploaded = null;
-		
-		
+
+
 		try {
 			listOfItem = FirstServlet.upload.parseRequest(aHttpServletRequest);
-			
-			
+
+
 			// Process the uploaded items
 			for (final Iterator aIterator = listOfItem.iterator(); aIterator.hasNext();) {
 				final FileItem aFileItem = (FileItem) aIterator.next();
-				if (aFileItem.isFormField()) {					
-					
+				if (aFileItem.isFormField()) {
+
 					if(aFileItem.getFieldName().equals("ucn_lang")) {
 						templateLang = aFileItem.getString();
 					}
-					
-					
+
+
 					addParameter(aFileItem.getFieldName(), aFileItem.getString(),
 							aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
-					
-				} else if(aFileItem.getFieldName().equals("ucn_file")) {	
+
+				} else if(aFileItem.getFieldName().equals("ucn_file")) {
 					aFileItemUploaded = aFileItem;
 					aUnicornCall.setDocumentName(aFileItemUploaded.getName());
 					aUnicornCall.setInputParameterValue(aFileItemUploaded);
 					aUnicornCall.setEnumInputMethod(EnumInputMethod.UPLOAD);
 				}
 			}
-			
+
 			if (templateLang == null)
 				templateLang = chooseTemplateLang(aLocale);
-			
+
 			if (null == aLocale) {
 				aUnicornCall.setLang(LocalizedString.DEFAULT_LANGUAGE);
 			} else {
-				aUnicornCall.setLang(templateLang + "," + aLocale);		
+				aUnicornCall.setLang(templateLang + "," + aLocale);
 			}
 			mapOfOutputParameter.put("lang", templateLang);
-			
+
 		}
-		
+
 		catch (final FileUploadException aFileUploadException) {
 			FirstServlet.logger.error(
 					"FileUploadException : "+aFileUploadException.getMessage(),
 					aFileUploadException);
 			this.createError(
-					aHttpServletResponse, 
+					aHttpServletResponse,
 					aFileUploadException,
-					mapOfSpecificParameter, 
+					mapOfSpecificParameter,
 					mapOfOutputParameter);
 		}
-		
+
 		try {
 			aUnicornCall.doTask();
-			
-			
+
+
 			this.createOutput(
 					aHttpServletResponse,
 					aUnicornCall,
@@ -287,7 +287,7 @@ public class FirstServlet extends HttpServlet {
 			this.createError(
 					aHttpServletResponse,
 					aException,
-					mapOfSpecificParameter, 
+					mapOfSpecificParameter,
 					mapOfOutputParameter);
 		}
 		finally {
@@ -302,7 +302,7 @@ public class FirstServlet extends HttpServlet {
 	 * Adds a parameter at the correct call.
 	 * @param sParamName Name of the parameter.
 	 * @param sParamValue Value of the parameter.
-	 * @param aUnicornCall 
+	 * @param aUnicornCall
 	 * @param mapOfSpecificParameter
 	 * @param mapOfOutputParameter
 	 */
@@ -310,14 +310,14 @@ public class FirstServlet extends HttpServlet {
 			final String sParamName,
 			final String sParamValue,
 			final UnicornCall aUnicornCall,
-			final Map<String, String[]> mapOfSpecificParameter, 
+			final Map<String, String[]> mapOfSpecificParameter,
 			final Map<String, String> mapOfOutputParameter) {
 		final String[] tStringValues = {sParamValue};
 		this.addParameter(sParamName, tStringValues, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param sParamName
 	 * @param tStringParamValue
 	 * @param aUnicornCall
@@ -328,36 +328,36 @@ public class FirstServlet extends HttpServlet {
 			String sParamName,
 			final String[] tStringParamValue,
 			final UnicornCall aUnicornCall,
-			final Map<String, String[]> mapOfSpecificParameter, 
+			final Map<String, String[]> mapOfSpecificParameter,
 			final Map<String, String> mapOfOutputParameter) {
-		
+
 		if (null == tStringParamValue || 0 == tStringParamValue.length) {
 			// no value for this parameter
 			// TODO log this info if necessary
 			return;
 		}
-		
+
 		if (!sParamName.startsWith(Property.get("UNICORN_PARAMETER_PREFIX"))) {
 			// task parameter
 			aUnicornCall.addParameter(sParamName, tStringParamValue);
 			return;
 		}
-		
+
 		// Unicorn parameter
 		sParamName = sParamName.substring(4);
-		
-		
+
+
 		// Output specific parameter
 		if (sParamName.startsWith(Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX"))) {
 			sParamName = sParamName.substring(4);
 			mapOfSpecificParameter.put(sParamName, tStringParamValue);
 			return;
 		}
-		
+
 		if (sParamName.equals("lang")) {
 			aUnicornCall.addParameter("ucn_lang", tStringParamValue);
 		}
-		
+
 		// Global Unicorn parameter
 		if (sParamName.equals("task")) {
 			//FirstServlet.logger.debug("");
@@ -369,7 +369,7 @@ public class FirstServlet extends HttpServlet {
 			aUnicornCall.setInputParameterValue(tStringParamValue[0]);
 		}
 		else if (sParamName.equals("text")) {
-			aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);			
+			aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
 			aUnicornCall.setDocumentName(tStringParamValue[0]);
 			aUnicornCall.setInputParameterValue(tStringParamValue[0]);
 		}
@@ -377,21 +377,22 @@ public class FirstServlet extends HttpServlet {
 		else if (sParamName.equals("output") || sParamName.equals("format") ||
 				sParamName.equals("charset") || sParamName.equals("mimetype") ||
 				sParamName.equals("lang")) {
-			mapOfOutputParameter.put(sParamName, tStringParamValue[0]);			
-		}		
+			mapOfOutputParameter.put(sParamName, tStringParamValue[0]);
+		}
 		else if (sParamName.equals("text_mime")) {
 			aUnicornCall.addParameter("ucn_mime", tStringParamValue);
 		}
 	}
 
 	private void createError (
-			final HttpServletResponse aHttpServletResponse, 
+			final HttpServletResponse aHttpServletResponse,
 			final Exception aExceptionError,
 			final Map<String, String[]> mapOfSpecificParameter,
 			final Map<String, String> mapOfOutputParameter)
 	throws IOException {
-		aHttpServletResponse.setContentType(mapOfOutputParameter.get("mimetype"));
-		try {						
+      aHttpServletResponse.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=" + mapOfOutputParameter.get("charset"));
+
+		try {
 			final OutputFormater aOutputFormater = OutputFactory.getOutputFormater(
 					mapOfOutputParameter.get("format"),
 					mapOfOutputParameter.get("lang"),
@@ -423,17 +424,18 @@ public class FirstServlet extends HttpServlet {
 			aHttpServletResponse.getWriter().println("</pre>");
 		}
 	}
-	
+
 	private void createOutput (
-			final HttpServletResponse aHttpServletResponse, 
+			final HttpServletResponse aHttpServletResponse,
 			final UnicornCall aUnicornCall,
 			final Map<String, String[]> mapOfSpecificParameter,
 			final Map<String, String> mapOfOutputParameter)
 	throws IOException {
-		aHttpServletResponse.setContentType(mapOfOutputParameter.get("mimetype"));
+      aHttpServletResponse.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=" + mapOfOutputParameter.get("charset"));
 		try {
 			Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 			mapOfStringObject.put("unicorncall", aUnicornCall);
+
 			final OutputFormater aOutputFormater = OutputFactory.getOutputFormater(
 					mapOfOutputParameter.get("format"),
 					mapOfOutputParameter.get("lang"),
@@ -446,6 +448,7 @@ public class FirstServlet extends HttpServlet {
 					mapOfSpecificParameter,
 					aHttpServletResponse.getWriter());
 		}
+
 		catch (final ResourceNotFoundException e) {
 			FirstServlet.logger.error("ResourceNotFoundException : "+e.getMessage(), e);
 			aHttpServletResponse.getWriter().println("<pre>");
@@ -465,11 +468,11 @@ public class FirstServlet extends HttpServlet {
 			aHttpServletResponse.getWriter().println("</pre>");
 		}
 	}
-	
+
 	/**
 	 * This method returns the first language of the accept language list
 	 * which is equal to one of available index template language
-	 * 
+	 *
 	 * @param aLocale
 	 * @return The selected language or the default language.
 	 */
@@ -481,11 +484,11 @@ public class FirstServlet extends HttpServlet {
 			else if (Framework.outputLang.contains(tabLang[i].split("-")[0]))
 				return tabLang[i].split("-")[0];
 		}
-		
+
 		return LocalizedString.DEFAULT_LANGUAGE;
 	}
-	
-	
+
+
 	/**
 	 * Converts an Enumeration object to a string, the terms being
 	 * separated by a coma.
