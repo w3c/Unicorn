@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class ClientHttpRequest {
 
 	private static Random aRandom = new Random();
 
-	private URLConnection aURLConnection;
+	private HttpURLConnection aURLConnection;
 	private OutputStream aOutputStream = null;
 	private Map<String, String> mapOfCookie = new HashMap<String, String>();
 
@@ -118,9 +119,11 @@ public class ClientHttpRequest {
 	 */
 	public ClientHttpRequest (
 			final URLConnection aURLConnection) throws IOException {
+      System.out.println(aURLConnection);
 		ClientHttpRequest.logger.trace("Constructor(URLConnection)");
-		this.aURLConnection = aURLConnection;
+		this.aURLConnection = (HttpURLConnection) aURLConnection;
 		this.aURLConnection.setDoOutput(true);
+    this.aURLConnection.setRequestMethod("POST");
 		this.aURLConnection.setRequestProperty(
 				"Content-Type",
 				"multipart/form-data; boundary=" + this.sBoundary);
@@ -132,9 +135,8 @@ public class ClientHttpRequest {
 	 * @param aURL the URL to send request to
 	 * @throws IOException
 	 */
-	public ClientHttpRequest (
-			final URL aURL) throws IOException {
-		this(aURL.openConnection());
+	public ClientHttpRequest (final URL aURL) throws IOException {
+      this(aURL.openConnection());
 		ClientHttpRequest.logger.trace("Constructor(URL)");
 		if (ClientHttpRequest.logger.isDebugEnabled()) {
 			ClientHttpRequest.logger.debug("URL : " + aURL + ".");
