@@ -107,11 +107,8 @@ public class ClientHttpRequest {
 	 * @throws IOException
 	 */
 	private void boundary () throws IOException {
-    System.out.println("boundary() " + this.aURLConnection.getRequestMethod());
 		this.write("--");
-    System.out.println("boundary() " + this.aURLConnection.getRequestMethod());
 		this.write(this.sBoundary);
-    System.out.println("boundary() " + this.aURLConnection.getRequestMethod());
 	}
 
 	/**
@@ -201,9 +198,7 @@ public class ClientHttpRequest {
 	 */
 	public void setLang (final String sLang) {
 		ClientHttpRequest.logger.debug("setLang("+sLang+")");
-    System.out.println("setLang() " + this.aURLConnection.getRequestMethod());
 		this.aURLConnection.setRequestProperty("Accept-Language", sLang);
-    System.out.println("setLang() " + this.aURLConnection.getRequestMethod());
 	}
 
 	/**
@@ -232,17 +227,11 @@ public class ClientHttpRequest {
 			ClientHttpRequest.logger.debug("Name : " + sName + ".");
 			ClientHttpRequest.logger.debug("Value : " + sValue + ".");
 		}
-    System.out.println("setParameter() " + this.aURLConnection.getRequestMethod());
 		this.boundary();
-    System.out.println("setParameter() " + this.aURLConnection.getRequestMethod());
 		this.writeName(sName);
-    System.out.println("setParameter() " + this.aURLConnection.getRequestMethod());
 		this.newline();
-    System.out.println("setParameter() " + this.aURLConnection.getRequestMethod());
 		this.newline();
-    System.out.println("setParameter() " + this.aURLConnection.getRequestMethod());
 		this.writeln(sValue);
-    System.out.println("setParameter() " + this.aURLConnection.getRequestMethod());
 	}
 
 	/**
@@ -284,33 +273,19 @@ public class ClientHttpRequest {
 			ClientHttpRequest.logger.debug("File name : " + sFileName + ".");
 			ClientHttpRequest.logger.debug("InputStream : " + aInputStream + ".");
 		}
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.boundary();
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.writeName(sName);
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.write("; filename=\"");
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.write(sFileName);
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.write('"');
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.newline();
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.write("Content-Type: ");
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		String sType = URLConnection.guessContentTypeFromName(sFileName);
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		if (sType == null) sType = "application/octet-stream";
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.writeln(sType);
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.newline();
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		ClientHttpRequest.pipe(aInputStream, this.aOutputStream);
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 		this.newline();
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 	}
 
 	/**
@@ -322,9 +297,7 @@ public class ClientHttpRequest {
 	public void setParameter (
 			final String sName,
 			final File aFile) throws IOException {
-    System.out.println("setParameter3() " + this.aURLConnection.getRequestMethod());
 		this.setParameter(sName, aFile.getPath(), new FileInputStream(aFile));
-    System.out.println("setParameter2() " + this.aURLConnection.getRequestMethod());
 	}
 
 	/**
@@ -375,12 +348,9 @@ public class ClientHttpRequest {
 	 * @throws IOException
 	 */
 	public InputStream post () throws IOException {
-    System.out.println("post() " + this.aURLConnection.getRequestMethod());
 		this.boundary();
 		this.writeln("--");
-    System.out.println("post() " + this.aURLConnection.getRequestMethod());
 		this.aOutputStream.close();
-    System.out.println("post() " + this.aURLConnection.getRequestMethod());
 
 		return this.aURLConnection.getInputStream();
 	}
