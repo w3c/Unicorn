@@ -125,6 +125,7 @@ public class ClientHttpRequest {
 		ClientHttpRequest.logger.trace("Constructor(URLConnection)");
 		this.aURLConnection = (HttpURLConnection) aURLConnection;
 		this.aURLConnection.setDoOutput(true);
+    this.aURLConnection.setRequestMethod("POST");
 		this.aURLConnection.setRequestProperty(
 				"Content-Type",
 				"multipart/form-data; boundary=" + this.sBoundary);
