@@ -302,7 +302,6 @@ public class DefaultParser implements ResponseParser {
 		while (cursor.hasNextToken()) {
 
 			if (cursor.isStart()) {
-				System.out.println("start");
 				count++;
 				XmlObject current = cursor.getObject();
 
