@@ -121,8 +121,8 @@ public class ClientHttpRequest {
 			final URLConnection aURLConnection) throws IOException {
 		ClientHttpRequest.logger.trace("Constructor(URLConnection)");
 		this.aURLConnection = (HttpURLConnection) aURLConnection;
-		this.aURLConnection.setDoOutput(true);
     this.aURLConnection.setRequestMethod("POST");
+		this.aURLConnection.setDoOutput(true);
 		this.aURLConnection.setRequestProperty(
 				"Content-Type",
 				"multipart/form-data; boundary=" + this.sBoundary);
