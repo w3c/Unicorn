@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.22 2008-09-19 18:57:11 jean-gui Exp $
+// $Id: UnicornCall.java,v 1.23 2008-09-25 17:37:43 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -674,7 +674,7 @@ public class UnicornCall {
 	 */
 	public boolean checkCond(TLTCond cond) throws Exception {
 		UnicornCall.logger.trace("checkCond : ");
-		UnicornCall.logger.trace(cond);
+    UnicornCall.logger.trace(cond);
 		UnicornCall.logger.trace("condId : " + cond.getId());
 		UnicornCall.logger.trace("condType : " + cond.getType());
 		UnicornCall.logger.trace("condValue : " + cond.getValue());

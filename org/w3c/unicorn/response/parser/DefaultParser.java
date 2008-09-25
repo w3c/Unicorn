@@ -65,20 +65,7 @@ public class DefaultParser implements ResponseParser {
 
 		try {
 			org.w3.unicorn.observationresponse.ObservationresponseDocument ord = org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory
-				.parse(r);
-			/*
-			File xml = new File("validator.xml");
-			BufferedReader fr = new BufferedReader(new FileReader(xml));
-			String s;
-			String resp ="";
-			while ((s=fr.readLine()) != null) {
-				resp += s + "\n";
-			}
-			//System.out.println(resp);
-			fr.close();
-			org.w3.unicorn.observationresponse.ObservationresponseDocument ord = org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory
-			.parse(resp);
-			*/
+          .parse(r);
 			return swap(ord);
 		} catch (Exception e) {
 			e.printStackTrace();

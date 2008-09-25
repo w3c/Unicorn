@@ -1,4 +1,4 @@
-// $Id: DirectInputModule.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
+// $Id: DirectInputModule.java,v 1.4 2008-09-25 17:37:43 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -107,9 +107,8 @@ public class DirectInputModule implements InputModule {
 	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
-		aStringBuffer.append("DirectInputModule");
-		aStringBuffer.append("\n");
-		aStringBuffer.append("Mime type : ").append(this.aMimeType);
+		aStringBuffer.append("DirectInputModule{mimetype: ").append(this.aMimeType).append("}");
+
 		return aStringBuffer.toString();
 	}
 

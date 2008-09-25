@@ -1,4 +1,4 @@
-// $Id: InputFactory.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
+// $Id: InputFactory.java,v 1.4 2008-09-25 17:37:44 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -172,12 +172,13 @@ public class InputFactory {
 	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
-		aStringBuffer.append("InputFactory").append("\n");
-		aStringBuffer.append("Default : ").append(
-				this.aInputModuleDefault.getEnumInputMethod()).append("\n");
+		aStringBuffer.append("InputFactory{default: ").append(
+				this.aInputModuleDefault.getEnumInputMethod()).append(", ");
 		for (final InputModule aInputModule : this.mapOfInputModule.values()) {
-			aStringBuffer.append(aInputModule).append("\n");
+			aStringBuffer.append(aInputModule).append(", ");
 		}
+    aStringBuffer.append("}");
+
 		return aStringBuffer.toString();
 	}
 

@@ -29,10 +29,7 @@ public class TLTCond {
 	 * @param type The type of the condition
 	 */
 	public TLTCond(String id, Observer observer, EnumCondType type, String value) {
-		TLTCond.logger.trace("Constructor");
-		TLTCond.logger.trace("Id : " + id);
-		TLTCond.logger.trace("Observer : " + observer);
-		TLTCond.logger.trace("Type : " + type.value());
+		TLTCond.logger.trace("constructor(" + id + ", " + observer + ", " + type.value() + ")");
 		this.id = id;
 		this.observer = observer;
 		this.type = type;
@@ -43,7 +40,7 @@ public class TLTCond {
 	 *
 	 */
 	public TLTCond() {
-		TLTCond.logger.trace("Constructor");
+		TLTCond.logger.trace("constructor()");
 	}
 	
 	/**
@@ -51,7 +48,7 @@ public class TLTCond {
 	 * @param id The id of the condition
 	 */
 	public void setId(String id) {
-		TLTCond.logger.trace("setId : " + id);
+		TLTCond.logger.trace("setId(" + id + ")");
 		this.id = id;
 	}
 	
@@ -60,7 +57,7 @@ public class TLTCond {
 	 * @param observer The observer the condition depends on
 	 */
 	public void setObserver(Observer observer) {
-		TLTCond.logger.trace("setObserver : " + observer);
+		TLTCond.logger.trace("setObserver(" + observer + ")");
 		this.observer = observer;
 	}
 	
@@ -69,7 +66,7 @@ public class TLTCond {
 	 * @param result The result of the test
 	 */
 	public void setResult(boolean result) {
-		TLTCond.logger.trace("setResult : " + result);
+		TLTCond.logger.trace("setResult(" + result + ")");
 		this.result = result;
 	}
 	/**
@@ -77,7 +74,7 @@ public class TLTCond {
 	 * @param type The type of the condition
 	 */
 	public void setType(EnumCondType type){ 
-		TLTCond.logger.trace("setType : " + type.value());
+		TLTCond.logger.trace("setType(" + type.value() + ")");
 		this.type = type;
 		}
 	
@@ -87,7 +84,7 @@ public class TLTCond {
 	 * @param type The type of the condition
 	 */
 	public void setType(String type){ 
-		TLTCond.logger.trace("setType : " + type);
+		TLTCond.logger.trace("setType(" + type + ")");
 		for(EnumCondType val : EnumCondType.values()){
 			if(val.value().equals(type))this.type=val;
 		}
@@ -98,7 +95,7 @@ public class TLTCond {
 	 * @param value value of the condition
 	 */
 	public void setValue(String value){
-		TLTCond.logger.trace("setValue : " + value);
+		TLTCond.logger.trace("setValue(" + value + ")");
 		this.value=value;
 	}
 	
@@ -106,7 +103,7 @@ public class TLTCond {
 	 * @return The id of the condition
 	 */
 	public String getId() {
-		TLTCond.logger.trace("getId");
+		TLTCond.logger.trace("getId()");
 		return id;
 	}
 	
@@ -115,7 +112,7 @@ public class TLTCond {
 	 * @return The observer the condition depends on
 	 */
 	public Observer getObserver() {
-		TLTCond.logger.trace("getObserver");
+		TLTCond.logger.trace("getObserver()");
 		return observer;
 	}
 	
@@ -124,7 +121,7 @@ public class TLTCond {
 	 * @return The result of the test
 	 */
 	public boolean getResult() {
-		TLTCond.logger.trace("getResult");
+		TLTCond.logger.trace("getResult()");
 		return result;
 	}
 	
@@ -133,7 +130,7 @@ public class TLTCond {
 	 * @return The type of the condition
 	 */
 	public EnumCondType getType(){ 
-		TLTCond.logger.trace("getType");
+		TLTCond.logger.trace("getType()");
 		return type;	
 	}
 	
@@ -142,12 +139,15 @@ public class TLTCond {
 	 * @return The value of the condition
 	 */
 	public String getValue(){ 
-		TLTCond.logger.trace("getValue");
+		TLTCond.logger.trace("getValue()");
 		return value;	
 	}
 	
 	public String toString(){
-		return new String("TLTCond "+this.id+" observer "+this.observer+" value "+this.value);
+      if(this.observer != null) {
+          return new String("TLTCond{id: "+this.id+", observer: "+this.observer.getID()+", value: "+this.value+"}");
+      }
+      return new String("TLTCond{id: "+this.id+", value: "+this.value+"}");
 	}
 	
 }

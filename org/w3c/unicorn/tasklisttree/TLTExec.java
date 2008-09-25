@@ -29,15 +29,12 @@ public class TLTExec {
 	 * @param param The parameter of the exec
 	 */
 	public TLTExec(String id,Observer obs, String value,String type, ParamType param) {
-		TLTExec.logger.trace("Constructor");
-		TLTExec.logger.trace("Id : " + id);
-		TLTExec.logger.trace("Type : " + type);
-		TLTExec.logger.trace("Value : " + value);
-		TLTExec.logger.trace("Param : " + param); 
+      String toTrace = "constructor(" + id + ", ";
 		if (type.equals("observation")) {
-			TLTExec.logger.trace("Observer : " + obs.getID());
+			toTrace += obs.getID() + ", ";
 			this.observer=obs;
 		}
+		TLTExec.logger.trace(toTrace + type + ", " + value + ", " + param + ")"); 
 		this.id = id;
 		this.value = value;
 		this.type=type;
@@ -50,7 +47,7 @@ public class TLTExec {
 	 * @param id The id of the exec
 	 */
 	public void setObserver(Observer obs) {
-		TLTExec.logger.trace("setObserver : " + obs.getID());
+		TLTExec.logger.trace("setObserver(" + obs.getID() + ")");
 		this.observer = obs;
 	}
 	
@@ -58,7 +55,7 @@ public class TLTExec {
 	 * 
 	 */
 	public Observer getObserver() {
-		TLTExec.logger.trace("getObserver");
+		TLTExec.logger.trace("getObserver()");
 		return this.observer;
 	}
 	
@@ -68,7 +65,7 @@ public class TLTExec {
 	 * @param id The id of the exec
 	 */
 	public void setId(String id) {
-		TLTExec.logger.trace("setId : " + id);
+		TLTExec.logger.trace("setId(" + id + ")");
 		this.id = id;
 	}
 	
@@ -77,7 +74,7 @@ public class TLTExec {
 	 * @param value The observer to run
 	 */
 	public void setValue(String value) {
-		TLTExec.logger.trace("setValue : " + value);
+		TLTExec.logger.trace("setValue(" + value + ")");
 		this.value = value;
 	}
 	
@@ -86,7 +83,7 @@ public class TLTExec {
 	 * @param value The observer to run
 	 */
 	public void setType(String type) {
-		TLTExec.logger.trace("setType : " + type);
+		TLTExec.logger.trace("setType(" + type + ")");
 		this.type = type;
 	}
 	
@@ -95,7 +92,7 @@ public class TLTExec {
 	 * @param param The parameter of the exec
 	 */
 	public void setParam(ParamType param) {
-		TLTExec.logger.trace("setParam : " + param);
+		TLTExec.logger.trace("setParam(" + param + ")");
 		this.param = param;
 	}
 	
@@ -104,7 +101,7 @@ public class TLTExec {
 	 * @return The id of the exec
 	 */
 	public String getId() {
-		TLTExec.logger.trace("getId");
+		TLTExec.logger.trace("getId()");
 		return id;
 	}
 	
@@ -113,7 +110,7 @@ public class TLTExec {
 	 * @return The observer or subtask to run
 	 */
 	public String getValue() {
-		TLTExec.logger.trace("getValue");
+		TLTExec.logger.trace("getValue()");
 		return value;
 	}
 	
@@ -123,7 +120,7 @@ public class TLTExec {
 	 * @return The type of execution Observer or subtask
 	 */
 	public String getType() {
-		TLTExec.logger.trace("getType");
+		TLTExec.logger.trace("getType()");
 		return type;
 	}
 	
@@ -132,11 +129,11 @@ public class TLTExec {
 	 * @return The parameter of the exec
 	 */
 	public ParamType getParam() {
-		TLTExec.logger.trace("getParam");
+		TLTExec.logger.trace("getParam()");
 		return param;
 	}
 	
 	public String toString(){
-		return new String("TLTExec "+this.id+"value "+this.value+" type "+this.getType()+" param "+this.param);
+		return "TLTExec{id: "+this.id+", value: "+this.value+", type: "+this.getType()+", param: "+this.param+"}";
 	}
 }

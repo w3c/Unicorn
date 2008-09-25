@@ -1,4 +1,4 @@
-// $Id: FakeUploadInputModule.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
+// $Id: FakeUploadInputModule.java,v 1.4 2008-09-25 17:37:43 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -112,11 +112,9 @@ public class FakeUploadInputModule implements UploadInputModule {
 	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
-		aStringBuffer.append("FakeUploadInputModule");
-		aStringBuffer.append("\n");
-		aStringBuffer.append("Mime type : ").append(this.aMimeType);
-		aStringBuffer.append("\n");
-		aStringBuffer.append("File name : ").append(this.sFileName);
+		aStringBuffer.append("FakeUploadInputModule{mimetype: ").append(this.aMimeType);
+		aStringBuffer.append(", filename: ").append(this.sFileName).append("}");
+
 		return aStringBuffer.toString();
 	}
 

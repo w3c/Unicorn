@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.8 2008-09-23 13:53:58 jean-gui Exp $
+// $Id: UploadRequest.java,v 1.9 2008-09-25 17:37:44 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -113,10 +113,10 @@ public class UploadRequest extends Request {
 						.getInputStream());
 		for (final String sName : this.mapOfParameter.keySet()) {
 			final String sValue = this.mapOfParameter.get(sName);
-			DirectRequestPOST.logger.trace("addParameter");
-			if (DirectRequestPOST.logger.isDebugEnabled()) {
-				DirectRequestPOST.logger.debug("Name :" + sName + ".");
-				DirectRequestPOST.logger.debug("Value :" + sValue + ".");
+			UploadRequest.logger.trace("addParameter");
+			if (UploadRequest.logger.isDebugEnabled()) {
+				UploadRequest.logger.debug("Name :" + sName + ".");
+				UploadRequest.logger.debug("Value :" + sValue + ".");
 			}
 			this.aClientHttpRequest.setParameter(sName, sValue);
 		}

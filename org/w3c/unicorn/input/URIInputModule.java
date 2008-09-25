@@ -1,4 +1,4 @@
-// $Id: URIInputModule.java,v 1.4 2008-06-17 14:09:50 fbatard Exp $
+// $Id: URIInputModule.java,v 1.5 2008-09-25 17:37:44 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -144,11 +144,11 @@ public class URIInputModule implements InputModule {
 	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
-		aStringBuffer.append("URIInputModule");
-		aStringBuffer.append("\n");
-		aStringBuffer.append("Mime type : ").append(this.aMimeType);
-		aStringBuffer.append("\n");
-		aStringBuffer.append("URI : ").append(this.sURI);
+		aStringBuffer.append("URIInputModule{");
+		aStringBuffer.append("mimetype: ").append(this.aMimeType);
+		aStringBuffer.append(", uri: ").append(this.sURI);
+    aStringBuffer.append("}").append(this.sURI);
+    
 		return aStringBuffer.toString();
 	}
 

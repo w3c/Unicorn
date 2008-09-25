@@ -1,4 +1,4 @@
-// $Id: FileItemInputModule.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
+// $Id: FileItemInputModule.java,v 1.4 2008-09-25 17:37:44 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -105,11 +105,9 @@ public class FileItemInputModule implements UploadInputModule {
 	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
-		aStringBuffer.append("FileItemInputModule");
-		aStringBuffer.append("\n");
-		aStringBuffer.append("Mime type : ").append(this.aMimeType);
-		aStringBuffer.append("\n");
-		aStringBuffer.append("File name : ").append(this.aFileItem.getName());
+		aStringBuffer.append("FileItemInputModule{mimetype: ").append(this.aMimeType);
+		aStringBuffer.append(", filename: ").append(this.aFileItem.getName()).append("}");
+
 		return aStringBuffer.toString();
 	}
 
