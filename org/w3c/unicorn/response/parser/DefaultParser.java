@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +18,7 @@ import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -63,9 +65,22 @@ public class DefaultParser implements ResponseParser {
 
 		try {
 			org.w3.unicorn.observationresponse.ObservationresponseDocument ord = org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory
-					.parse(r);
+				.parse(r);
+			/*
+			File xml = new File("validator.xml");
+			BufferedReader fr = new BufferedReader(new FileReader(xml));
+			String s;
+			String resp ="";
+			while ((s=fr.readLine()) != null) {
+				resp += s + "\n";
+			}
+			//System.out.println(resp);
+			fr.close();
+			org.w3.unicorn.observationresponse.ObservationresponseDocument ord = org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory
+			.parse(resp);
+			*/
 			return swap(ord);
-		} catch (XmlException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -364,9 +379,10 @@ public class DefaultParser implements ResponseParser {
 
 				}
 
-				// If the class is not recognized, we check the name
+				// If the class is not recognized, we check the name and eventually 
+				// build the corresponding object
 
-				// Case : A
+				// Case : A from XmlAnyTypeImpl
 				else if (cursor.getName().toString().equals(
 						"{http://www.w3.org/unicorn/observationresponse}a")) {
 					A coy = new A();
@@ -376,8 +392,9 @@ public class DefaultParser implements ResponseParser {
 					cursor.toNextToken();
 					coy.setHref(cursor.getTextValue());
 					cursor.toPrevToken();
-					cursor.toNextAttribute();
+					cursor.push();
 					content = swapObj(current, lang);
+					cursor.pop();
 					coy.setContent(content);
 					list.add(coy);
 
@@ -385,48 +402,68 @@ public class DefaultParser implements ResponseParser {
 						if (o instanceof Inline)
 							count++;
 					}
-					
 					cursor.toEndToken();
+					count--;
 					
-
 				}
 
-				// Case : Code
+				// Case : Code from XmlAnyTypeImpl
 				else if (cursor.getName().toString().equals(
 						"{http://www.w3.org/unicorn/observationresponse}code")) {
+					
 					Code coy = new Code();
 					List<Object> content = new ArrayList<Object>();
+					cursor.push();
 					content = swapObj(current, lang);
+					cursor.pop();
 					coy.setContent(content);
 					list.add(coy);
 					for (Object o : content) {
 						if (o instanceof Inline)
 							count++;
 					}
-					cursor.toEndToken();
+					cursor.toEndToken(); 
+					count--;
 				}
 
-				// Case : Img
+				// Case : Img from XmlAnyTypeImpl
 				else if (cursor.getName().toString().equals(
 						"{http://www.w3.org/unicorn/observationresponse}img")) {
-					org.w3.unicorn.observationresponse.ImgDocument.Img img = (org.w3.unicorn.observationresponse.ImgDocument.Img) current;
-					Img coy = new Img();
-					coy.setAlt(img.getAlt());
-					coy.setHeight(img.getHeight());
-					coy.setLongdesc(img.getLongdesc());
-					coy.setName(img.getName());
-					coy.setSrc(img.getSrc());
-					coy.setWidth(img.getWidth());
-					list.add(coy);
+					
+					cursor.toNextToken();
 
+					Img coy = new Img();
+					while (cursor.isAttr() && cursor.hasNextToken()) {
+						
+						if (cursor.getName().toString().equals("src")) 
+							coy.setSrc(cursor.getTextValue());
+						else if (cursor.getName().toString().equals("alt")) 
+							coy.setAlt(cursor.getTextValue());
+						else if (cursor.getName().toString().equals("longdesc")) 
+							coy.setLongdesc(cursor.getTextValue());
+						else if (cursor.getName().toString().equals("name"))
+							coy.setName(cursor.getTextValue());
+						else if (cursor.getName().toString().equals("width"))
+							coy.setWidth(new BigInteger(cursor.getTextValue()));
+						else if (cursor.getName().toString().equals("height"))
+							coy.setHeight(new BigInteger(cursor.getTextValue()));
+													
+						cursor.toNextToken();
+					}
+					list.add(coy);
 					cursor.toEndToken();
+					count--;
+
 				}
 
 				
 				// We still want to append what's inside a block even if the block's unknown
 				else {
+					cursor.push();
 					list.addAll(swapObj(current,lang));
+					cursor.pop();
 					cursor.toEndToken();
+					count--;
 				}
 			}
 
@@ -438,7 +475,7 @@ public class DefaultParser implements ResponseParser {
 
 			else if (cursor.isEnd()) {
 				count--;
-				if (count < 0)
+				if (count <= 0)
 					break;
 			}
 
