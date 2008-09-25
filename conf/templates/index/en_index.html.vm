@@ -131,10 +131,21 @@
 		    </div><!-- fiends -->
 		</div><!-- end div id = frontforms -->
 <h2>Latest News</h2>
-<h3>7 September 2006: public preview</h3>
+<h3 id="news_200809">September 2008: public preview, phase 2</h3>
+<p>The public preview of the Unicorn framework gets a massive update after two summers of code and spec improvements. All the changes, aimed at making the unicorn framework faster, more reliable and easier to integrate with validators and web observation tools, include:</p>
+<ul>
+<li><strong>Simplified contract format</strong>, making it easier to define interactions between unicorn and an observer</li>
+<li><strong>New tasks format</strong>, providing a more flexible way to sequence, mix and match observations</li>
+<li><strong>Performance</strong> improvements, with a new multithreaded architecture</li>
+<li>The ability to function as a <strong>servlet under more engines</strong>, including Jigsaw</li>
+<li>A <strong>localized UI</strong> (currently: English and French, as a demo)</li>
+<li>A brand new <strong>XML parser</strong> taking care of parsing tasks, contracts and observation responses</li>
+<li>Tons of <strong>bug fixes</strong></li>
+</ul>
+
+<h3id="news_200809">September 2006: public preview</h3>
 <p>Welcome to the public preview of the unicorn tool. To learn more about this tool
 or how you can provide feedback for this preview, check the <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
-<p><strong>Note</strong>: You need to enable Javascript to be able to check documents</a>.</p>
 
 		<ul class="navbar"  id="menu">
 			<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
