@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 #macro(genTasklist $i)
 	<div>
 		Task :
@@ -11,6 +10,7 @@
 	</div>
 #end
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 	<head>
@@ -37,6 +37,25 @@
 
 		<p id="tagline">the Web's Universal Conformance Checker - <strong>ALPHA Test Version</strong></p>
 
+		<ul id="lang_choice">
+	        
+	          <li><a href="fr_index.html"
+	              lang="fr"
+	              xml:lang="fr"
+	              hreflang="fr"
+	              rel="alternate">Fran&ccedil;ais</a>
+	
+	          </li>
+	        
+	          <li><a href="en_index.html"
+	              lang="en"
+	              xml:lang="en"
+	              hreflang="en"
+	              rel="alternate">English</a>
+	          </li>
+	     </ul>
+
+
 		<div id="frontforms">
 			<ul class="tabset_tabs">
 				<li><a href="#validate-by-uri" class="active">by URI</a></li><!--
@@ -55,6 +74,8 @@
 							Address:
 							<input type="text" name="ucn_uri" id="ucn_uri" size="45" />
 						</label>
+						<input type="hidden" name="ucn_lang" value="en" />
+
 					</p>
 					<fieldset id="opt_uri" class="options">
 						<p title="Simple options">Simple options</p>
@@ -82,6 +103,8 @@
 							Local file:
 							<input type="file" id="ucn_file" name="ucn_file" size="30" />
 						</label>
+						<input type="hidden" name="ucn_lang" value="en" />
+
 					</p>
 					<fieldset id="opt_upload" class="options">
 						<p title="Simple options">Simple options</p>
@@ -109,6 +132,8 @@
 					<p>
 						<textarea name="ucn_text" rows="12" cols="70"></textarea>
 						<span id="ucn_text_mime"></span>
+						<input type="hidden" name="ucn_lang" value="en" />
+
 					</p>      
 					<fieldset id="opt_direct" class="options">
 						<p title="Simple options">Simple options</p>
@@ -146,6 +171,8 @@
 <p>Welcome to the public preview of the unicorn tool. To learn more about this tool
 or how you can provide feedback for this preview, check the <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
 
+<p><strong>Note</strong>: You need to enable Javascript to be able to check documents.</p>
+
 		<ul class="navbar"  id="menu">
 			<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
 			<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="Download the source for this service">Download</a> <span class="hideme">|</span></li>
@@ -167,7 +194,7 @@ or how you can provide feedback for this preview, check the <a href="http://www.
 		</p>
 
 		<p class="copyright">
-			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-2006
+			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-2008
 			<a href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a>&reg;
 
 			(<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>,
