@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.13 2008-09-23 13:53:58 jean-gui Exp $
+// $Id: FirstServlet.java,v 1.14 2009-07-22 14:54:21 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -46,7 +46,7 @@ import org.w3c.unicorn.util.Property;
  */
 public class FirstServlet extends HttpServlet {
 
-	private static final Log logger = LogFactory.getLog("org.w3c.unicorn");
+	private static final Log logger = LogFactory.getLog("org.w3c.unicorn.servlet");
 
 	private static final long	serialVersionUID	= -1375355420965607571L;
 
@@ -68,7 +68,7 @@ public class FirstServlet extends HttpServlet {
 				new File(Property.get("UPLOADED_FILES_REPOSITORY")));
 
 		try {
-        IndexGenerator.generateIndexes();
+			IndexGenerator.generateIndexes();
 		}
 		catch (final ResourceNotFoundException e) {
 			FirstServlet.logger.error("ResourceNotFoundException : "+e.getMessage(), e);
@@ -128,9 +128,9 @@ public class FirstServlet extends HttpServlet {
 			aUnicornCall.setLang(templateLang + "," + aLocale);
 		}
 
-		for (
-				final Enumeration aEnumParamName = aHttpServletRequest.getParameterNames();
-				aEnumParamName.hasMoreElements();) {
+		for ( final Enumeration aEnumParamName = aHttpServletRequest.getParameterNames();
+			  aEnumParamName.hasMoreElements();) 
+		{
 			final String sParamName = (String) aEnumParamName.nextElement();
 			final String[] tStringParamValue = aHttpServletRequest.getParameterValues(sParamName);
 
@@ -365,6 +365,13 @@ public class FirstServlet extends HttpServlet {
 		}
 		else if (sParamName.equals("uri")) {
 			aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
+			
+			if(!tStringParamValue[0].substring(0,7).equals("http://")) {
+				FirstServlet.logger.info("URI missing protocol : " + tStringParamValue[0]);
+				tStringParamValue[0] = "http://" + tStringParamValue[0];
+				FirstServlet.logger.info("URI modified to : " + tStringParamValue[0]);
+			}
+				
 			aUnicornCall.setDocumentName(tStringParamValue[0]);
 			aUnicornCall.setInputParameterValue(tStringParamValue[0]);
 		}
