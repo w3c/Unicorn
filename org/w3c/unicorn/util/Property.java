@@ -1,9 +1,10 @@
-// $Id: Property.java,v 1.4 2008-09-12 18:01:51 jean-gui Exp $
+// $Id: Property.java,v 1.5 2009-07-23 13:00:40 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -200,7 +201,8 @@ public class Property {
 
 	static {
 		try {
-			final URL aURLPropFile = Property.class.getResource("unicorn.properties");
+			URL aURLPropFile = new URL(Property.class.getResource("/"), "org/w3c/unicorn/conf/unicorn.properties");
+			
 			final Properties aProperties = new Properties();
 			aProperties.load(aURLPropFile.openStream());
 			Property.load(aProperties);
@@ -209,7 +211,7 @@ public class Property {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * For each Property in the map, prints its ID and value.
 	 * @param tArgument

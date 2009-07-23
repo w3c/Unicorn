@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.6 2008-09-23 13:53:58 jean-gui Exp $
+// $Id: IndexGenerator.java,v 1.7 2009-07-23 13:00:42 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -60,8 +60,8 @@ public class IndexGenerator {
 	 */
 	static {
 		try {
-			IndexGenerator.aProperties.load(new URL("file:"
-					+ Property.get("VELOCITY_CONFIG_FILE")).openStream());
+			IndexGenerator.aProperties.load(new URL(Property.class.getResource("/"),
+					Property.get("REL_PATH_TO_CONF_FILES") + "velocity.properties").openStream());
 			IndexGenerator.aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH,
 					Property.get("PATH_TO_INDEX_TEMPLATES"));
 			IndexGenerator.aVelocityEngine.init(IndexGenerator.aProperties);

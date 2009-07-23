@@ -1,10 +1,11 @@
-// $Id: OutputFactory.java,v 1.3 2008-06-17 13:41:11 fbatard Exp $
+// $Id: OutputFactory.java,v 1.4 2009-07-23 13:00:40 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -13,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.w3c.unicorn.util.Property;
 
 /**
  * This class allow to manage all output module and output formater. It provide
@@ -34,8 +36,10 @@ public class OutputFactory {
 
 	static {
 		try {
-			OutputFactory.aPropertiesSpecialFormaters.load(OutputFactory.class
-					.getResourceAsStream("specialFormaters.properties"));
+			OutputFactory.aPropertiesSpecialFormaters.load(
+					new URL(Property.class.getResource("/"),
+							Property.get("REL_PATH_TO_CONF_FILES") + "specialFormaters.properties").openStream()
+			);
 		} catch (final IOException e) {
 			OutputFactory.logger.error("IOException : " + e.getMessage(), e);
 			e.printStackTrace();
