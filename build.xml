@@ -97,7 +97,7 @@
       <copy file="./org/w3c/unicorn/conf/responseParsers.properties"
             tofile="./build/org/w3c/unicorn/conf/responseParsers.properties" 
             overwrite="true"/>
-      <copy file="./org/w3c/unicorn/vonf/specialFormaters.properties" 
+      <copy file="./org/w3c/unicorn/conf/specialFormaters.properties" 
             tofile="./build/org/w3c/unicorn/conf/specialFormaters.properties"
             overwrite="true"/>
       <copy file="./org/w3c/unicorn/conf/velocity.properties" 
