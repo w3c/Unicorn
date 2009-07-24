@@ -1,4 +1,4 @@
-// $Id: SimpleOutputFormater.java,v 1.3 2008-06-19 11:15:39 fbatard Exp $
+// $Id: SimpleOutputFormater.java,v 1.4 2009-07-24 13:47:46 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -100,8 +100,11 @@ public class SimpleOutputFormater implements OutputFormater {
 	static {
 		try {
 			final Properties aProperties = new Properties();
-			aProperties.load(new URL("file:"
-					+ Property.get("VELOCITY_CONFIG_FILE")).openStream());
+			//aProperties.load(new URL("file:"
+			//		+ Property.get("VELOCITY_CONFIG_FILE")).openStream());
+			
+			aProperties.load(new URL(Property.class.getResource("/"),
+					Property.get("REL_PATH_TO_CONF_FILES") + "velocity.properties").openStream());
 
 			aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH, Property
 					.get("PATH_TO_OUTPUT_TEMPLATES"));

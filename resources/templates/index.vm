@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+#macro(genTasklist $i)
+	<div>
+		$task:
+		<select name="ucn_task" onchange="javascript:taskChanged(this.options[this.options.selectedIndex].value, $i);">
+			#foreach( $task in $tasklist ) 
+				<option value="$task.getID()">$task.getLongName("fr")</option> 
+			#end
+		</select>
+	</div>
+#end
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Unicorn</title>
+		<link rev="start" href="./" title="Home Page" />
+		<style type="text/css" media="all">@import "style/base.css";</style>
+		<script type="text/javascript" src="tabtastic/addclasskillclass.js"></script>
+		<script type="text/javascript" src="tabtastic/attachevent.js"></script>
+		<script type="text/javascript" src="tabtastic/addcss.js"></script>
+		<script type="text/javascript" src="tabtastic/tabtastic.js"></script>
+		<script type="text/javascript" src="en_parameters.js"></script>
+	</head>
+
+	<body onload="init()">
+
+		<div id="banner">
+			<h1 id="title">
+				<a href="http://www.w3.org/">
+					<img height="48" alt="W3C" id="logo" src="http://www.w3.org/Icons/WWW/w3c_home_nb" />
+				</a>
+				<img src="images/unicorn.png" alt="Unicorn" />
+			</h1>
+		</div>
+
+		<p id="tagline">the Web's Universal Conformance Checker - <strong>ALPHA Test Version</strong></p>
+		
+		<ul id="lang_choice">
+		#foreach( $key in $languages.keySet() )
+			<li><a lang="$key"
+	              xml:lang="$key"
+	              hreflang="$key"
+	              rel="alternate"
+	              href="index.${key}.html">$languages.get($key)</a>
+	        </li>
+		#end
+		</ul>
+
+
+
+		<div id="frontforms">
+			<ul class="tabset_tabs">
+				<li><a href="#validate-by-uri" class="active">$validate-by-uri</a></li><!--
+				--><li><a href="#validate-by-upload">$validate-by-upload</a></li><!--
+				--><li><a href="#validate-by-input">$validate-by-input</a></li>
+			</ul>
+		    <div id="fields">
+
+			<fieldset id="validate-by-uri" class="tabset_content front">
+				<legend class="tabset_label">$legend-by-uri</legend>
+				<form method="get" action="observe">
+					#genTasklist(0)
+					<p class="instructions">$instruction-by-uri</p>
+					<p>
+						<label title="$uri_title" for="ucn_uri">
+							$uri:
+							<input type="text" name="ucn_uri" id="ucn_uri" size="45" />
+						</label>
+						<input type="hidden" name="ucn_lang" value="fr" />
+
+					</p>
+					<fieldset id="opt_uri" class="options">
+						<p title="$simple_options">$simple_options</p>
+						<div class="simpleParamList"></div>
+					</fieldset>
+					<fieldset id="extra_opt_uri" class="moreoptions">
+						<p class="toggle closed" title="Show/Hide extra options" onclick="expand()">$extra_options</p>
+						<!-- invisible -->
+						<div class="advancedParamList"></div>
+						<!-- / invisible -->
+					</fieldset>
+					<p class="submit_button">
+						<label title="$submit_title"><input type="submit" value="$submit" /></label>
+					</p>
+				</form>
+			</fieldset>
+
+			<fieldset id="validate-by-upload"  class="tabset_content front">
+				<legend class="tabset_label">$legend-by-upload</legend>
+				<form method="post" enctype="multipart/form-data" action="observe">
+					#genTasklist(1)
+					
+					<p class="instructions">$instruction-by-upload</p>
+					<p>
+						<label title="$instruction-by-upload" for="ucn_file">
+							$local_file
+							<input type="file" id="ucn_file" name="ucn_file" size="30" />
+							<input type="hidden" name="ucn_lang" value="fr" />
+						</label>
+						
+					</p>
+					<fieldset id="opt_upload" class="options">
+						<p title="$simple_options">$simple_options</p>
+						<div class="simpleParamList"></div>
+					</fieldset>
+					<fieldset id="extra_opt_upload" class="moreoptions">
+						<p class="toggle closed" title="Show/Hide extra options" onclick="expand()">$extra_options</p>
+						<!-- invisible -->
+						<div class="advancedParamList"></div>
+						<!-- / invisible -->
+					</fieldset>
+					<p class="submit_button">
+						<label title="$submit_title">
+							<input type="submit" value="$submit" />
+						</label>
+					</p>
+				</form>
+			</fieldset>
+
+			<fieldset id="validate-by-input"  class="tabset_content front">
+				<legend class="tabset_label">$legend-by-input</legend>
+				<form action="observe" method="get">
+					#genTasklist(2)
+					<p class="instructions">$instruction-by-input</p>
+					<p>
+						<textarea name="ucn_text" rows="12" cols="70"></textarea>
+						<span id="ucn_text_mime"></span>
+						<input type="hidden" name="ucn_lang" value="fr" />
+					</p>      
+					<fieldset id="opt_direct" class="options">
+						<p title="$simple_options">$simple_options</p>
+						<div class="simpleParamList"></div>
+					</fieldset>
+					<fieldset id="extra_opt_direct" class="moreoptions">
+						<p class="toggle closed" title="Show/Hide extra options" onclick="expand()">$extra_options</p>
+						<!-- invisible -->
+						<div class="advancedParamList"></div>
+						<!-- / invisible -->
+					</fieldset>
+					<p class="submit_button">
+						<label title="$submit_title">
+							<input type="submit" value="$submit" />
+						</label>
+					</p>
+				</form>
+			</fieldset>
+		    </div><!-- fiends -->
+		</div><!-- end div id = frontforms -->
+<h2>$last_news</h2>
+<h3>$news_subtitle</h3>
+<p>$news</p>
+
+<p><strong>Note</strong>: Vous devez activer JavaScript pour pouvoir v&eacute;rifier des documents.</p>
+
+		<ul class="navbar"  id="menu">
+			<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">$documentation</a> <span class="hideme">|</span></li>
+			<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="$download_title">$download</a> <span class="hideme">|</span></li>
+			<li><a href="mailto:public-qa-dev@w3.org" title="$feedback_title">$feedback</a> <span class="hideme">|</span></li>
+		</ul>
+
+		<p id="activity_logos">
+			<a href="http://www.w3.org/QA/" title="W3C's Quality Assurance Activity, bringing you free Web quality tools and more">
+				<img src="http://www.w3.org/QA/2002/12/qa.png" alt="QA" />
+			</a>
+			<a href="http://www.w3.org/Style/CSS/learning" title="Learn more about Cascading Style Sheets"></a>
+		</p>
+
+		<p id="support_logo">
+			Support this tool, become a<br />
+			<a href="http://www.w3.org/Consortium/supporters">
+				<img src="http://www.w3.org/Consortium/supporter-logos/csupporter.png" alt="W3C Supporter" />
+			</a>
+		</p>
+
+		<p class="copyright">
+			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-2008
+			<a href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a>&reg;
+
+			(<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>,
+			<a href="http://www.ercim.org/"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>,
+			<a href="http://www.keio.ac.jp/">Keio</a>),
+			All Rights Reserved.
+			W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+			<a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>,
+			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+			and <a rel="Copyright" href="http://www.w3.org/Consortium/Legal/copyright-software">software licensing</a>
+
+			rules apply. Your interactions with this site are in accordance
+			with our <a href="http://www.w3.org/Consortium/Legal/privacy-statement#Public">public</a> and
+			<a href="http://www.w3.org/Consortium/Legal/privacy-statement#Members">Member</a> privacy
+			statements.
+		</p>
+
+	</body>
+
+</html>
