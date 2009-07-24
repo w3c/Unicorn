@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.8 2009-07-24 13:47:46 tgambet Exp $
+// $Id: IndexGenerator.java,v 1.9 2009-07-24 14:13:16 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -130,11 +130,13 @@ public class IndexGenerator {
 		
 		aVelocityContext.put("languages", languages);
 		
+		
 		MergeProperties mergeProps = new MergeProperties();
 		
 		for (File langFile : langFiles) {
 			
 			String langCode = langFile.getName().split("\\.")[1];
+			aVelocityContext.put("lang", langCode);
 		    
 		    Properties props = mergeProps.getMergeProperties(defaultLangFile[0], langFile);
 		    

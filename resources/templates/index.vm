@@ -69,7 +69,7 @@
 							$uri:
 							<input type="text" name="ucn_uri" id="ucn_uri" size="45" />
 						</label>
-						<input type="hidden" name="ucn_lang" value="fr" />
+						<input type="hidden" name="ucn_lang" value="$langCode" />
 
 					</p>
 					<fieldset id="opt_uri" class="options">
