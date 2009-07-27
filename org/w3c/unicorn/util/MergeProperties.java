@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.VelocityContext;
 
 
 /** 
@@ -20,7 +21,7 @@ public class MergeProperties
 { 
 	public static final Log logger = LogFactory.getLog("org.w3c.unicorn.until");
   
-	public Properties getMergeProperties(File defaultPropFile, File sourcePropFile) { 
+	public static Properties getMergeProperties(File defaultPropFile, File sourcePropFile) { 
 		Properties defaultProps = new Properties();
 		Properties sourceProps = new Properties();
 		try { 
@@ -45,5 +46,15 @@ public class MergeProperties
 		}
 		
 		return propMerge;
+	}
+	
+	public static void loadInVelocityContext(Properties props, VelocityContext context) {
+	    Set<Object> keys = props.keySet();
+	    Iterator<Object> itr = keys.iterator();
+	    String key;
+	    while (itr.hasNext()) {
+			key = itr.next().toString();
+			context.put(key, props.get(key));
+	    }
 	}
 } 
