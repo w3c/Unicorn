@@ -5,9 +5,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     #if($unicorncall.DocumentName)
-      <title>R&eacute;sultat pour $unicorncall.DocumentName</title>
+      <title>$result_for $unicorncall.DocumentName</title>
     #else
-      <title>R&eacute;sultat pour le document que vous avez soumis</title>
+      <title>$result_for_upload</title>
     #end
     <link rev="start" href="./" title="Home Page" />
     <style type="text/css" media="all">@import "./style/base.css";</style>
@@ -119,24 +119,24 @@
   #foreach($observationName in $observationList.keySet())
     #set($observation = $observationList.get($observationName))
     #if($observation.isPassed())
-      <h2 class="valid">Ce document a pass&eacute; le test
+      <h2 class="valid">$test_ok_1 
       #if($observation.getVersion())
         $observation.getVersion().toUpperCase()
       #else 
         $observationName
       #end
-      !</h2>
+      $test_ok_2</h2>
     #else
-      <h2 id="results" class="invalid">Ce document <strong>n'a pas</strong> pass&eacute; le test 
+      <h2 id="results" class="invalid">$test_fail_1 
       #if($observation.getVersion())
         $observation.getVersion().toUpperCase()
       #else 
         $observationName
       #end
-      !</h2>
+      $test_fail_2</h2>
       #foreach($result in $observation.getResultsList())
         #if(!$result.Errors.isEmpty())
-          <h3>Emplacement: $result.Uri</h3>
+          <h3>$location: $result.Uri</h3>
       	  #produceErrors($result.Errors)
       	#end
       #end
@@ -145,7 +145,7 @@
     
     #foreach($result in $observation.getResultsList())
       #if(!$result.Infos.isEmpty() || !$result.Warnings.isEmpty())
-        <h3>Emplacement: $result.Uri</h3>
+        <h3>$location: $result.Uri</h3>
       #end
   
       #if(!$result.Infos.isEmpty())
@@ -161,11 +161,12 @@
   #end
 
 
+
   </div>
 
      <ul class="navbar"  id="menu">
        	<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="Documentation about this service and the software behind it">Documentation</a> <span class="hideme">|</span></li>
-		<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="Download the source for this service">T&eacute;l&eacute;chargement</a> <span class="hideme">|</span></li>
+		<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="Download the source for this service">Download</a> <span class="hideme">|</span></li>
 		<li><a href="mailto:public-qa-dev@w3.org" title="send us your thoughts and bug reports on the PUBLIC development mailing-list">Feedback</a> <span class="hideme">|</span></li>
 	      </ul>
 

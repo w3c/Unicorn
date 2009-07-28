@@ -1,9 +1,10 @@
-// $Id: XMLOutputFormater.java,v 1.5 2009-07-24 13:47:46 tgambet Exp $
+// $Id: XMLOutputFormater.java,v 1.6 2009-07-28 10:36:31 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
 
+import java.io.File;
 import java.io.Writer;
 import java.net.URL;
 import java.util.Map;
@@ -18,6 +19,8 @@ import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.w3c.unicorn.util.ListFiles;
+import org.w3c.unicorn.util.MergeProperties;
 import org.w3c.unicorn.util.Property;
 
 /**
@@ -51,6 +54,8 @@ public class XMLOutputFormater implements OutputFormater {
 	 * Apache velocity engine for the error
 	 */
 	private static VelocityEngine aVelocityEngineError = new VelocityEngine();
+	
+	private static VelocityContext aVelocityContext = new VelocityContext();
 
 	/**
 	 * Write the result of the XML in a file
@@ -68,9 +73,24 @@ public class XMLOutputFormater implements OutputFormater {
 					+ ".");
 			XMLOutputFormater.logger.debug("Output language : " + sLang + ".");
 		}
-		String sFileName;
-		sFileName = sLang + "_" + sOutputFormat
-				+ Property.get("TEMPLATE_FILE_EXTENSION");
+		
+		// Template file for this output
+		String sFileName = sOutputFormat + Property.get("TEMPLATE_FILE_EXTENSION");
+		
+		// Language file for this output
+		File langFile = new File(Property.get("PATH_TO_LANGUAGE_FILES") +
+				sOutputFormat + "." + sLang + ".properties");
+		
+		// Default language file
+		File defaultLangFile = new File(Property.get("PATH_TO_LANGUAGE_FILES") +
+				sOutputFormat + "." + Property.get("DEFAULT_LANGUAGE") + ".properties");
+		
+		// Merge the properties
+		Properties props = MergeProperties.getMergeProperties(defaultLangFile, langFile);
+		
+		// Load in velocity context
+		MergeProperties.loadInVelocityContext(props, aVelocityContext);
+		
 		// check if sFileName exist
 		try {
 			this.aTemplateOutput = XMLOutputFormater.aVelocityEngineOutput
@@ -85,6 +105,8 @@ public class XMLOutputFormater implements OutputFormater {
 			this.aTemplateOutput = XMLOutputFormater.aVelocityEngineOutput
 					.getTemplate(sFileName);
 		}
+		sFileName = sOutputFormat + ".error" + Property.get("TEMPLATE_FILE_EXTENSION");
+		
 		try {
 			this.aTemplateError = XMLOutputFormater.aVelocityEngineError
 					.getTemplate(sFileName);
@@ -116,7 +138,6 @@ public class XMLOutputFormater implements OutputFormater {
 			XMLOutputFormater.logger.debug("Writer : " + aWriter + ".");
 		}
 
-		final VelocityContext aVelocityContext = new VelocityContext();
 		final EventCartridge aEventCartridge = new EventCartridge();
 		aEventCartridge.addEventHandler(new XHTMLize());
 		// aEventCartridge.addEventHandler(new EscapeXMLEntities());
@@ -143,7 +164,6 @@ public class XMLOutputFormater implements OutputFormater {
 			XMLOutputFormater.logger.debug("Error : " + aException + ".");
 			XMLOutputFormater.logger.debug("Writer : " + aWriter + ".");
 		}
-		final VelocityContext aVelocityContext = new VelocityContext();
 		final EventCartridge aEventCartridge = new EventCartridge();
 		aEventCartridge.addEventHandler(new EscapeXMLEntities());
 		aEventCartridge.attachToContext(aVelocityContext);
@@ -155,19 +175,18 @@ public class XMLOutputFormater implements OutputFormater {
 	static {
 		try {
 			final Properties aProperties = new Properties();
-			//aProperties.load(new URL("file:"
-			//		+ Property.get("VELOCITY_CONFIG_FILE")).openStream());
 			
 			aProperties.load(new URL(Property.class.getResource("/"),
 					Property.get("REL_PATH_TO_CONF_FILES") + "velocity.properties").openStream());
 
 			aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH, Property
-					.get("PATH_TO_OUTPUT_TEMPLATES"));
+					.get("PATH_TO_TEMPLATES"));
+			
 			XMLOutputFormater.aVelocityEngineOutput.init(aProperties);
 			XMLOutputFormater.logger.debug("OutputEngine "
 					+ Velocity.FILE_RESOURCE_LOADER_PATH);
 			aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH, Property
-					.get("PATH_TO_OUTPUT_ERROR_TEMPLATES"));
+					.get("PATH_TO_TEMPLATES"));
 			XMLOutputFormater.aVelocityEngineError.init(aProperties);
 		} catch (final Exception e) {
 			XMLOutputFormater.logger.error("Exception : " + e.getMessage(), e);

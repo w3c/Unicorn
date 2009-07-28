@@ -1,9 +1,10 @@
-// $Id: SimpleOutputFormater.java,v 1.4 2009-07-24 13:47:46 tgambet Exp $
+// $Id: SimpleOutputFormater.java,v 1.5 2009-07-28 10:36:31 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
 
+import java.io.File;
 import java.io.Writer;
 import java.net.URL;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.w3c.unicorn.util.MergeProperties;
 import org.w3c.unicorn.util.Property;
 
 /**
@@ -35,6 +37,8 @@ public class SimpleOutputFormater implements OutputFormater {
 	private static VelocityEngine aVelocityEngineOutput = new VelocityEngine();
 
 	private static VelocityEngine aVelocityEngineError = new VelocityEngine();
+	
+	private static VelocityContext aVelocityContext = new VelocityContext();
 
 	public SimpleOutputFormater(final String sOutputFormat, final String sLang)
 			throws ResourceNotFoundException, ParseErrorException, Exception {
@@ -45,9 +49,23 @@ public class SimpleOutputFormater implements OutputFormater {
 			SimpleOutputFormater.logger.debug("Output language : " + sLang
 					+ ".");
 		}
-		final String sFileName;
-		sFileName = sLang + "_" + sOutputFormat
-				+ Property.get("TEMPLATE_FILE_EXTENSION");
+		
+		String sFileName = sOutputFormat + Property.get("TEMPLATE_FILE_EXTENSION");
+		
+		// Language file for this output
+		File langFile = new File(Property.get("PATH_TO_LANGUAGE_FILES") +
+				sOutputFormat + "." + sLang + ".properties");
+		
+		// Default language file
+		File defaultLangFile = new File(Property.get("PATH_TO_LANGUAGE_FILES") +
+				sOutputFormat + "." + Property.get("DEFAULT_LANGUAGE") + ".properties");
+		
+		// Merge the properties
+		Properties props = MergeProperties.getMergeProperties(defaultLangFile, langFile);
+		
+		// Load in velocity context
+		MergeProperties.loadInVelocityContext(props, aVelocityContext);
+		
 		this.aTemplateOutput = SimpleOutputFormater.aVelocityEngineOutput
 				.getTemplate(sFileName,"UTF-8");
 		this.aTemplateError = SimpleOutputFormater.aVelocityEngineError
@@ -69,7 +87,6 @@ public class SimpleOutputFormater implements OutputFormater {
 					+ mapOfStringObject + ".");
 			SimpleOutputFormater.logger.debug("Writer : " + aWriter + ".");
 		}
-		final VelocityContext aVelocityContext = new VelocityContext();
 		for (final String sObjectName : mapOfStringObject.keySet()) {
 			aVelocityContext.put(sObjectName, mapOfStringObject
 					.get(sObjectName));
@@ -92,7 +109,6 @@ public class SimpleOutputFormater implements OutputFormater {
 					+ aException.getMessage() + ".");
 			SimpleOutputFormater.logger.debug("Writer : " + aWriter + ".");
 		}
-		final VelocityContext aVelocityContext = new VelocityContext();
 		aVelocityContext.put("error", aException);
 		this.aTemplateError.merge(aVelocityContext, aWriter);
 	}
@@ -100,19 +116,17 @@ public class SimpleOutputFormater implements OutputFormater {
 	static {
 		try {
 			final Properties aProperties = new Properties();
-			//aProperties.load(new URL("file:"
-			//		+ Property.get("VELOCITY_CONFIG_FILE")).openStream());
 			
 			aProperties.load(new URL(Property.class.getResource("/"),
 					Property.get("REL_PATH_TO_CONF_FILES") + "velocity.properties").openStream());
 
 			aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH, Property
-					.get("PATH_TO_OUTPUT_TEMPLATES"));
+					.get("PATH_TO_TEMPLATES"));
 			SimpleOutputFormater.aVelocityEngineOutput.init(aProperties);
 			SimpleOutputFormater.logger.debug("OutputEngine "
 					+ Velocity.FILE_RESOURCE_LOADER_PATH);
 			aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH, Property
-					.get("PATH_TO_OUTPUT_ERROR_TEMPLATES"));
+					.get("PATH_TO_TEMPLATES"));
 			SimpleOutputFormater.aVelocityEngineError.init(aProperties);
 		} catch (final Exception e) {
 			SimpleOutputFormater.logger.error("Exception : " + e.getMessage(),

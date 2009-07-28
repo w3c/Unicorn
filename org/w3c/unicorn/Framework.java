@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.18 2009-07-23 13:00:41 tgambet Exp $
+// $Id: Framework.java,v 1.19 2009-07-28 10:36:31 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -245,7 +245,7 @@ public class Framework {
 		}
 
 		// Retrieve output lang from PATH_TO_OUTPUT_TEMPLATES
-		File[] listFD = (new File(Property.get("PATH_TO_OUTPUT_TEMPLATES")))
+		File[] listFD = (new File(Property.get("PATH_TO_TEMPLATES")))
 				.listFiles(new FileFilter() {
 					public boolean accept(File pathname) {
 						return pathname.getName().matches(".*\\.vm$");

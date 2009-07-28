@@ -107,8 +107,8 @@
 #end
 
 #if(!$unicorncall.haveHighPassed())
-Quelques observations ne sont pas effectuer car one or more with high priority failed.
+$fail_high_priority
 #end
 #if(!$unicorncall.haveMediumPassed())
-Quelques observations ne sont pas effectuer car one or more with medium priority failed.
+$fail_medium_priority
 #end

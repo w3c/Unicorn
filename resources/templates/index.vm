@@ -4,7 +4,7 @@
 		$task:
 		<select name="ucn_task" onchange="javascript:taskChanged(this.options[this.options.selectedIndex].value, $i);">
 			#foreach( $task in $tasklist ) 
-				<option value="$task.getID()">$task.getLongName("fr")</option> 
+				<option value="$task.getID()">$task.getLongName("${lang}")</option> 
 			#end
 		</select>
 	</div>

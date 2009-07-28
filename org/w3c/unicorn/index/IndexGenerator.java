@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.10 2009-07-27 11:18:08 tgambet Exp $
+// $Id: IndexGenerator.java,v 1.11 2009-07-28 10:38:37 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -130,9 +130,6 @@ public class IndexGenerator {
 		
 		aVelocityContext.put("languages", languages);
 		
-		
-		//MergeProperties mergeProps = new MergeProperties();
-		
 		for (File langFile : langFiles) {
 			
 			String langCode = langFile.getName().split("\\.")[1];
@@ -144,17 +141,13 @@ public class IndexGenerator {
 		    if (langCode.equals(Property.get("DEFAULT_LANGUAGE"))) {
 		    	writeIndex("index.html");
 		    	IndexGenerator.logger.info("Default language is \"" + props.getProperty("language") + "\" : created index.html");
-		    }
-		    
-		    
+		    }	 
 		   
 		    String indexPageName = "index." + langCode + ".html";
 			writeIndex(indexPageName);
 			
 			IndexGenerator.logger.info("Created index page for language \"" + props.getProperty("language") + "\" : " + indexPageName);
 		}
-		
-		
 		
 		Template template = aVelocityEngine.getTemplate("index/en_parameters.js.vm");
 		
