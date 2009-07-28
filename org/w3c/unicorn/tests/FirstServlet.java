@@ -1,4 +1,4 @@
-// $Id: FirstServlet.java,v 1.14 2009-07-22 14:54:21 tgambet Exp $
+// $Id: FirstServlet.java,v 1.15 2009-07-28 10:56:56 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -113,8 +113,8 @@ public class FirstServlet extends HttpServlet {
 		// ucn_lang is a parameter which is define in xx_index.html.vm.
 		// It is an hidden parameter of a form.
 		String templateLang = null;
-		if (aHttpServletRequest.getParameterValues("ucn_lang") != null){
-			templateLang = aHttpServletRequest.getParameterValues("ucn_lang")[0];
+		if (aHttpServletRequest.getParameterValues(Property.get("UNICORN_PARAMETER_PREFIX") + "lang") != null){
+			templateLang = aHttpServletRequest.getParameterValues(Property.get("UNICORN_PARAMETER_PREFIX") + "lang")[0];
 		}
 		else {
 			templateLang = chooseTemplateLang(aLocale);
@@ -241,7 +241,7 @@ public class FirstServlet extends HttpServlet {
 					addParameter(aFileItem.getFieldName(), aFileItem.getString(),
 							aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
 
-				} else if(aFileItem.getFieldName().equals("ucn_file")) {
+				} else if(aFileItem.getFieldName().equals(Property.get("UNICORN_PARAMETER_PREFIX") + "file")) {
 					aFileItemUploaded = aFileItem;
 					aUnicornCall.setDocumentName(aFileItemUploaded.getName());
 					aUnicornCall.setInputParameterValue(aFileItemUploaded);
@@ -355,7 +355,7 @@ public class FirstServlet extends HttpServlet {
 		}
 
 		if (sParamName.equals("lang")) {
-			aUnicornCall.addParameter("ucn_lang", tStringParamValue);
+			aUnicornCall.addParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang", tStringParamValue);
 		}
 
 		// Global Unicorn parameter
@@ -387,7 +387,7 @@ public class FirstServlet extends HttpServlet {
 			mapOfOutputParameter.put(sParamName, tStringParamValue[0]);
 		}
 		else if (sParamName.equals("text_mime")) {
-			aUnicornCall.addParameter("ucn_mime", tStringParamValue);
+			aUnicornCall.addParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "mime", tStringParamValue);
 		}
 	}
 

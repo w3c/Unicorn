@@ -9,6 +9,7 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
+import org.w3c.unicorn.util.Property;
 
 public class UnicornClientDirectInputTest {
 
@@ -24,7 +25,7 @@ public class UnicornClientDirectInputTest {
 		
 		Map<String, String[]> mapOfParameter = new LinkedHashMap<String, String[]>();
 		String[] tmp = {"text/css"};
-		mapOfParameter.put("ucn_mime", tmp); 
+		mapOfParameter.put(Property.get("UNICORN_PARAMETER_PREFIX") + "mime", tmp); 
 		aUnicornCall.setMapOfStringParameter(mapOfParameter);
 
 		aUnicornCall.setInputParameterValue("p#msie { /* msie-bug note for text/plain */ float: right; border: 1px solid black; background: white;}");

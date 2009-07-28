@@ -2,7 +2,7 @@
 #macro(genTasklist $i)
 	<div>
 		$task:
-		<select name="ucn_task" onchange="javascript:taskChanged(this.options[this.options.selectedIndex].value, $i);">
+		<select name="${param_prefix}task" onchange="javascript:taskChanged(this.options[this.options.selectedIndex].value, $i);">
 			#foreach( $task in $tasklist ) 
 				<option value="$task.getID()">$task.getLongName("${lang}")</option> 
 			#end
@@ -65,11 +65,11 @@
 					#genTasklist(0)
 					<p class="instructions">$instruction-by-uri</p>
 					<p>
-						<label title="$uri_title" for="ucn_uri">
+						<label title="$uri_title" for="${param_prefix}uri">
 							$uri:
-							<input type="text" name="ucn_uri" id="ucn_uri" size="45" />
+							<input type="text" name="${param_prefix}uri" id="${param_prefix}uri" size="45" />
 						</label>
-						<input type="hidden" name="ucn_lang" value="${lang}" />
+						<input type="hidden" name="${param_prefix}lang" value="${lang}" />
 
 					</p>
 					<fieldset id="opt_uri" class="options">
@@ -95,10 +95,10 @@
 					
 					<p class="instructions">$instruction-by-upload</p>
 					<p>
-						<label title="$instruction-by-upload" for="ucn_file">
+						<label title="$instruction-by-upload" for="${param_prefix}file">
 							$local_file
-							<input type="file" id="ucn_file" name="ucn_file" size="30" />
-							<input type="hidden" name="ucn_lang" value="fr" />
+							<input type="file" id="${param_prefix}file" name="${param_prefix}file" size="30" />
+							<input type="hidden" name="${param_prefix}lang" value="fr" />
 						</label>
 						
 					</p>
@@ -126,9 +126,9 @@
 					#genTasklist(2)
 					<p class="instructions">$instruction-by-input</p>
 					<p>
-						<textarea name="ucn_text" rows="12" cols="70"></textarea>
-						<span id="ucn_text_mime"></span>
-						<input type="hidden" name="ucn_lang" value="fr" />
+						<textarea name="${param_prefix}text" rows="12" cols="70"></textarea>
+						<span id="${param_prefix}text_mime"></span>
+						<input type="hidden" name="${param_prefix}lang" value="fr" />
 					</p>      
 					<fieldset id="opt_direct" class="options">
 						<p title="$simple_options">$simple_options</p>

@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.11 2009-07-28 10:38:37 tgambet Exp $
+// $Id: IndexGenerator.java,v 1.12 2009-07-28 10:56:56 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -129,6 +129,8 @@ public class IndexGenerator {
 		IndexGenerator.logger.info("Found Languages : " + languages.toString());
 		
 		aVelocityContext.put("languages", languages);
+		
+		aVelocityContext.put("param_prefix", Property.get("UNICORN_PARAMETER_PREFIX"));
 		
 		for (File langFile : langFiles) {
 			

@@ -12,6 +12,7 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
+import org.w3c.unicorn.util.Property;
 
 public class UnicornClient {
 
@@ -96,7 +97,7 @@ public class UnicornClient {
 					aUnicornCall.setMapOfStringParameter(mapOfParameter);
 				}
 				String[] tmp = {pInput[1]};
-				mapOfParameter.put("ucn_mime", tmp);
+				mapOfParameter.put(Property.get("UNICORN_PARAMETER_PREFIX") + "mime", tmp);
 
 				aUnicornCall.setInputParameterValue(content);
 				

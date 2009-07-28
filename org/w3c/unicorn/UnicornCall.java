@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.23 2008-09-25 17:37:43 jean-gui Exp $
+// $Id: UnicornCall.java,v 1.24 2009-07-28 10:56:56 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -384,7 +384,7 @@ public class UnicornCall {
 			// lang of the observer (if it has one).
 			// ucn_lang is defined in forms of index templates
 			// (xx_index.html.vm)
-			String[] valOfUcnLang = this.mapOfStringParameter.get("ucn_lang");
+			String[] valOfUcnLang = this.mapOfStringParameter.get(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
 
 			// Get name of the lang parameter (defined in RDF file)
 			String observerParamLangName = aObserver.getParamLangName();
@@ -762,7 +762,7 @@ public class UnicornCall {
 			aMimeType = new MimeType(sMimeType);
 			break;
 		case DIRECT:
-			sMimeType = this.mapOfStringParameter.get("ucn_mime")[0];
+			sMimeType = this.mapOfStringParameter.get(Property.get("UNICORN_PARAMETER_PREFIX") + "mime")[0];
 			if (null == sMimeType || "".equals(sMimeType)) {
 				UnicornCall.logger
 						.error("No mimetype specified for direct input.");

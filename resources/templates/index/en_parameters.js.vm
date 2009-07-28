@@ -76,7 +76,7 @@
 #end
 
 #macro(createMimes $task)
-	'<select name="ucn_text_mime">' +
+	'<select name="${param_prefix}text_mime">' +
 	#foreach($mime in $task.SupportedMimeTypes)  
 			'<option value="$mime">$mime</option>' +
 	#end
@@ -132,12 +132,12 @@ function taskChanged(value, method) {
 
 	// mimetypes dropdown
 	if(method == 2) {
-		document.getElementById("ucn_text_mime").innerHTML = mimeContainer[value];
+		document.getElementById("${param_prefix}text_mime").innerHTML = mimeContainer[value];
 	}
 }
 
 function init() {
-  var tasklists = document.getElementsByName('ucn_task');
+  var tasklists = document.getElementsByName('${param_prefix}task');
   for(var i = 0; i < tasklists.length; i++) {
     taskChanged(tasklists[i].options[tasklists[i].options.selectedIndex].value, i);
   }
