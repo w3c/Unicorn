@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.12 2009-07-28 10:56:56 tgambet Exp $
+// $Id: IndexGenerator.java,v 1.13 2009-07-29 09:18:24 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,23 +6,13 @@ package org.w3c.unicorn.index;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
-import java.io.OutputStreamWriter;
-import java.io.FileOutputStream;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.Template;
+import org.apache.commons.logging.LogFactory;;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.w3.unicorn.tasklist.TUi;
@@ -30,7 +20,7 @@ import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.tasklist.parameters.ParameterType;
 import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.Property;
-import org.w3c.unicorn.util.MergeProperties;;
+import org.w3c.unicorn.util.TemplateHelper;;
 
 /**
  * IndexGenerator<br />
@@ -56,32 +46,9 @@ public class IndexGenerator {
 	private static Properties aProperties = new Properties();
 
 	/**
-	 * Velocity Engine to create pages from the templates
-	 */
-	private static VelocityEngine aVelocityEngine = new VelocityEngine();
-
-	/**
 	 * Load the properties and initialize apache velocity
 	 */
 	static {
-		try {
-			IndexGenerator.aProperties.load(new URL(Property.class.getResource("/"),
-					Property.get("REL_PATH_TO_CONF_FILES") + "velocity.properties").openStream());
-			IndexGenerator.aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH,
-					Property.get("PATH_TO_TEMPLATES"));
-			IndexGenerator.aVelocityEngine.init(IndexGenerator.aProperties);
-		} catch (final MalformedURLException e) {
-			IndexGenerator.logger.error("MalformedURLException : "
-					+ e.getMessage(), e);
-			e.printStackTrace();
-		} catch (final IOException e) {
-			IndexGenerator.logger.error("IOException : " + e.getMessage(), e);
-			e.printStackTrace();
-		} catch (final Exception e) {
-			IndexGenerator.logger.error("Exception : " + e.getMessage(), e);
-			e.printStackTrace();
-		}
-
 		IndexGenerator.aVelocityContext = new VelocityContext();
 		IndexGenerator.aVelocityContext.put("tasklist", Framework.mapOfTask);
 
@@ -111,10 +78,6 @@ public class IndexGenerator {
 			ParseErrorException, Exception {
 		IndexGenerator.logger.trace("generateIndexes");
 		
-		// Get the Properties object for the default language
-		File[] defaultLangFile = ListFiles.listFiles(Property.get("PATH_TO_LANGUAGE_FILES"),
-				"index\\." + Property.get("DEFAULT_LANGUAGE"));
-		
 		// Get the list of the language properties files
 		File[] langFiles = ListFiles.listFiles(Property.get("PATH_TO_LANGUAGE_FILES"), "index");
 		
@@ -127,52 +90,16 @@ public class IndexGenerator {
 		}
 		
 		IndexGenerator.logger.info("Found Languages : " + languages.toString());
-		
 		aVelocityContext.put("languages", languages);
-		
 		aVelocityContext.put("param_prefix", Property.get("UNICORN_PARAMETER_PREFIX"));
 		
 		for (File langFile : langFiles) {
-			
 			String langCode = langFile.getName().split("\\.")[1];
 			aVelocityContext.put("lang", langCode);
-		    
-		    Properties props = MergeProperties.getMergeProperties(defaultLangFile[0], langFile);
-		    MergeProperties.loadInVelocityContext(props, aVelocityContext);
-			
-		    if (langCode.equals(Property.get("DEFAULT_LANGUAGE"))) {
-		    	writeIndex("index.html");
-		    	IndexGenerator.logger.info("Default language is \"" + props.getProperty("language") + "\" : created index.html");
-		    }	 
-		   
-		    String indexPageName = "index." + langCode + ".html";
-			writeIndex(indexPageName);
-			
-			IndexGenerator.logger.info("Created index page for language \"" + props.getProperty("language") + "\" : " + indexPageName);
+		    TemplateHelper.generateFileFromTemplate("index", langCode, Property.get("PATH_TO_INDEX_OUTPUT"), "html", aVelocityContext);
 		}
 		
-		Template template = aVelocityEngine.getTemplate("index/en_parameters.js.vm");
-		
-		OutputStreamWriter fileWriter = new OutputStreamWriter(
-				new FileOutputStream(Property.get("PATH_TO_INDEX_OUTPUT")  + "en_parameters.js"),
-				"UTF-8");
-		
-		template.merge(IndexGenerator.aVelocityContext, fileWriter);
-		fileWriter.close();
-	}
-	
-	private static void writeIndex(String pageName) throws ResourceNotFoundException, ParseErrorException, Exception {
-		
-		// index.vm is located in PATH_TO_TEMPLATES
-		Template template = aVelocityEngine.getTemplate("index.vm");
-		
-		// Generate the files
-		OutputStreamWriter fileWriter = new OutputStreamWriter(
-				new FileOutputStream(Property.get("PATH_TO_INDEX_OUTPUT")  + pageName),
-				"UTF-8");
-		
-		template.merge(IndexGenerator.aVelocityContext, fileWriter);
-		fileWriter.close();
+		TemplateHelper.generateFileFromTemplate("index/en_parameters", null, Property.get("PATH_TO_INDEX_OUTPUT"), "js", aVelocityContext);
 	}
 	
 	/**

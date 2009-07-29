@@ -13,20 +13,18 @@
                 <error>
                     <errortype>io</errortype>
                     <message>
-                        An I/O exception occured during the call to this observer.
+                        $io_1
                     </message>
                     <longmessage>
-                        This is probably not your fault.
+                        $io_2
                     </longmessage>
                     <longmessage>
-                        This problem may appear
-                        if the observer can't be contacted for some reason.
+                        $io_3
                     </longmessage>
                     <longmessage>
-                        Another possibility is that the observer does not respect
-                        the some specification to communicate with Unicorn.
+                        $io_4
                     </longmessage>
-                    <longmessage>Sorry for the inconvenience.</longmessage>
+                    <longmessage>$io_5</longmessage>
                 </error>
             </errorlist>
         </errors>

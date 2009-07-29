@@ -1,11 +1,14 @@
-// $Id: UnicornCall.java,v 1.24 2009-07-28 10:56:56 tgambet Exp $
+// $Id: UnicornCall.java,v 1.25 2009-07-29 09:18:24 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.activation.MimeType;
 
@@ -26,6 +30,10 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 
 import org.w3c.dom.Document;
 
@@ -36,6 +44,7 @@ import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.exceptions.EmptyDocumentException;
 import org.w3c.unicorn.exceptions.NoDocumentException;
 import org.w3c.unicorn.exceptions.NoMimeTypeException;
+import org.w3c.unicorn.index.IndexGenerator;
 import org.w3c.unicorn.input.InputFactory;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.request.RequestList;
@@ -50,6 +59,7 @@ import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
+import org.w3c.unicorn.util.TemplateHelper;
 import org.w3c.unicorn.util.Property;
 
 import com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl;
@@ -842,25 +852,28 @@ class RequestThread extends Thread {
 		this.unicornCall.incCounter();
 		Response aResponse = null;
 		try {
+			// Uncomment/comment next lines to test io_error
+			//throw new Exception();
 			aResponse = this.aRequest.doRequest();
 		} catch (final Exception e) {
 			RequestThread.logger.error("Exception : " + e.getMessage(), e);
 			e.printStackTrace();
 			try {
-          StringBuilder builder = new StringBuilder();
-          // TODO should be first processed as a template
-          InputStreamReader isr = new InputStreamReader(new URL("file:"
-                                        + Property.get("PATH_TO_ERROR_TEMPLATES")
-                                        + "en_io_error.vm").openConnection().getInputStream());
-          char[] chararray = new char[8192];
-          int readLength = 0;
-          while((readLength = isr.read(chararray, 0, 8192)) > -1) {
-              builder.append(chararray, 0, readLength);
-          }
-
-          aResponse = ResponseParserFactory.parse(builder.toString(),
-                                                  this.aRequest.getResponseType());
-          aResponse.setXml(builder);
+				StringBuilder builder = new StringBuilder();
+				String lang = unicornCall.getMapOfStringParameter().get("ucn_lang")[0];
+				
+				// generateFileFromTemplate generates the error xml file if it doesn't exist already
+				String filePath = TemplateHelper.generateFileFromTemplate("io_error", lang, Property.get("PATH_TO_INDEX_OUTPUT"), "xml");
+				
+				InputStreamReader isr = new InputStreamReader(new URL("file:" + filePath).openConnection().getInputStream());
+				
+				char[] chararray = new char[8192];
+				int readLength = 0;
+				while((readLength = isr.read(chararray, 0, 8192)) > -1) {
+					builder.append(chararray, 0, readLength);
+				}
+				aResponse = ResponseParserFactory.parse(builder.toString(), this.aRequest.getResponseType());
+				aResponse.setXml(builder);
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			} catch (IOException e1) {
