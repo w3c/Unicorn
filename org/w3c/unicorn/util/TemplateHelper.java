@@ -1,4 +1,4 @@
-// $Id: TemplateHelper.java,v 1.2 2009-07-29 09:39:05 tgambet Exp $
+// $Id: TemplateHelper.java,v 1.3 2009-07-29 09:44:53 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -105,8 +105,6 @@ public class TemplateHelper
 			String langFileName = templateName;
 			if(templateName.length() > 6 && templateName.substring(templateName.length()-6, templateName.length()).equals(".error"))
 				langFileName = templateName.substring(0,templateName.length()-6);
-			
-			logger.error("TOM : " + templateName);
 			
 			// Language file for this template
 			File langFile = new File(Property.get("PATH_TO_LANGUAGE_FILES") +
