@@ -1,14 +1,18 @@
-// $Id: UnicornCall.java,v 1.26 2009-07-29 13:23:33 tgambet Exp $
+// $Id: UnicornCall.java,v 1.27 2009-07-29 14:44:51 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -853,7 +857,7 @@ class RequestThread extends Thread {
 		Response aResponse = null;
 		try {
 			// Uncomment/comment next lines to test io_error
-			//throw new Exception();
+			//throw new Exception("Message test de l'exception");
 			aResponse = this.aRequest.doRequest();
 		} catch (final Exception e) {
 			RequestThread.logger.error("Exception : " + e.getMessage(), e);
@@ -863,9 +867,20 @@ class RequestThread extends Thread {
 				String lang = unicornCall.getMapOfStringParameter().get(Property.get("UNICORN_PARAMETER_PREFIX") + "lang")[0];
 				
 				// generateFileFromTemplate generates the error xml file if it doesn't exist already
-				String filePath = TemplateHelper.generateFileFromTemplate("io_error", lang, Property.get("PATH_TO_INDEX_OUTPUT"), "xml");
+				//String filePath = TemplateHelper.generateFileFromTemplate("io_error", lang, Property.get("PATH_TO_INDEX_OUTPUT"), "xml");
 				
-				InputStreamReader isr = new InputStreamReader(new URL("file:" + filePath).openConnection().getInputStream());
+				VelocityContext context = new VelocityContext();
+				context.put("exception", e.getMessage());
+				Template temp = TemplateHelper.getInternationalizedTemplate("io_error", lang, context);
+				
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				OutputStreamWriter osw = new OutputStreamWriter(os);
+				temp.merge(context, osw);		
+				osw.close();
+				
+				//InputStreamReader isr = new InputStreamReader(new URL("file:" + filePath).openConnection().getInputStream());
+				
+				InputStreamReader isr = new InputStreamReader(new ByteArrayInputStream(os.toByteArray()));
 				
 				char[] chararray = new char[8192];
 				int readLength = 0;
@@ -875,8 +890,13 @@ class RequestThread extends Thread {
 				aResponse = ResponseParserFactory.parse(builder.toString(), this.aRequest.getResponseType());
 				aResponse.setXml(builder);
 			} catch (MalformedURLException e1) {
+				RequestThread.logger.error("Exception : " + e1.getMessage(), e1);
 				e1.printStackTrace();
 			} catch (IOException e1) {
+				RequestThread.logger.error("Exception : " + e1.getMessage(), e1);
+				e1.printStackTrace();
+			} catch (Exception e1) {
+				RequestThread.logger.error("Exception : " + e1.getMessage(), e1);
 				e1.printStackTrace();
 			}
 		}

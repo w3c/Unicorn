@@ -12,19 +12,12 @@
                 <errorcount>1</errorcount>
                 <error>
                     <errortype>io</errortype>
-                    <message>
-                        $io_1
-                    </message>
-                    <longmessage>
-                        $io_2
-                    </longmessage>
-                    <longmessage>
-                        $io_3
-                    </longmessage>
-                    <longmessage>
-                        $io_4
-                    </longmessage>
+                    <message>$io_1</message>
+                    <longmessage>$io_2</longmessage>
+                    <longmessage>$io_3</longmessage>
+                    <longmessage>$io_4</longmessage>
                     <longmessage>$io_5</longmessage>
+                    <longmessage>$exception</longmessage>
                 </error>
             </errorlist>
         </errors>
