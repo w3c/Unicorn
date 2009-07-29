@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.25 2009-07-29 09:18:24 tgambet Exp $
+// $Id: UnicornCall.java,v 1.26 2009-07-29 13:23:33 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -860,7 +860,7 @@ class RequestThread extends Thread {
 			e.printStackTrace();
 			try {
 				StringBuilder builder = new StringBuilder();
-				String lang = unicornCall.getMapOfStringParameter().get("ucn_lang")[0];
+				String lang = unicornCall.getMapOfStringParameter().get(Property.get("UNICORN_PARAMETER_PREFIX") + "lang")[0];
 				
 				// generateFileFromTemplate generates the error xml file if it doesn't exist already
 				String filePath = TemplateHelper.generateFileFromTemplate("io_error", lang, Property.get("PATH_TO_INDEX_OUTPUT"), "xml");

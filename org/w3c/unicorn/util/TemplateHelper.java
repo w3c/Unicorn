@@ -1,4 +1,4 @@
-// $Id: TemplateHelper.java,v 1.4 2009-07-29 09:49:15 tgambet Exp $
+// $Id: TemplateHelper.java,v 1.5 2009-07-29 13:23:34 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException; 
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Iterator; 
 import java.util.Properties; 
 import java.util.Set;
@@ -39,8 +38,9 @@ public class TemplateHelper
 		Properties aProperties = new Properties();
 		
 		try {
-			aProperties.load(new URL(Property.class.getResource("/"),
-					"org/w3c/unicorn/conf/velocity.properties").openStream());
+			aProperties.load(
+					Property.getPropertyFileURL("velocity.properties").openStream()
+			);
 
 			aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH, Property
 					.get("PATH_TO_TEMPLATES"));

@@ -1,4 +1,4 @@
-// $Id: XMLOutputFormater.java,v 1.7 2009-07-29 09:18:24 tgambet Exp $
+// $Id: XMLOutputFormater.java,v 1.8 2009-07-29 13:23:33 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -59,7 +59,6 @@ public class XMLOutputFormater implements OutputFormater {
 		
 		aTemplateOutput = TemplateHelper.getInternationalizedTemplate(sOutputFormat, sLang, aVelocityContext);
 		aTemplateError = TemplateHelper.getInternationalizedTemplate(sOutputFormat + ".error", sLang, aVelocityContext);
-
 	}
 
 	/*
