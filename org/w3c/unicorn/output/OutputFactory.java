@@ -1,4 +1,4 @@
-// $Id: OutputFactory.java,v 1.4 2009-07-23 13:00:40 tgambet Exp $
+// $Id: OutputFactory.java,v 1.5 2009-07-29 09:39:05 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -38,7 +38,7 @@ public class OutputFactory {
 		try {
 			OutputFactory.aPropertiesSpecialFormaters.load(
 					new URL(Property.class.getResource("/"),
-							Property.get("REL_PATH_TO_CONF_FILES") + "specialFormaters.properties").openStream()
+							"org/w3c/unicorn/conf/specialFormaters.properties").openStream()
 			);
 		} catch (final IOException e) {
 			OutputFactory.logger.error("IOException : " + e.getMessage(), e);

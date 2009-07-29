@@ -13,13 +13,10 @@ How to compile and deploy Unicorn under Tomcat
 	PATH_TO_OBSERVER_LIST = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/
 	PATH_TO_TASKLIST = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/tasklist/
 	PATH_TO_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/templates/
-	PATH_TO_OUTPUT_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources//templates/output/
-	PATH_TO_OUTPUT_ERROR_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/templates//output//errors/
-	PATH_TO_INDEX_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/templates//index/
-	PATH_TO_ERROR_TEMPLATES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/templates//errors/
 	PATH_TO_TEMPORARY_FILES = /usr/share/tomcat5/webapps/unicorn/temporary_files/
 	URL_TO_TEMPORARY_FILES = http://www.w3.org/unicorn/temporary_files/
 	PATH_TO_INDEX_OUTPUT = /usr/share/tomcat5/webapps/unicorn/
+	PATH_TO_LANGUAGE_FILES = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/templates/language/
 	OBSERVER_LIST_FILE = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/observers.list
 	OBSERVER_RDF_MODEL = file:/usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/schemas/Observer.rdfs
 	OBSERVER_XML_FILENAME = observer.wadl
@@ -29,10 +26,9 @@ How to compile and deploy Unicorn under Tomcat
 	TASKLIST_XML_FILENAME = /tasklist.xml
 	TASKLIST_XML_FILE = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/tasklist/tasklist.xml
 	TASKLIST_RDF_MODEL = file:/usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/schemas/Task.rdfs
-	TEMPLATE_FILE_EXTENSION = .vm
 	UPLOADED_FILES_REPOSITORY = /usr/share/tomcat5/webapps/unicorn/WEB-INF/uploaded-files/
 	DELETE_UPLOADED_FILES = true
-	VELOCITY_CONFIG_FILE = /usr/share/tomcat5/webapps/unicorn/WEB-INF/resources/velocity.properties
+	
   Each entry of this file has the following form:
         PROPERTY_NAME = ($REF_TO_OTHER_PROPERTY ,)* [^$,]*
   For example, the property PATH_TO_RESOURCES can be :

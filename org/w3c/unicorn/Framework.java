@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.19 2009-07-28 10:36:31 tgambet Exp $
+// $Id: Framework.java,v 1.20 2009-07-29 09:39:05 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -79,7 +79,7 @@ public class Framework {
 	static {
 		try {
 			URL aURLPropFile = new URL(Property.class.getResource("/"),
-					Property.get("REL_PATH_TO_CONF_FILES") + "extensions.properties");
+					 "org/w3c/unicorn/conf/extensions.properties");
 			
 			final Properties aProperties = new Properties();
 			aProperties.load(aURLPropFile.openStream());
@@ -102,7 +102,7 @@ public class Framework {
 			mapOfReponseParser = new LinkedHashMap<String, ResponseParser>();
 			
 			URL aURLPropFile = new URL(Property.class.getResource("/"),
-					Property.get("REL_PATH_TO_CONF_FILES") + "responseParsers.properties");
+					"org/w3c/unicorn/conf/responseParsers.properties");
 			
 			final Properties aProperties = new Properties();
 			aProperties.load(aURLPropFile.openStream());

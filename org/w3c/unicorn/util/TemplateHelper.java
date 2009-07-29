@@ -1,4 +1,4 @@
-// $Id: TemplateHelper.java,v 1.1 2009-07-29 09:18:24 tgambet Exp $
+// $Id: TemplateHelper.java,v 1.2 2009-07-29 09:39:05 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -42,7 +42,7 @@ public class TemplateHelper
 		
 		try {
 			aProperties.load(new URL(Property.class.getResource("/"),
-					Property.get("REL_PATH_TO_CONF_FILES") + "velocity.properties").openStream());
+					"org/w3c/unicorn/conf/velocity.properties").openStream());
 
 			aProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH, Property
 					.get("PATH_TO_TEMPLATES"));
