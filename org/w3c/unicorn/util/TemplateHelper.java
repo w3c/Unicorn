@@ -1,4 +1,4 @@
-// $Id: TemplateHelper.java,v 1.3 2009-07-29 09:44:53 tgambet Exp $
+// $Id: TemplateHelper.java,v 1.4 2009-07-29 09:49:15 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -20,8 +20,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 
 /** 
 *  TemplateHelper provides functionalities to merge properties object, to load properties objects
