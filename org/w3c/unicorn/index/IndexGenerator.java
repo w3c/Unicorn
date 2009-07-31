@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.13 2009-07-29 09:18:24 tgambet Exp $
+// $Id: IndexGenerator.java,v 1.14 2009-07-31 11:16:26 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -95,7 +95,7 @@ public class IndexGenerator {
 		
 		for (File langFile : langFiles) {
 			String langCode = langFile.getName().split("\\.")[1];
-			aVelocityContext.put("lang", langCode);
+			//aVelocityContext.put("lang", langCode);
 		    TemplateHelper.generateFileFromTemplate("index", langCode, Property.get("PATH_TO_INDEX_OUTPUT"), "html", aVelocityContext);
 		}
 		

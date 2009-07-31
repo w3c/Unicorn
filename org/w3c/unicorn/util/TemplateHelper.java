@@ -1,6 +1,6 @@
-// $Id: TemplateHelper.java,v 1.5 2009-07-29 13:23:34 tgambet Exp $
+// $Id: TemplateHelper.java,v 1.6 2009-07-31 11:16:26 tgambet Exp $
 // Author: Thomas GAMBET.
-// (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
+// (c) COPYRIGHT MIT, ERCIM ant Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.util;
 
@@ -57,18 +57,21 @@ public class TemplateHelper
 			e.printStackTrace();
 		}
 	}
-  
-	public static Properties getMergeProperties(File defaultPropFile, File sourcePropFile) { 
-		Properties defaultProps = new Properties();
-		Properties sourceProps = new Properties();
+	
+	@SuppressWarnings("finally")
+	public static Properties getPropsFromFile(File propFile) {
+		Properties props = new Properties();
 		try { 
-			defaultProps.load(defaultPropFile.toURL().openStream());
-			sourceProps.load(sourcePropFile.toURL().openStream());
+			props.load(propFile.toURL().openStream());
 		} catch (IOException e) {
-			logger.error("Merge Properties Error : " + e.getMessage(), e);
+			logger.error("Unable to load properties file : " + e.getMessage(), e);
 			e.printStackTrace();
+		} finally {
+			return props;
 		}
-		
+	}
+	
+	public static Properties getMergeProps(Properties defaultProps, Properties sourceProps) {
 		Properties propMerge = new Properties();
 		
 		Set<Object> keys = defaultProps.keySet();
@@ -83,7 +86,53 @@ public class TemplateHelper
 				propMerge.put(key, defaultProps.get(key));
 		}
 		
+		keys = sourceProps.keySet();
+		itr = keys.iterator();
+		while (itr.hasNext()) {
+			key = itr.next().toString();
+			if (!defaultProps.containsKey(key))
+				propMerge.put(key, sourceProps.get(key));
+		}
+		
 		return propMerge;
+	}
+  
+	public static Properties getMergePropsFromFiles(File defaultPropFile, File sourcePropFile) { 
+		Properties defaultProps = new Properties();
+		Properties sourceProps = new Properties();
+		try { 
+			defaultProps.load(defaultPropFile.toURL().openStream());
+		} catch (IOException e) {
+			logger.error("Unable to load default language properties : " + e.getMessage(), e);
+			e.printStackTrace();
+			return null;
+		}
+		
+		try { 
+			sourceProps.load(sourcePropFile.toURL().openStream());
+		} catch (IOException e) {
+			logger.error("Unable to find desired language properties : " + e.getMessage(), e);
+			e.printStackTrace();
+			return defaultProps;
+		}
+		
+		return getMergeProps(defaultProps, sourceProps);
+		
+		/*Properties propMerge = new Properties();
+		
+		Set<Object> keys = defaultProps.keySet();
+		Iterator<Object> itr = keys.iterator();
+		String key;
+		
+		while (itr.hasNext()) {
+			key = itr.next().toString();
+			if (sourceProps.containsKey(key))
+				propMerge.put(key, sourceProps.get(key));
+			else
+				propMerge.put(key, defaultProps.get(key));
+		}
+		
+		return propMerge;*/
 	}
 	
 	public static void loadInVelocityContext(Properties props, VelocityContext context) {
@@ -99,6 +148,8 @@ public class TemplateHelper
 	public static Template getInternationalizedTemplate(String templateName, String langCode, VelocityContext context) {
 		
 		if (langCode != null) {
+			context.put("lang", langCode);
+			
 			// Error templates have the same language properties file that their coresponding non-error template
 			String langFileName = templateName;
 			if(templateName.length() > 6 && templateName.substring(templateName.length()-6, templateName.length()).equals(".error"))
@@ -114,15 +165,27 @@ public class TemplateHelper
 			
 			// Merge the properties or use default language
 			Properties mergedProps = new Properties();
-			if (langFile.exists())
-				mergedProps = TemplateHelper.getMergeProperties(defaultLangFile, langFile);
-			else
+			
+			if (langFile.exists()) {
+				mergedProps = getMergePropsFromFiles(defaultLangFile, langFile);
+			}
+			else {
 				try {
 					mergedProps.load(defaultLangFile.toURL().openStream());
 				} catch (IOException e1) {
 					logger.error("IOException : " + e1.getMessage(), e1);
 					e1.printStackTrace();
 				}
+			}
+			
+			File generalLangFile = new File(Property.get("PATH_TO_LANGUAGE_FILES") +
+					"general." + langCode + ".properties");
+			
+			if(!generalLangFile.exists())
+				generalLangFile = new File(Property.get("PATH_TO_LANGUAGE_FILES") +
+						"general." + Property.get("DEFAULT_LANGUAGE") + ".properties");
+			
+			mergedProps = getMergeProps(mergedProps, getPropsFromFile(generalLangFile));
 			
 			// Load in velocity context
 			TemplateHelper.loadInVelocityContext(mergedProps, context);
