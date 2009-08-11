@@ -1,14 +1,11 @@
-// $Id: URIRequest.java,v 1.8 2008-09-23 13:53:58 jean-gui Exp $
+// $Id: URIRequest.java,v 1.9 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringBufferInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -18,7 +15,6 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.input.URIInputModule;
 import org.w3c.unicorn.response.Response;
-import org.w3c.unicorn.response.parser.ResponseParserFactory;
 
 /**
  * Use to handle a request to a observer.
@@ -55,12 +51,12 @@ public class URIRequest extends Request {
 			final InputModule aInputModule, final String responseType)
 			throws IOException {
 		super();
-		URIRequest.logger.trace("Constructor");
-		if (URIRequest.logger.isDebugEnabled()) {
-			URIRequest.logger.debug("URL : " + sURL + ".");
-			URIRequest.logger.debug("Input parameter name : "
+		Request.logger.trace("Constructor");
+		if (Request.logger.isDebugEnabled()) {
+			Request.logger.debug("URL : " + sURL + ".");
+			Request.logger.debug("Input parameter name : "
 					+ sInputParameterName + ".");
-			URIRequest.logger.debug("Input module : " + aInputModule + ".");
+			Request.logger.debug("Input module : " + aInputModule + ".");
 		}
 		if (!(aInputModule instanceof URIInputModule)) {
 			throw new IllegalArgumentException("InputModule : "
@@ -80,12 +76,13 @@ public class URIRequest extends Request {
 	 * @param sValue
 	 *            value of the parameter to add
 	 */
+	@Override
 	public void addParameter(final String sName, final String sValue)
 			throws UnsupportedEncodingException {
-		URIRequest.logger.trace("addParameter");
-		if (URIRequest.logger.isDebugEnabled()) {
-			URIRequest.logger.debug("sName : " + sName + ".");
-			URIRequest.logger.debug("sValue : " + sValue + ".");
+		Request.logger.trace("addParameter");
+		if (Request.logger.isDebugEnabled()) {
+			Request.logger.debug("sName : " + sName + ".");
+			Request.logger.debug("sValue : " + sValue + ".");
 		}
 		if (null == this.sParameter) {
 			this.sParameter = "";
@@ -93,7 +90,7 @@ public class URIRequest extends Request {
 			this.sParameter += "&";
 		}
 		this.sParameter += sName + "=" + URLEncoder.encode(sValue, "UTF-8");
-		URIRequest.logger.debug("Parameters : " + this.sParameter + ".");
+		Request.logger.debug("Parameters : " + this.sParameter + ".");
 	}
 
 	/**
@@ -102,20 +99,21 @@ public class URIRequest extends Request {
 	 * @throws IOException
 	 *             odd error occured
 	 */
+	@Override
 	public Response doRequest() throws IOException {
-		URIRequest.logger.trace("doRequest");
-		if (URIRequest.logger.isDebugEnabled()) {
-			URIRequest.logger.debug("URL : " + this.sURL + " .");
-			URIRequest.logger.debug("Parameters : " + this.sParameter + " .");
+		Request.logger.trace("doRequest");
+		if (Request.logger.isDebugEnabled()) {
+			Request.logger.debug("URL : " + this.sURL + " .");
+			Request.logger.debug("Parameters : " + this.sParameter + " .");
 		}
 		final URL aURL;
 		if (null == this.sParameter) {
 			aURL = new URL(this.sURL);
 		} else {
-			URIRequest.logger.debug(this.sParameter);
+			Request.logger.debug(this.sParameter);
 			aURL = new URL(this.sURL + "?" + this.sParameter);
 		}
-		URIRequest.logger.debug("URL : " + aURL + " .");
+		Request.logger.debug("URL : " + aURL + " .");
 		final URLConnection aURLConnection = aURL.openConnection();
 
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
@@ -125,13 +123,14 @@ public class URIRequest extends Request {
 
 	@Override
 	public EnumInputMethod getInputMethod() {
-		URIRequest.logger.trace("getInputMethod");
+		Request.logger.trace("getInputMethod");
 		return EnumInputMethod.URI;
 	}
 
 	/**
 	 * Prints the object
 	 */
+	@Override
 	public String toString() {
 		final int iStringBufferSize = 1000;
 		final String sVariableSeparator = " ";

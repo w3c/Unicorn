@@ -1,4 +1,4 @@
-// $Id: CallParameter.java,v 1.4 2008-06-17 13:41:12 fbatard Exp $
+// $Id: CallParameter.java,v 1.5 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -236,6 +236,7 @@ public class CallParameter {
 	/**
 	 * Prints the object
 	 */
+	@Override
 	public String toString() {
 		final int iSize = 1000;
 		final String sVariableSeparator = "\n";

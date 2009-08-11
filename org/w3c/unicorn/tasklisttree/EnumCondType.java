@@ -13,5 +13,5 @@ public enum EnumCondType {
 	public final String value() {
 		return this.sValue;
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.10 2008-09-23 14:26:19 jean-gui Exp $
+// $Id: Request.java,v 1.11 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -123,6 +123,7 @@ public abstract class Request {
 		return null;
 	}
 
+	@Override
 	public String toString() {
 		return "Abstract class org.w3c.unicorn.request.Request, toString function must be overrided.";
 	}
@@ -134,20 +135,20 @@ public abstract class Request {
 	public void setResponseType(String responseType) {
 		this.responseType = responseType;
 	}
-	
-  protected Response streamToResponse(InputStream is) throws IOException {
-      StringBuilder builder = new StringBuilder();
-      InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-      char[] chararray = new char[8192];
-      int readLength = 0;
-      while((readLength = isr.read(chararray, 0, 8192)) > -1) {
-          builder.append(chararray, 0, readLength);
-      }
 
-      Response res = ResponseParserFactory.parse(builder.toString(), 
-                                                 this.getResponseType());
-      res.setXml(builder);
+	protected Response streamToResponse(InputStream is) throws IOException {
+		StringBuilder builder = new StringBuilder();
+		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+		char[] chararray = new char[8192];
+		int readLength = 0;
+		while ((readLength = isr.read(chararray, 0, 8192)) > -1) {
+			builder.append(chararray, 0, readLength);
+		}
 
-      return res;
-  }
+		Response res = ResponseParserFactory.parse(builder.toString(), this
+				.getResponseType());
+		res.setXml(builder);
+
+		return res;
+	}
 }

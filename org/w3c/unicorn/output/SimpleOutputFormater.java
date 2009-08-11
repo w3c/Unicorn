@@ -1,4 +1,4 @@
-// $Id: SimpleOutputFormater.java,v 1.6 2009-07-29 09:18:24 tgambet Exp $
+// $Id: SimpleOutputFormater.java,v 1.7 2009-08-11 13:43:01 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -27,16 +27,19 @@ public class SimpleOutputFormater implements OutputFormater {
 	private Template aTemplateOutput = null;
 
 	private Template aTemplateError = null;
-	
+
 	private static VelocityContext aVelocityContext = new VelocityContext();
 
 	public SimpleOutputFormater(final String sOutputFormat, final String sLang)
 			throws ResourceNotFoundException, ParseErrorException, Exception {
 		SimpleOutputFormater.logger.trace("Constructor");
-		SimpleOutputFormater.logger.debug("Output format : " + sOutputFormat + ".");
+		SimpleOutputFormater.logger.debug("Output format : " + sOutputFormat
+				+ ".");
 		SimpleOutputFormater.logger.debug("Output language : " + sLang + ".");
-		this.aTemplateOutput = TemplateHelper.getInternationalizedTemplate(sOutputFormat, sLang, aVelocityContext);
-		this.aTemplateError = TemplateHelper.getInternationalizedTemplate(sOutputFormat + ".error", sLang, aVelocityContext);
+		this.aTemplateOutput = TemplateHelper.getInternationalizedTemplate(
+				sOutputFormat, sLang, aVelocityContext);
+		this.aTemplateError = TemplateHelper.getInternationalizedTemplate(
+				sOutputFormat + ".error", sLang, aVelocityContext);
 	}
 
 	/*
@@ -49,10 +52,13 @@ public class SimpleOutputFormater implements OutputFormater {
 			final Writer aWriter) throws ResourceNotFoundException,
 			ParseErrorException, MethodInvocationException, Exception {
 		SimpleOutputFormater.logger.trace("produceOutput");
-		SimpleOutputFormater.logger.debug("Map of String -> Object : " + mapOfStringObject + ".");
+		SimpleOutputFormater.logger.debug("Map of String -> Object : "
+				+ mapOfStringObject + ".");
 		SimpleOutputFormater.logger.debug("Writer : " + aWriter + ".");
-		for (final String sObjectName : mapOfStringObject.keySet())
-			aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));
+		for (final String sObjectName : mapOfStringObject.keySet()) {
+			aVelocityContext.put(sObjectName, mapOfStringObject
+					.get(sObjectName));
+		}
 		this.aTemplateOutput.merge(aVelocityContext, aWriter);
 	}
 
@@ -66,7 +72,8 @@ public class SimpleOutputFormater implements OutputFormater {
 			throws ResourceNotFoundException, ParseErrorException,
 			MethodInvocationException, Exception {
 		SimpleOutputFormater.logger.trace("produceError");
-		SimpleOutputFormater.logger.debug("Error : " + aException.getMessage() + ".");
+		SimpleOutputFormater.logger.debug("Error : " + aException.getMessage()
+				+ ".");
 		SimpleOutputFormater.logger.debug("Writer : " + aWriter + ".");
 		aVelocityContext.put("error", aException);
 		this.aTemplateError.merge(aVelocityContext, aWriter);

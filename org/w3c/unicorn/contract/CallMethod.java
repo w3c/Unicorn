@@ -1,4 +1,4 @@
-// $Id: CallMethod.java,v 1.3 2008-06-17 14:09:50 fbatard Exp $
+// $Id: CallMethod.java,v 1.4 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -150,6 +150,7 @@ public class CallMethod {
 	/**
 	 * Print the object
 	 */
+	@Override
 	public String toString() {
 		final int iSize = 1000;
 		final String sVariableSeparator = "\n";

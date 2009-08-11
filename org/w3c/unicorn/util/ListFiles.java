@@ -1,4 +1,4 @@
-// $Id: ListFiles.java,v 1.2 2008-01-16 17:19:56 jean-gui Exp $
+// $Id: ListFiles.java,v 1.3 2009-08-11 13:43:02 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
  * ListFiles<br />
  * Created: Jun 26, 2006 2:17:42 PM<br />
  * This class provides static methods to list files into a directory.
+ * 
  * @author Jean-Guilhem ROUEL
  */
 public class ListFiles {
@@ -26,15 +27,16 @@ public class ListFiles {
 
 	/**
 	 * List all files matching a pattern in a directory
-	 * @param sDirectory the directory to list
-	 * @param sFilterPattern only filenames matching this pattern will be returned
+	 * 
+	 * @param sDirectory
+	 *            the directory to list
+	 * @param sFilterPattern
+	 *            only filenames matching this pattern will be returned
 	 * @return an array of files matching the pattern
 	 * @throws FileNotFoundException
 	 */
-	public static File[] listFiles (
-			final String sDirectory,
-			final String sFilterPattern) throws
-			FileNotFoundException {
+	public static File[] listFiles(final String sDirectory,
+			final String sFilterPattern) throws FileNotFoundException {
 		ListFiles.logger.trace("listFiles(String, String)");
 		if (ListFiles.logger.isDebugEnabled()) {
 			ListFiles.logger.debug("Directory : " + sDirectory + ".");
@@ -42,9 +44,9 @@ public class ListFiles {
 		}
 
 		final File aDirectory = new File(sDirectory);
-		final Pattern aPattern = Pattern.compile(sFilterPattern);		
+		final Pattern aPattern = Pattern.compile(sFilterPattern);
 		final FilenameFilter aFilenameFilter = new FilenameFilter() {
-			public boolean accept (File aDirectory, String sName) {
+			public boolean accept(File aDirectory, String sName) {
 				File aFile = new File(aDirectory.getPath() + sName);
 				if (aFile.isDirectory()) {
 					return false;
@@ -56,24 +58,22 @@ public class ListFiles {
 
 		final File[] tFile = aDirectory.listFiles(aFilenameFilter);
 		if (null == tFile) {
-			throw new FileNotFoundException(
-					"File in " +
-					sDirectory +
-					" matching pattern " +
-					sFilterPattern +
-					" not found.");
+			throw new FileNotFoundException("File in " + sDirectory
+					+ " matching pattern " + sFilterPattern + " not found.");
 		}
 		return tFile;
 	}
 
 	/**
 	 * List all filesin a directory
-	 * @param sDirectory the directory to list
+	 * 
+	 * @param sDirectory
+	 *            the directory to list
 	 * @return an array of files
 	 * @throws FileNotFoundException
 	 */
-	public static File[] listFiles (final String sDirectory) 
-	throws FileNotFoundException {
+	public static File[] listFiles(final String sDirectory)
+			throws FileNotFoundException {
 		ListFiles.logger.trace("listFiles(String)");
 		if (ListFiles.logger.isDebugEnabled()) {
 			ListFiles.logger.debug("Directory : " + sDirectory + ".");
@@ -81,24 +81,26 @@ public class ListFiles {
 
 		final File aDirectory = new File(sDirectory);
 		final FileFilter aFileFilter = new FileFilter() {
-	        public boolean accept (File aFile) {
-	            return !aFile.isDirectory();
-	        }
-	    };
+			public boolean accept(File aFile) {
+				return !aFile.isDirectory();
+			}
+		};
 
 		final File[] tFile = aDirectory.listFiles(aFileFilter);
 		if (null == tFile) {
-			throw new FileNotFoundException("File in "+sDirectory+" not found.");
+			throw new FileNotFoundException("File in " + sDirectory
+					+ " not found.");
 		}
 		return tFile;
 	}
 
 	/**
-	 * For testing purpose 
+	 * For testing purpose
+	 * 
 	 * @param args
 	 * @throws FileNotFoundException
 	 */
-	public static void main (String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws FileNotFoundException {
 		File[] files = listFiles("/home/jean");
 		for (final File file : files) {
 			System.out.println(file.getAbsolutePath());

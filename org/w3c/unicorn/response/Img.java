@@ -5,206 +5,183 @@
 // Generated on: 2006.07.26 at 04:29:37 PM CEST 
 //
 
-
 package org.w3c.unicorn.response;
 
 import java.math.BigInteger;
 
-
-
 /**
- * <p>Java class for img element declaration.
+ * <p>
+ * Java class for img element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="img">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;attribute name="alt" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
- *         &lt;attribute name="height" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger" />
- *         &lt;attribute name="longdesc" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
- *         &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}NMTOKEN" />
- *         &lt;attribute name="src" use="required" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
- *         &lt;attribute name="width" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger" />
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;img&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;attribute name=&quot;alt&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
+ *         &lt;attribute name=&quot;height&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}nonNegativeInteger&quot; /&gt;
+ *         &lt;attribute name=&quot;longdesc&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anyURI&quot; /&gt;
+ *         &lt;attribute name=&quot;name&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}NMTOKEN&quot; /&gt;
+ *         &lt;attribute name=&quot;src&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anyURI&quot; /&gt;
+ *         &lt;attribute name=&quot;width&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}nonNegativeInteger&quot; /&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
  */
 public class Img {
 
-    protected String alt;
-    protected BigInteger height;
-    protected String longdesc;
-    protected String name;
-    protected String src;
-    protected BigInteger width;
+	protected String alt;
 
-    /**
-     * Gets the value of the alt property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getAlt() {
-        return alt;
-    }
+	protected BigInteger height;
 
-    /**
-     * Sets the value of the alt property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setAlt(String value) {
-        this.alt = value;
-    }
+	protected String longdesc;
 
-    /**
-     * Gets the value of the height property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link int }
-     *     
-     */
-    public BigInteger getHeight() {
-        return height;
-    }
+	protected String name;
 
-    /**
-     * Sets the value of the height property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link int }
-     *     
-     */
-    public void setHeight(BigInteger value) {
-        this.height = value;
-    }
+	protected String src;
 
-    /**
-     * Gets the value of the longdesc property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLongdesc() {
-        return longdesc;
-    }
+	protected BigInteger width;
 
-    /**
-     * Sets the value of the longdesc property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLongdesc(String value) {
-        this.longdesc = value;
-    }
+	/**
+	 * Gets the value of the alt property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getAlt() {
+		return alt;
+	}
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Sets the value of the alt property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setAlt(String value) {
+		this.alt = value;
+	}
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+	/**
+	 * Gets the value of the height property.
+	 * 
+	 * @return possible object is {@link int }
+	 * 
+	 */
+	public BigInteger getHeight() {
+		return height;
+	}
 
-    /**
-     * Gets the value of the src property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSrc() {
-        return src;
-    }
+	/**
+	 * Sets the value of the height property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link int }
+	 * 
+	 */
+	public void setHeight(BigInteger value) {
+		this.height = value;
+	}
 
-    /**
-     * Sets the value of the src property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSrc(String value) {
-        this.src = value;
-    }
+	/**
+	 * Gets the value of the longdesc property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getLongdesc() {
+		return longdesc;
+	}
 
-    /**
-     * Gets the value of the width property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link int }
-     *     
-     */
-    public BigInteger getWidth() {
-        return width;
-    }
+	/**
+	 * Sets the value of the longdesc property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setLongdesc(String value) {
+		this.longdesc = value;
+	}
 
-    /**
-     * Sets the value of the width property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link int }
-     *     
-     */
-    public void setWidth(BigInteger value) {
-        this.width = value;
-    }
-/*    
-    @Override
-    public String toString() {
-    	String res="<img";
-    	if (src!=null && !"".equals(src))
-    		res += " src=\""+src+"\"";
-    	if (name!=null && !"".equals(name))
-    		res += " name=\""+name+"\"";
-    	if (longdesc!=null && !"".equals(longdesc))
-    		res += " longdesc=\""+longdesc+"\"";
-    	if (alt!=null && !"".equals(alt))
-    		res += " alt=\""+alt+"\"";
-    	if (width!=null)
-    		res += " width\""+width+"\"";
-    	if (height!=null)
-    		res += " height\""+height+"\"";
-    	return res+" />";
-    }
-*/
+	/**
+	 * Gets the value of the name property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Sets the value of the name property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setName(String value) {
+		this.name = value;
+	}
+
+	/**
+	 * Gets the value of the src property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSrc() {
+		return src;
+	}
+
+	/**
+	 * Sets the value of the src property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSrc(String value) {
+		this.src = value;
+	}
+
+	/**
+	 * Gets the value of the width property.
+	 * 
+	 * @return possible object is {@link int }
+	 * 
+	 */
+	public BigInteger getWidth() {
+		return width;
+	}
+
+	/**
+	 * Sets the value of the width property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link int }
+	 * 
+	 */
+	public void setWidth(BigInteger value) {
+		this.width = value;
+	}
+	/*
+	 * @Override public String toString() { String res="<img"; if (src!=null &&
+	 * !"".equals(src)) res += " src=\""+src+"\""; if (name!=null &&
+	 * !"".equals(name)) res += " name=\""+name+"\""; if (longdesc!=null &&
+	 * !"".equals(longdesc)) res += " longdesc=\""+longdesc+"\""; if (alt!=null &&
+	 * !"".equals(alt)) res += " alt=\""+alt+"\""; if (width!=null) res += "
+	 * width\""+width+"\""; if (height!=null) res += " height\""+height+"\"";
+	 * return res+" />"; }
+	 */
 }

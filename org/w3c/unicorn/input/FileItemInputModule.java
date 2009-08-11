@@ -1,4 +1,4 @@
-// $Id: FileItemInputModule.java,v 1.4 2008-09-25 17:37:44 jean-gui Exp $
+// $Id: FileItemInputModule.java,v 1.5 2009-08-11 13:43:01 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,6 +14,7 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 
 /**
  * Class to deal with the file input method
+ * 
  * @author Damien LEROY
  * 
  */
@@ -44,10 +45,10 @@ public class FileItemInputModule implements UploadInputModule {
 	 */
 	protected FileItemInputModule(final MimeType aMimeType,
 			final Object oInputParameterValue) {
-		FileItemInputModule.logger.trace("Constructor");
-		if (FileItemInputModule.logger.isDebugEnabled()) {
-			FileItemInputModule.logger.debug("Mime type : " + aMimeType + ".");
-			FileItemInputModule.logger.debug("Input parameter value : "
+		InputModule.logger.trace("Constructor");
+		if (InputModule.logger.isDebugEnabled()) {
+			InputModule.logger.debug("Mime type : " + aMimeType + ".");
+			InputModule.logger.debug("Input parameter value : "
 					+ oInputParameterValue + ".");
 		}
 		if (!(oInputParameterValue instanceof FileItem)) {
@@ -59,32 +60,32 @@ public class FileItemInputModule implements UploadInputModule {
 	}
 
 	public EnumInputMethod getEnumInputMethod() {
-		FileItemInputModule.logger.trace("getEnumInputMethod");
+		InputModule.logger.trace("getEnumInputMethod");
 		return this.aEnumInputMethod;
 	}
 
 	public String getFileName() {
-		FileItemInputModule.logger.trace("getFileName");
+		InputModule.logger.trace("getFileName");
 		return this.aFileItem.getName();
 	}
 
 	public InputStream getInputStream() throws IOException {
-		FileItemInputModule.logger.trace("getInputStream");
+		InputModule.logger.trace("getInputStream");
 		return this.aFileItem.getInputStream();
 	}
 
 	public MimeType getMimeType() {
-		FileItemInputModule.logger.trace("getMimeType");
+		InputModule.logger.trace("getMimeType");
 		return this.aMimeType;
 	}
 
 	public Object getParameterValue() {
-		FileItemInputModule.logger.trace("getParameterValue");
+		InputModule.logger.trace("getParameterValue");
 		return this.aFileItem;
 	}
 
 	public String getStringContent() {
-		FileItemInputModule.logger.trace("getStringContent");
+		InputModule.logger.trace("getStringContent");
 		return this.aFileItem.getString();
 	}
 
@@ -92,7 +93,7 @@ public class FileItemInputModule implements UploadInputModule {
 	 * Dispose the object
 	 */
 	public void dispose() {
-		FileItemInputModule.logger.trace("dispose");
+		InputModule.logger.trace("dispose");
 		if (null != this.aFileItem) {
 			this.aFileItem.delete();
 			this.aFileItem = null;
@@ -102,11 +103,14 @@ public class FileItemInputModule implements UploadInputModule {
 	/**
 	 * Prints the object
 	 */
+	@Override
 	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
-		aStringBuffer.append("FileItemInputModule{mimetype: ").append(this.aMimeType);
-		aStringBuffer.append(", filename: ").append(this.aFileItem.getName()).append("}");
+		aStringBuffer.append("FileItemInputModule{mimetype: ").append(
+				this.aMimeType);
+		aStringBuffer.append(", filename: ").append(this.aFileItem.getName())
+				.append("}");
 
 		return aStringBuffer.toString();
 	}

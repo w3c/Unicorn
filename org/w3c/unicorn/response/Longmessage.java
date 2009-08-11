@@ -5,69 +5,68 @@
 // Generated on: 2006.07.26 at 04:29:37 PM CEST 
 //
 
-
 package org.w3c.unicorn.response;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * <p>Java class for longmessage element declaration.
+ * <p>
+ * Java class for longmessage element declaration.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;element name="longmessage">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;sequence maxOccurs="unbounded" minOccurs="0">
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}a"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}code"/>
- *           &lt;element ref="{http://www.w3.org/unicorn/observationresponse}img"/>
- *         &lt;/sequence>
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
+ * &lt;element name=&quot;longmessage&quot;&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *         &lt;sequence maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}a&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}code&quot;/&gt;
+ *           &lt;element ref=&quot;{http://www.w3.org/unicorn/observationresponse}img&quot;/&gt;
+ *         &lt;/sequence&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
  */
 public class Longmessage {
 
-    protected List<Object> content = new ArrayList<Object>();
-    protected String lang;
+	protected List<Object> content = new ArrayList<Object>();
 
-    /**
-     * 
-     * @return The list of the contents.
-     */
-    public List<Object> getContent() {
-        if (content == null) {
-            content = new ArrayList<Object>();
-        }
-        return this.content;
-    }
+	protected String lang;
 
-    /**
-     * Sets the contents of the message.
-     * @param content The list to set.
-     */
+	/**
+	 * 
+	 * @return The list of the contents.
+	 */
+	public List<Object> getContent() {
+		if (content == null) {
+			content = new ArrayList<Object>();
+		}
+		return this.content;
+	}
+
+	/**
+	 * Sets the contents of the message.
+	 * 
+	 * @param content
+	 *            The list to set.
+	 */
 	public void setContent(List<Object> content) {
 		this.content = content;
 	}
-/*	
-	@Override
-	public String toString() {
-		String res = "";
-		for (Object o : content) {
-			res += o.toString();
-		}
-		return res;
-	}
-*/
+
+	/*
+	 * @Override public String toString() { String res = ""; for (Object o :
+	 * content) { res += o.toString(); } return res; }
+	 */
 	/**
 	 * @return The language of the message.
 	 */
@@ -77,7 +76,9 @@ public class Longmessage {
 
 	/**
 	 * Sets the language for this message.
-	 * @param lang The language of the message.
+	 * 
+	 * @param lang
+	 *            The language of the message.
 	 */
 	public void setLang(String lang) {
 		this.lang = lang;

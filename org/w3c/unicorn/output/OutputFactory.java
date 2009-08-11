@@ -1,11 +1,10 @@
-// $Id: OutputFactory.java,v 1.6 2009-07-29 13:23:34 tgambet Exp $
+// $Id: OutputFactory.java,v 1.7 2009-08-11 13:43:01 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -36,9 +35,9 @@ public class OutputFactory {
 
 	static {
 		try {
-			OutputFactory.aPropertiesSpecialFormaters.load(
-					Property.getPropertyFileURL("specialFormaters.properties").openStream()
-			);
+			OutputFactory.aPropertiesSpecialFormaters.load(Property
+					.getPropertyFileURL("specialFormaters.properties")
+					.openStream());
 		} catch (final IOException e) {
 			OutputFactory.logger.error("IOException : " + e.getMessage(), e);
 			e.printStackTrace();

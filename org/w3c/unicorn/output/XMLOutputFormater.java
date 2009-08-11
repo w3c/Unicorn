@@ -1,4 +1,4 @@
-// $Id: XMLOutputFormater.java,v 1.8 2009-07-29 13:23:33 tgambet Exp $
+// $Id: XMLOutputFormater.java,v 1.9 2009-08-11 13:43:01 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -45,20 +45,29 @@ public class XMLOutputFormater implements OutputFormater {
 
 	/**
 	 * Write the result of the XML in a file
-	 * @param sOutputFormat format of the output
-	 * @param sLang Language of the output
-	 * @throws ResourceNotFoundException exception when resources not found using the path
-	 * @throws ParseErrorException error in the parser
-	 * @throws Exception odd error occur
+	 * 
+	 * @param sOutputFormat
+	 *            format of the output
+	 * @param sLang
+	 *            Language of the output
+	 * @throws ResourceNotFoundException
+	 *             exception when resources not found using the path
+	 * @throws ParseErrorException
+	 *             error in the parser
+	 * @throws Exception
+	 *             odd error occur
 	 */
 	public XMLOutputFormater(final String sOutputFormat, final String sLang)
 			throws ResourceNotFoundException, ParseErrorException, Exception {
 		XMLOutputFormater.logger.trace("Constructor");
-		XMLOutputFormater.logger.debug("Output format : " + sOutputFormat + ".");
+		XMLOutputFormater.logger
+				.debug("Output format : " + sOutputFormat + ".");
 		XMLOutputFormater.logger.debug("Output language : " + sLang + ".");
-		
-		aTemplateOutput = TemplateHelper.getInternationalizedTemplate(sOutputFormat, sLang, aVelocityContext);
-		aTemplateError = TemplateHelper.getInternationalizedTemplate(sOutputFormat + ".error", sLang, aVelocityContext);
+
+		aTemplateOutput = TemplateHelper.getInternationalizedTemplate(
+				sOutputFormat, sLang, aVelocityContext);
+		aTemplateError = TemplateHelper.getInternationalizedTemplate(
+				sOutputFormat + ".error", sLang, aVelocityContext);
 	}
 
 	/*
@@ -71,14 +80,17 @@ public class XMLOutputFormater implements OutputFormater {
 			final Writer aWriter) throws ResourceNotFoundException,
 			ParseErrorException, MethodInvocationException, Exception {
 		XMLOutputFormater.logger.trace("produceOutput");
-		XMLOutputFormater.logger.debug("Map of String -> Object : " + mapOfStringObject + ".");
+		XMLOutputFormater.logger.debug("Map of String -> Object : "
+				+ mapOfStringObject + ".");
 		XMLOutputFormater.logger.debug("Writer : " + aWriter + ".");
 		final EventCartridge aEventCartridge = new EventCartridge();
 		aEventCartridge.addEventHandler(new XHTMLize());
 		// aEventCartridge.addEventHandler(new EscapeXMLEntities());
 		aEventCartridge.attachToContext(aVelocityContext);
-		for (final String sObjectName : mapOfStringObject.keySet())
-			aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));
+		for (final String sObjectName : mapOfStringObject.keySet()) {
+			aVelocityContext.put(sObjectName, mapOfStringObject
+					.get(sObjectName));
+		}
 		this.aTemplateOutput.merge(aVelocityContext, aWriter);
 	}
 

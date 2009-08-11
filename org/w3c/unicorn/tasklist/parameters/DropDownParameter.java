@@ -1,4 +1,4 @@
-// $Id: DropDownParameter.java,v 1.2 2008-06-17 13:45:31 jbarouh Exp $
+// $Id: DropDownParameter.java,v 1.3 2009-08-11 13:42:59 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,40 +12,50 @@ import org.w3c.unicorn.exceptions.ParameterException;
 /**
  * DropDownParameter<br />
  * Created: Jun 8, 2006 1:48:31 PM<br />
+ * 
  * @author Jean-Guilhem ROUEL
  */
 public class DropDownParameter extends Parameter {
 
 	private Map<String, Value> mapOfValue;
+
 	private Value aValueDefault;
 
 	/**
-	 * Default constructor for a DropDownParameter 
-	 * (see the Parameter default constructor).
+	 * Default constructor for a DropDownParameter (see the Parameter default
+	 * constructor).
 	 */
-	protected DropDownParameter () {
+	protected DropDownParameter() {
 		super();
-		DropDownParameter.logger.trace("Constructor()");
+		Parameter.logger.trace("Constructor()");
 	}
 
 	/**
 	 * Adds a Value object to the mapOfValue.
-	 *  @param aValue The value to add.
+	 * 
+	 * @param aValue
+	 *            The value to add.
 	 */
-	public void addValue (final Value aValue) {
+	@Override
+	public void addValue(final Value aValue) {
 		this.mapOfValue.put(aValue.getName(), aValue);
 	}
 
 	/**
 	 * Finds a Value object in the map given its name.
-	 *  @param sName The name of the Value.
-	 *  @return The Value object if the String corresponds to a key.
+	 * 
+	 * @param sName
+	 *            The name of the Value.
+	 * @return The Value object if the String corresponds to a key.
 	 */
-	public Value getValue (final String sName) {
+	@Override
+	public Value getValue(final String sName) {
 		return this.mapOfValue.get(sName);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.w3c.unicorn.tasklist.parameters.Parameter#getDefault()
 	 */
 	@Override
@@ -57,50 +67,67 @@ public class DropDownParameter extends Parameter {
 
 	/**
 	 * Sets the default Value in the mapOfDefaultValue.
-	 * @param sDefaultValues The new default value.
+	 * 
+	 * @param sDefaultValues
+	 *            The new default value.
 	 */
-	public void setDefaultValues (final String sDefaultValues) {
+	@Override
+	public void setDefaultValues(final String sDefaultValues) {
 		this.aValueDefault = this.mapOfValue.get(sDefaultValues);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.w3c.unicorn.tasklist.parameters.Parameter#getValues()
 	 */
 	@Override
-	public Map<String, Value> getMapOfValue () {
+	public Map<String, Value> getMapOfValue() {
 		return this.mapOfValue;
 	}
 
 	/**
 	 * Defines or replaces the mapOfValue.
-	 * @param mapOfValue The new map of values.
+	 * 
+	 * @param mapOfValue
+	 *            The new map of values.
 	 */
-	public void setMapOfValue (final Map<String, Value> mapOfValue) throws ParameterException {
+	@Override
+	public void setMapOfValue(final Map<String, Value> mapOfValue)
+			throws ParameterException {
 		if (mapOfValue.size() < 1) {
-			DropDownParameter.logger.error("Dropdown parameter must have at least one value.");
-			throw new ParameterException("Dropdown parameter must have at least one value.");
+			Parameter.logger
+					.error("Dropdown parameter must have at least one value.");
+			throw new ParameterException(
+					"Dropdown parameter must have at least one value.");
 		}
 		this.mapOfValue = mapOfValue;
 	}
 
 	/**
 	 * Returns the type of the parameter.
+	 * 
 	 * @return The type DROPDOWN.
 	 */
-	public ParameterType getType () {
+	@Override
+	public ParameterType getType() {
 		return ParameterType.DROPDOWN;
 	}
 
 	/**
 	 * Merges a Parameter with this one if the type complies.
-	 * @param aParameter The parameter to merge with the current one.
+	 * 
+	 * @param aParameter
+	 *            The parameter to merge with the current one.
 	 * @return True if they merged correctly, else false.
 	 */
-	public boolean merge (final Parameter aParameter) {
-		DropDownParameter.logger.trace("merge");
+	@Override
+	public boolean merge(final Parameter aParameter) {
+		Parameter.logger.trace("merge");
 		// Types must match
 		if (!(aParameter instanceof DropDownParameter)) {
-			DropDownParameter.logger.warn("Type of parameter "+this.getName()+" and "+aParameter.getName()+" not matching.");
+			Parameter.logger.warn("Type of parameter " + this.getName()
+					+ " and " + aParameter.getName() + " not matching.");
 			return false;
 		}
 		if (!super.merge(aParameter)) {
@@ -115,13 +142,15 @@ public class DropDownParameter extends Parameter {
 			}
 			for (final String sLocale : aValue.getLongName().getSetOfLocale()) {
 				if (!aLocalValue.hasLongName(sLocale)) {
-					aLocalValue.addLongName(sLocale, aValue.getLongName(sLocale));
+					aLocalValue.addLongName(sLocale, aValue
+							.getLongName(sLocale));
 					continue;
 				}
 			}
 			for (final String sValue : aValue.getMapOfMapping().keySet()) {
 				if (!aLocalValue.hasMapping(sValue)) {
-					aLocalValue.addListOfMapping(sValue, aValue.getListOfMapping(sValue));
+					aLocalValue.addListOfMapping(sValue, aValue
+							.getListOfMapping(sValue));
 				}
 			}
 		}

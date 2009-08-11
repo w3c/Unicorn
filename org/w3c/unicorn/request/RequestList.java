@@ -1,11 +1,10 @@
-// $Id: RequestList.java,v 1.6 2008-09-19 18:57:12 jean-gui Exp $
+// $Id: RequestList.java,v 1.7 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -46,21 +45,20 @@ public class RequestList {
 	 */
 	private final Map<String, Request> mapOfRequest = new LinkedHashMap<String, Request>();
 
-	
 	/**
 	 * 
 	 * @return
 	 */
-	public Map<String,Request> getRequestMap() {
+	public Map<String, Request> getRequestMap() {
 		RequestList.logger.trace("getRequestMap");
 		return this.mapOfRequest;
 	}
- 
 
 	/**
-	 * Gives an observer placed in the map 
+	 * Gives an observer placed in the map
 	 * 
-	 * @param String sNodeID the ID of the node into which we'll search the Request
+	 * @param String
+	 *            sNodeID the ID of the node into which we'll search the Request
 	 * @return
 	 */
 	public Request getRequest(final String sNodeID) {
@@ -71,22 +69,22 @@ public class RequestList {
 		return this.mapOfRequest.get(sNodeID);
 	}
 
-
 	/**
 	 * Adds a request to the map
+	 * 
 	 * @param aRequest
-	 * @param sNodeID The ID of the corresponding node
+	 * @param sNodeID
+	 *            The ID of the corresponding node
 	 * @throws IOException
 	 */
 
-	public void addRequest(final Request aRequest, 
-			final String sNodeID) throws IOException {
+	public void addRequest(final Request aRequest, final String sNodeID)
+			throws IOException {
 
 		RequestList.logger.trace("addRequest");
 		if (RequestList.logger.isDebugEnabled()) {
 			RequestList.logger.debug("Request : " + aRequest + ".");
-			RequestList.logger.debug("String node ID : " + sNodeID
-					+ ".");
+			RequestList.logger.debug("String node ID : " + sNodeID + ".");
 		}
 		aRequest.setLang(this.sLang);
 		this.mapOfRequest.put(sNodeID, aRequest);
@@ -95,9 +93,9 @@ public class RequestList {
 	/**
 	 * Prints the object
 	 */
+	@Override
 	public String toString() {
 		final int iStringBufferSize = 1000;
-		final String sVariableSeparator = " ";
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
 		aStringBuffer.append(mapOfRequest);
 		return aStringBuffer.toString();

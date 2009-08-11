@@ -1,4 +1,4 @@
-// $Id: DirectInputModule.java,v 1.4 2008-09-25 17:37:43 jean-gui Exp $
+// $Id: DirectInputModule.java,v 1.5 2009-08-11 13:43:02 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,7 +12,8 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 
 /**
  * Class used for the direct input method check
- * @author Damien LEROY 
+ * 
+ * @author Damien LEROY
  */
 public class DirectInputModule implements InputModule {
 
@@ -41,10 +42,10 @@ public class DirectInputModule implements InputModule {
 	 */
 	protected DirectInputModule(final MimeType aMimeType,
 			final Object oInputParameterValue) {
-		DirectInputModule.logger.trace("Constructor");
-		if (DirectInputModule.logger.isDebugEnabled()) {
-			DirectInputModule.logger.debug("Mime type : " + aMimeType + ".");
-			DirectInputModule.logger.debug("Input parameter value : "
+		InputModule.logger.trace("Constructor");
+		if (InputModule.logger.isDebugEnabled()) {
+			InputModule.logger.debug("Mime type : " + aMimeType + ".");
+			InputModule.logger.debug("Input parameter value : "
 					+ oInputParameterValue + ".");
 		}
 		if (!(oInputParameterValue instanceof String)) {
@@ -65,32 +66,31 @@ public class DirectInputModule implements InputModule {
 	 */
 	protected DirectInputModule(final InputModule aInputModule)
 			throws IOException {
-		DirectInputModule.logger.trace("Constructor");
-		if (DirectInputModule.logger.isDebugEnabled()) {
-			DirectInputModule.logger.debug("Input module : " + aInputModule
-					+ ".");
+		InputModule.logger.trace("Constructor");
+		if (InputModule.logger.isDebugEnabled()) {
+			InputModule.logger.debug("Input module : " + aInputModule + ".");
 		}
 		this.sInput = aInputModule.getStringContent();
 		this.aMimeType = aInputModule.getMimeType();
 	}
 
 	public EnumInputMethod getEnumInputMethod() {
-		DirectInputModule.logger.trace("getEnumInputMethod");
+		InputModule.logger.trace("getEnumInputMethod");
 		return this.aEnumInputMethod;
 	}
 
 	public MimeType getMimeType() {
-		DirectInputModule.logger.trace("getMimeType");
+		InputModule.logger.trace("getMimeType");
 		return this.aMimeType;
 	}
 
 	public Object getParameterValue() {
-		DirectInputModule.logger.trace("getParameterValue");
+		InputModule.logger.trace("getParameterValue");
 		return this.sInput;
 	}
 
 	public String getStringContent() {
-		DirectInputModule.logger.trace("getStringContent");
+		InputModule.logger.trace("getStringContent");
 		return this.sInput;
 	}
 
@@ -98,16 +98,18 @@ public class DirectInputModule implements InputModule {
 	 * Dispose the object
 	 */
 	public void dispose() {
-		DirectInputModule.logger.trace("dispose");
+		InputModule.logger.trace("dispose");
 	}
 
 	/**
 	 * Prints the object
 	 */
+	@Override
 	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
-		aStringBuffer.append("DirectInputModule{mimetype: ").append(this.aMimeType).append("}");
+		aStringBuffer.append("DirectInputModule{mimetype: ").append(
+				this.aMimeType).append("}");
 
 		return aStringBuffer.toString();
 	}

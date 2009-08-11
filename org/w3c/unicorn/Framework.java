@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.21 2009-07-29 13:23:33 tgambet Exp $
+// $Id: Framework.java,v 1.22 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,8 +18,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
-
-
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -78,8 +76,9 @@ public class Framework {
 	 */
 	static {
 		try {
-			URL aURLPropFile = Property.getPropertyFileURL("extensions.properties");			
-			
+			URL aURLPropFile = Property
+					.getPropertyFileURL("extensions.properties");
+
 			final Properties aProperties = new Properties();
 			aProperties.load(aURLPropFile.openStream());
 			Framework.aPropertiesExtension = aProperties;
@@ -99,9 +98,10 @@ public class Framework {
 		try {
 			// Retrieve the properties of the response parsers in the resources
 			mapOfReponseParser = new LinkedHashMap<String, ResponseParser>();
-			
-			URL aURLPropFile = Property.getPropertyFileURL("responseParsers.properties");
-			
+
+			URL aURLPropFile = Property
+					.getPropertyFileURL("responseParsers.properties");
+
 			final Properties aProperties = new Properties();
 			aProperties.load(aURLPropFile.openStream());
 
@@ -135,7 +135,7 @@ public class Framework {
 		try {
 			// Add all observer contract
 			final BufferedReader aBufferedReader;
-      
+
 			aBufferedReader = new BufferedReader(new FileReader(Property
 					.get("OBSERVER_LIST_FILE")));
 
@@ -184,7 +184,8 @@ public class Framework {
 							.getMapOfInputMethod());
 					aObserver.setResponseType(aWADLUnmarshaller
 							.getResponseType());
-          aObserver.setSupportedMimeTypes(aWADLUnmarshaller.getSupportedMimeTypes());
+					aObserver.setSupportedMimeTypes(aWADLUnmarshaller
+							.getSupportedMimeTypes());
 					Framework.mapOfObserver.put(new String(aObserver.getID()),
 							aObserver);
 				} catch (final Exception e) {
@@ -215,13 +216,13 @@ public class Framework {
 			final File[] tFileXML = ListFiles.listFiles(Property
 					.get("PATH_TO_TASKLIST"), "\\.xml$");
 
-			final TasksListUnmarshaller aTaskListUnmarshaller = 
-				new TaskListUnmarshallerBeans(Framework.mapOfObserver);
+			final TasksListUnmarshaller aTaskListUnmarshaller = new TaskListUnmarshallerBeans(
+					Framework.mapOfObserver);
 			for (final File aFile : tFileXML) {
-				aTaskListUnmarshaller.addURL(aFile.toURI().toURL());			
+				aTaskListUnmarshaller.addURL(aFile.toURI().toURL());
 			}
 			aTaskListUnmarshaller.unmarshal();
-			
+
 			final File[] tFileRDF = ListFiles.listFiles(Property
 					.get("PATH_TO_TASKLIST"), "\\.rdf$");
 			final RDFUnmarshaller aRDFUnmarshaller = new RDFUnmarshallerJena();

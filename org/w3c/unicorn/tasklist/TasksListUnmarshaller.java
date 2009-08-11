@@ -1,4 +1,4 @@
-// $Id: TasksListUnmarshaller.java,v 1.3 2008-08-26 15:26:37 fbatard Exp $
+// $Id: TasksListUnmarshaller.java,v 1.4 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,14 +12,16 @@ import org.w3c.unicorn.util.Unmarshaller;
  * TasksListUnmarshaller<br />
  * Created: May 30, 2006 5:54:45 PM<br />
  * Interface used to retreive a list of tasks
+ * 
  * @author Jean-Guilhem ROUEL
  */
 public interface TasksListUnmarshaller extends Unmarshaller {
 
-    /**
-     * Returns the map of tasks.
-     * @return Returns the tasks.
-     */
-    public abstract Map<String, org.w3c.unicorn.tasklist.Task> getMapOfTask();
-    
+	/**
+	 * Returns the map of tasks.
+	 * 
+	 * @return Returns the tasks.
+	 */
+	public abstract Map<String, org.w3c.unicorn.tasklist.Task> getMapOfTask();
+
 }

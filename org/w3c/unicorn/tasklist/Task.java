@@ -1,4 +1,4 @@
-// $Id: Task.java,v 1.4 2008-09-19 18:57:12 jean-gui Exp $
+// $Id: Task.java,v 1.5 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,26 +8,22 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.activation.MimeType;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
 import org.w3c.unicorn.util.LocalizedString;
-import org.w3c.unicorn.contract.Observer;
 
 /**
  * Task<br />
  * Created: May 29, 2006 5:53:12 PM<br />
  */
 public class Task {
-
-	private static final Log logger = LogFactory
-			.getLog("org.w3c.unicorn.tasklist");
 
 	/**
 	 * Id of the task
@@ -44,7 +40,6 @@ public class Task {
 	 */
 	private LocalizedString aLocalizedStringDescription;
 
-	
 	/**
 	 * Parameters of the task
 	 */
@@ -56,15 +51,9 @@ public class Task {
 	private List<String> listOfReference;
 
 	/**
-	 * Used to expand the task
-	 */
-	private boolean bExpandingOrExpanded = false;
-
-	/**
 	 * Root of the execution level tree
 	 */
 	private TLTNode root;
-
 
 	/**
 	 * Creates a new Task.
@@ -76,7 +65,7 @@ public class Task {
 		this.mapOfTaskParameter = new LinkedHashMap<String, Parameter>();
 		this.listOfReference = new ArrayList<String>();
 	}
-	
+
 	/**
 	 * Allows to display the tree of execution level
 	 * 
@@ -89,29 +78,28 @@ public class Task {
 		}
 		for (TLTIf ifs : root.getIfList()) {
 			displayTree(ifs.getIfOk());
-			for (TLTCond conds : ifs.getCondArray())
+			for (TLTCond conds : ifs.getCondArray()) {
 				System.out.println(conds);
+			}
 			displayTree(ifs.getIfNotOk());
 		}
 	}
 
 	/**
 	 * Get the root of the execution level tree
+	 * 
 	 * @return the root of the tree
 	 */
 	public TLTNode getTree() {
 		return this.root;
 	}
-	
-	
+
 	/**
 	 * Set the root of the execution level tree
 	 */
 	public void setTree(TLTNode root) {
-		this.root=root;
+		this.root = root;
 	}
-	
-
 
 	/**
 	 * Creates a new Task.
@@ -275,7 +263,6 @@ public class Task {
 		this.mapOfTaskParameter.put(aParameter.getName(), aParameter);
 	}
 
-
 	/**
 	 * Returns a list of tasknames referenced bye this task
 	 * 
@@ -285,221 +272,104 @@ public class Task {
 		return this.listOfReference;
 	}
 
-    public List<Observer> getAllObservers() {
-        if(this.getTree() != null) {
-            return this.getTree().getAllObservers();
-        }
-        return new ArrayList<Observer>();
-    }
-
-    // MimeType's equals() doesn't work as expected
-    // so it's easier to store the String representation
-    // of mime types :-/
-    public List<String> getSupportedMimeTypes() {
-        List<String> res = new ArrayList<String>();
-        List<Observer> observers = getAllObservers();
-        for(Observer o : observers) {
-            List<MimeType> mimes = o.getSupportedMimeTypes();
-            for(MimeType m : mimes) {
-                if(!res.contains(m.toString())) {
-                    res.add(m.toString());
-                }
-            }
-        }
-        return res;
-    }
-
-	/**
-	 * Recursively expands this task and referenced ones and merges observations
-	 * and parameters.<br/> If a task A includes a task B that includes a task
-	 * C, expand will put both B and C in A's referenced tasks.
-	 * 
-	 * @param mapOfTask
-	 */
-	/*
-	public void expand(final Map<String, Task> mapOfTask) {
-		this.bExpandingOrExpanded = true;
-		final List<String> listOfOldReference = new ArrayList<String>();
-		// re-ask why there build another list of reference
-		// it's because he add reference in this.references
-		for (final String sReference : this.listOfReference) {
-			listOfOldReference.add(sReference);
+	public List<Observer> getAllObservers() {
+		if (this.getTree() != null) {
+			return this.getTree().getAllObservers();
 		}
+		return new ArrayList<Observer>();
+	}
 
-		for (final String sReference : listOfOldReference) {
-			final Task aTask = mapOfTask.get(sReference);
-
-			if (aTask == null) {
-				Task.logger.error("The task " + sReference
-						+ " directly referenced " + "by the task"
-						+ this.getID() + " does not seem to"
-						+ " exist... Ignoring reference");
-				continue;
-			}
-
-			this.merge(aTask);
-
-			if (!aTask.bExpandingOrExpanded) {
-				aTask.expand(mapOfTask);
-			}
-
-			for (final String sNewReference : aTask.listOfReference) {
-				if (this.listOfReference.contains(sNewReference)
-						|| this.sID.equals(sNewReference)) {
-					continue;
+	// MimeType's equals() doesn't work as expected
+	// so it's easier to store the String representation
+	// of mime types :-/
+	public List<String> getSupportedMimeTypes() {
+		List<String> res = new ArrayList<String>();
+		List<Observer> observers = getAllObservers();
+		for (Observer o : observers) {
+			List<MimeType> mimes = o.getSupportedMimeTypes();
+			for (MimeType m : mimes) {
+				if (!res.contains(m.toString())) {
+					res.add(m.toString());
 				}
-				final Task aTaskCurrentRef = mapOfTask.get(sNewReference);
-				if (aTaskCurrentRef == null) {
-					Task.logger.error("The task " + sReference + " recursively"
-							+ " referenced by the task" + getID()
-							+ " does not seem to exist... Ignoring "
-							+ "reference");
-					continue;
-				}
-				this.listOfReference.add(sNewReference);
-				this.merge(aTaskCurrentRef);
 			}
 		}
+		return res;
 	}
-	*/
-
-	/**
-	 * Merges another task with this one
-	 * 
-	 * @param aNotherTask
-	 *            the task to merge
-	 */
-	/*
-	private void merge(final Task aNotherTask) {
-		this.mergeObservations(aNotherTask);
-		this.mergeParameters(aNotherTask);
-	}
-*/
-	/**
-	 * Merges observations of another task with this one
-	 * 
-	 * @param aNotherTask
-	 *            the task to merge
-	 */
-	/*
-	private void mergeObservations(final Task aNotherTask) {
-		Task.logger.trace("mergeObservations");
-		if (Task.logger.isDebugEnabled()) {
-			Task.logger.debug("Other task : " + aNotherTask + ".");
-		}
-		final Map<String, Observation> mapOfObservation = aNotherTask
-				.getMapOfObservation();
-		for (final String sObservationID : mapOfObservation.keySet()) {
-			final Observation aObservation = mapOfObservation
-					.get(sObservationID);
-			if (this.mapOfObservation.containsKey(sObservationID)) {
-				this.mapOfObservation.get(sObservationID).merge(aObservation);
-			} else {
-				this.mapOfObservation.put(sObservationID, aObservation);
-			}
-		}
-	}
-*/
-	/**
-	 * Merges parameters of another task with this one.
-	 * 
-	 * @param aNotherTask
-	 *            the other task to merge
-	 */
-	private void mergeParameters(final Task aNotherTask) {
-		final Map<String, Parameter> mapOfParameter = aNotherTask
-				.getMapOfParameter();
-		for (final String sParameterName : mapOfParameter.keySet()) {
-			final Parameter aLocalParameter = this.mapOfTaskParameter
-					.get(sParameterName);
-			final Parameter aNotherParameter = mapOfParameter
-					.get(sParameterName);
-			if (aLocalParameter != null) {
-				aLocalParameter.merge(aNotherParameter);
-			} else {
-				this.mapOfTaskParameter.put(sParameterName, aNotherParameter);
-			}
-		}
-	}
-	
-	
 
 	public void mergeSubtask(final Map<String, Task> mapOfTask, Task subtask) {
 		for (TLTExec exec : subtask.getTree().getExecutionList()) {
-			if (exec.getType().equals("observation"))
+			if (exec.getType().equals("observation")) {
 				this.root.addExec(exec);
-			else if (exec.getType().equals("subtask")) {
+			} else if (exec.getType().equals("subtask")) {
 				Task newTask = mapOfTask.get(exec.getValue());
-				newTask.expandNode(mapOfTask,newTask.getTree());
-				mergeSubtask(mapOfTask,newTask);
+				newTask.expandNode(mapOfTask, newTask.getTree());
+				mergeSubtask(mapOfTask, newTask);
 			}
-				
+
 		}
 		for (TLTIf tltIf : subtask.getTree().getIfList()) {
 			this.root.addIf(tltIf);
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
 	public TLTNode expandNode(final Map<String, Task> mapOfTask, TLTNode aRoot) {
 		aRoot.bExpandingOrExpanded = true;
-		
+
 		TLTNode finalRoot = new TLTNode();
-		
+
 		for (TLTExec exec : aRoot.getExecutionList()) {
 			if (exec.getType().equals("subtask")) {
-				finalRoot = mergeNode(mapOfTask, finalRoot, 
-						mapOfTask.get(exec.getValue()).getTree());
-			}
-			else if (exec.getType().equals("observation")) {
+				finalRoot = mergeNode(mapOfTask, finalRoot, mapOfTask.get(
+						exec.getValue()).getTree());
+			} else if (exec.getType().equals("observation")) {
 				finalRoot.addExec(exec);
 			}
-		}	
+		}
 
 		for (TLTIf tltIf : aRoot.getIfList()) {
 			tltIf = expandIf(mapOfTask, tltIf);
 			finalRoot.addIf(tltIf);
 		}
-		
+
 		return finalRoot;
 	}
-	
-	
-		public TLTNode mergeNode(final Map<String,Task> mapOfTask, TLTNode firstNode,
-				TLTNode secondNode) {
-			TLTNode finalNode = firstNode;
-			for (TLTExec exec : secondNode.getExecutionList()) {
-				if (exec.getType().equals("observation"))
-					finalNode.addExec(exec);
-				else if (exec.getType().equals("subtask")) {
-					TLTNode newNode = mapOfTask.get(exec.getValue()).getTree();
-					if (!mapOfTask.get(exec.getValue()).getTree().bExpandingOrExpanded) 
-						newNode = 
-							expandNode(mapOfTask,mapOfTask.get(exec.getValue()).getTree());					
-					finalNode = mergeNode(mapOfTask,finalNode,newNode);
+
+	public TLTNode mergeNode(final Map<String, Task> mapOfTask,
+			TLTNode firstNode, TLTNode secondNode) {
+		TLTNode finalNode = firstNode;
+		for (TLTExec exec : secondNode.getExecutionList()) {
+			if (exec.getType().equals("observation")) {
+				finalNode.addExec(exec);
+			} else if (exec.getType().equals("subtask")) {
+				TLTNode newNode = mapOfTask.get(exec.getValue()).getTree();
+				if (!mapOfTask.get(exec.getValue()).getTree().bExpandingOrExpanded) {
+					newNode = expandNode(mapOfTask, mapOfTask.get(
+							exec.getValue()).getTree());
 				}
+				finalNode = mergeNode(mapOfTask, finalNode, newNode);
 			}
-			for (TLTIf tltIf : secondNode.getIfList()) {
-				tltIf = expandIf(mapOfTask,tltIf);
-				finalNode.addIf(tltIf);
-			}	
-			return finalNode;
 		}
-		
-	
-		public TLTIf expandIf(final Map<String,Task> mapOfTask, TLTIf tltIf) {
-			if (!tltIf.getIfOk().bExpandingOrExpanded) {
-				TLTNode tltIfOk = expandNode(mapOfTask,tltIf.getIfOk());
-				tltIf.setIfOk(tltIfOk);
-			}
-			if (!tltIf.getIfNotOk().bExpandingOrExpanded) {
-				TLTNode tltIfNotOk = expandNode(mapOfTask,tltIf.getIfNotOk());	
-				tltIf.setIfNotOk(tltIfNotOk);
-			}
-			return tltIf;
+		for (TLTIf tltIf : secondNode.getIfList()) {
+			tltIf = expandIf(mapOfTask, tltIf);
+			finalNode.addIf(tltIf);
 		}
+		return finalNode;
+	}
+
+	public TLTIf expandIf(final Map<String, Task> mapOfTask, TLTIf tltIf) {
+		if (!tltIf.getIfOk().bExpandingOrExpanded) {
+			TLTNode tltIfOk = expandNode(mapOfTask, tltIf.getIfOk());
+			tltIf.setIfOk(tltIfOk);
+		}
+		if (!tltIf.getIfNotOk().bExpandingOrExpanded) {
+			TLTNode tltIfNotOk = expandNode(mapOfTask, tltIf.getIfNotOk());
+			tltIf.setIfNotOk(tltIfNotOk);
+		}
+		return tltIf;
+	}
 
 	/**
 	 * Adds a reference to another task
@@ -511,6 +381,7 @@ public class Task {
 		this.listOfReference.add(sReference);
 	}
 
+	@Override
 	public String toString() {
 		final int iStringBufferSize = 5000;
 		final String sVariableSeparator = "\n";
@@ -525,6 +396,5 @@ public class Task {
 
 		return aStringBuffer.toString();
 	}
-
 
 }

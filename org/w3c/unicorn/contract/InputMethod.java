@@ -1,11 +1,8 @@
-// $Id: InputMethod.java,v 1.5 2008-09-19 18:57:11 jean-gui Exp $
+// $Id: InputMethod.java,v 1.6 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Damien LEROY
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.contract;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Damien LEROY
@@ -23,25 +20,25 @@ public class InputMethod {
 	 */
 	private CallParameter aCallParameter = null;
 
-  private EnumInputMethod method;
+	private EnumInputMethod method;
 
-  public InputMethod(EnumInputMethod method) {
-      this.method = method;
-  }
+	public InputMethod(EnumInputMethod method) {
+		this.method = method;
+	}
 
-  public InputMethod(String method) {
-      if ("URI".equals(method)) {
-          this.method = EnumInputMethod.URI;
-			} else if ("UPLOAD".equals(method)) {
-          this.method = EnumInputMethod.UPLOAD;
-			} else if ("DIRECT".equals(method)) {
-          this.method = EnumInputMethod.DIRECT;
-			}
-  }
+	public InputMethod(String method) {
+		if ("URI".equals(method)) {
+			this.method = EnumInputMethod.URI;
+		} else if ("UPLOAD".equals(method)) {
+			this.method = EnumInputMethod.UPLOAD;
+		} else if ("DIRECT".equals(method)) {
+			this.method = EnumInputMethod.DIRECT;
+		}
+	}
 
-  public EnumInputMethod getMethod() {
-    return this.method;
-  }
+	public EnumInputMethod getMethod() {
+		return this.method;
+	}
 
 	/**
 	 * Get the current calling method
@@ -95,6 +92,7 @@ public class InputMethod {
 	/**
 	 * Prints the object
 	 */
+	@Override
 	public final String toString() {
 		final int iStringBufferSize = 1000;
 		final String sVariableSeparator = "\n";

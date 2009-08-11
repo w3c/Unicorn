@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.9 2008-09-19 18:57:12 jean-gui Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.10 2009-08-11 13:43:01 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -113,7 +113,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 		WADLUnmarshallerXPath.logger.trace("Constructor");
 
 		this.aDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
-		
+
 		this.aDocumentBuilder = this.aDocumentBuilderFactory
 				.newDocumentBuilder();
 		this.aXPath = new XPathFactoryImpl().newXPath();
@@ -123,7 +123,8 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 
 	/**
 	 * Get the document from an URL
-	 * @throws SAXException 
+	 * 
+	 * @throws SAXException
 	 */
 	public void addURL(final URL aURL) throws IOException {
 
@@ -135,7 +136,8 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 		try {
 			this.aDocument = this.aDocumentBuilder.parse(aURL.openStream());
 		} catch (SAXException e) {
-			WADLUnmarshallerXPath.logger.error("Parsing error with SAX in WADLUnmarshaller",e);
+			WADLUnmarshallerXPath.logger.error(
+					"Parsing error with SAX in WADLUnmarshaller", e);
 			e.printStackTrace();
 		}
 
@@ -151,7 +153,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 			MimeTypeParseException {
 		WADLUnmarshallerXPath.logger.trace("unmarshal");
 		this.parseDocsHeader();
-		this.parseMethods();		
+		this.parseMethods();
 	}
 
 	/**
@@ -333,10 +335,11 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 					if ("title".equals(firstAttrName)) {
 						String firstAttrValue = childMethod.getAttributes()
 								.item(0).getNodeValue();
-						if ("inputMethod".equals(firstAttrValue))
+						if ("inputMethod".equals(firstAttrValue)) {
 							sInputMethod = childMethod.getTextContent();
-						else if ("inputParamName".equals(firstAttrValue))
+						} else if ("inputParamName".equals(firstAttrValue)) {
 							sInputParamName = childMethod.getTextContent();
+						}
 					}
 				}
 			}
@@ -430,9 +433,9 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 		return responseType;
 	}
 
-  public List<MimeType> getSupportedMimeTypes() {
-    return this.listOfMimeType;
-  }
+	public List<MimeType> getSupportedMimeTypes() {
+		return this.listOfMimeType;
+	}
 
 	/**
 	 * Main method of the class only for testing purpose

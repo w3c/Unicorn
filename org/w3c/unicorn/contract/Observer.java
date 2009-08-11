@@ -1,4 +1,4 @@
-// $Id: Observer.java,v 1.6 2008-09-19 18:57:11 jean-gui Exp $
+// $Id: Observer.java,v 1.7 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -71,7 +71,7 @@ public class Observer {
 	 */
 	private Map<EnumInputMethod, InputMethod> mapOfInputMethod;
 
-  private List<MimeType> supportedMimeTypes;
+	private List<MimeType> supportedMimeTypes;
 
 	/**
 	 * Creates the observer
@@ -150,8 +150,9 @@ public class Observer {
 	/**
 	 * Prints the object
 	 */
+	@Override
 	public String toString() {
-    final int sbSize = 1000;
+		final int sbSize = 1000;
 		final String sVariableSeparator = "\n";
 		final StringBuffer aStringBuffer = new StringBuffer(sbSize);
 
@@ -176,7 +177,7 @@ public class Observer {
 				.append("]");
 
 		return aStringBuffer.toString();
-  }
+	}
 
 	public final Map<EnumInputMethod, InputMethod> getMapOfInputMethod() {
 		return this.mapOfInputMethod;
@@ -201,25 +202,25 @@ public class Observer {
 		return this.mapOfInputMethod.get(aEnumInputMethod);
 	}
 
-  public InputMethod getBestInputMethod(final EnumInputMethod preferred) {
-      // First try to get what caller would like
-      InputMethod im = getInputMethod(preferred);
-      if(im != null) {
-          return im;
-      }
+	public InputMethod getBestInputMethod(final EnumInputMethod preferred) {
+		// First try to get what caller would like
+		InputMethod im = getInputMethod(preferred);
+		if (im != null) {
+			return im;
+		}
 
-      // If not possible, grab another one
-      for (final EnumInputMethod aEIM : EnumInputMethod.values()) {
-          im = getInputMethod(aEIM);
-          if(im != null) {
-              return im;
-          }
-      }
+		// If not possible, grab another one
+		for (final EnumInputMethod aEIM : EnumInputMethod.values()) {
+			im = getInputMethod(aEIM);
+			if (im != null) {
+				return im;
+			}
+		}
 
-      // we should not arrive here (that would mean an observer doesn't
-      // have any input method
-      return null;
-  }
+		// we should not arrive here (that would mean an observer doesn't
+		// have any input method
+		return null;
+	}
 
 	public CallMethod getCallMethod(final EnumInputMethod aEnumInputMethod) {
 		return this.getInputMethod(aEnumInputMethod).getCallMethod();
@@ -230,29 +231,31 @@ public class Observer {
 	}
 
 	/**
-	 * Returns <code>true</code> if the mime-type is supported
-   * by this observer
+	 * Returns <code>true</code> if the mime-type is supported by this
+	 * observer
 	 * 
 	 * @param aMimeType
 	 *            mime-type to check
 	 * @return whether or not the mime-type is handled
 	 */
-	public boolean canHandleMimeType(final MimeType aMimeType) {      
-      //return this.supportedMimeTypes.contains(aMimeType);
-      // equals and thus contains doesn't work :(
-      for (final MimeType mt : this.supportedMimeTypes) {
-          if(mt.match(aMimeType)) return true;
-      }
-      return false;
+	public boolean canHandleMimeType(final MimeType aMimeType) {
+		// return this.supportedMimeTypes.contains(aMimeType);
+		// equals and thus contains doesn't work :(
+		for (final MimeType mt : this.supportedMimeTypes) {
+			if (mt.match(aMimeType)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-  public void setSupportedMimeTypes(List<MimeType> mimeTypes) {
-      this.supportedMimeTypes = mimeTypes;
-  }
+	public void setSupportedMimeTypes(List<MimeType> mimeTypes) {
+		this.supportedMimeTypes = mimeTypes;
+	}
 
-    public List<MimeType> getSupportedMimeTypes() {
-        return this.supportedMimeTypes;
-    }
+	public List<MimeType> getSupportedMimeTypes() {
+		return this.supportedMimeTypes;
+	}
 
 	public String getResponseType() {
 		return responseType;

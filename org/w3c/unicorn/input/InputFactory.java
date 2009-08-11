@@ -1,4 +1,4 @@
-// $Id: InputFactory.java,v 1.4 2008-09-25 17:37:44 jean-gui Exp $
+// $Id: InputFactory.java,v 1.5 2009-08-11 13:43:01 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -15,7 +15,8 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 
 /**
  * Class which deals with the creation of input method
- * @author Damien LEROY 
+ * 
+ * @author Damien LEROY
  */
 public class InputFactory {
 
@@ -169,6 +170,7 @@ public class InputFactory {
 	/**
 	 * Prints the object
 	 */
+	@Override
 	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
@@ -177,7 +179,7 @@ public class InputFactory {
 		for (final InputModule aInputModule : this.mapOfInputModule.values()) {
 			aStringBuffer.append(aInputModule).append(", ");
 		}
-    aStringBuffer.append("}");
+		aStringBuffer.append("}");
 
 		return aStringBuffer.toString();
 	}

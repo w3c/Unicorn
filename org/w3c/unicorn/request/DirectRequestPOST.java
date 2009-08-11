@@ -1,15 +1,12 @@
-// $Id: DirectRequestPOST.java,v 1.9 2008-09-23 13:53:58 jean-gui Exp $
+// $Id: DirectRequestPOST.java,v 1.10 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.StringBufferInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Hashtable;
@@ -20,11 +17,11 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.DirectInputModule;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.response.Response;
-import org.w3c.unicorn.response.parser.ResponseParserFactory;
 
 /**
  * Class to make a request directly using POST method
- * @author Damien LEROY 
+ * 
+ * @author Damien LEROY
  */
 public class DirectRequestPOST extends Request {
 
@@ -88,13 +85,12 @@ public class DirectRequestPOST extends Request {
 			final String sInputParameterName, final InputModule aInputModule,
 			final String responseType) throws IOException {
 		super();
-		DirectRequestPOST.logger.trace("Constructor");
-		if (DirectRequestPOST.logger.isDebugEnabled()) {
-			DirectRequestPOST.logger.debug("URL : " + sURL + ".");
-			DirectRequestPOST.logger.debug("Input parameter name : "
+		Request.logger.trace("Constructor");
+		if (Request.logger.isDebugEnabled()) {
+			Request.logger.debug("URL : " + sURL + ".");
+			Request.logger.debug("Input parameter name : "
 					+ sInputParameterName + ".");
-			DirectRequestPOST.logger.debug("Input module : " + aInputModule
-					+ ".");
+			Request.logger.debug("Input module : " + aInputModule + ".");
 		}
 		if (!(aInputModule instanceof DirectInputModule)) {
 			throw new IllegalArgumentException("InputModule : "
@@ -109,17 +105,17 @@ public class DirectRequestPOST extends Request {
 	@Override
 	public void addParameter(final String sName, final String sValue)
 			throws IOException {
-		DirectRequestPOST.logger.trace("addParameter");
-		if (DirectRequestPOST.logger.isDebugEnabled()) {
-			DirectRequestPOST.logger.debug("Name :" + sName + ".");
-			DirectRequestPOST.logger.debug("Value :" + sValue + ".");
+		Request.logger.trace("addParameter");
+		if (Request.logger.isDebugEnabled()) {
+			Request.logger.debug("Name :" + sName + ".");
+			Request.logger.debug("Value :" + sValue + ".");
 		}
 		this.mapOfParameter.put(sName, sValue);
 	}
 
 	@Override
 	public Response doRequest() throws IOException {
-		DirectRequestPOST.logger.trace("doRequest");
+		Request.logger.trace("doRequest");
 		final URL aURL = new URL(sURL);
 		this.aURLConnection = aURL.openConnection();
 		this.aURLConnection.setDoOutput(true);
@@ -132,22 +128,21 @@ public class DirectRequestPOST extends Request {
 		}
 		for (final String sName : this.mapOfParameter.keySet()) {
 			final String sValue = this.mapOfParameter.get(sName);
-			DirectRequestPOST.logger.trace("addParameter");
-			if (DirectRequestPOST.logger.isDebugEnabled()) {
-				DirectRequestPOST.logger.debug("Name :" + sName + ".");
-				DirectRequestPOST.logger.debug("Value :" + sValue + ".");
+			Request.logger.trace("addParameter");
+			if (Request.logger.isDebugEnabled()) {
+				Request.logger.debug("Name :" + sName + ".");
+				Request.logger.debug("Value :" + sValue + ".");
 			}
-			DirectRequestPOST.logger.debug("--");
-			DirectRequestPOST.logger.debug(this.sBoundary);
-			DirectRequestPOST.logger.debug("\r\n");
-			DirectRequestPOST.logger
-					.debug("Content-Disposition: form-data; name=\"");
-			DirectRequestPOST.logger.debug(sName);
-			DirectRequestPOST.logger.debug('"');
-			DirectRequestPOST.logger.debug("\r\n");
-			DirectRequestPOST.logger.debug("\r\n");
-			DirectRequestPOST.logger.debug(sValue);
-			DirectRequestPOST.logger.debug("\r\n");
+			Request.logger.debug("--");
+			Request.logger.debug(this.sBoundary);
+			Request.logger.debug("\r\n");
+			Request.logger.debug("Content-Disposition: form-data; name=\"");
+			Request.logger.debug(sName);
+			Request.logger.debug('"');
+			Request.logger.debug("\r\n");
+			Request.logger.debug("\r\n");
+			Request.logger.debug(sValue);
+			Request.logger.debug("\r\n");
 			// boundary
 			this.aOutputStream.write("--".getBytes());
 			this.aOutputStream.write(this.sBoundary.getBytes());
@@ -165,27 +160,28 @@ public class DirectRequestPOST extends Request {
 			this.aOutputStream.write(sValue.getBytes());
 			this.aOutputStream.write("\r\n".getBytes());
 		}
-		DirectRequestPOST.logger.debug("--");
-		DirectRequestPOST.logger.debug(this.sBoundary);
-		DirectRequestPOST.logger.debug("--");
-		DirectRequestPOST.logger.debug("\r\n");
+		Request.logger.debug("--");
+		Request.logger.debug(this.sBoundary);
+		Request.logger.debug("--");
+		Request.logger.debug("\r\n");
 		this.aOutputStream.write("--".getBytes());
 		this.aOutputStream.write(this.sBoundary.getBytes());
 		this.aOutputStream.write("--".getBytes());
 		this.aOutputStream.write("\r\n".getBytes());
 		this.aOutputStream.close();
-		
+
 		InputStream is = aURLConnection.getInputStream();
-		
-    return streamToResponse(is);
+
+		return streamToResponse(is);
 	}
 
 	@Override
 	public EnumInputMethod getInputMethod() {
-		DirectRequestPOST.logger.trace("getInputMethod");
+		Request.logger.trace("getInputMethod");
 		return EnumInputMethod.DIRECT;
 	}
 
+	@Override
 	public String toString() {
 		final int iStringBufferSize = 1000;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);

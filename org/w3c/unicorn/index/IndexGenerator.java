@@ -1,4 +1,4 @@
-// $Id: IndexGenerator.java,v 1.14 2009-07-31 11:16:26 tgambet Exp $
+// $Id: IndexGenerator.java,v 1.15 2009-08-11 13:43:01 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -20,7 +20,7 @@ import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.tasklist.parameters.ParameterType;
 import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.Property;
-import org.w3c.unicorn.util.TemplateHelper;;
+import org.w3c.unicorn.util.TemplateHelper;
 
 /**
  * IndexGenerator<br />
@@ -41,11 +41,6 @@ public class IndexGenerator {
 	private static VelocityContext aVelocityContext;
 
 	/**
-	 * Properties of the index generator framework
-	 */
-	private static Properties aProperties = new Properties();
-
-	/**
 	 * Load the properties and initialize apache velocity
 	 */
 	static {
@@ -54,11 +49,13 @@ public class IndexGenerator {
 
 		IndexGenerator.aVelocityContext.put("dropdown", ParameterType.DROPDOWN);
 		IndexGenerator.aVelocityContext.put("checkbox", ParameterType.CHECKBOX);
-		IndexGenerator.aVelocityContext.put("checkboxlist", ParameterType.CHECKBOXLIST);
+		IndexGenerator.aVelocityContext.put("checkboxlist",
+				ParameterType.CHECKBOXLIST);
 		IndexGenerator.aVelocityContext.put("radio", ParameterType.RADIO);
 		IndexGenerator.aVelocityContext.put("textarea", ParameterType.TEXTAREA);
-		IndexGenerator.aVelocityContext.put("textfield", ParameterType.TEXTFIELD);
-		
+		IndexGenerator.aVelocityContext.put("textfield",
+				ParameterType.TEXTFIELD);
+
 		IndexGenerator.aVelocityContext.put("simple", TUi.SIMPLE);
 		IndexGenerator.aVelocityContext.put("advanced", TUi.ADVANCED);
 		IndexGenerator.aVelocityContext.put("none", TUi.NONE);
@@ -77,31 +74,37 @@ public class IndexGenerator {
 	public static void generateIndexes() throws ResourceNotFoundException,
 			ParseErrorException, Exception {
 		IndexGenerator.logger.trace("generateIndexes");
-		
+
 		// Get the list of the language properties files
-		File[] langFiles = ListFiles.listFiles(Property.get("PATH_TO_LANGUAGE_FILES"), "index");
-		
-		// Get all the languages and their associated code (defined in the name of the properties file) in a hashtable
+		File[] langFiles = ListFiles.listFiles(Property
+				.get("PATH_TO_LANGUAGE_FILES"), "index");
+
+		// Get all the languages and their associated code (defined in the name
+		// of the properties file) in a hashtable
 		Map<String, String> languages = new Hashtable<String, String>();
-		for (File langFile : langFiles) { 
+		for (File langFile : langFiles) {
 			Properties props = new java.util.Properties();
-		    props.load(langFile.toURL().openStream());
-		    languages.put(langFile.getName().split("\\.")[1], props.getProperty("language"));
+			props.load(langFile.toURI().toURL().openStream());
+			languages.put(langFile.getName().split("\\.")[1], props
+					.getProperty("language"));
 		}
-		
+
 		IndexGenerator.logger.info("Found Languages : " + languages.toString());
 		aVelocityContext.put("languages", languages);
-		aVelocityContext.put("param_prefix", Property.get("UNICORN_PARAMETER_PREFIX"));
-		
+		aVelocityContext.put("param_prefix", Property
+				.get("UNICORN_PARAMETER_PREFIX"));
+
 		for (File langFile : langFiles) {
 			String langCode = langFile.getName().split("\\.")[1];
-			//aVelocityContext.put("lang", langCode);
-		    TemplateHelper.generateFileFromTemplate("index", langCode, Property.get("PATH_TO_INDEX_OUTPUT"), "html", aVelocityContext);
+			// aVelocityContext.put("lang", langCode);
+			TemplateHelper.generateFileFromTemplate("index", langCode, Property
+					.get("PATH_TO_INDEX_OUTPUT"), "html", aVelocityContext);
 		}
-		
-		TemplateHelper.generateFileFromTemplate("index/en_parameters", null, Property.get("PATH_TO_INDEX_OUTPUT"), "js", aVelocityContext);
+
+		TemplateHelper.generateFileFromTemplate("index/en_parameters", null,
+				Property.get("PATH_TO_INDEX_OUTPUT"), "js", aVelocityContext);
 	}
-	
+
 	/**
 	 * Launch the creation of the indexes
 	 * 

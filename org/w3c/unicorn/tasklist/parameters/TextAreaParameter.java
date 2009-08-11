@@ -1,4 +1,4 @@
-// $Id: TextAreaParameter.java,v 1.3 2008-06-17 13:45:31 jbarouh Exp $
+// $Id: TextAreaParameter.java,v 1.4 2009-08-11 13:42:59 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,47 +18,56 @@ public class TextAreaParameter extends Parameter {
 	private Value aValueDefault;
 
 	/**
-	 * Default constructor for a TextAreaParameter 
-	 * (see the Parameter default constructor).
+	 * Default constructor for a TextAreaParameter (see the Parameter default
+	 * constructor).
 	 */
-	protected TextAreaParameter () {
+	protected TextAreaParameter() {
 		super();
-		TextAreaParameter.logger.trace("Constructor()");
+		Parameter.logger.trace("Constructor()");
 	}
 
 	/**
 	 * Adds a Value object to the mapOfValue.
-	 *  @param aValue The value to add.
+	 * 
+	 * @param aValue
+	 *            The value to add.
 	 */
-	public void addValue (final Value aValue) {
+	@Override
+	public void addValue(final Value aValue) {
 		this.aValueDefault = aValue;
 	}
 
 	/**
 	 * For velocity engine.
+	 * 
 	 * @return The default value.
 	 */
-	public Value getDefaultValue () {
+	public Value getDefaultValue() {
 		return this.aValueDefault;
 	}
 
 	/**
 	 * Finds a Value object in the map given its name.
-	 *  @param sName The name of the Value.
-	 *  @return The Value object if the String corresponds to a key.
+	 * 
+	 * @param sName
+	 *            The name of the Value.
+	 * @return The Value object if the String corresponds to a key.
 	 */
-	public Value getValue (final String sName) {
+	@Override
+	public Value getValue(final String sName) {
 		if (this.aValueDefault.getName().equals(sName)) {
 			return this.aValueDefault;
 		}
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.w3c.unicorn.tasklist.parameters.Parameter#getDefault()
 	 */
 	@Override
-	public Map<String, Value> getMapOfDefaultValue () {
+	public Map<String, Value> getMapOfDefaultValue() {
 		final Map<String, Value> mapOfValue = new LinkedHashMap<String, Value>();
 		mapOfValue.put(this.aValueDefault.getName(), this.aValueDefault);
 		return mapOfValue;
@@ -66,50 +75,66 @@ public class TextAreaParameter extends Parameter {
 
 	/**
 	 * Sets the default Value in the mapOfDefaultValue.
-	 * @param sDefaultValues The new default value.
+	 * 
+	 * @param sDefaultValues
+	 *            The new default value.
 	 */
-	public void setDefaultValues (final String sDefaultValues) {
+	@Override
+	public void setDefaultValues(final String sDefaultValues) {
 		this.aValueDefault.setName(sDefaultValues);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.w3c.unicorn.tasklist.parameters.Parameter#getValues()
 	 */
 	@Override
-	public Map<String, Value> getMapOfValue () {
+	public Map<String, Value> getMapOfValue() {
 		// no value because we allow any text
 		return null;
 	}
 
 	/**
 	 * Defines or replaces the mapOfValue.
-	 * @param mapOfValue The new map of values.
+	 * 
+	 * @param mapOfValue
+	 *            The new map of values.
 	 */
-	public void setMapOfValue (final Map<String, Value> mapOfValue) throws ParameterException {
+	@Override
+	public void setMapOfValue(final Map<String, Value> mapOfValue)
+			throws ParameterException {
 		if (mapOfValue.size() != 1) {
-			throw new ParameterException("Textarea parameter should have exactly one value.");
+			throw new ParameterException(
+					"Textarea parameter should have exactly one value.");
 		}
 		this.aValueDefault = mapOfValue.values().iterator().next();
 	}
 
 	/**
 	 * Returns the type of the parameter.
+	 * 
 	 * @return The type TEXTAREA.
 	 */
-	public ParameterType getType () {
+	@Override
+	public ParameterType getType() {
 		return ParameterType.TEXTAREA;
 	}
-	
+
 	/**
 	 * Merges a Parameter with this one if the type complies.
-	 * @param aParameter The parameter to merge with the current one.
+	 * 
+	 * @param aParameter
+	 *            The parameter to merge with the current one.
 	 * @return True if they merged correctly, else false.
 	 */
-	public boolean merge (final Parameter aParameter) {
-		TextAreaParameter.logger.trace("merge");
+	@Override
+	public boolean merge(final Parameter aParameter) {
+		Parameter.logger.trace("merge");
 		// Types must match
 		if (!(aParameter instanceof TextAreaParameter)) {
-			TextAreaParameter.logger.warn("Type of parameter "+this.getName()+" and "+aParameter.getName()+" not matching.");
+			Parameter.logger.warn("Type of parameter " + this.getName()
+					+ " and " + aParameter.getName() + " not matching.");
 			return false;
 		}
 		if (!super.merge(aParameter)) {

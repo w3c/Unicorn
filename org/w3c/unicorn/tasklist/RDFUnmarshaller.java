@@ -1,4 +1,4 @@
-// $Id: RDFUnmarshaller.java,v 1.1.1.1 2006-08-31 09:09:26 dleroy Exp $
+// $Id: RDFUnmarshaller.java,v 1.2 2009-08-11 13:43:00 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,13 +11,15 @@ import org.w3c.unicorn.util.Unmarshaller;
 
 /**
  * @author Damien LEROY
- *
+ * 
  */
 public interface RDFUnmarshaller extends Unmarshaller {
 
 	public abstract Map<String, Task> getMapOfTask();
 
-	public abstract void setMapOfObserver (final Map<String, Observer> mapOfObserver);
-	public abstract void setMapOfTask (final Map<String, Task> mapOfTask);
+	public abstract void setMapOfObserver(
+			final Map<String, Observer> mapOfObserver);
+
+	public abstract void setMapOfTask(final Map<String, Task> mapOfTask);
 
 }

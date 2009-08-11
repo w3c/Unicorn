@@ -1,4 +1,4 @@
-// $Id: URIInputModule.java,v 1.5 2008-09-25 17:37:44 jean-gui Exp $
+// $Id: URIInputModule.java,v 1.6 2009-08-11 13:43:01 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -19,7 +19,8 @@ import org.w3c.unicorn.util.Property;
 
 /**
  * Class used to deal with the URI method for inputs
- * @author Damien LEROY 
+ * 
+ * @author Damien LEROY
  */
 public class URIInputModule implements InputModule {
 
@@ -53,9 +54,9 @@ public class URIInputModule implements InputModule {
 	 */
 	protected URIInputModule(final MimeType aMimeType,
 			final Object oInputParameterValue) {
-		URIInputModule.logger.trace("Constructor.");
-		if (URIInputModule.logger.isDebugEnabled()) {
-			URIInputModule.logger.debug("oInputParameterValue : "
+		InputModule.logger.trace("Constructor.");
+		if (InputModule.logger.isDebugEnabled()) {
+			InputModule.logger.debug("oInputParameterValue : "
 					+ oInputParameterValue + ".");
 		}
 		if (!(oInputParameterValue instanceof String)) {
@@ -76,9 +77,9 @@ public class URIInputModule implements InputModule {
 	 *             odd error occurs
 	 */
 	protected URIInputModule(final InputModule aInputModule) throws IOException {
-		URIInputModule.logger.trace("Constructor.");
-		if (URIInputModule.logger.isDebugEnabled()) {
-			URIInputModule.logger.debug("InputModule : " + aInputModule + ".");
+		InputModule.logger.trace("Constructor.");
+		if (InputModule.logger.isDebugEnabled()) {
+			InputModule.logger.debug("InputModule : " + aInputModule + ".");
 		}
 		this.aMimeType = aInputModule.getMimeType();
 		final Date aDate = new Date();
@@ -98,32 +99,32 @@ public class URIInputModule implements InputModule {
 	}
 
 	public EnumInputMethod getEnumInputMethod() {
-		URIInputModule.logger.trace("getEnumInputMethod");
+		InputModule.logger.trace("getEnumInputMethod");
 		return this.aEnumInputMethod;
 	}
 
 	public MimeType getMimeType() {
-		URIInputModule.logger.trace("getMimeType");
+		InputModule.logger.trace("getMimeType");
 		return this.aMimeType;
 	}
 
 	public Object getParameterValue() {
-		URIInputModule.logger.trace("getParameterValue");
+		InputModule.logger.trace("getParameterValue");
 		return this.sURI;
 	}
 
 	public String getStringContent() throws IOException {
-		URIInputModule.logger.trace("getString.");
+		InputModule.logger.trace("getString.");
 		final URL aURL = new URL(this.sURI);
 		final String sResult = (String) aURL.openConnection().getContent();
-		if (URIInputModule.logger.isDebugEnabled()) {
-			URIInputModule.logger.debug("sResult : " + sResult + ".");
+		if (InputModule.logger.isDebugEnabled()) {
+			InputModule.logger.debug("sResult : " + sResult + ".");
 		}
 		return sResult;
 	}
 
 	public String getURI() {
-		URIInputModule.logger.trace("getURI");
+		InputModule.logger.trace("getURI");
 		return this.sURI;
 	}
 
@@ -131,9 +132,9 @@ public class URIInputModule implements InputModule {
 	 * Dispose the object
 	 */
 	public void dispose() {
-		URIInputModule.logger.trace("dispose");
+		InputModule.logger.trace("dispose");
 		if (null != this.aFile && this.aFile.delete()) {
-			URIInputModule.logger.info("File deleted.");
+			InputModule.logger.info("File deleted.");
 			this.aFile = null;
 		}
 	}
@@ -141,14 +142,15 @@ public class URIInputModule implements InputModule {
 	/**
 	 * Prints the object
 	 */
+	@Override
 	public String toString() {
 		final int iStringBufferSize = 500;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
 		aStringBuffer.append("URIInputModule{");
 		aStringBuffer.append("mimetype: ").append(this.aMimeType);
 		aStringBuffer.append(", uri: ").append(this.sURI);
-    aStringBuffer.append("}").append(this.sURI);
-    
+		aStringBuffer.append("}").append(this.sURI);
+
 		return aStringBuffer.toString();
 	}
 

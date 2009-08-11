@@ -1,4 +1,4 @@
-// $Id: SimpleOutputModule.java,v 1.2 2008-06-17 13:41:11 fbatard Exp $
+// $Id: SimpleOutputModule.java,v 1.3 2009-08-11 13:43:01 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -23,7 +23,7 @@ public class SimpleOutputModule implements OutputModule {
 			final Map<String, String[]> mapOfParameter, final Writer aWriter)
 			throws ResourceNotFoundException, ParseErrorException,
 			MethodInvocationException, Exception {
-		SimpleOutputModule.logger.trace("Constructor");
+		OutputModule.logger.trace("Constructor");
 		aOutputFormater.produceOutput(mapOfStringObject, aWriter);
 	}
 
@@ -32,7 +32,7 @@ public class SimpleOutputModule implements OutputModule {
 			final Map<String, String[]> mapOfParameter, final Writer aWriter)
 			throws ResourceNotFoundException, ParseErrorException,
 			MethodInvocationException, Exception {
-		SimpleOutputModule.logger.trace("produceError");
+		OutputModule.logger.trace("produceError");
 		aOutputFormater.produceError(aException, aWriter);
 	}
 

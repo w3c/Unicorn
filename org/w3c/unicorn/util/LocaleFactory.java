@@ -1,4 +1,4 @@
-// $Id: LocaleFactory.java,v 1.2 2008-06-17 13:45:31 jbarouh Exp $
+// $Id: LocaleFactory.java,v 1.3 2009-08-11 13:43:02 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,6 +11,7 @@ import java.util.Locale;
 /**
  * LocaleFactory<br />
  * Created: May 30, 2006 12:08:37 PM<br />
+ * 
  * @author Jean-Guilhem ROUEL
  */
 public class LocaleFactory {
@@ -19,18 +20,21 @@ public class LocaleFactory {
 
 	/**
 	 * Finds a Locale object among the mapOfLocale entries, given its name.
-	 * @param sLocale The name of the Locale.
+	 * 
+	 * @param sLocale
+	 *            The name of the Locale.
 	 * @return The corresponding Locale object.
 	 */
-	public static Locale getLocale (final String sLocale) {
+	public static Locale getLocale(final String sLocale) {
 		return LocaleFactory.mapOfLocale.get(sLocale);
 	}
 
 	/**
 	 * Returns the values available in the mapOfLocale.
+	 * 
 	 * @return The collection of values.
 	 */
-	public static Collection<Locale> values () {
+	public static Collection<Locale> values() {
 		return LocaleFactory.mapOfLocale.values();
 	}
 
