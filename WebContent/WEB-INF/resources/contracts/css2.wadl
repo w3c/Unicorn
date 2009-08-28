@@ -5,8 +5,8 @@
 		<resource path="validator"> 
 			
 			<doc title="responseType">default</doc>
-			<doc xml:lang="en" title="name">W3C CSS Validation Service</doc>
-			<doc xml:lang="fr" title="name">Service de validation CSS du W3C</doc>
+			<doc xml:lang="en" title="name">W3C CSS Validator (Level 2)</doc>
+			<doc xml:lang="fr" title="name">W3C Validateur CSS (Niveau 2)</doc>
 			
 			<doc xml:lang="en" title="description">Validate CSS stylesheets or (X)HTML documents with CSS</doc>
 			<doc xml:lang="fr" title="description">validation de feuilles de style CSS, seules ou incluses dans du (X)HTML</doc>

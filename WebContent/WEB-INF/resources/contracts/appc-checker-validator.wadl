@@ -11,8 +11,8 @@
 
 			<doc title="responseType">default</doc>
 			
-			<doc xml:lang="en" title="name">XHTML 1.0 Appendix C checker</doc>
-			<doc xml:lang="fr" title="name">Validateur XHTML 1.0 Appendix C</doc>
+			<doc xml:lang="en" title="name">W3C XHTML 1.0 Appendix C checker</doc>
+			<doc xml:lang="fr" title="name">W3C Validateur XHTML 1.0 Appendice C</doc>
 			
 			<doc xml:lang="en" title="description">>An observer which validates (X)HTML.</doc>
 			<doc xml:lang="fr" title="description">Un observateur qui valide le (X)HTML.</doc>
