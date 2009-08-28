@@ -1,4 +1,4 @@
-// $Id: OutputFactory.java,v 1.2 2009-08-28 12:40:06 jean-gui Exp $
+// $Id: OutputFactory.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,6 +6,7 @@ package org.w3c.unicorn.output;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.exception.ParseErrorException;

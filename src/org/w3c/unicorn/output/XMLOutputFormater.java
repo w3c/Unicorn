@@ -1,4 +1,4 @@
-// $Id: XMLOutputFormater.java,v 1.2 2009-08-28 12:40:06 jean-gui Exp $
+// $Id: XMLOutputFormater.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,7 +11,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.app.event.implement.EscapeXmlReference;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;

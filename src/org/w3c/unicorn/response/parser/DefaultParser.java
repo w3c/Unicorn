@@ -14,7 +14,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.impl.values.XmlValueOutOfRangeException;
 import org.w3.unicorn.observationresponse.ObservationresponseDocument;
 import org.w3.unicorn.observationresponse.ObservationresponseDocument.Observationresponse;
@@ -101,13 +100,13 @@ public class DefaultParser implements ResponseParser {
 		if (result != null) {
 			org.w3.unicorn.observationresponse.WarningsDocument.Warnings warnings = result
 					.getWarnings();
-			if (warnings != null && warnings.getWarninglistArray() != null) {
+			if (warnings != null && warnings.getWarninglistList() != null) {
 				for (org.w3.unicorn.observationresponse.WarninglistDocument.Warninglist wl : warnings
-						.getWarninglistArray()) {
+						.getWarninglistList()) {
 					String lang = warnings.getLang();
 					Result r = new Result(lang, wl.getUri());
 					for (org.w3.unicorn.observationresponse.WarningDocument.Warning w : wl
-							.getWarningArray()) {
+							.getWarningList()) {
 						r.getWarnings().add(swap(w, lang));
 					}
 					res.addResult(r);
@@ -116,13 +115,12 @@ public class DefaultParser implements ResponseParser {
 
 			org.w3.unicorn.observationresponse.ErrorsDocument.Errors errors = result
 					.getErrors();
-			if (errors != null && errors.getErrorlistArray() != null) {
+			if (errors != null && errors.getErrorlistList() != null) {
 				for (org.w3.unicorn.observationresponse.ErrorlistDocument.Errorlist el : errors
-						.getErrorlistArray()) {
+						.getErrorlistList()) {
 					String lang = errors.getLang();
 					Result r = new Result(errors.getLang(), el.getUri());
-					for (org.w3.unicorn.observationresponse.ErrorDocument.Error e : el
-							.getErrorArray()) {
+					for (org.w3.unicorn.observationresponse.ErrorDocument.Error e : el.getErrorList()) {
 						r.getErrors().add(swap(e, lang));
 					}
 					res.addResult(r);
@@ -131,13 +129,13 @@ public class DefaultParser implements ResponseParser {
 
 			org.w3.unicorn.observationresponse.InformationsDocument.Informations informations = result
 					.getInformations();
-			if (informations != null && informations.getInfolistArray() != null) {
+			if (informations != null && informations.getInfolistList() != null) {
 				String lang = informations.getLang();
 				for (org.w3.unicorn.observationresponse.InfolistDocument.Infolist il : informations
-						.getInfolistArray()) {
+						.getInfolistList()) {
 					Result r = new Result(informations.getLang(), il.getUri());
 					for (org.w3.unicorn.observationresponse.InfoDocument.Info i : il
-							.getInfoArray()) {
+							.getInfoList()) {
 						r.getInfos().add(swap(i, lang));
 					}
 					res.addResult(r);
@@ -183,12 +181,12 @@ public class DefaultParser implements ResponseParser {
 			// just don't set the level. Or set it to 0?
 		}
 		try {
-			y.setMessage(swapListMessage(x.getMessageArray(), lang));
+			y.setMessage(swapListMessage(x.getMessageList(), lang));
 		} catch(XmlValueOutOfRangeException e) {
 			// just don't set the message. Or set it to ""?
 		}
 		try {
-			y.setLongmessage(swapListLongmessage(x.getLongmessageArray(), lang));
+			y.setLongmessage(swapListLongmessage(x.getLongmessageList(), lang));
 		}	 catch(XmlValueOutOfRangeException e) {
 			// just don't set the longmessage. Or set it to ""?
 		}
@@ -229,12 +227,12 @@ public class DefaultParser implements ResponseParser {
 			// just don't set the type. Or set it to 0?
 		}
 		try {
-			y.setMessage(swapListMessage(x.getMessageArray(), lang));
+			y.setMessage(swapListMessage(x.getMessageList(), lang));
 		} catch(XmlValueOutOfRangeException e) {
 			// just don't set the message. Or set it to ""?
 		}
 		try {
-			y.setLongmessage(swapListLongmessage(x.getLongmessageArray(), lang));
+			y.setLongmessage(swapListLongmessage(x.getLongmessageList(), lang));
 		}	 catch(XmlValueOutOfRangeException e) {
 			// just don't set the longmessage. Or set it to ""?
 		}
@@ -257,8 +255,8 @@ public class DefaultParser implements ResponseParser {
 		y.setLine(x.getLine());
 		y.setColumn(x.getColumn());
 		y.setContext(x.getContext());
-		y.setMessage(swapListMessage(x.getMessageArray(), lang));
-		y.setLongmessage(swapListLongmessage(x.getLongmessageArray(), lang));
+		y.setMessage(swapListMessage(x.getMessageList(), lang));
+		y.setLongmessage(swapListLongmessage(x.getLongmessageList(), lang));
 		return y;
 	}
 
@@ -272,7 +270,7 @@ public class DefaultParser implements ResponseParser {
 	 *            The language of the list.
 	 * @return The new list of localized strings.
 	 */
-	private List<LocalizedString> swapListMessage(String[] x, String lang) {
+	private List<LocalizedString> swapListMessage(List<String> x, String lang) {
 		List<LocalizedString> y = new ArrayList<LocalizedString>();
 		for (Object ox : x) {
 			String cox = (String) ox;
@@ -293,7 +291,7 @@ public class DefaultParser implements ResponseParser {
 	 * @return The list of Longmessage objects.
 	 */
 	private List<Longmessage> swapListLongmessage(
-			org.w3.unicorn.observationresponse.LongmessageDocument.Longmessage[] x,
+			List<org.w3.unicorn.observationresponse.LongmessageDocument.Longmessage> x,
 			String lang) {
 		List<Longmessage> y = new ArrayList<Longmessage>();
 		for (Object ox : x) {

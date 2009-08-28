@@ -1,8 +1,6 @@
 package org.w3c.unicorn;
 
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Test {
 

@@ -1,4 +1,4 @@
-// $Id: URIInputModule.java,v 1.2 2009-08-28 12:40:04 jean-gui Exp $
+// $Id: URIInputModule.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,7 +13,6 @@ import java.util.Date;
 import javax.activation.MimeType;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.util.Property;
 

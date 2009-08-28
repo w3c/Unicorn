@@ -2,7 +2,6 @@ package org.w3c.unicorn.util;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
-import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.response.A;
 import org.w3c.unicorn.response.Code;
 import org.w3c.unicorn.response.Img;

@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
-import org.w3c.unicorn.language.Language;
-import org.w3c.unicorn.util.Property;
 
 /**
  * Servlet implementation class TestAction
@@ -20,8 +17,6 @@ import org.w3c.unicorn.util.Property;
 public class TestAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	
-	private VelocityContext velocityContext;
     /**
      * @see HttpServlet#HttpServlet()
      */

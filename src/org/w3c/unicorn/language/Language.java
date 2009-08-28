@@ -11,8 +11,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.velocity.VelocityContext;
-import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.Framework;
+import org.w3c.unicorn.util.Property;
 
 public class Language {
 	

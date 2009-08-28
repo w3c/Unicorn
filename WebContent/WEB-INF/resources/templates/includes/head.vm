@@ -19,7 +19,7 @@
 	<div id="banner">
 		<h1>
 			<a href="http://www.w3.org/"><img alt="W3C" width="110" height="61" id="logo" src="images/w3c.png" /></a>
-			<a href="./"><span>Unicorn - ALPHA Test Version</span></a>
+			<a href="./"><span>Unicorn</span></a>
 		</h1>
 		<p>The Web's Universal Conformance Checker</p>
 	</div>

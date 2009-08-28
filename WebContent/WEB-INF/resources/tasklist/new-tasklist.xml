@@ -36,26 +36,18 @@
 
 		<routine>
 			<if test="is-css">
+			<then>
+				<exec id="css" value="css-validator" type="observation" />
+			</then>
+			<else>
+				<exec id="markup" value="markup-validator" type="observation" />
+				<if test="is-html">
 				<then>
-					<exec id="css" value="css-validator"
-						type="observation" />
+					<exec id="appc" value="appc-checker" type="observation" />
 				</then>
-				<else>
-					<exec id="markup" value="markup-validator"
-						type="observation" />
-					<if test="markup-valid">
-						<then>
-							<if test="is-html">
-								<then>
-									<exec id="appc" value="appc-checker"
-										type="observation" />
-								</then>
-							</if>
-							<exec id="css" value="css-validator"
-								type="observation" />
-						</then>
-					</if>
-				</else>
+				</if>
+				<exec id="css" value="css-validator" type="observation" />
+			</else>
 			</if>
 		</routine>
 

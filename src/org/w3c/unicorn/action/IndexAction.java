@@ -5,17 +5,16 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+
 import org.apache.velocity.VelocityContext;
+import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.language.Language;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
-import org.w3c.unicorn.Framework;
 
 public class IndexAction extends Action {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(IndexAction.class);
 	private VelocityContext velocityContext;
 	
 	@Override

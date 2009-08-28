@@ -1,4 +1,4 @@
-// $Id: TemplateHelper.java,v 1.2 2009-08-28 12:39:56 jean-gui Exp $
+// $Id: TemplateHelper.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
@@ -18,7 +17,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.w3c.unicorn.Framework;
 
 /**

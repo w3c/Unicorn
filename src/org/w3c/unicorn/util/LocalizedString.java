@@ -1,4 +1,4 @@
-// $Id: LocalizedString.java,v 1.2 2009-08-28 12:39:56 jean-gui Exp $
+// $Id: LocalizedString.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -20,8 +20,6 @@ import org.apache.commons.logging.LogFactory;
 public class LocalizedString {
 
 	private static final Log logger = LogFactory.getLog(LocalizedString.class);
-
-	private static String DEFAULT_LANGUAGE = "en";
 
 	private Map<String, String> mapOfString = null;
 
