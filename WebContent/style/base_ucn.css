@@ -462,9 +462,9 @@ div.warnings h3.toggled {
 }
 div.observer h2.toggles {
 	background: url(../images/arrow_white_closed.png) no-repeat 4px 12px;
-	padding-left:15px !important;
+	padding-left:17px !important;
 }
 div.observer h2.toggled {
 	background: url(../images/arrow_white_open.png) no-repeat 4px 12px;
-	padding-left:15px !important;
+	padding-left:17px !important;
 }
