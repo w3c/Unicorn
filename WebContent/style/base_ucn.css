@@ -317,43 +317,47 @@ fieldset.toggled legend {
 	padding-left:0.8em;
 	cursor: pointer;
 }
+#observations .pointer {
+	cursor: pointer;
+}
+
 
 /* Result page */
-#result {
+#observations {
 	font-size: 0.8em;
 	margin:1em 2.5em;
 }
-#result div.observer {
+#observations div.observer {
 	margin-top: 1em;
 }
-#result div.observer h2 {
+#observations div.observer h2 {
 	font-size: 1.3em;
 	padding: 0.3em;
 	padding-left: 0.5em;
 	text-align:left;
 	color:white
 }
-#result div.observer h2 span.name {
+#observations div.observer h2 span.name {
 	font-style: italic;
 }
-#result div.observer h2 span.icons {
+#observations div.observer h2 span.icons {
 	float: right;
 	font-size:0.8em;
 }
-#result div.observer h2 span.icons img {
+#observations div.observer h2 span.icons img {
 	vertical-align: -20%;
 	padding:0 0.2em;
 }
-#result div.valid h2 {
+#observations div.valid h2 {
 	background-color:#1daa34;
 	border: 1px solid #17882a;
 }
-#result div.invalid h2 {
+#observations div.invalid h2 {
 	background-color:#cc2323;
 	border: 1px solid #aa1d1d;
 }
-#result div.infos, #result div.warnings, #result div.errors {
-	margin: 0.5em 0;
+#observations div.infos, #observations div.warnings, #observations div.errors {
+	padding-top: 0.5em;
 }
 .infos h3  {
 	color: #17882a;
@@ -365,51 +369,51 @@ fieldset.toggled legend {
 	color: #b48700;
 	
 }
-#result h3 {
+#observations h3 {
 	font-size: 1.1em;
 	padding:0 0 0.3em 0.5em;
 	border-bottom:1px solid #CCCCCC;
 }
-#result h4 span {
+#observations h4 span {
 	font-weight: bold;
 }
-#result h4 {
+#observations h4 {
 	background-color:#EEEEEE;
 	padding:0.4em;
 	border:1px solid #CCCCCC;
 	border-top-width:0;
 	border-left-width:0;
 }
-#result table {
+#observations table {
 	border-collapse:collapse;
 	/*border-right:1px solid #CCCCCC;
 	border-top:1px solid #CCCCCC !important;
 	line-height:100%;*/
 	width:100%;
 }
-#result table tr {
+#observations table tr {
 	border-collapse:collapse;
 	border:1px solid #CCCCCC;
 	border-left-width: 0;
 }
-#result td, #result th  {
+#observations td, #observations th  {
 	padding:3px 6px;
 }
-#result td.linenumber {
+#observations td.linenumber {
 	background-color:#E1E1E1;
 	text-align:right;
 	width:3.5em;
 	font-size:0.9em;
 }
-#result td.codeContext {
+#observations td.codeContext {
 	background-color:#F1F1F1;
 	width:15%;
 	font-size:0.8em;
 }
-#result div.info-section td.codeContext {
+#observations div.info-section td.codeContext {
 	width:auto;
 }
-#result code {
+#observations code {
 	font-family:"Bitstream Vera Sans Mono",Monaco,"Andale Mono",monospace;
 	line-height:100%;
 	white-space:pre;
