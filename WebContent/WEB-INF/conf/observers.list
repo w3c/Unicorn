@@ -1,0 +1,14 @@
+http://qa-dev.w3.org/~ot/ucn_contracts/css-validator.wadl
+http://qa-dev.w3.org/~ot/ucn_contracts/markup-validator.wadl
+http://qa-dev.w3.org/~ot/ucn_contracts/appc-checker-validator.wadl
+http://qa-dev.w3.org/~ot/ucn_contracts/css1.wadl
+http://qa-dev.w3.org/~ot/ucn_contracts/css2.wadl
+http://qa-dev.w3.org/~ot/ucn_contracts/css3.wadl
+http://qa-dev.w3.org/~ot/ucn_contracts/css21.wadl
+#file:/C:\Users\Tom-Laptop\Desktop\apache-tomcat-6.0.20\webapps\unicorn\WEB-INF\resources\contracts\appc-checker-validator.wadl
+#file:/C:\Users\Tom-Laptop\Desktop\apache-tomcat-6.0.20\webapps\unicorn\WEB-INF\resources\contracts\css-validator.wadl
+#file:/C:\Users\Tom-Laptop\Desktop\apache-tomcat-6.0.20\webapps\unicorn\WEB-INF\resources\contracts\css1.wadl
+#file:/C:\Users\Tom-Laptop\Desktop\apache-tomcat-6.0.20\webapps\unicorn\WEB-INF\resources\contracts\css2.wadl
+#file:/C:\Users\Tom-Laptop\Desktop\apache-tomcat-6.0.20\webapps\unicorn\WEB-INF\resources\contracts\css21.wadl
+#file:/C:\Users\Tom-Laptop\Desktop\apache-tomcat-6.0.20\webapps\unicorn\WEB-INF\resources\contracts\css3.wadl
+#file:/C:\Users\Tom-Laptop\Desktop\apache-tomcat-6.0.20\webapps\unicorn\WEB-INF\resources\contracts\markup-validator.wadl
