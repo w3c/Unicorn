@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$lang" lang="$lang">
+<head>
+	<title>$noEscape_title</title>
+	<link rev="start" href="./" title="Home Page" />
+#foreach( $sheet in $css )
+	<link href="./style/$sheet" type="text/css" media="screen" rel="stylesheet" />
+#end
+#foreach( $script in $js )
+	<script type="text/javascript" src="$script"></script>
+#end
+	
+	<link rev="made" href="mailto:www-validator@w3.org" />
+	<link rel="shortcut icon" href="http://www.w3.org/2008/site/images/favicon.ico" type="image/x-icon" />
+	<link rev="start" href="./" title="Home Page" />
+</head>
+<body>
+	<div id="banner">
+		<h1>
+			<a href="http://www.w3.org/"><img alt="W3C" width="110" height="61" id="logo" src="images/w3c.png" /></a>
+			<a href="./"><span>Unicorn - ALPHA Test Version</span></a>
+		</h1>
+		<p>The Web's Universal Conformance Checker</p>
+	</div>

@@ -1,0 +1,161 @@
+#if($unicorncall.DocumentName)
+#set ($noEscape_title = "$result_for $unicorncall.DocumentName")
+#else
+#set ($noEscape_title = $result_for_upload)
+#end  
+#set ($css = ['base_ucn.css'])
+#set ($js = ['scripts/mootools-1.2.3-core-nc.js', 'scripts/mootools-1.2.3.1-more.js', 'scripts/w3c_unicorn_results.js'])
+#parse('includes/head.vm')
+
+#set($observationList = $unicorncall.ObservationList)
+
+
+<div id="observations">
+#foreach($observationName in $observationList.keySet())
+#set($observation = $observationList.get($observationName))
+#set ($infoCount = $observation.getInfoCount())
+#set ($errorCount = $observation.getErrorCount())
+#set ($warningCount = $observation.getWarningCount())
+
+#if($observation.isPassed())
+<div class="observer $observationName valid">
+#else
+<div class="observer $observationName invalid">
+#end
+	<h2>
+		<span class="icons">
+			#if ($infoCount && $infoCount > 0)<img src="images/icone_info.png" alt="info icon" /><span>$infoCount</span> #end
+			#if ($errorCount && $errorCount > 0)<img src="images/icone_error.png" alt="error icon" /><span>$errorCount</span> #end
+			#if ($warningCount && $warningCount > 0)<img src="images/icone_warning.png" alt="warning icon" /><span>$warningCount</span> #end
+		</span>
+		#if($observation.isPassed())
+		$test_ok_1
+		#else
+		$test_fail_1
+		#end
+		<span class="name">$unicorncall.getObserverName($observationName, $lang)</span>
+	</h2>
+	
+	<div class="results">
+	#if ($infoCount && $infoCount > 0)
+		<div class="infos">
+			<h3>Infos ($infoCount)</h3>
+			<div class="result">
+			#foreach($result in $observation.getResultsList())
+				#if(!$result.Infos.isEmpty())
+				<div class="info-section">
+					<h4>
+						#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
+						#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
+						#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
+					</h4>
+					<table>
+						<tbody>
+#foreach($info in $result.Infos)
+							<tr>
+								<td class="linenumber" title="#if($info.Line)Line:$info.Line#end #if($info.Column)Column: $info.Column#end">#if($info.Line)$info.Line#end#if($info.Column)/$info.Column #end</td>
+								<td class="codeContext"> #if($info.Context) $info.Context #end </td>
+								<td class="info">
+								#foreach($message in $info.Message)<span class="msg">$message</span>#end
+									#foreach($longMessage in $info.Longmessage)
+									<p class="longmsg">
+									#foreach($longMessagePiece in $longMessage.Content)
+										$longMessagePiece
+									#end
+									</p>
+									#end
+								</td>
+							</tr>
+#end
+						</tbody>
+					</table>
+				</div>
+				#end
+			#end
+			</div>
+		</div>
+	#end
+	
+	#if ($errorCount && $errorCount > 0)
+		<div class="errors">
+			<h3>Errors ($errorCount)</h3>
+			<div class="result">
+			#foreach($result in $observation.getResultsList())
+				#if(!$result.Errors.isEmpty())
+				<div class="error-section">
+					<h4>
+						#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
+						#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
+						#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
+					</h4>
+					<table>
+						<tbody>
+#foreach($error in $result.Errors)
+							<tr>
+								<td class="linenumber" title="#if($error.Line)Line: $error.Line#end #if($error.Column)Column: $error.Column #end">#if($error.Line)$error.Line#end#if($error.Column)/$error.Column #end</td>
+								<td class="codeContext">#if($error.Context) $error.Context #end</td>
+								<td class="error">
+								#foreach($message in $error.Message)<span class="msg">$message</span>#end
+									#foreach($longMessage in $error.Longmessage)
+									<p class="longmsg">
+									#foreach($longMessagePiece in $longMessage.Content)
+										$longMessagePiece
+									#end
+									</p>
+									#end
+								</td>
+							</tr>
+#end
+						</tbody>
+					</table>
+				</div>
+				#end
+			#end
+			</div>
+		</div>
+	#end
+	
+	#if ($warningCount && $warningCount > 0)
+		<div class="warnings">
+			<h3>Warnings ($warningCount)</h3>
+			<div class="result">
+			#foreach($result in $observation.getResultsList())
+				#if(!$result.Warnings.isEmpty())
+				<div class="warning-section">
+					<h4>
+						#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
+						#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
+						#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
+					</h4>
+					<table>
+						<tbody>
+#foreach($warning in $result.Warnings)
+							<tr>
+								<td class="linenumber" title="#if($warning.Line)Line: $warning.Line#end #if($warning.Column)Column: $warning.Column #end">#if($warning.Line)$warning.Line#end#if($warning.Column)/$warning.Column #end</td>
+								<td class="codeContext">#if($warning.Context) $warning.Context #end</td>
+								<td class="warning level$warning.getLevel()">
+								#foreach($message in $warning.Message)<span class="msg">$message</span>#end
+									#foreach($longMessage in $warning.Longmessage)
+									<p class="longmsg">
+									#foreach($longMessagePiece in $longMessage.Content)
+										$longMessagePiece
+									#end
+									</p>
+									#end
+								</td>
+							</tr>
+#end
+						</tbody>
+					</table>
+				</div>
+				#end
+			#end
+			</div>
+		</div>
+	#end
+	</div>
+</div>
+#end
+</div>
+
+#parse( 'includes/footer.vm' )

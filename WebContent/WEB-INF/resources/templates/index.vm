@@ -1,0 +1,113 @@
+﻿#set ($noEscape_title = "Unicorn")
+#set ($css = ['base_ucn.css'])
+#set ($js = ['scripts/mootools-1.2.3-core-nc.js', 'scripts/mootools-1.2.3.1-more.js', 'scripts/w3c_unicorn_index.js'])
+#parse( 'head.vm' )
+
+#macro (submit_button)
+					<div class="submit">
+						<input type="hidden" name="${param_prefix}lang" value="$lang" class="lang" />
+						<input type="hidden" name="${param_prefix}task" value="$current_task.getID()" class="task" />
+						<input type="submit" value="$submit" />
+					</div>
+#end
+
+	<div id="frontforms">
+		<ul id="tabset_tabs">
+			<li><a href="#validate-by-uri">$validate-by-uri</a></li><!--
+		 --><li><a href="#validate-by-upload">$validate-by-upload</a></li><!--
+		 --><li><a href="#validate-by-input">$validate-by-input</a></li>
+		</ul>
+
+		<div id="fields">
+			<form method="get" action="">
+				<fieldset>
+					<legend>$select-a-task</legend>
+					<div class="input">
+						<p>
+							<label><span>$task:</span>
+								<select name="${param_prefix}task" id="tasks">
+#foreach( $task in $tasklist )
+									<option value="$task.getID()" title="$task.getDescription($lang)" #if ($task == $current_task) selected="selected" #end>$task.getLongName("${lang}")</option>
+#end
+								</select>
+							</label>
+							<input type="hidden" name="${param_prefix}lang" value="$lang" class="lang" />
+							<input id="task_change" type="submit" value="OK" />
+							<span id="task_descrip">$current_task.getDescription($lang)</span>
+						</p>
+					</div>
+				</fieldset>
+			</form>
+			<form action="observe" method="get" id="validate-by-uri">
+				<fieldset>
+					<legend>$legend-by-uri</legend>
+					<div class="input">
+						<p class="instructions">$instruction-by-uri</p>
+						<p>
+							<label title="$uri_title" for="ucn_uri"><span>$uri:</span>
+								<input type="text" name="${param_prefix}uri" id="ucn_uri" size="45" />
+							</label>
+						</p>
+					</div>
+#parse('parameters.vm')
+#submit_button
+				</fieldset>
+			</form>
+			<form action="observe" method="post" enctype="multipart/form-data"  id="validate-by-upload">
+				<fieldset>
+					<legend>$legend-by-upload</legend>
+					<div class="input">
+						<p class="instructions">$instruction-by-upload</p>
+						<p>
+							<label title="$instruction-by-upload" for="ucn_file"><span>$local_file:</span>
+								<input type="file" id="ucn_file" name="${param_prefix}file" size="30" />
+							</label>
+						</p>
+					</div>
+#parse('parameters.vm')
+#submit_button
+				</fieldset>
+			</form>
+			<form action="observe" method="post" id="validate-by-input">
+				<fieldset>
+					<legend>$legend-by-input</legend>
+					<div class="input">
+						<p class="instructions">$instruction-by-input</p>
+						<p>
+							<textarea name="${param_prefix}text" rows="12" cols="70"></textarea>
+							<select id="ucn_text_mime" name="${param_prefix}text_mime">
+							#foreach($mime in $current_task.SupportedMimeTypes)  
+								<option value="$mime">$mime</option>
+							#end
+							</select>
+						</p> 
+					</div>
+#parse( 'parameters.vm' )
+#submit_button
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div id="don_program">
+		<script type="text/javascript" src="http://www.w3.org/QA/Tools/don_prog.js"></script>
+	</div>
+	<!--<div id="ucn_news">
+		<h1>Latest News</h1>
+		<h2 id="news_200809">September 2008: public preview, phase 2</h2>
+		<p>The public preview of the Unicorn framework gets a massive update after two summers of code and spec improvements. All the changes, aimed at making the unicorn framework faster, more reliable and easier to integrate with validators and web observation tools, include:</p>
+		<ul>
+			<li><strong>Simplified contract format</strong>, making it easier to define interactions between unicorn and an observer</li>
+			<li><strong>New tasks format</strong>, providing a more flexible way to sequence, mix and match observations</li>
+			<li><strong>Performance</strong> improvements, with a new multithreaded architecture</li>
+			<li>The ability to function as a <strong>servlet under more engines</strong>, including Jigsaw</li>
+			<li>A <strong>localized UI</strong> (currently: English and French, as a demo)</li>
+			<li>A brand new <strong>XML parser</strong> taking care of parsing tasks, contracts and observation responses</li>
+			<li>Tons of <strong>bug fixes</strong></li>
+		</ul>
+		<h2 id="news_200609">September 2006: public preview</h2>
+		<p>Welcome to the public preview of the unicorn tool. To learn more about this tool
+		or how you can provide feedback for this preview, check the <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
+		<p><strong>Note</strong>: You need to enable Javascript to be able to check documents.</p>
+	</div>-->
+
+#parse( 'footer.vm' )

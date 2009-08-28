@@ -1,7 +1,5 @@
-#Thu Jul 30 11:53:38 GMT+02:00 2009
-encoding//resources/templates/language/index.it.properties=UTF-8
+#Wed Aug 19 12:52:14 CEST 2009
 eclipse.preferences.version=1
-encoding//resources/templates/language/index.en.properties=UTF-8
-encoding//resources/templates/language/index.fr.properties=UTF-8
-encoding//resources/templates/language/general.fr.properties=UTF-8
-encoding//resources/templates/language/general.en.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/en.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/fr.properties=UTF-8
+encoding/<project>=UTF-8

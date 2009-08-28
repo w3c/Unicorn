@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>unicorn</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>Init</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.InitAction</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>Index</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.IndexAction</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Observe</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.ObserveAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Index</servlet-name>
+    <url-pattern>/index.html</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Observe</servlet-name>
+    <url-pattern>/observe</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Init</servlet-name>
+    <url-pattern>/init</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TestAction</display-name>
+    <servlet-name>TestAction</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.TestAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestAction</servlet-name>
+    <url-pattern>/test</url-pattern>
+  </servlet-mapping>
+</web-app>

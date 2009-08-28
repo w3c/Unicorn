@@ -1,0 +1,74 @@
+#macro(createCheckbox $param)
+#set($defaults = $param.getMapOfDefaultValue())
+<label><span>$param.getLongName($lang):</span> 
+	<input type="checkbox" name="$param.getName()" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end class="option_input" />
+</label>
+#end
+
+#macro(createCheckboxList $param)
+#set($defaults = $param.getMapOfDefaultValue())
+<label><span>$param.getLongName($lang):</span></label> 
+<span class="checkboxlist">
+#foreach ($value in $param.getMapOfValue())
+	<label>$value.getLongName($lang)
+		<input type="checkbox" name="$param.getName()" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end class="option_input" />
+	</label>
+#end
+</span>
+#end
+
+#macro(createDropdown $param $multiple)
+#set($defaults = $param.getMapOfDefaultValue())
+<label><span>$param.getLongName($lang):</span> 
+	<select name="$param.Name" #if($multiple) multiple="multiple" size="3" #end class="option_input">
+#foreach ($value in $param.getMapOfValue())
+		<option value="$value.Name"#if($defaults.containsKey($value.getName())) selected="selected" #end>$value.getLongName($lang)</option>
+#end
+	</select>
+</label> 
+#end
+
+#macro(createRadio $param)
+#set($defaults = $param.getMapOfDefaultValue())
+<label><span>$param.getLongName($lang):</span></label>
+<span class="radiolist">
+#foreach ($value in $param.getMapOfValue())
+	<label>$value.getLongName($lang)
+		<input type="radio" name="$param.getName()" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end class="option_input" />
+	</label>
+#end
+</span>
+#end
+
+#macro(createTextarea $param)
+#set($defaults = $param.getMapOfDefaultValue())
+<label><span>$param.getLongName($lang):</span> 
+	<textarea name="$param.getName()" class="option_input">#foreach($default in $defaults)$default.Name#end</textarea>' +
+</label>
+#end
+
+#macro(createTextfield $param)
+#set($defaults = $param.getMapOfDefaultValue())
+<label><span>$param.getLongName($lang):</span> 
+	<input type="text" name="$param.getName()" value="#foreach($default in $defaults)$default.Name#end" class="option_input" />
+</label>
+#end
+
+#macro(createParameter $param)
+#set($type = $param.getType())
+#if($type == "CHECKBOX")
+#createCheckbox($param)
+#elseif($type == "CHECKBOXLIST")
+#createCheckboxList($param)
+#elseif($type == "DROPDOWN")
+#createDropdown($param, false)
+#elseif($type == "DROPDOWNLIST")
+#createDropdown($param, true)
+#elseif($type == "RADIO")
+#createRadio($param, true)
+#elseif($type == "TEXTAREA")
+#createTextarea($param, true)
+#elseif($type == "TEXTFIELD")
+#createTextfield($param, true)
+#end
+#end

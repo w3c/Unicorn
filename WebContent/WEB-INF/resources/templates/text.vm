@@ -1,0 +1,113 @@
+#macro(error $error)
+  ---$text_error--------------------------
+  #if($error.Line)$line $error.Line #end #if($error.Column)Column $error.Column #end :
+  #foreach($message in $error.Message)
+    $text_error : $message
+  #end
+  #if($error.Context && $error.Context != "")
+    ${error_context} : $error.Context
+  #end
+  #foreach($longMessage in $error.Longmessage)
+      	#foreach($longMessagePiece in $longMessage.Content)
+			$longMessagePiece
+        #end
+  #end
+#end
+
+#macro(info $information)
+-- Information -------------------
+#if($information.Line)$line $information.Line #end #if($information.Column)Column $information.Column #end:
+#foreach($message in $information.Message)
+>> information.Message: $message
+#end
+#if($information.Context && $information.Context != "")
+>> information.Context: $information.Context
+#end
+#foreach($longMessage in $information.Longmessage)
+#foreach($longMessagePiece in $longMessage.Content)
+>> information.longMessagePiece: $longMessagePiece
+#end
+#end
+#end
+
+#macro(warning $warning)
+-- Alerte -----------------------
+#if($warning.Line)$line $warning.Line #end #if($warning.Column)Column $warning.Column #end:
+#foreach($message in $warning.Message)
+>> warning.Message: $message
+#end
+#if($warning.Context && $warning.Context != "")
+>> warning.Context: $warning.Context
+#end
+#foreach($longMessage in $warning.Longmessage)
+#foreach($longMessagePiece in $longMessage.Content)
+>> warning.longMessagePiece: $longMessagePiece
+#end
+#end
+#end
+
+
+#macro(produceErrors $errors)
+============== ${text_errors} ===================
+
+	#foreach($error in $errors)
+		#error($error)
+	#end
+#end
+
+#macro(produceWarnings $warnings)
+// $warning ///////////////////////////////////////
+
+#foreach($warningList in $warnings.Warninglist)
+#if($warningList.Warning && $warningList.Warning.size() != 0)
+>>>> $location: $warningList.Uri
+#foreach($warning in $warningList.Warning)
+#warning($warning)
+#end
+#end
+#end
+#end
+
+#macro(produceInfos $infos)
+// $information ///////////////////////////////////
+
+#foreach($infoList in $infos.Infolist)
+>>>> $location: $infoList.Uri
+#foreach($information in $infoList.Info)
+#info($information)
+#end
+#end
+#end
+
+
+#set($observationList = $unicorncall.ObservationList)
+#foreach($observationName in $observationList.keySet())
+#set($observation = $observationList.get($observationName))
+
+
+
+========================= $observationName ====================================
+
+
+#if($observation.isPassed())
+> $test_ok_1 #if($observation.getVersion()) $observation.getVersion().toUpperCase() #else $observationName #end $test_ok_2
+#else
+> $test_fail_1 #if($observation.getVersion()) $observation.getVersion().toUpperCase() #else $observationName #end $test_fail_2
+#foreach($result in $observation.getResultsList())
+        #if(!$result.Errors.isEmpty())
+          $location: $result.Uri
+      	  #produceErrors($result.Errors)
+      	#end
+      #end
+#end
+
+
+#if($observation.Result.Informations)
+#produceInfos($observation.Result.Informations)
+#end
+#if($observation.Result.Warnings)
+#produceWarnings($observation.Result.Warnings)
+#end
+#end
+
+

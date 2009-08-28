@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE owl [
+	<!ENTITY ucn "http://www.w3.org/unicorn">
+	<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">
+	<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">
+	<!ENTITY xs "http://www.w3.org/2001/XMLSchema">
+	]>
+
+<rdf:RDF
+	xmlns:rdf="&rdf;#"
+	xmlns:rdfs="&rdfs;#"
+	xmlns:ucn="&ucn;#"
+	xmlns:xs="&xs;"
+	xmlns="&ucn;#"
+	xml:base="&ucn;#"
+	>
+
+	<rdfs:Class rdf:ID="CheckBox">
+		<rdfs:subClassOf rdf:resource="#Parameter" />
+	</rdfs:Class>
+
+	<rdfs:Class rdf:ID="Radio">
+		<rdfs:subClassOf rdf:resource="#Parameter" />
+	</rdfs:Class>
+
+	<rdfs:Class rdf:ID="CheckBoxList">
+		<rdfs:subClassOf rdf:resource="#Parameter" />
+	</rdfs:Class>
+
+	<rdfs:Class rdf:ID="DropDown">
+		<rdfs:subClassOf rdf:resource="#Parameter" />
+	</rdfs:Class>
+
+	<rdfs:Class rdf:ID="TextArea">
+		<rdfs:subClassOf rdf:resource="#Parameter" />
+	</rdfs:Class>
+
+	<rdfs:Class rdf:ID="TextField">
+		<rdfs:subClassOf rdf:resource="#Parameter" />
+	</rdfs:Class>
+
+	<!--
+		PROPERTY DEFINITION
+	-->
+
+	<rdf:Property rdf:ID="default">
+		<rdfs:range rdf:resource="&rdfs;Literal" />
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="description">
+		<rdfs:range rdf:resource="&rdfs;Literal" />
+		<rdfs:label xml:lang="en">Description property</rdfs:label>
+		<rdfs:label xml:lang="fr">Propriete description</rdfs:label>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="hasParameter">
+		<rdfs:label xml:lang="en">HasParameter property</rdfs:label>
+		<rdfs:label xml:lang="fr">Propriete hasParameter</rdfs:label>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="hasValue"/>
+
+	<rdf:Property rdf:ID="longName">
+		<rdfs:range rdf:resource="&rdfs;Literal" />
+		<rdfs:label xml:lang="en">LongName property</rdfs:label>
+		<rdfs:label xml:lang="fr">Propriete longName</rdfs:label>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="parameter">
+		<rdfs:range rdf:resource="&rdfs;Literal" />
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="reference">
+		<rdfs:range rdf:resource="&rdfs;Literal" />
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="value">
+		<rdfs:range rdf:resource="&rdfs;Literal" />
+	</rdf:Property>
+
+	<!--
+		TASK DEFINITION
+	-->
+
+	<rdf:Property rdf:about="default">
+	    <rdfs:domain rdf:resource="#Task" />
+	</rdf:Property>
+	<rdf:Property rdf:about="description">
+	    <rdfs:domain rdf:resource="#Task" />
+	</rdf:Property>
+	<rdf:Property rdf:about="hasParameter">
+	    <rdfs:domain rdf:resource="#Task" />
+	</rdf:Property>
+	<rdf:Property rdf:about="longName">
+	    <rdfs:domain rdf:resource="#Task" />
+	</rdf:Property>
+	<rdf:Property rdf:about="reference">
+	    <rdfs:domain rdf:resource="#Task" />
+	</rdf:Property>
+
+	<!--
+		PARAMETER DEFINITION
+	-->
+
+	<rdf:Property rdf:about="hasParameter">
+	    <rdfs:range rdf:resource="#Parameter" />
+	</rdf:Property>
+	<rdf:Property rdf:about="hasValue">
+	    <rdfs:domain rdf:resource="#Parameter" />
+	</rdf:Property>
+	<rdf:Property rdf:about="longName">
+	    <rdfs:domain rdf:resource="#Parameter" />
+	</rdf:Property>
+	<rdf:Property rdf:about="reference">
+	    <rdfs:domain rdf:resource="#Parameter" />
+	</rdf:Property>
+
+	<!--
+		VALUE DEFINITION
+	-->
+
+	<rdf:Property rdf:about="hasValue"><rdfs:range rdf:resource="#Value" /></rdf:Property>
+
+	<!--
+		END OF PROPERTY DEFINITION
+	-->
+
+</rdf:RDF>

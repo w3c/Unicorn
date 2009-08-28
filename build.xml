@@ -1,190 +1,65 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="unicorn" default="build" basedir=".">
-  <property name="unicorn.location" value="."/>
-  
-  <property name="app.name" value="unicorn"/>
-  <property name="jar.file" value="${app.name}.jar"/>
-  <property name="war.file" value="${app.name}.war"/>
-  
-  <!-- Configure properties to access the Manager application -->
-  <property name="url"      value="http://flyingman.sophia.w3.org:8180/manager"/>
-	<property name="username" value="manager"/>
-	<property name="password" value="******"/>
+<?xml version="1.0" ?>
+<project name="" basedir=".">
+	<property name="warfile" value="unicorn"/>
+	<property name="webapps" value="."/>
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist" location="dist"/>
 	
-    <path id="project.classpath">
-      <pathelement location="."/>
-      <pathelement location="${unicorn.location}/lib/activation.jar"/>
-      <pathelement location="${unicorn.location}/lib/commons-collections-3.1.jar"/>
-      <pathelement location="${unicorn.location}/lib/commons-fileupload-1.1.1.jar"/>
-      <pathelement location="${unicorn.location}/lib/commons-io-1.2.jar"/>
-      <pathelement location="${unicorn.location}/lib/commons-logging-1.1.jar"/>
-      <pathelement location="${unicorn.location}/lib/icu4j_3_4.jar"/>
-      <pathelement location="${unicorn.location}/lib/iri.jar"/>
-      <pathelement location="${unicorn.location}/lib/jena.jar"/>
-      <pathelement location="${unicorn.location}/lib/jsr173_1.0_api.jar"/>
-      <pathelement location="${unicorn.location}/lib/log4j-1.2.12.jar"/>
-      <pathelement location="${unicorn.location}/lib/servlet.jar"/>
-      <pathelement location="${unicorn.location}/lib/velocity-1.5-dev.jar"/>
-      <pathelement location="${unicorn.location}/lib/xercesImpl.jar"/>
-    	<pathelement location="${unicorn.location}/lib/catalina-ant.jar"/>
-    	<pathelement location="${unicorn.location}/lib/observationresponse.jar"/>
-    	<pathelement location="${unicorn.location}/lib/tasklist.jar"/>
-    	<pathelement location="${unicorn.location}/lib/xbean.jar"/>
-    	<pathelement location="${unicorn.location}/lib/xbean_xpath.jar"/>
-    	<pathelement location="${unicorn.location}/lib/xmlbeans-qname.jar"/>
-    	<pathelement location="${unicorn.location}/lib/xmlpublic.jar"/>
-    	<pathelement location="${unicorn.location}/lib/saxon8.jar"/>
-    	<pathelement location="${unicorn.location}/lib/saxon8-dom.jar"/>
-    	<pathelement location="${unicorn.location}/lib/saxon8-jdom.jar"/>
-    	<pathelement location="${unicorn.location}/lib/saxon8-xpath.jar"/>
-    </path>
+	<target name="all" depends="war, jigsaw, jar"/>
 	
-    <!-- Configure the custom Ant tasks for the Manager application -->
-    <taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="deploy" classname="org.apache.catalina.ant.DeployTask"/>
-    <taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="list"      classname="org.apache.catalina.ant.ListTask"/>
-    <taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="reload"    classname="org.apache.catalina.ant.ReloadTask"/>
-    <taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="resources" classname="org.apache.catalina.ant.ResourcesTask"/>
-    <taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="roles"     classname="org.apache.catalina.ant.RolesTask"/>
-    <taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="start"     classname="org.apache.catalina.ant.StartTask"/>
-    <taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="stop"      classname="org.apache.catalina.ant.StopTask"/>
-    <taskdef classpath="${unicorn.location}/lib/catalina-ant.jar" name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"/>	
+	<target name="war" depends="compile" description="Generate unicorn.war">
+		<mkdir dir="${dist}"/>
+		<war destfile="${dist}/${warfile}.war" webxml="WebContent/WEB-INF/web.xml" update="true">
+			<classes dir="build\classes"/>
+			<fileset dir="WebContent">
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+		</war>
+	</target>
 	
-    <target name="init">
-        <mkdir dir="build"/>
-    </target>
-    <target name="clean">
-        <delete dir="build"/>
-    </target>
-    <target name="build" depends="init">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac destdir="build" debug="on" debuglevel="lines,vars,source">
-            <src path="."/>
-            <exclude name="lib/"/>
-            <classpath refid="project.classpath"/>
+	<target name="jigsaw" depends="compile" description="Generate folder for Jigsaw" >
+		<mkdir dir="${dist}/jigsaw"/>
+		<copy todir="${dist}/jigsaw" overwrite="true">
+			<fileset dir="WebContent"/>
+		</copy>
+		<copy todir="${dist}/jigsaw/WEB-INF" overwrite="true">
+			<fileset dir="${build}"/>
+		</copy>
+	</target>
+	
+	<target name="jar" depends="compile" description="Generate unicorn.jar" >
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/unicorn.jar" basedir="${build}"/>
+	</target>
+
+	<target name="clean" description="clean up" >
+		<delete dir="${build}/classes"/>
+		<delete dir="${dist}"/>
+	</target>
+	
+	<target name="compile">
+		<mkdir dir="${build}/classes"/>
+		<javac srcdir="${src}" destdir="${build}/classes" debug="on" debuglevel="lines,vars,source">
+			<classpath>
+				<fileset dir="WebContent/WEB-INF/lib" includes="*.jar"/>
+			</classpath>
         </javac>
-    </target>
-    <target name="jigsaw">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac destdir="." debug="on" debuglevel="lines,vars,source">
-            <src path="."/>
-            <exclude name="lib/"/>
-            <classpath refid="project.classpath"/>
-        </javac>
-        <copy file="./org/w3c/unicorn/conf/log4j_Jigsaw.xml"
-              tofile="./log4j.xml"
-              overwrite="true"/>
-    </target>
-    <target name="index">
-        <java fork="yes" classname="org.w3c.unicorn.index.IndexGenerator" failonerror="true">
-            <classpath refid="project.classpath"/>
-        </java>
-    </target>
-
-    <target name="help">
-      <echo message="Please run: $ ant -v -projecthelp"/>
-    </target>
-    
-    <target name="copyConfiguration"  depends="build" description="Workspace configuration">
-      <copy file="./org/w3c/unicorn/conf/unicorn.properties"
-            tofile="./build/org/w3c/unicorn/conf/unicorn.properties"
-            overwrite="true"/>
-      <copy file="./org/w3c/unicorn/conf/log4j_Tomcat.xml"
-            tofile="./build/log4j.xml"
-            overwrite="true"/>
-      <copy file="./org/w3c/unicorn/conf/extensions.properties"
-            tofile="./build/org/w3c/unicorn/conf/extensions.properties" 
-            overwrite="true"/>
-      <copy file="./org/w3c/unicorn/conf/responseParsers.properties"
-            tofile="./build/org/w3c/unicorn/conf/responseParsers.properties" 
-            overwrite="true"/>
-      <copy file="./org/w3c/unicorn/conf/specialFormaters.properties" 
-            tofile="./build/org/w3c/unicorn/conf/specialFormaters.properties"
-            overwrite="true"/>
-      <copy file="./org/w3c/unicorn/conf/velocity.properties" 
-            tofile="./build/org/w3c/unicorn/conf/velocity.properties"
-            overwrite="true"/>
-    </target>
-    
-    <target name="make-war" depends="build" description="Creates the webapp module">
-      <delete file="${war.file}"/>
-      <war warfile="${war.file}" webxml="web.xml" basedir="." excludes="*,**">
-        <classes dir="build">
-          <include name="org/**"/>
-        </classes>
-        <classes dir=".">
-          <exclude name="build/**"/>
-          <include name="build/**/*.properties"/>
-        </classes>
-        <classes file="./build/log4j.xml"/>
-        <webinf dir=".">
-          <include name="uploaded-files/**"/>
-          <include name="logs/**"/>
-        </webinf>
-        <lib dir="lib"/>
-        <zipfileset dir="images" prefix="images"/>
-        <zipfileset dir="style" prefix="style"/>
-        <zipfileset dir="resources" prefix="WEB-INF/resources"/>
-        <zipfileset dir="tabtastic" prefix="tabtastic"/>
-        <zipfileset dir="temporary_files" prefix="temporary_files"/>
-      </war>
-    </target>
-    
-    <target name="war" depends="copyConfiguration,make-war" />
-    
-    <target name="jar" depends="build" description="Creates the unicorn library">
-      <delete file="${jar.file}" />
-      <jar destfile="${jar.file}">
-        <fileset dir="build">
-          <include name="org/**/*.class" />
-          <include name="**/*.properties" />
-          <include name="log4j.xml" />
-        </fileset>
-        <fileset dir=".">
-          <include name="org/**/*.java" />
-        </fileset>
-      </jar>
-    </target>
-    
-    <target name="deploy" description="Install web application" depends="war">
-      <deploy url="${url}" username="${username}" password="${password}" path="/unicorn"
-              war="unicorn.war"/>
-    </target>
-    
-    <target name="reload" description="Reload web application">
-      <reload  url="${url}" username="${username}" password="${password}" path="/unicorn"/>
-    </target>
-    
-    <target name="undeploy" description="Remove web application">
-      <undeploy url="${url}" username="${username}" password="${password}" path="/unicorn"/>
-    </target>      
-    
-
-    <!-- Local tests -->
-
-    <target name="CallParameter">
-        <java fork="yes" classname="org.w3c.unicorn.contract.methods.CallParameter" failonerror="true">
-            <classpath refid="project.classpath"/>
-        </java>
-    </target>
-    <target name="DigesterDriver">
-        <java fork="yes" classname="bordel.DigesterDriver" failonerror="true">
-            <classpath refid="project.classpath"/>
-        </java>
-    </target>
-    <target name="WADLUnmarshallerXPath">
-        <java fork="yes" classname="org.w3c.unicorn.contract.wadl.WADLUnmarshallerXPath" failonerror="true">
-            <classpath refid="project.classpath"/>
-        </java>
-    </target>
-    <target name="TaskListUnmarshallerBeans">
-        <java fork="yes" classname="org.w3c.unicorn.tasklist.TaskListUnmarshallerBeans" failonerror="true">
-            <classpath refid="project.classpath"/>
-        </java>
-    </target>
-    <target name="ListFiles">
-        <java fork="yes" classname="org.w3c.unicorn.util.ListFiles" failonerror="true">
-            <classpath refid="project.classpath"/>
-        </java>
-    </target>
-
+	</target>
+	
+	<target name="deploy" depends="war">
+		<copy todir="${webapps}" overwrite="true">
+			<fileset dir=".">
+				<include name="${dist}/unicorn.war"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="xsd">
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/tasklist.xsd" destfile="WebContent/WEB-INF/lib/tasklist.jar" javasource="1.5" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/observer-response.xsd" destfile="WebContent/WEB-INF/lib/observationresponse.jar" javasource="1.5" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
+	</target>
+	
+	<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
+	
 </project>
