@@ -366,7 +366,6 @@ fieldset.toggled legend {
 }
 .warnings h3  {
 	color: #b48700;
-	
 }
 #observations h3 {
 	font-size: 1.1em;
@@ -385,9 +384,6 @@ fieldset.toggled legend {
 }
 #observations table {
 	border-collapse:collapse;
-	/*border-right:1px solid #CCCCCC;
-	border-top:1px solid #CCCCCC !important;
-	line-height:100%;*/
 	width:100%;
 }
 #observations table tr {
@@ -432,7 +428,6 @@ div.observer.css-validator div.infos img, div.observer.css1-validator div.infos 
 	float:left;
 	clear:left;
 	padding:4.1em 10px;
-	/*border-right:thin solid #DDDDDD;*/
 }
 div.observer.css-validator div.infos code, div.observer.css1-validator div.infos code, div.observer.css2-validator div.infos code, div.observer.css21-validator div.infos code, div.observer.css3-validator div.infos code {
 	color:#444444;
@@ -441,3 +436,35 @@ div.markup-validator p.longmsg {
 	display:inline;
 }
 
+div.errors h3.toggles {
+	background: url(../images/arrow_red_closed.png) no-repeat left 4px ;
+	padding-left:12px !important;
+}
+div.errors h3.toggled {
+	background: url(../images/arrow_red_open.png) no-repeat left 4px ;
+	padding-left:12px !important;
+}
+div.infos h3.toggles {
+	background: url(../images/arrow_green_closed.png) no-repeat left 4px ;
+	padding-left:12px !important;
+}
+div.infos h3.toggled {
+	background: url(../images/arrow_green_open.png) no-repeat left 4px ;
+	padding-left:12px !important;
+}
+div.warnings h3.toggles {
+	background: url(../images/arrow_yellow_closed.png) no-repeat left 4px ;
+	padding-left:12px !important;
+}
+div.warnings h3.toggled {
+	background: url(../images/arrow_yellow_open.png) no-repeat left 4px;
+	padding-left:12px !important;
+}
+div.observer h2.toggles {
+	background: url(../images/arrow_white_closed.png) no-repeat 4px 12px;
+	padding-left:15px !important;
+}
+div.observer h2.toggled {
+	background: url(../images/arrow_white_open.png) no-repeat 4px 12px;
+	padding-left:15px !important;
+}

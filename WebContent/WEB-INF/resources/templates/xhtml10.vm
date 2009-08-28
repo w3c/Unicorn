@@ -24,9 +24,9 @@
 #end
 	<h2>
 		<span class="icons">
-			#if ($infoCount && $infoCount > 0)<img src="images/icone_info.png" alt="info icon" /><span>$infoCount</span> #end
-			#if ($errorCount && $errorCount > 0)<img src="images/icone_error.png" alt="error icon" /><span>$errorCount</span> #end
-			#if ($warningCount && $warningCount > 0)<img src="images/icone_warning.png" alt="warning icon" /><span>$warningCount</span> #end
+			#if ($infoCount && $infoCount > 0)<img src="images/icone_info.png" alt="Infos" title="Infos" /><span>$infoCount</span> #end
+			#if ($errorCount && $errorCount > 0)<img src="images/icone_error.png" alt="Errors" title="Errors" /><span>$errorCount</span> #end
+			#if ($warningCount && $warningCount > 0)<img src="images/icone_warning.png" alt="Warnings" title="Warnings" /><span>$warningCount</span> #end
 		</span>
 		#if($observation.isPassed())
 		$test_ok_1
