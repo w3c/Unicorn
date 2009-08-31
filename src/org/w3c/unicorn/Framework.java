@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
+// $Id: Framework.java,v 1.4 2009-08-31 11:35:55 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -33,6 +33,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.contract.WADLUnmarshaller;
 import org.w3c.unicorn.contract.WADLUnmarshallerXPath;
+import org.w3c.unicorn.exceptions.InitializationFailedException;
 import org.w3c.unicorn.exceptions.UnknownParserException;
 import org.w3c.unicorn.language.Language;
 import org.w3c.unicorn.response.parser.ResponseParser;
@@ -109,32 +110,35 @@ public class Framework {
 	 */
 	public static void init() {
 		reset();
-		initCore();
-		initConfig();
-		initUnmarshallers();
-		initResponseParsers();
-		initObservers();
-		initTasklists();
-		initLanguages();
-		initVelocity();
+		try {
+			initCore();
+			initConfig();
+			initUnmarshallers();
+			initResponseParsers();
+			initObservers();
+			initTasklists();
+			initLanguages();
+			initVelocity();
+		} catch (InitializationFailedException e) {
+			logger.fatal(e.getMessage(), e);
+		}
+		
 	}
 	
-	public static void initCore() {// throws Exception {
+	public static void initCore() throws InitializationFailedException {
 		
 		// Checks that unicorn.home (JVM parameter) is set to an existing directory
 		String ucnHome = System.getProperty("unicorn.home");
 		if (ucnHome == null) {
 			String fatal = "\"unicorn.home\" is not set in the JVM parameters. Please read the README file before trying to install Unicorn";
 			System.err.println("FATAL: " + fatal);
-			logger.fatal(fatal);
-			return;
+			throw new InitializationFailedException(fatal);
 		} else {
 			File ucnHomeFile = new File(ucnHome);
 			if (!ucnHomeFile.exists() || !ucnHomeFile.isDirectory()) {
 				String fatal = "JVM parameter \"unicorn.home\" is not an existing directory: " + System.getProperty("unicorn.home");
 				System.err.println("FATAL: " + fatal);
-				logger.fatal(fatal);
-				return;
+				throw new InitializationFailedException(fatal);
 			} else {
 				unicornHome = ucnHomeFile.toURI();
 				logger.info("OK - JVM parameter \"unicorn.home\" was found: " + unicornHome.getPath());
@@ -149,7 +153,7 @@ public class Framework {
 			logger.info("OK - JVM parameter \"unicorn.home\" was found: " + unicornHome.getPath());
 			logger.info("OK - Log4j successfully initialized");
 			logger.debug("> Used log4j.properties file: " + log4jPath);
-			logger.debug("> log4j.properties:" + (UCNProperties) unicornPropertiesFiles.get("log4j.properties"));
+			//logger.debug("> log4j.properties:" + (UCNProperties) unicornPropertiesFiles.get("log4j.properties")); // already logged by loadConfigFile()
 		} catch (FileNotFoundException e) {
 			logger.warn("Log4j config file \"log4j.properties\" could not be found: " + log4jPath);
 			logger.warn("Log4j will not be initialized");
@@ -159,7 +163,7 @@ public class Framework {
 		}
 		
 	}	
-	public static void initConfig() {
+	public static void initConfig() throws InitializationFailedException {
 		// Load unicorn.properties	
 		logger.debug("-------------------------------------------------------");
 		String unicornPath = unicornHome.getPath() + "/WEB-INF/conf/unicorn.properties";
@@ -167,14 +171,12 @@ public class Framework {
 			loadConfigFile(unicornPath, true);
 			logger.info("OK - Config file unicorn.properties successfully loaded");
 		} catch (FileNotFoundException e) {
-			logger.fatal("Unicorn config file \"unicorn.properties\" could not be found: " + unicornPath);
-			return;
+			throw new InitializationFailedException("Unicorn config file \"unicorn.properties\" could not be found: " + unicornPath);
 		} catch (IOException e) {
-			logger.fatal("Error reading \"unicorn.properties\": ", e);
-			return;
+			throw new InitializationFailedException("Error reading \"unicorn.properties\": " + e.getMessage());
 		}
 
-		// Loading config files
+		// Loading other config files
 		for (String fileName : configFiles) {
 			String path = Property.get("PATH_TO_CONF_FILES") + fileName;
 			logger.debug("-------------------------------------------------------");
@@ -182,11 +184,9 @@ public class Framework {
 				loadConfigFile(path, false);
 				logger.info("OK - Config file " + fileName + " successfully loaded");
 			} catch (FileNotFoundException e) {
-				logger.fatal("Mandatory config file \"" + fileName + "\" could not be found: " + path);
-				return;
+				throw new InitializationFailedException("Mandatory config file \"" + fileName + "\" could not be found: " + path);
 			} catch (IOException e) {
-				logger.fatal("Error reading \"" + fileName + "\": ", e);
-				return;
+				throw new InitializationFailedException("Error reading \"" + fileName + "\": " + e.getMessage());
 			}
 		}
 	}
@@ -255,7 +255,7 @@ public class Framework {
 				namespace + "value"));
 		logger.info("OK - RDFUnmarshallerJena successfully initialized.");
 	}
-	public static void initResponseParsers() {
+	public static void initResponseParsers() throws InitializationFailedException {
 	    // Load the map of ResponseParser
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Loading available parsers form responseParsers.properties");
@@ -274,14 +274,13 @@ public class Framework {
 			}
 		}
 		if (mapOfReponseParser.size() == 0) {
-			logger.fatal("There is no parser loaded. Check responseParsers.properties.");
-			return;
+			throw new InitializationFailedException("There is no parser loaded. Check responseParsers.properties.");
 		} else {
 			logger.info("OK - " + mapOfReponseParser.size() + " parser(s) successfully loaded.");
 		}
 
 	}
-	public static void initObservers() {
+	public static void initObservers() throws InitializationFailedException {
 		// Loading observers
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Loading available observers from the observers list file.");
@@ -290,8 +289,7 @@ public class Framework {
 			aBufferedReader = new BufferedReader(new FileReader(Property.get("OBSERVER_LIST_FILE")));
 			logger.debug("Using file: " + Property.get("OBSERVER_LIST_FILE"));
 		} catch (FileNotFoundException e) {
-			logger.fatal("The list of observers could not be found: " + Property.get("OBSERVER_LIST_FILE"));
-			return;
+			throw new InitializationFailedException("The list of observers could not be found: " + Property.get("OBSERVER_LIST_FILE"));
 		}
 		String readLine;
 		do {
@@ -300,8 +298,7 @@ public class Framework {
 				if (readLine == null)
 					break;
 			} catch (IOException e) {
-				logger.fatal("Error while reading the observer list file", e);
-				return;
+				throw new InitializationFailedException("Error while reading the observer list file: " + e.getMessage());
 			}
 			if ("".equals(readLine.trim()) || readLine.matches("^#.*$"))
 				continue;
@@ -321,8 +318,7 @@ public class Framework {
 				logger.warn("> This observer will be skiped");
 				continue;
 			} catch (ParserConfigurationException e) {
-				logger.fatal(e.getMessage(), e);
-				return;
+				throw new InitializationFailedException("ParserConfigurationException: " + e.getMessage());
 			} catch (IOException e) {
 				logger.error("Unable to read observer contract: " + sWADL, e);
 				logger.warn("> This observer will be skiped");
@@ -351,13 +347,12 @@ public class Framework {
 			mapOfObserver.put(new String(obs.getID()), obs);
 		} while (readLine != null);
 		if (mapOfObserver.size() == 0) {
-			logger.fatal("There is no observer loaded. Check the observers list file.");
-			return;
+			throw new InitializationFailedException("There is no observer loaded. Check the observers list file.");
 		} else {
 			logger.info("OK - " + mapOfObserver.size() + " observer(s) successfully loaded.");
 		}
 	}
-	public static void initTasklists() {	
+	public static void initTasklists() throws InitializationFailedException {	
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Loading xml task files from tasklist directory: " + Property.get("PATH_TO_TASKLIST"));
 		TasksListUnmarshaller aTaskListUnmarshaller = new TaskListUnmarshallerBeans(mapOfObserver);
@@ -407,31 +402,24 @@ public class Framework {
 			}
 		}
 		if (mapOfTask.size() == 0) {
-			logger.fatal("No task have been loaded. Check task files in: " + Property.get("PATH_TO_TASKLIST"));
-			return;
+			throw new InitializationFailedException("No task have been loaded. Check task files in: " + Property.get("PATH_TO_TASKLIST"));
 		} else {
 			String s = "Map of tasks:";
-			/*for (String key : mapOfTask.keySet()) {
-				s += "\n\t" + key + " => " + mapOfTask.get(key).getLongName() + " - " + mapOfTask.get(key).getDescription();
-			}*/
-			
 			logger.debug(s + mapOfTask);
 			logger.info("OK - " + mapOfTask.size() + " task(s) successfully loaded.");
 		}
 	}
-	public static void initLanguages() {	
+	public static void initLanguages() throws InitializationFailedException {	
 		// Loading language files
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Loading language files from language directory: " + Property.get("PATH_TO_LANGUAGE_FILES"));
 		if (!Language.isISOLanguageCode(Property.get("DEFAULT_LANGUAGE"))) {
-			logger.fatal("Property DEFAULT_LANGUAGE is not a valid ISO639 code: " + Property.get("DEFAULT_LANGUAGE"));
-			return;
+			throw new InitializationFailedException("Property DEFAULT_LANGUAGE is not a valid ISO639 code: " + Property.get("DEFAULT_LANGUAGE"));
 		}
 		
 		File defaultLanguageFile = new File(Property.get("PATH_TO_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".properties");
 		if (!defaultLanguageFile.exists()) {
-			logger.fatal("Default language file does not exists: " + Property.get("PATH_TO_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".properties");
-			return;
+			throw new InitializationFailedException("Default language file does not exists: " + Property.get("PATH_TO_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".properties");
 		}
 		
 		File[] languageFiles = ListFiles.listFiles(Property
@@ -469,15 +457,13 @@ public class Framework {
 						continue;
 					}
 					else {
-						logger.fatal("Unable to read default language file. " + langFile);
-						return;
+						throw new InitializationFailedException("Unable to read default language file. " + langFile);
 					}
 				}
 			}
 		}
 		if (languageProperties.size() == 0) {
-			logger.fatal("No language have been loaded. Check language files in: " + Property.get("PATH_TO_LANGUAGE_FILES"));
-			return;
+			throw new InitializationFailedException("No language have been loaded. Check language files in: " + Property.get("PATH_TO_LANGUAGE_FILES"));
 		} else {
 			String s = "Language properties:";
 			for (String key : languageProperties.keySet()) {
@@ -493,7 +479,7 @@ public class Framework {
 			languages.put(key, languageProperties.get(key).getProperty("language"));
 		}
 	}	
-	public static void initVelocity() {	
+	public static void initVelocity() throws InitializationFailedException {	
 		// Creating velocity contexts
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Initializing Velocity");
@@ -521,8 +507,7 @@ public class Framework {
 			velocityEngine.init(bProperties);
 			logger.debug("> Velocity engine successfully initialized");
 		} catch (Exception e) {
-			logger.fatal("Error instanciating velocity engine. " + e.getMessage(), e);
-			return;
+			throw new InitializationFailedException("Error instanciating velocity engine: " + e.getMessage());
 		}
 		
 		logger.info("OK - Velocity successfully initialized");

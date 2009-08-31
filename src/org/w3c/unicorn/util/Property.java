@@ -7,12 +7,20 @@ import org.w3c.unicorn.Framework;
 public class Property {
 	
 	public static String get(String key) {
-		return Framework.getUnicornPropertiesFiles().get("unicorn.properties").getProperty(key);
+		try {
+			return Framework.getUnicornPropertiesFiles().get("unicorn.properties").getProperty(key);
+		} catch (java.lang.NullPointerException e) {
+			return null;
+		}
 	}
 	
 	public static String get(String key1, String key2) {
-		return Framework.getUnicornPropertiesFiles().get("unicorn.properties").getProperty(key1) 
-			 + Framework.getUnicornPropertiesFiles().get("unicorn.properties").getProperty(key2);
+		try {
+			return Framework.getUnicornPropertiesFiles().get("unicorn.properties").getProperty(key1) 
+				 + Framework.getUnicornPropertiesFiles().get("unicorn.properties").getProperty(key2);
+		} catch (java.lang.NullPointerException e) {
+			return null;
+		}
 	}
 
 	public static Properties getProps(String fileName) {

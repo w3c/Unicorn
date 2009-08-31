@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.w3c.unicorn.Framework;
+import org.w3c.unicorn.exceptions.InitializationFailedException;
 import org.w3c.unicorn.util.Property;
 
 /**
@@ -28,51 +29,114 @@ public class InitAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		// If PROPERTY_INIT_ACTION is not set or set to true, InitAction is only accessible from localhost.
-		// If PROPERTY_INIT_ACTION is set to true, any IP can initialize Unicorn. This should not be set in production environment.
+		// If PROPERTY_INIT_ACTION is set to false, any IP can initialize Unicorn. This should not be set in production environment.
 		String isProtected = Property.get("PROTECT_INIT_ACTION");
 		if ((isProtected == null || isProtected.equals("true")) && (request.getRemoteAddr().equals("0:0:0:0:0:0:0:1") || request.getRemoteAddr().equals("127.0.0.1"))
 				|| (isProtected != null && isProtected.equals("false"))) {
 			response.setContentType("text/plain");
 			PrintWriter out = response.getWriter();
-			out.write("Initializing core: ");
-			response.flushBuffer();
-			Framework.initCore();
+			String task = request.getParameter("task"); 
 			
-			out.write("OK\nLoading config files: ");
-			response.flushBuffer();
-			Framework.initConfig();
+			if (task == null || task.equals("all")) {
+				out.write("Initializing core: ");
+				response.flushBuffer();
+				try {
+					Framework.initCore();
+					out.write("OK\n");
+				} catch (InitializationFailedException e) {
+					Framework.logger.fatal(e.getMessage(), e);
+					out.write("FAILED\n" + e);
+					return;
+				}
+				
+				out.write("Loading config files: ");
+				response.flushBuffer();
+				try {
+					Framework.initConfig();
+					out.write("OK\n");
+				} catch (InitializationFailedException e) {
+					Framework.logger.fatal(e.getMessage(), e);
+					out.write("FAILED\n" + e);
+					return;
+				}
+				
+				out.write("Initializing unmarshallers: ");
+				response.flushBuffer();
+				Framework.initUnmarshallers();
+				out.write("OK\n");
+				
+				out.write("Initializing response parsers: ");
+				response.flushBuffer();
+				try {
+					Framework.initResponseParsers();
+					out.write("OK\n");
+				} catch (InitializationFailedException e) {
+					Framework.logger.fatal(e.getMessage(), e);
+					out.write("FAILED\n" + e);
+					return;
+				}
+			}
 			
-			out.write("OK\nInitializing unmarshallers: ");
-			response.flushBuffer();
-			Framework.initUnmarshallers();
+			if (task == null || task.equals("all") || task.equals("observers")) {
+				out.write("Loading observers: ");
+				response.flushBuffer();
+				try {
+					Framework.initObservers();
+					out.write("OK\n");
+				} catch (InitializationFailedException e) {
+					Framework.logger.fatal(e.getMessage(), e);
+					out.write("FAILED\n" + e);
+					return;
+				}
+			}
 			
-			out.write("OK\nInitializing response parsers: ");
-			response.flushBuffer();
-			Framework.initResponseParsers();
+			if (task == null || task.equals("all") || task.equals("tasklist")) {
+				out.write("Loading tasklist: ");
+				response.flushBuffer();
+				try {
+					Framework.initTasklists();
+					out.write("OK\n");
+				} catch (InitializationFailedException e) {
+					Framework.logger.fatal(e.getMessage(), e);
+					out.write("FAILED\n" + e);
+					return;
+				}
+			}
 			
-			out.write("OK\nLoading observers: ");
-			response.flushBuffer();
-			Framework.initObservers();
+			if (task == null || task.equals("all") || task.equals("language")) {
+				out.write("Loading language files: ");
+				response.flushBuffer();
+				try {
+					Framework.initLanguages();
+					out.write("OK\n");
+				} catch (InitializationFailedException e) {
+					Framework.logger.fatal(e.getMessage(), e);
+					out.write("FAILED\n" + e);
+					return;
+				}
+				
+				out.write("Initializing Velocity: ");
+				response.flushBuffer();
+				try {
+					Framework.initVelocity();
+					out.write("OK\n");
+				} catch (InitializationFailedException e) {
+					Framework.logger.fatal(e.getMessage(), e);
+					out.write("FAILED\n" + e);
+					return;
+				}
+			}
 			
-			out.write("OK\nLoading tasklist: ");
-			response.flushBuffer();
-			Framework.initTasklists();
-			
-			out.write("OK\nLoading language files: ");
-			response.flushBuffer();
-			Framework.initLanguages();
-			
-			out.write("OK\nInitializing Velocity: ");
-			response.flushBuffer();
-			Framework.initVelocity();
-			out.write("OK");
 			out.close();
 		}
 		else
 			response.sendError(403, "You are not allowed to execute this action.");
 	}
-
-
-
+	
+	private void initCore() {
+		
+	}
+	
 }
