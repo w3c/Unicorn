@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.2 2009-08-28 12:40:08 jean-gui Exp $
+// $Id: ObserveAction.java,v 1.3 2009-08-31 11:59:09 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -82,6 +82,12 @@ public class ObserveAction extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		if (!Framework.isUcnInitialized) {
+			resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
+			return;
+		}
+		
 		ObserveAction.logger.trace("doGet");
 
 		// Language negotiation

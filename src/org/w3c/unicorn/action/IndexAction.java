@@ -26,6 +26,10 @@ public class IndexAction extends Action {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		if (!Framework.isUcnInitialized) {
+			resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
+			return;
+		}
 		
 		resp.setContentType("text/html; charset=UTF-8");
 		
