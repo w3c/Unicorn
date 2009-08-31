@@ -306,13 +306,13 @@ fieldset div.submit input {
 #messages {
 	padding:0.8em;
 	font-size:0.9em;
-	border:3px solid #FBC2C4;
+	border:2px solid #FBC2C4;
 	background: #FBE3E4;
 	color:#8A1F11;
 	margin:1.2em 2.3em;
 }
-#messages .error {
-	
+#messages {
+	-moz-border-radius: 8px;
 }
 #messages .error h4 {
 	line-height:18px;

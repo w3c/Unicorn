@@ -64,11 +64,10 @@ var W3C = {
 			W3C.TaskDescrip.set('text', W3C.TaskOptions[W3C.SelectedTask].title);
 		});
 		
-		$$('div.error').addClass('pointer');
-		
 		$$('div.error pre').slide('hide');
 		
 		$$('div.error').each(function(error) {
+			error.addClass('pointer');
 			error.addEvent('click', function(event) {
 				error.getElement('pre').slide('toggle');
 			});
