@@ -309,10 +309,10 @@ fieldset div.submit input {
 	border:2px solid #FBC2C4;
 	background: #FBE3E4;
 	color:#8A1F11;
-	margin:1.2em 2.3em;
+	margin:1.1em 2.2em;
 }
-#messages {
-	-moz-border-radius: 8px;
+#messages .error {
+
 }
 #messages .error h4 {
 	line-height:18px;
