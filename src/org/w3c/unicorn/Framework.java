@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.4 2009-08-31 11:35:55 tgambet Exp $
+// $Id: Framework.java,v 1.5 2009-08-31 12:00:31 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -84,7 +84,7 @@ public class Framework {
 	/**
 	 * True if initialization did not throw any exception
 	 */
-	public static boolean isUcnInitialized = false;
+	public static boolean isUcnInitialized;
 	private static Hashtable<String, Properties> unicornPropertiesFiles;
 	private static Hashtable<String, VelocityContext> languageContexts;
 	private static Hashtable<String, Properties> languageProperties;
@@ -109,6 +109,7 @@ public class Framework {
 	 * Initialize Unicorn
 	 */
 	public static void init() {
+		isUcnInitialized = false;
 		reset();
 		try {
 			initCore();
@@ -119,6 +120,7 @@ public class Framework {
 			initTasklists();
 			initLanguages();
 			initVelocity();
+			isUcnInitialized = true;
 		} catch (InitializationFailedException e) {
 			logger.fatal(e.getMessage(), e);
 		}
