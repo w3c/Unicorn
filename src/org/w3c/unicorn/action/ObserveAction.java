@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.3 2009-08-31 11:59:09 tgambet Exp $
+// $Id: ObserveAction.java,v 1.4 2009-08-31 15:00:15 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -36,6 +36,7 @@ import org.w3c.unicorn.language.Language;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
+import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 
 /**
@@ -97,7 +98,7 @@ public class ObserveAction extends HttpServlet {
 		
 		logger.debug("Lang Parameter: " + langParameter);
 		
-		//velocityContext = new VelocityContext(Language.getContext(langParameter));
+		
 		
 		// Variables related to the output
 		final Map<String, String[]> mapOfSpecificParameter = new Hashtable<String, String[]>();
@@ -124,15 +125,19 @@ public class ObserveAction extends HttpServlet {
 
 			this.addParameter(sParamName, tStringParamValue, aUnicornCall,
 					mapOfSpecificParameter, mapOfOutputParameter);
-		} // For
+		}
+		
+		if (aUnicornCall.getTask() == null)
+			aUnicornCall.setTask(Framework.mapOfTask.getDefaultTaskId());
 
-		if (aUnicornCall.getTask() == null) {
+		/*if (aUnicornCall.getTask() == null) {
 			ObserveAction.logger.error("No task selected.");
 			this.createError(resp, new NoTaskException(),
 					mapOfSpecificParameter, mapOfOutputParameter);
 			return;
-		}
-
+		}*/
+		
+		
 		try {
 			aUnicornCall.doTask();
 
@@ -141,8 +146,22 @@ public class ObserveAction extends HttpServlet {
 		} catch (final Exception aException) {
 			ObserveAction.logger.error("Exception : " + aException.getMessage(),
 					aException);
-			this.createError(resp, aException,
-					mapOfSpecificParameter, mapOfOutputParameter);
+			
+			if (mapOfOutputParameter.get("format").equals("xhtml10")) {
+				String errorMessage = (String) Framework.getLanguageProperties().get(langParameter).get("stack_trace_text");
+				String errorContent = "";
+				errorContent += aException.getMessage() + "\n";
+				for (StackTraceElement stackTraceElement : aException.getStackTrace()) {
+					errorContent += stackTraceElement.toString() + "\n";
+				}
+				Message mess = new Message(Message.Level.ERROR, errorMessage, errorContent);
+				req.setAttribute("unicorn_message", mess);
+				(new IndexAction()).doGet(req, resp);
+				
+			} else {
+				this.createError(resp, aException, mapOfSpecificParameter, mapOfOutputParameter);
+			}
+			
 		}
 	}
 
@@ -234,8 +253,13 @@ public class ObserveAction extends HttpServlet {
 		} catch (final Exception aException) {
 			ObserveAction.logger.error("Exception : " + aException.getMessage(),
 					aException);
-			this.createError(resp, aException,
-					mapOfSpecificParameter, mapOfOutputParameter);
+			
+			if (mapOfOutputParameter.get("format").equals("xhtml10")) {
+				(new IndexAction()).doGet(req, resp);
+			} else {
+				this.createError(resp, aException, mapOfSpecificParameter, mapOfOutputParameter);
+			}
+			
 		} finally {
 			if ("true".equals(Property.get("DELETE_UPLOADED_FILES"))
 					&& aFileItemUploaded != null

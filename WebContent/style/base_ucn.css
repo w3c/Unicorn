@@ -303,8 +303,30 @@ fieldset div.submit input {
 #footer p.copyright a:link, #footer p.copyright a:visited {
 	color:#A3756E;
 }
+#messages {
+	padding:0.8em;
+	font-size:0.9em;
+	border:3px solid #FBC2C4;
+	background: #FBE3E4;
+	color:#8A1F11;
+	margin:1.2em 2.3em;
+}
+#messages .error {
+	
+}
+#messages .error h4 {
+	line-height:18px;
+	padding-left:22px;
+	background:url(../images/icone_error.png) no-repeat scroll left top;
+}
+#messages .error pre {
+	padding-top:0.6em;
+}
+#messages .pointer:hover h4 {
+	text-decoration: underline;
+}
 
-/* After javascript */
+/* Post-javascript */
 fieldset.toggles legend {
 	background:url(../images/arrow-closed.png) no-repeat scroll 0.2em 0.35em;
 	padding-left:0.8em;
@@ -315,7 +337,7 @@ fieldset.toggled legend {
 	padding-left:0.8em;
 	cursor: pointer;
 }
-#observations .pointer {
+.pointer {
 	cursor: pointer;
 }
 

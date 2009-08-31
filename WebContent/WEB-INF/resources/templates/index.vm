@@ -11,6 +11,16 @@
 					</div>
 #end
 
+#if ($message)
+	<div id="messages">
+		<div class="error">
+			<h4>$message.Message</h4>
+			#if ($message.Content)
+			<pre>$message.Content</pre>
+			#end
+		</div>
+	</div>
+#end
 	<div id="frontforms">
 		<ul id="tabset_tabs">
 			<li><a href="#validate-by-uri">$validate-by-uri</a></li><!--

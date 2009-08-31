@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.language.Language;
+import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
 
@@ -45,6 +46,10 @@ public class IndexAction extends Action {
 			taskParameter = Framework.mapOfTask.getDefaultTaskId();
 		
 		velocityContext.put("current_task", Framework.mapOfTask.get(taskParameter));
+		
+		if (req.getAttribute("unicorn_message") != null)
+			//System.out.println("TOM: " + ((Message) req.getAttribute("unicorn_message")).getMessage());
+			velocityContext.put("message", req.getAttribute("unicorn_message"));
 		
 		if (req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest")) {
 			//for JavaScript testing purposes
