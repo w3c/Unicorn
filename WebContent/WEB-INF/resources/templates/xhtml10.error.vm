@@ -1,7 +1,7 @@
 #if($unicorncall.DocumentName)
-  #set ($title = "$result_for $unicorncall.DocumentName")
+  #set ($noEscape_title = "$result_for $unicorncall.DocumentName")
 #else
-  #set ($title = $result_for_upload)
+  #set ($noEscape_title = $result_for_upload)
 #end  
 #set ($css = ['base_ucn.css'])
 #parse( 'includes/head.vm' )
