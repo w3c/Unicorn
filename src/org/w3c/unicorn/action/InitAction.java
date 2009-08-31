@@ -40,6 +40,9 @@ public class InitAction extends HttpServlet {
 			String task = request.getParameter("task"); 
 			
 			if (task == null || task.equals("all")) {
+				
+				Framework.reset();
+				
 				out.write("Initializing core: ");
 				response.flushBuffer();
 				try {
@@ -48,6 +51,7 @@ public class InitAction extends HttpServlet {
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
+					Framework.isUcnInitialized = false;
 					return;
 				}
 				
@@ -59,6 +63,7 @@ public class InitAction extends HttpServlet {
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
+					Framework.isUcnInitialized = false;
 					return;
 				}
 				
@@ -75,11 +80,20 @@ public class InitAction extends HttpServlet {
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
+					Framework.isUcnInitialized = false;
 					return;
 				}
 			}
 			
 			if (task == null || task.equals("all") || task.equals("observers")) {
+				
+				if (!Framework.isUcnInitialized && task.equals("observers")) {
+					out.write("Unable to reload the observers because Unicorn is not initialized.\n" +
+							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
+					out.close();
+					return;
+				}
+					
 				out.write("Loading observers: ");
 				response.flushBuffer();
 				try {
@@ -88,11 +102,20 @@ public class InitAction extends HttpServlet {
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
+					Framework.isUcnInitialized = false;
 					return;
 				}
 			}
 			
 			if (task == null || task.equals("all") || task.equals("tasklist")) {
+				
+				if (!Framework.isUcnInitialized && task.equals("tasklist")) {
+					out.write("Unable to reload the tasklist because Unicorn is not initialized.\n" +
+							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
+					out.close();
+					return;
+				}
+				
 				out.write("Loading tasklist: ");
 				response.flushBuffer();
 				try {
@@ -101,11 +124,20 @@ public class InitAction extends HttpServlet {
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
+					Framework.isUcnInitialized = false;
 					return;
 				}
 			}
 			
 			if (task == null || task.equals("all") || task.equals("language")) {
+				
+				if (!Framework.isUcnInitialized && task.equals("language")) {
+					out.write("Unable to reload the language files because Unicorn is not initialized.\n" +
+							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
+					out.close();
+					return;
+				}
+				
 				out.write("Loading language files: ");
 				response.flushBuffer();
 				try {
@@ -114,6 +146,7 @@ public class InitAction extends HttpServlet {
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
+					Framework.isUcnInitialized = false;
 					return;
 				}
 				
@@ -125,6 +158,7 @@ public class InitAction extends HttpServlet {
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
+					Framework.isUcnInitialized = false;
 					return;
 				}
 			}
@@ -133,10 +167,6 @@ public class InitAction extends HttpServlet {
 		}
 		else
 			response.sendError(403, "You are not allowed to execute this action.");
-	}
-	
-	private void initCore() {
-		
 	}
 	
 }
