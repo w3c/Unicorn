@@ -44,12 +44,12 @@ public class IndexAction extends Action {
 		
 		ArrayList<Message> messages = new ArrayList<Message>();
 		
-		/*messages.add(new Message(Message.Level.WARNING, "un warning", null));
+		messages.add(new Message(Message.Level.WARNING, "un warning", null));
 		messages.add(new Message(Message.Level.ERROR, "une error", null));
 		messages.add(new Message(Message.Level.INFO, "une info", null));
 		messages.add(new Message(Message.Level.WARNING, "un warning avec long message", "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
 		messages.add(new Message(Message.Level.ERROR, "une error avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
-		messages.add(new Message(Message.Level.INFO, "une info avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));*/
+		messages.add(new Message(Message.Level.INFO, "une info avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
 		
 		if (!Language.isComplete(langParameter)) {
 			Message mess = new Message(Message.Level.INFO, "incomplete language", null);
