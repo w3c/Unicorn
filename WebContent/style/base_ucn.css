@@ -346,7 +346,9 @@ fieldset div.submit input {
 #messages .pointer:hover h4 {
 	text-decoration: underline;
 }
-
+#messages .pointer h4 {
+	font-weight:bold;
+}
 /* Post-javascript */
 fieldset.toggles legend {
 	background:url(../images/arrow-closed.png) no-repeat scroll 0.2em 0.35em;
