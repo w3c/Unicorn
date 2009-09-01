@@ -66,17 +66,11 @@ var W3C = {
 		
 		$$('div#messages pre').slide('hide');
 		
-		$$('div#messages div').each(function(message) {
-			//if (message.getElement('pre')) {
+		$$('div#messages > div').each(function(message) {
 			if (message.getElement('pre')) {
-				console.log(message);
-				console.log(message.getElement('pre'));
 				message.addClass('pointer');
 				message.addEvent('click', function(event) {
-					console.log("Mess: " + message);
-					console.log("Pre: " + message.getElement('pre'));
 					message.getElement('pre').slide('toggle');
-					
 				});
 			}
 		});
