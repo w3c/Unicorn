@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.6 2009-09-01 16:00:24 jean-gui Exp $
+// $Id: ObserveAction.java,v 1.7 2009-09-01 16:07:29 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,6 +6,7 @@ package org.w3c.unicorn.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -88,6 +89,8 @@ public class ObserveAction extends HttpServlet {
 			return;
 		}
 		
+		Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
+		
 		ObserveAction.logger.trace("doGet");
 
 		// Language negotiation
@@ -126,8 +129,13 @@ public class ObserveAction extends HttpServlet {
 					mapOfSpecificParameter, mapOfOutputParameter);
 		}
 		
-		if (aUnicornCall.getTask() == null)
+		if (aUnicornCall.getTask() == null) {
 			aUnicornCall.setTask(Framework.mapOfTask.getDefaultTaskId());
+			Message mess = new Message(Message.Level.WARNING, "No task specified! Unicorn used its default task: " + Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()).getLongName("en"), null);
+			ArrayList<Message> messages = new ArrayList<Message>();
+			messages.add(mess);
+			mapOfStringObject.put("messages", messages);
+		}
 
 		/*if (aUnicornCall.getTask() == null) {
 			ObserveAction.logger.error("No task selected.");
@@ -141,7 +149,7 @@ public class ObserveAction extends HttpServlet {
 			aUnicornCall.doTask();
 
 			this.createOutput(resp, aUnicornCall,
-					mapOfSpecificParameter, mapOfOutputParameter);
+					mapOfSpecificParameter, mapOfOutputParameter, mapOfStringObject);
 		} catch (final Exception aException) {
 			ObserveAction.logger.error("Exception : " + aException.getMessage(),
 					aException);
@@ -175,6 +183,8 @@ public class ObserveAction extends HttpServlet {
 			final HttpServletResponse resp)
 			throws ServletException, IOException {
 		ObserveAction.logger.trace("doPost");
+		
+		Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 		
 		// Check that we have a file upload request
 		final boolean bIsMultipart = ServletFileUpload.isMultipartContent(new ServletRequestContext(req));
@@ -248,7 +258,7 @@ public class ObserveAction extends HttpServlet {
 			aUnicornCall.doTask();
 
 			this.createOutput(resp, aUnicornCall,
-					mapOfSpecificParameter, mapOfOutputParameter);
+					mapOfSpecificParameter, mapOfOutputParameter, mapOfStringObject);
 		} catch (final Exception aException) {
 			ObserveAction.logger.error("Exception : " + aException.getMessage(),
 					aException);
@@ -406,12 +416,13 @@ public class ObserveAction extends HttpServlet {
 	private void createOutput(final HttpServletResponse aHttpServletResponse,
 			final UnicornCall aUnicornCall,
 			final Map<String, String[]> mapOfSpecificParameter,
-			final Map<String, String> mapOfOutputParameter) throws IOException {
+			final Map<String, String> mapOfOutputParameter,
+			Map<String, Object> mapOfStringObject) throws IOException {
 		aHttpServletResponse.setContentType(mapOfOutputParameter
 				.get("mimetype")
 				+ "; charset=" + mapOfOutputParameter.get("charset"));
 		try {
-			Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
+			//Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 			mapOfStringObject.put("unicorncall", aUnicornCall);
 
 			logger.debug("Request output formater with parameters: " 

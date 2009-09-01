@@ -308,7 +308,7 @@ fieldset div.submit input {
 	margin:1.1em 2.2em;
 }
 #messages .error, #messages .warning, #messages .info {
-	padding:0.8em;
+	padding:0.7em;
 	border:2px solid;
 	margin:0.6em 0;
 }
@@ -328,17 +328,17 @@ fieldset div.submit input {
 	background:#e3edfa;
 }
 #messages .error h4, #messages .warning h4, #messages .info h4 {
-	line-height:18px;
-	padding-left:22px;
+	line-height:22px;
+	padding-left:30px;
 }
 #messages .error h4 {
-	background:url(../images/icone_error.png) no-repeat scroll left top;
+	background:url(../images/icone_error_b.png) no-repeat scroll left top;
 }
 #messages .warning h4 {
-	background:url(../images/icone_warning.png) no-repeat scroll left top;
+	background:url(../images/icone_warning_b.png) no-repeat scroll left top;
 }
 #messages .info h4 {
-	background:url(../images/icone_info.png) no-repeat scroll left top;
+	background:url(../images/icone_info_b.png) no-repeat scroll left top;
 }
 #messages .error pre {
 	padding-top:0.6em;

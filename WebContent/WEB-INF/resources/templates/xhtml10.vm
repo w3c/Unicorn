@@ -9,7 +9,9 @@
 
 #set($observationList = $unicorncall.ObservationList)
 
-
+#if ($messages)
+#displayMessages($messages)
+#end
 <div id="observations">
 #foreach($observationName in $observationList.keySet())
 #set($observation = $observationList.get($observationName))
