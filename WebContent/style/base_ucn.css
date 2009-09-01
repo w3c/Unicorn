@@ -304,20 +304,41 @@ fieldset div.submit input {
 	color:#A3756E;
 }
 #messages {
-	padding:0.8em;
 	font-size:0.9em;
-	border:2px solid #FBC2C4;
-	background: #FBE3E4;
-	color:#8A1F11;
 	margin:1.1em 2.2em;
 }
-#messages .error {
-
+#messages .error, #messages .warning, #messages .info {
+	padding:0.8em;
+	border:2px solid;
+	margin:0.6em 0;
 }
-#messages .error h4 {
+#messages .error {
+	color:#8A1F11;
+	border-color:#FBC2C4;
+	background:#FBE3E4;
+}
+#messages .warning {
+	color:#514721;
+	border-color:#ffe57d;
+	background:#FFF6BF;
+}
+#messages .info {
+	color:#11438a;
+	border-color:#c2dafb;
+	background:#e3edfa;
+}
+#messages .error h4, #messages .warning h4, #messages .info h4 {
 	line-height:18px;
 	padding-left:22px;
+}
+#messages .error h4 {
 	background:url(../images/icone_error.png) no-repeat scroll left top;
+}
+#messages .warning h4 {
+	background:url(../images/icone_warning.png) no-repeat scroll left top;
+}
+#messages .info h4 {
+	background:url(../images/icone_info.png) no-repeat scroll left top;
 }
 #messages .error pre {
 	padding-top:0.6em;
