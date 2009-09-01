@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.4 2009-08-31 15:00:15 tgambet Exp $
+// $Id: ObserveAction.java,v 1.5 2009-09-01 13:40:55 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -31,11 +31,10 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.exceptions.NoTaskException;
-import org.w3c.unicorn.language.Language;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
+import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 
