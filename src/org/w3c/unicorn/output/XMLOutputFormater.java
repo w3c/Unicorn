@@ -1,4 +1,4 @@
-// $Id: XMLOutputFormater.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
+// $Id: XMLOutputFormater.java,v 1.4 2009-09-01 13:39:41 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -34,7 +34,7 @@ public class XMLOutputFormater implements OutputFormater {
 	/**
 	 * Apache velocity context
 	 */
-	private static VelocityContext aVelocityContext;
+	private VelocityContext aVelocityContext;
 	
 	private String sOutputFormat;
 	

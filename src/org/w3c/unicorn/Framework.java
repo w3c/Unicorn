@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.5 2009-08-31 12:00:31 tgambet Exp $
+// $Id: Framework.java,v 1.6 2009-09-01 13:39:41 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -35,7 +35,6 @@ import org.w3c.unicorn.contract.WADLUnmarshaller;
 import org.w3c.unicorn.contract.WADLUnmarshallerXPath;
 import org.w3c.unicorn.exceptions.InitializationFailedException;
 import org.w3c.unicorn.exceptions.UnknownParserException;
-import org.w3c.unicorn.language.Language;
 import org.w3c.unicorn.response.parser.ResponseParser;
 import org.w3c.unicorn.tasklist.RDFUnmarshaller;
 import org.w3c.unicorn.tasklist.RDFUnmarshallerJena;
@@ -43,6 +42,7 @@ import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.TaskListUnmarshallerBeans;
 import org.w3c.unicorn.tasklist.Tasklist;
 import org.w3c.unicorn.tasklist.TasksListUnmarshaller;
+import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UCNProperties;
@@ -420,14 +420,48 @@ public class Framework {
 		}
 		
 		File defaultLanguageFile = new File(Property.get("PATH_TO_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".properties");
-		if (!defaultLanguageFile.exists()) {
-			throw new InitializationFailedException("Default language file does not exists: " + Property.get("PATH_TO_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".properties");
+		Properties defaultProps = new Properties();
+		
+		try {
+			defaultProps = Language.load(defaultLanguageFile);
+			logger.debug("> Found language (default): " + defaultProps.getProperty("lang") + " - " + defaultProps.getProperty("language"));
+			defaultProps.put("complete", "true");
+			languageProperties.put(Property.get("DEFAULT_LANGUAGE"), defaultProps);
+		} catch (IllegalArgumentException e) {
+			logger.warn(e.getMessage());
+		} catch (FileNotFoundException e) {
+			throw new InitializationFailedException("Default language file does not exists: " + defaultLanguageFile.getPath());
+		} catch (IOException e) {
+			throw new InitializationFailedException("Unable to read default language file. " + defaultLanguageFile.getPath());
 		}
 		
-		File[] languageFiles = ListFiles.listFiles(Property
-				.get("PATH_TO_LANGUAGE_FILES"), "\\.properties$");
+		
+		File[] languageFiles = ListFiles.listFiles(Property.get("PATH_TO_LANGUAGE_FILES"), "\\.properties$");
 		
 		for (File langFile : languageFiles) {
+			if (langFile.equals(defaultLanguageFile))
+				continue;
+			
+			try {
+				Properties props = Language.load(langFile);
+				logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
+				Language.complete(props, defaultProps);
+				languageProperties.put(props.getProperty("lang"), props);
+			} catch (IllegalArgumentException e) {
+				logger.warn(e.getMessage());
+			} catch (FileNotFoundException e) {
+				// Should not happen
+				logger.error(e.getMessage(), e);
+			} catch (IOException e) {
+				logger.error("Unable to read language file. " + langFile + ". This file will be skiped.");
+			}
+			
+		}
+		
+		/*for (File langFile : languageFiles) {
+			if (langFile == defaultLanguageFile)
+				continue;
+
 			String localeString = langFile.getName().split("\\.")[0];
 			if (!Language.isISOLanguageCode(localeString))
 				logger.warn("Invalid language file: " + langFile.getName() + "" +
@@ -439,7 +473,8 @@ public class Framework {
 					Properties props = new Properties();
 					props.load(isr);
 					props.put("lang", localeString);
-					props.put("tasklist", mapOfTask);
+					//props.put("tasklist", mapOfTask);
+					//Language.complete(props);
 					languageProperties.put(localeString, props);
 					String s;
 					if (localeString.equals(Property.get("DEFAULT_LANGUAGE")))
@@ -463,7 +498,8 @@ public class Framework {
 					}
 				}
 			}
-		}
+		}*/
+		
 		if (languageProperties.size() == 0) {
 			throw new InitializationFailedException("No language have been loaded. Check language files in: " + Property.get("PATH_TO_LANGUAGE_FILES"));
 		} else {

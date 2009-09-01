@@ -1,3 +1,59 @@
+#macro(displayMessages $messages)
+<div id="messages">
+#foreach ($message in $messages)
+	#if ($message.Level == "ERROR")
+	<div class="error">
+		<h4>$message.Message</h4>
+		#if ($message.Content)
+		<pre>$message.Content</pre>
+		#end
+	</div>
+	#end
+#end
+#foreach ($message in $messages)
+	#if ($message.Level == "WARNING")
+	<div class="warning">
+		<h4>$message.Message</h4>
+		#if ($message.Content)
+		<pre>$message.Content</pre>
+		#end
+	</div>
+	#end
+#end
+#foreach ($message in $messages)
+	#if ($message.Level == "INFO")
+	<div class="info">
+		<h4>$message.Message</h4>
+		#if ($message.Content)
+		<pre>$message.Content</pre>
+		#end
+	</div>
+	#end
+#end
+</div>
+
+
+#end
+
+#macro(createParameter $param)
+#set($type = $param.getType())
+#if($type == "CHECKBOX")
+#createCheckbox($param)
+#elseif($type == "CHECKBOXLIST")
+#createCheckboxList($param)
+#elseif($type == "DROPDOWN")
+#createDropdown($param, false)
+#elseif($type == "DROPDOWNLIST")
+#createDropdown($param, true)
+#elseif($type == "RADIO")
+#createRadio($param, true)
+#elseif($type == "TEXTAREA")
+#createTextarea($param, true)
+#elseif($type == "TEXTFIELD")
+#createTextfield($param, true)
+#end
+#end
+
 #macro(createCheckbox $param)
 #set($defaults = $param.getMapOfDefaultValue())
 <label><span>$param.getLongName($lang):</span> 
@@ -54,21 +110,3 @@
 </label>
 #end
 
-#macro(createParameter $param)
-#set($type = $param.getType())
-#if($type == "CHECKBOX")
-#createCheckbox($param)
-#elseif($type == "CHECKBOXLIST")
-#createCheckboxList($param)
-#elseif($type == "DROPDOWN")
-#createDropdown($param, false)
-#elseif($type == "DROPDOWNLIST")
-#createDropdown($param, true)
-#elseif($type == "RADIO")
-#createRadio($param, true)
-#elseif($type == "TEXTAREA")
-#createTextarea($param, true)
-#elseif($type == "TEXTFIELD")
-#createTextfield($param, true)
-#end
-#end

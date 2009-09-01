@@ -30,12 +30,12 @@ var W3C = {
 		W3C.toggleOptions(false);
 		W3C.addOptionEvents();
 		
-		console.log(W3C.isUrl("http://www.w3.org"));
+		/*console.log(W3C.isUrl("http://www.w3.org"));
 		console.log(W3C.isUrl("http://jigsaw.w3.org/css-validator/validator?uri=www.w3.org&profile=css3&usermedium=all&warning=1&lang=fr&output=ucn"));
 		console.log(W3C.isUrl("http://localhost:8080/unicorn_dev/#validate-by-uri+task_full-css+with_options"));
 		console.log(W3C.isUrl("http://www.%w3.org/TR/CSS21/colors.html#propdef-color"));
 		console.log(W3C.isUrl("/w3.org"));
-		console.log(W3C.isUrl("www.w3.org"));
+		console.log(W3C.isUrl("www.w3.org"));*/
 	},
 	
 	prepareDocument: function(){
@@ -64,13 +64,21 @@ var W3C = {
 			W3C.TaskDescrip.set('text', W3C.TaskOptions[W3C.SelectedTask].title);
 		});
 		
-		$$('div.error pre').slide('hide');
+		$$('div#messages pre').slide('hide');
 		
-		$$('div.error').each(function(error) {
-			error.addClass('pointer');
-			error.addEvent('click', function(event) {
-				error.getElement('pre').slide('toggle');
-			});
+		$$('div#messages div').each(function(message) {
+			//if (message.getElement('pre')) {
+			if (message.getElement('pre')) {
+				console.log(message);
+				console.log(message.getElement('pre'));
+				message.addClass('pointer');
+				message.addEvent('click', function(event) {
+					console.log("Mess: " + message);
+					console.log("Pre: " + message.getElement('pre'));
+					message.getElement('pre').slide('toggle');
+					
+				});
+			}
 		});
 		
 	},

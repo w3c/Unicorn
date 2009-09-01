@@ -1,6 +1,7 @@
 package org.w3c.unicorn.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
-import org.w3c.unicorn.language.Language;
+import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
@@ -41,15 +42,34 @@ public class IndexAction extends Action {
 		
 		velocityContext = new VelocityContext(Language.getContext(langParameter));
 		
+		ArrayList<Message> messages = new ArrayList<Message>();
+		
+		/*messages.add(new Message(Message.Level.WARNING, "un warning", null));
+		messages.add(new Message(Message.Level.ERROR, "une error", null));
+		messages.add(new Message(Message.Level.INFO, "une info", null));
+		messages.add(new Message(Message.Level.WARNING, "un warning avec long message", "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
+		messages.add(new Message(Message.Level.ERROR, "une error avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
+		messages.add(new Message(Message.Level.INFO, "une info avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));*/
+		
+		if (!Language.isComplete(langParameter)) {
+			Message mess = new Message(Message.Level.INFO, "incomplete language", null);
+			messages.add(mess);
+			//velocityContext.put("message", mess);
+		}
+		
+		if (req.getAttribute("unicorn_message") != null)
+			//velocityContext.put("message", req.getAttribute("unicorn_message"));
+			messages.add((Message) req.getAttribute("unicorn_message"));
+		
+		velocityContext.put("messages", messages);
+		
 		String taskParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "task");
 		if (taskParameter == null || !Framework.mapOfTask.containsKey(taskParameter))
 			taskParameter = Framework.mapOfTask.getDefaultTaskId();
 		
 		velocityContext.put("current_task", Framework.mapOfTask.get(taskParameter));
 		
-		if (req.getAttribute("unicorn_message") != null)
-			//System.out.println("TOM: " + ((Message) req.getAttribute("unicorn_message")).getMessage());
-			velocityContext.put("message", req.getAttribute("unicorn_message"));
+		
 		
 		if (req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest")) {
 			//for JavaScript testing purposes

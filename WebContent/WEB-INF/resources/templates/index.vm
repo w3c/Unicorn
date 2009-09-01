@@ -11,15 +11,8 @@
 					</div>
 #end
 
-#if ($message)
-	<div id="messages">
-		<div class="error">
-			<h4>$message.Message</h4>
-			#if ($message.Content)
-			<pre>$message.Content</pre>
-			#end
-		</div>
-	</div>
+#if ($messages)
+#displayMessages($messages)
 #end
 	<div id="frontforms">
 		<ul id="tabset_tabs">
@@ -92,7 +85,7 @@
 							</select>
 						</p> 
 					</div>
-#parse( 'parameters.vm' )
+#parse('parameters.vm')
 #submit_button
 				</fieldset>
 			</form>
