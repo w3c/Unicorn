@@ -1,4 +1,4 @@
-// $Id: OutputFormater.java,v 1.2 2009-08-28 12:40:06 jean-gui Exp $
+// $Id: OutputFormater.java,v 1.3 2009-09-01 16:00:24 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -7,6 +7,8 @@ package org.w3c.unicorn.output;
 import java.io.Writer;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -19,8 +21,18 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  */
 public interface OutputFormater {
 
+	public static final Log logger = LogFactory.getLog(OutputFormater.class);
+	
+	/**
+	 * @param mapOfStringObject
+	 * @param output
+	 * @throws ResourceNotFoundException
+	 * @throws ParseErrorException
+	 * @throws MethodInvocationException
+	 * @throws Exception
+	 */
 	public abstract void produceOutput(
-			final Map<String, Object> mapOfStringObject, final Writer aWriter)
+			final Map<String, Object> mapOfStringObject, final Writer output)
 			throws ResourceNotFoundException, ParseErrorException,
 			MethodInvocationException, Exception;
 
@@ -33,7 +45,7 @@ public interface OutputFormater {
 	 * @throws ResourceNotFoundException
 	 */
 	public abstract void produceError(final Exception aException,
-			final Writer aWriter) throws ResourceNotFoundException,
+			final Writer output) throws ResourceNotFoundException,
 			ParseErrorException, MethodInvocationException, Exception;
 
 }

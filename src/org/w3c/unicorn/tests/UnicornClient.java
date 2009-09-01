@@ -131,12 +131,12 @@ public class UnicornClient {
 				Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 				mapOfStringObject.put("unicorncall", aUnicornCall);
 				OutputFormater aOutputFormater = OutputFactory
-						.getOutputFormater(outputTemplate, // text or xhtml10,
+						.createOutputFormater(outputTemplate, // text or xhtml10,
 															// see
 															// unicorn.properties
 								language, "text/html"); // MIME Type
 				OutputModule aOutputModule = OutputFactory
-						.getOutputModule("simple");
+						.createOutputModule("simple");
 				PrintWriter pw = new PrintWriter(System.out);
 				aOutputModule.produceOutput(aOutputFormater, mapOfStringObject,
 						null, pw);

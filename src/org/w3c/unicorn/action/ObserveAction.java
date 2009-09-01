@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.5 2009-09-01 13:40:55 tgambet Exp $
+// $Id: ObserveAction.java,v 1.6 2009-09-01 16:00:24 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -376,11 +376,11 @@ public class ObserveAction extends HttpServlet {
 
 		try {
 			final OutputFormater aOutputFormater = OutputFactory
-					.getOutputFormater(mapOfOutputParameter.get("format"),
+					.createOutputFormater(mapOfOutputParameter.get("format"),
 							mapOfOutputParameter.get("lang"),
 							mapOfOutputParameter.get("mimetype"));
 			final OutputModule aOutputModule = OutputFactory
-					.getOutputModule(mapOfOutputParameter.get("output"));
+					.createOutputModule(mapOfOutputParameter.get("output"));
 			aOutputModule.produceError(aOutputFormater, aExceptionError,
 					mapOfSpecificParameter, aHttpServletResponse.getWriter());
 		} catch (final ResourceNotFoundException e) {
@@ -420,11 +420,11 @@ public class ObserveAction extends HttpServlet {
 					+ mapOfOutputParameter.get("mimetype"));
 			
 			final OutputFormater aOutputFormater = OutputFactory
-					.getOutputFormater(mapOfOutputParameter.get("format"),
+					.createOutputFormater(mapOfOutputParameter.get("format"),
 							mapOfOutputParameter.get("lang"),
 							mapOfOutputParameter.get("mimetype"));
 			final OutputModule aOutputModule = OutputFactory
-					.getOutputModule(mapOfOutputParameter.get("output"));
+					.createOutputModule(mapOfOutputParameter.get("output"));
 			aOutputModule.produceOutput(aOutputFormater, mapOfStringObject,
 					mapOfSpecificParameter, aHttpServletResponse.getWriter());
 		}

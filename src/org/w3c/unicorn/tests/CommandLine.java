@@ -1,4 +1,4 @@
-// $Id: CommandLine.java,v 1.2 2009-08-28 12:39:58 jean-gui Exp $
+// $Id: CommandLine.java,v 1.3 2009-09-01 16:00:24 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,7 +11,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.output.EnumOutputModule;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputModule;
 
@@ -73,15 +72,9 @@ public class CommandLine {
 			} else if ("-outputmethod".equals(args[i])) {
 				i++;
 				String sOutputMethod = args[i];
-				final EnumOutputModule aEnumOutputModule = EnumOutputModule
-						.fromValue(sOutputMethod);
-				if (null == aEnumOutputModule) {
-					CommandLine.logger.error("Unknow output method : "
-							+ sOutputMethod + ".");
-					return;
-				}
+
 				CommandLine.aOutputModule = OutputFactory
-						.getOutputModule(aEnumOutputModule);
+						.createOutputModule(sOutputMethod);
 			} else if (args[i].contains("=")) {
 				String[] tString = args[i].split("=");
 				String[] val = { tString[1] };
@@ -98,7 +91,7 @@ public class CommandLine {
 			CommandLine.logger
 					.info("No output method specified use SimpleOutputModule by default.");
 			CommandLine.aOutputModule = OutputFactory
-					.getOutputModule(EnumOutputModule.SIMPLE);
+					.createOutputModule("simple");
 		}
 
 		if (EnumInputMethod.DIRECT.equals(CommandLine.aEnumInputMethod)) {

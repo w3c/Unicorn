@@ -26,13 +26,13 @@ public class HiepTest {
 
 			Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 			mapOfStringObject.put("unicorncall", aUnicornCall);
-			OutputFormater aOutputFormater = OutputFactory.getOutputFormater(
+			OutputFormater aOutputFormater = OutputFactory.createOutputFormater(
 					"xhtml10", // le template --> text ou xhtml10, see
 								// unicorn.properties
 					"en", // la langue
 					"text/plain"); // MIME Type
 			OutputModule aOutputModule = OutputFactory
-					.getOutputModule("simple");
+					.createOutputModule("simple");
 			PrintWriter pw = new PrintWriter(System.out);
 			aOutputModule.produceOutput(aOutputFormater, mapOfStringObject,
 					null, pw);
