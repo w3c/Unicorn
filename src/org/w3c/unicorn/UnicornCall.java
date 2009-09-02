@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.4 2009-09-02 13:50:54 tgambet Exp $
+// $Id: UnicornCall.java,v 1.5 2009-09-02 15:45:42 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -32,6 +32,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.implement.EscapeXmlReference;
+import org.w3.unicorn.tasklist.GroupType;
 import org.w3c.dom.Document;
 import org.w3c.unicorn.contract.CallParameter;
 import org.w3c.unicorn.contract.EnumInputMethod;
@@ -599,10 +600,34 @@ public class UnicornCall {
 	 * @return map of the observations of the check
 	 */
 	public LinkedHashMap<String, Response> getObservationList() {
+		
 		LinkedHashMap<String, Response> tempMap = new LinkedHashMap<String, Response>();
-		for (String observerId : aTask.getListOfOutput()) {
-			tempMap.put(observerId, mapOfResponse.get(observerId));
+		
+		for (GroupType group : aTask.getOutput().getGroupList()) {
+			if (!group.isSetType()) {
+				for (String observerId : group.getObservationList()) {
+					tempMap.put(observerId, mapOfResponse.get(observerId));
+				}
+			} else {
+				String type = group.getType().toString();
+				if (type.equals("firstPassed")) {
+					
+					String passedId = null;
+					
+					for (String observerId : group.getObservationList()) {
+						if (mapOfResponse.get(observerId).isPassed()) {
+							passedId = observerId;
+							break;
+						}
+					}
+					if (passedId == null)
+						tempMap.put(group.getObservationList().get(0), mapOfResponse.get(group.getObservationList().get(0)));
+					else
+						tempMap.put(passedId, mapOfResponse.get(passedId));
+				}
+			}
 		}
+		
 		return tempMap;
 	}
 	

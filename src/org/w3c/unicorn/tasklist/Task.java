@@ -1,4 +1,4 @@
-// $Id: Task.java,v 1.3 2009-09-02 13:50:54 tgambet Exp $
+// $Id: Task.java,v 1.4 2009-09-02 15:45:42 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.activation.MimeType;
 
+import org.w3.unicorn.tasklist.OutputType;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklisttree.TLTCond;
@@ -56,7 +57,9 @@ public class Task {
 	 */
 	private TLTNode root;
 
-	private List<String> listOfOutput;
+	//private List<String> listOfOutput;
+
+	private OutputType output;
 
 	/**
 	 * Creates a new Task.
@@ -417,14 +420,20 @@ public class Task {
 		return aStringBuffer.toString();
 	}
 
-	public void setOutputList(List<String> observationList) {
+	/*public void setOutputList(List<String> observationList) {
 		this.listOfOutput = observationList;
 	}
 
 	public List<String> getListOfOutput() {
 		return listOfOutput;
+	}*/
+
+	public void setOutput(OutputType output) {
+		this.output = output;
 	}
-	
-	
+
+	public OutputType getOutput() {
+		return output;
+	}
 
 }

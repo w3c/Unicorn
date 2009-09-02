@@ -37,16 +37,19 @@
 		<routine>
 			<if test="is-css">
 			<then>
-				<exec value="css-validator" type="observation" />
+				<exec id="css-validator" value="css-validator" type="observation" />
 			</then>
 			<else>
-				<exec value="markup-validator" type="observation" />
+				<exec id="markup-validator" value="markup-validator" type="observation" />
 				<if test="is-html">
 				<then>
-					<exec value="appc-checker" type="observation" />
+					<exec id="css-validator" value="appc-checker" type="observation" />
 				</then>
 				</if>
-				<exec value="css-validator" type="observation" />
+				<!-- <exec value="css-validator" type="observation" /> -->
+				<exec id="css2" value="css2-validator" type="observation" />
+				<exec id="css21" value="css21-validator" type="observation" />
+				<exec id="css3" value="css3-validator" type="observation" />
 			</else>
 			</if>
 		</routine>
@@ -57,9 +60,15 @@
 		</parameters>
 
 		<output>
-			<observation>markup-validator</observation>
-			<observation>appc-checker</observation>
-			<observation>css-validator</observation>
+			<group>
+				<observation>markup-validator</observation>
+				<observation>appc-checker</observation>
+			</group>
+			<group type="firstPassed">
+				<observation>css21-validator</observation>
+				<observation>css2-validator</observation>
+				<observation>css3-validator</observation>
+			</group>
 		</output>
 
 
@@ -67,10 +76,10 @@
 
 	<task id="full-css">
 		<routine>
-			<exec value="css1-validator" type="observation" />
-			<exec value="css2-validator" type="observation" />
-			<exec value="css21-validator" type="observation" />
-			<exec value="css3-validator" type="observation" />
+			<exec id="css1" value="css1-validator" type="observation" />
+			<exec id="css2" value="css2-validator" type="observation" />
+			<exec id="css21" value="css21-validator" type="observation" />
+			<exec id="css3" value="css3-validator" type="observation" />
 		</routine>
 
 		<parameters>
@@ -233,10 +242,12 @@
 		</parameters>
 
 		<output>
-			<observation>css3-validator</observation>
-			<observation>css21-validator</observation>
-			<observation>css2-validator</observation>
-			<observation>css1-validator</observation>
+			<group>
+				<observation>css21-validator</observation>
+				<observation>css2-validator</observation>
+				<observation>css3-validator</observation>
+				<observation>css1-validator</observation>
+			</group>
 		</output>
 	</task>
 
