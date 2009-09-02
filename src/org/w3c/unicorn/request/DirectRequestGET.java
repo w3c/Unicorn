@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.2 2009-08-28 12:39:48 jean-gui Exp $
+// $Id: DirectRequestGET.java,v 1.3 2009-09-02 12:41:28 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -81,7 +81,7 @@ public class DirectRequestGET extends Request {
 			this.sParameter += "&";
 		}
 		this.sParameter += sName + "="
-				+ URLEncoder.encode(sValue, Property.get("UNICORN_ENCODING"));
+				+ URLEncoder.encode(sValue, "UTF-8");
 		Request.logger.debug("Parameters : " + this.sParameter + ".");
 	}
 
