@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.7 2009-09-01 16:00:24 jean-gui Exp $
+// $Id: Framework.java,v 1.8 2009-09-02 10:39:15 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -439,7 +439,6 @@ public class Framework {
 		for (File langFile : languageFiles) {
 			if (langFile.equals(defaultLanguageFile))
 				continue;
-			
 			try {
 				Properties props = Language.load(langFile);
 				logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
@@ -453,50 +452,7 @@ public class Framework {
 			} catch (IOException e) {
 				logger.error("Unable to read language file. " + langFile + ". This file will be skiped.");
 			}
-			
 		}
-		
-		/*for (File langFile : languageFiles) {
-			if (langFile == defaultLanguageFile)
-				continue;
-
-			String localeString = langFile.getName().split("\\.")[0];
-			if (!Language.isISOLanguageCode(localeString))
-				logger.warn("Invalid language file: " + langFile.getName() + "" +
-						". \"" + localeString + "\" is not a valid locale.");
-			else {
-				try {
-					FileInputStream fis = new FileInputStream(langFile);
-					InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-					Properties props = new Properties();
-					props.load(isr);
-					props.put("lang", localeString);
-					//props.put("tasklist", mapOfTask);
-					//Language.complete(props);
-					languageProperties.put(localeString, props);
-					String s;
-					if (localeString.equals(Property.get("DEFAULT_LANGUAGE")))
-						s = " (default)";
-					else
-						s = "";
-					logger.debug("> Added language"+s+": " + localeString + " - " + props.getProperty("language"));
-				} catch (FileNotFoundException e) {
-					// Should not happen
-					logger.error(e.getMessage(), e);
-				} catch (UnsupportedEncodingException e) {
-					// Should not happen
-					logger.error(e.getMessage(), e);
-				} catch (IOException e) {
-					if (!localeString.equals(Property.get("DEFAULT_LANGUAGE"))) {
-						logger.error("Unable to read language file. " + langFile + ". This file will be skiped.");
-						continue;
-					}
-					else {
-						throw new InitializationFailedException("Unable to read default language file. " + langFile);
-					}
-				}
-			}
-		}*/
 		
 		if (languageProperties.size() == 0) {
 			throw new InitializationFailedException("No language have been loaded. Check language files in: " + Property.get("PATH_TO_LANGUAGE_FILES"));
