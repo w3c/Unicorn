@@ -37,16 +37,16 @@
 		<routine>
 			<if test="is-css">
 			<then>
-				<exec id="css" value="css-validator" type="observation" />
+				<exec value="css-validator" type="observation" />
 			</then>
 			<else>
-				<exec id="markup" value="markup-validator" type="observation" />
+				<exec value="markup-validator" type="observation" />
 				<if test="is-html">
 				<then>
-					<exec id="appc" value="appc-checker" type="observation" />
+					<exec value="appc-checker" type="observation" />
 				</then>
 				</if>
-				<exec id="css" value="css-validator" type="observation" />
+				<exec value="css-validator" type="observation" />
 			</else>
 			</if>
 		</routine>
@@ -56,25 +56,21 @@
 			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css-validator"/>			
 		</parameters>
 
-		<outputseq>
-			<outputgroup id="1">
-				<tasksort>markup</tasksort>
-				<tasksort>appc</tasksort>
-			</outputgroup>
-			<outputgroup id="2">
-				<tasksort>css</tasksort>
-			</outputgroup>
-		</outputseq>
+		<output>
+			<observation>markup-validator</observation>
+			<observation>appc-checker</observation>
+			<observation>css-validator</observation>
+		</output>
 
 
 	</task>
 
 	<task id="full-css">
 		<routine>
-			<exec id="css1" value="css1-validator" type="observation" />
-			<exec id="css2" value="css2-validator" type="observation" />
-			<exec id="css21" value="css21-validator" type="observation" />
-			<exec id="css3" value="css3-validator" type="observation" />
+			<exec value="css1-validator" type="observation" />
+			<exec value="css2-validator" type="observation" />
+			<exec value="css21-validator" type="observation" />
+			<exec value="css3-validator" type="observation" />
 		</routine>
 
 		<parameters>
@@ -236,14 +232,12 @@
 			</parameter>
 		</parameters>
 
-		<outputseq>
-			<outputgroup id="1">
-				<tasksort>css1</tasksort>
-				<tasksort>css2</tasksort>
-				<tasksort>css21</tasksort>
-				<tasksort>css3</tasksort>
-			</outputgroup>
-		</outputseq>
+		<output>
+			<observation>css3-validator</observation>
+			<observation>css21-validator</observation>
+			<observation>css2-validator</observation>
+			<observation>css1-validator</observation>
+		</output>
 	</task>
 
 </tasklist>

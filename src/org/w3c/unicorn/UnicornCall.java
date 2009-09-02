@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
+// $Id: UnicornCall.java,v 1.4 2009-09-02 13:50:54 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,9 +12,11 @@ import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.activation.MimeType;
 import javax.xml.parsers.DocumentBuilder;
@@ -592,12 +594,16 @@ public class UnicornCall {
 	}
 
 	/**
-	 * Gives the list of the observations
+	 * Gives the list of the observations in the order specified in the tasklist file
 	 * 
 	 * @return map of the observations of the check
 	 */
-	public Map<String, Response> getObservationList() {
-		return mapOfResponse;
+	public LinkedHashMap<String, Response> getObservationList() {
+		LinkedHashMap<String, Response> tempMap = new LinkedHashMap<String, Response>();
+		for (String observerId : aTask.getListOfOutput()) {
+			tempMap.put(observerId, mapOfResponse.get(observerId));
+		}
+		return tempMap;
 	}
 	
 	public String getObserverName(String observer, String lang) {

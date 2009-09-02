@@ -10,7 +10,7 @@
         <xs:all>
       <xs:element type="tas:condsType" name="conds" xmlns:tas="http://www.w3.org/unicorn/tasklist" minOccurs="0" />
       <xs:element type="tas:routineType" name="routine" xmlns:tas="http://www.w3.org/unicorn/tasklist" />
-      <xs:element type="tas:outputseqType" name="outputseq" xmlns:tas="http://www.w3.org/unicorn/tasklist" />
+      <xs:element type="tas:outputType" name="output" xmlns:tas="http://www.w3.org/unicorn/tasklist" />
       <xs:element type="tas:parametersType" name="parameters" xmlns:tas="http://www.w3.org/unicorn/tasklist" minOccurs="0" />
     </xs:all>
     <xs:attribute type="xs:string" name="id" use="required"/>
@@ -31,16 +31,10 @@
     </xs:sequence>
     <xs:attribute type="xs:string" name="name"/>
   </xs:complexType>
-  <xs:complexType name="outputseqType">
+  <xs:complexType name="outputType">
     <xs:sequence>
-      <xs:element type="tas:outputgroupType" name="outputgroup" maxOccurs="unbounded" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+            <xs:element type="xs:string" name="observation" maxOccurs="unbounded" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist" />
     </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="outputgroupType">
-    <xs:sequence>
-      <xs:element type="xs:string" name="tasksort" maxOccurs="unbounded" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
-    </xs:sequence>
-    <xs:attribute type="xs:byte" name="id" use="optional"/>
   </xs:complexType>
   <xs:complexType name="paramType">
     <xs:simpleContent>
@@ -102,7 +96,6 @@
     <xs:sequence>
       <xs:element type="tas:paramType" name="param" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
     </xs:sequence>
-    <xs:attribute type="xs:string" name="id" use="optional"/>
     <xs:attribute type="xs:string" name="value" use="optional"/>
     <xs:attribute type="xs:string" name="type" use="optional"/>
   </xs:complexType>

@@ -91,7 +91,10 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		// Create the execution level tree
 		aTaskCurrent.setID(aTask.getId());
 		aTaskCurrent.setTree(this.expandTree(aTask, aTask.getRoutine()));
-
+		
+		// Add the OutputList
+		aTaskCurrent.setOutputList(aTask.getOutput().getObservationList());
+		
 		// parameters
 		final ParametersType aParameters = aTask.getParameters();
 		if (aParameters != null) {

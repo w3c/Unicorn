@@ -1,4 +1,4 @@
-// $Id: Task.java,v 1.2 2009-08-28 12:39:54 jean-gui Exp $
+// $Id: Task.java,v 1.3 2009-09-02 13:50:54 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -55,6 +55,8 @@ public class Task {
 	 * Root of the execution level tree
 	 */
 	private TLTNode root;
+
+	private List<String> listOfOutput;
 
 	/**
 	 * Creates a new Task.
@@ -414,5 +416,15 @@ public class Task {
 
 		return aStringBuffer.toString();
 	}
+
+	public void setOutputList(List<String> observationList) {
+		this.listOfOutput = observationList;
+	}
+
+	public List<String> getListOfOutput() {
+		return listOfOutput;
+	}
+	
+	
 
 }
