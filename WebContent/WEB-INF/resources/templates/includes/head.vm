@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$lang" lang="$lang">
 <head>
 	<title>$noEscape_title</title>
-	<link rel="shortcut icon" href="http://www.w3.org/2008/site/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon" />
 	<link rev="start" href="./" title="Home Page" />
 #foreach( $sheet in $css )
 	<link href="./style/$sheet" type="text/css" media="screen" rel="stylesheet" />
