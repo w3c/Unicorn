@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.7 2009-09-01 16:07:29 tgambet Exp $
+// $Id: ObserveAction.java,v 1.8 2009-09-02 10:40:45 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -131,7 +131,7 @@ public class ObserveAction extends HttpServlet {
 		
 		if (aUnicornCall.getTask() == null) {
 			aUnicornCall.setTask(Framework.mapOfTask.getDefaultTaskId());
-			Message mess = new Message(Message.Level.WARNING, "No task specified! Unicorn used its default task: " + Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()).getLongName("en"), null);
+			Message mess = new Message(Message.Level.WARNING, "$message_no_task " + Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()).getLongName(langParameter), null);
 			ArrayList<Message> messages = new ArrayList<Message>();
 			messages.add(mess);
 			mapOfStringObject.put("messages", messages);
@@ -254,6 +254,14 @@ public class ObserveAction extends HttpServlet {
 					mapOfSpecificParameter, mapOfOutputParameter);
 		}
 
+		if (aUnicornCall.getTask() == null) {
+			aUnicornCall.setTask(Framework.mapOfTask.getDefaultTaskId());
+			Message mess = new Message(Message.Level.WARNING, "$message_no_task " + Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()).getLongName(langParameter), null);
+			ArrayList<Message> messages = new ArrayList<Message>();
+			messages.add(mess);
+			mapOfStringObject.put("messages", messages);
+		}
+		
 		try {
 			aUnicornCall.doTask();
 

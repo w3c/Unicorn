@@ -24,7 +24,6 @@ public class IndexAction extends Action {
 		super.init();
 	}
 	
-	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -35,30 +34,38 @@ public class IndexAction extends Action {
 		
 		resp.setContentType("text/html; charset=UTF-8");
 		
+		ArrayList<Message> messages = new ArrayList<Message>();
+		
 		// Language negotiation
 		String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
-		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter))
+		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter)) {
 			langParameter = Language.negociate(req.getLocales());
+			if (!langParameter.equals(req.getLocale().getLanguage())) {
+				messages.add(new Message(Message.Level.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
+			} else {
+				String requested_parameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
+				if (requested_parameter != null && !Framework.getLanguageProperties().containsKey(requested_parameter)) 
+					messages.add(new Message(Message.Level.INFO, "$message_unavailable_requested_language. $message_translation", null));
+			}
+		}
+		
+		if (!Language.isComplete(langParameter))
+			messages.add(new Message(Message.Level.INFO, "$message_incomplete_language. $message_translation", null));
 		
 		velocityContext = new VelocityContext(Language.getContext(langParameter));
 		
-		ArrayList<Message> messages = new ArrayList<Message>();
 		
-		messages.add(new Message(Message.Level.WARNING, "un warning", null));
+		
+		/*messages.add(new Message(Message.Level.WARNING, "un warning", null));
 		messages.add(new Message(Message.Level.ERROR, "une error", null));
 		messages.add(new Message(Message.Level.INFO, "une info", null));
 		messages.add(new Message(Message.Level.WARNING, "un warning avec long message", "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
 		messages.add(new Message(Message.Level.ERROR, "une error avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
-		messages.add(new Message(Message.Level.INFO, "une info avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
+		messages.add(new Message(Message.Level.INFO, "une info avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));*/
 		
-		if (!Language.isComplete(langParameter)) {
-			Message mess = new Message(Message.Level.INFO, "incomplete language", null);
-			messages.add(mess);
-			//velocityContext.put("message", mess);
-		}
+		
 		
 		if (req.getAttribute("unicorn_message") != null)
-			//velocityContext.put("message", req.getAttribute("unicorn_message"));
 			messages.add((Message) req.getAttribute("unicorn_message"));
 		
 		velocityContext.put("messages", messages);
