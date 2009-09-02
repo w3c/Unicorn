@@ -3,7 +3,7 @@
 #foreach ($message in $messages)
 	#if ($message.Level == "ERROR")
 	<div class="error">
-		<h4>$message.Message</h4>
+		<h4>#evaluate($message.Message)</h4>
 		#if ($message.Content)
 		<pre>$message.Content</pre>
 		#end
@@ -13,7 +13,7 @@
 #foreach ($message in $messages)
 	#if ($message.Level == "WARNING")
 	<div class="warning">
-		<h4>$message.Message</h4>
+		<h4>#evaluate($message.Message)</h4>
 		#if ($message.Content)
 		<pre>$message.Content</pre>
 		#end
@@ -23,7 +23,7 @@
 #foreach ($message in $messages)
 	#if ($message.Level == "INFO")
 	<div class="info">
-		<h4>$message.Message</h4>
+		<h4>#evaluate($message.Message)</h4>
 		#if ($message.Content)
 		<pre>$message.Content</pre>
 		#end
