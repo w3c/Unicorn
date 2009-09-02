@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.8 2009-09-02 10:40:45 tgambet Exp $
+// $Id: ObserveAction.java,v 1.9 2009-09-02 13:53:48 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -154,14 +154,13 @@ public class ObserveAction extends HttpServlet {
 			ObserveAction.logger.error("Exception : " + aException.getMessage(),
 					aException);
 			
-			if (mapOfOutputParameter.get("format").equals("xhtml10")) {
-				String errorMessage = (String) Framework.getLanguageProperties().get(langParameter).get("stack_trace_text");
+			if (mapOfOutputParameter.get("mimetype").equals("text/html")) {
 				String errorContent = "";
 				errorContent += aException.getMessage() + "\n";
 				for (StackTraceElement stackTraceElement : aException.getStackTrace()) {
 					errorContent += stackTraceElement.toString() + "\n";
 				}
-				Message mess = new Message(Message.Level.ERROR, errorMessage, errorContent);
+				Message mess = new Message(Message.Level.ERROR, "$stack_trace_text", errorContent);
 				req.setAttribute("unicorn_message", mess);
 				(new IndexAction()).doGet(req, resp);
 				
@@ -267,6 +266,8 @@ public class ObserveAction extends HttpServlet {
 
 			this.createOutput(resp, aUnicornCall,
 					mapOfSpecificParameter, mapOfOutputParameter, mapOfStringObject);
+		} catch (final IOException aException) {
+		
 		} catch (final Exception aException) {
 			ObserveAction.logger.error("Exception : " + aException.getMessage(),
 					aException);
