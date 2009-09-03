@@ -6,7 +6,7 @@
 	<ul id="lang_choice">
 #foreach( $key in $languages.keySet() )
 		<li>
-			<a href="./?ucn_lang=$key" lang="$key" xml:lang="$key" hreflang="$key" rel="alternate">$languages.get($key)</a>
+			<a href="?${queryString}ucn_lang=$key" lang="$key" xml:lang="$key" hreflang="$key" rel="alternate">$languages.get($key)</a>
 		</li>
 #end
 	</ul>
