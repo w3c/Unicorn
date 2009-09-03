@@ -32,7 +32,18 @@ public class TestAction extends HttpServlet {
 		
 		PrintWriter out = resp.getWriter();
 		
-		for (String key : Framework.mapOfTask.keySet()) {
+		out.println(req.getQueryString());
+		
+		String queryString = req.getQueryString();
+		
+		//if (queryString.contains("ucn_lang"))
+		String s =	queryString.replaceAll("ucn_lang=[^&]*&?", "");
+		
+		out.println(s);
+		
+		out.close();
+		
+		/*for (String key : Framework.mapOfTask.keySet()) {
 			out.println(Framework.mapOfTask.get(key));
 			
 			
