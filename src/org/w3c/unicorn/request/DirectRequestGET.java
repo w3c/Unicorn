@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.4 2009-09-03 16:43:19 jean-gui Exp $
+// $Id: DirectRequestGET.java,v 1.5 2009-09-03 17:34:53 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,7 +14,6 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.DirectInputModule;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.response.Response;
-import org.w3c.unicorn.util.Property;
 
 /**
  * Class to make a request directly using GET method

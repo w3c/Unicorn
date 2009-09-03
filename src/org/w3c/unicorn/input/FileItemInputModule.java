@@ -1,4 +1,4 @@
-// $Id: FileItemInputModule.java,v 1.2 2009-08-28 12:40:04 jean-gui Exp $
+// $Id: FileItemInputModule.java,v 1.3 2009-09-03 17:34:53 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -93,8 +93,8 @@ public class FileItemInputModule implements UploadInputModule {
 	 * Dispose the object
 	 */
 	public void dispose() {
-		InputModule.logger.trace("dispose");
 		if (null != this.aFileItem) {
+			InputModule.logger.trace("dispose");
 			this.aFileItem.delete();
 			this.aFileItem = null;
 		}

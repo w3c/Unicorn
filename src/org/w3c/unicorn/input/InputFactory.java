@@ -1,4 +1,4 @@
-// $Id: InputFactory.java,v 1.2 2009-08-28 12:40:04 jean-gui Exp $
+// $Id: InputFactory.java,v 1.3 2009-09-03 17:34:53 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -112,11 +112,12 @@ public class InputFactory {
 			InputFactory.logger.debug("Input method : " + aEnumInputMethod
 					+ ".");
 		}
-		final InputModule aInputModule = this.mapOfInputModule
-				.get(aEnumInputMethod);
+		InputModule aInputModule = this.mapOfInputModule.get(aEnumInputMethod);
+
 		if (null != aInputModule) {
 			return aInputModule;
 		}
+		
 		return this.createInputModule(aEnumInputMethod);
 	}
 
@@ -136,15 +137,24 @@ public class InputFactory {
 			InputFactory.logger.debug("Input method : " + aEnumInputMethod
 					+ ".");
 		}
+		
+		InputModule module;		
 		switch (aEnumInputMethod) {
 		case DIRECT:
-			return new DirectInputModule(this.aInputModuleDefault);
+			module = new DirectInputModule(this.aInputModuleDefault);
+			break;
 		case UPLOAD:
-			return new FakeUploadInputModule(this.aInputModuleDefault);
+			module = new FakeUploadInputModule(this.aInputModuleDefault);
+			break;
 		case URI:
-			return new URIInputModule(this.aInputModuleDefault);
+			module = new URIInputModule(this.aInputModuleDefault);
+			break;
+		default:
+			module = null;
 		}
-		return null;
+		mapOfInputModule.put(aEnumInputMethod, module);
+		
+		return module;
 	}
 
 	public MimeType getMimeType() {
