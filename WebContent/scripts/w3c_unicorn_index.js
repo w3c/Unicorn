@@ -75,6 +75,11 @@ var W3C = {
 			}
 		});
 		
+		$$('ul#lang_choice').getElements('a').each(function (a) {
+			a.addEvent('click', function(event) {
+				this.setProperty('href', this.getProperty('href') +  window.location.hash);
+			});
+		});
 	},
 	
 	addOptionEvents: function () {

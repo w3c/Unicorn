@@ -55,11 +55,22 @@ public class IndexAction extends Action {
 		velocityContext = new VelocityContext(Language.getContext(langParameter));
 		
 		String query = req.getQueryString();
-		String queryString = "";
+		String queryString;
+		if (query == null) {
+			queryString = "./?";
+		} else {
+			queryString = "?";
+			queryString += query.replaceAll("&?ucn_lang=[^&]*", "");
+			if (!queryString.equals("?"))
+				queryString += "&";
+		}
+		
+		/*String query = req.getQueryString();
+		String queryString = "?";
 		if (query != null)
-			queryString = query.replaceAll("&?ucn_lang=[^&]*", "");
-		if (!queryString.equals(""))
-			queryString += "&";
+			queryString += query.replaceAll("&?ucn_lang=[^&]*", "");
+		if (!queryString.equals("?"))
+			queryString += "&";*/
 		velocityContext.put("queryString", queryString);
 		
 		/*messages.add(new Message(Message.Level.WARNING, "un warning", null));
