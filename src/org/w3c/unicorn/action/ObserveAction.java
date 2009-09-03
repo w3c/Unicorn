@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.9 2009-09-02 13:53:48 tgambet Exp $
+// $Id: ObserveAction.java,v 1.10 2009-09-03 12:28:49 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -100,6 +100,18 @@ public class ObserveAction extends HttpServlet {
 		
 		logger.debug("Lang Parameter: " + langParameter);
 		
+		// Add query string
+		
+		
+		String query = req.getQueryString();
+		String queryString = "";
+		if (query != null)
+			queryString = query.replaceAll("&?ucn_lang=[^&]*", "");
+		if (!queryString.equals(""))
+			queryString += "&";
+		mapOfStringObject.put("queryString", queryString);
+		
+		
 		
 		
 		// Variables related to the output
@@ -119,6 +131,7 @@ public class ObserveAction extends HttpServlet {
 			aUnicornCall.setLang(langParameter + "," + aLocale);
 		}
 
+		
 		for (final Enumeration<?> aEnumParamName = req
 				.getParameterNames(); aEnumParamName.hasMoreElements();) {
 			final String sParamName = (String) aEnumParamName.nextElement();
