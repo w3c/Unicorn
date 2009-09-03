@@ -41,8 +41,9 @@ public class ResponseParserFactory {
 	 * @param responseType
 	 *            The type of the response.
 	 * @return The response parsed corresponding to the input.
+	 * @throws Exception 
 	 */
-	public static Response parse(String r, String responseType) {
+	public static Response parse(String r, String responseType) throws Exception {
 		try {
 			Response response = createResponseParser(responseType).parse(r);
 			return response;

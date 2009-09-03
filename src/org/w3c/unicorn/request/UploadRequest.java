@@ -1,24 +1,20 @@
-// $Id: UploadRequest.java,v 1.2 2009-08-28 12:39:48 jean-gui Exp $
+// $Id: UploadRequest.java,v 1.3 2009-09-03 16:43:19 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.InputStreamBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.input.UploadInputModule;
 import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.util.ClientHttpRequest;
 
 /**
  * Class to deal with the upload request
@@ -36,6 +32,11 @@ public class UploadRequest extends Request {
 	 * Name of the parameter
 	 */
 	private String sInputParameterName = null;
+
+	/**
+	 * A http client for the request in upload
+	 */
+	private ClientHttpRequest aClientHttpRequest = null;
 
 	/**
 	 * An input module with upload
@@ -98,14 +99,14 @@ public class UploadRequest extends Request {
 	}
 
 	@Override
-	public Response doRequest() throws IOException {
+	public Response doRequest() throws Exception {
 		Request.logger.trace("doRequest");
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		 
-		HttpPost method = new HttpPost(sURL);
-		method.setHeader("Accept-Language", sLang);
-		MultipartEntity entity = new MultipartEntity();
-
+		this.aClientHttpRequest = new ClientHttpRequest(sURL);
+		Request.logger.debug("Lang : " + this.sLang + ".");
+		this.aClientHttpRequest.setLang(sLang);
+		this.aClientHttpRequest.setParameter(this.sInputParameterName,
+				this.aUploadInputModule.getFileName(), this.aUploadInputModule
+						.getInputStream());
 		for (final String sName : this.mapOfParameter.keySet()) {
 			final String sValue = this.mapOfParameter.get(sName);
 			Request.logger.trace("addParameter");
@@ -113,33 +114,26 @@ public class UploadRequest extends Request {
 				Request.logger.debug("Name :" + sName + ".");
 				Request.logger.debug("Value :" + sValue + ".");
 			}
-			entity.addPart(sName, new StringBody(sValue));
-			//entity.addPart(sName, new StringBody(sValue, Charset.forName("UTF-8")));
+			this.aClientHttpRequest.setParameter(sName, sValue);
 		}
+		InputStream is = this.aClientHttpRequest.post();
 
-		InputStreamBody file = new InputStreamBody(this.aUploadInputModule.getInputStream(), 
-				this.aUploadInputModule.getMimeType().toString(), 
-				this.aUploadInputModule.getFileName());
-		entity.addPart(this.sInputParameterName, file);
-		method.setEntity(entity);
-		 
-		HttpResponse response = httpclient.execute(method);
-		return streamToResponse(response.getEntity().getContent());
+		return streamToResponse(is);
 	}
-	
+
 	@Override
 	public EnumInputMethod getInputMethod() {
 		Request.logger.trace("getInputMethod");
 		return EnumInputMethod.UPLOAD;
 	}
 
-	/*@Override
+	@Override
 	public String toString() {
 		final int iStringBufferSize = 1000;
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
 		aStringBuffer.append("ClientHttpRequest:").append(
 				this.aClientHttpRequest);
-		return aStringBuffer.toString();
-	}*/
+		return "lolmdr: " + aStringBuffer.toString();
+	}
 
 }

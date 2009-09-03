@@ -46,7 +46,7 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 		if (sReference.startsWith("$noEscape_"))
 			return oValue.toString();
 		else
-			return StringEscapeUtils.escapeHtml(oValue.toString());
+			return StringEscapeUtils.escapeXml(oValue.toString());
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 			if (oElement instanceof Img) {
 				sResultat += insertImg((Img) oElement);
 			} else {
-				sResultat += StringEscapeUtils.escapeHtml(oElement.toString());
+				sResultat += StringEscapeUtils.escapeXml(oElement.toString());
 			}
 		}
 		sResultat += "</a>";
@@ -85,7 +85,7 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 			} else if (oElement instanceof Img) {
 				sResultat += insertImg((Img) oElement);
 			} else {
-				sResultat += StringEscapeUtils.escapeHtml(oElement.toString());
+				sResultat += StringEscapeUtils.escapeXml(oElement.toString());
 			}
 		}
 		sResultat += "</code>";
@@ -100,8 +100,8 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 	 * @return the string containing the image tag
 	 */
 	private String insertImg(final Img aImage) {
-		return "<img src=\"" + StringEscapeUtils.escapeHtml(aImage.getSrc())
-				+ "\" alt=\"" + StringEscapeUtils.escapeHtml(aImage.getAlt())
+		return "<img src=\"" + StringEscapeUtils.escapeXml(aImage.getSrc())
+				+ "\" alt=\"" + StringEscapeUtils.escapeXml(aImage.getAlt())
 				+ "\"/>";
 	}
 

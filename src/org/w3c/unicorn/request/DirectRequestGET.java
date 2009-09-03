@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.3 2009-09-02 12:41:28 tgambet Exp $
+// $Id: DirectRequestGET.java,v 1.4 2009-09-03 16:43:19 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -86,7 +86,7 @@ public class DirectRequestGET extends Request {
 	}
 
 	@Override
-	public Response doRequest() throws IOException {
+	public Response doRequest() throws Exception {
 		Request.logger.trace("doRequest");
 		final URL aURL;
 		if (null == this.sParameter) {

@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.5 2009-09-02 15:45:42 tgambet Exp $
+// $Id: UnicornCall.java,v 1.6 2009-09-03 16:43:21 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,11 +12,9 @@ import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.activation.MimeType;
 import javax.xml.parsers.DocumentBuilder;
@@ -31,7 +29,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.app.event.implement.EscapeXmlReference;
 import org.w3.unicorn.tasklist.GroupType;
 import org.w3c.dom.Document;
 import org.w3c.unicorn.contract.CallParameter;
@@ -55,6 +52,7 @@ import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
+import org.w3c.unicorn.util.EscapeXMLEntities;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
 
@@ -606,7 +604,9 @@ public class UnicornCall {
 		for (GroupType group : aTask.getOutput().getGroupList()) {
 			if (!group.isSetType()) {
 				for (String observerId : group.getObservationList()) {
-					tempMap.put(observerId, mapOfResponse.get(observerId));
+					if(mapOfResponse.get(observerId) != null) {
+						tempMap.put(observerId, mapOfResponse.get(observerId));
+					}
 				}
 			} else {
 				String type = group.getType().toString();
@@ -902,42 +902,34 @@ class RequestThread extends Thread {
 			aResponse = this.aRequest.doRequest();
 		} catch (final Exception e) {
 			RequestThread.logger.error("Exception : " + e.getMessage(), e);
-			e.printStackTrace();
 			try {
 				StringBuilder builder = new StringBuilder();
 				//String lang[] = unicornCall.getMapOfStringParameter().get(
 				//		Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
-				
 				String lang = unicornCall.getLang();
 
 				VelocityContext context = new VelocityContext(Framework.getLanguageContexts().get(lang));
-				
-				final EventCartridge aEventCartridge = new EventCartridge();
-				aEventCartridge.addEventHandler(new EscapeXmlReference());
+				EventCartridge aEventCartridge = new EventCartridge();
+				aEventCartridge.addEventHandler(new EscapeXMLEntities());
 				aEventCartridge.attachToContext(context);
 				
 				if (e.getMessage() != null)	
 					context.put("exception", e.getMessage());
 				else
 					context.put("exception", "");
-
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
 				OutputStreamWriter osw = new OutputStreamWriter(os);
 				Templates.write("io_error.vm", context, osw);
-				
 				osw.close();
-
 				InputStreamReader isr = new InputStreamReader(
 						new ByteArrayInputStream(os.toByteArray()));
-
 				char[] chararray = new char[8192];
 				int readLength = 0;
 				while ((readLength = isr.read(chararray, 0, 8192)) > -1) {
 					builder.append(chararray, 0, readLength);
 				}
-				aResponse = ResponseParserFactory.parse(builder.toString(),
-						this.aRequest.getResponseType());
-				aResponse.setXml(builder);
+				aResponse = ResponseParserFactory.parse(builder.toString(), "default");				
+				aResponse.setXml(builder);				
 			} catch (MalformedURLException e1) {
 				RequestThread.logger
 						.error("Exception : " + e1.getMessage(), e1);

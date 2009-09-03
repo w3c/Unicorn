@@ -43,20 +43,11 @@ public class DefaultParser implements ResponseParser {
 	 * @param inputStream
 	 *            The input stream.
 	 * @return The corresponding response.
+	 * @throws Exception 
 	 */
-	public Response parse(String r) {
-
-		try {
-			/*XmlOptions opts = new XmlOptions();
-			opts.setCharacterEncoding("UTF-8");*/
-			
-			org.w3.unicorn.observationresponse.ObservationresponseDocument ord = org.w3.unicorn.observationresponse.ObservationresponseDocument.Factory
-					.parse(r);
-			return swap(ord);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	public Response parse(String r) throws Exception {
+		ObservationresponseDocument ord = ObservationresponseDocument.Factory.parse(r);
+		return swap(ord);
 	}
 
 	/**

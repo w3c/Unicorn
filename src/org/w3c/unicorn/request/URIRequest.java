@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.2 2009-08-28 12:39:48 jean-gui Exp $
+// $Id: URIRequest.java,v 1.3 2009-09-03 16:43:19 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -95,12 +95,10 @@ public class URIRequest extends Request {
 
 	/**
 	 * Do the request to the observer
-	 * 
-	 * @throws IOException
-	 *             odd error occured
+	 * @throws Exception 
 	 */
 	@Override
-	public Response doRequest() throws IOException {
+	public Response doRequest() throws Exception {
 		Request.logger.trace("doRequest");
 		if (Request.logger.isDebugEnabled()) {
 			Request.logger.debug("URL : " + this.sURL + " .");

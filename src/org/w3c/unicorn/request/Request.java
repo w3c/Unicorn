@@ -1,19 +1,27 @@
-// $Id: Request.java,v 1.2 2009-08-28 12:39:48 jean-gui Exp $
+// $Id: Request.java,v 1.3 2009-09-03 16:43:19 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.implement.EscapeXmlReference;
+import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.response.parser.ResponseParserFactory;
+import org.w3c.unicorn.util.Templates;
 
 /**
  * 
@@ -67,9 +75,10 @@ public abstract class Request {
 	 * @return the response of the observer
 	 * @throws IOException
 	 *             odd error occured
+	 * @throws Exception 
 	 */
 	public abstract org.w3c.unicorn.response.Response doRequest()
-			throws IOException;
+			throws IOException, Exception;
 
 	public abstract EnumInputMethod getInputMethod();
 
@@ -135,18 +144,21 @@ public abstract class Request {
 		this.responseType = responseType;
 	}
 
-	protected Response streamToResponse(InputStream is) throws IOException {
+	protected Response streamToResponse(InputStream is) throws Exception {
 		StringBuilder builder = new StringBuilder();
 		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
 		char[] chararray = new char[8192];
 		int readLength = 0;
+		Response res;
+		
 		while ((readLength = isr.read(chararray, 0, 8192)) > -1) {
 			builder.append(chararray, 0, readLength);
 		}
-
-		Response res = ResponseParserFactory.parse(builder.toString(), this
-				.getResponseType());
-		res.setXml(builder);
+		Request.logger.debug(builder);
+		res = ResponseParserFactory.parse(builder.toString(), this.getResponseType());
+		if(res != null) {
+			res.setXml(builder);
+		}
 
 		return res;
 	}
