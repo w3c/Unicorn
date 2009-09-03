@@ -28,3 +28,7 @@
 	</div>
 </fieldset>
 #end
+#if ($advanced_parameters.size() == 0 && $simple_parameters.size() == 0)
+<fieldset class="options none $current_task.getID()">
+</fieldset>
+#end

@@ -55,7 +55,7 @@
 		</routine>
 
 		<parameters>
-			<parameter name="profile" default="css21" ui="simple" type="dropdown" observer="css-validator"/>
+			<!-- <parameter name="profile" default="css21" ui="simple" type="dropdown" observer="css-validator"/> -->
 			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css-validator"/>			
 		</parameters>
 

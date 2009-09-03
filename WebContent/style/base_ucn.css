@@ -106,6 +106,9 @@ div.options label span {
 div.options select {
 	min-width:15em;
 }
+fieldset.options.none {
+	display:none !important;
+}
 fieldset span.checkboxlist{
 	font-size:0.9em;
 }
