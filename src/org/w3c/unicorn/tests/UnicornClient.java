@@ -67,6 +67,11 @@ public class UnicornClient {
 			
 			Framework.init();
 			
+			if (!Framework.isUcnInitialized) {
+				System.err.println(">> Unicorn is not properly initialized.");
+				return;
+			}
+			
 			UnicornCall aUnicornCall = new UnicornCall();
 
 			// parse other parameters: "x2=on,toto=titi" to a
