@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.8 2009-09-02 10:39:15 tgambet Exp $
+// $Id: Framework.java,v 1.9 2009-09-04 12:30:12 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -25,6 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
@@ -146,21 +147,25 @@ public class Framework {
 		}
 		
 		// Log4j initialization attempt
-		String log4jPath = unicornHome.getPath() + "/WEB-INF/conf/log4j.properties";
-		try {
-			loadConfigFile(log4jPath, true);
-			PropertyConfigurator.configure(unicornPropertiesFiles.get("log4j.properties"));
+		//String log4jPath = unicornHome.getPath() + "/WEB-INF/conf/log4j.properties";
+		String log4jPath = unicornHome.getPath() + "/WEB-INF/conf/log4j.xml";
+		//try {
+			//loadConfigFile(log4jPath, true);
+			//PropertyConfigurator.configure(unicornPropertiesFiles.get("log4j.properties"));
+			DOMConfigurator.configure(log4jPath);
 			logger.info("OK - JVM parameter \"unicorn.home\" was found: " + unicornHome.getPath());
 			logger.info("OK - Log4j successfully initialized");
 			logger.debug("> Used log4j.properties file: " + log4jPath);
+			
+			//logger.debug("> Used log4j.properties file: " + log4jPath);
 			//logger.debug("> log4j.properties:" + (UCNProperties) unicornPropertiesFiles.get("log4j.properties")); // already logged by loadConfigFile()
-		} catch (FileNotFoundException e) {
+		/*} catch (FileNotFoundException e) {
 			logger.warn("Log4j config file \"log4j.properties\" could not be found: " + log4jPath);
 			logger.warn("Log4j will not be initialized");
 		} catch (IOException e) {
 			logger.error("Error reading \"log4j.properties\": ", e);
 			logger.warn("Log4j will not be initialized");
-		}
+		}*/
 		
 	}	
 	public static void initConfig() throws InitializationFailedException {
