@@ -1,3 +1,7 @@
+// $Id: IndexAction.java,v 1.11 2009-09-04 17:59:43 tgambet Exp $Id $
+// Author: Thomas Gambet
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
+// Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.action;
 
 import java.io.IOException;
@@ -7,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.util.Language;
@@ -16,12 +22,16 @@ import org.w3c.unicorn.util.Templates;
 
 public class IndexAction extends Action {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 599055553694915687L;
+	
+	private static Log logger = LogFactory.getLog(IndexAction.class);
+	
 	private VelocityContext velocityContext;
 	
 	@Override
 	public void init() throws ServletException {
-		super.init();
+		//logger.trace("Init IndexAction");
+		//super.init();
 	}
 	
 	@Override
@@ -40,13 +50,10 @@ public class IndexAction extends Action {
 		String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
 		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter)) {
 			langParameter = Language.negociate(req.getLocales());
-			if (!langParameter.equals(req.getLocale().getLanguage())) {
-				messages.add(new Message(Message.Level.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
-			} else {
-				String requested_parameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
-				if (requested_parameter != null && !Framework.getLanguageProperties().containsKey(requested_parameter)) 
-					messages.add(new Message(Message.Level.INFO, "$message_unavailable_requested_language. $message_translation", null));
-			}
+		}
+		
+		if (!langParameter.equals(req.getLocale().getLanguage())) {
+			messages.add(new Message(Message.Level.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
 		}
 		
 		if (!Language.isComplete(langParameter))
@@ -54,7 +61,9 @@ public class IndexAction extends Action {
 		
 		velocityContext = new VelocityContext(Language.getContext(langParameter));
 		
-		String query = req.getQueryString();
+		velocityContext.put("queryString", getQueryStringWithout(Property.get("UNICORN_PARAMETER_PREFIX") + "lang", req));
+		
+		/*String query = req.getQueryString();
 		String queryString;
 		if (query == null) {
 			queryString = "./?";
@@ -71,7 +80,7 @@ public class IndexAction extends Action {
 			queryString += query.replaceAll("&?ucn_lang=[^&]*", "");
 		if (!queryString.equals("?"))
 			queryString += "&";*/
-		velocityContext.put("queryString", queryString);
+		//velocityContext.put("queryString", queryString);
 		
 		/*messages.add(new Message(Message.Level.WARNING, "un warning", null));
 		messages.add(new Message(Message.Level.ERROR, "une error", null));

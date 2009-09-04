@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.11 2009-09-03 14:04:12 tgambet Exp $
+// $Id: ObserveAction.java,v 1.12 2009-09-04 17:59:43 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -32,6 +32,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.contract.EnumInputMethod;
+import org.w3c.unicorn.exceptions.UnsupportedMimeTypeException;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
@@ -45,19 +46,18 @@ import org.w3c.unicorn.util.Property;
  * 
  * @author Jean-Guilhem ROUEL
  */
-public class ObserveAction extends HttpServlet {
-
-	private static final Log logger = LogFactory.getLog(ObserveAction.class);
+public class ObserveAction extends Action {
 
 	private static final long serialVersionUID = -1375355420965607571L;
+	
+	private static Log logger = LogFactory.getLog(ObserveAction.class);
 
-	private static final DiskFileItemFactory factory = new DiskFileItemFactory();
+	private static DiskFileItemFactory factory;
 
 	/**
 	 * Creates a new file upload handler.
 	 */
-	private static final ServletFileUpload upload = new ServletFileUpload(
-			ObserveAction.factory);
+	private static ServletFileUpload upload;
 
 	/*
 	 * (non-Javadoc)
@@ -65,13 +65,14 @@ public class ObserveAction extends HttpServlet {
 	 * @see javax.servlet.GenericServlet#init()
 	 */
 	@Override
-	public void init(final ServletConfig aServletConfig)
-			throws ServletException {
-		ObserveAction.logger.trace("init");
-
-		ObserveAction.factory.setRepository(new File(Property
-				.get("UPLOADED_FILES_REPOSITORY")));
-
+	public void init(final ServletConfig aServletConfig) throws ServletException {
+		logger.trace("Init ObserverAction");
+		super.init();
+		
+		factory = new DiskFileItemFactory();
+		factory.setRepository(new File(Property.get("UPLOADED_FILES_REPOSITORY")));
+		upload = new ServletFileUpload(factory);
+		logger.debug("Created a ServletFileUpload with repository set to: " + Property.get("UPLOADED_FILES_REPOSITORY"));
 	}
 
 	/*
@@ -165,6 +166,13 @@ public class ObserveAction extends HttpServlet {
 
 			this.createOutput(resp, aUnicornCall,
 					mapOfSpecificParameter, mapOfOutputParameter, mapOfStringObject);
+		} catch (final UnsupportedMimeTypeException aException) {
+			if (mapOfOutputParameter.get("mimetype").equals("text/html")) {
+				Message mess = new Message(Message.Level.ERROR, "$message_unsupported_mime_type", null);
+				req.setAttribute("unicorn_message", mess);
+				(new IndexAction()).doGet(req, resp);
+				
+			}
 		} catch (final Exception aException) {
 			ObserveAction.logger.error("Exception : " + aException.getMessage(),
 					aException);
@@ -290,8 +298,13 @@ public class ObserveAction extends HttpServlet {
 
 			this.createOutput(resp, aUnicornCall,
 					mapOfSpecificParameter, mapOfOutputParameter, mapOfStringObject);
-		} catch (final IOException aException) {
-		
+		} catch (final UnsupportedMimeTypeException aException) {
+			if (mapOfOutputParameter.get("mimetype").equals("text/html")) {
+				Message mess = new Message(Message.Level.ERROR, "$message_unsupported_mime_type", null);
+				req.setAttribute("unicorn_message", mess);
+				(new IndexAction()).doGet(req, resp);
+				
+			}
 		} catch (final Exception aException) {
 			ObserveAction.logger.error("Exception : " + aException.getMessage(),
 					aException);
