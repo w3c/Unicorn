@@ -7,8 +7,10 @@ import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.contract.EnumInputMethod;
+import org.w3c.unicorn.exceptions.InitializationFailedException;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
@@ -62,7 +64,9 @@ public class UnicornClient {
 			if (args.length > 4) { // this argument is optional
 				pParams = args[4];
 			}
-
+			
+			Framework.init();
+			
 			UnicornCall aUnicornCall = new UnicornCall();
 
 			// parse other parameters: "x2=on,toto=titi" to a
@@ -95,8 +99,7 @@ public class UnicornClient {
 
 					// read content in the file pInput[2], example:
 					// pInput[2]=base.css alors content=".h1{color:#FA0012}";
-					BufferedReader bfr = new BufferedReader(new FileReader(
-							pInput[2]));
+					BufferedReader bfr = new BufferedReader(new FileReader(pInput[2]));
 					String content = "";
 					String line;
 					while ((line = bfr.readLine()) != null) {

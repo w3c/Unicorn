@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.3 2009-09-03 16:43:19 jean-gui Exp $
+// $Id: UploadRequest.java,v 1.4 2009-09-04 15:49:48 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -105,8 +105,9 @@ public class UploadRequest extends Request {
 		Request.logger.debug("Lang : " + this.sLang + ".");
 		this.aClientHttpRequest.setLang(sLang);
 		this.aClientHttpRequest.setParameter(this.sInputParameterName,
-				this.aUploadInputModule.getFileName(), this.aUploadInputModule
-						.getInputStream());
+				this.aUploadInputModule.getFileName(), 
+				this.aUploadInputModule.getInputStream(),
+				this.aUploadInputModule.getMimeType());
 		for (final String sName : this.mapOfParameter.keySet()) {
 			final String sValue = this.mapOfParameter.get(sName);
 			Request.logger.trace("addParameter");
@@ -133,7 +134,7 @@ public class UploadRequest extends Request {
 		final StringBuffer aStringBuffer = new StringBuffer(iStringBufferSize);
 		aStringBuffer.append("ClientHttpRequest:").append(
 				this.aClientHttpRequest);
-		return "lolmdr: " + aStringBuffer.toString();
+		return aStringBuffer.toString();
 	}
 
 }

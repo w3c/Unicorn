@@ -1,7 +1,6 @@
 package org.w3c.unicorn.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+
+import javax.activation.MimeType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -300,7 +301,7 @@ public class ClientHttpRequest {
 	 * @throws IOException
 	 */
 	public void setParameter(final String sName, final String sFileName,
-			final InputStream aInputStream) throws IOException {
+			final InputStream aInputStream, final MimeType mimeType) throws IOException {
 		ClientHttpRequest.logger
 				.trace("setParameter(String, String, InputStream)");
 		if (ClientHttpRequest.logger.isDebugEnabled()) {
@@ -315,29 +316,18 @@ public class ClientHttpRequest {
 		this.write(sFileName);
 		this.write('"');
 		this.newline();
+//		String sType = URLConnection.guessContentTypeFromName(sFileName);
+//		if (sType == null) {
+//			sType = URLConnection.guessContentTypeFromStream(aInputStream);
+//			if (sType == null) {
+//				sType = "application/octet-stream";
+//			}
+//		}
 		this.write("Content-Type: ");
-		String sType = URLConnection.guessContentTypeFromName(sFileName);
-		if (sType == null) {
-			sType = "application/octet-stream";
-		}
-		this.writeln(sType);
+		this.writeln(mimeType.toString());
 		this.newline();
 		ClientHttpRequest.pipe(aInputStream, this.aOutputStream);
 		this.newline();
-	}
-
-	/**
-	 * adds a file parameter to the request
-	 * 
-	 * @param sName
-	 *            parameter name
-	 * @param aFile
-	 *            the file to upload
-	 * @throws IOException
-	 */
-	public void setParameter(final String sName, final File aFile)
-			throws IOException {
-		this.setParameter(sName, aFile.getPath(), new FileInputStream(aFile));
 	}
 
 	/**
