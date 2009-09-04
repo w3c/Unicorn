@@ -12,7 +12,7 @@
 		<ucn:longName xml:lang="en">General Conformance Check</ucn:longName>
 		<ucn:longName xml:lang="fr">Vérifie la conformité générale</ucn:longName>
 		<ucn:description xml:lang="en">This task will do as much observations as possible.</ucn:description>
-		<ucn:hasParameter>
+		<!--<ucn:hasParameter>
 			<ucn:Dropdown ucn:reference="profile">
 				<ucn:longName xml:lang="en">CSS Profile</ucn:longName>
 				<ucn:longName xml:lang="fr">Profil CSS</ucn:longName>
@@ -73,7 +73,7 @@
 					</ucn:Value>
 				</ucn:hasValue>
 			</ucn:Dropdown>
-		</ucn:hasParameter>
+		</ucn:hasParameter>-->
 	</ucn:Task>
 
 	<ucn:Task ucn:reference="full-css">
