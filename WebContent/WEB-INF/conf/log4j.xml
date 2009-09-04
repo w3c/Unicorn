@@ -5,11 +5,11 @@
 	<appender name="gui" class="org.apache.log4j.lf5.LF5Appender">
 		<param name="MaxNumberOfRecords" value="10000" />
 		<param name="CallSystemExitOnClose" value="false" />
-		<param name="Threshold" value="info" />
+		<param name="Threshold" value="debug" />
 	</appender>
 
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
-		<param name="Threshold" value="info" />
+		<param name="Threshold" value="trace" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p (%F:%L) : %m%n" />
 		</layout>
@@ -189,62 +189,53 @@
 	</logger>
 	
 	<logger name="org.w3c.unicorn">
-		<level value="debug"/>
-		<appender-ref ref="package-unicorn" />
+		<level value="warn"/>
+		<!-- <appender-ref ref="package-unicorn" /> -->
 	</logger>
 	
-	<logger name="org.w3c.unicorn.action">
-		<level value="debug"/>
+	<!-- <logger name="org.w3c.unicorn.action">
 		<appender-ref ref="package-action" />
 	</logger>
 	
 	<logger name="org.w3c.unicorn.contract">
-		<level value="debug"/>
 		<appender-ref ref="package-contract" />
 	</logger>
 	
 	<logger name="org.w3c.unicorn.input">
-		<level value="debug"/>
 		<appender-ref ref="package-input" />
 	</logger>
 	
 	<logger name="org.w3c.unicorn.output">
-		<level value="debug"/>
 		<appender-ref ref="package-output" />
 	</logger>
 	
 	<logger name="org.w3c.unicorn.request">
-		<level value="debug"/>
 		<appender-ref ref="package-request" />
 	</logger>
 	
 	<logger name="org.w3c.unicorn.response">
-		<level value="debug"/>
 		<appender-ref ref="package-response" />
 	</logger>
 	
 	<logger name="org.w3c.unicorn.tasklist">
-		<level value="debug"/>
 		<appender-ref ref="package-tasklist" />
 	</logger>
 	
 	<logger name="org.w3c.unicorn.tasklistree">
-		<level value="debug"/>
 		<appender-ref ref="package-tasklist" />
 	</logger>
 	
 	<logger name="org.w3c.unicorn.util">
-		<level value="debug"/>
 		<appender-ref ref="package-util" />
-	</logger>
+	</logger> -->
 	
 	<root>
 		<level value="info"/>
-		<appender-ref ref="level-error" />
+		<!-- <appender-ref ref="level-error" />
 		<appender-ref ref="level-warning" />
 		<appender-ref ref="level-info" />
 		<appender-ref ref="level-debug" />
-		<appender-ref ref="level-trace" />
+		<appender-ref ref="level-trace" /> -->
 		<appender-ref ref="console" />
 		<appender-ref ref="gui" />
 	</root>
