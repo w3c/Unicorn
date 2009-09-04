@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.8 2009-09-04 13:51:06 tgambet Exp $
+// $Id: UnicornCall.java,v 1.9 2009-09-04 15:35:15 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -30,6 +30,7 @@ import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.exceptions.EmptyDocumentException;
 import org.w3c.unicorn.exceptions.NoDocumentException;
 import org.w3c.unicorn.exceptions.NoMimeTypeException;
+import org.w3c.unicorn.exceptions.UnsupportedMimeTypeException;
 import org.w3c.unicorn.input.InputFactory;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.request.RequestList;
@@ -129,6 +130,10 @@ public class UnicornCall {
 		// find mimetype of the document
 		MimeType aMimeType = this.getMimeType();
 
+		if (!aTask.getSupportedMimeTypes().contains(aMimeType.toString())) {
+			throw new UnsupportedMimeTypeException("Mime-type: " + aMimeType + " is not supported by this task.");
+		}
+		
 		// Create input method
 		final InputFactory aInputFactory = new InputFactory(aMimeType,
 				this.aEnumInputMethod, this.oInputParameterValue);
