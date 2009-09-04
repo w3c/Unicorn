@@ -1,4 +1,4 @@
-// $Id: Task.java,v 1.5 2009-09-04 13:45:13 tgambet Exp $
+// $Id: Task.java,v 1.6 2009-09-04 17:41:51 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -50,6 +50,11 @@ public class Task {
 	 * References to other tasks
 	 */
 	private List<String> listOfReference;
+	
+	/**
+	 * List of mime-types that this task supports
+	 */
+	private List<String> supportedMimeTypes;
 
 	/**
 	 * Root of the execution level tree
@@ -69,7 +74,27 @@ public class Task {
 		this.aLocalizedStringDescription = new LocalizedString();
 		this.mapOfTaskParameter = new LinkedHashMap<String, Parameter>();
 		this.listOfReference = new ArrayList<String>();
-		//output.getGroupList().get(0)
+	}
+	
+	/**
+	 * Creates a new Task.
+	 * 
+	 * @param aLocalizedStringDescription
+	 * @param sID
+	 * @param aLocalizedStringLongName
+	 * @param mapOfParameter
+	 * @param mapOfObservation
+	 */
+	public Task(final String sID,
+			final LocalizedString aLocalizedStringDescription,
+			final LocalizedString aLocalizedStringLongName,
+			final Map<String, Parameter> mapOfParameter) {
+		super();
+		this.aLocalizedStringDescription = aLocalizedStringDescription;
+		this.sID = sID;
+		this.aLocalizedStringLongName = aLocalizedStringLongName;
+		this.mapOfTaskParameter = mapOfParameter;
+		this.listOfReference = new ArrayList<String>();
 	}
 
 	/**
@@ -105,27 +130,6 @@ public class Task {
 	 */
 	public void setTree(TLTNode root) {
 		this.root = root;
-	}
-
-	/**
-	 * Creates a new Task.
-	 * 
-	 * @param aLocalizedStringDescription
-	 * @param sID
-	 * @param aLocalizedStringLongName
-	 * @param mapOfParameter
-	 * @param mapOfObservation
-	 */
-	public Task(final String sID,
-			final LocalizedString aLocalizedStringDescription,
-			final LocalizedString aLocalizedStringLongName,
-			final Map<String, Parameter> mapOfParameter) {
-		super();
-		this.aLocalizedStringDescription = aLocalizedStringDescription;
-		this.sID = sID;
-		this.aLocalizedStringLongName = aLocalizedStringLongName;
-		this.mapOfTaskParameter = mapOfParameter;
-		this.listOfReference = new ArrayList<String>();
 	}
 
 	/**
@@ -300,17 +304,19 @@ public class Task {
 	// so it's easier to store the String representation
 	// of mime types :-/
 	public List<String> getSupportedMimeTypes() {
-		List<String> res = new ArrayList<String>();
-		List<Observer> observers = getAllObservers();
-		for (Observer o : observers) {
-			List<MimeType> mimes = o.getSupportedMimeTypes();
-			for (MimeType m : mimes) {
-				if (!res.contains(m.toString())) {
-					res.add(m.toString());
+		if (supportedMimeTypes == null) {
+			supportedMimeTypes = new ArrayList<String>();
+			List<Observer> observers = getAllObservers();
+			for (Observer o : observers) {
+				List<MimeType> mimes = o.getSupportedMimeTypes();
+				for (MimeType m : mimes) {
+					if (!supportedMimeTypes.contains(m.toString())) {
+						supportedMimeTypes.add(m.toString());
+					}
 				}
 			}
 		}
-		return res;
+		return supportedMimeTypes;
 	}
 
 	public void mergeSubtask(final Map<String, Task> mapOfTask, Task subtask) {
