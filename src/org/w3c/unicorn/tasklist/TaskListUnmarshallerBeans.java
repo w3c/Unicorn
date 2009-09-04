@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlException;
 import org.w3.unicorn.tasklist.CondType;
 import org.w3.unicorn.tasklist.ExecType;
+import org.w3.unicorn.tasklist.GroupType;
 import org.w3.unicorn.tasklist.IfType;
 import org.w3.unicorn.tasklist.MappedType;
 import org.w3.unicorn.tasklist.ParameterType;
@@ -93,7 +94,16 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		aTaskCurrent.setTree(this.expandTree(aTask, aTask.getRoutine()));
 		
 		// Add the OutputList
-		aTaskCurrent.setOutput(aTask.getOutput());
+		Output output = new Output();
+		for (GroupType groupType : aTask.getOutput().getGroupList()) {
+			Group group = new Group();
+			if (groupType.isSetType())
+				group.setType(groupType.getType().toString());
+			group.setObservationList(groupType.getObservationList());
+			output.getGroupList().add(group);
+		}
+		
+		aTaskCurrent.setOutput(output);
 		
 		// parameters
 		final ParametersType aParameters = aTask.getParameters();

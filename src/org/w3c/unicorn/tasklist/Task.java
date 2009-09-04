@@ -1,4 +1,4 @@
-// $Id: Task.java,v 1.4 2009-09-02 15:45:42 tgambet Exp $
+// $Id: Task.java,v 1.5 2009-09-04 13:45:13 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.activation.MimeType;
 
-import org.w3.unicorn.tasklist.OutputType;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklisttree.TLTCond;
@@ -59,7 +58,7 @@ public class Task {
 
 	//private List<String> listOfOutput;
 
-	private OutputType output;
+	private Output output;
 
 	/**
 	 * Creates a new Task.
@@ -70,6 +69,7 @@ public class Task {
 		this.aLocalizedStringDescription = new LocalizedString();
 		this.mapOfTaskParameter = new LinkedHashMap<String, Parameter>();
 		this.listOfReference = new ArrayList<String>();
+		//output.getGroupList().get(0)
 	}
 
 	/**
@@ -428,11 +428,11 @@ public class Task {
 		return listOfOutput;
 	}*/
 
-	public void setOutput(OutputType output) {
+	public void setOutput(Output output) {
 		this.output = output;
 	}
 
-	public OutputType getOutput() {
+	public Output getOutput() {
 		return output;
 	}
 
