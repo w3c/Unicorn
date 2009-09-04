@@ -42,10 +42,10 @@ public class Language {
 	}
 
 	public static void complete(Properties props, Properties defaultProps) {
-		props.put("complete", "false");
+		props.put("complete", "true");
 		for (Object key : defaultProps.keySet()) {
 			if (!props.containsKey(key)) {
-				props.put("incomplete", "true");
+				props.put("complete", "false");
 				props.put(key, defaultProps.get(key));
 				Framework.logger.warn(">> Missing property in " + props.getProperty("lang") + ".properties for key: \"" + (String) key + "\". Added default property for this key: \"" + defaultProps.get(key) + "\""); 
 			}
