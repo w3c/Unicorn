@@ -1,7 +1,6 @@
 package org.w3c.unicorn.action;
 
 import java.io.IOException;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.Message;
@@ -16,7 +17,9 @@ import org.w3c.unicorn.util.Property;
 
 public abstract class Action extends HttpServlet {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7503310240481494239L;
+	
+	private static Log logger = LogFactory.getLog(Action.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -26,22 +29,12 @@ public abstract class Action extends HttpServlet {
 			resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
 			return;
 		}
-		
-		ArrayList<Message> messages = new ArrayList<Message>();
-		
-		String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
-		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter))
-			langParameter = Language.negociate(req.getLocales());
-		
-		if (!langParameter.equals(req.getLocale().getLanguage()))
-			messages.add(new Message(Message.Level.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
-		
-		if (!Language.isComplete(langParameter))
-			messages.add(new Message(Message.Level.INFO, "$message_incomplete_language. $message_translation", null));
-		
-		
-		
-		
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		doGet(req, resp);
 	}
 
 	protected String getQueryStringWithout(String parameterName, HttpServletRequest req) {
@@ -57,20 +50,49 @@ public abstract class Action extends HttpServlet {
 		}
 		return queryString;
 	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+	
+	public String getLanguage(HttpServletRequest req, ArrayList<Message> messages) {
+		
+		String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
+		String lang;
+		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter))
+			lang = Language.negociate(req.getLocales());
+		else
+			lang = langParameter;
+		
+		if (messages == null)
+			return lang;
+		
+		if (!Language.isComplete(lang))
+			messages.add(new Message(Message.Level.INFO, "$message_incomplete_language. $message_translation", null));
+		else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE") == "true")
+			messages.add(new Message(Message.Level.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
+		
+		return lang;
 	}
 
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
+	public String getTask(HttpServletRequest req, String lang, ArrayList<Message> messages) {
+		
+		String taskParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "task");
+		String task;
+		if (taskParameter == null || !Framework.mapOfTask.containsKey(taskParameter))
+			task = Framework.mapOfTask.getDefaultTaskId();
+		else
+			task = taskParameter;
+			
+		if (messages == null)
+			return task;
+		
+		if (taskParameter == null) {
+			Message mess = new Message(Message.Level.WARNING, "$message_no_task " + Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()).getLongName(lang), null);
+			messages.add(mess);
+		} else if (!Framework.mapOfTask.containsKey(taskParameter)) {
+			System.out.println(taskParameter);
+			Message mess = new Message(Message.Level.WARNING, "$message_unknown_task " + Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()).getLongName(lang), null);
+			messages.add(mess);
+		}
+		
+		return task;
 	}
 	
-	
-
 }

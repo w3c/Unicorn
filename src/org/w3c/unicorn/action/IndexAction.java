@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.11 2009-09-04 17:59:43 tgambet Exp $Id $
+// $Id: IndexAction.java,v 1.12 2009-09-07 16:33:49 tgambet Exp $Id $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -29,58 +29,25 @@ public class IndexAction extends Action {
 	private VelocityContext velocityContext;
 	
 	@Override
-	public void init() throws ServletException {
-		//logger.trace("Init IndexAction");
-		//super.init();
-	}
-	
-	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		if (!Framework.isUcnInitialized) {
-			resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
-			return;
-		}
+		super.doGet(req, resp);
 		
 		resp.setContentType("text/html; charset=UTF-8");
 		
 		ArrayList<Message> messages = new ArrayList<Message>();
+		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
+		String lang = getLanguage(req, messages);
+		String task = getTask(req, lang, null);
+		String queryString = getQueryStringWithout(paramPrefix + "lang", req);
 		
-		// Language negotiation
-		String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
-		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter)) {
-			langParameter = Language.negociate(req.getLocales());
-		}
+		if (req.getAttribute("unicorn_message") != null)
+			messages.add((Message) req.getAttribute("unicorn_message"));
 		
-		if (!langParameter.equals(req.getLocale().getLanguage())) {
-			messages.add(new Message(Message.Level.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
-		}
-		
-		if (!Language.isComplete(langParameter))
-			messages.add(new Message(Message.Level.INFO, "$message_incomplete_language. $message_translation", null));
-		
-		velocityContext = new VelocityContext(Language.getContext(langParameter));
-		
-		velocityContext.put("queryString", getQueryStringWithout(Property.get("UNICORN_PARAMETER_PREFIX") + "lang", req));
-		
-		/*String query = req.getQueryString();
-		String queryString;
-		if (query == null) {
-			queryString = "./?";
-		} else {
-			queryString = "?";
-			queryString += query.replaceAll("&?ucn_lang=[^&]*", "");
-			if (!queryString.equals("?"))
-				queryString += "&";
-		}
-		
-		/*String query = req.getQueryString();
-		String queryString = "?";
-		if (query != null)
-			queryString += query.replaceAll("&?ucn_lang=[^&]*", "");
-		if (!queryString.equals("?"))
-			queryString += "&";*/
-		//velocityContext.put("queryString", queryString);
+		velocityContext = new VelocityContext(Language.getContext(lang));
+		velocityContext.put("queryString", queryString);
+		velocityContext.put("messages", messages);
+		velocityContext.put("current_task", Framework.mapOfTask.get(task));
 		
 		/*messages.add(new Message(Message.Level.WARNING, "un warning", null));
 		messages.add(new Message(Message.Level.ERROR, "une error", null));
@@ -89,29 +56,7 @@ public class IndexAction extends Action {
 		messages.add(new Message(Message.Level.ERROR, "une error avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
 		messages.add(new Message(Message.Level.INFO, "une info avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));*/
 		
-		
-		
-		if (req.getAttribute("unicorn_message") != null)
-			messages.add((Message) req.getAttribute("unicorn_message"));
-		
-		velocityContext.put("messages", messages);
-		
-		String taskParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "task");
-		if (taskParameter == null || !Framework.mapOfTask.containsKey(taskParameter))
-			taskParameter = Framework.mapOfTask.getDefaultTaskId();
-		
-		velocityContext.put("current_task", Framework.mapOfTask.get(taskParameter));
-		
-		
-		
 		if (req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest")) {
-			//for JavaScript testing purposes
-			/*long s = System.currentTimeMillis();
-			long t;
-			do {
-				 t = System.currentTimeMillis();
-			} while ((t - s) < 3000);*/
-			// -----------------
 			Templates.write("parameters.vm", velocityContext, resp.getWriter());
 			resp.getWriter().close();
 		} else {
