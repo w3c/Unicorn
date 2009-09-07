@@ -1,4 +1,4 @@
-﻿#set ($noEscape_title = "Unicorn")
+#set ($noEscape_title = "Unicorn")
 #set ($css = ['base_ucn.css'])
 #set ($js = ['scripts/mootools-1.2.3-core-nc.js', 'scripts/mootools-1.2.3.1-more.js', 'scripts/w3c_unicorn_index.js'])
 #parse( 'head.vm' )
