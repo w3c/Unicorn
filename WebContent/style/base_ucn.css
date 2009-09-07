@@ -474,12 +474,12 @@ div.warnings td.level2 {
 
 
 /* Specific result styles */
-div.observer.css-validator div.infos img, div.observer.css1-validator div.infos img, div.observer.css2-validator div.infos img, div.observer.css21-validator div.infos img, div.observer.css3-validator div.infos img {
+div.observer.markup-validator, div.observer.css-validator div.infos img, div.observer.css1-validator div.infos img, div.observer.css2-validator div.infos img, div.observer.css21-validator div.infos img, div.observer.css3-validator div.infos img {
 	float:left;
 	clear:left;
 	padding:4.1em 10px;
 }
-div.observer.css-validator div.infos code, div.observer.css1-validator div.infos code, div.observer.css2-validator div.infos code, div.observer.css21-validator div.infos code, div.observer.css3-validator div.infos code {
+div.observer.markup-validator, div.observer.css-validator div.infos code, div.observer.css1-validator div.infos code, div.observer.css2-validator div.infos code, div.observer.css21-validator div.infos code, div.observer.css3-validator div.infos code {
 	color:#444444;
 }
 div.markup-validator p.longmsg {
