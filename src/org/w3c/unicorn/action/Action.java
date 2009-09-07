@@ -2,6 +2,8 @@ package org.w3c.unicorn.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -51,9 +53,9 @@ public abstract class Action extends HttpServlet {
 		return queryString;
 	}
 	
-	public String getLanguage(HttpServletRequest req, ArrayList<Message> messages) {
+	public String getLanguage(String langParameter, HttpServletRequest req, ArrayList<Message> messages) {
 		
-		String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
+		//String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
 		String lang;
 		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter))
 			lang = Language.negociate(req.getLocales());
@@ -71,9 +73,9 @@ public abstract class Action extends HttpServlet {
 		return lang;
 	}
 
-	public String getTask(HttpServletRequest req, String lang, ArrayList<Message> messages) {
+	public String getTask(String taskParameter, String lang, ArrayList<Message> messages) {
 		
-		String taskParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "task");
+		//String taskParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "task");
 		String task;
 		if (taskParameter == null || !Framework.mapOfTask.containsKey(taskParameter))
 			task = Framework.mapOfTask.getDefaultTaskId();

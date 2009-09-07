@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.12 2009-09-07 16:33:49 tgambet Exp $Id $
+// $Id: IndexAction.java,v 1.13 2009-09-07 17:35:20 tgambet Exp $Id $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -37,8 +37,8 @@ public class IndexAction extends Action {
 		
 		ArrayList<Message> messages = new ArrayList<Message>();
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
-		String lang = getLanguage(req, messages);
-		String task = getTask(req, lang, null);
+		String lang = getLanguage(req.getParameter(paramPrefix + "lang"), req, messages);
+		String task = getTask(req.getParameter(paramPrefix + "task"), lang, null);
 		String queryString = getQueryStringWithout(paramPrefix + "lang", req);
 		
 		if (req.getAttribute("unicorn_message") != null)

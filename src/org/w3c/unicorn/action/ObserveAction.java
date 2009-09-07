@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.13 2009-09-07 16:33:49 tgambet Exp $
+// $Id: ObserveAction.java,v 1.14 2009-09-07 17:35:21 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -60,6 +60,32 @@ public class ObserveAction extends Action {
 		logger.debug("Created a ServletFileUpload with repository set to: " + Property.get("UPLOADED_FILES_REPOSITORY"));
 	}
 	
+	private Map<String, Object> getRequestParameters(HttpServletRequest req) throws FileUploadException {
+		
+		Hashtable<String, Object> params = new Hashtable<String, Object>();
+			
+		if (req.getMethod().equals("POST") && ServletFileUpload.isMultipartContent(new ServletRequestContext(req))) {
+
+			List<?> listOfItem = upload.parseRequest(req);
+			for (Object fileItem : listOfItem) {
+				FileItem aFileItem = (FileItem) fileItem;
+				if (aFileItem.isFormField()) {
+					params.put(aFileItem.getFieldName(), aFileItem.getString());
+				} else if (aFileItem.getFieldName().equals(Property.get("UNICORN_PARAMETER_PREFIX") + "file")) {
+					params.put(aFileItem.getFieldName(), aFileItem);
+				}
+			}
+			
+			return params;
+		}
+		
+		for (Object key : req.getParameterMap().keySet()) {
+			params.put(key.toString(), req.getParameter(key.toString()));
+		}
+		return params;
+		
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -71,9 +97,11 @@ public class ObserveAction extends Action {
 		Map<String, String> mapOfOutputParameter = new Hashtable<String, String>();
 		ArrayList<Message> messages = new ArrayList<Message>();
 		
+		//Map<String, String> reqParameters = getRequestParameters(req);
+		
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
-		String lang = getLanguage(req, null);
-		String task = getTask(req, lang, messages);
+		String lang = getLanguage(req.getParameter(paramPrefix + "lang"), req, null);
+		String task = getTask(req.getParameter(paramPrefix + "task"), lang, messages);
 		String queryString = getQueryStringWithout(paramPrefix + "lang", req);
 		
 		mapOfStringObject.put("queryString", queryString);
@@ -109,7 +137,6 @@ public class ObserveAction extends Action {
 				// Process the uploaded items
 				for (Iterator<?> aIterator = listOfItem.iterator(); aIterator.hasNext();) {
 					FileItem aFileItem = (FileItem) aIterator.next();
-					logger.error("TOM: " + aFileItem);
 					if (aFileItem.isFormField()) {
 						addParameter(aFileItem.getFieldName(), aFileItem.getString(),
 								aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
@@ -118,7 +145,6 @@ public class ObserveAction extends Action {
 						aUnicornCall.setDocumentName(aFileItemUploaded.getName());
 						aUnicornCall.setInputParameterValue(aFileItemUploaded);
 						aUnicornCall.setEnumInputMethod(EnumInputMethod.UPLOAD);
-						break;
 					}
 				}
 			} catch (final FileUploadException aFileUploadException) {
@@ -159,7 +185,7 @@ public class ObserveAction extends Action {
 			throws ServletException, IOException {
 		doGet(req, resp);
 	}
-
+	
 	/**
 	 * Adds a parameter at the correct call.
 	 * 
@@ -282,11 +308,6 @@ public class ObserveAction extends Action {
 		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=" + mapOfOutputParameter.get("charset"));
 
 		mapOfStringObject.put("unicorncall", aUnicornCall);
-
-		logger.debug("Request output formater with parameters: " 
-				+ mapOfOutputParameter.get("format") + " "
-				+ mapOfOutputParameter.get("lang") + " "
-				+ mapOfOutputParameter.get("mimetype"));
 		
 		OutputFormater aOutputFormater = OutputFactory
 				.createOutputFormater(mapOfOutputParameter.get("format"),
