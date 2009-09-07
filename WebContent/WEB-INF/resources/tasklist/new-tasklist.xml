@@ -50,13 +50,17 @@
 				<exec id="css2" value="css2-validator" type="observation" />
 				<exec id="css21" value="css21-validator" type="observation" />
 				<exec id="css3" value="css3-validator" type="observation" />
+				<exec id="css1" value="css1-validator" type="observation" />
 			</else>
 			</if>
 		</routine>
 
 		<parameters>
 			<!-- <parameter name="profile" default="css21" ui="simple" type="dropdown" observer="css-validator"/> -->
-			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css-validator"/>			
+			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css21-validator"/>			
+			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css2-validator"/>			
+			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css3-validator"/>			
+			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css1-validator"/>			
 		</parameters>
 
 		<output>
@@ -68,9 +72,9 @@
 				<observation>css21-validator</observation>
 				<observation>css2-validator</observation>
 				<observation>css3-validator</observation>
+				<observation>css1-validator</observation>				
 			</group>
 		</output>
-
 
 	</task>
 
