@@ -1,4 +1,4 @@
-// $Id: OutputFactory.java,v 1.4 2009-09-01 16:00:24 jean-gui Exp $
+// $Id: OutputFactory.java,v 1.5 2009-09-07 16:32:20 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -30,9 +30,7 @@ public class OutputFactory {
 	 */
 	public static OutputModule createOutputModule(String module) {
 		OutputFactory.logger.trace("createOutputModule");
-		if (OutputFactory.logger.isDebugEnabled()) {
-			OutputFactory.logger.debug("Output module : " + module);
-		}
+		OutputFactory.logger.debug("Output module : " + module);
 		
 		/* Commented out for now as this is unnecessary and that doesn't seem quite safe */		
 //		if(null == module || "".equals(module)) {
@@ -58,34 +56,29 @@ public class OutputFactory {
 	 * @param sOutputFormat
 	 *            The format who the output formatter must produce.
 	 * @return The new output formatter.
-	 * @throws ResourceNotFoundException
-	 * @throws ParseErrorException
-	 * @throws Exception
 	 */
-	public static OutputFormater createOutputFormater(
-			final String sOutputFormat, final String sLang,
-			final String sMimeType) throws ResourceNotFoundException,
-			ParseErrorException, Exception {
-		OutputFactory.logger.trace("createOutputformater");
-		if (OutputFactory.logger.isDebugEnabled()) {
-			OutputFactory.logger
-					.debug("Output format : " + sOutputFormat + ".");
-			OutputFactory.logger.debug("Language : " + sLang + ".");
-			OutputFactory.logger.debug("Mime type : " + sMimeType + ".");
-		}
-
-		final OutputFormater aOutputFormater;
+	public static OutputFormater createOutputFormater(final String sOutputFormat,
+			final String sLang, final String sMimeType)  {
 		
-		final String sFormaterName = Property.getProps("specialFormaters.properties")
-											 .getProperty(sMimeType);
-		if (null != sFormaterName) {
-			final Class<?> aFormaterClass = Class
-					.forName("org.w3c.unicorn.output." + sFormaterName);
-			final Class<?>[] tClassParamType = { String.class, String.class };
-			final Object[] tObjectParamValue = { sOutputFormat, sLang };
+		logger.trace("createOutputformater");
+		logger.debug("Output format : " + sOutputFormat + ".");
+		logger.debug("Language : " + sLang + ".");
+		logger.debug("Mime type : " + sMimeType + ".");
 
-			aOutputFormater = (OutputFormater) aFormaterClass.getConstructor(
-					tClassParamType).newInstance(tObjectParamValue);
+		OutputFormater aOutputFormater;
+		
+		String sFormaterName = Property.getProps("specialFormaters.properties").getProperty(sMimeType);
+		
+		if (null != sFormaterName) {
+			try {
+				final Class<?> aFormaterClass = Class.forName("org.w3c.unicorn.output." + sFormaterName);
+				final Class<?>[] tClassParamType = { String.class, String.class };
+				final Object[] tObjectParamValue = { sOutputFormat, sLang };
+				aOutputFormater = (OutputFormater) aFormaterClass.getConstructor(tClassParamType).newInstance(tObjectParamValue);
+			} catch (Exception e) {
+				logger.error("Error instanciating outputFormater: " + sFormaterName + ". Using SimpleOutputFormater instead.", e);
+				aOutputFormater = new SimpleOutputFormater(sOutputFormat, sLang);
+			} 
 		}
 		else {
 			aOutputFormater = new SimpleOutputFormater(sOutputFormat, sLang);

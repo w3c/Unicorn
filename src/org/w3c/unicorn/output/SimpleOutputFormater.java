@@ -1,17 +1,16 @@
-// $Id: SimpleOutputFormater.java,v 1.3 2009-09-01 16:00:24 jean-gui Exp $
+// $Id: SimpleOutputFormater.java,v 1.4 2009-09-07 16:32:20 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.w3c.unicorn.Framework;
+import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
 
@@ -63,49 +62,38 @@ public class SimpleOutputFormater implements OutputFormater {
 		this.format = outputFormat;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.w3c.unicorn.output.OutputFormater#produceOutput(java.util.Map,
-	 *      java.io.Writer)
-	 */
-	public void produceOutput(final Map<String, Object> mapOfStringObject,
-			final Writer output) throws ResourceNotFoundException,
-			ParseErrorException, MethodInvocationException, Exception {
+	public void produceOutput(final Map<String, Object> mapOfStringObject, final Writer output) {
 
 		OutputFormater.logger.trace("produceOutput");
-		OutputFormater.logger.debug("Map of String -> Object : "
-				+ mapOfStringObject + ".");
+		OutputFormater.logger.debug("Map of String -> Object : " + mapOfStringObject + ".");
 		OutputFormater.logger.debug("Writer : " + output + ".");
 		
-		for (final String sObjectName : mapOfStringObject.keySet()) {
-			aVelocityContext.put(sObjectName, mapOfStringObject
-					.get(sObjectName));
-		}
+		for (final String sObjectName : mapOfStringObject.keySet())
+			aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));
 		
 		Templates.write(format + ".vm", aVelocityContext, output);
-		output.close();
+		try {
+			output.close();
+		} catch (IOException e) {
+			logger.error("Error closing output writer: " + e.getMessage(), e);
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.w3c.unicorn.output.OutputFormater#produceError(java.lang.Exception,
-	 *      java.io.Writer)
-	 */
-	public void produceError(final Exception aException, final Writer output)
-			throws ResourceNotFoundException, ParseErrorException,
-			MethodInvocationException, Exception {
+	public void produceError(Message errorMessage, final Writer output) {
 		
-		OutputFormater.logger.trace("produceError");
-		OutputFormater.logger.debug("Error : " + aException.getMessage()
-				+ ".");
-		OutputFormater.logger.debug("Writer : " + output + ".");
-		if (aException != null)
-			aVelocityContext.put("error", aException);
+		logger.trace("produceError");
+		logger.debug("ErrorMessage : " + errorMessage.getMessage() + ".");
+		logger.debug("Writer : " + output + ".");
+		
+		Message[] messages = {errorMessage};
+		aVelocityContext.put("messages", messages);
 		
 		Templates.write(format + ".error.vm", aVelocityContext, output);
-		output.close();
+		try {
+			output.close();
+		} catch (IOException e) {
+			logger.error("Error closing output writer: " + e.getMessage(), e);
+		}
 	}
 
 }

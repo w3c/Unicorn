@@ -1,4 +1,4 @@
-// $Id: SimpleOutputModule.java,v 1.2 2009-08-28 12:40:06 jean-gui Exp $
+// $Id: SimpleOutputModule.java,v 1.3 2009-09-07 16:32:20 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -7,9 +7,7 @@ package org.w3c.unicorn.output;
 import java.io.Writer;
 import java.util.Map;
 
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
+import org.w3c.unicorn.util.Message;
 
 /**
  * This module allow to generate output in text format.
@@ -18,22 +16,14 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  */
 public class SimpleOutputModule implements OutputModule {
 
-	public void produceOutput(final OutputFormater aOutputFormater,
-			final Map<String, Object> mapOfStringObject,
-			final Map<String, String[]> mapOfParameter, final Writer aWriter)
-			throws ResourceNotFoundException, ParseErrorException,
-			MethodInvocationException, Exception {
-		OutputModule.logger.trace("Constructor");
+	public void produceOutput(final OutputFormater aOutputFormater, Map<String, Object> mapOfStringObject,
+			final Map<String, String[]> mapOfParameter, final Writer aWriter) {
 		aOutputFormater.produceOutput(mapOfStringObject, aWriter);
 	}
 
-	public void produceError(final OutputFormater aOutputFormater,
-			final Exception aException,
-			final Map<String, String[]> mapOfParameter, final Writer aWriter)
-			throws ResourceNotFoundException, ParseErrorException,
-			MethodInvocationException, Exception {
-		OutputModule.logger.trace("produceError");
-		aOutputFormater.produceError(aException, aWriter);
+	public void produceError(final OutputFormater aOutputFormater, Message errorMessage,
+			final Map<String, String[]> mapOfParameter, final Writer aWriter) {
+		aOutputFormater.produceError(errorMessage, aWriter);
 	}
 
 }

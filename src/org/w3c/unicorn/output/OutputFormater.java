@@ -1,4 +1,4 @@
-// $Id: OutputFormater.java,v 1.3 2009-09-01 16:00:24 jean-gui Exp $
+// $Id: OutputFormater.java,v 1.4 2009-09-07 16:32:20 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.w3c.unicorn.util.Message;
 
 /**
  * SimpleOutputFormater<br />
@@ -26,26 +27,13 @@ public interface OutputFormater {
 	/**
 	 * @param mapOfStringObject
 	 * @param output
-	 * @throws ResourceNotFoundException
-	 * @throws ParseErrorException
-	 * @throws MethodInvocationException
-	 * @throws Exception
 	 */
-	public abstract void produceOutput(
-			final Map<String, Object> mapOfStringObject, final Writer output)
-			throws ResourceNotFoundException, ParseErrorException,
-			MethodInvocationException, Exception;
+	public abstract void produceOutput(Map<String, Object> mapOfStringObject, Writer output);
 
 	/**
-	 * @param aException
+	 * @param errorMessage 
 	 * @param aWriter
-	 * @throws Exception
-	 * @throws MethodInvocationException
-	 * @throws ParseErrorException
-	 * @throws ResourceNotFoundException
 	 */
-	public abstract void produceError(final Exception aException,
-			final Writer output) throws ResourceNotFoundException,
-			ParseErrorException, MethodInvocationException, Exception;
+	public abstract void produceError(Message errorMessage, Writer output);
 
 }
