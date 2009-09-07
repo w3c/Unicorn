@@ -35,32 +35,28 @@
 		</conds>
 
 		<routine>
-			<if test="is-css">
+			<exec id="markup-validator" value="markup-validator" type="observation" />
+			<if test="is-html">
 			<then>
-				<exec id="css-validator" value="css-validator" type="observation" />
+				<exec id="css-validator" value="appc-checker" type="observation" />
 			</then>
-			<else>
-				<exec id="markup-validator" value="markup-validator" type="observation" />
-				<if test="is-html">
-				<then>
-					<exec id="css-validator" value="appc-checker" type="observation" />
-				</then>
-				</if>
-				<!-- <exec value="css-validator" type="observation" /> -->
-				<exec id="css2" value="css2-validator" type="observation" />
-				<exec id="css21" value="css21-validator" type="observation" />
-				<exec id="css3" value="css3-validator" type="observation" />
-				<exec id="css1" value="css1-validator" type="observation" />
-			</else>
 			</if>
+			<exec id="css2" value="css2-validator" type="observation" />
+			<exec id="css21" value="css21-validator" type="observation" />
+			<exec id="css3" value="css3-validator" type="observation" />
+			<exec id="css1" value="css1-validator" type="observation" />
 		</routine>
 
 		<parameters>
 			<!-- <parameter name="profile" default="css21" ui="simple" type="dropdown" observer="css-validator"/> -->
-			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css21-validator"/>			
-			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css2-validator"/>			
-			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css3-validator"/>			
-			<parameter name="warning" default="2" ui="none" type="dropdown" observer="css1-validator"/>			
+			<parameter name="warning" ui="none" type="dropdown" default="all">
+				<value name="all">
+					<mapped param="warning" observer="css21-validator" value="2" />
+					<mapped param="warning" observer="css2-validator" value="2" />
+					<mapped param="warning" observer="css3-validator" value="2" />
+					<mapped param="warning" observer="css1-validator" value="2" />
+				</value>
+			</parameter>
 		</parameters>
 
 		<output>
