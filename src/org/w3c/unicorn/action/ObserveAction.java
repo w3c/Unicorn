@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.19 2009-09-08 15:15:27 tgambet Exp $
+// $Id: ObserveAction.java,v 1.20 2009-09-08 15:30:26 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -164,13 +164,14 @@ public class ObserveAction extends Action {
 						aUnicornCall.setInputParameterValue(aFileItemUploaded);
 						aUnicornCall.setEnumInputMethod(EnumInputMethod.UPLOAD);
 					} else {
-						// TODO log "ucn_file not an instance of FileItem ?"
+						// should be impossible (see getRequestParameters)
+						logger.warn("ucn_file is not of type FileItem!");
 					}
 				} else if (paramName.equals("text_mime")) {
 					aUnicornCall.addParameter(paramPrefix + "mime", (String) reqParams.get(key));
 				} else {
 					logger.debug("Unknown parameter: " + key + " - " + (String) reqParams.get(key) +". This parameter is added to aUnicornCall.");
-					aUnicornCall.addParameter(key, (String) reqParams.get(key));
+					aUnicornCall.addParameter(key, reqParams.get(key).toString());
 				}
 			}
 		}
@@ -259,7 +260,7 @@ public class ObserveAction extends Action {
 				} else if (aFileItem.getFieldName().equals(Property.get("UNICORN_PARAMETER_PREFIX") + "file")) {
 					params.put(aFileItem.getFieldName(), aFileItem);
 				} else {
-					// TODO log "unknown fileItem, ignored"
+					logger.warn("Unknown FileItem in request: " + aFileItem.getFieldName());
 				}
 			}
 		} else {
