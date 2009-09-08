@@ -2,8 +2,6 @@ package org.w3c.unicorn.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,7 +53,6 @@ public abstract class Action extends HttpServlet {
 	
 	public String getLanguage(String langParameter, HttpServletRequest req, ArrayList<Message> messages) {
 		
-		//String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
 		String lang;
 		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter))
 			lang = Language.negociate(req.getLocales());
@@ -75,7 +72,6 @@ public abstract class Action extends HttpServlet {
 
 	public String getTask(String taskParameter, ArrayList<Message> messages) {
 		
-		//String taskParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "task");
 		String task;
 		if (taskParameter == null || !Framework.mapOfTask.containsKey(taskParameter))
 			task = Framework.mapOfTask.getDefaultTaskId();
