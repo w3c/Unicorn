@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.21 2009-09-08 15:32:46 tgambet Exp $
+// $Id: ObserveAction.java,v 1.22 2009-09-08 15:41:03 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -170,7 +170,7 @@ public class ObserveAction extends Action {
 				} else if (paramName.equals("text_mime")) {
 					aUnicornCall.addParameter(paramPrefix + "mime", (String) reqParams.get(key));
 				} else {
-					logger.debug("Unknown parameter: " + key + " - " + (String) reqParams.get(key) +". This parameter is added to aUnicornCall.");
+					logger.warn("Unknown parameter: " + key + " - " + (String) reqParams.get(key) +". This parameter is added to aUnicornCall. Check that this is the wanted behavior.");
 					aUnicornCall.addParameter(key, reqParams.get(key).toString());
 				}
 			}
