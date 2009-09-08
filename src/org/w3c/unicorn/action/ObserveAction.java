@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.15 2009-09-08 14:23:33 tgambet Exp $
+// $Id: ObserveAction.java,v 1.16 2009-09-08 14:42:33 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -202,10 +202,11 @@ public class ObserveAction extends Action {
 					} else {
 						// TODO log "ucn_file not an instance of FileItem ?"
 					}
+				} else if (paramName.equals("text_mime")) {
+					aUnicornCall.addParameter(paramPrefix + "mime", (String) reqParams.get(key));
 				} else {
-					logger.debug("Unknown parameter: " + key + " - " + (String) reqParams.get(key));
-					// TODO Warn that there is an unknown parameter which is added to unicornCall by default
-					aUnicornCall.addParameter(paramName, (String) reqParams.get(key));
+					logger.debug("Unknown parameter: " + key + " - " + (String) reqParams.get(key) +". This parameter is added to aUnicornCall.");
+					aUnicornCall.addParameter(key, (String) reqParams.get(key));
 				}
 			}
 		}
