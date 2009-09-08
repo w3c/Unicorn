@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.9 2009-09-04 15:35:15 tgambet Exp $
+// $Id: UnicornCall.java,v 1.10 2009-09-08 14:24:22 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -116,16 +116,10 @@ public class UnicornCall {
 	 */
 	public void doTask() throws Exception {
 		UnicornCall.logger.trace("doTask.");
-		if (UnicornCall.logger.isDebugEnabled()) {
-			UnicornCall.logger.debug("String task id : " + this.aTask.getID()
-					+ ".");
-			UnicornCall.logger.debug("EnumInputMethod : "
-					+ this.aEnumInputMethod + ".");
-			UnicornCall.logger.debug("Document name : " + this.sDocumentName
-					+ ".");
-			UnicornCall.logger.debug("Map of string parameter : "
-					+ this.mapOfStringParameter + ".");
-		}
+		UnicornCall.logger.debug("String task id : " + aTask.getID() + ".");
+		UnicornCall.logger.debug("EnumInputMethod : " + aEnumInputMethod + ".");
+		UnicornCall.logger.debug("Document name : " + sDocumentName + ".");
+		UnicornCall.logger.debug("Map of string parameter : " + mapOfStringParameter + ".");
 
 		// find mimetype of the document
 		MimeType aMimeType = this.getMimeType();
@@ -666,6 +660,13 @@ public class UnicornCall {
 		} else {
 			this.mapOfStringParameter.put(sName, tStringValue);
 		}
+	}
+	
+	public void addParameter(final String sName, final String tStringValue) {
+
+		String[] tab = {tStringValue};
+		addParameter(sName, tab);
+		
 	}
 
 	/**
