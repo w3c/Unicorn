@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.18 2009-09-08 14:58:41 tgambet Exp $
+// $Id: ObserveAction.java,v 1.19 2009-09-08 15:15:27 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -196,13 +196,31 @@ public class ObserveAction extends Action {
 		}
 		
 		if (reqParams.containsKey(paramPrefix + "uri")) {
-			//TODO vérifier que n'est pas vide
+			if (reqParams.get(paramPrefix + "uri").equals("")) {
+				Message mess = new Message(Message.Level.ERROR, "$message_empty_uri", null);
+				createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				return;
+			}
 		} else if (reqParams.containsKey(paramPrefix + "text")) {
-			//TODO vérifier que n'est pas vide + vérifier présence de ucn_text_mime
+			if (reqParams.get(paramPrefix + "text").equals("")) {
+				Message mess = new Message(Message.Level.ERROR, "$message_empty_direct_input", null);
+				createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				return;
+			} else if (!reqParams.containsKey(paramPrefix + "text_mime")) {
+				Message mess = new Message(Message.Level.ERROR, "$message_missing_mime_type", null);
+				createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				return;
+			}
 		} else if (reqParams.containsKey(paramPrefix + "file")) {
-			//TODO vérifier que n'est pas vide
+			if (((FileItem) reqParams.get(paramPrefix + "file")).getSize() == 0) {
+				Message mess = new Message(Message.Level.ERROR, "$message_no_or_empty_file", null);
+				createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				return;
+			}
 		} else {
-			//TODO aucun des 3 paramètres n'est présent -> erreur
+			Message mess = new Message(Message.Level.ERROR, "$message_nothing_to_validate", null);
+			createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+			return;
 		}
 		
 		try {
