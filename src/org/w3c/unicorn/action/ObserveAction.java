@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.17 2009-09-08 14:44:48 tgambet Exp $
+// $Id: ObserveAction.java,v 1.18 2009-09-08 14:58:41 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -74,21 +74,17 @@ public class ObserveAction extends Action {
 		
 		super.doGet(req, resp);
 		
-		Map<String, Object> reqParams;
-		try {
-			reqParams = getRequestParameters(req);
-		} catch (FileUploadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
-		
 		FileItem aFileItemUploaded = null;
 		Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 		Map<String, String> mapOfSpecificParameter = new Hashtable<String, String>();
 		Map<String, String> mapOfOutputParameter = new Hashtable<String, String>();
 		ArrayList<Message> messages = new ArrayList<Message>();
 		UnicornCall aUnicornCall = new UnicornCall();
+		
+		mapOfOutputParameter.put("output", "simple");
+		mapOfOutputParameter.put("format", "xhtml10");
+		mapOfOutputParameter.put("charset", "UTF-8");
+		mapOfOutputParameter.put("mimetype", "text/html");
 		
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
 		String outParamPrefix = Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX");
@@ -97,10 +93,13 @@ public class ObserveAction extends Action {
 		mapOfStringObject.put("queryString", queryString);
 		mapOfStringObject.put("messages", messages);
 		
-		mapOfOutputParameter.put("output", "simple");
-		mapOfOutputParameter.put("format", "xhtml10");
-		mapOfOutputParameter.put("charset", "UTF-8");
-		mapOfOutputParameter.put("mimetype", "text/html");
+		Map<String, Object> reqParams;
+		try {
+			reqParams = getRequestParameters(req);
+		} catch (FileUploadException e) {
+			createError(req, resp, new Message(e), mapOfSpecificParameter, mapOfOutputParameter);
+			return;
+		}
 		
 		for (String key : reqParams.keySet()) {
 			if (!key.startsWith(paramPrefix) && !key.startsWith(outParamPrefix)) {
@@ -214,14 +213,7 @@ public class ObserveAction extends Action {
 			createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final Exception aException) {
 			logger.error("Exception : " + aException.getMessage(), aException);
-			
-			String errorContent = "";
-			errorContent += aException.getMessage() + "\n";
-			for (StackTraceElement stackTraceElement : aException.getStackTrace()) {
-				errorContent += stackTraceElement.toString() + "\n";
-			}
-			Message mess = new Message(Message.Level.ERROR, "$stack_trace_text", errorContent);
-			createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+			createError(req, resp, new Message(aException), mapOfSpecificParameter, mapOfOutputParameter);
 		} finally {
 			if ("true".equals(Property.get("DELETE_UPLOADED_FILES"))
 					&& aFileItemUploaded != null) {
