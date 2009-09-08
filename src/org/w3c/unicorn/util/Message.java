@@ -15,6 +15,15 @@ public class Message {
 	public Message() {
 	}
 	
+	public Message(Exception e) {
+		content = e.getMessage() + "\n";
+		for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+			content += stackTraceElement.toString() + "\n";
+		}
+		level = Level.ERROR;
+		message = "$stack_trace_text";
+	}
+	
 	public Message(Level level, String message, String content) {
 		this.level = level;
 		this.message = message;
