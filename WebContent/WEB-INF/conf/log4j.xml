@@ -189,7 +189,7 @@
 	</logger>
 	
 	<logger name="org.w3c.unicorn">
-		<level value="warn"/>
+		<level value="debug"/>
 		<!-- <appender-ref ref="package-unicorn" /> -->
 	</logger>
 	
