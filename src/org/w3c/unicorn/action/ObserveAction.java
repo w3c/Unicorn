@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.22 2009-09-08 15:41:03 tgambet Exp $
+// $Id: ObserveAction.java,v 1.23 2009-09-08 15:46:44 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -144,11 +144,16 @@ public class ObserveAction extends Action {
 					continue;
 				} else if (paramName.equals("uri")) {
 					logger.debug("Uri parameter: " + key + " - " + (String) reqParams.get(key));
-					aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
 					String uri = (String) reqParams.get(key);
-					if (uri.length() < 7 || !uri.substring(0, 7).equals("http://")) {
+					if (uri.startsWith("https://")) {
+						Message mess = new Message(Message.Level.ERROR, "Unicorn does not support https protocol for the moment.", null);
+						createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+						return;
+					}
+					if (!uri.startsWith("http://")) {
 						uri = "http://" + uri;
 					}
+					aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
 					aUnicornCall.setDocumentName(uri);
 					aUnicornCall.setInputParameterValue(uri);
 				} else if (paramName.equals("text")) {
