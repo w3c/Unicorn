@@ -73,7 +73,7 @@ public abstract class Action extends HttpServlet {
 		return lang;
 	}
 
-	public String getTask(String taskParameter, String lang, ArrayList<Message> messages) {
+	public String getTask(String taskParameter, ArrayList<Message> messages) {
 		
 		//String taskParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "task");
 		String task;
@@ -86,11 +86,11 @@ public abstract class Action extends HttpServlet {
 			return task;
 		
 		if (taskParameter == null) {
-			Message mess = new Message(Message.Level.WARNING, "$message_no_task " + Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()).getLongName(lang), null);
+			Message mess = new Message(Message.Level.WARNING, "$message_no_task " + "$default_task.getLongName($lang) ", null);
 			messages.add(mess);
 		} else if (!Framework.mapOfTask.containsKey(taskParameter)) {
 			System.out.println(taskParameter);
-			Message mess = new Message(Message.Level.WARNING, "$message_unknown_task " + Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()).getLongName(lang), null);
+			Message mess = new Message(Message.Level.WARNING, "$message_unknown_task " + "$default_task.getLongName($lang) ", null);
 			messages.add(mess);
 		}
 		
