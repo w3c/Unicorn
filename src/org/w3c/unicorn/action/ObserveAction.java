@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.16 2009-09-08 14:42:33 tgambet Exp $
+// $Id: ObserveAction.java,v 1.17 2009-09-08 14:44:48 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -66,41 +66,6 @@ public class ObserveAction extends Action {
 		outputParams.add("charset");
 		outputParams.add("mimetype");
 		outputParams.add("lang");
-	}
-	
-	private Map<String, Object> getRequestParameters(HttpServletRequest req) throws FileUploadException {
-		
-		Hashtable<String, Object> params = new Hashtable<String, Object>();
-		
-		if (req.getMethod().equals("POST") && ServletFileUpload.isMultipartContent(new ServletRequestContext(req))) {
-			List<?> listOfItem = upload.parseRequest(req);
-			for (Object fileItem : listOfItem) {
-				FileItem aFileItem = (FileItem) fileItem;
-				if (aFileItem.isFormField()) {
-					params.put(aFileItem.getFieldName(), aFileItem.getString());
-				} else if (aFileItem.getFieldName().equals(Property.get("UNICORN_PARAMETER_PREFIX") + "file")) {
-					params.put(aFileItem.getFieldName(), aFileItem);
-				} else {
-					// TODO log "unknown fileItem, ignored"
-				}
-			}
-		} else {
-			Enumeration<?> paramEnum = req.getParameterNames();
-			while (paramEnum.hasMoreElements()) {
-				
-				Object key = paramEnum.nextElement();
-				logger.debug("TOM: " + key);
-				params.put(key.toString(), req.getParameter(key.toString()));
-			}
-		}
-		
-		String s = "Parameters: ";
-		for (String key : params.keySet()) {
-			s += "\n\t" + key + " - " + params.get(key);
-		}
-		logger.debug(s);
-		
-		return params;
 	}
 	
 	@Override
@@ -241,43 +206,6 @@ public class ObserveAction extends Action {
 			//TODO aucun des 3 paramètres n'est présent -> erreur
 		}
 		
-		
-		
-		/*for (Object param : req.getParameterMap().keySet()) {
-			String sParamName = (String) param;
-			String[] tStringParamValue = req.getParameterValues(sParamName);
-			addParameter(sParamName, tStringParamValue, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
-		}*/
-		
-		//addParameter(paramPrefix+ "task", task, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
-		
-		// POST operations
-		//FileItem aFileItemUploaded = null;
-		/*if (req.getMethod().equals("POST") && ServletFileUpload.isMultipartContent(new ServletRequestContext(req))) {
-			messages.clear();
-			try {
-				List<?> listOfItem = upload.parseRequest(req);
-				// Process the uploaded items
-				for (Iterator<?> aIterator = listOfItem.iterator(); aIterator.hasNext();) {
-					FileItem aFileItem = (FileItem) aIterator.next();
-					if (aFileItem.isFormField()) {
-						addParameter(aFileItem.getFieldName(), aFileItem.getString(),
-								aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
-					} else if (aFileItem.getFieldName().equals(paramPrefix + "file")) {
-						aFileItemUploaded = aFileItem;
-						aUnicornCall.setDocumentName(aFileItemUploaded.getName());
-						aUnicornCall.setInputParameterValue(aFileItemUploaded);
-						aUnicornCall.setEnumInputMethod(EnumInputMethod.UPLOAD);
-					}
-				}
-			} catch (final FileUploadException aFileUploadException) {
-				logger.error("FileUploadException : " + aFileUploadException.getMessage(), aFileUploadException);
-				//TODO
-				Message mess = new Message();
-				createError(req, resp, mess,mapOfSpecificParameter, mapOfOutputParameter);
-			}
-		}*/
-		
 		try {
 			aUnicornCall.doTask();
 			createOutput(req, resp, mapOfStringObject, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
@@ -307,102 +235,42 @@ public class ObserveAction extends Action {
 			throws ServletException, IOException {
 		doGet(req, resp);
 	}
-	
-	/**
-	 * Adds a parameter at the correct call.
-	 * 
-	 * @param sParamName
-	 *            Name of the parameter.
-	 * @param sParamValue
-	 *            Value of the parameter.
-	 * @param aUnicornCall
-	 * @param mapOfSpecificParameter
-	 * @param mapOfOutputParameter
-	 */
-	/*private void addParameter(final String sParamName,
-			final String sParamValue, final UnicornCall aUnicornCall,
-			final Map<String, String> mapOfSpecificParameter,
-			final Map<String, String> mapOfOutputParameter) {
-		final String[] tStringValues = { sParamValue };
-		this.addParameter(sParamName, tStringValues, aUnicornCall,
-				mapOfSpecificParameter, mapOfOutputParameter);
-	}
 
-	/**
-	 * 
-	 * @param sParamName
-	 * @param tStringParamValue
-	 * @param aUnicornCall
-	 * @param mapOfSpecificParameter
-	 * @param mapOfOutputParameter
-	 */
-	/*private void addParameter(String sParamName,
-			final String[] tStringParamValue, final UnicornCall aUnicornCall,
-			final Map<String, String> mapOfSpecificParameter,
-			final Map<String, String> mapOfOutputParameter) {
-
-		if (null == tStringParamValue || 0 == tStringParamValue.length) {
-			// no value for this parameter
-			// TODO log this info if necessary
-			return;
-		}
-
-		if (!sParamName.startsWith(Property.get("UNICORN_PARAMETER_PREFIX"))) {
-			// task parameter
-			aUnicornCall.addParameter(sParamName, tStringParamValue);
-			return;
-		}
-
-		// Output specific parameter
-		if (sParamName.startsWith(Property
-				.get("UNICORN_PARAMETER_OUTPUT_PREFIX"))) {
-			sParamName = sParamName.substring(Property.get(
-					"UNICORN_PARAMETER_OUTPUT_PREFIX").length());
-			mapOfSpecificParameter.put(sParamName, tStringParamValue);
-			return;
+	private Map<String, Object> getRequestParameters(HttpServletRequest req) throws FileUploadException {
+		
+		Hashtable<String, Object> params = new Hashtable<String, Object>();
+		
+		if (req.getMethod().equals("POST") && ServletFileUpload.isMultipartContent(new ServletRequestContext(req))) {
+			List<?> listOfItem = upload.parseRequest(req);
+			for (Object fileItem : listOfItem) {
+				FileItem aFileItem = (FileItem) fileItem;
+				if (aFileItem.isFormField()) {
+					params.put(aFileItem.getFieldName(), aFileItem.getString());
+				} else if (aFileItem.getFieldName().equals(Property.get("UNICORN_PARAMETER_PREFIX") + "file")) {
+					params.put(aFileItem.getFieldName(), aFileItem);
+				} else {
+					// TODO log "unknown fileItem, ignored"
+				}
+			}
+		} else {
+			Enumeration<?> paramEnum = req.getParameterNames();
+			while (paramEnum.hasMoreElements()) {
+				
+				Object key = paramEnum.nextElement();
+				logger.debug("TOM: " + key);
+				params.put(key.toString(), req.getParameter(key.toString()));
+			}
 		}
 		
-		// Unicorn parameter
-		// TODO: Why is it here?
-		sParamName = sParamName.substring(Property.get(
-				"UNICORN_PARAMETER_PREFIX").length());
-
-		if (sParamName.equals("lang")) {
-			aUnicornCall.addParameter(Property.get("UNICORN_PARAMETER_PREFIX")
-					+ "lang", tStringParamValue);
+		String s = "Parameters: ";
+		for (String key : params.keySet()) {
+			s += "\n\t" + key + " - " + params.get(key);
 		}
-
-		// Global Unicorn parameter
-		if (sParamName.equals("task")) {
-			// FirstServlet.logger.debug("");
-			aUnicornCall.setTask(tStringParamValue[0]);
-		} else if (sParamName.equals("uri")) {
-			aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
-			if (tStringParamValue[0].length() < 7 || !tStringParamValue[0].substring(0, 7).equals("http://")) {
-				ObserveAction.logger.info("URI missing protocol : "
-						+ tStringParamValue[0]);
-				tStringParamValue[0] = "http://" + tStringParamValue[0];
-				ObserveAction.logger.info("URI modified to : "
-						+ tStringParamValue[0]);
-			}
-			
-			aUnicornCall.setDocumentName(tStringParamValue[0]);
-			aUnicornCall.setInputParameterValue(tStringParamValue[0]);
-		} else if (sParamName.equals("text")) {
-			aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
-			aUnicornCall.setInputParameterValue(tStringParamValue[0]);
-		}
-		// TODO add upload handle when it work
-		else if (sParamName.equals("output") || sParamName.equals("format")
-				|| sParamName.equals("charset")
-				|| sParamName.equals("mimetype") || sParamName.equals("lang")) {
-			mapOfOutputParameter.put(sParamName, tStringParamValue[0]);
-		} else if (sParamName.equals("text_mime")) {
-			aUnicornCall.addParameter(Property.get("UNICORN_PARAMETER_PREFIX")
-					+ "mime", tStringParamValue);
-		}
-	}*/
-
+		logger.debug(s);
+		
+		return params;
+	}
+	
 	private void createError(HttpServletRequest req, HttpServletResponse resp,
 			Message mess, Map<String, String> mapOfSpecificParameter,
 			Map<String, String> mapOfOutputParameter) throws IOException, ServletException {
@@ -455,5 +323,5 @@ public class ObserveAction extends Action {
 		}
 		return ret.substring(0, ret.length() - 1);
 	}
-
+	
 }
