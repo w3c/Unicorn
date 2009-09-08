@@ -1,4 +1,4 @@
-// $Id: OutputModule.java,v 1.3 2009-09-07 16:32:20 tgambet Exp $
+// $Id: OutputModule.java,v 1.4 2009-09-08 14:22:02 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -29,13 +29,13 @@ public interface OutputModule {
 	 * 
 	 */
 	public abstract void produceOutput(final OutputFormater aOutputFormater, Map<String, Object> mapOfStringObject,
-			final Map<String, String[]> mapOfParameter, final Writer aWriter);
+			final Map<String, String> mapOfParameter, final Writer aWriter);
 
 	/**
 	 * Generates an error output
 	 * 
 	 */
 	public abstract void produceError(final OutputFormater aOutputFormater, Message errorMessage,
-			final Map<String, String[]> mapOfParameter, final Writer aWriter);
+			final Map<String, String> mapOfParameter, final Writer aWriter);
 
 }
