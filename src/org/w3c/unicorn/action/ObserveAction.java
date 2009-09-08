@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.20 2009-09-08 15:30:26 tgambet Exp $
+// $Id: ObserveAction.java,v 1.21 2009-09-08 15:32:46 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -266,9 +266,7 @@ public class ObserveAction extends Action {
 		} else {
 			Enumeration<?> paramEnum = req.getParameterNames();
 			while (paramEnum.hasMoreElements()) {
-				
 				Object key = paramEnum.nextElement();
-				logger.debug("TOM: " + key);
 				params.put(key.toString(), req.getParameter(key.toString()));
 			}
 		}
