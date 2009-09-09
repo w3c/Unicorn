@@ -44,6 +44,7 @@
 		$test_fail_1
 		#end
 		<span class="name">$unicorncall.getObserverName($observationName, $lang)</span>
+		<a href="$observation.getRequestUri()">[Direct Link]</a>
 	</h2>
 	
 	<div class="results">
@@ -51,37 +52,41 @@
 		<div class="infos">
 			<h3>Infos ($infoCount)</h3>
 			<div class="result">
-			#foreach($result in $observation.getResultsList())
-				#if(!$result.Infos.isEmpty())
-				<div class="info-section">
-					<h4>
-						#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
-						#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
-						#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
-					</h4>
-					<table>
-						<tbody>
+				<table>
+					<tbody>
+					#foreach($result in $observation.getResultsList())
+						#set ($resultCount = $velocityCount)
+						#if(!$result.Infos.isEmpty())
+						<tr>
+							<td colspan="5" class="uri">
+							#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
+							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
+							#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
+							</td>
+						</tr>
 #foreach($info in $result.Infos)
-							<tr>
-								<td class="linenumber" title="#if($info.Line)Line:$info.Line#end #if($info.Column)Column: $info.Column#end">#if($info.Line)$info.Line#end#if($info.Column)/$info.Column #end</td>
-								<td class="codeContext"> #if($info.Context) $info.Context #end </td>
-								<td class="info">
-								#foreach($message in $info.Message)<span class="msg">$message</span>#end
-									#foreach($longMessage in $info.Longmessage)
-									<p class="longmsg">
-									#foreach($longMessagePiece in $longMessage.Content)
-										$longMessagePiece
-									#end
-									</p>
-									#end
-								</td>
-							</tr>
+#set ($messageId = "${observationName}-info-${resultCount}-$velocityCount")
+						<tr>
+							<td class="linenumber" title="#if($info.Line)Line:$info.Line#end">#if($info.Line)$info.Line#end</td>
+							<td class="colnumber" title="#if($info.Column)Column:$info.Column#end">#if($info.Column)$info.Column #end</td>
+							<td class="codeContext"> #if($info.Context) $info.Context #end </td>
+							<td class="info" id="$messageId">
+							#foreach($message in $info.Message)<span class="msg">$message</span>#end
+								#foreach($longMessage in $info.Longmessage)
+								<p class="longmsg">
+								#foreach($longMessagePiece in $longMessage.Content)
+									$longMessagePiece
+								#end
+								</p>
+								#end
+							</td>
+							<td class="anchor"><a title="anchor to this message" href="#$messageId">a</a></td>
+						</tr>
 #end
-						</tbody>
-					</table>
-				</div>
-				#end
-			#end
+						#end
+					#end
+					</tbody>
+				</table>
 			</div>
 		</div>
 	#end
@@ -90,37 +95,41 @@
 		<div class="errors">
 			<h3>Errors ($errorCount)</h3>
 			<div class="result">
-			#foreach($result in $observation.getResultsList())
-				#if(!$result.Errors.isEmpty())
-				<div class="error-section">
-					<h4>
-						#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
-						#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
-						#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
-					</h4>
-					<table>
-						<tbody>
+				<table>
+					<tbody>
+					#foreach($result in $observation.getResultsList())
+						#set ($resultCount = $velocityCount)
+						#if (!$result.Errors.isEmpty())
+						<tr>
+							<td colspan="5" class="uri">
+							#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
+							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
+							#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
+							</td>
+						</tr>
 #foreach($error in $result.Errors)
-							<tr>
-								<td class="linenumber" title="#if($error.Line)Line: $error.Line#end #if($error.Column)Column: $error.Column #end">#if($error.Line)$error.Line#end#if($error.Column)/$error.Column #end</td>
-								<td class="codeContext">#if($error.Context) $error.Context #end</td>
-								<td class="error">
-								#foreach($message in $error.Message)<span class="msg">$message</span>#end
-									#foreach($longMessage in $error.Longmessage)
-									<p class="longmsg">
-									#foreach($longMessagePiece in $longMessage.Content)
-										$longMessagePiece
-									#end
-									</p>
-									#end
-								</td>
-							</tr>
+#set ($messageId = "${observationName}-error-${resultCount}-$velocityCount")
+						<tr>
+							<td class="linenumber" title="#if($error.Line)Line: $error.Line#end">#if($error.Line)$error.Line#end</td>
+							<td class="colnumber" title="#if($error.Column)Column: $error.Column#end">#if($error.Column)$error.Column #end</td>
+							<td class="codeContext">#if($error.Context) $error.Context #end</td>
+							<td class="error" id="$messageId">
+							#foreach($message in $error.Message)<span class="msg">$message</span>#end
+								#foreach($longMessage in $error.Longmessage)
+								<p class="longmsg">
+								#foreach($longMessagePiece in $longMessage.Content)
+									$longMessagePiece
+								#end
+								</p>
+								#end
+							</td>
+							<td class="anchor"><a title="anchor to this message" href="#$messageId">a</a></td>
+						</tr>
 #end
-						</tbody>
-					</table>
-				</div>
-				#end
-			#end
+						#end
+					#end
+					</tbody>
+				</table>
 			</div>
 		</div>
 	#end
@@ -129,37 +138,41 @@
 		<div class="warnings">
 			<h3>Warnings ($warningCount)</h3>
 			<div class="result">
-			#foreach($result in $observation.getResultsList())
-				#if(!$result.Warnings.isEmpty())
-				<div class="warning-section">
-					<h4>
-						#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
-						#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
-						#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
-					</h4>
-					<table>
-						<tbody>
+				<table>
+					<tbody>
+					#foreach($result in $observation.getResultsList())
+						#set ($resultCount = $velocityCount)
+						#if(!$result.Warnings.isEmpty())
+						<tr>
+							<td colspan="5" class="uri">
+							#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
+							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
+							#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
+							</td>
+						</tr>
 #foreach($warning in $result.Warnings)
-							<tr>
-								<td class="linenumber" title="#if($warning.Line)Line: $warning.Line#end #if($warning.Column)Column: $warning.Column #end">#if($warning.Line)$warning.Line#end#if($warning.Column)/$warning.Column #end</td>
-								<td class="codeContext">#if($warning.Context) $warning.Context #end</td>
-								<td class="warning level$warning.getLevel()">
-								#foreach($message in $warning.Message)<span class="msg">$message</span>#end
-									#foreach($longMessage in $warning.Longmessage)
-									<p class="longmsg">
-									#foreach($longMessagePiece in $longMessage.Content)
-										$longMessagePiece
-									#end
-									</p>
-									#end
-								</td>
-							</tr>
+#set ($messageId = "${observationName}-warning-${resultCount}-$velocityCount")
+						<tr>
+							<td class="linenumber" title="#if($warning.Line)Line: $warning.Line#end">#if($warning.Line)$warning.Line#end</td>
+							<td class="colnumber" title="#if($warning.Column)Column: $warning.Column#end">#if($warning.Column)$warning.Column #end</td>
+							<td class="codeContext">#if($warning.Context) $warning.Context #end</td>
+							<td class="warning level$warning.getLevel()" id="$messageId">
+							#foreach($message in $warning.Message)<span class="msg">$message</span>#end
+								#foreach($longMessage in $warning.Longmessage)
+								<p class="longmsg">
+								#foreach($longMessagePiece in $longMessage.Content)
+									$longMessagePiece
+								#end
+								</p>
+								#end
+							</td>
+							<td class="anchor"><a title="anchor to this message" href="#$messageId">a</a></td>
+						</tr>
 #end
-						</tbody>
-					</table>
-				</div>
-				#end
-			#end
+						#end
+					#end
+					</tbody>
+				</table>
 			</div>
 		</div>
 	#end
