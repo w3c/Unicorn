@@ -392,6 +392,22 @@ fieldset.toggled legend {
 #observations div.observer h2 a:hover {
 	color:white;
 }
+#observations div.observer h2 a.direct_link {
+	height:0;
+	width:0;
+	display:inline-block;
+	overflow:hidden;
+	padding:11px 0 0 12px;
+	background:url(../images/external_link_2.gif);
+}
+#observations div.observer h2 a.anchor {
+	height:0;
+	width:0;
+	display:inline-block;
+	overflow:hidden;
+	padding:11px 0 0 11px;
+	background:url(../images/permalink_2.gif);
+}
 #observations div.observer h2 span.name {
 	font-style: italic;
 }
@@ -414,19 +430,19 @@ fieldset.toggled legend {
 #observations div.infos, #observations div.warnings, #observations div.errors {
 	padding-top: 0.5em;
 }
-.infos h3  {
-	color: #17882a;
-}
-.errors h3  {
-	color: #aa1d1d;
-}
-.warnings h3  {
-	color: #b48700;
-}
 #observations h3 {
 	font-size: 1.1em;
 	padding:0 0 0.3em 0.5em;
 	border-bottom:1px solid #CCCCCC;
+}
+#observations .infos h3  {
+	color: #17882a;
+}
+#observations .errors h3  {
+	color: #aa1d1d;
+}
+#observations .warnings h3  {
+	color: #b48700;
 }
 #observations td.uri {
 	background-color:#EEEEEE;
@@ -434,6 +450,17 @@ fieldset.toggled legend {
 }
 #observations td.uri span {
 	font-weight: bold;
+}
+#observations td.anchor {
+	width:13px;
+}
+#observations td.anchor a {
+	height:0;
+	width:0;
+	display:inline-block;
+	overflow:hidden;
+	padding:11px 0 0 11px;
+	background:url(../images/permalink.gif);
 }
 #observations table {
 	border-collapse:collapse;
@@ -473,12 +500,12 @@ div.warnings td.level2 {
 }
 
 /* Specific result styles */
-div.observer.markup-validator div.infos img, div.observer.css-validator div.infos img, div.observer.css1-validator div.infos img, div.observer.css2-validator div.infos img, div.observer.css21-validator div.infos img, div.observer.css3-validator div.infos img {
+div.observer.markup-validator td.info img, div.observer.css-validator td.info img, div.observer.css1-validator td.info img, div.observer.css2-validator td.info img, div.observer.css21-validator td.info img, div.observer.css3-validator td.info img {
 	float:left;
 	clear:left;
 	padding:3.1em 10px;
 }
-div.observer.markup-validator div.infos code, div.observer.css-validator div.infos code, div.observer.css1-validator div.infos code, div.observer.css2-validator div.infos code, div.observer.css21-validator div.infos code, div.observer.css3-validator div.infos code {
+div.observer.markup-validator td.info code, div.observer.css-validator td.info code, div.observer.css1-validator td.info code, div.observer.css2-validator td.info code, div.observer.css21-validator td.info code, div.observer.css3-validator td.info code {
 	color:#444444;
 }
 
