@@ -19,6 +19,8 @@ public class Response {
 	protected Boolean passed;
 
 	protected StringBuilder xml; // the xml version of the response
+	
+	protected String requestUri;
 
 	/**
 	 * Result aResult =
@@ -278,4 +280,14 @@ public class Response {
 	public StringBuilder getXml() {
 		return this.xml;
 	}
+
+	public String getRequestUri() {
+		return requestUri;
+	}
+
+	public void setRequestUri(String requestUri) {
+		this.requestUri = requestUri;
+	}
+	
+	
 }
