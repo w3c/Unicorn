@@ -370,7 +370,6 @@ fieldset.toggled legend {
 	cursor: pointer;
 }
 
-
 /* Result page */
 #observations {
 	font-size: 0.8em;
@@ -385,6 +384,13 @@ fieldset.toggled legend {
 	padding-left: 0.5em;
 	text-align:left;
 	color:white
+}
+#observations div.observer h2 a {
+	font-size: 0.9em;
+	color:white;
+}
+#observations div.observer h2 a:hover {
+	color:white;
 }
 #observations div.observer h2 span.name {
 	font-style: italic;
@@ -422,15 +428,12 @@ fieldset.toggled legend {
 	padding:0 0 0.3em 0.5em;
 	border-bottom:1px solid #CCCCCC;
 }
-#observations h4 span {
-	font-weight: bold;
-}
-#observations h4 {
+#observations td.uri {
 	background-color:#EEEEEE;
 	padding:0.4em;
-	border:1px solid #CCCCCC;
-	border-top-width:0;
-	border-left-width:0;
+}
+#observations td.uri span {
+	font-weight: bold;
 }
 #observations table {
 	border-collapse:collapse;
@@ -444,19 +447,16 @@ fieldset.toggled legend {
 #observations td, #observations th  {
 	padding:3px 6px;
 }
-#observations td.linenumber {
+#observations td.linenumber, #observations td.colnumber {
 	background-color:#E1E1E1;
 	text-align:right;
-	width:3.5em;
-	font-size:0.9em;
+	width:1.7em;
+	font-size:0.8em;
+	border-right: 1px solid #CCCCCC;
 }
 #observations td.codeContext {
 	background-color:#F1F1F1;
-	width:15%;
 	font-size:0.8em;
-}
-#observations div.info-section td.codeContext {
-	width:auto;
 }
 #observations code {
 	font-family:"Bitstream Vera Sans Mono",Monaco,"Andale Mono",monospace;
@@ -471,7 +471,6 @@ div.warnings td.level1 {
 div.warnings td.level2 {
 	border-left:6px solid #FFB1A7 !important;
 }
-
 
 /* Specific result styles */
 div.observer.markup-validator div.infos img, div.observer.css-validator div.infos img, div.observer.css1-validator div.infos img, div.observer.css2-validator div.infos img, div.observer.css21-validator div.infos img, div.observer.css3-validator div.infos img {
