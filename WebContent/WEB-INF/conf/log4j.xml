@@ -180,7 +180,7 @@
 		</layout>
 	</appender>	
 
-	<logger name="org.apache.Velocity">
+	<logger name="org.apache.velocity">
 		<level value="debug"/>
 	</logger>
 
@@ -230,7 +230,7 @@
 	</logger> -->
 	
 	<root>
-		<level value="info"/>
+		<level value="debug"/>
 		<!-- <appender-ref ref="level-error" />
 		<appender-ref ref="level-warning" />
 		<appender-ref ref="level-info" />
