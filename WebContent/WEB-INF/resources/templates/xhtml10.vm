@@ -28,12 +28,14 @@
 #set ($warningCount = $observation.getWarningCount())
 
 #if($observation.isPassed())
-<div class="observer $observationName valid">
+<div class="observer $observationName valid" id="$observationName">
 #else
-<div class="observer $observationName invalid">
+<div class="observer $observationName invalid" id="$observationName">
 #end
 	<h2>
 		<span class="icons">
+			<a class="anchor" href="#$observationName" title="anchor to this observation">[anchor]</a>
+			<a class="direct_link" href="$observation.getRequestUri()" title="link to ...">[direct link]</a>
 			#if ($infoCount && $infoCount > 0)<img src="images/icone_info.png" alt="Infos" title="Infos" /><span>$infoCount</span> #end
 			#if ($errorCount && $errorCount > 0)<img src="images/icone_error.png" alt="Errors" title="Errors" /><span>$errorCount</span> #end
 			#if ($warningCount && $warningCount > 0)<img src="images/icone_warning.png" alt="Warnings" title="Warnings" /><span>$warningCount</span> #end
@@ -44,7 +46,6 @@
 		$test_fail_1
 		#end
 		<span class="name">$unicorncall.getObserverName($observationName, $lang)</span>
-		<a href="$observation.getRequestUri()">[Direct Link]</a>
 	</h2>
 	
 	<div class="results">
@@ -80,7 +81,7 @@
 								</p>
 								#end
 							</td>
-							<td class="anchor"><a title="anchor to this message" href="#$messageId">a</a></td>
+							<td class="anchor"><a title="anchor to this message" href="#$messageId">[anchor]</a></td>
 						</tr>
 #end
 						#end
@@ -123,7 +124,7 @@
 								</p>
 								#end
 							</td>
-							<td class="anchor"><a title="anchor to this message" href="#$messageId">a</a></td>
+							<td class="anchor"><a title="anchor to this message" href="#$messageId">[anchor]</a></td>
 						</tr>
 #end
 						#end
@@ -166,7 +167,7 @@
 								</p>
 								#end
 							</td>
-							<td class="anchor"><a title="anchor to this message" href="#$messageId">a</a></td>
+							<td class="anchor"><a title="anchor to this message" href="#$messageId">[anchor]</a></td>
 						</tr>
 #end
 						#end
