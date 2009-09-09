@@ -3,7 +3,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$lang" lang="$lang">
 <head>
 	<title>$noEscape_title</title>
-	<link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon" />
+#if ($fav)
+	<link rel="icon" href="/unicorn/images/$fav" type="image/x-icon" />
+#else
+	<link rel="icon" href="/unicorn/images/favicon.ico" type="image/x-icon" />
+#end
+<!--
+#if ($fav == "red")
+	<link rel="icon" href="/unicorn/images/favicon_red.ico" type="image/x-icon" />
+#elseif ($fav == "green")
+	<link rel="icon" href="./images/favicon_green.ico" type="image/x-icon" />
+#else
+	<link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+#end
+-->
 	<link rev="start" href="./" title="Home Page" />
 #foreach( $sheet in $css )
 	<link href="./style/$sheet" type="text/css" media="screen" rel="stylesheet" />

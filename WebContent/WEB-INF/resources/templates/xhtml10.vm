@@ -5,16 +5,24 @@
 #end  
 #set ($css = ['base_ucn.css'])
 #set ($js = ['scripts/mootools-1.2.3-core-nc.js', 'scripts/mootools-1.2.3.1-more.js', 'scripts/w3c_unicorn_results.js'])
+#if ($unicorncall.isPassed())
+#set ($fav = "favicon_green.ico")
+#else
+#set ($fav = "favicon_red.ico")
+#end
 #parse('includes/head.vm')
 
 #set($observationList = $unicorncall.ObservationList)
 
-#if ($messages)
+#if ($messages.size() > 0)
 #displayMessages($messages)
 #end
+<div id="don_program">
+	<script type="text/javascript" src="http://www.w3.org/QA/Tools/don_prog.js"></script>
+</div>
 <div id="observations">
-#foreach($observationName in $observationList.keySet())
-#set($observation = $observationList.get($observationName))
+#foreach ($observationName in $observationList.keySet())
+#set ($observation = $observationList.get($observationName))
 #set ($infoCount = $observation.getInfoCount())
 #set ($errorCount = $observation.getErrorCount())
 #set ($warningCount = $observation.getWarningCount())
