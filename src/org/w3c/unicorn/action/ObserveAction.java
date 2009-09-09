@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.23 2009-09-08 15:46:44 tgambet Exp $
+// $Id: ObserveAction.java,v 1.24 2009-09-09 10:16:11 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -72,8 +72,10 @@ public class ObserveAction extends Action {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		// Protects the action in case that Framework is not initialized
 		super.doGet(req, resp);
 		
+		// Objects initialization
 		FileItem aFileItemUploaded = null;
 		Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 		Map<String, String> mapOfSpecificParameter = new Hashtable<String, String>();
@@ -81,18 +83,23 @@ public class ObserveAction extends Action {
 		ArrayList<Message> messages = new ArrayList<Message>();
 		UnicornCall aUnicornCall = new UnicornCall();
 		
+		// Default output parameters
 		mapOfOutputParameter.put("output", "simple");
 		mapOfOutputParameter.put("format", "xhtml10");
 		mapOfOutputParameter.put("charset", "UTF-8");
 		mapOfOutputParameter.put("mimetype", "text/html");
 		
+		// Retrieve parameter prefixes from unicorn.properties
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
 		String outParamPrefix = Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX");
-		String queryString = getQueryStringWithout(paramPrefix + "lang", req);
 		
+		// queryString is the requested queryString without the ucn_lang parameter (used for language links)
+		String queryString = getQueryStringWithout(paramPrefix + "lang", req);
 		mapOfStringObject.put("queryString", queryString);
+		// messages is the ArrayList containing the messages to display
 		mapOfStringObject.put("messages", messages);
 		
+		// Retrieve the parameters from the request
 		Map<String, Object> reqParams;
 		try {
 			reqParams = getRequestParameters(req);
@@ -101,6 +108,7 @@ public class ObserveAction extends Action {
 			return;
 		}
 		
+		// Process the parameters
 		for (String key : reqParams.keySet()) {
 			if (!key.startsWith(paramPrefix) && !key.startsWith(outParamPrefix)) {
 				logger.debug("UnicornCall parameter: " + key + " - " + (String) reqParams.get(key));
@@ -181,6 +189,7 @@ public class ObserveAction extends Action {
 			}
 		}
 		
+		// Check that all mandatory parameters are set
 		if (!reqParams.containsKey(paramPrefix + "lang")) {
 			String lang = getLanguage(null, req, null);
 			reqParams.put(paramPrefix + "lang", getLanguage(null, req, null));
@@ -192,7 +201,6 @@ public class ObserveAction extends Action {
 			else
 				aUnicornCall.setLang(lang + "," + aLocale);
 		}
-		
 		if (!reqParams.containsKey(paramPrefix + "task")) {
 			String task = getTask(null, messages);
 			reqParams.put(paramPrefix + "task", task);
@@ -200,7 +208,6 @@ public class ObserveAction extends Action {
 			mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
 			aUnicornCall.setTask(task);
 		}
-		
 		if (reqParams.containsKey(paramPrefix + "uri")) {
 			if (reqParams.get(paramPrefix + "uri").equals("")) {
 				Message mess = new Message(Message.Level.ERROR, "$message_empty_uri", null);
@@ -229,6 +236,7 @@ public class ObserveAction extends Action {
 			return;
 		}
 		
+		// Launch the observation
 		try {
 			aUnicornCall.doTask();
 			createOutput(req, resp, mapOfStringObject, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
@@ -251,7 +259,7 @@ public class ObserveAction extends Action {
 			throws ServletException, IOException {
 		doGet(req, resp);
 	}
-
+	
 	private Map<String, Object> getRequestParameters(HttpServletRequest req) throws FileUploadException {
 		
 		Hashtable<String, Object> params = new Hashtable<String, Object>();
