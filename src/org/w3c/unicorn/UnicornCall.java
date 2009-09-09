@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.10 2009-09-08 14:24:22 tgambet Exp $
+// $Id: UnicornCall.java,v 1.11 2009-09-09 10:15:30 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -81,6 +81,8 @@ public class UnicornCall {
 	private RequestList aRequestList = null;
 
 	private Map<String, String[]> mapOfStringParameter = null;
+	
+	private LinkedHashMap<String, Response> observationMap;
 
 	/**
 	 * Data Structure for the response
@@ -259,6 +261,16 @@ public class UnicornCall {
 	 */
 	public boolean getBPassed() {
 		return this.bPassed;
+	}
+	
+	public boolean isPassed() {
+		boolean passed = true;
+		for (String key : this.getObservationList().keySet()) {
+			if (!observationMap.get(key).isPassed()) {
+				passed = false;
+			}
+		}
+		return passed;
 	}
 
 	/**
@@ -588,39 +600,42 @@ public class UnicornCall {
 	 */
 	public LinkedHashMap<String, Response> getObservationList() {
 		
-		LinkedHashMap<String, Response> observationMap = new LinkedHashMap<String, Response>();
-		
-		for (Group group : aTask.getOutput().getGroupList()) {
-			if (!group.isSetType()) {
-				for (String observerId : group.getObservationList()) {
-					if(mapOfResponse.get(observerId) != null) {
-						observationMap.put(observerId, mapOfResponse.get(observerId));
+		if (observationMap == null) {
+			observationMap = new LinkedHashMap<String, Response>();
+			
+			for (Group group : aTask.getOutput().getGroupList()) {
+				if (!group.isSetType()) {
+					for (String observerId : group.getObservationList()) {
+						if(mapOfResponse.get(observerId) != null) {
+							observationMap.put(observerId, mapOfResponse.get(observerId));
+						}
 					}
-				}
-			} else {
-				switch (group.getType()) {
-					case FIRSTPASSED:
-						String passedId = null;
-						for (String observerId : group.getObservationList()) {
-							if (mapOfResponse.get(observerId) == null) {
-								logger.error("unknown observer id (" + observerId + ") in output group of task: " + this.getTask().getID());
-								continue;
+				} else {
+					switch (group.getType()) {
+						case FIRSTPASSED:
+							String passedId = null;
+							for (String observerId : group.getObservationList()) {
+								if (mapOfResponse.get(observerId) == null) {
+									logger.error("unknown observer id (" + observerId + ") in output group of task: " + this.getTask().getID());
+									continue;
+								}
+								if (mapOfResponse.get(observerId).isPassed()) {
+									passedId = observerId;
+									break;
+								}
 							}
-							if (mapOfResponse.get(observerId).isPassed()) {
-								passedId = observerId;
-								break;
+							if (passedId == null) {
+								Response resp = mapOfResponse.get(group.getObservationList().get(0));
+								if (resp != null)
+									observationMap.put(group.getObservationList().get(0), resp);
 							}
-						}
-						if (passedId == null) {
-							Response resp = mapOfResponse.get(group.getObservationList().get(0));
-							if (resp != null)
-								observationMap.put(group.getObservationList().get(0), resp);
-						}
-						else 
-							observationMap.put(passedId, mapOfResponse.get(passedId));
+							else 
+								observationMap.put(passedId, mapOfResponse.get(passedId));
+					}
 				}
 			}
 		}
+		
 		return observationMap;
 	}
 	
