@@ -85,7 +85,6 @@ public abstract class Action extends HttpServlet {
 			Message mess = new Message(Message.Level.WARNING, "$message_no_task " + "$default_task.getLongName($lang) ", null);
 			messages.add(mess);
 		} else if (!Framework.mapOfTask.containsKey(taskParameter)) {
-			System.out.println(taskParameter);
 			Message mess = new Message(Message.Level.WARNING, "$message_unknown_task " + "$default_task.getLongName($lang) ", null);
 			messages.add(mess);
 		}
