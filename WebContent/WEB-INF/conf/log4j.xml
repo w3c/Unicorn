@@ -193,14 +193,28 @@
 		<!-- <appender-ref ref="package-unicorn" /> -->
 	</logger>
 	
-	<!-- <logger name="org.w3c.unicorn.action">
-		<appender-ref ref="package-action" />
+	 <logger name="org.w3c.unicorn.action">
+		<!-- <appender-ref ref="package-action" /> -->
 	</logger>
 	
 	<logger name="org.w3c.unicorn.contract">
-		<appender-ref ref="package-contract" />
+		<!-- <appender-ref ref="package-contract" /> -->
+		<level value="info"/>
 	</logger>
 	
+	<logger name="org.w3c.unicorn.util.LocalizedString">
+		<level value="info"/>
+	</logger>
+	
+	<logger name="org.w3c.unicorn.tasklist">
+		<level value="info"/>
+	</logger>
+	
+	<logger name="org.w3c.unicorn.tasklisttree">
+		<level value="info"/>
+	</logger>
+	
+	<!--
 	<logger name="org.w3c.unicorn.input">
 		<appender-ref ref="package-input" />
 	</logger>
