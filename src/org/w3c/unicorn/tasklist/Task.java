@@ -1,4 +1,4 @@
-// $Id: Task.java,v 1.6 2009-09-04 17:41:51 tgambet Exp $
+// $Id: Task.java,v 1.7 2009-09-10 15:45:49 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,6 +12,8 @@ import java.util.Map;
 
 import javax.activation.MimeType;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklisttree.TLTCond;
@@ -64,6 +66,8 @@ public class Task {
 	//private List<String> listOfOutput;
 
 	private Output output;
+	
+	private static Log logger = LogFactory.getLog(Task.class);
 
 	/**
 	 * Creates a new Task.
@@ -105,12 +109,12 @@ public class Task {
 	 */
 	public void displayTree(TLTNode root) {
 		for (TLTExec exec : root.getExecutionList()) {
-			System.out.println(exec);
+			logger.trace(exec);
 		}
 		for (TLTIf ifs : root.getIfList()) {
 			displayTree(ifs.getIfOk());
 			for (TLTCond conds : ifs.getCondArray()) {
-				System.out.println(conds);
+				logger.trace(conds);
 			}
 			displayTree(ifs.getIfNotOk());
 		}
