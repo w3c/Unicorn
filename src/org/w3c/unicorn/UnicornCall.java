@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.11 2009-09-09 10:15:30 tgambet Exp $
+// $Id: UnicornCall.java,v 1.12 2009-09-10 08:32:41 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -501,6 +501,12 @@ public class UnicornCall {
 
 			for (final String sUseParameterValue : tStringUseParameterValue) {
 				final Value aValue = mapOfValue.get(sUseParameterValue);
+				
+				if (aValue == null) {
+					logger.warn("unknown mapping for parameter value: " + sUseParameterValue);
+					continue;
+				}
+				
 				final Map<String, List<Mapping>> mapOfMapping = aValue
 						.getMapOfMapping();
 
