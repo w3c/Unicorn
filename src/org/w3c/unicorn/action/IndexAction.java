@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.14 2009-09-08 14:23:33 tgambet Exp $Id $
+// $Id: IndexAction.java,v 1.15 2009-09-10 15:50:10 tgambet Exp $Id $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,6 +6,8 @@ package org.w3c.unicorn.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +39,20 @@ public class IndexAction extends Action {
 		
 		ArrayList<Message> messages = new ArrayList<Message>();
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
-		String lang = getLanguage(req.getParameter(paramPrefix + "lang"), req, messages);
-		String task = getTask(req.getParameter(paramPrefix + "task"), null);
-		String queryString = getQueryStringWithout(paramPrefix + "lang", req);
+		
+		String lang;
+		String task;
+		String queryString;
+		if (req.getAttribute("unicorn_parameters") instanceof Map<?, ?>) {
+			Map<?, ?> reqParams = (Map<?, ?>) req.getAttribute("unicorn_parameters");
+			lang = getLanguage((String) reqParams.get(paramPrefix + "lang"), req, messages);
+			task = getTask((String) reqParams.get(paramPrefix + "task"), null);
+			queryString = "./";
+		} else {
+			lang = getLanguage((String) req.getParameter(paramPrefix + "lang"), req, messages);
+			task = getTask((String) req.getParameter(paramPrefix + "task"), null);
+			queryString = getQueryStringWithout(paramPrefix + "lang", req);
+		}
 		
 		if (req.getAttribute("unicorn_message") != null)
 			messages.add((Message) req.getAttribute("unicorn_message"));
@@ -49,12 +62,52 @@ public class IndexAction extends Action {
 		velocityContext.put("messages", messages);
 		velocityContext.put("current_task", Framework.mapOfTask.get(task));
 		
-		/*messages.add(new Message(Message.Level.WARNING, "un warning", null));
-		messages.add(new Message(Message.Level.ERROR, "une error", null));
-		messages.add(new Message(Message.Level.INFO, "une info", null));
-		messages.add(new Message(Message.Level.WARNING, "un warning avec long message", "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
-		messages.add(new Message(Message.Level.ERROR, "une error avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));
-		messages.add(new Message(Message.Level.INFO, "une info avec long message",  "le long message\nle long message\nle long message\nle long message\nle long message\nle long message\nle long message\n"));*/
+		Enumeration<?> paramEnum = req.getParameterNames();
+		while (paramEnum.hasMoreElements()) {
+			String key = (String) paramEnum.nextElement();
+			String ref;
+			if (key.startsWith(Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX")))
+				continue;
+			if (key.startsWith(paramPrefix))
+				ref = "param_" + key.substring(paramPrefix.length());
+			else
+				ref = "param_" + key;
+			if (req.getParameterValues(key).length > 1) {
+				String[] s = req.getParameterValues(key);
+				ArrayList<String> array = new ArrayList<String>();
+				for (int i = 0; i < s.length; i++)
+					array.add(s[i]);
+				velocityContext.put(ref, array);
+			}
+			else {
+				velocityContext.put(ref, req.getParameter(key));
+			}
+		}
+		
+		if (req.getAttribute("unicorn_parameters") instanceof Map<?, ?>) {
+			Map<?, ?> reqParams = (Map<?, ?>) req.getAttribute("unicorn_parameters");
+			
+			for (Object objKey : reqParams.keySet()) {
+				String key = (String) objKey;
+				String ref;
+				if (key.startsWith(Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX")))
+					continue;
+				if (key.startsWith(paramPrefix))
+					ref = "param_" + key.substring(paramPrefix.length());
+				else
+					ref = "param_" + key;
+				if (reqParams.get(key) instanceof String[]) {
+					String[] s = (String[]) reqParams.get(key);
+					ArrayList<String> array = new ArrayList<String>();
+					for (int i = 0; i < s.length; i++)
+						array.add(s[i]);
+					velocityContext.put(ref, array);
+				}
+				else {
+					velocityContext.put(ref, reqParams.get(key));
+				}
+			}
+		}
 		
 		if (req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest")) {
 			Templates.write("parameters.vm", velocityContext, resp.getWriter());
