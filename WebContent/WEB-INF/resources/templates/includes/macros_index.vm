@@ -71,11 +71,17 @@
 
 #macro(createCheckboxList $param)
 #set($defaults = $param.getMapOfDefaultValue())
+#set( $D = '$' )
+#set ($a = "${D}!{param_${param.Name}}")
+#set ($paramMap = "#evaluate ($a)")
 <label><span>$param.getLongName($lang):</span></label> 
 <span class="checkboxlist">
 #foreach ($value in $param.getMapOfValue())
-	<label>$value.getLongName($lang)
-		<input type="checkbox" name="$param.getName()" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end class="option_input" />
+#set ($s = '')
+#if (($paramMap != "" && $paramMap.contains($value.Name)) || ($paramMap == "" && $defaults.containsKey($value.getName()))) #set ($s = 'checked="checked"') #end
+	<label>
+		<input type="checkbox" name="$param.getName()" value="$value.getName()" $s class="option_input" />
+		$value.getLongName($lang)
 	</label>
 #end
 </span>
@@ -83,10 +89,15 @@
 
 #macro(createDropdown $param $multiple)
 #set($defaults = $param.getMapOfDefaultValue())
+#set( $D = '$' )
+#set ($a = "${D}!{param_${param.Name}}")
+#set ($paramValue = "#evaluate ($a)")
 <label><span>$param.getLongName($lang):</span> 
 	<select name="$param.Name" #if($multiple) multiple="multiple" size="3" #end class="option_input">
 #foreach ($value in $param.getMapOfValue())
-		<option value="$value.Name"#if($defaults.containsKey($value.getName())) selected="selected" #end>$value.getLongName($lang)</option>
+#set ($s = '')
+#if (($paramValue != "" && $paramValue.contains($value.Name)) || ($paramValue == "" && $defaults.containsKey($value.getName()))) #set ($s = 'selected="selected"') #end
+		<option value="$value.Name" $s>$value.getLongName($lang)</option>
 #end
 	</select>
 </label> 
