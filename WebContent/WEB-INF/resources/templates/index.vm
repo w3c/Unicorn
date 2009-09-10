@@ -14,7 +14,7 @@
 		</ul>
 
 		<div id="fields">
-			<form method="get" action="">
+			<form method="get" action="./">
 				<fieldset>
 					<legend>$select-a-task</legend>
 					<div class="input">
@@ -40,7 +40,7 @@
 						<p class="instructions">$instruction-by-uri</p>
 						<p>
 							<label title="$uri_title" for="ucn_uri"><span>$uri:</span>
-								<input type="text" name="${param_prefix}uri" id="ucn_uri" size="45" />
+								<input type="text" name="${param_prefix}uri" id="ucn_uri" size="45" #if($param_uri)value="$param_uri" #end/>
 							</label>
 						</p>
 					</div>
@@ -69,10 +69,10 @@
 					<div class="input">
 						<p class="instructions">$instruction-by-input</p>
 						<p>
-							<textarea name="${param_prefix}text" rows="12" cols="70"></textarea>
+							<textarea name="${param_prefix}text" rows="12" cols="70">#if($param_text)$param_text #end</textarea>
 							<select id="ucn_text_mime" name="${param_prefix}text_mime">
 							#foreach($mime in $current_task.SupportedMimeTypes)  
-								<option value="$mime">$mime</option>
+								<option value="$mime" #if($param_text_mime && $param_text_mime == $mime)selected="selected"#end>$mime</option>
 							#end
 							</select>
 						</p> 
