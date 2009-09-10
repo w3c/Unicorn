@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.24 2009-09-09 10:16:11 tgambet Exp $
+// $Id: ObserveAction.java,v 1.25 2009-09-10 09:26:44 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,7 +12,9 @@ import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,8 @@ import org.w3c.unicorn.output.OutputModule;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.Framework;
+
+import sun.misc.Regexp;
 
 /**
  * ObserveAction
@@ -111,13 +115,15 @@ public class ObserveAction extends Action {
 		// Process the parameters
 		for (String key : reqParams.keySet()) {
 			if (!key.startsWith(paramPrefix) && !key.startsWith(outParamPrefix)) {
-				logger.debug("UnicornCall parameter: " + key + " - " + (String) reqParams.get(key));
-				aUnicornCall.addParameter(key, (String) reqParams.get(key)); 
+				if (reqParams.get(key) instanceof String[])
+					aUnicornCall.addParameter(key, (String[]) reqParams.get(key));
+				else if ((reqParams.get(key) instanceof String))
+					aUnicornCall.addParameter(key, (String) reqParams.get(key));
 				continue;
 			}
 			
 			if (key.startsWith(outParamPrefix)) {
-				logger.debug("Specific parameter: " + key + " - " + (String) reqParams.get(key));
+				logger.trace("Specific parameter: " + key + " - " + (String) reqParams.get(key));
 				String paramName = key.substring(outParamPrefix.length());
 				mapOfSpecificParameter.put(paramName, (String) reqParams.get(key));
 				continue;
@@ -127,7 +133,7 @@ public class ObserveAction extends Action {
 				String paramName = key.substring(paramPrefix.length());
 				
 				if (paramName.equals("lang")) {
-					logger.debug("Lang parameter: " + key + " - " + (String) reqParams.get(key));
+					logger.trace("Lang parameter: " + key + " - " + (String) reqParams.get(key));
 					String lang = getLanguage((String) reqParams.get(key), req, null);
 					mapOfOutputParameter.put(paramName, lang);
 					String aLocale = convertEnumerationToString(req.getLocales());		
@@ -136,40 +142,50 @@ public class ObserveAction extends Action {
 					else
 						aUnicornCall.setLang(lang + "," + aLocale);
 					if (!lang.equals(reqParams.get(key))) {
-						logger.debug("Lang parameter unsupported. Resolved to: " + lang);
+						logger.trace("Lang parameter unsupported. Resolved to: " + lang);
+						reqParams.put(key, lang);
 					}
 				} else if (paramName.equals("task")) {
-					logger.debug("Task parameter: " + key + " - " + (String) reqParams.get(key));
+					logger.trace("Task parameter: " + key + " - " + (String) reqParams.get(key));
 					String task = getTask((String) reqParams.get(key), messages);
 					if (!task.equals(reqParams.get(key))) {
 						mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
-						logger.debug("Task parameter unsupported. Resolved to: " + task);
+						logger.trace("Task parameter unsupported. Resolved to: " + task);
+						reqParams.put(key, task);
 					}
 					aUnicornCall.setTask(task);
 				} else if (outputParams.contains(paramName)) {
-					logger.debug("Output parameter: " + key + " - " + (String) reqParams.get(key));
+					logger.trace("Output parameter: " + key + " - " + (String) reqParams.get(key));
 					mapOfOutputParameter.put(paramName, (String) reqParams.get(key));
-					continue;
 				} else if (paramName.equals("uri")) {
-					logger.debug("Uri parameter: " + key + " - " + (String) reqParams.get(key));
+					logger.trace("Uri parameter: " + key + " - " + (String) reqParams.get(key));
 					String uri = (String) reqParams.get(key);
 					if (uri.startsWith("https://")) {
 						Message mess = new Message(Message.Level.ERROR, "Unicorn does not support https protocol for the moment.", null);
 						createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
 						return;
 					}
-					if (!uri.startsWith("http://")) {
+					Pattern urlPattern = Pattern.compile("^(https?|ftp|rmtp|mms)://(([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)+)(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
+					if (!urlPattern.matcher(uri).matches()) {
+						if (uri.equals(""))
+							continue;
 						uri = "http://" + uri;
+						reqParams.put(key, uri);
+						if (!urlPattern.matcher(uri).matches()) {
+							Message mess = new Message(Message.Level.ERROR, "$message_invalid_url_syntax " + uri, null);
+							createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+							return;
+						}
 					}
 					aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
 					aUnicornCall.setDocumentName(uri);
 					aUnicornCall.setInputParameterValue(uri);
 				} else if (paramName.equals("text")) {
-					logger.debug("Text parameter: " + key + " - " + (String) reqParams.get(key));
+					logger.trace("Text parameter: " + key + " - " + (String) reqParams.get(key));
 					aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
 					aUnicornCall.setInputParameterValue((String) reqParams.get(key));
 				} else if (paramName.equals("file")) {
-					logger.debug("File parameter: " + key + " - " + reqParams.get(key).toString());
+					logger.trace("File parameter: " + key + " - " + reqParams.get(key).toString());
 					Object object = reqParams.get(key);
 					if (object instanceof FileItem) {
 						aFileItemUploaded = (FileItem) object;
@@ -236,6 +252,24 @@ public class ObserveAction extends Action {
 			return;
 		}
 		
+		String s = "Resolved parameters:";
+		for (String key : reqParams.keySet()) {
+			s += "\n\t" + key + " - ";
+			if (reqParams.get(key) instanceof String[]) {
+				s += "[";
+				for (int i = 0; i < ((String[]) reqParams.get(key)).length; i ++) {
+					s += ((String[]) reqParams.get(key))[i] + ", ";
+				}
+				s = s.substring(0, s.length() - 2);
+				s += "]";
+			}
+			else {
+				s += reqParams.get(key);
+			}
+				
+		}
+		logger.debug(s);
+		
 		// Launch the observation
 		try {
 			aUnicornCall.doTask();
@@ -269,6 +303,17 @@ public class ObserveAction extends Action {
 			for (Object fileItem : listOfItem) {
 				FileItem aFileItem = (FileItem) fileItem;
 				if (aFileItem.isFormField()) {
+					String key = aFileItem.getFieldName();
+					if (params.containsKey(key)) {
+						if (params.get(key) instanceof String) {
+							String[] t = {(String) params.get(key), aFileItem.getString()};
+							params.put(key, t);
+						} else if (params.get(key) instanceof String[]) {
+							String[] t = (String[]) params.get(key);
+							t[t.length] = aFileItem.getString();
+							params.put(key, t);
+						}
+					}
 					params.put(aFileItem.getFieldName(), aFileItem.getString());
 				} else if (aFileItem.getFieldName().equals(Property.get("UNICORN_PARAMETER_PREFIX") + "file")) {
 					params.put(aFileItem.getFieldName(), aFileItem);
@@ -279,16 +324,35 @@ public class ObserveAction extends Action {
 		} else {
 			Enumeration<?> paramEnum = req.getParameterNames();
 			while (paramEnum.hasMoreElements()) {
-				Object key = paramEnum.nextElement();
-				params.put(key.toString(), req.getParameter(key.toString()));
+				String key = (String) paramEnum.nextElement();
+				if (req.getParameterValues(key).length > 1)
+					params.put(key, req.getParameterValues(key));
+				else
+					params.put(key, req.getParameter(key));
 			}
 		}
 		
 		String s = "Parameters: ";
 		for (String key : params.keySet()) {
-			s += "\n\t" + key + " - " + params.get(key);
+			s += "\n\t" + key + " - ";
+			if (params.get(key) instanceof String[]) {
+				s += "[";
+				for (int i = 0; i < ((String[]) params.get(key)).length; i ++) {
+					s += ((String[]) params.get(key))[i] + ", ";
+				}
+				s = s.substring(0, s.length() - 2);
+				s += "]";
+			}
+			else {
+				s += params.get(key);
+			}
+				
 		}
 		logger.debug(s);
+		
+		
+		
+		
 		
 		return params;
 	}
@@ -300,7 +364,11 @@ public class ObserveAction extends Action {
 		// If text/html is the mime-type the error will be displayed directly on index
 		if (mapOfOutputParameter.get("mimetype").equals("text/html")) {
 			req.setAttribute("unicorn_message", mess);
-			(new IndexAction()).doGet(req, resp);
+			// JIGSAW compatible ?
+			//(new IndexAction()).doGet(req, resp);
+			// Good way to do it
+			RequestDispatcher dispatcher = req.getRequestDispatcher("");
+			dispatcher.forward(req, resp);
 			return;
 		}
 		
