@@ -87,7 +87,7 @@ public class InitAction extends HttpServlet {
 			
 			if (task == null || task.equals("all") || task.equals("observers")) {
 				
-				if (!Framework.isUcnInitialized && task.equals("observers")) {
+				if (!Framework.isUcnInitialized && task != null && task.equals("observers")) {
 					out.write("Unable to reload the observers because Unicorn is not initialized.\n" +
 							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
 					out.close();
@@ -109,7 +109,7 @@ public class InitAction extends HttpServlet {
 			
 			if (task == null || task.equals("all") || task.equals("tasklist")) {
 				
-				if (!Framework.isUcnInitialized && task.equals("tasklist")) {
+				if (!Framework.isUcnInitialized && task != null && task.equals("tasklist")) {
 					out.write("Unable to reload the tasklist because Unicorn is not initialized.\n" +
 							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
 					out.close();
@@ -131,7 +131,7 @@ public class InitAction extends HttpServlet {
 			
 			if (task == null || task.equals("all") || task.equals("language")) {
 				
-				if (!Framework.isUcnInitialized && task.equals("language")) {
+				if (!Framework.isUcnInitialized && task != null && task.equals("language")) {
 					out.write("Unable to reload the language files because Unicorn is not initialized.\n" +
 							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
 					out.close();
