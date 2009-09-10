@@ -34,11 +34,10 @@
 #end
 	<h2>
 		<span class="icons">
-			<a class="anchor" href="#$observationName" title="anchor to this observation">[anchor]</a>
-			<a class="direct_link" href="$observation.getRequestUri()" title="link to ...">[direct link]</a>
 			#if ($infoCount && $infoCount > 0)<img src="images/icone_info.png" alt="Infos" title="Infos" /><span>$infoCount</span> #end
 			#if ($errorCount && $errorCount > 0)<img src="images/icone_error.png" alt="Errors" title="Errors" /><span>$errorCount</span> #end
 			#if ($warningCount && $warningCount > 0)<img src="images/icone_warning.png" alt="Warnings" title="Warnings" /><span>$warningCount</span> #end
+			<a class="anchor" href="#$observationName" title="anchor to this observation">[anchor]</a>
 		</span>
 		#if($observation.isPassed())
 		$test_ok_1
@@ -46,6 +45,8 @@
 		$test_fail_1
 		#end
 		<span class="name">$unicorncall.getObserverName($observationName, $lang)</span>
+		#if ($observation.getRequestUri())<a class="direct_link" href="$observation.getRequestUri()" title="link to ...">[direct link]</a>
+		#else <a class="direct_link" href="$observation.getCheckedby()" title="link to ...">[direct link]</a>#end
 	</h2>
 	
 	<div class="results">
