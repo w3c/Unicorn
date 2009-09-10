@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.25 2009-09-10 09:26:44 tgambet Exp $
+// $Id: ObserveAction.java,v 1.26 2009-09-10 15:54:42 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -36,8 +36,6 @@ import org.w3c.unicorn.output.OutputModule;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.Framework;
-
-import sun.misc.Regexp;
 
 /**
  * ObserveAction
@@ -108,7 +106,7 @@ public class ObserveAction extends Action {
 		try {
 			reqParams = getRequestParameters(req);
 		} catch (FileUploadException e) {
-			createError(req, resp, new Message(e), mapOfSpecificParameter, mapOfOutputParameter);
+			createError(req, resp, null, new Message(e), mapOfSpecificParameter, mapOfOutputParameter);
 			return;
 		}
 		
@@ -162,7 +160,7 @@ public class ObserveAction extends Action {
 					String uri = (String) reqParams.get(key);
 					if (uri.startsWith("https://")) {
 						Message mess = new Message(Message.Level.ERROR, "Unicorn does not support https protocol for the moment.", null);
-						createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+						createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 						return;
 					}
 					Pattern urlPattern = Pattern.compile("^(https?|ftp|rmtp|mms)://(([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)+)(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
@@ -173,7 +171,7 @@ public class ObserveAction extends Action {
 						reqParams.put(key, uri);
 						if (!urlPattern.matcher(uri).matches()) {
 							Message mess = new Message(Message.Level.ERROR, "$message_invalid_url_syntax " + uri, null);
-							createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+							createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 							return;
 						}
 					}
@@ -227,28 +225,28 @@ public class ObserveAction extends Action {
 		if (reqParams.containsKey(paramPrefix + "uri")) {
 			if (reqParams.get(paramPrefix + "uri").equals("")) {
 				Message mess = new Message(Message.Level.ERROR, "$message_empty_uri", null);
-				createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 				return;
 			}
 		} else if (reqParams.containsKey(paramPrefix + "text")) {
 			if (reqParams.get(paramPrefix + "text").equals("")) {
 				Message mess = new Message(Message.Level.ERROR, "$message_empty_direct_input", null);
-				createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 				return;
 			} else if (!reqParams.containsKey(paramPrefix + "text_mime")) {
 				Message mess = new Message(Message.Level.ERROR, "$message_missing_mime_type", null);
-				createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 				return;
 			}
 		} else if (reqParams.containsKey(paramPrefix + "file")) {
 			if (((FileItem) reqParams.get(paramPrefix + "file")).getSize() == 0) {
 				Message mess = new Message(Message.Level.ERROR, "$message_no_or_empty_file", null);
-				createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 				return;
 			}
 		} else {
 			Message mess = new Message(Message.Level.ERROR, "$message_nothing_to_validate", null);
-			createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 			return;
 		}
 		
@@ -266,7 +264,6 @@ public class ObserveAction extends Action {
 			else {
 				s += reqParams.get(key);
 			}
-				
 		}
 		logger.debug(s);
 		
@@ -276,10 +273,10 @@ public class ObserveAction extends Action {
 			createOutput(req, resp, mapOfStringObject, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final UnsupportedMimeTypeException aException) {
 			Message mess = new Message(Message.Level.ERROR, "$message_unsupported_mime_type", null);
-			createError(req, resp, mess, mapOfSpecificParameter, mapOfOutputParameter);
+			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final Exception aException) {
 			logger.error("Exception : " + aException.getMessage(), aException);
-			createError(req, resp, new Message(aException), mapOfSpecificParameter, mapOfOutputParameter);
+			createError(req, resp, reqParams, new Message(aException), mapOfSpecificParameter, mapOfOutputParameter);
 		} finally {
 			if ("true".equals(Property.get("DELETE_UPLOADED_FILES"))
 					&& aFileItemUploaded != null) {
@@ -294,7 +291,7 @@ public class ObserveAction extends Action {
 		doGet(req, resp);
 	}
 	
-	private Map<String, Object> getRequestParameters(HttpServletRequest req) throws FileUploadException {
+	protected Map<String, Object> getRequestParameters(HttpServletRequest req) throws FileUploadException {
 		
 		Hashtable<String, Object> params = new Hashtable<String, Object>();
 		
@@ -302,23 +299,29 @@ public class ObserveAction extends Action {
 			List<?> listOfItem = upload.parseRequest(req);
 			for (Object fileItem : listOfItem) {
 				FileItem aFileItem = (FileItem) fileItem;
+				String key = aFileItem.getFieldName();
 				if (aFileItem.isFormField()) {
-					String key = aFileItem.getFieldName();
 					if (params.containsKey(key)) {
 						if (params.get(key) instanceof String) {
 							String[] t = {(String) params.get(key), aFileItem.getString()};
-							params.put(key, t);
+							params.remove(key);
+							params.put(key, (String[]) t);
 						} else if (params.get(key) instanceof String[]) {
-							String[] t = (String[]) params.get(key);
-							t[t.length] = aFileItem.getString();
-							params.put(key, t);
+							int size = ((String[]) params.get(key)).length;
+							String[] aOld = (String[]) params.get(key);
+							String[] aNew = new String[size+1];
+							for (int i = 0; i < size; i++)
+								aNew[i] = aOld[i];
+							aNew[size] = aFileItem.getString();
+							params.put(key, aNew);
 						}
+					} else {
+						params.put(key, aFileItem.getString());
 					}
-					params.put(aFileItem.getFieldName(), aFileItem.getString());
-				} else if (aFileItem.getFieldName().equals(Property.get("UNICORN_PARAMETER_PREFIX") + "file")) {
-					params.put(aFileItem.getFieldName(), aFileItem);
+				} else if (key.equals(Property.get("UNICORN_PARAMETER_PREFIX") + "file")) {
+					params.put(key, aFileItem);
 				} else {
-					logger.warn("Unknown FileItem in request: " + aFileItem.getFieldName());
+					logger.warn("Unknown FileItem in request: " + key);
 				}
 			}
 		} else {
@@ -346,29 +349,27 @@ public class ObserveAction extends Action {
 			else {
 				s += params.get(key);
 			}
-				
 		}
 		logger.debug(s);
-		
-		
-		
-		
 		
 		return params;
 	}
 	
 	private void createError(HttpServletRequest req, HttpServletResponse resp,
-			Message mess, Map<String, String> mapOfSpecificParameter,
+			Map<String, Object> reqParams, Message mess, Map<String, String> mapOfSpecificParameter,
 			Map<String, String> mapOfOutputParameter) throws IOException, ServletException {
 		
 		// If text/html is the mime-type the error will be displayed directly on index
 		if (mapOfOutputParameter.get("mimetype").equals("text/html")) {
 			req.setAttribute("unicorn_message", mess);
+			if (reqParams != null)
+				req.setAttribute("unicorn_parameters", reqParams);
 			// JIGSAW compatible ?
 			//(new IndexAction()).doGet(req, resp);
 			// Good way to do it
 			RequestDispatcher dispatcher = req.getRequestDispatcher("");
 			dispatcher.forward(req, resp);
+			logger.info("request redirected to index");
 			return;
 		}
 		
