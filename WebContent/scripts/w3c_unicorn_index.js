@@ -80,6 +80,30 @@ var W3C = {
 				this.setProperty('href', this.getProperty('href') +  window.location.hash);
 			});
 		});
+		
+		W3C.Forms.filter('form[method=get]').each(function (form) {
+			new FormValidator(form, {
+				onFormValidate: function(passed, form, event) {
+					if (passed) {
+						event.preventDefault();	
+						var queryString = form.toQueryString().replace('uri=http%3A%2F%2F', 'uri=') + "#" + W3C.getHash();
+						queryString = queryString + "#" + W3C.getHash();
+						window.location = "./observe?" + queryString;
+					}
+				}
+			});
+		});
+		
+		W3C.Forms.filter('form[method=post]').each(function (form) {
+			new FormValidator(form, {
+				onFormValidate: function(passed, form, event) {
+					if (passed) {
+						form.setProperty('action', form.getProperty('action') + '#' + W3C.getHash());
+					}
+				}
+			});
+		});
+
 	},
 	
 	addOptionEvents: function () {
@@ -286,6 +310,14 @@ var W3C = {
 		W3C.setHash(tab + task + withOptions);
 	},
 	
+	getHash: function() {
+		var tab = W3C.Forms[W3C.SelectedTab].getProperty('id');
+		var task = '+task_' + W3C.TaskOptions[W3C.SelectedTask].getProperty('value');
+		var withOptions = W3C.WithOptions ? '+with_options' : '';
+		
+		return tab + task + withOptions;
+	},
+	
 	setHash: function(hash){
 		if (window.webkit419){
 			W3C.FakeForm = W3C.FakeForm || new Element('form', {'method': 'get'}).injectInside(document.body);
@@ -293,10 +325,6 @@ var W3C = {
 		} else {
 			window.location.hash = hash;
 		}
-	},
-	
-	isUrl: function(url){
-		return	url.test(".*");
 	}
 	
 };
