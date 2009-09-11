@@ -3,11 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$lang" lang="$lang">
 <head>
 	<title>$noEscape_title</title>
-#if ($fav)
-	<link rel="icon" href="/unicorn/images/$fav" type="image/x-icon" />
-#else
-	<link rel="icon" href="/unicorn/images/favicon.ico" type="image/x-icon" />
-#end
 	<link rev="start" href="./" title="Home Page" />
 #foreach( $sheet in $css )
 	<link href="./style/$sheet" type="text/css" media="screen" rel="stylesheet" />
@@ -15,9 +10,12 @@
 #foreach( $script in $js )
 	<script type="text/javascript" src="$script"></script>
 #end
-	
 	<link rev="made" href="mailto:www-validator@w3.org" />
-	<link rev="start" href="./" title="Home Page" />
+#if ($fav)
+	<link rel="icon" href="/unicorn/images/$fav" type="image/x-icon" />
+#else
+	<link rel="icon" href="/unicorn/images/favicon.ico" type="image/x-icon" />
+#end
 </head>
 <body>
 	<div id="banner">
