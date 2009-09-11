@@ -1,6 +1,6 @@
 #macro (submit_button)
 					<div class="submit">
-						<input type="hidden" name="${param_prefix}lang" value="$lang" class="lang" />
+						#if ($!param_lang)<input type="hidden" name="${param_prefix}lang" value="$lang" class="lang" />#end
 						<input type="hidden" name="${param_prefix}task" value="$current_task.getID()" class="task" />
 						<input type="submit" value="$submit" />
 					</div>

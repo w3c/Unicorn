@@ -26,7 +26,7 @@
 #end
 								</select>
 							</label>
-							<input type="hidden" name="${param_prefix}lang" value="$lang" class="lang" />
+							#if ($!param_lang)<input type="hidden" name="${param_prefix}lang" value="$lang" class="lang" />#end
 							<input id="task_change" type="submit" value="OK" />
 							<span id="task_descrip">$current_task.getDescription($lang)</span>
 						</p>
