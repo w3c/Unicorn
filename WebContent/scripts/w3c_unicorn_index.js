@@ -10,7 +10,8 @@ var W3C = {
 		W3C.TaskDescrip = $('task_descrip');
 		W3C.TaskInputs = $$('input.task');
 		
-		W3C.LangParameter = $$('input.lang')[0].value;
+		W3C.LangParameter = $$('html').getProperty('lang')[0];
+		
 		W3C.Forms = $$('form[action=observe]');
 		
 		// index of selected tab
@@ -30,12 +31,6 @@ var W3C = {
 		W3C.toggleOptions(false);
 		W3C.addOptionEvents();
 		
-		/*console.log(W3C.isUrl("http://www.w3.org"));
-		console.log(W3C.isUrl("http://jigsaw.w3.org/css-validator/validator?uri=www.w3.org&profile=css3&usermedium=all&warning=1&lang=fr&output=ucn"));
-		console.log(W3C.isUrl("http://localhost:8080/unicorn_dev/#validate-by-uri+task_full-css+with_options"));
-		console.log(W3C.isUrl("http://www.%w3.org/TR/CSS21/colors.html#propdef-color"));
-		console.log(W3C.isUrl("/w3.org"));
-		console.log(W3C.isUrl("www.w3.org"));*/
 	},
 	
 	prepareDocument: function(){
@@ -87,7 +82,6 @@ var W3C = {
 					if (passed) {
 						event.preventDefault();	
 						var queryString = form.toQueryString().replace('uri=http%3A%2F%2F', 'uri=') + "#" + W3C.getHash();
-						queryString = queryString + "#" + W3C.getHash();
 						window.location = "./observe?" + queryString;
 					}
 				}
