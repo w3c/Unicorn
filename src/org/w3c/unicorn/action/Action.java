@@ -64,7 +64,7 @@ public abstract class Action extends HttpServlet {
 		
 		if (!Language.isComplete(lang))
 			messages.add(new Message(Message.Level.INFO, "$message_incomplete_language. $message_translation", null));
-		else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE") == "true")
+		else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE").equals("true"))
 			messages.add(new Message(Message.Level.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
 		
 		return lang;
