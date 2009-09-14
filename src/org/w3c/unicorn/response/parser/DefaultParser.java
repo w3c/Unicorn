@@ -78,7 +78,7 @@ public class DefaultParser implements ResponseParser {
 				return null;
 			}
 		}
-		res.setCheckedby(or.getCheckedby());
+		res.setCallingUri(or.getCallingUri());
 		res.setPassed(or.getPassed());
 		res.setUri(or.getUri());
 		res.setVersion(or.getVersion());
@@ -213,7 +213,7 @@ public class DefaultParser implements ResponseParser {
 			// just don't set the context. Or set it to 0?
 		}
 		try {
-			y.setErrortype(x.getErrortype());
+			y.setLevel(x.getLevel());
 		} catch(XmlValueOutOfRangeException e) {
 			// just don't set the type. Or set it to 0?
 		}
