@@ -250,5 +250,23 @@
 			</group>
 		</output>
 	</task>
+	
+	<task id="mobileok">
+
+		<routine>
+			<exec id="mobileok" value="mobileok" type="observation" />
+		</routine>
+
+		<parameters>
+
+		</parameters>
+
+		<output>
+			<group>
+				<observation>mobileok</observation>
+			</group>
+		</output>
+
+	</task>
 
 </tasklist>
