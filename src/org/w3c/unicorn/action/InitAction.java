@@ -149,18 +149,18 @@ public class InitAction extends HttpServlet {
 					Framework.isUcnInitialized = false;
 					return;
 				}
+			}
 				
-				out.write("Initializing Velocity: ");
-				response.flushBuffer();
-				try {
-					Framework.initVelocity();
-					out.write("OK\n");
-				} catch (InitializationFailedException e) {
-					Framework.logger.fatal(e.getMessage(), e);
-					out.write("FAILED\n" + e);
-					Framework.isUcnInitialized = false;
-					return;
-				}
+			out.write("Initializing Velocity: ");
+			response.flushBuffer();
+			try {
+				Framework.initVelocity();
+				out.write("OK\n");
+			} catch (InitializationFailedException e) {
+				Framework.logger.fatal(e.getMessage(), e);
+				out.write("FAILED\n" + e);
+				Framework.isUcnInitialized = false;
+				return;
 			}
 			
 			out.close();
