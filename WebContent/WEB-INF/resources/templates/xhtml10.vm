@@ -17,9 +17,7 @@
 #if ($messages.size() > 0)
 #displayMessages($messages)
 #end
-<div id="don_program">
-	<script type="text/javascript" src="http://www.w3.org/QA/Tools/don_prog.js"></script>
-</div>
+
 <div id="observations">
 #foreach ($observationName in $observationList.keySet())
 #set ($observation = $observationList.get($observationName))
@@ -27,12 +25,8 @@
 #set ($errorCount = $observation.getErrorCount())
 #set ($warningCount = $observation.getWarningCount())
 
-#if($observation.isPassed())
-<div class="observer $observationName valid" id="$observationName">
-#else
-<div class="observer $observationName invalid" id="$observationName">
-#end
-	<h2>
+<div class="observer section #if($observation.isPassed()) valid #else invalid #end" id="$observationName">
+	<h2 class="title">
 		<span class="icons">
 			#if ($infoCount && $infoCount > 0)<img src="images/icone_info.png" alt="Infos" title="Infos" /><span>$infoCount</span> #end
 			#if ($errorCount && $errorCount > 0)<img src="images/icone_error.png" alt="Errors" title="Errors" /><span>$errorCount</span> #end
@@ -49,11 +43,11 @@
 		#else <a class="direct_link" href="$observation.getCheckedby()" title="link to this validator website">[direct link]</a>#end
 	</h2>
 	
-	<div class="results">
+	<div class="results block">
 	#if ($infoCount && $infoCount > 0)
-		<div class="infos">
-			<h3>Infos ($infoCount)</h3>
-			<div class="result">
+		<div class="section infos">
+			<h3 class="title">Infos ($infoCount)</h3>
+			<div class="block result">
 				<table>
 					<tbody>
 					#set ($i = 0)
@@ -83,7 +77,7 @@
 								</p>
 								#end
 							</td>
-							<td class="anchor"><a title="anchor to this message" href="#$messageId">[anchor]</a></td>
+							<td class="anchor"><a class="smooth" title="anchor to this message" href="#$messageId">[anchor]</a></td>
 						</tr>
 #end
 						#end
@@ -95,9 +89,9 @@
 	#end
 	
 	#if ($errorCount && $errorCount > 0)
-		<div class="errors">
-			<h3>Errors ($errorCount)</h3>
-			<div class="result">
+		<div class="section errors">
+			<h3 class="title">Errors ($errorCount)</h3>
+			<div class="block result">
 				<table>
 					<tbody>
 					#set ($i = 0)
@@ -127,7 +121,7 @@
 								</p>
 								#end
 							</td>
-							<td class="anchor"><a title="anchor to this message" href="#$messageId">[anchor]</a></td>
+							<td class="anchor"><a class="smooth" title="anchor to this message" href="#$messageId">[anchor]</a></td>
 						</tr>
 #end
 						#end
@@ -139,9 +133,9 @@
 	#end
 	
 	#if ($warningCount && $warningCount > 0)
-		<div class="warnings">
-			<h3>Warnings ($warningCount)</h3>
-			<div class="result">
+		<div class="section warnings">
+			<h3 class="title">Warnings ($warningCount)</h3>
+			<div class="block result">
 				<table>
 					<tbody>
 					#set ($i = 0)
@@ -171,7 +165,7 @@
 								</p>
 								#end
 							</td>
-							<td class="anchor"><a title="anchor to this message" href="#$messageId">[anchor]</a></td>
+							<td class="anchor"><a class="smooth" title="anchor to this message" href="#$messageId">[anchor]</a></td>
 						</tr>
 #end
 						#end
@@ -185,5 +179,7 @@
 </div>
 #end
 </div>
-
+<div id="don_program">
+	<script type="text/javascript" src="http://www.w3.org/QA/Tools/don_prog.js"></script>
+</div>
 #parse( 'includes/footer.vm' )
