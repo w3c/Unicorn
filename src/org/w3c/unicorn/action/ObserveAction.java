@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.26 2009-09-10 15:54:42 tgambet Exp $
+// $Id: ObserveAction.java,v 1.27 2009-09-14 10:19:03 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -163,11 +163,17 @@ public class ObserveAction extends Action {
 						createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 						return;
 					}
-					Pattern urlPattern = Pattern.compile("^(https?|ftp|rmtp|mms)://(([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)+)(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
+					Pattern urlPattern = Pattern.compile("^(https?|ftp|rmtp|mms)://([A-Z0-9][A-Z0-9_-]*)(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
 					if (!urlPattern.matcher(uri).matches()) {
 						if (uri.equals(""))
 							continue;
-						uri = "http://" + uri;
+						if (!uri.contains("://")) {
+							uri = "http://" + uri;
+						} else {
+							Message mess = new Message(Message.Level.ERROR, "Unicorn does not support " + uri.split("://")[0] + " protocol.", null);
+							createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
+							return;
+						}
 						reqParams.put(key, uri);
 						if (!urlPattern.matcher(uri).matches()) {
 							Message mess = new Message(Message.Level.ERROR, "$message_invalid_url_syntax " + uri, null);
