@@ -4,16 +4,16 @@
     elementFormDefault="qualified" 
     targetNamespace="http://www.w3.org/unicorn/observationresponse"
     xmlns:m="http://www.w3.org/unicorn/observationresponse">
-  <xs:import
+    <xs:import
       namespace="http://www.w3.org/XML/1998/namespace"
       schemaLocation="http://www.w3.org/2001/xml.xsd"/>
   <xs:element name="observationresponse">
     <xs:complexType>
       <xs:sequence>
         <!-- URI of the document checked-->
-        <xs:element ref="m:uri"/>
+        <xs:element ref="m:uri" minOccurs="0" maxOccurs="1"/>
         <!-- URI of the observer -->
-        <xs:element ref="m:checkedby"  minOccurs="0"/>
+        <xs:element ref="m:callingUri"  minOccurs="0"/>
         <!-- "Version" of the document. For example CSS 2, XHTML 1.0 Strict, ... -->
         <xs:element ref="m:version" minOccurs="0"/>
         <!-- Observation date-->
@@ -27,7 +27,7 @@
   </xs:element>
 
   <xs:element name="uri" type="xs:anyURI"/>
-  <xs:element name="checkedby" type="xs:anyURI"/>
+  <xs:element name="callingUri" type="xs:anyURI"/>
   <xs:element name="version" type="xs:string"/>
   <xs:element name="date" type="xs:dateTime"/>
   <xs:element name="passed" type="xs:boolean"/>
@@ -75,14 +75,15 @@
   <xs:element name="error">
     <xs:complexType>
       <xs:sequence>
-        <!-- Line where the error appeared-->
-        <xs:element ref="m:line" minOccurs="0"/>
-        <!-- Column where the error appeared -->
-        <xs:element ref="m:column" minOccurs="0"/>
-        <xs:element ref="m:errortype" minOccurs="0"/>
-        <xs:element ref="m:context" minOccurs="0"/>
-        <xs:element ref="m:message" maxOccurs="unbounded"/>
-        <xs:element ref="m:longmessage" minOccurs="0" maxOccurs="unbounded"/>
+      	<!-- Line where the error appeared-->
+      	<xs:element ref="m:line" minOccurs="0" />
+      	<!-- Column where the error appeared -->
+      	<xs:element ref="m:column" minOccurs="0" />
+      	<xs:element name="level" type="m:tLevels" minOccurs="0" maxOccurs="1"></xs:element>
+      	<xs:element ref="m:context" minOccurs="0" />
+      	<xs:element ref="m:message" maxOccurs="unbounded" />
+      	<xs:element ref="m:longmessage" minOccurs="0"
+      		maxOccurs="unbounded" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -181,9 +182,9 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="level" type="m:tWarningLevels"/>
+  <xs:element name="level" type="m:tLevels"/>
 
-  <xs:simpleType name="tWarningLevels">
+  <xs:simpleType name="tLevels">
     <xs:restriction base="xs:nonNegativeInteger">
       <xs:maxInclusive value="3"/>
     </xs:restriction>
