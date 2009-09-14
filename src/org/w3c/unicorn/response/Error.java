@@ -48,9 +48,9 @@ public class Error {
 
 	protected BigInteger column;
 
-	protected String errortype;
-
 	protected String context;
+	
+	protected Integer level;
 
 	protected List<LocalizedString> message;
 
@@ -99,27 +99,6 @@ public class Error {
 	}
 
 	/**
-	 * Gets the value of the errortype property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getErrortype() {
-		return errortype;
-	}
-
-	/**
-	 * Sets the value of the errortype property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setErrortype(String value) {
-		this.errortype = value;
-	}
-
-	/**
 	 * Gets the value of the context property.
 	 * 
 	 * @return possible object is {@link String }
@@ -140,6 +119,27 @@ public class Error {
 		this.context = value;
 	}
 
+	/**
+	 * Gets the value of the level property.
+	 * 
+	 * @return possible object is {@link int }
+	 * 
+	 */
+	public Integer getLevel() {
+		return level;
+	}
+
+	/**
+	 * Sets the value of the level property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link int }
+	 * 
+	 */
+	public void setLevel(Integer value) {
+		this.level = value;
+	}
+	
 	/**
 	 * Gets the value of the message property.
 	 * 

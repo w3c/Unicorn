@@ -10,7 +10,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Response {
 	protected String uri;
 
-	protected String checkedby;
+	protected String callingUri;
 
 	protected String version;
 
@@ -50,24 +50,24 @@ public class Response {
 	}
 
 	/**
-	 * Gets the value of the checkedby property.
+	 * Gets the value of the callingUri property.
 	 * 
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getCheckedby() {
-		return checkedby;
+	public String getCallingUri() {
+		return callingUri;
 	}
 
 	/**
-	 * Sets the value of the checkedby property.
+	 * Sets the value of the callingUri property.
 	 * 
 	 * @param value
 	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setCheckedby(String value) {
-		this.checkedby = value;
+	public void setCallingUri(String value) {
+		this.callingUri = value;
 	}
 
 	/**
