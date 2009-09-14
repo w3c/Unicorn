@@ -123,6 +123,57 @@ Class.Mutators.initialize = function(initialize){
 };
 
 /*
+Script: Chain.Wait.js
+	Adds a method to inject pauses between chained events.
+
+	License:
+		MIT-style license.
+
+	Authors:
+		Aaron Newton
+*/
+
+(function(){
+
+	var wait = {
+		wait: function(duration){
+			return this.chain(function(){
+				this.callChain.delay($pick(duration, 500), this);
+			}.bind(this));
+		}
+	};
+
+	Chain.implement(wait);
+
+	if (window.Fx){
+		Fx.implement(wait);
+		['Css', 'Tween', 'Elements'].each(function(cls){
+			if (Fx[cls]) Fx[cls].implement(wait);
+		});
+	}
+
+	try {
+		Element.implement({
+			chains: function(effects){
+				$splat($pick(effects, ['tween', 'morph', 'reveal'])).each(function(effect){
+					effect = this.get(effect);
+					if (!effect) return;
+					effect.setOptions({
+						link:'chain'
+					});
+				}, this);
+				return this;
+			},
+			pauseFx: function(duration, effect){
+				this.chains(effect).get($pick(effect, 'tween')).wait(duration);
+				return this;
+			}
+		});
+	} catch(e){}
+
+})();
+
+/*
 Script: Date.js
 	Extends the Date native object to include methods useful in managing dates.
 
@@ -1184,6 +1235,117 @@ Element.implement({
 });
 
 /*
+Script: Fx.Scroll.js
+	Effect to smoothly scroll any element, including the window.
+
+	License:
+		MIT-style license.
+
+	Authors:
+		Valerio Proietti
+*/
+
+Fx.Scroll = new Class({
+
+	Extends: Fx,
+
+	options: {
+		offset: {x: 0, y: 0},
+		wheelStops: true
+	},
+
+	initialize: function(element, options){
+		this.element = this.subject = document.id(element);
+		this.parent(options);
+		var cancel = this.cancel.bind(this, false);
+
+		if ($type(this.element) != 'element') this.element = document.id(this.element.getDocument().body);
+
+		var stopper = this.element;
+
+		if (this.options.wheelStops){
+			this.addEvent('start', function(){
+				stopper.addEvent('mousewheel', cancel);
+			}, true);
+			this.addEvent('complete', function(){
+				stopper.removeEvent('mousewheel', cancel);
+			}, true);
+		}
+	},
+
+	set: function(){
+		var now = Array.flatten(arguments);
+		this.element.scrollTo(now[0], now[1]);
+	},
+
+	compute: function(from, to, delta){
+		return [0, 1].map(function(i){
+			return Fx.compute(from[i], to[i], delta);
+		});
+	},
+
+	start: function(x, y){
+		if (!this.check(x, y)) return this;
+		var offsetSize = this.element.getSize(), scrollSize = this.element.getScrollSize();
+		var scroll = this.element.getScroll(), values = {x: x, y: y};
+		for (var z in values){
+			var max = scrollSize[z] - offsetSize[z];
+			if ($chk(values[z])) values[z] = ($type(values[z]) == 'number') ? values[z].limit(0, max) : max;
+			else values[z] = scroll[z];
+			values[z] += this.options.offset[z];
+		}
+		return this.parent([scroll.x, scroll.y], [values.x, values.y]);
+	},
+
+	toTop: function(){
+		return this.start(false, 0);
+	},
+
+	toLeft: function(){
+		return this.start(0, false);
+	},
+
+	toRight: function(){
+		return this.start('right', false);
+	},
+
+	toBottom: function(){
+		return this.start(false, 'bottom');
+	},
+
+	toElement: function(el){
+		var position = document.id(el).getPosition(this.element);
+		return this.start(position.x, position.y);
+	},
+
+	scrollIntoView: function(el, axes, offset){
+		axes = axes ? $splat(axes) : ['x','y'];
+		var to = {};
+		el = document.id(el);
+		var pos = el.getPosition(this.element);
+		var size = el.getSize();
+		var scroll = this.element.getScroll();
+		var containerSize = this.element.getSize();
+		var edge = {
+			x: pos.x + size.x,
+			y: pos.y + size.y
+		};
+		['x','y'].each(function(axis) {
+			if (axes.contains(axis)) {
+				if (edge[axis] > scroll[axis] + containerSize[axis]) to[axis] = edge[axis] - containerSize[axis];
+				if (pos[axis] < scroll[axis]) to[axis] = pos[axis];
+			}
+			if (to[axis] == null) to[axis] = scroll[axis];
+			if (offset && offset[axis]) to[axis] = to[axis] + offset[axis];
+		}, this);
+		if (to.x != scroll.x || to.y != scroll.y) this.start(to.x, to.y);
+		return this;
+	}
+
+});
+
+
+/*
 Script: Fx.Slide.js
 	Effect to slide an element in and out of view.
 
@@ -1324,6 +1486,55 @@ Element.implement({
 
 });
 
+
+/*
+Script: Fx.SmoothScroll.js
+	Class for creating a smooth scrolling effect to all internal links on the page.
+
+	License:
+		MIT-style license.
+
+	Authors:
+		Valerio Proietti
+*/
+
+var SmoothScroll = Fx.SmoothScroll = new Class({
+
+	Extends: Fx.Scroll,
+
+	initialize: function(options, context){
+		context = context || document;
+		this.doc = context.getDocument();
+		var win = context.getWindow();
+		this.parent(this.doc, options);
+		this.links = this.options.links ? $$(this.options.links) : $$(this.doc.links);
+		var location = win.location.href.match(/^[^#]*/)[0] + '#';
+		this.links.each(function(link){
+			if (link.href.indexOf(location) != 0) {return;}
+			var anchor = link.href.substr(location.length);
+			if (anchor) this.useLink(link, anchor);
+		}, this);
+		if (!Browser.Engine.webkit419) {
+			this.addEvent('complete', function(){
+				win.location.hash = this.anchor;
+			}, true);
+		}
+	},
+
+	useLink: function(link, anchor){
+		var el;
+		link.addEvent('click', function(event){
+			if (el !== false && !el) el = document.id(anchor) || this.doc.getElement('a[name=' + anchor + ']');
+			if (el) {
+				event.preventDefault();
+				this.anchor = anchor;
+				this.toElement(el);
+				link.blur();
+			}
+		}.bind(this));
+	}
+
+});
 
 /*
 Script: Date.English.US.js
