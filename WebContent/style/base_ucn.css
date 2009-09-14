@@ -398,22 +398,47 @@ fieldset.toggled legend {
 	display:inline-block;
 	overflow:hidden;
 	padding:11px 0 0 12px;
-	background:url(../images/external_link_2.gif);
+	background:url(../images/external_link_2.gif) no-repeat;
 }
 #observations div.observer h2 a.anchor {
 	height:0;
 	width:0;
 	display:inline-block;
 	overflow:hidden;
-	padding:11px 0 0 11px;
-	background:url(../images/permalink.png);
+	padding:1em 0 0 1.2em;
+	background:url(../images/permalink.png) no-repeat 0.2em 0;
+	vertical-align:-15%;
 }
 #observations div.observer h2 span.name {
 	font-style: italic;
 }
 #observations div.observer h2 span.icons {
 	float: right;
+}
+#observations div.observer h2 span.icons a {
 	font-size:0.8em;
+}
+#observations div.observer h2 span.icons a:hover {
+	text-decoration:none;
+}
+#observations div.observer h2 span.icons a span {
+	background-repeat:no-repeat;
+	background-position:3px 0;
+	display:inline-block;
+	overflow:hidden;
+	height:0;
+	width:0;
+	padding:18px 25px 0 0;
+	vertical-align:-20%;
+}
+#observations div.observer h2 span.icons a.infos span {
+	background-image:url(../images/icone_info.png);
+}
+#observations div.observer h2 span.icons a.errors span {
+	background-image:url(../images/icone_error.png);
+}
+#observations div.observer h2 span.icons a.warnings span {
+	background-image:url(../images/icone_warning.png);
 }
 #observations div.observer h2 span.icons img {
 	vertical-align: -20%;
@@ -442,16 +467,25 @@ fieldset.toggled legend {
 }
 #observations h3 {
 	font-size: 1.1em;
-	padding:0.3em 0 0.3em 1em;
+	padding:0.3em 0 0.3em 0;
 	border-bottom:1px solid #CCCCCC;
 }
-#observations .infos h3  {
+#observations h3 a.anchor {
+	height:0;
+	width:0;
+	display:inline-block;
+	overflow:hidden;
+	padding:1.1em 0 0 2em;
+	background:url(../images/permalink.gif) no-repeat 50% 50%;
+	float:right;
+}
+#observations .infos h3 {
 	color: #17882a;
 }
-#observations .errors h3  {
+#observations .errors h3 {
 	color: #aa1d1d;
 }
-#observations .warnings h3  {
+#observations .warnings h3 {
 	color: #b48700;
 }
 #observations .results h3.pointer:hover {
