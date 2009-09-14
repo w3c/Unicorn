@@ -43,7 +43,7 @@ body {
 	margin:1em 2em;
 }
 #banner {
-	margin:1.5em 2em;
+	margin:1.5em 2em 1em 2em;
 	line-height:1;
 }
 #banner img {
@@ -376,7 +376,7 @@ fieldset.toggled legend {
 	margin:1em 2.5em;
 }
 #observations div.observer {
-	margin-top: 1em;
+	margin-top: 0.5em;
 }
 #observations div.observer h2 {
 	font-size: 1.3em;
@@ -406,7 +406,7 @@ fieldset.toggled legend {
 	display:inline-block;
 	overflow:hidden;
 	padding:11px 0 0 11px;
-	background:url(../images/permalink_2.gif);
+	background:url(../images/permalink.png);
 }
 #observations div.observer h2 span.name {
 	font-style: italic;
@@ -427,12 +427,22 @@ fieldset.toggled legend {
 	background-color:#cc2323;
 	border: 1px solid #aa1d1d;
 }
+#observations div.results {
+	padding-left:0.5em;
+	border-left:1px solid;
+}
+#observations div.valid div.results {
+	border-color:#1daa34;
+}
+#observations div.invalid div.results {
+	border-color:#cc2323;
+}
 #observations div.infos, #observations div.warnings, #observations div.errors {
-	padding-top: 0.5em;
+	padding-top: 0;
 }
 #observations h3 {
 	font-size: 1.1em;
-	padding:0 0 0.3em 0.5em;
+	padding:0.3em 0 0.3em 1em;
 	border-bottom:1px solid #CCCCCC;
 }
 #observations .infos h3  {
@@ -444,6 +454,9 @@ fieldset.toggled legend {
 #observations .warnings h3  {
 	color: #b48700;
 }
+#observations .results h3.pointer:hover {
+	background-color:#f5f5f5;
+} 
 #observations td.uri {
 	background-color:#EEEEEE;
 	padding:0.4em;
@@ -500,38 +513,38 @@ div.warnings td.level2 {
 }
 
 /* Specific result styles */
-div.observer.markup-validator td.info img, div.observer.css-validator td.info img, div.observer.css1-validator td.info img, div.observer.css2-validator td.info img, div.observer.css21-validator td.info img, div.observer.css3-validator td.info img {
+div#markup-validator td.info img, div#css-validator td.info img, div#css1-validator td.info img, div#css2-validator td.info img, div#css21-validator td.info img, div#css3-validator td.info img {
 	float:left;
 	clear:left;
 	padding:3.1em 10px;
 }
-div.observer.markup-validator td.info code, div.observer.css-validator td.info code, div.observer.css1-validator td.info code, div.observer.css2-validator td.info code, div.observer.css21-validator td.info code, div.observer.css3-validator td.info code {
+div#markup-validator td.info code, div#css-validator td.info code, div#css1-validator td.info code, div#css2-validator td.info code, div#css21-validator td.info code, div#css3-validator td.info code {
 	color:#444444;
 }
 
 div.errors h3.toggles {
-	background: url(../images/arrow_red_closed.png) no-repeat left 40%;
-	padding-left:12px !important;
+	background: url(../images/arrow_red_closed_2.png) no-repeat left 55%;
+	padding-left:10px !important;
 }
 div.errors h3.toggled {
-	background: url(../images/arrow_red_open.png) no-repeat left 40%;
-	padding-left:12px !important;
+	background: url(../images/arrow_red_open_2.png) no-repeat left 55%;
+	padding-left:10px !important;
 }
 div.infos h3.toggles {
-	background: url(../images/arrow_green_closed.png) no-repeat left 40%;
-	padding-left:12px !important;
+	background: url(../images/arrow_green_closed_2.png) no-repeat left 55%;
+	padding-left:10px !important;
 }
 div.infos h3.toggled {
-	background: url(../images/arrow_green_open.png) no-repeat left 40%;
-	padding-left:12px !important;
+	background: url(../images/arrow_green_open_2.png) no-repeat left 55%;
+	padding-left:10px !important;
 }
 div.warnings h3.toggles {
-	background: url(../images/arrow_yellow_closed.png) no-repeat left 40%;
-	padding-left:12px !important;
+	background: url(../images/arrow_yellow_closed_2.png) no-repeat left 55%;
+	padding-left:10px !important;
 }
 div.warnings h3.toggled {
-	background: url(../images/arrow_yellow_open.png) no-repeat left 40%;
-	padding-left:12px !important;
+	background: url(../images/arrow_yellow_open_2.png) no-repeat left 55%;
+	padding-left:10px !important;
 }
 div.observer h2.toggles {
 	background: url(../images/arrow_white_closed.png) no-repeat 4px 50%;
