@@ -20,8 +20,11 @@ var W3C = {
 			section.store('fxSlide', new Fx.Slide(block, {'duration': slideDuration, 'link': 'cancel'}));
 			section.store('block', block);
 			title.addEvent('click', function(event) {
-				if (!section.hasClass('observer') || W3C.ObserverEvents)
-					W3C.toggle(section);
+				if (!section.hasClass('observer') || W3C.ObserverEvents) {
+					W3C.toggle(section).chain(function () {
+						W3C.observersEvents(true);
+					});
+				}
 			});
 		});
 		
@@ -44,17 +47,37 @@ var W3C = {
 				W3C.close(observer, false).callChain();
 			observer.getElement('a.anchor').addEvent('click', function(event) {
 				event.preventDefault();
-				W3C.open(observer, true);
+				W3C.open(observer, true).callChain();
 				scroller.toElement(observer);
-				
-				/*if (!observer.retrieve('open')) {
-					W3C.closeAllObserversBut(observer, true).chain(function() {
-						scroller.toElement(observer);
-					});
-				} else {
-					scroller.toElement(observer);
-				}*/
 			});
+			if (observer.getElement('a.infos')) {
+				observer.getElement('a.infos').addEvent('click', function(event) {
+					event.preventDefault();
+					W3C.open(observer, true).callChain();
+					scroller.toElement(observer);
+					W3C.closeAllSectionsBut(observer, observer.getElement('div.infos'), true);
+				});
+			}
+			if (observer.getElement('a.errors')) {
+				observer.getElement('a.errors').addEvent('click', function(event) {
+					event.preventDefault();
+					W3C.open(observer, true).callChain();
+					scroller.toElement(observer);
+					W3C.closeAllSectionsBut(observer, observer.getElement('div.errors'), true);
+				});
+			}
+			if (observer.getElement('a.warnings')) {
+				observer.getElement('a.warnings').addEvent('click', function(event) {
+					event.preventDefault();
+					W3C.open(observer, true).callChain();
+					scroller.toElement(observer);
+					W3C.closeAllSectionsBut(observer, observer.getElement('div.warnings'), true);
+				});
+			}
+		});
+		
+		$('banner').addEvent('click', function() {
+			W3C.closeAllObserversBut(W3C.Observers[0], true);
 		});
 		
 		var mySmoothScroll = new Fx.SmoothScroll({
@@ -69,38 +92,10 @@ var W3C = {
 		var title = section.getElement('.title');
 		var slide = section.retrieve('fxSlide');
 	    if (section.retrieve('open')) {
-	    	/*title.removeClass('toggled');
-	    	section.store('open', false);
-	    	return slide.slideOut().chain(function(){
-			    section.getElement('div').setStyle('height', '0');
-			    slide.callChain();
-			}).chain(function() {
-				W3C.observersEvents(true);
-				slide.callChain();
-			});*/
 	    	return W3C.close(section, true);
 	    } else {
-	    	/*title.addClass('toggled');
-	    	section.store('open', true);
-	    	return slide.slideIn().chain(function(){
-			    section.getElement('div').setStyle('height', 'auto');
-			    slide.callChain();
-			}).chain(function() {
-				W3C.observersEvents(true);
-				slide.callChain();
-			});*/
 	    	return W3C.open(section, true);
 	    }
-		/*return slide.toggle().chain(function(){
-		    if (section.retrieve('open'))
-		    	section.getElement('div').setStyle('height', 'auto');
-		    else
-		    	section.getElement('div').setStyle('height', '0');
-		    slide.callChain();
-		}).chain(function() {
-			W3C.observersEvents(true);
-			slide.callChain();
-		});*/
 	},
 	
 	close: function(section, withFx) {
@@ -111,12 +106,12 @@ var W3C = {
 	    section.store('open', false);
 		if (withFx && opened) {
 			return slide.slideOut().chain(function(){
-		    	section.getElement('div').setStyle('height', '0');
+		    	//section.getElement('div').setStyle('height', '0');
 		    	slide.callChain();
 			});
 		} else {
 			return slide.hide().chain(function(){
-				section.getElement('div').setStyle('height', '0');
+				//section.getElement('div').setStyle('height', '0');
 				slide.callChain();
 			});
 		}
@@ -146,12 +141,16 @@ var W3C = {
 			if (ob != observer)
 				W3C.close(ob, withFx).callChain();
 		});
-		return W3C.open(observer, withFx);
+		W3C.open(observer, withFx);
 	},
 	
-	
 	closeAllSectionsBut: function(observer, section, withFx) {
-		return;
+		observer.getElements('.section').each(function (sec) {
+			if (sec != section) {
+				W3C.close(sec, withFx).callChain();
+			}
+		});
+		W3C.open(section, withFx);
 	},
 	
 	observersEvents: function(on) {
