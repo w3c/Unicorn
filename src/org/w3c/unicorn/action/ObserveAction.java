@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.27 2009-09-14 10:19:03 tgambet Exp $
+// $Id: ObserveAction.java,v 1.28 2009-09-14 12:15:42 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -163,7 +163,8 @@ public class ObserveAction extends Action {
 						createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 						return;
 					}
-					Pattern urlPattern = Pattern.compile("^(https?|ftp|rmtp|mms)://([A-Z0-9][A-Z0-9_-]*)(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
+					// To allow other protocols change (https?) in (https?|ftp|rmtp) for example
+					Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)*(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
 					if (!urlPattern.matcher(uri).matches()) {
 						if (uri.equals(""))
 							continue;
