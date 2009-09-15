@@ -1,3 +1,4 @@
+/* $Id: w3c_unicorn_index.js,v 1.10 2009-09-15 11:41:36 tgambet Exp $Id */
 var W3C = {
 	
 	start: function(){
@@ -24,7 +25,7 @@ var W3C = {
 		W3C.Loader = new Element('img', {'src': 'images/ajax-loader.gif', 'class': 'loader'});
 		W3C.prepareDocument();
 		W3C.parseHash();
-		W3C.updateHash();
+		//W3C.updateHash();
 		
 		W3C.showTab(W3C.SelectedTab, false);
 		W3C.selectTask(W3C.SelectedTask, false);
