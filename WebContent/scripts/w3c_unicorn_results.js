@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_results.js,v 1.9 2009-09-15 13:01:34 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.10 2009-09-15 16:00:12 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
@@ -103,9 +103,13 @@ var W3C = {
 	    title.removeClass('toggled');
 	    section.store('open', false);
 		if (withFx && opened) {
-			slide.slideOut();
+			slide.slideOut().chain(function(){
+				section.getElement('div').setStyle('display', 'none');
+		    	slide.callChain();
+			});
 		} else {
 			slide.hide();
+			section.getElement('div').setStyle('display', 'none');
 		}
 	},
 	
@@ -115,6 +119,7 @@ var W3C = {
 		var slide = section.retrieve('fxSlide');
 	    title.addClass('toggled');
 	    section.store('open', true);
+	    section.getElement('div').setStyle('display', '');
 	    if (withFx && closed) {
 	    	slide.slideIn().chain(function(){
 		    	section.getElement('div').setStyle('height', 'auto');
