@@ -20,7 +20,15 @@
 <div id="don_program">
 	<script type="text/javascript" src="http://www.w3.org/QA/Tools/don_prog.js"></script>
 	<noscript>
-		<span id="don_program_img"><a href="http://www.w3.org/QA/Tools/Donate"><img alt="" src="http://www.w3.org/QA/Tools/I_heart_validator_lg"></a></span><span id="don_program_text">The W3C validators rely on community support for hosting and development.<br><a href="http://www.w3.org/QA/Tools/Donate">Donate</a> and help us build better tools for a better web.</span>
+		<div><span id="don_program_img">
+			<a href="http://www.w3.org/QA/Tools/Donate">
+				<img alt="" src="http://www.w3.org/QA/Tools/I_heart_validator_lg" />
+			</a>
+		</span>
+		<span id="don_program_text">
+			The W3C validators rely on community support for hosting and development.<br />
+			<a href="http://www.w3.org/QA/Tools/Donate">Donate</a> and help us build better tools for a better web.
+		</span></div>
 	</noscript>
 </div>
 <div id="observations">
@@ -35,7 +43,7 @@
 			#if ($infoCount && $infoCount > 0)<a class="infos"><span>Infos:</span>$infoCount</a> #end
 			#if ($errorCount && $errorCount > 0)<a class="errors"><span>Errors:</span>$errorCount</a> #end
 			#if ($warningCount && $warningCount > 0)<a class="warnings"><span>Warnings:</span>$warningCount</a> #end
-			<a class="anchor" href="#$observationName" title="anchor to this observation">[anchor]</a>
+			<a class="anchor smooth" href="#$observationName" title="anchor to this observation">[anchor]</a>
 		</span>
 		#if($observation.isPassed())
 		$test_ok_1
@@ -43,16 +51,16 @@
 		$test_fail_1
 		#end
 		<span class="name">$unicorncall.getObserverName($observationName, $lang)</span>
-		#if ($observation.getRequestUri())<a class="direct_link" href="$observation.getRequestUri()" title="revalidate this document on this validator website">[direct link]</a>
+		#if ($observation.getRequestUri())<a class="direct_link" href="$observation.getRequestUri()" title="revalidate this document on the validator website">[direct link]</a>
 		#else <a class="direct_link" href="$observation.getCallingURI()" title="link to this validator website">[direct link]</a>#end
 	</h2>
 	
 	<div class="results block">
 	#if ($infoCount && $infoCount > 0)
-		<div class="section infos">
-			<h3 class="title" id="${observationName}-info">
+		<div class="section infos" id="${observationName}_info">
+			<h3 class="title">
 				Infos ($infoCount)
-				<a class="smooth anchor" title="anchor to this uri" href="#${observationName}-info">[anchor]</a>
+				<a class="smooth anchor" title="anchor to this uri" href="#${observationName}_info">[anchor]</a>
 			</h3>
 			<div class="block result">
 				<table>
@@ -62,15 +70,15 @@
 						#if(!$result.Infos.isEmpty())
 						#set ($i = $i + 1)
 						<tr>
-							<td colspan="4" class="uri" id="${observationName}-info-${i}">
+							<td colspan="4" class="uri" id="${observationName}_info_${i}">
 							#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
 							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
 							#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
 							</td>
-							<td class="anchor uri"><a class="smooth" title="anchor to this uri" href="#${observationName}-info-${i}">[anchor]</a></td>
+							<td class="anchor uri"><a class="smooth" title="anchor to this uri" href="#${observationName}_info_${i}">[anchor]</a></td>
 						</tr>
 #foreach($info in $result.Infos)
-#set ($messageId = "${observationName}-info-${i}-$velocityCount")
+#set ($messageId = "${observationName}_info_${i}_$velocityCount")
 						<tr>
 							<td class="linenumber" title="#if($info.Line)Line:$info.Line#end">#if($info.Line)$info.Line#end</td>
 							<td class="colnumber" title="#if($info.Column)Column:$info.Column#end">#if($info.Column)$info.Column #end</td>
@@ -97,10 +105,10 @@
 	#end
 	
 	#if ($errorCount && $errorCount > 0)
-		<div class="section errors">
-			<h3 class="title" id="${observationName}-error">
+		<div class="section errors" id="${observationName}_error">
+			<h3 class="title">
 				Errors ($errorCount)
-				<a class="smooth anchor" title="anchor to this uri" href="#${observationName}-error">[anchor]</a>
+				<a class="smooth anchor" title="anchor to this uri" href="#${observationName}_error">[anchor]</a>
 			</h3>
 			<div class="block result">
 				<table>
@@ -110,15 +118,15 @@
 						#if (!$result.Errors.isEmpty())
 						#set ($i = $i + 1)
 						<tr>
-							<td colspan="4" class="uri" id="${observationName}-error-${i}">
+							<td colspan="4" class="uri" id="${observationName}_error_${i}">
 							#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
 							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
 							#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
 							</td>
-							<td class="anchor uri"><a class="smooth" title="anchor to this uri" href="#${observationName}-error-${i}">[anchor]</a></td>
+							<td class="anchor uri"><a class="smooth" title="anchor to this uri" href="#${observationName}_error_${i}">[anchor]</a></td>
 						</tr>
 #foreach($error in $result.Errors)
-#set ($messageId = "${observationName}-error-${i}-$velocityCount")
+#set ($messageId = "${observationName}_error_${i}_$velocityCount")
 						<tr>
 							<td class="linenumber" title="#if($error.Line)Line: $error.Line#end">#if($error.Line)$error.Line#end</td>
 							<td class="colnumber" title="#if($error.Column)Column: $error.Column#end">#if($error.Column)$error.Column #end</td>
@@ -145,10 +153,10 @@
 	#end
 	
 	#if ($warningCount && $warningCount > 0)
-		<div class="section warnings">
-			<h3 class="title" id="${observationName}-warning">
+		<div class="section warnings" id="${observationName}_warning">
+			<h3 class="title">
 				Warnings ($warningCount)
-				<a class="smooth anchor" title="anchor to this uri" href="#${observationName}-warning">[anchor]</a>
+				<a class="smooth anchor" title="anchor to this uri" href="#${observationName}_warning">[anchor]</a>
 			</h3>
 			<div class="block result">
 				<table>
@@ -158,15 +166,15 @@
 						#if(!$result.Warnings.isEmpty())
 						#set ($i = $i + 1)
 						<tr>
-							<td colspan="4" class="uri" id="${observationName}-info-${i}">
+							<td colspan="4" class="uri" id="${observationName}_warning_${i}">
 							#if ($unicorncall.getInputMethod() == "URI")<span>URI : </span><a href="$result.Uri">$result.Uri</a>#end
 							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>File : </span>$result.Uri#end
 							#if ($unicorncall.getInputMethod() == "DIRECT")<span>File : </span>Direct Input#end
 							</td>
-							<td class="anchor uri"><a class="smooth" title="anchor to this uri" href="#${observationName}-warning-${i}">[anchor]</a></td>
+							<td class="anchor uri"><a class="smooth" title="anchor to this uri" href="#${observationName}_warning_${i}">[anchor]</a></td>
 						</tr>
 #foreach($warning in $result.Warnings)
-#set ($messageId = "${observationName}-warning-${i}-$velocityCount")
+#set ($messageId = "${observationName}_warning_${i}_$velocityCount")
 						<tr>
 							<td class="linenumber" title="#if($warning.Line)Line: $warning.Line#end">#if($warning.Line)$warning.Line#end</td>
 							<td class="colnumber" title="#if($warning.Column)Column: $warning.Column#end">#if($warning.Column)$warning.Column #end</td>
