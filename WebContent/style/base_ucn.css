@@ -414,6 +414,7 @@ fieldset.toggled legend {
 }
 #observations div.observer h2 span.icons {
 	float: right;
+	text-align:right;
 }
 #observations div.observer h2 span.icons a {
 	font-size:0.8em;
@@ -474,8 +475,8 @@ fieldset.toggled legend {
 	height:0;
 	width:0;
 	overflow:hidden;
-	padding:15px 0 0 21px;
-	background:url(../images/permalink.gif) no-repeat 0 2px;
+	padding:15px 0 0 23px;
+	background:url(../images/permalink.gif) no-repeat 6px 2px;
 	float:right;
 }
 #observations .infos h3 {
@@ -498,7 +499,8 @@ fieldset.toggled legend {
 	font-weight: bold;
 }
 #observations td.anchor {
-	width:13px;
+	width:11px;
+	text-align:right;
 }
 #observations td.anchor a {
 	height:0;
