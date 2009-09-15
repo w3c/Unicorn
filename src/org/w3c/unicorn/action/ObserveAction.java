@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.30 2009-09-15 13:38:21 tgambet Exp $
+// $Id: ObserveAction.java,v 1.31 2009-09-15 15:14:02 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -75,7 +75,10 @@ public class ObserveAction extends Action {
 			throws ServletException, IOException {
 		
 		// Protects the action in case that Framework is not initialized
-		super.doGet(req, resp);
+		if (!Framework.isUcnInitialized) {
+			resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
+			return;
+		}
 		
 		// Objects initialization
 		FileItem aFileItemUploaded = null;
