@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_results.js,v 1.8 2009-09-15 12:34:30 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.9 2009-09-15 13:01:34 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
@@ -162,7 +162,9 @@ var W3C = {
 			return;
 		}
 		var observer = W3C.Observers[observerIndex];
-		W3C.closeAllObserversBut(observer, false);
+		//W3C.closeAllObserversBut(observer, false);
+		// OR //
+		W3C.open(observer, false);
 		
 		if (!sectionId) {
 			scroller.toElement(observer);
