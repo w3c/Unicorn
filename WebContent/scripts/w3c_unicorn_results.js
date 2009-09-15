@@ -1,3 +1,4 @@
+/* $Id: w3c_unicorn_results.js,v 1.7 2009-09-15 11:45:20 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
@@ -40,10 +41,14 @@ var W3C = {
 			W3C.open(observer, false);
 			if (observer.hasClass('valid') && invalidObservers.length > 0) 
 				W3C.close(observer, false);
+			console.log(observer.getElement('a.anchor'));
 			observer.getElement('a.anchor').addEvent('click', function(event) {
-				event.preventDefault();
+				//event.preventDefault();
 				W3C.open(observer, true);
-				scroller.toElement(observer);
+				//scroller.toElement(observer);
+				/*(new Chain()).wait(slideDuration).chain(function() {
+					W3C.setHash(observer.getProperty('id'));
+				}).callChain();*/
 			});
 			if (observer.getElement('a.infos')) {
 				observer.getElement('a.infos').addEvent('click', function(event) {
@@ -79,6 +84,9 @@ var W3C = {
 		    links: '.smooth',
 		    wheelStops: true
 		});
+		
+		W3C.cleanHash();
+		W3C.parseHash();
 	},
 	
 	toggle: function(section) {
@@ -136,6 +144,74 @@ var W3C = {
 			}
 		});
 		W3C.open(section, withFx);
+	},
+	
+	parseHash: function(){
+		var hash = window.location.hash;
+		if (hash == "") {
+			return;
+		}
+		var tab = hash.replace('#', '').split('_');
+		var observerId = tab[0];
+		var sectionId = tab[1];
+		var uriId = tab[2];
+		var messageId = tab[3];
+		
+		var scroller = new Fx.Scroll(document, {duration: 0});
+		
+		var observerIndex = W3C.Observers.getProperty('id').indexOf(observerId);
+		if (observerIndex == -1) {
+			W3C.setHash('');
+			return;
+		}
+		var observer = W3C.Observers[observerIndex];
+		W3C.closeAllObserversBut(observer, false);
+		
+		if (!sectionId) {
+			scroller.toElement(observer);
+			return;
+		}
+		var sectionIndex =  observer.getElements('.section').getProperty('id').indexOf(observerId + '_' + sectionId);
+		if (sectionIndex == -1) {
+			W3C.setHash(observerId);
+			return;
+		}
+		var section = observer.getElements('.section')[sectionIndex];
+		W3C.closeAllSectionsBut(observer, section, false);
+		
+		
+		if (!uriId) {
+			scroller.toElement(observer);
+			return;
+		}
+		var uriIndex =  section.getElements('td.uri').getProperty('id').indexOf(observerId + '_' + sectionId + '_' + uriId);
+		if (uriIndex == -1) {
+			W3C.setHash(observerId + '_' + sectionId);
+			return;
+		}
+		var uriTd = section.getElements('td.uri')[uriIndex];
+		
+		if (!messageId) {
+			scroller.toElement(uriTd);
+			return;
+		}
+		
+		W3C.setHash(hash);
+		
+	},
+	
+	updateHash: function(){
+		var tab = W3C.Forms[W3C.SelectedTab].getProperty('id');
+		var task = '+task_' + W3C.TaskOptions[W3C.SelectedTask].getProperty('value');
+		var withOptions = W3C.WithOptions ? '+with_options' : '';
+				
+		W3C.setHash(tab + task + withOptions);
+	},
+	
+	cleanHash: function(){
+		var hash = window.location.hash;
+		if (hash.match('^#validate-by'))
+			W3C.setHash('');
 	},
 	
 	setHash: function(hash){
