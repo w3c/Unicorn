@@ -59,8 +59,8 @@
 	#if ($infoCount && $infoCount > 0)
 		<div class="section infos" id="${observationName}_info">
 			<h3 class="title">
-				Infos ($infoCount)
 				<a class="smooth anchor" title="anchor to this uri" href="#${observationName}_info">[anchor]</a>
+				Infos ($infoCount)
 			</h3>
 			<div class="block result">
 				<table>
@@ -107,8 +107,8 @@
 	#if ($errorCount && $errorCount > 0)
 		<div class="section errors" id="${observationName}_error">
 			<h3 class="title">
-				Errors ($errorCount)
 				<a class="smooth anchor" title="anchor to this uri" href="#${observationName}_error">[anchor]</a>
+				Errors ($errorCount)
 			</h3>
 			<div class="block result">
 				<table>
@@ -155,8 +155,8 @@
 	#if ($warningCount && $warningCount > 0)
 		<div class="section warnings" id="${observationName}_warning">
 			<h3 class="title">
-				Warnings ($warningCount)
 				<a class="smooth anchor" title="anchor to this uri" href="#${observationName}_warning">[anchor]</a>
+				Warnings ($warningCount)
 			</h3>
 			<div class="block result">
 				<table>

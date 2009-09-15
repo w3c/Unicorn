@@ -473,10 +473,9 @@ fieldset.toggled legend {
 #observations h3 a.anchor {
 	height:0;
 	width:0;
-	display:inline-block;
 	overflow:hidden;
-	padding:1.1em 0 0 2em;
-	background:url(../images/permalink.gif) no-repeat 50% 50%;
+	padding:15px 0 0 21px;
+	background:url(../images/permalink.gif) no-repeat 0 2px;
 	float:right;
 }
 #observations .infos h3 {
