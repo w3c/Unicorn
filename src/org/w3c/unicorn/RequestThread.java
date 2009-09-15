@@ -15,7 +15,7 @@ import org.apache.velocity.app.event.EventCartridge;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.response.parser.ResponseParserFactory;
-import org.w3c.unicorn.util.EscapeHTMLEntities;
+import org.w3c.unicorn.util.EscapeXMLEntities;
 import org.w3c.unicorn.util.Templates;
 
 /**
@@ -92,7 +92,7 @@ class RequestThread extends Thread {
 
 				VelocityContext context = new VelocityContext(Framework.getLanguageContexts().get(lang));
 				EventCartridge aEventCartridge = new EventCartridge();
-				aEventCartridge.addEventHandler(new EscapeHTMLEntities());
+				aEventCartridge.addEventHandler(new EscapeXMLEntities());
 				aEventCartridge.attachToContext(context);
 				
 				if (e.getMessage() != null)	
