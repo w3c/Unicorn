@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.29 2009-09-15 13:27:30 tgambet Exp $
+// $Id: ObserveAction.java,v 1.30 2009-09-15 13:38:21 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -371,9 +371,6 @@ public class ObserveAction extends Action {
 			req.setAttribute("unicorn_message", mess);
 			if (reqParams != null)
 				req.setAttribute("unicorn_parameters", reqParams);
-			// JIGSAW compatible ?
-			//(new IndexAction()).doGet(req, resp);
-			// Good way to do it
 			RequestDispatcher dispatcher = req.getRequestDispatcher("index.html");
 			dispatcher.forward(req, resp);
 			logger.info("request redirected to index");
