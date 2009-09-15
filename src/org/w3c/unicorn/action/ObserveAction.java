@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.28 2009-09-14 12:15:42 tgambet Exp $
+// $Id: ObserveAction.java,v 1.29 2009-09-15 13:27:30 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -374,7 +374,7 @@ public class ObserveAction extends Action {
 			// JIGSAW compatible ?
 			//(new IndexAction()).doGet(req, resp);
 			// Good way to do it
-			RequestDispatcher dispatcher = req.getRequestDispatcher("");
+			RequestDispatcher dispatcher = req.getRequestDispatcher("index.html");
 			dispatcher.forward(req, resp);
 			logger.info("request redirected to index");
 			return;
