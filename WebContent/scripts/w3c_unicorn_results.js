@@ -2,7 +2,6 @@ var W3C = {
 	
 	start: function() {
 		
-		W3C.ObserverEvents = true;
 		W3C.Observers = $$('.observer');
 		
 		var slideDuration = 500;
@@ -20,19 +19,15 @@ var W3C = {
 			section.store('fxSlide', new Fx.Slide(block, {'duration': slideDuration, 'link': 'cancel'}));
 			section.store('block', block);
 			title.addEvent('click', function(event) {
-				if (!section.hasClass('observer') || W3C.ObserverEvents) {
-					W3C.toggle(section).chain(function () {
-						W3C.observersEvents(true);
-					});
-				}
+				W3C.toggle(section);
 			});
 		});
 		
 		$$('.observer .section').each(function(section) {
 			if (section.hasClass('warnings'))
-				W3C.close(section, false).callChain();
+				W3C.close(section, false);
 			if (section.hasClass('errors') || section.hasClass('infos'))
-				W3C.open(section, false).callChain();
+				W3C.open(section, false);
 		});
 		
 		$$('.observer .title a').each(function(a) {
@@ -42,36 +37,36 @@ var W3C = {
 		});
 		
 		$$('.observer').each(function(observer) {
-			W3C.open(observer, false).callChain();
+			W3C.open(observer, false);
 			if (observer.hasClass('valid') && invalidObservers.length > 0) 
-				W3C.close(observer, false).callChain();
+				W3C.close(observer, false);
 			observer.getElement('a.anchor').addEvent('click', function(event) {
 				event.preventDefault();
-				W3C.open(observer, true).callChain();
+				W3C.open(observer, true);
 				scroller.toElement(observer);
 			});
 			if (observer.getElement('a.infos')) {
 				observer.getElement('a.infos').addEvent('click', function(event) {
 					event.preventDefault();
-					W3C.open(observer, true).callChain();
-					scroller.toElement(observer);
+					W3C.open(observer, true);
 					W3C.closeAllSectionsBut(observer, observer.getElement('div.infos'), true);
+					scroller.toElement(observer);
 				});
 			}
 			if (observer.getElement('a.errors')) {
 				observer.getElement('a.errors').addEvent('click', function(event) {
 					event.preventDefault();
-					W3C.open(observer, true).callChain();
-					scroller.toElement(observer);
+					W3C.open(observer, true);
 					W3C.closeAllSectionsBut(observer, observer.getElement('div.errors'), true);
+					scroller.toElement(observer);
 				});
 			}
 			if (observer.getElement('a.warnings')) {
 				observer.getElement('a.warnings').addEvent('click', function(event) {
 					event.preventDefault();
-					W3C.open(observer, true).callChain();
-					scroller.toElement(observer);
+					W3C.open(observer, true);
 					W3C.closeAllSectionsBut(observer, observer.getElement('div.warnings'), true);
+					scroller.toElement(observer);
 				});
 			}
 		});
@@ -87,14 +82,12 @@ var W3C = {
 	},
 	
 	toggle: function(section) {
-		if (!section.hasClass('observer'))
-			W3C.observersEvents(false);
 		var title = section.getElement('.title');
 		var slide = section.retrieve('fxSlide');
 	    if (section.retrieve('open')) {
-	    	return W3C.close(section, true);
+	    	W3C.close(section, true);
 	    } else {
-	    	return W3C.open(section, true);
+	    	W3C.open(section, true);
 	    }
 	},
 	
@@ -105,15 +98,9 @@ var W3C = {
 	    title.removeClass('toggled');
 	    section.store('open', false);
 		if (withFx && opened) {
-			return slide.slideOut().chain(function(){
-		    	//section.getElement('div').setStyle('height', '0');
-		    	slide.callChain();
-			});
+			slide.slideOut();
 		} else {
-			return slide.hide().chain(function(){
-				//section.getElement('div').setStyle('height', '0');
-				slide.callChain();
-			});
+			slide.hide();
 		}
 	},
 	
@@ -124,22 +111,20 @@ var W3C = {
 	    title.addClass('toggled');
 	    section.store('open', true);
 	    if (withFx && closed) {
-	    	return slide.slideIn().chain(function(){
+	    	slide.slideIn().chain(function(){
 		    	section.getElement('div').setStyle('height', 'auto');
 		    	slide.callChain();
 			});
 		} else {
-	    	return slide.show().chain(function(){
-	    		section.getElement('div').setStyle('height', 'auto');
-	    		slide.callChain();
-	    	});
+	    	slide.show();
+	    	section.getElement('div').setStyle('height', 'auto');
 	    }
 	},
 	
 	closeAllObserversBut: function(observer, withFx) {
 		W3C.Observers.each(function (ob) {
 			if (ob != observer)
-				W3C.close(ob, withFx).callChain();
+				W3C.close(ob, withFx);
 		});
 		W3C.open(observer, withFx);
 	},
@@ -147,20 +132,10 @@ var W3C = {
 	closeAllSectionsBut: function(observer, section, withFx) {
 		observer.getElements('.section').each(function (sec) {
 			if (sec != section) {
-				W3C.close(sec, withFx).callChain();
+				W3C.close(sec, withFx);
 			}
 		});
 		W3C.open(section, withFx);
-	},
-	
-	observersEvents: function(on) {
-		if (on) {
-			W3C.ObserverEvents = true;
-			W3C.Observers.getElement('.title').addClass('pointer');
-		} else {
-			W3C.ObserverEvents = true;
-			W3C.Observers.getElement('.title').removeClass('pointer');
-		}
 	},
 	
 	setHash: function(hash){
