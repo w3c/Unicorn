@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_results.js,v 1.7 2009-09-15 11:45:20 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.8 2009-09-15 12:34:30 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
@@ -41,11 +41,8 @@ var W3C = {
 			W3C.open(observer, false);
 			if (observer.hasClass('valid') && invalidObservers.length > 0) 
 				W3C.close(observer, false);
-			console.log(observer.getElement('a.anchor'));
 			observer.getElement('a.anchor').addEvent('click', function(event) {
-				//event.preventDefault();
 				W3C.open(observer, true);
-				//scroller.toElement(observer);
 				/*(new Chain()).wait(slideDuration).chain(function() {
 					W3C.setHash(observer.getProperty('id'));
 				}).callChain();*/
