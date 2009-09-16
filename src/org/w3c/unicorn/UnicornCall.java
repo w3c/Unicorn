@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.13 2009-09-16 11:57:24 tgambet Exp $
+// $Id: UnicornCall.java,v 1.14 2009-09-16 13:48:38 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -90,16 +90,6 @@ public class UnicornCall {
 	private Map<String, Response> mapOfResponse;
 
 	/**
-	 * Active threads number in doRequests() method
-	 */
-	private int nbActiveThreads;
-
-	/**
-	 * Tells if all the checks passed
-	 */
-	private boolean bPassed;
-
-	/**
 	 * Creates a new UnicornCall.
 	 */
 	public UnicornCall() {
@@ -108,7 +98,6 @@ public class UnicornCall {
 		this.mapOfStringParameter = new LinkedHashMap<String, String[]>();
 
 		this.mapOfResponse = new LinkedHashMap<String, Response>();
-		this.nbActiveThreads = 0;
 	}
 
 	/**
@@ -230,39 +219,6 @@ public class UnicornCall {
 		return mapOfCurrentNodeObserver;
 	}
 
-	/**
-	 * Adds 1 to active threads number
-	 */
-	public synchronized void incCounter() {
-		this.nbActiveThreads++;
-	}
-
-	/**
-	 * Substracts 1 to active threads number
-	 */
-	public synchronized void decCounter() {
-		this.nbActiveThreads--;
-	}
-
-	/**
-	 * Change the value the boolean bPassed
-	 * 
-	 * @param b
-	 *            new value
-	 */
-	public void setbPassed(boolean b) {
-		this.bPassed = b;
-	}
-
-	/**
-	 * getter for bPassed
-	 * 
-	 * @return the value of bPassed
-	 */
-	public boolean getBPassed() {
-		return this.bPassed;
-	}
-	
 	public boolean isPassed() {
 		boolean passed = true;
 		for (String key : this.getObservationList().keySet()) {
@@ -272,7 +228,7 @@ public class UnicornCall {
 		}
 		return passed;
 	}
-
+	
 	/**
 	 * Execute the request depending on the priority
 	 * 
@@ -281,10 +237,8 @@ public class UnicornCall {
 	 * @throws IOException
 	 *             Input/Output error
 	 */
-	private boolean doRequests() throws IOException {
-		UnicornCall.logger.trace("doRequest");
-
-		bPassed = true;
+	private void doRequests() throws IOException {
+		UnicornCall.logger.trace("doRequests");
 
 		final Map<String, Request> requests = this.aRequestList.getRequestMap();
 		// Creation of the thread list
@@ -292,26 +246,23 @@ public class UnicornCall {
 
 		for (final String obsID : requests.keySet()) {
 			// send request to observer
-			if (UnicornCall.logger.isDebugEnabled()) {
-				UnicornCall.logger.debug("Request : "
-						+ requests.get(obsID).toString());
-			}
-
 			threadsList.add(new RequestThread(mapOfResponse, requests
 					.get(obsID), obsID, this));
+			UnicornCall.logger.debug("Request " + requests.get(obsID) + " added to threadsList");
 		}
 		for (int i = 0; i < threadsList.size(); i++) {
 			threadsList.get(i).start();
+			UnicornCall.logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " started");
 		}
 
 		for (int i = 0; i < threadsList.size(); i++) {
 			try {
 				threadsList.get(i).join();
+				UnicornCall.logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " terminated");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		return bPassed;
 
 	}
 
@@ -858,10 +809,7 @@ public class UnicornCall {
 			aMimeType = new MimeType(sMimeType);
 			break;
 		}
-		if (UnicornCall.logger.isDebugEnabled()) {
-			UnicornCall.logger
-					.debug("MimeType : " + aMimeType.toString() + ".");
-		}
+		UnicornCall.logger.debug("MimeType : " + aMimeType.toString() + ".");
 
 		return aMimeType;
 

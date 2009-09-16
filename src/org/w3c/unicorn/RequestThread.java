@@ -76,7 +76,6 @@ class RequestThread extends Thread {
 	 */
 	@Override
 	public void run() {
-		this.unicornCall.incCounter();
 		Response aResponse = null;
 		try {
 			// Uncomment/comment next lines to test io_error
@@ -126,17 +125,15 @@ class RequestThread extends Thread {
 				e1.printStackTrace();
 			}
 		}
-
+		RequestThread.logger.debug(obsID + " before sync mapOfResponse");
 		synchronized (mapOfResponse) {
 			mapOfResponse.put(obsID, aResponse);
 		}
+		RequestThread.logger.debug(obsID + " after sync mapOfResponse");
+	}
 
-		if (!aResponse.isPassed() && this.unicornCall.getBPassed()) {
-			this.unicornCall.setbPassed(false);
-		}
-
-		this.unicornCall.decCounter();
-
+	public String getObsID() {
+		return obsID;
 	}
 
 }
