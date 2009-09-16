@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.31 2009-09-15 15:14:02 tgambet Exp $
+// $Id: ObserveAction.java,v 1.32 2009-09-16 16:45:38 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -161,11 +161,11 @@ public class ObserveAction extends Action {
 				} else if (paramName.equals("uri")) {
 					logger.trace("Uri parameter: " + key + " - " + (String) reqParams.get(key));
 					String uri = (String) reqParams.get(key);
-					if (uri.startsWith("https://")) {
+					/*if (uri.startsWith("https://")) {
 						Message mess = new Message(Message.Level.ERROR, "Unicorn does not support https protocol for the moment.", null);
 						createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 						return;
-					}
+					}*/
 					// To allow other protocols change (https?) in (https?|ftp|rmtp) for example
 					Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)*(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
 					if (!urlPattern.matcher(uri).matches()) {
