@@ -78,8 +78,7 @@
 
 	<ucn:Task ucn:reference="full-css">
 		<ucn:longName xml:lang="en">Global CSS Validation</ucn:longName>
-
-    <ucn:hasParameter>
+    	<ucn:hasParameter>
 			<ucn:Radio ucn:reference="warning">
 				<ucn:longName xml:lang="en">Warning</ucn:longName>
 				<ucn:longName xml:lang="fr">Avertissements</ucn:longName>
@@ -130,13 +129,59 @@
 					</ucn:Value>
 				</ucn:hasValue>
 			</ucn:CheckBoxList>
-			
 		</ucn:hasParameter>
-
 	</ucn:Task>
 	
 	<ucn:Task ucn:reference="mobileok">
 		<ucn:longName xml:lang="en">Mobile Ok Validator</ucn:longName>
 		<ucn:longName xml:lang="fr">Validateur Mobile Ok</ucn:longName>
 	</ucn:Task>
+	
+	<ucn:Task ucn:reference="custom">
+		<ucn:longName xml:lang="en">Custom task</ucn:longName>
+		<ucn:longName xml:lang="fr">Tâche personnalisée</ucn:longName>
+		<ucn:hasParameter>
+			<ucn:CheckBoxList ucn:reference="observers">
+				<ucn:longName xml:lang="en">Observers</ucn:longName>
+				<ucn:longName xml:lang="fr">Observateurs</ucn:longName>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="css1-validator">
+						<ucn:longName xml:lang="en">W3C CSS Validator (Level 1)</ucn:longName>
+						<ucn:longName xml:lang="fr">W3C Validateur CSS (Niveau 1)</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="css2-validator">
+						<ucn:longName xml:lang="en">W3C CSS Validator (Level 2)</ucn:longName>
+						<ucn:longName xml:lang="fr">W3C Validateur CSS (Niveau 2)</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="css21-validator">
+						<ucn:longName xml:lang="en">W3C CSS Validator (Level 2.1)</ucn:longName>
+						<ucn:longName xml:lang="fr">W3C Validateur CSS (Niveau 2.1)</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="css3-validator">
+						<ucn:longName xml:lang="en">W3C CSS Validator (Level 3)</ucn:longName>
+						<ucn:longName xml:lang="fr">W3C Validateur CSS (Niveau 3)</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="markup-validator">
+						<ucn:longName xml:lang="en">W3C HTML Validator</ucn:longName>
+						<ucn:longName xml:lang="fr">W3C Validateur HTML</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="mobileok">
+						<ucn:longName xml:lang="en">W3C Mobile OK Checker</ucn:longName>
+						<ucn:longName xml:lang="fr">W3C Validateur Mobile OK</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+			</ucn:CheckBoxList>
+		</ucn:hasParameter>
+	</ucn:Task>
+	
 </rdf:RDF>

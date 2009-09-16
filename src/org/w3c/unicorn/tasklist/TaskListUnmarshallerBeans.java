@@ -36,6 +36,7 @@ import org.w3c.unicorn.tasklist.parameters.Mapping;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklist.parameters.ParameterFactory;
 import org.w3c.unicorn.tasklist.parameters.Value;
+import org.w3c.unicorn.tasklisttree.EnumCondType;
 import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
@@ -418,7 +419,10 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 					myCond
 							.setResult(condlist.getResult().equals("passed") ? true
 									: false);
-					myCond.setType(condlist.getType());
+					myCond.setType(condlist.getType().toString());
+					
+					myCond.setParameter(condlist.getParameter());
+					
 					myCond.setValue(condlist.getValue());
 
 					ifnode.addCond(myCond);

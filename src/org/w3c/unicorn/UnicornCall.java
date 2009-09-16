@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.12 2009-09-10 08:32:41 tgambet Exp $
+// $Id: UnicornCall.java,v 1.13 2009-09-16 11:57:24 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -785,6 +785,18 @@ public class UnicornCall {
 				XPathExpression xpe = xpath.compile(xpathStr);
 				passed = (Boolean) xpe.evaluate(doc, XPathConstants.BOOLEAN);
 			}
+		} else if (cond.getType().equals(EnumCondType.PARAMETER)) {
+			passed = false;
+			if (!mapOfStringParameter.containsKey(cond.getParameter())) {
+				cond.setResult(passed);
+				return passed;
+			}
+			
+			String[] parameterValues = mapOfStringParameter.get(cond.getParameter());
+			for (int i=0; i<parameterValues.length; i++)
+				if (parameterValues[i].equals(cond.getValue()))
+					passed = true;
+			
 		}
 
 		cond.setResult(passed);

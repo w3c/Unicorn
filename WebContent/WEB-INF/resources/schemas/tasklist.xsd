@@ -47,13 +47,23 @@
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="condType">
-	<xs:sequence>
-		 <xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="1" />
-        </xs:sequence>
-        <xs:attribute type="xs:string" name="id" use="optional"/>
-        <xs:attribute type="xs:string" name="result" use="optional"/>
-        <xs:attribute type="xs:NCName" name="observer" use="optional"/>
-        <xs:attribute type="xs:string" name="type" use="optional"/>
+  	<xs:sequence>
+  		<xs:element name="value" type="xs:string" minOccurs="1"
+  			maxOccurs="1" />
+  	</xs:sequence>
+  	<xs:attribute type="xs:string" name="id" use="optional" />
+  	<xs:attribute type="xs:string" name="result" use="optional" />
+  	<xs:attribute type="xs:NCName" name="observer" use="optional" />
+  	<xs:attribute name="type" use="optional">
+  		<xs:simpleType>
+  			<xs:restriction base="xs:string">
+  				<xs:enumeration value="parameter"></xs:enumeration>
+  				<xs:enumeration value="xpath"></xs:enumeration>
+  				<xs:enumeration value="mimetype"></xs:enumeration>
+  			</xs:restriction>
+  		</xs:simpleType>
+  	</xs:attribute>
+  	<xs:attribute name="parameter" type="xs:string" use="optional"></xs:attribute>
   </xs:complexType>
   <xs:complexType name="routineType">
     <xs:sequence maxOccurs="unbounded">
