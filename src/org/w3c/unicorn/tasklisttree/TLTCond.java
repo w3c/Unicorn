@@ -22,6 +22,8 @@ public class TLTCond {
 	private boolean result;
 
 	private String value;
+	
+	private String parameter;
 
 	private static final Log logger = LogFactory.getLog(TLTCond.class);
 
@@ -156,6 +158,14 @@ public class TLTCond {
 	public String getValue() {
 		TLTCond.logger.trace("getValue()");
 		return value;
+	}
+
+	public String getParameter() {
+		return parameter;
+	}
+
+	public void setParameter(String parameter) {
+		this.parameter = parameter;
 	}
 
 	@Override

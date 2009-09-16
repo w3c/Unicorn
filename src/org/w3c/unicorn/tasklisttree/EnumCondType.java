@@ -2,7 +2,7 @@ package org.w3c.unicorn.tasklisttree;
 
 public enum EnumCondType {
 
-	XPATH("xpath"), MIMETYPE("mimetype");
+	XPATH("xpath"), MIMETYPE("mimetype"), PARAMETER("parameter");
 
 	private final String sValue;
 
