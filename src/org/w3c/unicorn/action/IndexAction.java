@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.16 2009-09-15 15:14:02 tgambet Exp $Id $
+// $Id: IndexAction.java,v 1.17 2009-09-16 12:29:09 tgambet Exp $Id $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -34,8 +34,11 @@ public class IndexAction extends Action {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		if (!Framework.isUcnInitialized) {
-			resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
-			return;
+			Framework.init();
+			if (!Framework.isUcnInitialized) {
+				resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
+				return;
+			}
 		}
 		
 		resp.setContentType("text/html; charset=UTF-8");
