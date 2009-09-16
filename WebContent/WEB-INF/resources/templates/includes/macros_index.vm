@@ -63,18 +63,20 @@
 #end
 
 #macro(createCheckbox $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
 #set($defaults = $param.getMapOfDefaultValue())
-<label><span>$param.getLongName($lang):</span> 
+<label><span>$param_name:</span> 
 	<input type="checkbox" name="$param.getName()" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end class="option_input" />
 </label>
 #end
 
 #macro(createCheckboxList $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
 #set($defaults = $param.getMapOfDefaultValue())
 #set( $D = '$' )
 #set ($a = "${D}!{param_${param.Name}}")
 #set ($paramMap = "#evaluate ($a)")
-<label><span>$param.getLongName($lang):</span></label> 
+<label><span>$param_name:</span></label> 
 <span class="checkboxlist">
 #foreach ($value in $param.getMapOfValue())
 #set ($s = '')
@@ -88,11 +90,12 @@
 #end
 
 #macro(createDropdown $param $multiple)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
 #set($defaults = $param.getMapOfDefaultValue())
 #set( $D = '$' )
 #set ($a = "${D}!{param_${param.Name}}")
 #set ($paramValue = "#evaluate ($a)")
-<label><span>$param.getLongName($lang):</span> 
+<label><span>$param_name:</span> 
 	<select name="$param.Name" #if($multiple) multiple="multiple" size="3" #end class="option_input">
 #foreach ($value in $param.getMapOfValue())
 #set ($s = '')
@@ -104,8 +107,9 @@
 #end
 
 #macro(createRadio $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
 #set($defaults = $param.getMapOfDefaultValue())
-<label><span>$param.getLongName($lang):</span></label>
+<label><span>$param_name:</span></label>
 <span class="radiolist">
 #foreach ($value in $param.getMapOfValue())
 	<label>$value.getLongName($lang)
@@ -116,15 +120,17 @@
 #end
 
 #macro(createTextarea $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
 #set($defaults = $param.getMapOfDefaultValue())
-<label><span>$param.getLongName($lang):</span> 
+<label><span>$param_name:</span> 
 	<textarea name="$param.getName()" class="option_input">#foreach($default in $defaults)$default.Name#end</textarea>' +
 </label>
 #end
 
 #macro(createTextfield $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
 #set($defaults = $param.getMapOfDefaultValue())
-<label><span>$param.getLongName($lang):</span> 
+<label><span>$param_name:</span> 
 	<input type="text" name="$param.getName()" value="#foreach($default in $defaults)$default.Name#end" class="option_input" />
 </label>
 #end
