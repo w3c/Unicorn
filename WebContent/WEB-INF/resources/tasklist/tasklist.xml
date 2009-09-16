@@ -307,7 +307,7 @@
 		</routine>
 
 		<parameters>
-			<parameter name="observers" type="checkboxlist" default="css-validator" ui="simple">
+			<parameter name="observers" type="checkboxlist" default="markup-validator" ui="simple">
 				<value name="css1-validator"></value>
 				<value name="css2-validator"></value>
 				<value name="css21-validator"></value>
