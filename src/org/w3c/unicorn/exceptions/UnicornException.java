@@ -8,6 +8,10 @@ public class UnicornException extends Exception {
 
 	private Message message;
 	
+	public UnicornException() {
+		super();
+	}
+	
 	public UnicornException(String string) {
 		super(string);
 	}
