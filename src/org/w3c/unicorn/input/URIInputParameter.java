@@ -43,6 +43,9 @@ public class URIInputParameter extends InputParameter {
 			case HttpURLConnection.HTTP_UNAUTHORIZED:
 				message = new Message(Message.Level.ERROR, "$message_unauthorized_access", null);
 				throw new UnicornException(message);
+			case HttpURLConnection.HTTP_NOT_FOUND:
+				message = new Message(Message.Level.ERROR, "$message_document_not_found", null);
+				throw new UnicornException(message);
 			}
 			
 			String sMimeType = con.getContentType();
@@ -54,9 +57,6 @@ public class URIInputParameter extends InputParameter {
 			throw new UnicornException(message);
 		} catch (MimeTypeParseException e) {
 			Message message = new Message(Message.Level.ERROR, "$message_invalid_mime_type", null);
-			throw new UnicornException(message);
-		} catch (FileNotFoundException e) {
-			Message message = new Message(Message.Level.ERROR, "$message_document_not_found", null);
 			throw new UnicornException(message);
 		} catch (UnknownHostException e) { 
 			Message message = new Message(Message.Level.ERROR, "$message_unknown_host", null);
