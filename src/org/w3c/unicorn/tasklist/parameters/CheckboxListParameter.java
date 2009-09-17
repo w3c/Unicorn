@@ -1,4 +1,4 @@
-// $Id: CheckboxListParameter.java,v 1.2 2009-08-28 12:40:09 jean-gui Exp $
+// $Id: CheckboxListParameter.java,v 1.3 2009-09-17 15:39:49 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -75,7 +75,7 @@ public class CheckboxListParameter extends Parameter {
 			final Value aValue = this.mapOfValue.get(sDefault);
 			if (aValue != null) {
 				this.mapOfDefaultValue.put(sDefault, aValue);
-			} else {
+			} else if (!sDefaultValues.equals("")) {
 				Parameter.logger.error("The default value " + sDefault
 						+ " is not a valid value.");
 			}
