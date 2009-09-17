@@ -7,7 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.UnknownHostException;
 
 import javax.activation.MimeType;
@@ -34,9 +33,18 @@ public class URIInputParameter extends InputParameter {
 		URL docUrl = null;
 		try {
 			docUrl = new URL(uri);
-			URLConnection con = docUrl.openConnection();
+			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
 			con.setConnectTimeout(connectTimeOut);
 			con.connect();
+			
+			Message message;
+			int responseCode = con.getResponseCode();
+			switch (responseCode) {
+			case HttpURLConnection.HTTP_UNAUTHORIZED:
+				message = new Message(Message.Level.ERROR, "$message_unauthorized_access", null);
+				throw new UnicornException(message);
+			}
+			
 			String sMimeType = con.getContentType();
 			sMimeType = sMimeType.split(";")[0];
 			mimeType = new MimeType(sMimeType);
@@ -68,24 +76,8 @@ public class URIInputParameter extends InputParameter {
 				throw new UnicornException(message);
 			}
 		} catch (IOException e) {
-			try {
-				int responseCode;
-				if (docUrl != null) {
-					responseCode = ((HttpURLConnection) docUrl.openConnection()).getResponseCode();
-					Message message;
-					switch (responseCode) {
-					case HttpURLConnection.HTTP_UNAUTHORIZED:
-						message = new Message(Message.Level.ERROR, "$message_unauthorized_access", null);
-						throw new UnicornException(message);
-					default:
-						message = new Message(e);
-						throw new UnicornException(message);
-					}
-				}
-			} catch (Exception e2) {
-				Message message = new Message(e2);
-				throw new UnicornException(message);
-			}
+			Message message = new Message(e);
+			throw new UnicornException(message);
 		}
 	}
 
