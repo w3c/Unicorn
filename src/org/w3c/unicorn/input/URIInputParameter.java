@@ -1,6 +1,5 @@
 package org.w3c.unicorn.input;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
@@ -36,7 +35,6 @@ public class URIInputParameter extends InputParameter {
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
 			con.setConnectTimeout(connectTimeOut);
 			con.connect();
-			
 			Message message;
 			int responseCode = con.getResponseCode();
 			switch (responseCode) {
@@ -47,7 +45,6 @@ public class URIInputParameter extends InputParameter {
 				message = new Message(Message.Level.ERROR, "$message_document_not_found", null);
 				throw new UnicornException(message);
 			}
-			
 			String sMimeType = con.getContentType();
 			sMimeType = sMimeType.split(";")[0];
 			mimeType = new MimeType(sMimeType);
