@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.w3c.unicorn.UnicornCall;
-import org.w3c.unicorn.contract.EnumInputMethod;
+import org.w3c.unicorn.input.URIInputParameter;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
@@ -16,9 +16,7 @@ public class HiepTest {
 
 		UnicornCall aUnicornCall = new UnicornCall();
 		aUnicornCall.setTask("conformance"); // task id
-		aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
-		aUnicornCall.setDocumentName("http://w3.org");
-		aUnicornCall.setInputParameterValue("http://w3.org");
+		aUnicornCall.setInputParameter(new URIInputParameter("http://w3.org"));
 		aUnicornCall.setLang("en");
 
 		try {

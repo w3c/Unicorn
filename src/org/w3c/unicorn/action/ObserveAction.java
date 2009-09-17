@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.32 2009-09-16 16:45:38 tgambet Exp $
+// $Id: ObserveAction.java,v 1.33 2009-09-17 15:42:41 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -28,8 +28,10 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.UnicornCall;
-import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.exceptions.UnsupportedMimeTypeException;
+import org.w3c.unicorn.exceptions.UnicornException;
+import org.w3c.unicorn.input.DirectInputParameter;
+import org.w3c.unicorn.input.URIInputParameter;
+import org.w3c.unicorn.input.UploadInputParameter;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
@@ -161,12 +163,7 @@ public class ObserveAction extends Action {
 				} else if (paramName.equals("uri")) {
 					logger.trace("Uri parameter: " + key + " - " + (String) reqParams.get(key));
 					String uri = (String) reqParams.get(key);
-					/*if (uri.startsWith("https://")) {
-						Message mess = new Message(Message.Level.ERROR, "Unicorn does not support https protocol for the moment.", null);
-						createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
-						return;
-					}*/
-					// To allow other protocols change (https?) in (https?|ftp|rmtp) for example
+					// To allow other protocols change (https?) to (https?|ftp|rmtp) for example
 					Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)*(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
 					if (!urlPattern.matcher(uri).matches()) {
 						if (uri.equals(""))
@@ -185,21 +182,21 @@ public class ObserveAction extends Action {
 							return;
 						}
 					}
-					aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
-					aUnicornCall.setDocumentName(uri);
-					aUnicornCall.setInputParameterValue(uri);
+					//aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
+					//aUnicornCall.setDocumentName(uri);
+					aUnicornCall.setInputParameter(new URIInputParameter(uri));
 				} else if (paramName.equals("text")) {
 					logger.trace("Text parameter: " + key + " - " + (String) reqParams.get(key));
-					aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
-					aUnicornCall.setInputParameterValue((String) reqParams.get(key));
+					//aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
+					aUnicornCall.setInputParameter(new DirectInputParameter((String) reqParams.get(key), (String) reqParams.get(paramPrefix + "text_mime")));
 				} else if (paramName.equals("file")) {
 					logger.trace("File parameter: " + key + " - " + reqParams.get(key).toString());
 					Object object = reqParams.get(key);
 					if (object instanceof FileItem) {
 						aFileItemUploaded = (FileItem) object;
-						aUnicornCall.setDocumentName(aFileItemUploaded.getName());
-						aUnicornCall.setInputParameterValue(aFileItemUploaded);
-						aUnicornCall.setEnumInputMethod(EnumInputMethod.UPLOAD);
+						//aUnicornCall.setDocumentName(aFileItemUploaded.getName());
+						aUnicornCall.setInputParameter(new UploadInputParameter(aFileItemUploaded));
+						//aUnicornCall.setEnumInputMethod(EnumInputMethod.UPLOAD);
 					} else {
 						// should be impossible (see getRequestParameters)
 						logger.warn("ucn_file is not of type FileItem!");
@@ -281,8 +278,11 @@ public class ObserveAction extends Action {
 		try {
 			aUnicornCall.doTask();
 			createOutput(req, resp, mapOfStringObject, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
-		} catch (final UnsupportedMimeTypeException aException) {
+		} /*catch (final UnsupportedMimeTypeException aException) {
 			Message mess = new Message(Message.Level.ERROR, "$message_unsupported_mime_type", null);
+			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
+		} */catch (final UnicornException ucnException) {
+			Message mess = ucnException.getUnicornMessage();
 			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final Exception aException) {
 			logger.error("Exception : " + aException.getMessage(), aException);

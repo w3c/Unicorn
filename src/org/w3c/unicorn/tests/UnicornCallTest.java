@@ -3,7 +3,6 @@ package org.w3c.unicorn.tests;
 import java.io.InputStream;
 import java.util.Iterator;
 
-import javax.activation.MimeType;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,9 +13,9 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
-import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.input.InputFactory;
 import org.w3c.unicorn.input.InputModule;
+import org.w3c.unicorn.input.InputParameter;
+import org.w3c.unicorn.input.URIInputParameter;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.response.Response;
 import org.xml.sax.InputSource;
@@ -93,8 +92,12 @@ public class UnicornCallTest {
 			 * 
 			 */
 
-			InputModule inputMod = InputFactory.createInputModule(
-					(new MimeType()), EnumInputMethod.URI, "http://www.w3.org");
+			//InputModule inputMod = InputFactory.createInputModule((new MimeType()), EnumInputMethod.URI, "http://www.w3.org");
+			
+			InputParameter inputParameter = new URIInputParameter("http://www.w3.org");
+			inputParameter.check();
+			InputModule inputMod = inputParameter.getInputModule();
+			
 			Request req = Request.createRequest(inputMod,
 					"http://validator.w3.org/check", "uri", false, "ucn");
 			req.setLang("en");

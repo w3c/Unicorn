@@ -1,4 +1,4 @@
-// $Id: CommandLine.java,v 1.3 2009-09-01 16:00:24 jean-gui Exp $
+// $Id: CommandLine.java,v 1.4 2009-09-17 15:42:41 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -110,7 +110,7 @@ public class CommandLine {
 		CommandLine.logger.info("Initialize framework.");
 		UnicornCall aUnicornCall = new UnicornCall();
 		aUnicornCall.setTask(CommandLine.sTaskID);
-		aUnicornCall.setEnumInputMethod(CommandLine.aEnumInputMethod);
+		//aUnicornCall.setEnumInputMethod(CommandLine.aEnumInputMethod);
 		// CommandLine.sEnumInputMethodValue
 		aUnicornCall.setMapOfStringParameter(CommandLine.mapOfParameter);
 		if (CommandLine.logger.isDebugEnabled()) {

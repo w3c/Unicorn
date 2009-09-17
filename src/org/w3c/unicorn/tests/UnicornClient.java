@@ -9,12 +9,11 @@ import java.util.Map;
 
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.UnicornCall;
-import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.exceptions.InitializationFailedException;
+import org.w3c.unicorn.input.DirectInputParameter;
+import org.w3c.unicorn.input.URIInputParameter;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
-import org.w3c.unicorn.util.Property;
 
 public class UnicornClient {
 
@@ -95,12 +94,12 @@ public class UnicornClient {
 			// "file=text/css=./style/base.css"
 			String[] pInput = pageToValid.split("=");
 			if (pInput[0].equals("uri")) {
-				aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
-				aUnicornCall.setDocumentName(pInput[1]);
-				aUnicornCall.setInputParameterValue(pInput[1]);
+				//aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
+				//aUnicornCall.setDocumentName(pInput[1]);
+				aUnicornCall.setInputParameter(new URIInputParameter(pInput[1]));
 			} else { // direct input
 				try {
-					aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
+					//aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
 
 					// read content in the file pInput[2], example:
 					// pInput[2]=base.css alors content=".h1{color:#FA0012}";
@@ -113,7 +112,8 @@ public class UnicornClient {
 					bfr.close();
 
 					// Ajouter mime type dans map of parameter
-					Map<String, String[]> mapOfParameter = aUnicornCall
+					// TODO check if this is necessary (mime-type is added to DirectInputParameter object)
+					/*Map<String, String[]> mapOfParameter = aUnicornCall
 							.getMapOfStringParameter();
 					if (mapOfParameter == null) {
 						mapOfParameter = new LinkedHashMap<String, String[]>();
@@ -121,10 +121,11 @@ public class UnicornClient {
 					}
 					String[] tmp = { pInput[1] };
 					mapOfParameter.put(Property.get("UNICORN_PARAMETER_PREFIX")
-							+ "mime", tmp);
+							+ "mime", tmp);*/
 
-					aUnicornCall.setInputParameterValue(content);
-
+					//aUnicornCall.setInputParameterValue(content);
+					aUnicornCall.setInputParameter(new DirectInputParameter(content, pInput[1]));
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
