@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.17 2009-09-16 12:29:09 tgambet Exp $Id $
+// $Id: IndexAction.java,v 1.18 2009-09-17 17:29:37 tgambet Exp $Id $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -48,16 +48,15 @@ public class IndexAction extends Action {
 		
 		String lang;
 		String task;
-		String queryString;
+		String queryString = "./" + getQueryStringWithout(paramPrefix + "lang", req);
 		if (req.getAttribute("unicorn_parameters") instanceof Map<?, ?>) {
 			Map<?, ?> reqParams = (Map<?, ?>) req.getAttribute("unicorn_parameters");
 			lang = getLanguage((String) reqParams.get(paramPrefix + "lang"), req, messages);
 			task = getTask((String) reqParams.get(paramPrefix + "task"), null);
-			queryString = "./";
 		} else {
 			lang = getLanguage((String) req.getParameter(paramPrefix + "lang"), req, messages);
 			task = getTask((String) req.getParameter(paramPrefix + "task"), null);
-			queryString = getQueryStringWithout(paramPrefix + "lang", req);
+			
 		}
 		
 		if (req.getAttribute("unicorn_message") != null)
