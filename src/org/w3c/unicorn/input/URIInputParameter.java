@@ -16,6 +16,7 @@ import javax.net.ssl.SSLException;
 
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.exceptions.UnicornException;
+import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 
 public class URIInputParameter extends InputParameter {
@@ -35,44 +36,56 @@ public class URIInputParameter extends InputParameter {
 			docUrl = new URL(uri);
 			URLConnection con = docUrl.openConnection();
 			con.setConnectTimeout(connectTimeOut);
+			con.connect();
 			String sMimeType = con.getContentType();
 			sMimeType = sMimeType.split(";")[0];
 			mimeType = new MimeType(sMimeType);
 			inputModule = new URIInputModule(mimeType, uri);
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			Message message = new Message(Message.Level.ERROR, "$message_invalid_url_syntax " + uri, null);
+			throw new UnicornException(message);
 		} catch (MimeTypeParseException e) {
-			e.printStackTrace();
+			Message message = new Message(Message.Level.ERROR, "$message_invalid_mime_type", null);
+			throw new UnicornException(message);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Message message = new Message(Message.Level.ERROR, "$message_document_not_found", null);
+			throw new UnicornException(message);
 		} catch (UnknownHostException e) { 
-			e.printStackTrace();
+			Message message = new Message(Message.Level.ERROR, "$message_unknown_host", null);
+			throw new UnicornException(message);
 		} catch (SSLException e) {
-			e.printStackTrace();
+			Message message = new Message(Message.Level.ERROR, "$message_ssl_exception", null);
+			throw new UnicornException(message);
 		} catch (ConnectException e) {
-			e.printStackTrace();
+			Message message = new Message(Message.Level.ERROR, "$message_connect_exception", null);
+			throw new UnicornException(message);
 		} catch (SocketTimeoutException e) {
-			e.printStackTrace();
-			if (e.getMessage().contains("Read timed out"))
-				System.out.println("a");
-			if (e.getMessage().contains("connect timed out"))
-				System.out.println("b");
+			if (e.getMessage().contains("connect timed out")) {
+				Message message = new Message(Message.Level.ERROR, "$message_connect_exception", null);
+				throw new UnicornException(message);
+			} else {
+				Message message = new Message(e);
+				throw new UnicornException(message);
+			}
 		} catch (IOException e) {
 			try {
 				int responseCode;
 				if (docUrl != null) {
 					responseCode = ((HttpURLConnection) docUrl.openConnection()).getResponseCode();
+					Message message;
 					switch (responseCode) {
 					case HttpURLConnection.HTTP_UNAUTHORIZED:
-						System.out.println("HTTP_UNAUTHORIZED");
-						break;
+						message = new Message(Message.Level.ERROR, "$message_unauthorized_access", null);
+						throw new UnicornException(message);
+					default:
+						message = new Message(e);
+						throw new UnicornException(message);
 					}
 				}
 			} catch (Exception e2) {
-				System.out.println("e2");
-				e2.printStackTrace();
+				Message message = new Message(e2);
+				throw new UnicornException(message);
 			}
-			e.printStackTrace();
 		}
 	}
 
