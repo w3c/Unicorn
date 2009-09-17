@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.33 2009-09-17 15:42:41 tgambet Exp $
+// $Id: ObserveAction.java,v 1.34 2009-09-17 17:28:23 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -278,10 +278,7 @@ public class ObserveAction extends Action {
 		try {
 			aUnicornCall.doTask();
 			createOutput(req, resp, mapOfStringObject, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
-		} /*catch (final UnsupportedMimeTypeException aException) {
-			Message mess = new Message(Message.Level.ERROR, "$message_unsupported_mime_type", null);
-			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
-		} */catch (final UnicornException ucnException) {
+		} catch (final UnicornException ucnException) {
 			Message mess = ucnException.getUnicornMessage();
 			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final Exception aException) {
