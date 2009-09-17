@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.15 2009-09-17 15:42:41 tgambet Exp $
+// $Id: UnicornCall.java,v 1.16 2009-09-17 16:39:51 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -79,7 +79,7 @@ public class UnicornCall {
 	 * Creates a new UnicornCall.
 	 */
 	public UnicornCall() {
-		UnicornCall.logger.trace("Constructor()");
+		logger.trace("Constructor()");
 		mapOfStringParameter = new LinkedHashMap<String, String[]>();
 		mapOfResponse = new LinkedHashMap<String, Response>();
 	}
@@ -90,11 +90,11 @@ public class UnicornCall {
 	 * @throws Exception
 	 */
 	public void doTask() throws UnicornException, Exception {
-		UnicornCall.logger.trace("doTask.");
-		UnicornCall.logger.debug("String task id : " + aTask.getID() + ".");
-		UnicornCall.logger.debug("EnumInputMethod : " + inputParameter.getInputMethod() + ".");
-		UnicornCall.logger.debug("Document name : " + inputParameter.getDocumentName() + ".");
-		UnicornCall.logger.debug("Map of string parameter : " + mapOfStringParameter + ".");
+		logger.trace("doTask.");
+		logger.debug("String task id : " + aTask.getID() + ".");
+		logger.debug("EnumInputMethod : " + inputParameter.getInputMethod() + ".");
+		logger.debug("Document name : " + inputParameter.getDocumentName() + ".");
+		logger.debug("Map of string parameter : " + mapOfStringParameter + ".");
 		
 		inputParameter.check();
 		
@@ -119,7 +119,7 @@ public class UnicornCall {
 	 * @throws Exception
 	 *             raised from generateRequestList and doRequest
 	 */
-	private void doNode(InputParameter inputParameter, TLTNode node) throws Exception {
+	private void doNode(InputParameter inputParameter, TLTNode node) throws UnicornException, Exception {
 		if (node != null) {
 			RequestList aRequestList = generateRequestList(inputParameter, mapOfStringParameter, node);
 			// send requests to observer
@@ -145,8 +145,8 @@ public class UnicornCall {
 	 * @throws Exception
 	 */
 	private boolean checkCond(TLTIf ifs) throws Exception {
-		UnicornCall.logger.trace("checkCond.");
-		UnicornCall.logger.debug("If node : " + ifs + ".");
+		logger.trace("checkCond.");
+		logger.debug("If node : " + ifs + ".");
 		
 		boolean conditionOK = false;
 		for (TLTCond cond : ifs.getCondArray()) {
@@ -167,18 +167,18 @@ public class UnicornCall {
 	 *         else false
 	 */
 	private boolean checkCond(TLTCond cond) throws Exception {
-		UnicornCall.logger.trace("checkCond : ");
-		UnicornCall.logger.trace(cond);
-		UnicornCall.logger.trace("condId : " + cond.getId());
-		UnicornCall.logger.trace("condType : " + cond.getType());
-		UnicornCall.logger.trace("condValue : " + cond.getValue());
+		logger.trace("checkCond : ");
+		logger.trace(cond);
+		logger.trace("condId : " + cond.getId());
+		logger.trace("condType : " + cond.getType());
+		logger.trace("condValue : " + cond.getValue());
 
 		boolean passed = false;
 
 		if (cond.getType().equals(EnumCondType.MIMETYPE)) {
 			passed = cond.getValue().equals(inputParameter.getMimeType().toString());
 		} else if (cond.getType().equals(EnumCondType.XPATH)) {
-			UnicornCall.logger.trace("condObserver : " + cond.getObserver().getID());
+			logger.trace("condObserver : " + cond.getObserver().getID());
 			Response res = mapOfResponse.get(cond.getObserver().getID());
 			// Testing if there is a matching response in the map
 			// and if it is passed
@@ -220,7 +220,7 @@ public class UnicornCall {
 		}
 
 		cond.setResult(passed);
-		UnicornCall.logger.trace("cond result : " + passed);
+		logger.trace("cond result : " + passed);
 		return passed;
 	}
 	
@@ -238,7 +238,7 @@ public class UnicornCall {
 	 *             error occured during the process
 	 */
 	private RequestList generateRequestList(InputParameter inputParameter,
-			Map<String, String[]> mapOfArrayUseParameter, TLTNode node) throws Exception {
+			Map<String, String[]> mapOfArrayUseParameter, TLTNode node) {
 
 		MimeType aMimeType = inputParameter.getMimeType();
 		EnumInputMethod aEnumInputMethod = inputParameter.getInputMethod();
@@ -250,11 +250,10 @@ public class UnicornCall {
 			String sObserverID = aObserver.getID();
 			// add only observer who handle the current mimetype
 			if (!aObserver.canHandleMimeType(aMimeType)) {
-				if (UnicornCall.logger.isDebugEnabled()) {
-					UnicornCall.logger.debug("Observer " + sObserverID
-							+ " does not handle mime type "
-							+ aMimeType.toString());
-				}
+				
+				//TODO Add messaged here
+				logger.debug("Observer " + sObserverID + " does not handle mime type "
+						+ aMimeType.toString());
 				continue;
 			}
 			// the best available observation method
@@ -327,7 +326,7 @@ public class UnicornCall {
 				final Map<String, Value> mapOfDefaultValue = aTaskParameter
 						.getMapOfDefaultValue();
 				if (null == mapOfDefaultValue || 0 == mapOfDefaultValue.size()) {
-					UnicornCall.logger.warn("Parameter " + sTaskParameterName
+					logger.warn("Parameter " + sTaskParameterName
 							+ " has no value intput and no default value.");
 					continue;
 				}
@@ -434,7 +433,7 @@ public class UnicornCall {
 	 *             Input/Output error
 	 */
 	private void doRequests(RequestList requestList) throws IOException {
-		UnicornCall.logger.trace("doRequests");
+		logger.trace("doRequests");
 
 		final Map<String, Request> requests = requestList.getRequestMap();
 		// Creation of the thread list
@@ -444,17 +443,17 @@ public class UnicornCall {
 			// send request to observer
 			threadsList.add(new RequestThread(mapOfResponse, requests
 					.get(obsID), obsID, this));
-			UnicornCall.logger.debug("Request " + requests.get(obsID) + " added to threadsList");
+			logger.debug("Request " + requests.get(obsID) + " added to threadsList");
 		}
 		for (int i = 0; i < threadsList.size(); i++) {
 			threadsList.get(i).start();
-			UnicornCall.logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " started");
+			logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " started");
 		}
 
 		for (int i = 0; i < threadsList.size(); i++) {
 			try {
 				threadsList.get(i).join();
-				UnicornCall.logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " terminated");
+				logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " terminated");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -587,14 +586,13 @@ public class UnicornCall {
 	 */
 	public void setTask(final String sTaskID) {
 		if (null == sTaskID) {
-			UnicornCall.logger.error("Call setTask with null argument.");
+			logger.error("Call setTask with null argument.");
 			return;
 		}
 		this.aTask = Framework.mapOfTask.get(sTaskID);
 
 		if (null == this.aTask) {
-			UnicornCall.logger.error("The task " + sTaskID
-					+ " does not exists.");
+			logger.error("The task " + sTaskID + " does not exists.");
 		}
 	}
 
@@ -605,7 +603,7 @@ public class UnicornCall {
 	 *            defines the lang to configure
 	 */
 	public void setLang(final String sLang) {
-		UnicornCall.logger.debug("setLang(" + sLang + ")");
+		logger.debug("setLang(" + sLang + ")");
 		this.sLang = sLang;
 	}
 
