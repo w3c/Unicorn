@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.4 2009-09-04 15:49:48 jean-gui Exp $
+// $Id: UploadRequest.java,v 1.5 2009-09-17 16:37:18 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,7 +11,6 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.input.UploadInputModule;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.util.ClientHttpRequest;
@@ -65,21 +64,13 @@ public class UploadRequest extends Request {
 	 *             odd error occured
 	 */
 	protected UploadRequest(final String sURL,
-			final String sInputParameterName, final InputModule aInputModule,
-			final String responseType) throws MalformedURLException,
-			IOException {
+			final String sInputParameterName, final UploadInputModule aInputModule,
+			final String responseType) {
 		super();
-		Request.logger.trace("Constructor");
-		if (Request.logger.isDebugEnabled()) {
-			Request.logger.debug("URL : " + sURL + ".");
-			Request.logger.debug("Input parameter name : "
-					+ sInputParameterName + ".");
-			Request.logger.debug("Input module : " + aInputModule + ".");
-		}
-		if (!(aInputModule instanceof UploadInputModule)) {
-			throw new IllegalArgumentException("InputModule : "
-					+ aInputModule.toString() + ".");
-		}
+		logger.trace("Constructor");
+		logger.debug("URL : " + sURL + ".");
+		logger.debug("Input parameter name : " + sInputParameterName + ".");
+		logger.debug("Input module : " + aInputModule + ".");
 		this.sURL = sURL;
 		this.sInputParameterName = sInputParameterName;
 		this.aUploadInputModule = (UploadInputModule) aInputModule;
@@ -88,21 +79,18 @@ public class UploadRequest extends Request {
 	}
 
 	@Override
-	public void addParameter(final String sName, final String sValue)
-			throws IOException {
-		Request.logger.trace("addParameter");
-		if (Request.logger.isDebugEnabled()) {
-			Request.logger.debug("Name :" + sName + ".");
-			Request.logger.debug("Value :" + sValue + ".");
-		}
+	public void addParameter(final String sName, final String sValue) {
+		logger.trace("addParameter");
+		logger.debug("Name :" + sName + ".");
+		logger.debug("Value :" + sValue + ".");
 		this.mapOfParameter.put(sName, sValue);
 	}
 
 	@Override
 	public Response doRequest() throws Exception {
-		Request.logger.trace("doRequest");
+		logger.trace("doRequest");
 		this.aClientHttpRequest = new ClientHttpRequest(sURL);
-		Request.logger.debug("Lang : " + this.sLang + ".");
+		logger.debug("Lang : " + this.sLang + ".");
 		this.aClientHttpRequest.setLang(sLang);
 		this.aClientHttpRequest.setParameter(this.sInputParameterName,
 				this.aUploadInputModule.getFileName(), 
@@ -110,11 +98,9 @@ public class UploadRequest extends Request {
 				this.aUploadInputModule.getMimeType());
 		for (final String sName : this.mapOfParameter.keySet()) {
 			final String sValue = this.mapOfParameter.get(sName);
-			Request.logger.trace("addParameter");
-			if (Request.logger.isDebugEnabled()) {
-				Request.logger.debug("Name :" + sName + ".");
-				Request.logger.debug("Value :" + sValue + ".");
-			}
+			logger.trace("addParameter");
+			logger.debug("Name :" + sName + ".");
+			logger.debug("Value :" + sValue + ".");
 			this.aClientHttpRequest.setParameter(sName, sValue);
 		}
 		InputStream is = this.aClientHttpRequest.post();
@@ -124,7 +110,7 @@ public class UploadRequest extends Request {
 
 	@Override
 	public EnumInputMethod getInputMethod() {
-		Request.logger.trace("getInputMethod");
+		logger.trace("getInputMethod");
 		return EnumInputMethod.UPLOAD;
 	}
 

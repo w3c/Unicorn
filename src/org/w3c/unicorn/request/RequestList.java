@@ -1,4 +1,4 @@
-// $Id: RequestList.java,v 1.2 2009-08-28 12:39:48 jean-gui Exp $
+// $Id: RequestList.java,v 1.3 2009-09-17 16:37:19 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -34,7 +34,7 @@ public class RequestList {
 	 *            language of the list
 	 */
 	public RequestList(final String sLang) {
-		RequestList.logger.debug("Lang : " + sLang + ".");
+		logger.debug("Lang : " + sLang + ".");
 		this.sLang = sLang;
 	}
 
@@ -49,7 +49,7 @@ public class RequestList {
 	 * @return
 	 */
 	public Map<String, Request> getRequestMap() {
-		RequestList.logger.trace("getRequestMap");
+		logger.trace("getRequestMap");
 		return this.mapOfRequest;
 	}
 
@@ -61,10 +61,8 @@ public class RequestList {
 	 * @return
 	 */
 	public Request getRequest(final String sNodeID) {
-		RequestList.logger.trace("getRequest");
-		if (RequestList.logger.isDebugEnabled()) {
-			RequestList.logger.debug("Observer ID : " + sNodeID + ".");
-		}
+		logger.trace("getRequest");
+		logger.debug("Observer ID : " + sNodeID + ".");
 		return this.mapOfRequest.get(sNodeID);
 	}
 
@@ -77,14 +75,10 @@ public class RequestList {
 	 * @throws IOException
 	 */
 
-	public void addRequest(final Request aRequest, final String sNodeID)
-			throws IOException {
-
-		RequestList.logger.trace("addRequest");
-		if (RequestList.logger.isDebugEnabled()) {
-			RequestList.logger.debug("Request : " + aRequest + ".");
-			RequestList.logger.debug("String node ID : " + sNodeID + ".");
-		}
+	public void addRequest(final Request aRequest, final String sNodeID) {
+		logger.trace("addRequest");
+		logger.debug("Request : " + aRequest + ".");
+		logger.debug("String node ID : " + sNodeID + ".");
 		aRequest.setLang(this.sLang);
 		this.mapOfRequest.put(sNodeID, aRequest);
 	}

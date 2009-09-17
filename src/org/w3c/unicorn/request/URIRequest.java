@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.4 2009-09-09 12:09:38 tgambet Exp $
+// $Id: URIRequest.java,v 1.5 2009-09-17 16:37:18 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,7 +12,6 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import org.w3c.unicorn.contract.EnumInputMethod;
-import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.input.URIInputModule;
 import org.w3c.unicorn.response.Response;
 
@@ -48,20 +47,16 @@ public class URIRequest extends Request {
 	 *             odd error occured
 	 */
 	public URIRequest(final String sURL, final String sInputParameterName,
-			final InputModule aInputModule, final String responseType)
-			throws IOException {
+			URIInputModule aInputModule, final String responseType) {
 		super();
-		Request.logger.trace("Constructor");
-		if (Request.logger.isDebugEnabled()) {
-			Request.logger.debug("URL : " + sURL + ".");
-			Request.logger.debug("Input parameter name : "
-					+ sInputParameterName + ".");
-			Request.logger.debug("Input module : " + aInputModule + ".");
-		}
-		if (!(aInputModule instanceof URIInputModule)) {
+		logger.trace("Constructor");
+		logger.debug("URL : " + sURL + ".");
+		logger.debug("Input parameter name : " + sInputParameterName + ".");
+		logger.debug("Input module : " + aInputModule + ".");
+		/*if (!(aInputModule instanceof URIInputModule)) {
 			throw new IllegalArgumentException("InputModule : "
 					+ aInputModule.toString() + ".");
-		}
+		}*/
 		this.sURL = sURL;
 		final URIInputModule aURIInputModule = (URIInputModule) aInputModule;
 		this.addParameter(sInputParameterName, aURIInputModule.getURI());
@@ -77,20 +72,21 @@ public class URIRequest extends Request {
 	 *            value of the parameter to add
 	 */
 	@Override
-	public void addParameter(final String sName, final String sValue)
-			throws UnsupportedEncodingException {
-		Request.logger.trace("addParameter");
-		if (Request.logger.isDebugEnabled()) {
-			Request.logger.debug("sName : " + sName + ".");
-			Request.logger.debug("sValue : " + sValue + ".");
-		}
+	public void addParameter(final String sName, final String sValue) {
+		logger.trace("addParameter");
+		logger.debug("sName : " + sName + ".");
+		logger.debug("sValue : " + sValue + ".");
 		if (null == this.sParameter) {
 			this.sParameter = "";
 		} else {
 			this.sParameter += "&";
 		}
-		this.sParameter += sName + "=" + URLEncoder.encode(sValue, "UTF-8");
-		Request.logger.debug("Parameters : " + this.sParameter + ".");
+		try {
+			this.sParameter += sName + "=" + URLEncoder.encode(sValue, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		logger.debug("Parameters : " + this.sParameter + ".");
 	}
 
 	/**
@@ -99,19 +95,17 @@ public class URIRequest extends Request {
 	 */
 	@Override
 	public Response doRequest() throws Exception {
-		Request.logger.trace("doRequest");
-		if (Request.logger.isDebugEnabled()) {
-			Request.logger.debug("URL : " + this.sURL + " .");
-			Request.logger.debug("Parameters : " + this.sParameter + " .");
-		}
+		logger.trace("doRequest");
+		logger.debug("URL : " + this.sURL + " .");
+		logger.debug("Parameters : " + this.sParameter + " .");
 		final URL aURL;
 		if (null == this.sParameter) {
 			aURL = new URL(this.sURL);
 		} else {
-			Request.logger.debug(this.sParameter);
+			logger.debug(this.sParameter);
 			aURL = new URL(this.sURL + "?" + this.sParameter);
 		}
-		Request.logger.debug("URL : " + aURL + " .");
+		logger.debug("URL : " + aURL + " .");
 		final URLConnection aURLConnection = aURL.openConnection();
 
 		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
@@ -125,7 +119,7 @@ public class URIRequest extends Request {
 
 	@Override
 	public EnumInputMethod getInputMethod() {
-		Request.logger.trace("getInputMethod");
+		logger.trace("getInputMethod");
 		return EnumInputMethod.URI;
 	}
 
