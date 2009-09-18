@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.2 2009-08-28 12:40:09 jean-gui Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.3 2009-09-18 17:17:59 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -97,6 +97,8 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	 * name of parameter lang if observer has one
 	 */
 	private String nameOfLangParameter = null;
+	
+	private String nameOfOutputParameter = null;
 
 	/**
 	 * Map of different input method handle by the observer.
@@ -198,6 +200,8 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 				aLocalizedStringProvider.addLocalization(vLang, vText);
 			} else if ("paramLang".equals(vTitle)) {
 				nameOfLangParameter = vText;
+			} else if ("paramOutput".equals(vTitle)) {
+				nameOfOutputParameter = vText;
 			} else if ("mimetype".equals(vTitle)) {
 				listOfMimeType.add(new MimeType(vText));
 			} else if ("reference".equals(vTitle)) {
@@ -427,6 +431,14 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 
 	public static NamespaceContext getNamespaceContext() {
 		return aNamespaceContext;
+	}
+
+	public String getNameOfOutputParameter() {
+		return nameOfOutputParameter;
+	}
+
+	public void setNameOfOutputParameter(String nameOfOutputParameter) {
+		this.nameOfOutputParameter = nameOfOutputParameter;
 	}
 
 }

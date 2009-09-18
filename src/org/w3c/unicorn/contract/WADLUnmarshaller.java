@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshaller.java,v 1.2 2009-08-28 12:40:09 jean-gui Exp $
+// $Id: WADLUnmarshaller.java,v 1.3 2009-09-18 17:17:59 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -36,6 +36,8 @@ public interface WADLUnmarshaller extends Unmarshaller {
 	public LocalizedString getProvider();
 
 	public String getNameOfLangParameter();
+	
+	public String getNameOfOutputParameter();
 
 	public String getResponseType();
 
