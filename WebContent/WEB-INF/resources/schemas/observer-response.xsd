@@ -193,9 +193,9 @@
   <xs:element name="level" type="m:tLevels"/>
 
   <xs:simpleType name="tLevels">
-    <xs:restriction base="xs:nonNegativeInteger">
-      <xs:maxInclusive value="3"/>
-    </xs:restriction>
+  	<xs:restriction base="xs:nonNegativeInteger">
+
+  	</xs:restriction>
   </xs:simpleType>
 
   <xs:element name="informations">
