@@ -195,6 +195,7 @@
   <xs:simpleType name="tLevels">
   	<xs:restriction base="xs:nonNegativeInteger">
 
+  		<xs:maxExclusive value="100"></xs:maxExclusive>
   	</xs:restriction>
   </xs:simpleType>
 
