@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.16 2009-09-17 16:39:51 tgambet Exp $
+// $Id: UnicornCall.java,v 1.17 2009-09-18 15:01:43 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -99,11 +99,8 @@ public class UnicornCall {
 		inputParameter.check();
 		
 		MimeType aMimeType = inputParameter.getMimeType();
-		if (!aTask.getSupportedMimeTypes().contains(aMimeType.toString())) {
-			//throw new UnsupportedMimeTypeException("Mime-type: " + aMimeType + " is not supported by this task.");
-			Message mess = new Message(Message.Level.ERROR, "$message_unsupported_mime_type", null);
-			throw new UnicornException(mess);
-		}
+		if (!aTask.getSupportedMimeTypes().contains(aMimeType.toString()))
+			throw new UnicornException(Message.Level.ERROR, "$message_unsupported_mime_type", null);
 		
 		doNode(inputParameter, aTask.getTree());
 	}
@@ -621,5 +618,4 @@ public class UnicornCall {
 	public void setInputParameter(final InputParameter inputParameter) {
 		this.inputParameter = inputParameter;
 	}
-	
 }
