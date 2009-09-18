@@ -1,6 +1,7 @@
 package org.w3c.unicorn.exceptions;
 
 import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.util.Message.Level;
 
 public class UnicornException extends Exception {
 	
@@ -18,6 +19,10 @@ public class UnicornException extends Exception {
 	
 	public UnicornException(Message message) {
 		this.message = message;
+	}
+
+	public UnicornException(Level error, String message, String content) {
+		this.message = new Message(error, message, content);
 	}
 
 	public Message getUnicornMessage() {
