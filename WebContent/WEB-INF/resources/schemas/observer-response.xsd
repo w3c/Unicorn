@@ -20,9 +20,7 @@
       	<xs:element ref="m:date" minOccurs="0" />
       	<!-- used for conformance checks -->
       	<xs:element ref="m:passed" minOccurs="0" />
-      	<!-- Result of the observation -->
-      	<xs:element ref="m:result" />
-      	<xs:element name="rating" minOccurs="0" maxOccurs="1">
+        <xs:element name="rating" minOccurs="0" maxOccurs="1">
       		<xs:simpleType>
       			<xs:restriction base="xs:int">
       				<xs:minExclusive value="0"></xs:minExclusive>
@@ -30,6 +28,8 @@
       			</xs:restriction>
       		</xs:simpleType>
       	</xs:element>
+      	<!-- Result of the observation -->
+        <xs:element ref="m:result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
