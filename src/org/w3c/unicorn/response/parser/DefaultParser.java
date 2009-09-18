@@ -78,7 +78,6 @@ public class DefaultParser implements ResponseParser {
 				return null;
 			}
 		}
-		res.setCallingUri(or.getCallingUri());
 		res.setPassed(or.getPassed());
 		res.setUri(or.getUri());
 		res.setVersion(or.getVersion());
