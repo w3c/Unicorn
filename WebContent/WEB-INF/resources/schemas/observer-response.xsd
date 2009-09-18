@@ -10,18 +10,26 @@
   <xs:element name="observationresponse">
     <xs:complexType>
       <xs:sequence>
-        <!-- URI of the document checked-->
-        <xs:element ref="m:uri" minOccurs="0" maxOccurs="1"/>
-        <!-- URI of the observer -->
-        <xs:element ref="m:callingUri"  minOccurs="0"/>
-        <!-- "Version" of the document. For example CSS 2, XHTML 1.0 Strict, ... -->
-        <xs:element ref="m:version" minOccurs="0"/>
-        <!-- Observation date-->
-        <xs:element ref="m:date"  minOccurs="0"/>
-        <!-- used for conformance checks -->
-        <xs:element ref="m:passed" minOccurs="0"/>
-        <!-- Result of the observation -->
-        <xs:element ref="m:result"/>
+      	<!-- URI of the document checked-->
+      	<xs:element ref="m:uri" minOccurs="0" maxOccurs="1" />
+      	<!-- URI of the observer -->
+      	<xs:element ref="m:callingUri" minOccurs="0" />
+      	<!-- "Version" of the document. For example CSS 2, XHTML 1.0 Strict, ... -->
+      	<xs:element ref="m:version" minOccurs="0" />
+      	<!-- Observation date-->
+      	<xs:element ref="m:date" minOccurs="0" />
+      	<!-- used for conformance checks -->
+      	<xs:element ref="m:passed" minOccurs="0" />
+      	<!-- Result of the observation -->
+      	<xs:element ref="m:result" />
+      	<xs:element name="rating" minOccurs="0" maxOccurs="1">
+      		<xs:simpleType>
+      			<xs:restriction base="xs:int">
+      				<xs:minExclusive value="0"></xs:minExclusive>
+      				<xs:maxExclusive value="100"></xs:maxExclusive>
+      			</xs:restriction>
+      		</xs:simpleType>
+      	</xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
