@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.10 2009-09-04 14:08:35 tgambet Exp $
+// $Id: Framework.java,v 1.11 2009-09-18 17:16:05 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -341,6 +341,7 @@ public class Framework {
 			}
 			obs.setListOfCallMethod(unmarshaller.getListOfCallMethod());
 			obs.setParamLangName(unmarshaller.getNameOfLangParameter());
+			obs.setParamOutputName(unmarshaller.getNameOfOutputParameter());
 			obs.setID(unmarshaller.getID());
 			obs.setName(unmarshaller.getName());
 			obs.setDescription(unmarshaller.getDescription());
