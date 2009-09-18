@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.17 2009-09-18 15:01:43 tgambet Exp $
+// $Id: UnicornCall.java,v 1.18 2009-09-18 17:12:26 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -434,12 +434,12 @@ public class UnicornCall {
 
 		final Map<String, Request> requests = requestList.getRequestMap();
 		// Creation of the thread list
-		ArrayList<Thread> threadsList = new ArrayList<Thread>();
+		ArrayList<RequestThread> threadsList = new ArrayList<RequestThread>();
 
 		for (final String obsID : requests.keySet()) {
 			// send request to observer
-			threadsList.add(new RequestThread(mapOfResponse, requests
-					.get(obsID), obsID, this));
+			//threadsList.add(new RequestThread(mapOfResponse, requests.get(obsID), obsID, this));
+			threadsList.add(new RequestThread(requests.get(obsID), obsID, this.getLang()));
 			logger.debug("Request " + requests.get(obsID) + " added to threadsList");
 		}
 		for (int i = 0; i < threadsList.size(); i++) {
@@ -450,6 +450,10 @@ public class UnicornCall {
 		for (int i = 0; i < threadsList.size(); i++) {
 			try {
 				threadsList.get(i).join();
+				Response resp = threadsList.get(i).getResponse();
+				mapOfResponse.put(threadsList.get(i).getObsID(), resp);
+				String outputParamName = Framework.mapOfObserver.get(resp.getObserverId()).getParamOutputName();
+				resp.setRequestUri(resp.getRequestUri().replaceAll("&?" + outputParamName + "=[^&]*", ""));
 				logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " terminated");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -498,38 +502,38 @@ public class UnicornCall {
 	}
 	
 	public LinkedHashMap<String, Response> getObservationList() {
-		if (observationMap == null) {
-			observationMap = new LinkedHashMap<String, Response>();
-			
-			for (Group group : aTask.getOutput().getGroupList()) {
-				if (!group.isSetType()) {
-					for (String observerId : group.getObservationList()) {
-						if(mapOfResponse.get(observerId) != null) {
-							observationMap.put(observerId, mapOfResponse.get(observerId));
+		if (observationMap != null)
+			return observationMap;
+		
+		observationMap = new LinkedHashMap<String, Response>();
+		for (Group group : aTask.getOutput().getGroupList()) {
+			if (!group.isSetType()) {
+				for (String observerId : group.getObservationList()) {
+					if(mapOfResponse.get(observerId) != null) {
+						observationMap.put(observerId, mapOfResponse.get(observerId));
+					}
+				}
+			} else {
+				switch (group.getType()) {
+					case FIRSTPASSED:
+						String passedId = null;
+						for (String observerId : group.getObservationList()) {
+							if (mapOfResponse.get(observerId) == null) {
+								logger.error("unknown observer id (" + observerId + ") in output group of task: " + this.getTask().getID());
+								continue;
+							}
+							if (mapOfResponse.get(observerId).isPassed()) {
+								passedId = observerId;
+								break;
+							}
 						}
-					}
-				} else {
-					switch (group.getType()) {
-						case FIRSTPASSED:
-							String passedId = null;
-							for (String observerId : group.getObservationList()) {
-								if (mapOfResponse.get(observerId) == null) {
-									logger.error("unknown observer id (" + observerId + ") in output group of task: " + this.getTask().getID());
-									continue;
-								}
-								if (mapOfResponse.get(observerId).isPassed()) {
-									passedId = observerId;
-									break;
-								}
-							}
-							if (passedId == null) {
-								Response resp = mapOfResponse.get(group.getObservationList().get(0));
-								if (resp != null)
-									observationMap.put(group.getObservationList().get(0), resp);
-							}
-							else 
-								observationMap.put(passedId, mapOfResponse.get(passedId));
-					}
+						if (passedId == null) {
+							Response resp = mapOfResponse.get(group.getObservationList().get(0));
+							if (resp != null)
+								observationMap.put(group.getObservationList().get(0), resp);
+						}
+						else 
+							observationMap.put(passedId, mapOfResponse.get(passedId));
 				}
 			}
 		}
@@ -600,7 +604,6 @@ public class UnicornCall {
 	 *            defines the lang to configure
 	 */
 	public void setLang(final String sLang) {
-		logger.debug("setLang(" + sLang + ")");
 		this.sLang = sLang;
 	}
 
