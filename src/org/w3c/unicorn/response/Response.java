@@ -9,8 +9,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 public class Response {
 	protected String uri;
-
-	protected String callingUri;
+	
+	protected String requestUri;
 
 	protected String version;
 
@@ -20,9 +20,9 @@ public class Response {
 
 	protected StringBuilder xml; // the xml version of the response
 	
-	protected String requestUri;
-	
 	protected Integer rating;
+	
+	protected String observerId;
 
 	/**
 	 * Result aResult =
@@ -49,27 +49,6 @@ public class Response {
 	 */
 	public void setUri(String value) {
 		this.uri = value;
-	}
-
-	/**
-	 * Gets the value of the callingUri property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getCallingUri() {
-		return callingUri;
-	}
-
-	/**
-	 * Sets the value of the callingUri property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setCallingUri(String value) {
-		this.callingUri = value;
 	}
 
 	/**
@@ -297,6 +276,14 @@ public class Response {
 
 	public void setRating(Integer rating) {
 		this.rating = rating;
+	}
+
+	public String getObserverId() {
+		return observerId;
+	}
+
+	public void setObserverId(String observerId) {
+		this.observerId = observerId;
 	}
 	
 }
