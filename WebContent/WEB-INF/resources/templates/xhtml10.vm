@@ -52,7 +52,7 @@
 		#end
 		<span class="name">$unicorncall.getObserverName($observationName, $lang) #if ($observation.Rating) ($observation.Rating/100) #end</span>
 		#if ($observation.getRequestUri())<a class="direct_link" href="$observation.getRequestUri()" title="revalidate this document on the validator website">[direct link]</a>
-		#else <a class="direct_link" href="$observation.getCallingURI()" title="link to this validator website">[direct link]</a>#end
+		<!--#else <a class="direct_link" href="$observation.getCallingURI()" title="link to this validator website">[direct link]</a>#end-->
 	</h2>
 	
 	<div class="results block">
