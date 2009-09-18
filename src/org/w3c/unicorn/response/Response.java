@@ -21,6 +21,8 @@ public class Response {
 	protected StringBuilder xml; // the xml version of the response
 	
 	protected String requestUri;
+	
+	protected int rating;
 
 	/**
 	 * Result aResult =
@@ -288,6 +290,13 @@ public class Response {
 	public void setRequestUri(String requestUri) {
 		this.requestUri = requestUri;
 	}
-	
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 	
 }
