@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.regex.Pattern;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
@@ -21,60 +22,65 @@ public class URIInputParameter extends InputParameter {
 	
 	private String uri;
 	
-	private int connectTimeOut = Integer.parseInt(Property.get("DOCUMENT_CONNECT_TIMEOUT"));
+	private int connectTimeOut;
 	
 	public URIInputParameter(String uri) {
 		this.uri = uri;
+		if (Property.get("DOCUMENT_CONNECT_TIMEOUT") != null)
+			connectTimeOut = Integer.parseInt(Property.get("DOCUMENT_CONNECT_TIMEOUT"));
+		else 
+			connectTimeOut = 0;
 	}
 	
 	@Override
 	public void check() throws UnicornException {
 		URL docUrl = null;
 		try {
+			if (uri.equals(""))
+				throw new UnicornException(Message.Level.ERROR, "$message_empty_uri", null);
+			
+			Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)*(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
+			if (!urlPattern.matcher(uri).matches()) {
+				if (!uri.contains("://")) 
+					uri = "http://" + uri;
+				if (!urlPattern.matcher(uri).matches())
+					throw new UnicornException(Message.Level.ERROR, "$message_invalid_url_syntax " + uri, null);
+			}
 			docUrl = new URL(uri);
+			if (!docUrl.getProtocol().equals("http") && !docUrl.getProtocol().equals("https"))
+				throw new UnicornException(Message.Level.ERROR, "$message_unsupported_protocol " + docUrl.getProtocol(), null);
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
 			con.setConnectTimeout(connectTimeOut);
 			con.connect();
-			Message message;
 			int responseCode = con.getResponseCode();
 			switch (responseCode) {
 			case HttpURLConnection.HTTP_UNAUTHORIZED:
-				message = new Message(Message.Level.ERROR, "$message_unauthorized_access", null);
-				throw new UnicornException(message);
+				throw new UnicornException(Message.Level.ERROR, "$message_unauthorized_access", null);
 			case HttpURLConnection.HTTP_NOT_FOUND:
-				message = new Message(Message.Level.ERROR, "$message_document_not_found", null);
-				throw new UnicornException(message);
+				throw new UnicornException(Message.Level.ERROR, "$message_document_not_found", null);
 			}
 			String sMimeType = con.getContentType();
 			sMimeType = sMimeType.split(";")[0];
 			mimeType = new MimeType(sMimeType);
 			inputModule = new URIInputModule(mimeType, uri);
 		} catch (MalformedURLException e) {
-			Message message = new Message(Message.Level.ERROR, "$message_invalid_url_syntax " + uri, null);
-			throw new UnicornException(message);
+			throw new UnicornException(Message.Level.ERROR, "$message_invalid_url_syntax " + uri, null);
 		} catch (MimeTypeParseException e) {
-			Message message = new Message(Message.Level.ERROR, "$message_invalid_mime_type", null);
-			throw new UnicornException(message);
+			throw new UnicornException(Message.Level.ERROR, "$message_invalid_mime_type", null);
 		} catch (UnknownHostException e) { 
-			Message message = new Message(Message.Level.ERROR, "$message_unknown_host", null);
-			throw new UnicornException(message);
+			throw new UnicornException(Message.Level.ERROR, "$message_unknown_host", null);
 		} catch (SSLException e) {
-			Message message = new Message(Message.Level.ERROR, "$message_ssl_exception", null);
-			throw new UnicornException(message);
+			throw new UnicornException(Message.Level.ERROR, "$message_ssl_exception", null);
 		} catch (ConnectException e) {
-			Message message = new Message(Message.Level.ERROR, "$message_connect_exception", null);
-			throw new UnicornException(message);
+			throw new UnicornException(Message.Level.ERROR, "$message_connect_exception", null);
 		} catch (SocketTimeoutException e) {
 			if (e.getMessage().contains("connect timed out")) {
-				Message message = new Message(Message.Level.ERROR, "$message_connect_exception", null);
-				throw new UnicornException(message);
+				throw new UnicornException(Message.Level.ERROR, "$message_connect_exception", null);
 			} else {
-				Message message = new Message(e);
-				throw new UnicornException(message);
+				throw new UnicornException(new Message(e));
 			}
 		} catch (IOException e) {
-			Message message = new Message(e);
-			throw new UnicornException(message);
+			throw new UnicornException(new Message(e));
 		}
 	}
 

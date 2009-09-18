@@ -2,11 +2,10 @@ package org.w3c.unicorn.input;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
-
 import org.apache.commons.fileupload.FileItem;
 import org.w3c.unicorn.contract.EnumInputMethod;
-
 import org.w3c.unicorn.exceptions.UnicornException;
+import org.w3c.unicorn.util.Message;
 
 public class UploadInputParameter extends InputParameter {
 	
@@ -19,23 +18,20 @@ public class UploadInputParameter extends InputParameter {
 	@Override
 	public void check() throws UnicornException {
 		if (file.getName() == null || file.getName().equals("")) {
-			//throw new NoDocumentException("No document provided");
-			throw new UnicornException("");
+			throw new UnicornException(Message.Level.ERROR, "$message_no_uploaded_file", null);
 		}
 		if (file.getSize() == 0) {
-			//throw new EmptyDocumentException("Empty document provided");
-			throw new UnicornException("");
+			throw new UnicornException(Message.Level.ERROR, "$message_empty_uploaded_file", null);
 		}
 		String sMimeType = file.getContentType();
 		if (null == sMimeType || "".equals(sMimeType)) {
-			//throw new NoMimeTypeException("Mimetype not found");
-			throw new UnicornException("");
+			// TODO Is there another solution here to find the mime-type ?
+			throw new UnicornException(Message.Level.ERROR, "$message_not_found_mime_type", null);
 		}
 		try {
 			mimeType = new MimeType(sMimeType);
 		} catch (MimeTypeParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new UnicornException(Message.Level.ERROR, "$message_invalid_mime_type", null);
 		}
 		inputModule = new FileItemInputModule(mimeType, file);
 	}

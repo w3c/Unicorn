@@ -3,10 +3,9 @@ package org.w3c.unicorn.input;
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 
-import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.exceptions.UnicornException;
-import org.w3c.unicorn.util.Property;
+import org.w3c.unicorn.util.Message;
 
 public class DirectInputParameter extends InputParameter {
 	
@@ -21,15 +20,14 @@ public class DirectInputParameter extends InputParameter {
 
 	@Override
 	public void check() throws UnicornException {
-		if (null == sMimeType || "".equals(sMimeType)) {
-			//throw new NoMimeTypeException("Mimetype not found.");
-			throw new UnicornException("");
-		}
+		if (document == null || document.equals(""))
+			throw new UnicornException(Message.Level.ERROR, "$message_empty_direct_input", null);
+		if (sMimeType == null || sMimeType.equals(""))
+			throw new UnicornException(Message.Level.ERROR, "$message_missing_mime_type", null);
 		try {
 			mimeType = new MimeType(sMimeType);
 		} catch (MimeTypeParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new UnicornException(Message.Level.ERROR, "$message_invalid_mime_type", null);
 		}
 		inputModule = new DirectInputModule(mimeType, document);
 	}
