@@ -82,10 +82,10 @@ public class DefaultParser implements ResponseParser {
 		res.setPassed(or.getPassed());
 		res.setUri(or.getUri());
 		res.setVersion(or.getVersion());
-		res.setRating(or.getRating());
+		if (or.isSetRating())
+			res.setRating(or.getRating());
 		
-		org.w3.unicorn.observationresponse.ResultDocument.Result result = or
-				.getResult();
+		org.w3.unicorn.observationresponse.ResultDocument.Result result = or.getResult();
 
 		// Fill res.result
 

@@ -22,7 +22,7 @@ public class Response {
 	
 	protected String requestUri;
 	
-	protected int rating;
+	protected Integer rating;
 
 	/**
 	 * Result aResult =
@@ -291,11 +291,11 @@ public class Response {
 		this.requestUri = requestUri;
 	}
 
-	public int getRating() {
+	public Integer getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
 	
