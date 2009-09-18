@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.34 2009-09-17 17:28:23 tgambet Exp $
+// $Id: ObserveAction.java,v 1.35 2009-09-18 14:57:58 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,7 +12,6 @@ import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -134,7 +133,6 @@ public class ObserveAction extends Action {
 			
 			if (key.startsWith(paramPrefix)) {
 				String paramName = key.substring(paramPrefix.length());
-				
 				if (paramName.equals("lang")) {
 					logger.trace("Lang parameter: " + key + " - " + (String) reqParams.get(key));
 					String lang = getLanguage((String) reqParams.get(key), req, null);
@@ -162,41 +160,16 @@ public class ObserveAction extends Action {
 					mapOfOutputParameter.put(paramName, (String) reqParams.get(key));
 				} else if (paramName.equals("uri")) {
 					logger.trace("Uri parameter: " + key + " - " + (String) reqParams.get(key));
-					String uri = (String) reqParams.get(key);
-					// To allow other protocols change (https?) to (https?|ftp|rmtp) for example
-					Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)*(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
-					if (!urlPattern.matcher(uri).matches()) {
-						if (uri.equals(""))
-							continue;
-						if (!uri.contains("://")) {
-							uri = "http://" + uri;
-						} else {
-							Message mess = new Message(Message.Level.ERROR, "Unicorn does not support " + uri.split("://")[0] + " protocol.", null);
-							createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
-							return;
-						}
-						reqParams.put(key, uri);
-						if (!urlPattern.matcher(uri).matches()) {
-							Message mess = new Message(Message.Level.ERROR, "$message_invalid_url_syntax " + uri, null);
-							createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
-							return;
-						}
-					}
-					//aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
-					//aUnicornCall.setDocumentName(uri);
-					aUnicornCall.setInputParameter(new URIInputParameter(uri));
+					aUnicornCall.setInputParameter(new URIInputParameter((String) reqParams.get(key)));
 				} else if (paramName.equals("text")) {
 					logger.trace("Text parameter: " + key + " - " + (String) reqParams.get(key));
-					//aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
 					aUnicornCall.setInputParameter(new DirectInputParameter((String) reqParams.get(key), (String) reqParams.get(paramPrefix + "text_mime")));
 				} else if (paramName.equals("file")) {
 					logger.trace("File parameter: " + key + " - " + reqParams.get(key).toString());
 					Object object = reqParams.get(key);
 					if (object instanceof FileItem) {
 						aFileItemUploaded = (FileItem) object;
-						//aUnicornCall.setDocumentName(aFileItemUploaded.getName());
 						aUnicornCall.setInputParameter(new UploadInputParameter(aFileItemUploaded));
-						//aUnicornCall.setEnumInputMethod(EnumInputMethod.UPLOAD);
 					} else {
 						// should be impossible (see getRequestParameters)
 						logger.warn("ucn_file is not of type FileItem!");
@@ -229,29 +202,7 @@ public class ObserveAction extends Action {
 			mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
 			aUnicornCall.setTask(task);
 		}
-		if (reqParams.containsKey(paramPrefix + "uri")) {
-			if (reqParams.get(paramPrefix + "uri").equals("")) {
-				Message mess = new Message(Message.Level.ERROR, "$message_empty_uri", null);
-				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
-				return;
-			}
-		} else if (reqParams.containsKey(paramPrefix + "text")) {
-			if (reqParams.get(paramPrefix + "text").equals("")) {
-				Message mess = new Message(Message.Level.ERROR, "$message_empty_direct_input", null);
-				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
-				return;
-			} else if (!reqParams.containsKey(paramPrefix + "text_mime")) {
-				Message mess = new Message(Message.Level.ERROR, "$message_missing_mime_type", null);
-				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
-				return;
-			}
-		} else if (reqParams.containsKey(paramPrefix + "file")) {
-			if (((FileItem) reqParams.get(paramPrefix + "file")).getSize() == 0) {
-				Message mess = new Message(Message.Level.ERROR, "$message_no_or_empty_file", null);
-				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
-				return;
-			}
-		} else {
+		if (!reqParams.containsKey(paramPrefix + "uri") && !reqParams.containsKey(paramPrefix + "text") && !reqParams.containsKey(paramPrefix + "file")) {
 			Message mess = new Message(Message.Level.ERROR, "$message_nothing_to_validate", null);
 			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 			return;
@@ -279,16 +230,18 @@ public class ObserveAction extends Action {
 			aUnicornCall.doTask();
 			createOutput(req, resp, mapOfStringObject, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final UnicornException ucnException) {
-			Message mess = ucnException.getUnicornMessage();
+			Message mess;
+			if (ucnException.getUnicornMessage() != null)
+				mess = ucnException.getUnicornMessage();
+			else
+				mess = new Message(Message.Level.ERROR, ucnException.getMessage(), null);
 			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final Exception aException) {
 			logger.error("Exception : " + aException.getMessage(), aException);
 			createError(req, resp, reqParams, new Message(aException), mapOfSpecificParameter, mapOfOutputParameter);
 		} finally {
-			if ("true".equals(Property.get("DELETE_UPLOADED_FILES"))
-					&& aFileItemUploaded != null) {
+			if ("true".equals(Property.get("DELETE_UPLOADED_FILES")) && aFileItemUploaded != null)
 				aFileItemUploaded.delete();
-			}
 		}
 	}
 
