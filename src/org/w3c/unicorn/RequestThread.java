@@ -33,7 +33,9 @@ class RequestThread extends Thread {
 	/**
 	 * Data Structure for the responses
 	 */
-	private Map<String, Response> mapOfResponse;
+	//private Map<String, Response> mapOfResponse;
+	
+	private Response aResponse;
 
 	/**
 	 * The request to make
@@ -45,10 +47,12 @@ class RequestThread extends Thread {
 	 */
 	private String obsID;
 
+	private String lang;
+
 	/**
 	 * The call to perform
 	 */
-	private UnicornCall unicornCall;
+	//private UnicornCall unicornCall;
 
 	/**
 	 * Initialize the thread by filling the properties
@@ -62,13 +66,16 @@ class RequestThread extends Thread {
 	 * @param unicorn
 	 *            the unicorn call to make
 	 */
-	public RequestThread(Map<String, Response> mapOfResponse, Request aRequest,
-			String obsID, UnicornCall unicorn) {
-		this.mapOfResponse = mapOfResponse;
+	public RequestThread(//Map<String, Response> mapOfResponse, 
+			Request aRequest,
+			String obsID,
+			//UnicornCall unicorn,
+			String lang) {
+		//this.mapOfResponse = mapOfResponse;
 		this.aRequest = aRequest;
 		this.obsID = obsID;
-		this.unicornCall = unicorn;
-
+		this.lang = lang;
+		//this.unicornCall = unicorn;
 	}
 
 	/**
@@ -76,7 +83,7 @@ class RequestThread extends Thread {
 	 */
 	@Override
 	public void run() {
-		Response aResponse = null;
+		//Response aResponse = null;
 		try {
 			// Uncomment/comment next lines to test io_error
 			//throw new Exception("Message test de l'exception");
@@ -87,7 +94,7 @@ class RequestThread extends Thread {
 				StringBuilder builder = new StringBuilder();
 				//String lang[] = unicornCall.getMapOfStringParameter().get(
 				//		Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
-				String lang = unicornCall.getLang();
+				//String lang = unicornCall.getLang();
 
 				VelocityContext context = new VelocityContext(Framework.getLanguageContexts().get(lang));
 				EventCartridge aEventCartridge = new EventCartridge();
@@ -125,10 +132,13 @@ class RequestThread extends Thread {
 				e1.printStackTrace();
 			}
 		}
+		
+		this.aResponse.setObserverId(obsID);
+		
 		RequestThread.logger.debug(obsID + " before sync mapOfResponse");
-		synchronized (mapOfResponse) {
+		/*synchronized (mapOfResponse) {
 			mapOfResponse.put(obsID, aResponse);
-		}
+		}*/
 		RequestThread.logger.debug(obsID + " after sync mapOfResponse");
 	}
 
@@ -136,5 +146,15 @@ class RequestThread extends Thread {
 		return obsID;
 	}
 
+	public Response getResponse() {
+		return aResponse;
+	}
+
+	public void setResponse(Response aResponse) {
+		this.aResponse = aResponse;
+	}
+
+	
+	
 }
 
