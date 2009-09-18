@@ -1,9 +1,10 @@
-// $Id: Request.java,v 1.5 2009-09-17 16:37:19 tgambet Exp $
+// $Id: Request.java,v 1.6 2009-09-18 15:00:23 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -135,20 +136,29 @@ public abstract class Request {
 	}
 
 	protected Response streamToResponse(InputStream is) throws Exception {
-		StringBuilder builder = new StringBuilder();
+		
 		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+		BufferedReader buf = new BufferedReader(isr);
+		StringBuilder build = new StringBuilder();
+		int c = buf.read();
+		while (c != -1) {
+			build.append((char) c);
+			c = buf.read();
+		} 
+		
+		/*StringBuilder builder = new StringBuilder();
+		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+		
 		char[] chararray = new char[8192];
 		int readLength = 0;
-		Response res;
-		
+	
 		while ((readLength = isr.read(chararray, 0, 8192)) > -1) {
 			builder.append(chararray, 0, readLength);
-		}
+		}*/
 		
-		res = ResponseParserFactory.parse(builder.toString(), this.getResponseType());
-		if(res != null) {
-			res.setXml(builder);
-		}
+		Response res = ResponseParserFactory.parse(build.toString(), this.getResponseType());
+		if(res != null)
+			res.setXml(build);
 
 		return res;
 	}
