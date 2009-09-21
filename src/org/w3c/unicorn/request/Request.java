@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.6 2009-09-18 15:00:23 tgambet Exp $
+// $Id: Request.java,v 1.7 2009-09-21 15:51:33 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -122,11 +122,6 @@ public abstract class Request {
 		return null;
 	}
 
-	@Override
-	public String toString() {
-		return "Abstract class org.w3c.unicorn.request.Request, toString function must be overrided.";
-	}
-
 	public String getResponseType() {
 		return responseType;
 	}
@@ -135,26 +130,17 @@ public abstract class Request {
 		this.responseType = responseType;
 	}
 
-	protected Response streamToResponse(InputStream is) throws Exception {
+	protected Response streamToResponse(InputStream is) throws IOException {
 		
 		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
 		BufferedReader buf = new BufferedReader(isr);
 		StringBuilder build = new StringBuilder();
-		int c = buf.read();
-		while (c != -1) {
-			build.append((char) c);
-			c = buf.read();
+		
+		String s = buf.readLine();
+		while (s != null) {
+			build.append(s);
+			s = buf.readLine();
 		} 
-		
-		/*StringBuilder builder = new StringBuilder();
-		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-		
-		char[] chararray = new char[8192];
-		int readLength = 0;
-	
-		while ((readLength = isr.read(chararray, 0, 8192)) > -1) {
-			builder.append(chararray, 0, readLength);
-		}*/
 		
 		Response res = ResponseParserFactory.parse(build.toString(), this.getResponseType());
 		if(res != null)
