@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.21 2009-09-21 13:16:54 tgambet Exp $
+// $Id: UnicornCall.java,v 1.22 2009-09-21 15:57:01 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -28,7 +28,6 @@ import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklist.parameters.Value;
-import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
@@ -116,7 +115,7 @@ public class UnicornCall {
 			doRequests(aRequestList);
 			// browse the conditions to do the connection
 			for (TLTIf iF : node.getIfList()) {
-				if (iF.check(this)) {// checkCond(iF)) {
+				if (iF.check(this)) {
 					doNode(inputParameter, iF.getIfOk());
 				} else {
 					doNode(inputParameter, iF.getIfNotOk());
@@ -357,7 +356,8 @@ public class UnicornCall {
 					mapOfResponse.put(thread.getObsID(), thread.getResponse());
 				logger.debug("Request " + thread.getObsID() + " terminated");
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				messages.add(new Message(e));
+				logger.error(e.getMessage(), e);
 			}
 		}
 	}
