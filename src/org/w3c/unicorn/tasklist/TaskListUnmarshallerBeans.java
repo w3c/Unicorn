@@ -36,7 +36,6 @@ import org.w3c.unicorn.tasklist.parameters.Mapping;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklist.parameters.ParameterFactory;
 import org.w3c.unicorn.tasklist.parameters.Value;
-import org.w3c.unicorn.tasklisttree.EnumCondType;
 import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
