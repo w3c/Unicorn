@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.contract.Observer;
+import org.w3c.unicorn.exceptions.UnicornException;
 
 /**
  * Class made to manage the XML type condType of the tasklist. Included in a
@@ -53,7 +54,7 @@ public abstract class TLTCond {
 		TLTCond.logger.trace("constructor()");
 	}
 	
-	public abstract boolean check(UnicornCall unicornCall) throws Exception;
+	public abstract boolean check(UnicornCall unicornCall) throws UnicornException;
 	
 	public static TLTCond createCond(EnumCondType type) {
 		switch (type) {
