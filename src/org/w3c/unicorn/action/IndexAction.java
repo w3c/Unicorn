@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.18 2009-09-17 17:29:37 tgambet Exp $Id $
+// $Id: IndexAction.java,v 1.19 2009-09-21 15:46:50 tgambet Exp $Id $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -59,8 +59,11 @@ public class IndexAction extends Action {
 			
 		}
 		
-		if (req.getAttribute("unicorn_message") != null)
-			messages.add((Message) req.getAttribute("unicorn_message"));
+		if (req.getAttribute("unicorn_messages") != null) {
+			ArrayList<?> ucnMessages = (ArrayList<?>) req.getAttribute("unicorn_messages");
+			for (Object mess : ucnMessages)
+				messages.add((Message) mess);
+		}
 		
 		velocityContext = new VelocityContext(Language.getContext(lang));
 		velocityContext.put("queryString", queryString);
