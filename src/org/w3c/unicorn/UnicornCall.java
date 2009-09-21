@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.19 2009-09-21 09:38:22 tgambet Exp $
+// $Id: UnicornCall.java,v 1.20 2009-09-21 12:21:56 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,16 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.activation.MimeType;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
 import org.w3c.unicorn.contract.CallParameter;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.contract.InputMethod;
@@ -35,15 +28,12 @@ import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
 import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklist.parameters.Value;
-import org.w3c.unicorn.tasklisttree.EnumCondType;
 import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
-
-import com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl;
 
 /**
  * UnicornCall Created: Jun 29, 2006 2:44:12 PM
@@ -74,6 +64,8 @@ public class UnicornCall {
 	private Map<String, Response> mapOfResponse;
 	
 	private LinkedHashMap<String, Response> observationMap;
+	
+	private ArrayList<Message> messages;
 
 	/**
 	 * Creates a new UnicornCall.
@@ -82,6 +74,7 @@ public class UnicornCall {
 		logger.trace("Constructor()");
 		mapOfStringParameter = new LinkedHashMap<String, String[]>();
 		mapOfResponse = new LinkedHashMap<String, Response>();
+		messages = new ArrayList<Message>();
 	}
 
 	/**
@@ -147,79 +140,13 @@ public class UnicornCall {
 		
 		boolean conditionOK = false;
 		for (TLTCond cond : ifs.getCondArray()) {
-			if (checkCond(cond)) {
+			if (cond.check(this)) {
 				conditionOK = true;
 			}
 		}
 		return conditionOK;
 	}
 	
-	/**
-	 * Giving a TLTCond, checks in the map of response if the condition passes
-	 * or fails and consequently returns a boolean.
-	 * 
-	 * @param cond
-	 *            The condition to check
-	 * @return true if there is a matching response and if the condition passes
-	 *         else false
-	 */
-	private boolean checkCond(TLTCond cond) throws Exception {
-		logger.trace("checkCond : ");
-		logger.trace(cond);
-		logger.trace("condId : " + cond.getId());
-		logger.trace("condType : " + cond.getType());
-		logger.trace("condValue : " + cond.getValue());
-
-		boolean passed = false;
-
-		if (cond.getType().equals(EnumCondType.MIMETYPE)) {
-			passed = cond.getValue().equals(inputParameter.getMimeType().toString());
-		} else if (cond.getType().equals(EnumCondType.XPATH)) {
-			logger.trace("condObserver : " + cond.getObserver().getID());
-			Response res = mapOfResponse.get(cond.getObserver().getID());
-			// Testing if there is a matching response in the map
-			// and if it is passed
-			if (res != null) {
-				String xmlStr = res.getXml().toString();
-
-				DocumentBuilderFactory xmlFact = DocumentBuilderFactory
-						.newInstance();
-
-				// namespace awareness is escaped since we don't use it
-				// for the moment
-				xmlFact.setNamespaceAware(false);
-
-				DocumentBuilder builder = xmlFact.newDocumentBuilder();
-
-				Document doc = builder.parse(new java.io.ByteArrayInputStream(
-						xmlStr.getBytes("UTF-8")));
-
-				String xpathStr = cond.getValue();
-
-				XPathFactory xpathFact = new XPathFactoryImpl();
-
-				XPath xpath = xpathFact.newXPath();
-				XPathExpression xpe = xpath.compile(xpathStr);
-				passed = (Boolean) xpe.evaluate(doc, XPathConstants.BOOLEAN);
-			}
-		} else if (cond.getType().equals(EnumCondType.PARAMETER)) {
-			passed = false;
-			if (!mapOfStringParameter.containsKey(cond.getParameter())) {
-				cond.setResult(passed);
-				return passed;
-			}
-			
-			String[] parameterValues = mapOfStringParameter.get(cond.getParameter());
-			for (int i=0; i<parameterValues.length; i++)
-				if (parameterValues[i].equals(cond.getValue()))
-					passed = true;
-			
-		}
-
-		cond.setResult(passed);
-		logger.trace("cond result : " + passed);
-		return passed;
-	}
 	
 	/**
 	 * Generate the list of the request for the call
@@ -429,7 +356,7 @@ public class UnicornCall {
 	 * @throws IOException
 	 *             Input/Output error
 	 */
-	private void doRequests(RequestList requestList) throws IOException {
+	private void doRequests(RequestList requestList) {
 		logger.trace("doRequests");
 
 		final Map<String, Request> requests = requestList.getRequestMap();
@@ -438,20 +365,20 @@ public class UnicornCall {
 
 		for (final String obsID : requests.keySet()) {
 			// send request to observer
-			//threadsList.add(new RequestThread(mapOfResponse, requests.get(obsID), obsID, this));
 			threadsList.add(new RequestThread(requests.get(obsID), obsID, this.getLang()));
 			logger.debug("Request " + requests.get(obsID) + " added to threadsList");
 		}
-		for (int i = 0; i < threadsList.size(); i++) {
-			threadsList.get(i).start();
-			logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " started");
+		for (RequestThread thread : threadsList) {
+			thread.start();
+			logger.debug("Request " + thread.getObsID() + " started");
 		}
-
-		for (int i = 0; i < threadsList.size(); i++) {
+		for (RequestThread thread : threadsList) {
 			try {
-				threadsList.get(i).join();
-				mapOfResponse.put(threadsList.get(i).getObsID(), threadsList.get(i).getResponse());
-				logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " terminated");
+				thread.join();
+				messages.addAll(thread.getMessages());
+				if (thread.getResponse() != null)
+					mapOfResponse.put(thread.getObsID(), thread.getResponse());
+				logger.debug("Request " + thread.getObsID() + " terminated");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -576,6 +503,10 @@ public class UnicornCall {
 		return mapOfStringParameter;
 	}
 	
+	public InputParameter getInputParameter() {
+		return inputParameter;
+	}
+
 	/**
 	 * Set the task to perform
 	 * 
@@ -617,5 +548,13 @@ public class UnicornCall {
 
 	public void setInputParameter(final InputParameter inputParameter) {
 		this.inputParameter = inputParameter;
+	}
+
+	public ArrayList<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(ArrayList<Message> messages) {
+		this.messages = messages;
 	}
 }
