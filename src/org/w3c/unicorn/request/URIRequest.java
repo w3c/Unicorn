@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.5 2009-09-17 16:37:18 tgambet Exp $
+// $Id: URIRequest.java,v 1.6 2009-09-21 15:55:11 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -7,13 +7,19 @@ package org.w3c.unicorn.request;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import org.w3c.unicorn.contract.EnumInputMethod;
+import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.input.URIInputModule;
 import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.util.Property;
 
 /**
  * Use to handle a request to a observer.
@@ -31,6 +37,9 @@ public class URIRequest extends Request {
 	 * Parameter of the request
 	 */
 	private String sParameter = null;
+	
+	private int connectTimeOut;
+	private int readTimeOut;
 
 	/**
 	 * Create an URI request
@@ -53,14 +62,18 @@ public class URIRequest extends Request {
 		logger.debug("URL : " + sURL + ".");
 		logger.debug("Input parameter name : " + sInputParameterName + ".");
 		logger.debug("Input module : " + aInputModule + ".");
-		/*if (!(aInputModule instanceof URIInputModule)) {
-			throw new IllegalArgumentException("InputModule : "
-					+ aInputModule.toString() + ".");
-		}*/
 		this.sURL = sURL;
 		final URIInputModule aURIInputModule = (URIInputModule) aInputModule;
 		this.addParameter(sInputParameterName, aURIInputModule.getURI());
 		this.setResponseType(responseType);
+		if (Property.get("OBSERVER_CONNECT_TIMEOUT") != null)
+			connectTimeOut = Integer.parseInt(Property.get("DOCUMENT_CONNECT_TIMEOUT"));
+		else 
+			connectTimeOut = 0;
+		if (Property.get("OBSERVER_READ_TIMEOUT") != null)
+			readTimeOut = Integer.parseInt(Property.get("OBSERVER_READ_TIMEOUT"));
+		else 
+			readTimeOut = 0;
 	}
 
 	/**
@@ -94,27 +107,43 @@ public class URIRequest extends Request {
 	 * @throws Exception 
 	 */
 	@Override
-	public Response doRequest() throws Exception {
+	public Response doRequest() throws UnicornException {
 		logger.trace("doRequest");
 		logger.debug("URL : " + this.sURL + " .");
 		logger.debug("Parameters : " + this.sParameter + " .");
 		final URL aURL;
-		if (null == this.sParameter) {
-			aURL = new URL(this.sURL);
-		} else {
-			logger.debug(this.sParameter);
-			aURL = new URL(this.sURL + "?" + this.sParameter);
+		try {
+			if (null == this.sParameter) {
+				aURL = new URL(this.sURL);
+			} else {
+				aURL = new URL(this.sURL + "?" + this.sParameter);
+			}
+			logger.debug("URL : " + aURL + " .");
+			
+			URLConnection aURLConnection = aURL.openConnection();
+			aURLConnection.setConnectTimeout(connectTimeOut);
+			aURLConnection.setReadTimeout(readTimeOut);
+			aURLConnection.setRequestProperty("Accept-Language", this.sLang);
+			
+			InputStream is = aURLConnection.getInputStream();
+			Response response = streamToResponse(is);
+			response.setRequestUri(aURL.toString());
+			return response;
+		} catch (MalformedURLException e) {
+			throw new UnicornException(new Message(e));
+		} catch (ConnectException e) {
+			throw new UnicornException(Message.Level.ERROR, "$message_observer_connect_exception", null);
+		} catch (SocketTimeoutException e) {
+			if (e.getMessage().contains("connect timed out")) {
+				throw new UnicornException(Message.Level.ERROR, "$message_observer_connect_exception", null);
+			} else if (e.getMessage().contains("Read timed out")) {
+				throw new UnicornException(Message.Level.ERROR, "$message_observer_read_timeout", null);
+			} else {
+				throw new UnicornException(new Message(e));
+			}
+		} catch (IOException e) {
+			throw new UnicornException(new Message(e));
 		}
-		logger.debug("URL : " + aURL + " .");
-		final URLConnection aURLConnection = aURL.openConnection();
-
-		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
-		InputStream is = aURLConnection.getInputStream();
-		Response response = streamToResponse(is);
-		
-		response.setRequestUri(aURL.toString());
-		
-		return response;
 	}
 
 	@Override
