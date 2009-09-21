@@ -6,16 +6,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
-import java.util.Map;
+import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.event.EventCartridge;
+import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.response.parser.ResponseParserFactory;
 import org.w3c.unicorn.util.EscapeXMLEntities;
+import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Templates;
 
 /**
@@ -29,11 +31,6 @@ class RequestThread extends Thread {
 	 * Used for complex logging purpose
 	 */
 	private static final Log logger = LogFactory.getLog(RequestThread.class);;
-
-	/**
-	 * Data Structure for the responses
-	 */
-	//private Map<String, Response> mapOfResponse;
 	
 	private Response aResponse;
 
@@ -48,11 +45,8 @@ class RequestThread extends Thread {
 	private String obsID;
 
 	private String lang;
-
-	/**
-	 * The call to perform
-	 */
-	//private UnicornCall unicornCall;
+	
+	private ArrayList<Message> messages;
 
 	/**
 	 * Initialize the thread by filling the properties
@@ -66,16 +60,14 @@ class RequestThread extends Thread {
 	 * @param unicorn
 	 *            the unicorn call to make
 	 */
-	public RequestThread(//Map<String, Response> mapOfResponse, 
+	public RequestThread( 
 			Request aRequest,
 			String obsID,
-			//UnicornCall unicorn,
 			String lang) {
-		//this.mapOfResponse = mapOfResponse;
 		this.aRequest = aRequest;
 		this.obsID = obsID;
 		this.lang = lang;
-		//this.unicornCall = unicorn;
+		messages = new ArrayList<Message>();
 	}
 
 	/**
@@ -88,6 +80,8 @@ class RequestThread extends Thread {
 			// Uncomment/comment next lines to test io_error
 			//throw new Exception("Message test de l'exception");
 			aResponse = this.aRequest.doRequest();
+		} catch (final UnicornException e) {
+			messages.add(e.getUnicornMessage());
 		} catch (final Exception e) {
 			RequestThread.logger.error("Exception : " + e.getMessage(), e);
 			try {
@@ -134,12 +128,6 @@ class RequestThread extends Thread {
 		}
 		
 		this.aResponse.setObserverId(obsID);
-		
-		RequestThread.logger.debug(obsID + " before sync mapOfResponse");
-		/*synchronized (mapOfResponse) {
-			mapOfResponse.put(obsID, aResponse);
-		}*/
-		RequestThread.logger.debug(obsID + " after sync mapOfResponse");
 	}
 
 	public String getObsID() {
@@ -152,6 +140,14 @@ class RequestThread extends Thread {
 
 	public void setResponse(Response aResponse) {
 		this.aResponse = aResponse;
+	}
+
+	public ArrayList<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(ArrayList<Message> messages) {
+		this.messages = messages;
 	}
 
 	
