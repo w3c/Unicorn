@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.8 2009-09-21 16:28:33 tgambet Exp $
+// $Id: Request.java,v 1.9 2009-09-21 16:35:50 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -140,7 +140,7 @@ public abstract class Request {
 		
 		String s = buf.readLine();
 		while (s != null) {
-			build.append(s);
+			build.append(s + "\n");
 			s = buf.readLine();
 		} 
 		
