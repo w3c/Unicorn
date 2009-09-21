@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.36 2009-09-21 12:43:32 tgambet Exp $
+// $Id: ObserveAction.java,v 1.37 2009-09-21 14:38:06 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -104,6 +104,7 @@ public class ObserveAction extends Action {
 		mapOfStringObject.put("queryString", queryString);
 		// messages is the ArrayList containing the messages to display
 		mapOfStringObject.put("messages", messages);
+		mapOfStringObject.put("unicorncall", aUnicornCall);
 		
 		// Retrieve the parameters from the request
 		Map<String, Object> reqParams;
@@ -208,18 +209,18 @@ public class ObserveAction extends Action {
 			return;
 		}
 		
+		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=" + mapOfOutputParameter.get("charset"));
+		
 		String s = "Resolved parameters:";
 		for (String key : reqParams.keySet()) {
 			s += "\n\t" + key + " - ";
 			if (reqParams.get(key) instanceof String[]) {
 				s += "[";
-				for (int i = 0; i < ((String[]) reqParams.get(key)).length; i ++) {
+				for (int i = 0; i < ((String[]) reqParams.get(key)).length; i ++)
 					s += ((String[]) reqParams.get(key))[i] + ", ";
-				}
 				s = s.substring(0, s.length() - 2);
 				s += "]";
-			}
-			else {
+			} else {
 				s += reqParams.get(key);
 			}
 		}
@@ -229,13 +230,11 @@ public class ObserveAction extends Action {
 		try {
 			aUnicornCall.doTask();
 			messages.addAll(aUnicornCall.getMessages());
-			
 			if (aUnicornCall.getResponses().size() == 0) {
 				Message mess = new Message(Message.Level.ERROR, "aucune observation", null);
 				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
 			}
-			
-			createOutput(req, resp, mapOfStringObject, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
+			createOutput(req, resp, mapOfStringObject, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final UnicornException ucnException) {
 			Message mess;
 			if (ucnException.getUnicornMessage() != null)
@@ -328,39 +327,37 @@ public class ObserveAction extends Action {
 		
 		// If text/html is the mime-type the error will be displayed directly on index
 		if (mapOfOutputParameter.get("mimetype").equals("text/html")) {
-			req.setAttribute("unicorn_message", mess);
-			if (reqParams != null)
-				req.setAttribute("unicorn_parameters", reqParams);
-			RequestDispatcher dispatcher = req.getRequestDispatcher("index.html");
-			dispatcher.forward(req, resp);
-			logger.info("request redirected to index");
+			redirect(req, resp, reqParams, mess);
 			return;
 		}
 		
-		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=" + mapOfOutputParameter.get("charset"));
-		OutputFormater aOutputFormater = OutputFactory
-			.createOutputFormater(mapOfOutputParameter.get("format"),
-								  mapOfOutputParameter.get("lang"),
-								  mapOfOutputParameter.get("mimetype"));
+		OutputFormater aOutputFormater = OutputFactory.createOutputFormater(
+				mapOfOutputParameter.get("format"),
+				mapOfOutputParameter.get("lang"), 
+				mapOfOutputParameter.get("mimetype"));
 		OutputModule aOutputModule = OutputFactory.createOutputModule(mapOfOutputParameter.get("output"));
 		aOutputModule.produceError(aOutputFormater, mess, mapOfSpecificParameter, resp.getWriter());
 	}
-
+	
 	private void createOutput(HttpServletRequest req, HttpServletResponse resp,
-			Map<String, Object> mapOfStringObject, UnicornCall aUnicornCall,
-			Map<String, String> mapOfSpecificParameter, Map<String, String> mapOfOutputParameter) throws IOException {
+			Map<String, Object> mapOfStringObject, Map<String, String> mapOfSpecificParameter,
+			Map<String, String> mapOfOutputParameter) throws IOException, ServletException {
 		
-		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=" + mapOfOutputParameter.get("charset"));
-
-		mapOfStringObject.put("unicorncall", aUnicornCall);
-		
-		OutputFormater aOutputFormater = OutputFactory
-				.createOutputFormater(mapOfOutputParameter.get("format"),
-									  mapOfOutputParameter.get("lang"),
-									  mapOfOutputParameter.get("mimetype"));
-		OutputModule aOutputModule = OutputFactory
-				.createOutputModule(mapOfOutputParameter.get("output"));
+		OutputFormater aOutputFormater = OutputFactory.createOutputFormater(
+				mapOfOutputParameter.get("format"),
+				mapOfOutputParameter.get("lang"), 
+				mapOfOutputParameter.get("mimetype"));
+		OutputModule aOutputModule = OutputFactory.createOutputModule(mapOfOutputParameter.get("output"));
 		aOutputModule.produceOutput(aOutputFormater, mapOfStringObject, mapOfSpecificParameter, resp.getWriter());
+	}
+	
+	private void redirect(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> reqParams, Message mess) throws IOException, ServletException {
+		req.setAttribute("unicorn_message", mess);
+		if (reqParams != null)
+			req.setAttribute("unicorn_parameters", reqParams);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("index.html");
+		dispatcher.forward(req, resp);
+		logger.info("request redirected to index");
 	}
 
 	/**
