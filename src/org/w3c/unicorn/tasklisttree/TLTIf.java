@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.unicorn.UnicornCall;
+import org.w3c.unicorn.exceptions.UnicornException;
 
 /**
  * Class made to manage the XML type : ifType in the tasklist. Included in a
@@ -15,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class TLTIf {
 
-	private ArrayList<TLTCond> cond;
+	private ArrayList<TLTCond> conds;
 
 	private TLTNode ifOk;
 
@@ -29,7 +31,7 @@ public class TLTIf {
 	 */
 	public TLTIf() {
 		TLTIf.logger.trace("Constructor");
-		this.cond = new ArrayList<TLTCond>();
+		this.conds = new ArrayList<TLTCond>();
 		this.ifOk = new TLTNode();
 		this.ifNotOk = new TLTNode();
 	}
@@ -46,7 +48,7 @@ public class TLTIf {
 	public TLTIf(ArrayList<TLTCond> cond, TLTNode ifOk) {
 		TLTIf.logger.trace("Constructor");
 		TLTIf.logger.trace("Cond : ");
-		this.cond = cond;
+		this.conds = cond;
 		this.ifOk = ifOk;
 		this.ifNotOk = new TLTNode();
 	}
@@ -65,11 +67,30 @@ public class TLTIf {
 	public TLTIf(ArrayList<TLTCond> cond, TLTNode ifOk, TLTNode ifNotOK) {
 		TLTIf.logger.trace("Constructor");
 		TLTIf.logger.trace("Cond : ");
-		this.cond = cond;
+		this.conds = cond;
 		this.ifOk = ifOk;
 		this.ifNotOk = ifNotOK;
 	}
 
+	/**
+	 * Check the conditions of the if branch it makes a OR between all
+	 * conditions
+	 * 
+	 * @param unicornCall
+	 *            the UnicornCall object to check
+	 * @return whether or not the conditions are true
+	 * @throws UnicornException
+	 */
+	public boolean check(UnicornCall unicornCall) throws UnicornException {
+		boolean conditionOK = false;
+		for (TLTCond cond : conds) {
+			if (cond.check(unicornCall)) {
+				conditionOK = true;
+			}
+		}
+		return conditionOK;
+	}
+	
 	/**
 	 * Sets the child node corresponding to the "ok" case
 	 * 
@@ -97,7 +118,7 @@ public class TLTIf {
 	 */
 	public void addCond(TLTCond cond) {
 		TLTIf.logger.trace("addCond : " + cond.getId());
-		this.cond.add(cond);
+		this.conds.add(cond);
 	}
 
 	/**
@@ -124,13 +145,13 @@ public class TLTIf {
 	 */
 	public ArrayList<TLTCond> getCondArray() {
 		TLTIf.logger.trace("getCond");
-		return cond;
+		return conds;
 	}
 
 	@Override
 	public String toString() {
 		String res = new String("TLTIf ");
-		for (TLTCond conds : this.cond) {
+		for (TLTCond conds : this.conds) {
 			res += conds.toString();
 		}
 		return res;

@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.20 2009-09-21 12:21:56 tgambet Exp $
+// $Id: UnicornCall.java,v 1.21 2009-09-21 13:16:54 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -82,7 +82,7 @@ public class UnicornCall {
 	 * 
 	 * @throws Exception
 	 */
-	public void doTask() throws UnicornException, Exception {
+	public void doTask() throws UnicornException {
 		logger.trace("doTask.");
 		logger.debug("String task id : " + aTask.getID() + ".");
 		logger.debug("EnumInputMethod : " + inputParameter.getInputMethod() + ".");
@@ -109,14 +109,14 @@ public class UnicornCall {
 	 * @throws Exception
 	 *             raised from generateRequestList and doRequest
 	 */
-	private void doNode(InputParameter inputParameter, TLTNode node) throws UnicornException, Exception {
+	private void doNode(InputParameter inputParameter, TLTNode node) throws UnicornException {
 		if (node != null) {
 			RequestList aRequestList = generateRequestList(inputParameter, mapOfStringParameter, node);
 			// send requests to observer
 			doRequests(aRequestList);
 			// browse the conditions to do the connection
 			for (TLTIf iF : node.getIfList()) {
-				if (checkCond(iF)) {
+				if (iF.check(this)) {// checkCond(iF)) {
 					doNode(inputParameter, iF.getIfOk());
 				} else {
 					doNode(inputParameter, iF.getIfNotOk());
@@ -124,29 +124,6 @@ public class UnicornCall {
 			}
 		}
 	}
-
-	/**
-	 * Check the conditions of the if branch it makes a OR between all
-	 * conditions
-	 * 
-	 * @param ifs
-	 *            the if branch to check
-	 * @return whether or not the conditions are true
-	 * @throws Exception
-	 */
-	private boolean checkCond(TLTIf ifs) throws Exception {
-		logger.trace("checkCond.");
-		logger.debug("If node : " + ifs + ".");
-		
-		boolean conditionOK = false;
-		for (TLTCond cond : ifs.getCondArray()) {
-			if (cond.check(this)) {
-				conditionOK = true;
-			}
-		}
-		return conditionOK;
-	}
-	
 	
 	/**
 	 * Generate the list of the request for the call
