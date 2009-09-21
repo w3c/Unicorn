@@ -13,5 +13,14 @@ public enum EnumCondType {
 	public final String value() {
 		return this.sValue;
 	}
+	
+	public static EnumCondType fromValue(final String sValue) {
+		for (final EnumCondType aEnumCondType : EnumCondType.values()) {
+			if (aEnumCondType.sValue.equals(sValue)) {
+				return aEnumCondType;
+			}
+		}
+		return null;
+	}
 
 }
