@@ -406,10 +406,10 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		String[] conds = ifs.getTest().split(",");
 
 		for (String cond : conds) {
-			TLTCond myCond = new TLTCond();
-
+			//TLTCond myCond = new TLTCond();
 			for (CondType condlist : myTask.getConds().getCondList()) {
 				if (condlist.getId().equals(cond)) {
+					TLTCond myCond = TLTCond.createCond(condlist.getType().toString());
 					TaskListUnmarshallerBeans.logger
 							.trace("Creation of a condition " + cond);
 					myCond.setId(condlist.getId());
