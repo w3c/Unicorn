@@ -268,7 +268,7 @@ public class Response {
 		return requestUri;
 	}
 	
-	public String getFilteredRequestUri(String observerId) {
+	public String getFilteredRequestUri() {
 		if (requestUri != null) {
 			String outputParamName = Framework.mapOfObserver.get(observerId).getParamOutputName();
 			return requestUri.replaceAll("&?" + outputParamName + "=[^&]*", "");
