@@ -1,18 +1,14 @@
-// $Id: OutputModule.java,v 1.4 2009-09-08 14:22:02 tgambet Exp $
+// $Id: OutputModule.java,v 1.5 2009-09-21 14:38:35 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.w3c.unicorn.util.Message;
 
 /**

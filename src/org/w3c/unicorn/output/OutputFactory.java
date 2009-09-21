@@ -1,4 +1,4 @@
-// $Id: OutputFactory.java,v 1.5 2009-09-07 16:32:20 tgambet Exp $
+// $Id: OutputFactory.java,v 1.6 2009-09-21 14:38:35 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,8 +6,6 @@ package org.w3c.unicorn.output;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.w3c.unicorn.util.Property;
 
 /**

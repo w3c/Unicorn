@@ -1,4 +1,4 @@
-// $Id: OutputFormater.java,v 1.4 2009-09-07 16:32:20 tgambet Exp $
+// $Id: OutputFormater.java,v 1.5 2009-09-21 14:38:35 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -9,9 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.w3c.unicorn.util.Message;
 
 /**
