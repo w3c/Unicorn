@@ -12,6 +12,7 @@
 			<doc title="mimetype">application/xhtml+xml</doc>
 			
 			<doc title="paramLang">lang</doc>
+			<doc title="paramOutput">output</doc>
 			
 			<doc title="reference">mobileok</doc>
 		

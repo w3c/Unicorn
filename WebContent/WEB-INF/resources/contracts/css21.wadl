@@ -23,6 +23,7 @@
 			<doc xml:lang="fr" title="provider">Le W3C</doc>
 			
 			<doc title="paramLang">lang</doc>
+			<doc title="paramOutput">output</doc>
 			
 			<doc title="reference">css21-validator</doc>
 		
