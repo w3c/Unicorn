@@ -99,7 +99,7 @@ public class UnicornCallTest {
 			InputModule inputMod = inputParameter.getInputModule();
 			
 			Request req = Request.createRequest(inputMod,
-					"http://validator.w3.org/check", "uri", false, "ucn");
+					"http://validator.w3.org/check", "uri", false, "ucn", "markup-validator");
 			req.setLang("en");
 			req.addParameter("output", "ucn");
 			System.out.println("request created");
