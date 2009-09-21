@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.18 2009-09-18 17:12:26 tgambet Exp $
+// $Id: UnicornCall.java,v 1.19 2009-09-21 09:38:22 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -450,10 +450,7 @@ public class UnicornCall {
 		for (int i = 0; i < threadsList.size(); i++) {
 			try {
 				threadsList.get(i).join();
-				Response resp = threadsList.get(i).getResponse();
-				mapOfResponse.put(threadsList.get(i).getObsID(), resp);
-				String outputParamName = Framework.mapOfObserver.get(resp.getObserverId()).getParamOutputName();
-				resp.setRequestUri(resp.getRequestUri().replaceAll("&?" + outputParamName + "=[^&]*", ""));
+				mapOfResponse.put(threadsList.get(i).getObsID(), threadsList.get(i).getResponse());
 				logger.debug("Request " + ((RequestThread)threadsList.get(i)).getObsID() + " terminated");
 			} catch (InterruptedException e) {
 				e.printStackTrace();

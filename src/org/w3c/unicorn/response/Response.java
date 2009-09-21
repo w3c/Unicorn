@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.w3c.unicorn.Framework;
+
 public class Response {
 	protected String uri;
 	
@@ -264,6 +266,19 @@ public class Response {
 
 	public String getRequestUri() {
 		return requestUri;
+	}
+	
+	public String getFilteredRequestUri(String observerId) {
+		if (requestUri != null) {
+			String outputParamName = Framework.mapOfObserver.get(observerId).getParamOutputName();
+			return requestUri.replaceAll("&?" + outputParamName + "=[^&]*", "");
+		} else {
+			return null;
+		}
+	}
+	
+	public String getBaseURI(String observerId) {
+		return Framework.mapOfObserver.get(observerId).getListOfCallMethod().get(0).getURL().toString();
 	}
 
 	public void setRequestUri(String requestUri) {
