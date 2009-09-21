@@ -2,6 +2,7 @@ package org.w3c.unicorn.tasklisttree;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.contract.Observer;
 
 /**
@@ -11,19 +12,19 @@ import org.w3c.unicorn.contract.Observer;
  * @author Barouh Jonathan & Batard Florent
  * 
  */
-public class TLTCond {
+public abstract class TLTCond {
 
 	private String id;
 
-	private Observer observer;
+	protected Observer observer;
 
 	private EnumCondType type;
 
 	private boolean result;
 
-	private String value;
+	protected String value;
 	
-	private String parameter;
+	protected String parameter;
 
 	private static final Log logger = LogFactory.getLog(TLTCond.class);
 
@@ -50,6 +51,25 @@ public class TLTCond {
 	 */
 	public TLTCond() {
 		TLTCond.logger.trace("constructor()");
+	}
+	
+	public abstract boolean check(UnicornCall unicornCall) throws Exception;
+	
+	public static TLTCond createCond(EnumCondType type) {
+		switch (type) {
+		case MIMETYPE:
+			return new MimetypeCond();
+		case PARAMETER:
+			return new ParameterCond();
+		case XPATH:
+			return new XPathCond();
+		default:
+			return null;
+		}
+	}
+	
+	public static TLTCond createCond(String type) {
+		return createCond(EnumCondType.fromValue(type));
 	}
 
 	/**
