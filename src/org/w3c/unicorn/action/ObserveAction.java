@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.35 2009-09-18 14:57:58 tgambet Exp $
+// $Id: ObserveAction.java,v 1.36 2009-09-21 12:43:32 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -228,6 +228,13 @@ public class ObserveAction extends Action {
 		// Launch the observation
 		try {
 			aUnicornCall.doTask();
+			messages.addAll(aUnicornCall.getMessages());
+			
+			if (aUnicornCall.getResponses().size() == 0) {
+				Message mess = new Message(Message.Level.ERROR, "aucune observation", null);
+				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
+			}
+			
 			createOutput(req, resp, mapOfStringObject, aUnicornCall, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final UnicornException ucnException) {
 			Message mess;
