@@ -1,4 +1,4 @@
-// $Id: SimpleOutputFormater.java,v 1.4 2009-09-07 16:32:20 tgambet Exp $
+// $Id: SimpleOutputFormater.java,v 1.5 2009-09-21 15:50:19 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,11 +6,11 @@ package org.w3c.unicorn.output;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
-import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
 
@@ -79,13 +79,12 @@ public class SimpleOutputFormater implements OutputFormater {
 		}
 	}
 
-	public void produceError(Message errorMessage, final Writer output) {
+	public void produceError(Map<String, Object> mapOfStringObject, final Writer output) {
 		
 		logger.trace("produceError");
-		logger.debug("ErrorMessage : " + errorMessage.getMessage() + ".");
 		logger.debug("Writer : " + output + ".");
 		
-		Message[] messages = {errorMessage};
+		ArrayList<?> messages = (ArrayList<?>) mapOfStringObject.get("messages");
 		aVelocityContext.put("messages", messages);
 		
 		Templates.write(format + ".error.vm", aVelocityContext, output);

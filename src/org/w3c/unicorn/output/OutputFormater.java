@@ -1,4 +1,4 @@
-// $Id: OutputFormater.java,v 1.5 2009-09-21 14:38:35 tgambet Exp $
+// $Id: OutputFormater.java,v 1.6 2009-09-21 15:50:19 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.unicorn.util.Message;
 
 /**
  * SimpleOutputFormater<br />
@@ -28,9 +27,9 @@ public interface OutputFormater {
 	public abstract void produceOutput(Map<String, Object> mapOfStringObject, Writer output);
 
 	/**
-	 * @param errorMessage 
+	 * @param messages 
 	 * @param aWriter
 	 */
-	public abstract void produceError(Message errorMessage, Writer output);
+	public abstract void produceError(Map<String, Object> mapOfStringObject, Writer output);
 
 }
