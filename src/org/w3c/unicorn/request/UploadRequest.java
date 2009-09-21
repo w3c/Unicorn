@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.5 2009-09-17 16:37:18 tgambet Exp $
+// $Id: UploadRequest.java,v 1.6 2009-09-21 16:28:33 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -65,13 +65,14 @@ public class UploadRequest extends Request {
 	 */
 	protected UploadRequest(final String sURL,
 			final String sInputParameterName, final UploadInputModule aInputModule,
-			final String responseType) {
+			final String responseType, String observerId) {
 		super();
 		logger.trace("Constructor");
 		logger.debug("URL : " + sURL + ".");
 		logger.debug("Input parameter name : " + sInputParameterName + ".");
 		logger.debug("Input module : " + aInputModule + ".");
 		this.sURL = sURL;
+		this.observerId = observerId;
 		this.sInputParameterName = sInputParameterName;
 		this.aUploadInputModule = (UploadInputModule) aInputModule;
 		this.mapOfParameter = new Hashtable<String, String>();

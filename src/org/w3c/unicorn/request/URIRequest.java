@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.6 2009-09-21 15:55:11 tgambet Exp $
+// $Id: URIRequest.java,v 1.7 2009-09-21 16:28:33 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,6 +14,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.input.URIInputModule;
@@ -56,13 +57,14 @@ public class URIRequest extends Request {
 	 *             odd error occured
 	 */
 	public URIRequest(final String sURL, final String sInputParameterName,
-			URIInputModule aInputModule, final String responseType) {
+			URIInputModule aInputModule, final String responseType, String observerId) {
 		super();
 		logger.trace("Constructor");
 		logger.debug("URL : " + sURL + ".");
 		logger.debug("Input parameter name : " + sInputParameterName + ".");
 		logger.debug("Input module : " + aInputModule + ".");
 		this.sURL = sURL;
+		this.observerId = observerId;
 		final URIInputModule aURIInputModule = (URIInputModule) aInputModule;
 		this.addParameter(sInputParameterName, aURIInputModule.getURI());
 		this.setResponseType(responseType);
@@ -132,10 +134,10 @@ public class URIRequest extends Request {
 		} catch (MalformedURLException e) {
 			throw new UnicornException(new Message(e));
 		} catch (ConnectException e) {
-			throw new UnicornException(Message.Level.ERROR, "$message_observer_connect_exception", null);
+			throw new UnicornException(Message.Level.ERROR, "$message_observer_connect_exception " + Framework.mapOfObserver.get(observerId).getName(sLang.split(",")[0]), null);
 		} catch (SocketTimeoutException e) {
 			if (e.getMessage().contains("connect timed out")) {
-				throw new UnicornException(Message.Level.ERROR, "$message_observer_connect_exception", null);
+				throw new UnicornException(Message.Level.ERROR, "$message_observer_connect_exception " + Framework.mapOfObserver.get(observerId).getName(sLang.split(",")[0]), null);
 			} else if (e.getMessage().contains("Read timed out")) {
 				throw new UnicornException(Message.Level.ERROR, "$message_observer_read_timeout", null);
 			} else {

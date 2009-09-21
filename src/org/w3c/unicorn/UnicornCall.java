@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.22 2009-09-21 15:57:01 tgambet Exp $
+// $Id: UnicornCall.java,v 1.23 2009-09-21 16:28:33 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -173,7 +173,8 @@ public class UnicornCall {
 					// Has a file been uploaded?
 					aInputMethod.getCallMethod().isPost(),
 					// Response format
-					aObserver.getResponseType());
+					aObserver.getResponseType(),
+					aObserver.getID());
 
 			// add this request to request list
 			//aRequestList.addRequest(aRequest, aObserver.getID());

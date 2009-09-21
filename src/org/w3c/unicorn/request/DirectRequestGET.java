@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.6 2009-09-17 16:37:19 tgambet Exp $
+// $Id: DirectRequestGET.java,v 1.7 2009-09-21 16:28:33 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -48,13 +48,14 @@ public class DirectRequestGET extends Request {
 	 */
 	protected DirectRequestGET(final String sURL,
 			final String sInputParameterName, DirectInputModule aInputModule,
-			final String responseType) {
+			final String responseType, String observerId) {
 		super();
 		logger.trace("Constructor");
 		logger.debug("URL : " + sURL + ".");
 		logger.debug("Input parameter name : " + sInputParameterName + ".");
 		logger.debug("Input module : " + aInputModule + ".");
 		this.sURL = sURL;
+		this.observerId = observerId;
 		addParameter(sInputParameterName, aInputModule.getStringContent());
 		setResponseType(responseType);
 	}

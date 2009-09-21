@@ -1,4 +1,4 @@
-// $Id: DirectRequestPOST.java,v 1.4 2009-09-17 16:37:19 tgambet Exp $
+// $Id: DirectRequestPOST.java,v 1.5 2009-09-21 16:28:33 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -82,7 +82,7 @@ public class DirectRequestPOST extends Request {
 	 */
 	protected DirectRequestPOST(final String sURL,
 			final String sInputParameterName, DirectInputModule aInputModule,
-			final String responseType) {
+			final String responseType, String observerId) {
 		super();
 		logger.trace("Constructor");
 		logger.debug("URL : " + sURL + ".");
@@ -90,6 +90,7 @@ public class DirectRequestPOST extends Request {
 		logger.debug("Input module : " + aInputModule + ".");
 		mapOfParameter = new Hashtable<String, String>();
 		this.sURL = sURL;
+		this.observerId = observerId;
 		addParameter(sInputParameterName, aInputModule.getStringContent());
 		setResponseType(responseType);
 	}

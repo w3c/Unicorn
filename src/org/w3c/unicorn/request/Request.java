@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.7 2009-09-21 15:51:33 tgambet Exp $
+// $Id: Request.java,v 1.8 2009-09-21 16:28:33 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -38,6 +38,8 @@ public abstract class Request {
 	 * Type of the response for the request
 	 */
 	protected String responseType = null;
+	
+	protected String observerId;
 
 	/**
 	 * Sets the language of the request
@@ -96,7 +98,7 @@ public abstract class Request {
 	 */
 	public static Request createRequest(final InputModule aInputModule,
 			final String sURL, final String sInputParameterName,
-			final boolean bIsPost, final String responseType) {
+			final boolean bIsPost, final String responseType, String observerId) {
 
 		logger.trace("createRequest");
 		logger.debug("InputModule : " + aInputModule + ".");
@@ -107,17 +109,17 @@ public abstract class Request {
 		case DIRECT:
 			if (bIsPost) {
 				return new DirectRequestPOST(sURL, sInputParameterName, 
-						(DirectInputModule) aInputModule, responseType);
+						(DirectInputModule) aInputModule, responseType, observerId);
 			} else {
 				return new DirectRequestGET(sURL, sInputParameterName,
-						(DirectInputModule) aInputModule, responseType);
+						(DirectInputModule) aInputModule, responseType, observerId);
 			}
 		case UPLOAD:
 			return new UploadRequest(sURL, sInputParameterName,
-					(UploadInputModule) aInputModule, responseType);
+					(UploadInputModule) aInputModule, responseType, observerId);
 		case URI:
 			return new URIRequest(sURL, sInputParameterName,
-					(URIInputModule) aInputModule, responseType);
+					(URIInputModule) aInputModule, responseType, observerId);
 		}
 		return null;
 	}
@@ -147,5 +149,13 @@ public abstract class Request {
 			res.setXml(build);
 
 		return res;
+	}
+
+	public String getObserverId() {
+		return observerId;
+	}
+
+	public void setObserverId(String observerId) {
+		this.observerId = observerId;
 	}
 }
