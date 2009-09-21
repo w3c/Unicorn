@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.37 2009-09-21 14:38:06 tgambet Exp $
+// $Id: ObserveAction.java,v 1.38 2009-09-21 15:48:22 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -111,7 +111,8 @@ public class ObserveAction extends Action {
 		try {
 			reqParams = getRequestParameters(req);
 		} catch (FileUploadException e) {
-			createError(req, resp, null, new Message(e), mapOfSpecificParameter, mapOfOutputParameter);
+			messages.add(new Message(e));
+			createError(req, resp, null, mapOfStringObject, mapOfSpecificParameter, mapOfOutputParameter);
 			return;
 		}
 		
@@ -204,8 +205,8 @@ public class ObserveAction extends Action {
 			aUnicornCall.setTask(task);
 		}
 		if (!reqParams.containsKey(paramPrefix + "uri") && !reqParams.containsKey(paramPrefix + "text") && !reqParams.containsKey(paramPrefix + "file")) {
-			Message mess = new Message(Message.Level.ERROR, "$message_nothing_to_validate", null);
-			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
+			messages.add(new Message(Message.Level.ERROR, "$message_nothing_to_validate", null));
+			createError(req, resp, reqParams, mapOfStringObject, mapOfSpecificParameter, mapOfOutputParameter);
 			return;
 		}
 		
@@ -231,20 +232,21 @@ public class ObserveAction extends Action {
 			aUnicornCall.doTask();
 			messages.addAll(aUnicornCall.getMessages());
 			if (aUnicornCall.getResponses().size() == 0) {
-				Message mess = new Message(Message.Level.ERROR, "aucune observation", null);
-				createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				messages.add(new Message(Message.Level.ERROR, "$message_no_observation_done", null));
+				createError(req, resp, reqParams, mapOfStringObject, mapOfSpecificParameter, mapOfOutputParameter);
+			} else {
+				createOutput(req, resp, mapOfStringObject, mapOfSpecificParameter, mapOfOutputParameter);
 			}
-			createOutput(req, resp, mapOfStringObject, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final UnicornException ucnException) {
-			Message mess;
 			if (ucnException.getUnicornMessage() != null)
-				mess = ucnException.getUnicornMessage();
+				messages.add(ucnException.getUnicornMessage());
 			else
-				mess = new Message(Message.Level.ERROR, ucnException.getMessage(), null);
-			createError(req, resp, reqParams, mess, mapOfSpecificParameter, mapOfOutputParameter);
+				messages.add(new Message(Message.Level.ERROR, ucnException.getMessage(), null));
+			createError(req, resp, reqParams, mapOfStringObject, mapOfSpecificParameter, mapOfOutputParameter);
 		} catch (final Exception aException) {
 			logger.error("Exception : " + aException.getMessage(), aException);
-			createError(req, resp, reqParams, new Message(aException), mapOfSpecificParameter, mapOfOutputParameter);
+			messages.add(new Message(aException));
+			createError(req, resp, reqParams, mapOfStringObject, mapOfSpecificParameter, mapOfOutputParameter);
 		} finally {
 			if ("true".equals(Property.get("DELETE_UPLOADED_FILES")) && aFileItemUploaded != null)
 				aFileItemUploaded.delete();
@@ -322,12 +324,12 @@ public class ObserveAction extends Action {
 	}
 	
 	private void createError(HttpServletRequest req, HttpServletResponse resp,
-			Map<String, Object> reqParams, Message mess, Map<String, String> mapOfSpecificParameter,
+			Map<String, Object> reqParams, Map<String, Object> mapOfStringObject, Map<String, String> mapOfSpecificParameter,
 			Map<String, String> mapOfOutputParameter) throws IOException, ServletException {
 		
 		// If text/html is the mime-type the error will be displayed directly on index
 		if (mapOfOutputParameter.get("mimetype").equals("text/html")) {
-			redirect(req, resp, reqParams, mess);
+			redirect(req, resp, reqParams, (ArrayList<?>) mapOfStringObject.get("messages"));
 			return;
 		}
 		
@@ -336,7 +338,7 @@ public class ObserveAction extends Action {
 				mapOfOutputParameter.get("lang"), 
 				mapOfOutputParameter.get("mimetype"));
 		OutputModule aOutputModule = OutputFactory.createOutputModule(mapOfOutputParameter.get("output"));
-		aOutputModule.produceError(aOutputFormater, mess, mapOfSpecificParameter, resp.getWriter());
+		aOutputModule.produceError(aOutputFormater, mapOfStringObject, mapOfSpecificParameter, resp.getWriter());
 	}
 	
 	private void createOutput(HttpServletRequest req, HttpServletResponse resp,
@@ -351,8 +353,8 @@ public class ObserveAction extends Action {
 		aOutputModule.produceOutput(aOutputFormater, mapOfStringObject, mapOfSpecificParameter, resp.getWriter());
 	}
 	
-	private void redirect(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> reqParams, Message mess) throws IOException, ServletException {
-		req.setAttribute("unicorn_message", mess);
+	private void redirect(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> reqParams, ArrayList<?> messages) throws IOException, ServletException {
+		req.setAttribute("unicorn_messages", messages);
 		if (reqParams != null)
 			req.setAttribute("unicorn_parameters", reqParams);
 		RequestDispatcher dispatcher = req.getRequestDispatcher("index.html");
