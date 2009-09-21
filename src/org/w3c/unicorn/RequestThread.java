@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
@@ -75,21 +74,15 @@ class RequestThread extends Thread {
 	 */
 	@Override
 	public void run() {
-		//Response aResponse = null;
 		try {
-			// Uncomment/comment next lines to test io_error
-			//throw new Exception("Message test de l'exception");
 			aResponse = this.aRequest.doRequest();
+			aResponse.setObserverId(obsID);
 		} catch (final UnicornException e) {
 			messages.add(e.getUnicornMessage());
 		} catch (final Exception e) {
 			RequestThread.logger.error("Exception : " + e.getMessage(), e);
 			try {
 				StringBuilder builder = new StringBuilder();
-				//String lang[] = unicornCall.getMapOfStringParameter().get(
-				//		Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
-				//String lang = unicornCall.getLang();
-
 				VelocityContext context = new VelocityContext(Framework.getLanguageContexts().get(lang));
 				EventCartridge aEventCartridge = new EventCartridge();
 				aEventCartridge.addEventHandler(new EscapeXMLEntities());
@@ -112,10 +105,6 @@ class RequestThread extends Thread {
 				}
 				aResponse = ResponseParserFactory.parse(builder.toString(), "default");				
 				aResponse.setXml(builder);				
-			} catch (MalformedURLException e1) {
-				RequestThread.logger
-						.error("Exception : " + e1.getMessage(), e1);
-				e1.printStackTrace();
 			} catch (IOException e1) {
 				RequestThread.logger
 						.error("Exception : " + e1.getMessage(), e1);
@@ -126,8 +115,6 @@ class RequestThread extends Thread {
 				e1.printStackTrace();
 			}
 		}
-		
-		this.aResponse.setObserverId(obsID);
 	}
 
 	public String getObsID() {
@@ -150,7 +137,5 @@ class RequestThread extends Thread {
 		this.messages = messages;
 	}
 
-	
-	
 }
 
