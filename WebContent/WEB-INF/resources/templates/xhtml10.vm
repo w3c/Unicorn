@@ -85,13 +85,13 @@
 							<td class="codeContext"> #if($info.Context) $info.Context #end </td>
 							<td class="info" id="$messageId">
 							#foreach($message in $info.Message)<span class="msg">$message</span>#end
-								#foreach($longMessage in $info.Longmessage)
-								<p class="longmsg">
-								#foreach($longMessagePiece in $longMessage.Content)
-									$longMessagePiece
-								#end
-								</p>
-								#end
+							#foreach($longMessage in $info.Longmessage)
+							<p class="longmsg">
+							#foreach($longMessagePiece in $longMessage.Content)
+								$longMessagePiece
+							#end
+							</p>
+							#end
 							</td>
 							<td class="anchor"><a class="smooth" title="anchor to this message" href="#$messageId">[anchor]</a></td>
 						</tr>
@@ -133,13 +133,13 @@
 							<td class="codeContext">#if($error.Context) $error.Context #end</td>
 							<td class="error" id="$messageId">
 							#foreach($message in $error.Message)<span class="msg">$message</span>#end
-								#foreach($longMessage in $error.Longmessage)
-								<p class="longmsg">
-								#foreach($longMessagePiece in $longMessage.Content)
-									$longMessagePiece
-								#end
-								</p>
-								#end
+							#foreach($longMessage in $error.Longmessage)
+							<p class="longmsg">
+							#foreach($longMessagePiece in $longMessage.Content)
+								$longMessagePiece
+							#end
+							</p>
+							#end
 							</td>
 							<td class="anchor"><a class="smooth" title="anchor to this message" href="#$messageId">[anchor]</a></td>
 						</tr>
@@ -181,13 +181,13 @@
 							<td class="codeContext">#if($warning.Context) $warning.Context #end</td>
 							<td class="warning level$warning.getLevel()" id="$messageId">
 							#foreach($message in $warning.Message)<span class="msg">$message</span>#end
-								#foreach($longMessage in $warning.Longmessage)
-								<p class="longmsg">
-								#foreach($longMessagePiece in $longMessage.Content)
-									$longMessagePiece
-								#end
-								</p>
-								#end
+							#foreach($longMessage in $warning.Longmessage)
+							<p class="longmsg">
+							#foreach($longMessagePiece in $longMessage.Content)
+								$longMessagePiece
+							#end
+							</p>
+							#end
 							</td>
 							<td class="anchor"><a class="smooth" title="anchor to this message" href="#$messageId">[anchor]</a></td>
 						</tr>
