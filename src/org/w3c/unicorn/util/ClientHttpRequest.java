@@ -257,10 +257,8 @@ public class ClientHttpRequest {
 	public void setParameter(final String sName, final String sValue)
 			throws IOException {
 		ClientHttpRequest.logger.trace("setParameter(String, String)");
-		if (ClientHttpRequest.logger.isDebugEnabled()) {
-			ClientHttpRequest.logger.debug("Name : " + sName + ".");
-			ClientHttpRequest.logger.debug("Value : " + sValue + ".");
-		}
+		ClientHttpRequest.logger.debug("Name : " + sName + ".");
+		ClientHttpRequest.logger.debug("Value : " + sValue + ".");
 		this.boundary();
 		this.writeName(sName);
 		this.newline();
@@ -360,13 +358,13 @@ public class ClientHttpRequest {
 	 *            request
 	 * @throws IOException
 	 */
-	public void setParameters(final Map mapOfParameter) throws IOException {
+	public void setParameters(final Map<?, ?> mapOfParameter) throws IOException {
 		if (mapOfParameter == null) {
 			return;
 		}
-		for (final Iterator aIterator = mapOfParameter.entrySet().iterator(); aIterator
+		for (final Iterator<?> aIterator = mapOfParameter.entrySet().iterator(); aIterator
 				.hasNext();) {
-			final Map.Entry entry = (Map.Entry) aIterator.next();
+			final Map.Entry<?, ?> entry = (Map.Entry<?, ?>) aIterator.next();
 			this.setParameter(entry.getKey().toString(), entry.getValue());
 		}
 	}
@@ -418,7 +416,7 @@ public class ClientHttpRequest {
 	 * @throws IOException
 	 * @see setParameters
 	 */
-	public InputStream post(final Map mapOfParameter) throws IOException {
+	public InputStream post(final Map<?, ?> mapOfParameter) throws IOException {
 		this.setParameters(mapOfParameter);
 		return this.post();
 	}
@@ -454,7 +452,7 @@ public class ClientHttpRequest {
 	 * @see setCookies
 	 */
 	public InputStream post(final Map<String, String> mapOfCookie,
-			final Map mapOfParameter) throws IOException {
+			final Map<?, ?> mapOfParameter) throws IOException {
 		this.setCookies(mapOfCookie);
 		this.setParameters(mapOfParameter);
 		return this.post();
@@ -586,7 +584,7 @@ public class ClientHttpRequest {
 	 * @throws IOException
 	 * @see setParameters
 	 */
-	public static InputStream post(final URL aURL, final Map mapOfParameter)
+	public static InputStream post(final URL aURL, final Map<?, ?> mapOfParameter)
 			throws IOException {
 		return new ClientHttpRequest(aURL).post(mapOfParameter);
 	}
@@ -620,7 +618,7 @@ public class ClientHttpRequest {
 	 * @see setParameters
 	 */
 	public static InputStream post(final URL aURL,
-			final Map<String, String> mapOfCookie, final Map mapOfParameter)
+			final Map<String, String> mapOfCookie, final Map<?, ?> mapOfParameter)
 			throws IOException {
 		return new ClientHttpRequest(aURL).post(mapOfCookie, mapOfParameter);
 	}
