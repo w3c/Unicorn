@@ -133,8 +133,8 @@
 	</ucn:Task>
 	
 	<ucn:Task ucn:reference="mobileok">
-		<ucn:longName xml:lang="en">Mobile Ok Validator</ucn:longName>
-		<ucn:longName xml:lang="fr">Validateur Mobile Ok</ucn:longName>
+		<ucn:longName xml:lang="en">MobileOK Checker</ucn:longName>
+		<ucn:longName xml:lang="fr">Validateur MobileOk</ucn:longName>
 	</ucn:Task>
 	
 	<ucn:Task ucn:reference="custom">
