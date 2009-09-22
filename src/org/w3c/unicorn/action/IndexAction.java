@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.19 2009-09-21 15:46:50 tgambet Exp $Id $
+// $Id: IndexAction.java,v 1.20 2009-09-22 08:57:35 tgambet Exp $Id $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -69,6 +69,8 @@ public class IndexAction extends Action {
 		velocityContext.put("queryString", queryString);
 		velocityContext.put("messages", messages);
 		velocityContext.put("current_task", Framework.mapOfTask.get(task));
+		velocityContext.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
+		
 		
 		Enumeration<?> paramEnum = req.getParameterNames();
 		while (paramEnum.hasMoreElements()) {
