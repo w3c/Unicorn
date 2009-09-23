@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.6 2009-09-23 15:40:34 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.7 2009-09-23 16:59:53 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,6 +14,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 import java.util.*; 
+import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UnicornAuthenticator;
 
@@ -64,6 +65,9 @@ public class MailOutputModule implements OutputModule {
 	public void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) {
 	    
 		try {
+			
+			mapOfStringObject.put("baseUri", "http://qa-dev.w3.org:8001/unicorn/");
+			
 			Properties mailProps = Property.getProps("mail.properties");
 			Authenticator auth = new UnicornAuthenticator(mailProps.getProperty("unicorn.mail.username"), mailProps.getProperty("unicorn.mail.password"));
 			Session session = Session.getDefaultInstance(mailProps, auth);
@@ -77,12 +81,20 @@ public class MailOutputModule implements OutputModule {
 		    
 		    InternetAddress addressFrom = new InternetAddress(mailProps.getProperty("unicorn.mail.from"), "Unicorn");
 			msg.setFrom(addressFrom);
-			
-			InternetAddress[] adresses = {new InternetAddress(recipient)};
-			msg.setRecipients(Message.RecipientType.TO, adresses);
+			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 			
 			// Setting the Subject and Content Type
-			msg.setSubject("Unicorn results, " + new Date());
+			UnicornCall uniCall = (UnicornCall) mapOfStringObject.get("unicorncall");
+			boolean passed = ((UnicornCall) mapOfStringObject.get("unicorncall")).isPassed();
+			
+			String subject = "[Unicorn] ";
+			if (passed)
+				subject += "SUCCEEDED: ";
+			else 
+				subject += "FAILED: ";
+			subject += "Task \"" + uniCall.getTask().getLongName(mapOfOutputParameters.get("lang")) + "\" for \"" + uniCall.getDocumentName() + "\"";
+			
+			msg.setSubject(subject);
 			
 			CharArrayWriter writer = new CharArrayWriter();
 			mailOutputFormater.produceOutput(mapOfStringObject, writer);
