@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.23 2009-09-21 16:28:33 tgambet Exp $
+// $Id: UnicornCall.java,v 1.24 2009-09-23 09:27:33 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -150,15 +150,19 @@ public class UnicornCall {
 			String sObserverID = aObserver.getID();
 			// add only observer who handle the current mimetype
 			if (!aObserver.canHandleMimeType(aMimeType)) {
-				
-				//TODO Add messaged here
-				logger.debug("Observer " + sObserverID + " does not handle mime type "
-						+ aMimeType.toString());
+				logger.debug("Observer " + sObserverID + " does not handle mime type " + aMimeType.toString());
 				continue;
 			}
 			// the best available observation method
 			final InputMethod aInputMethod = aObserver
 					.getBestInputMethod(aEnumInputMethod);
+			
+			//TODO: add warning if inputMethod has changed
+			if (aInputMethod.getMethod() != inputParameter.getInputMethod()) {
+				
+				messages.add(new Message(Message.Level.WARNING, "Input method changed for observer: \"" + aObserver.getName(sLang) 
+						+ "\" from " + inputParameter.getInputMethod() + " to " + aInputMethod.getMethod(), null));
+			}
 
 			// create a new request with input parameter
 			final Request aRequest = Request.createRequest(
