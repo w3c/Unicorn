@@ -22,24 +22,17 @@ public class UnicornClient {
 	 * 
 	 */
 	public static void print_help() {
-		System.out
-				.println("[Usage] UnicornClient task inputType=[mimetype=]pageToValid templateLanguage outputTemplate [otherParameters]");
+		System.out.println("[Usage] UnicornClient task inputType=[mimetype=]pageToValid templateLanguage outputTemplate [otherParameters]");
 		System.out.println("");
-		System.out
-				.println("* tasks = one of task in tasklist.xml (eg: markup, css...)");
+		System.out.println("* tasks = one of task in tasklist.xml (eg: markup, css...)");
 		System.out.println("* inputType       : uri|file");
-		System.out
-				.println("* mimetype        : text/html|text/css|... (required only if inputType='file')");
-		System.out
-				.println("* pageToValid     : an uri or a path to a file (depend on inputType)");
+		System.out.println("* mimetype        : text/html|text/css|... (required only if inputType='file')");
+		System.out.println("* pageToValid     : an uri or a path to a file (depend on inputType)");
 		System.out.println("* otherParameters : param1=val1,param2=val2...");
 		System.out.println("");
-		System.out
-				.println("[Example] UnicornClient markup uri=http://w3.org en xhtml10");
-		System.out
-				.println("[Example] UnicornClient calculator uri=http://flyingman.sophia.w3.org/test en text10 x2=on,ptoto=titi");
-		System.out
-				.println("[Example] UnicornClient css file=text/css=./style/base.css fr text10 profile=css2,usermedium=screen,warning=2,lang=en");
+		System.out.println("[Example] UnicornClient markup uri=http://w3.org en xhtml10");
+		System.out.println("[Example] UnicornClient calculator uri=http://flyingman.sophia.w3.org/test en text10 x2=on,ptoto=titi");
+		System.out.println("[Example] UnicornClient css file=text/css=./style/base.css fr text10 profile=css2,usermedium=screen,warning=2,lang=en");
 	}
 
 	/**
@@ -94,15 +87,9 @@ public class UnicornClient {
 			// "file=text/css=./style/base.css"
 			String[] pInput = pageToValid.split("=");
 			if (pInput[0].equals("uri")) {
-				//aUnicornCall.setEnumInputMethod(EnumInputMethod.URI);
-				//aUnicornCall.setDocumentName(pInput[1]);
 				aUnicornCall.setInputParameter(new URIInputParameter(pInput[1]));
 			} else { // direct input
 				try {
-					//aUnicornCall.setEnumInputMethod(EnumInputMethod.DIRECT);
-
-					// read content in the file pInput[2], example:
-					// pInput[2]=base.css alors content=".h1{color:#FA0012}";
 					BufferedReader bfr = new BufferedReader(new FileReader(pInput[2]));
 					String content = "";
 					String line;
@@ -123,14 +110,13 @@ public class UnicornClient {
 					mapOfParameter.put(Property.get("UNICORN_PARAMETER_PREFIX")
 							+ "mime", tmp);*/
 
-					//aUnicornCall.setInputParameterValue(content);
 					aUnicornCall.setInputParameter(new DirectInputParameter(content, pInput[1]));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			aUnicornCall.setTask(task); // task id
+			aUnicornCall.setTask(task);
 			aUnicornCall.setLang(language);
 
 			long before = System.currentTimeMillis();
@@ -139,23 +125,16 @@ public class UnicornClient {
 
 				Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 				mapOfStringObject.put("unicorncall", aUnicornCall);
-				OutputFormater aOutputFormater = OutputFactory
-						.createOutputFormater(outputTemplate, // text or xhtml10,
-															// see
-															// unicorn.properties
-								language, "text/html"); // MIME Type
-				OutputModule aOutputModule = OutputFactory
-						.createOutputModule("simple");
+				OutputFormater aOutputFormater = OutputFactory.createOutputFormater(outputTemplate, language, "text/html");
+				OutputModule aOutputModule = OutputFactory.createOutputModule("simple");
 				PrintWriter pw = new PrintWriter(System.out);
-				aOutputModule.produceOutput(aOutputFormater, mapOfStringObject,
-						null, pw);
+				aOutputModule.produceOutput(mapOfStringObject, pw);
 				pw.flush();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			long after = System.currentTimeMillis();
-			System.out.println("Elapsed time (s): " + (double) (after - before)
-					/ 1000);
+			System.out.println("Elapsed time (s): " + (double) (after - before) / 1000);
 		}
 	}
 }
