@@ -1,8 +1,10 @@
-// $Id: OutputFactory.java,v 1.6 2009-09-21 14:38:35 tgambet Exp $
+// $Id: OutputFactory.java,v 1.7 2009-09-23 09:26:05 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
+
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,14 +23,19 @@ public class OutputFactory {
 
 	/**
 	 * Create a new output module
+	 * @param mapOfSpecificParameter 
 	 * 
 	 * @param aEnumOutputModule
 	 *            To identify which type of output module will be created.
 	 * @return The new output module.
 	 */
-	public static OutputModule createOutputModule(String module) {
-		OutputFactory.logger.trace("createOutputModule");
-		OutputFactory.logger.debug("Output module : " + module);
+	public static OutputModule createOutputModule(Map<String, String> mapOfOutputParameter, Map<String, String> mapOfSpecificParameter) {
+		logger.trace("createOutputModule");
+		logger.debug("Output module : " + mapOfOutputParameter);
+		
+		String format = mapOfOutputParameter.get("format");
+		String lang = mapOfOutputParameter.get("lang"); 
+		String mimeType = mapOfOutputParameter.get("mimetype");
 		
 		/* Commented out for now as this is unnecessary and that doesn't seem quite safe */		
 //		if(null == module || "".equals(module)) {
@@ -42,10 +49,11 @@ public class OutputFactory {
 //			moduleClass = Class.forName("org.w3c.unicorn.output." + module + "OutputModule");
 //			return (OutputModule) moduleClass.getConstructor().newInstance();
 //		} catch (Exception e) {
-//			OutputFactory.logger.error("Couldn't create output module " + module + ". Will use SimpleOutputModule", e);
+//			logger.error("Couldn't create output module " + module + ". Will use SimpleOutputModule", e);
 //		}
 
-		return new SimpleOutputModule();
+		return new SimpleOutputModule(mapOfOutputParameter, mapOfSpecificParameter);
+		//return new MailOutputModule(mapOfOutputParameter, mapOfSpecificParameter);
 	}
 
 	/**

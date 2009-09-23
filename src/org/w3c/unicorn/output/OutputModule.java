@@ -1,4 +1,4 @@
-// $Id: OutputModule.java,v 1.7 2009-09-22 12:37:28 tgambet Exp $
+// $Id: OutputModule.java,v 1.8 2009-09-23 09:26:05 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,26 +18,25 @@ import org.apache.commons.logging.LogFactory;
 public interface OutputModule {
 
 	public static final Log logger = LogFactory.getLog(OutputModule.class);
-
+	
 	/**
 	 * Generate a first output before the requests are launched.
 	 * 
 	 */
-	public abstract void produceFirstOutput(final OutputFormater aOutputFormater, Map<String, Object> mapOfStringObject,
-			final Map<String, String> mapOfParameter, final Writer aWriter);
+	public abstract void produceFirstOutput(Map<String, Object> mapOfStringObject, final Writer aWriter);
 	
 	/**
 	 * Generate the output of all response.
 	 * 
 	 */
-	public abstract void produceOutput(final OutputFormater aOutputFormater, Map<String, Object> mapOfStringObject,
-			final Map<String, String> mapOfParameter, final Writer aWriter);
+	public abstract void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter);
 
 	/**
 	 * Generates an error output
 	 * 
 	 */
-	public abstract void produceError(final OutputFormater aOutputFormater, Map<String, Object> mapOfStringObject,
-			final Map<String, String> mapOfParameter, final Writer aWriter);
+	public abstract void produceError(Map<String, Object> mapOfStringObject, final Writer aWriter);
+
+	public abstract String getOutputParameter(String string);
 
 }
