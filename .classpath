@@ -2,16 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v6.0"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/velocity-1.6.2.jar" sourcepath="E:/Unicorn/librairies/velocity-1.6.2/src/java">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/E:/Unicorn/librairies/velocity-1.6.2/docs/api/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.15.jar" sourcepath="E:/Unicorn/librairies/apache-log4j-1.2.15/src/main/java">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/E:/Unicorn/librairies/apache-log4j-1.2.15/src/main/javadoc/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/velocity-1.6.2.jar" sourcepath="E:/Unicorn/librairies/velocity-1.6.2/src/java"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.15.jar" sourcepath="E:/Unicorn/librairies/apache-log4j-1.2.15/src/main/java"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xbean.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jsr173_1.0_api.jar"/>
@@ -38,10 +30,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xmlpublic.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/tasklist.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mail.jar" sourcepath="C:/Users/Tom-Laptop/Desktop/javamail-1.4.2/lib">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/Tom-Laptop/Desktop/javamail-1.4.2/docs/javadocs/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mail.jar" sourcepath="C:/Users/Tom-Laptop/Desktop/javamail-1.4.2/docs/javadocs"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
