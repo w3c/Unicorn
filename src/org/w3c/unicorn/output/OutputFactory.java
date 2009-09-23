@@ -1,4 +1,4 @@
-// $Id: OutputFactory.java,v 1.7 2009-09-23 09:26:05 tgambet Exp $
+// $Id: OutputFactory.java,v 1.8 2009-09-23 13:14:34 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -33,27 +33,26 @@ public class OutputFactory {
 		logger.trace("createOutputModule");
 		logger.debug("Output module : " + mapOfOutputParameter);
 		
-		String format = mapOfOutputParameter.get("format");
-		String lang = mapOfOutputParameter.get("lang"); 
-		String mimeType = mapOfOutputParameter.get("mimetype");
+		String module = mapOfOutputParameter.get("output");
 		
 		/* Commented out for now as this is unnecessary and that doesn't seem quite safe */		
-//		if(null == module || "".equals(module)) {
-//			module = "simple";
-//		}
-//		
-//		module = module.substring(0, 1).toUpperCase() + module.substring(1);
-//		
-//		Class<?> moduleClass;
-//		try {
-//			moduleClass = Class.forName("org.w3c.unicorn.output." + module + "OutputModule");
-//			return (OutputModule) moduleClass.getConstructor().newInstance();
-//		} catch (Exception e) {
-//			logger.error("Couldn't create output module " + module + ". Will use SimpleOutputModule", e);
-//		}
+		if(null == module || "".equals(module)) {
+			module = "simple";
+		}
+		
+		module = module.substring(0, 1).toUpperCase() + module.substring(1);
+		
+		Class<?> moduleClass;
+		try {
+			logger.debug("Trying to instantiate OutputModule: org.w3c.unicorn.output." + module + "OutputModule");
+			moduleClass = Class.forName("org.w3c.unicorn.output." + module + "OutputModule");
+			Class<?>[] parameters = {Map.class, Map.class};
+			return (OutputModule) moduleClass.getConstructor(parameters).newInstance(mapOfOutputParameter, mapOfSpecificParameter);
+		} catch (Exception e) {
+			logger.error("Couldn't create output module " + module + ". Will use SimpleOutputModule", e);
+		}
 
 		return new SimpleOutputModule(mapOfOutputParameter, mapOfSpecificParameter);
-		//return new MailOutputModule(mapOfOutputParameter, mapOfSpecificParameter);
 	}
 
 	/**
