@@ -1,9 +1,10 @@
-// $Id: DirectRequestPOST.java,v 1.6 2009-09-22 12:37:57 tgambet Exp $
+// $Id: DirectRequestPOST.java,v 1.7 2009-09-23 13:55:19 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Map;
@@ -12,6 +13,8 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.DirectInputModule;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.util.ClientHttpRequest;
+import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.exceptions.UnicornException;
 
 /**
  * Class to make a request directly using POST method
@@ -68,15 +71,18 @@ public class DirectRequestPOST extends Request {
 	}
 
 	@Override
-	public Response doRequest() throws Exception {
+	public Response doRequest() throws UnicornException {
 		logger.trace("doRequest");
-		
-		ClientHttpRequest request = new ClientHttpRequest(sURL);
-		request.setLang(sLang);
-		request.setParameters(mapOfParameter);
-
-		InputStream is = request.post();
-		return streamToResponse(is);
+		try {
+			ClientHttpRequest request = new ClientHttpRequest(sURL);
+			request.setLang(sLang);
+			request.setParameters(mapOfParameter);
+	
+			InputStream is = request.post();
+			return streamToResponse(is);
+		} catch (IOException e) {
+			throw new UnicornException(new Message(e));
+		}
 	}
 
 	@Override

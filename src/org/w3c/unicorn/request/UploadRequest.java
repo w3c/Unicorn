@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.6 2009-09-21 16:28:33 tgambet Exp $
+// $Id: UploadRequest.java,v 1.7 2009-09-23 13:55:19 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,6 +14,8 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.UploadInputModule;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.util.ClientHttpRequest;
+import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.exceptions.UnicornException;
 
 /**
  * Class to deal with the upload request
@@ -88,25 +90,31 @@ public class UploadRequest extends Request {
 	}
 
 	@Override
-	public Response doRequest() throws Exception {
+	public Response doRequest() throws UnicornException {
 		logger.trace("doRequest");
-		this.aClientHttpRequest = new ClientHttpRequest(sURL);
-		logger.debug("Lang : " + this.sLang + ".");
-		this.aClientHttpRequest.setLang(sLang);
-		this.aClientHttpRequest.setParameter(this.sInputParameterName,
-				this.aUploadInputModule.getFileName(), 
-				this.aUploadInputModule.getInputStream(),
-				this.aUploadInputModule.getMimeType());
-		for (final String sName : this.mapOfParameter.keySet()) {
-			final String sValue = this.mapOfParameter.get(sName);
-			logger.trace("addParameter");
-			logger.debug("Name :" + sName + ".");
-			logger.debug("Value :" + sValue + ".");
-			this.aClientHttpRequest.setParameter(sName, sValue);
-		}
-		InputStream is = this.aClientHttpRequest.post();
+		try {
+			aClientHttpRequest = new ClientHttpRequest(sURL);
+			logger.debug("Lang : " + this.sLang + ".");
+			aClientHttpRequest.setLang(sLang);
+			aClientHttpRequest.setParameter(this.sInputParameterName,
+					aUploadInputModule.getFileName(), 
+					aUploadInputModule.getInputStream(),
+					aUploadInputModule.getMimeType());
+			for (final String sName : mapOfParameter.keySet()) {
+				final String sValue = mapOfParameter.get(sName);
+				logger.trace("addParameter");
+				logger.debug("Name :" + sName + ".");
+				logger.debug("Value :" + sValue + ".");
+				aClientHttpRequest.setParameter(sName, sValue);
+			}
+			InputStream is = this.aClientHttpRequest.post();
 
-		return streamToResponse(is);
+			return streamToResponse(is);
+		} catch (MalformedURLException e) {
+			throw new UnicornException(new Message(e));
+		} catch (IOException e) {
+			throw new UnicornException(new Message(e));
+		}
 	}
 
 	@Override

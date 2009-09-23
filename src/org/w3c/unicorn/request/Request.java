@@ -1,4 +1,4 @@
-// $Id: Request.java,v 1.9 2009-09-21 16:35:50 tgambet Exp $
+// $Id: Request.java,v 1.10 2009-09-23 13:55:19 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,6 +18,7 @@ import org.w3c.unicorn.input.URIInputModule;
 import org.w3c.unicorn.input.UploadInputModule;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.response.parser.ResponseParserFactory;
+import org.w3c.unicorn.exceptions.UnicornException;
 
 /**
  * 
@@ -74,8 +75,7 @@ public abstract class Request {
 	 *             odd error occured
 	 * @throws Exception 
 	 */
-	public abstract org.w3c.unicorn.response.Response doRequest()
-			throws IOException, Exception;
+	public abstract org.w3c.unicorn.response.Response doRequest() throws UnicornException;
 
 	public abstract EnumInputMethod getInputMethod();
 

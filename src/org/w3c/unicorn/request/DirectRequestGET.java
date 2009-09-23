@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.7 2009-09-21 16:28:33 tgambet Exp $
+// $Id: DirectRequestGET.java,v 1.8 2009-09-23 13:55:19 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,6 +14,8 @@ import java.net.URLEncoder;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.DirectInputModule;
 import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.exceptions.UnicornException;
 
 /**
  * Class to make a request directly using GET method
@@ -79,21 +81,25 @@ public class DirectRequestGET extends Request {
 	}
 
 	@Override
-	public Response doRequest() throws Exception {
-		logger.trace("doRequest");
-		final URL aURL;
-		if (null == this.sParameter) {
-			aURL = new URL(this.sURL);
-		} else {
-			logger.debug(this.sParameter);
-			aURL = new URL(this.sURL + "?" + this.sParameter);
+	public Response doRequest() throws UnicornException {
+		try {
+			logger.trace("doRequest");
+			final URL aURL;
+			if (null == this.sParameter) {
+				aURL = new URL(this.sURL);
+			} else {
+				logger.debug(this.sParameter);
+				aURL = new URL(this.sURL + "?" + this.sParameter);
+			}
+			final URLConnection aURLConnection = aURL.openConnection();
+			aURLConnection.setRequestProperty("Accept-Language", this.sLang);
+	
+			InputStream is = aURLConnection.getInputStream();
+	
+			return streamToResponse(is);
+		} catch (IOException e) {
+			throw new UnicornException(new Message(e));
 		}
-		final URLConnection aURLConnection = aURL.openConnection();
-		aURLConnection.setRequestProperty("Accept-Language", this.sLang);
-
-		InputStream is = aURLConnection.getInputStream();
-
-		return streamToResponse(is);
 	}
 
 	@Override
