@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.3 2009-09-23 13:02:05 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.4 2009-09-23 13:35:27 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -24,26 +24,27 @@ import org.w3c.unicorn.util.mail.UnicornAuthenticator;
  */
 public class MailOutputModule implements OutputModule {
 	
-	private OutputFormater aOutputFormater;
+	private OutputFormater firstOutputFormater;
 	
 	private OutputFormater mailOutputFormater;
 	
-	private Map<String, String> mapOfOutputParameters;
-	
-	private Map<String, String> mapOfSpecificParameters;
+	private String mimeType;
 	
 	private String recipient;
 	
+	private Map<String, String> mapOfOutputParameters;
+	
 	public MailOutputModule(Map<String, String> mapOfOutputParameters, Map<String, String> mapOfSpecificParameters) {
 		this.mapOfOutputParameters = mapOfOutputParameters;
-		this.mapOfSpecificParameters = mapOfSpecificParameters;
-		this.recipient = mapOfSpecificParameters.get("email");
-			
+		//this.mapOfSpecificParameters = mapOfSpecificParameters;
+		
+		recipient = mapOfSpecificParameters.get("email");
+		mimeType = mapOfOutputParameters.get("mimetype");
+		
 		String format = mapOfOutputParameters.get("format");
 		String lang = mapOfOutputParameters.get("lang"); 
-		String mimeType = mapOfOutputParameters.get("mimetype");
 		
-		aOutputFormater = OutputFactory.createOutputFormater(format, lang, mimeType);
+		firstOutputFormater = OutputFactory.createOutputFormater(format, lang, mimeType);
 		
 		if (mapOfSpecificParameters.get("format") != null)
 			format = mapOfSpecificParameters.get("format");
@@ -81,7 +82,7 @@ public class MailOutputModule implements OutputModule {
 			CharArrayWriter writer = new CharArrayWriter();
 			mailOutputFormater.produceOutput(mapOfStringObject, writer);
 			writer.close();
-			msg.setContent(writer.toString(), mapOfOutputParameters.get("mimetype"));
+			msg.setContent(writer.toString(), mimeType);
 			
 			Transport.send(msg);
 		} catch (AddressException e) {
@@ -97,7 +98,7 @@ public class MailOutputModule implements OutputModule {
 	}
 
 	public void produceError(Map<String, Object> mapOfStringObject, final Writer aWriter) {
-		aOutputFormater.produceError(mapOfStringObject, aWriter);
+		firstOutputFormater.produceError(mapOfStringObject, aWriter);
 	}
 
 	public String getOutputParameter(String string) {
