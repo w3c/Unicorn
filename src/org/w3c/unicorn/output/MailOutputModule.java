@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.4 2009-09-23 13:35:27 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.5 2009-09-23 14:09:52 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -15,7 +15,7 @@ import javax.mail.internet.*;
 
 import java.util.*; 
 import org.w3c.unicorn.util.Property;
-import org.w3c.unicorn.util.mail.UnicornAuthenticator;
+import org.w3c.unicorn.util.UnicornAuthenticator;
 
 /**
  * This module allow to generate output in mail format.

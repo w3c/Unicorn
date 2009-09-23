@@ -1,4 +1,4 @@
-package org.w3c.unicorn.util.mail;
+package org.w3c.unicorn.util;
 
 import java.awt.HeadlessException;
 import java.util.StringTokenizer;
