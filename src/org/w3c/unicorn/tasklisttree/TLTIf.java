@@ -82,13 +82,12 @@ public class TLTIf {
 	 * @throws UnicornException
 	 */
 	public boolean check(UnicornCall unicornCall) throws UnicornException {
-		boolean conditionOK = false;
 		for (TLTCond cond : conds) {
 			if (cond.check(unicornCall)) {
-				conditionOK = true;
+				return true;
 			}
 		}
-		return conditionOK;
+		return false;
 	}
 	
 	/**

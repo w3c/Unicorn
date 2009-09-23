@@ -73,7 +73,7 @@ public abstract class Action extends HttpServlet {
 		return lang;
 	}
 
-	public String getTask(String taskParameter, ArrayList<Message> messages) {
+	public static String getTask(String taskParameter, ArrayList<Message> messages) {
 		
 		String task;
 		if (taskParameter == null || !Framework.mapOfTask.containsKey(taskParameter))
