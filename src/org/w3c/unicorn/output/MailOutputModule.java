@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.5 2009-09-23 14:09:52 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.6 2009-09-23 15:40:34 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -67,7 +67,12 @@ public class MailOutputModule implements OutputModule {
 			Properties mailProps = Property.getProps("mail.properties");
 			Authenticator auth = new UnicornAuthenticator(mailProps.getProperty("unicorn.mail.username"), mailProps.getProperty("unicorn.mail.password"));
 			Session session = Session.getDefaultInstance(mailProps, auth);
-		    session.setDebug(true);
+		    
+			boolean debug = false;
+			if ("true".equals(mailProps.getProperty("unicorn.mail.debug")))
+				debug = true;
+			
+			session.setDebug(debug);
 		    Message msg = new MimeMessage(session);
 		    
 		    InternetAddress addressFrom = new InternetAddress(mailProps.getProperty("unicorn.mail.from"), "Unicorn");
