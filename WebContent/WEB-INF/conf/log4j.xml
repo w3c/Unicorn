@@ -19,7 +19,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/level/error.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="error" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -34,7 +33,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/level/warning.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="warning" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -49,7 +47,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/level/info.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="info" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -64,7 +61,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/level/debug.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="debug" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -79,7 +75,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/level/trace.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -94,7 +89,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/all.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -104,7 +98,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/package/action.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -114,7 +107,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/package/contract.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -124,7 +116,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/package/input.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -134,7 +125,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/package/output.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -144,7 +134,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/package/request.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -154,7 +143,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/package/response.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -164,7 +152,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/package/tasklist.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
@@ -174,7 +161,6 @@
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/package/util.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="1" />
-		<!-- <param name="Threshold" value="trace" /> -->
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
 		</layout>
