@@ -1,4 +1,4 @@
-// $Id: FakeUploadInputModule.java,v 1.2 2009-08-28 12:40:04 jean-gui Exp $
+// $Id: FakeUploadInputModule.java,v 1.3 2009-09-23 09:17:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -49,10 +49,8 @@ public class FakeUploadInputModule implements UploadInputModule {
 	 */
 	protected FakeUploadInputModule(final InputModule aInputModule)
 			throws IOException {
-		InputModule.logger.trace("Constructor");
-		if (InputModule.logger.isDebugEnabled()) {
-			InputModule.logger.debug("Input module : " + aInputModule + ".");
-		}
+		logger.trace("Constructor");
+		logger.debug("Input module : " + aInputModule + ".");
 		this.aMimeType = aInputModule.getMimeType();
 		this.sContent = aInputModule.getStringContent();
 	}
@@ -61,7 +59,7 @@ public class FakeUploadInputModule implements UploadInputModule {
 	 * Get the filename of the input
 	 */
 	public String getFileName() {
-		InputModule.logger.trace("getFileName");
+		logger.trace("getFileName");
 		return this.sFileName;
 	}
 
@@ -69,7 +67,7 @@ public class FakeUploadInputModule implements UploadInputModule {
 	 * Get the stream of the input using the content
 	 */
 	public InputStream getInputStream() throws IOException {
-		InputModule.logger.trace("getInputStream");
+		logger.trace("getInputStream");
 		final PipedOutputStream aPipedOutputStream = new PipedOutputStream();
 		aPipedOutputStream.write(this.sContent.getBytes());
 		aPipedOutputStream.close();
@@ -79,22 +77,22 @@ public class FakeUploadInputModule implements UploadInputModule {
 	}
 
 	public EnumInputMethod getEnumInputMethod() {
-		InputModule.logger.trace("getEnumInputMethod");
+		logger.trace("getEnumInputMethod");
 		return this.aEnumInputMethod;
 	}
 
 	public MimeType getMimeType() {
-		InputModule.logger.trace("getMimeType");
+		logger.trace("getMimeType");
 		return this.aMimeType;
 	}
 
 	public Object getParameterValue() {
-		InputModule.logger.trace("getParameterValue");
+		logger.trace("getParameterValue");
 		return this.sContent;
 	}
 
 	public String getStringContent() throws IOException {
-		InputModule.logger.trace("getStringContent");
+		logger.trace("getStringContent");
 		return this.sContent;
 	}
 
@@ -102,7 +100,7 @@ public class FakeUploadInputModule implements UploadInputModule {
 	 * Dispose the object
 	 */
 	public void dispose() {
-		InputModule.logger.trace("dispose");
+		logger.trace("dispose");
 	}
 
 	/**

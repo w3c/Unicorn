@@ -39,7 +39,7 @@ public abstract class TLTCond {
 	 *            The type of the condition
 	 */
 	public TLTCond(String id, Observer observer, EnumCondType type, String value) {
-		TLTCond.logger.trace("constructor(" + id + ", " + observer + ", "
+		logger.trace("constructor(" + id + ", " + observer + ", "
 				+ type.value() + ")");
 		this.id = id;
 		this.observer = observer;
@@ -51,7 +51,7 @@ public abstract class TLTCond {
 	 * 
 	 */
 	public TLTCond() {
-		TLTCond.logger.trace("constructor()");
+		logger.trace("constructor()");
 	}
 	
 	public abstract boolean check(UnicornCall unicornCall) throws UnicornException;
@@ -79,7 +79,7 @@ public abstract class TLTCond {
 	 *            The id of the condition
 	 */
 	public void setId(String id) {
-		TLTCond.logger.trace("setId(" + id + ")");
+		logger.trace("setId(" + id + ")");
 		this.id = id;
 	}
 
@@ -89,7 +89,7 @@ public abstract class TLTCond {
 	 *            The observer the condition depends on
 	 */
 	public void setObserver(Observer observer) {
-		TLTCond.logger.trace("setObserver(" + observer + ")");
+		logger.trace("setObserver(" + observer + ")");
 		this.observer = observer;
 	}
 
@@ -99,7 +99,7 @@ public abstract class TLTCond {
 	 *            The result of the test
 	 */
 	public void setResult(boolean result) {
-		TLTCond.logger.trace("setResult(" + result + ")");
+		logger.trace("setResult(" + result + ")");
 		this.result = result;
 	}
 
@@ -109,7 +109,7 @@ public abstract class TLTCond {
 	 *            The type of the condition
 	 */
 	public void setType(EnumCondType type) {
-		TLTCond.logger.trace("setType(" + type.value() + ")");
+		logger.trace("setType(" + type.value() + ")");
 		this.type = type;
 	}
 
@@ -119,7 +119,7 @@ public abstract class TLTCond {
 	 *            The type of the condition
 	 */
 	public void setType(String type) {
-		TLTCond.logger.trace("setType(" + type + ")");
+		logger.trace("setType(" + type + ")");
 		for (EnumCondType val : EnumCondType.values()) {
 			if (val.value().equals(type)) {
 				this.type = val;
@@ -133,7 +133,7 @@ public abstract class TLTCond {
 	 *            value of the condition
 	 */
 	public void setValue(String value) {
-		TLTCond.logger.trace("setValue(" + value + ")");
+		logger.trace("setValue(" + value + ")");
 		this.value = value;
 	}
 
@@ -141,7 +141,7 @@ public abstract class TLTCond {
 	 * @return The id of the condition
 	 */
 	public String getId() {
-		TLTCond.logger.trace("getId()");
+		logger.trace("getId()");
 		return id;
 	}
 
@@ -150,7 +150,7 @@ public abstract class TLTCond {
 	 * @return The observer the condition depends on
 	 */
 	public Observer getObserver() {
-		TLTCond.logger.trace("getObserver()");
+		logger.trace("getObserver()");
 		return observer;
 	}
 
@@ -159,7 +159,7 @@ public abstract class TLTCond {
 	 * @return The result of the test
 	 */
 	public boolean getResult() {
-		TLTCond.logger.trace("getResult()");
+		logger.trace("getResult()");
 		return result;
 	}
 
@@ -168,7 +168,7 @@ public abstract class TLTCond {
 	 * @return The type of the condition
 	 */
 	public EnumCondType getType() {
-		TLTCond.logger.trace("getType()");
+		logger.trace("getType()");
 		return type;
 	}
 
@@ -177,7 +177,7 @@ public abstract class TLTCond {
 	 * @return The value of the condition
 	 */
 	public String getValue() {
-		TLTCond.logger.trace("getValue()");
+		logger.trace("getValue()");
 		return value;
 	}
 

@@ -1,4 +1,4 @@
-// $Id: LocalizedString.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
+// $Id: LocalizedString.java,v 1.4 2009-09-23 09:23:30 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -28,7 +28,7 @@ public class LocalizedString {
 	 * 
 	 */
 	public LocalizedString() {
-		LocalizedString.logger.trace("Constructor");
+		logger.trace("Constructor");
 		this.mapOfString = new LinkedHashMap<String, String>();
 	}
 
@@ -69,9 +69,9 @@ public class LocalizedString {
 	 *         there was no mapping for key.
 	 */
 	public String addLocalization(final String sLocale, final String sMessage) {
-		LocalizedString.logger.trace("addLocalization");
-		LocalizedString.logger.debug("Locale : " + sLocale + ".");
-		LocalizedString.logger.debug("Message : " + sMessage + ".");
+		logger.trace("addLocalization");
+		logger.debug("Locale : " + sLocale + ".");
+		logger.debug("Message : " + sMessage + ".");
 		return this.mapOfString.put(sLocale, sMessage);
 	}
 

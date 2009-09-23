@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.11 2009-09-18 17:16:05 tgambet Exp $
+// $Id: Framework.java,v 1.12 2009-09-23 09:16:00 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -509,7 +509,7 @@ public class Framework {
 		
 		logger.info("OK - Velocity successfully initialized");
 		
-		Framework.logger.info("Unicorn initialized successfully.");
+		logger.info("Unicorn initialized successfully.");
 		isUcnInitialized = true;
 	}
 	

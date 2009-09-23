@@ -1,4 +1,4 @@
-// $Id: ListFiles.java,v 1.2 2009-08-28 12:39:56 jean-gui Exp $
+// $Id: ListFiles.java,v 1.3 2009-09-23 09:23:30 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -37,9 +37,9 @@ public class ListFiles {
 	 */
 	public static File[] listFiles(final String sDirectory,
 			final String sFilterPattern) {//throws FileNotFoundException {
-		ListFiles.logger.trace("listFiles(String, String)");
-		ListFiles.logger.trace("Directory : " + sDirectory + ".");
-		ListFiles.logger.trace("Filter pattern : " + sFilterPattern + ".");
+		logger.trace("listFiles(String, String)");
+		logger.trace("Directory : " + sDirectory + ".");
+		logger.trace("Filter pattern : " + sFilterPattern + ".");
 
 		final File aDirectory = new File(sDirectory);
 		final Pattern aPattern = Pattern.compile(sFilterPattern);
@@ -68,10 +68,8 @@ public class ListFiles {
 	 */
 	public static File[] listFiles(final String sDirectory)
 			throws FileNotFoundException {
-		ListFiles.logger.trace("listFiles(String)");
-		if (ListFiles.logger.isDebugEnabled()) {
-			ListFiles.logger.debug("Directory : " + sDirectory + ".");
-		}
+		logger.trace("listFiles(String)");
+		logger.debug("Directory : " + sDirectory + ".");
 
 		final File aDirectory = new File(sDirectory);
 		final FileFilter aFileFilter = new FileFilter() {

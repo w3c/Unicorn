@@ -52,7 +52,7 @@ public class ClientHttpRequest {
 	 * @throws IOException
 	 */
 	private void connect() throws IOException {
-		// ClientHttpRequest.logger.trace("connect");
+		// logger.trace("connect");
 		if (null == this.aOutputStream) {
 			this.aOutputStream = this.aURLConnection.getOutputStream();
 		}
@@ -67,7 +67,7 @@ public class ClientHttpRequest {
 	 */
 	private void write(final char c) throws IOException {
 		this.connect();
-		ClientHttpRequest.logger.debug(c);
+		logger.debug(c);
 		this.aOutputStream.write(c);
 	}
 
@@ -80,7 +80,7 @@ public class ClientHttpRequest {
 	 */
 	protected void write(final String s) throws IOException {
 		this.connect();
-		ClientHttpRequest.logger.debug(s);
+		logger.debug(s);
 		this.aOutputStream.write(s.getBytes());
 	}
 
@@ -136,7 +136,7 @@ public class ClientHttpRequest {
 	 */
 	public ClientHttpRequest(final URLConnection aURLConnection)
 			throws IOException {
-		ClientHttpRequest.logger.trace("Constructor(URLConnection)");
+		logger.trace("Constructor(URLConnection)");
 		this.aURLConnection = (HttpURLConnection) aURLConnection;
 		this.aURLConnection.setRequestMethod("POST");
 		this.aURLConnection.setDoOutput(true);
@@ -153,10 +153,8 @@ public class ClientHttpRequest {
 	 */
 	public ClientHttpRequest(final URL aURL) throws IOException {
 		this(aURL.openConnection());
-		ClientHttpRequest.logger.trace("Constructor(URL)");
-		if (ClientHttpRequest.logger.isDebugEnabled()) {
-			ClientHttpRequest.logger.debug("URL : " + aURL + ".");
-		}
+		logger.trace("Constructor(URL)");
+		logger.debug("URL : " + aURL + ".");
 	}
 
 	/**
@@ -168,10 +166,8 @@ public class ClientHttpRequest {
 	 */
 	public ClientHttpRequest(final String sURL) throws IOException {
 		this(new URL(sURL));
-		ClientHttpRequest.logger.trace("Constructor(String)");
-		if (ClientHttpRequest.logger.isDebugEnabled()) {
-			ClientHttpRequest.logger.debug("String URL : " + sURL + ".");
-		}
+		logger.trace("Constructor(String)");
+		logger.debug("String URL : " + sURL + ".");
 	}
 
 	/**
@@ -227,7 +223,7 @@ public class ClientHttpRequest {
 	 *            The new language chosen.
 	 */
 	public void setLang(final String sLang) {
-		ClientHttpRequest.logger.debug("setLang(" + sLang + ")");
+		logger.debug("setLang(" + sLang + ")");
 		this.aURLConnection.setRequestProperty("Accept-Language", sLang);
 	}
 
@@ -256,9 +252,9 @@ public class ClientHttpRequest {
 	 */
 	public void setParameter(final String sName, final String sValue)
 			throws IOException {
-		ClientHttpRequest.logger.trace("setParameter(String, String)");
-		ClientHttpRequest.logger.debug("Name : " + sName + ".");
-		ClientHttpRequest.logger.debug("Value : " + sValue + ".");
+		logger.trace("setParameter(String, String)");
+		logger.debug("Name : " + sName + ".");
+		logger.debug("Value : " + sValue + ".");
 		this.boundary();
 		this.writeName(sName);
 		this.newline();
@@ -300,14 +296,10 @@ public class ClientHttpRequest {
 	 */
 	public void setParameter(final String sName, final String sFileName,
 			final InputStream aInputStream, final MimeType mimeType) throws IOException {
-		ClientHttpRequest.logger
-				.trace("setParameter(String, String, InputStream)");
-		if (ClientHttpRequest.logger.isDebugEnabled()) {
-			ClientHttpRequest.logger.debug("Name : " + sName + ".");
-			ClientHttpRequest.logger.debug("File name : " + sFileName + ".");
-			ClientHttpRequest.logger.debug("InputStream : " + aInputStream
-					+ ".");
-		}
+		logger.trace("setParameter(String, String, InputStream)");
+		logger.debug("Name : " + sName + ".");
+		logger.debug("File name : " + sFileName + ".");
+		logger.debug("InputStream : " + aInputStream + ".");
 		this.boundary();
 		this.writeName(sName);
 		this.write("; filename=\"");

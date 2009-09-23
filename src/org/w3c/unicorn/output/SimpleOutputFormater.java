@@ -1,4 +1,4 @@
-// $Id: SimpleOutputFormater.java,v 1.5 2009-09-21 15:50:19 tgambet Exp $
+// $Id: SimpleOutputFormater.java,v 1.6 2009-09-23 09:19:00 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -33,9 +33,9 @@ public class SimpleOutputFormater implements OutputFormater {
 	}
 
 	public SimpleOutputFormater(final String format, final String lang) {
-		OutputFormater.logger.trace("Constructor");
-		OutputFormater.logger.debug("Output format : " + format + ".");
-		OutputFormater.logger.debug("Output language : " + lang + ".");
+		logger.trace("Constructor");
+		logger.debug("Output format : " + format + ".");
+		logger.debug("Output language : " + lang + ".");
 		
 		setFormat(format);
 		setLang(lang);		
@@ -64,9 +64,9 @@ public class SimpleOutputFormater implements OutputFormater {
 	
 	public void produceOutput(final Map<String, Object> mapOfStringObject, final Writer output) {
 
-		OutputFormater.logger.trace("produceOutput");
-		OutputFormater.logger.debug("Map of String -> Object : " + mapOfStringObject + ".");
-		OutputFormater.logger.debug("Writer : " + output + ".");
+		logger.trace("produceOutput");
+		logger.debug("Map of String -> Object : " + mapOfStringObject + ".");
+		logger.debug("Writer : " + output + ".");
 		
 		for (final String sObjectName : mapOfStringObject.keySet())
 			aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));

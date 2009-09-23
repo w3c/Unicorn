@@ -1,4 +1,4 @@
-// $Id: RDFUnmarshallerJena.java,v 1.2 2009-08-28 12:39:53 jean-gui Exp $
+// $Id: RDFUnmarshallerJena.java,v 1.3 2009-09-23 09:21:37 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -63,7 +63,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	 * 
 	 */
 	public RDFUnmarshallerJena() {
-		RDFUnmarshallerJena.logger.trace("Constructor");
+		logger.trace("Constructor");
 		this.aModel = ModelFactory.createDefaultModel();
 	}
 
@@ -74,8 +74,8 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	 *            The URL to add.
 	 */
 	public void addURL(final URL aURL) throws IOException {
-		RDFUnmarshallerJena.logger.trace("addURL");
-		RDFUnmarshallerJena.logger.debug("URL : " + aURL + ".");
+		logger.trace("addURL");
+		logger.debug("URL : " + aURL + ".");
 		final Model aModel = ModelFactory.createDefaultModel();
 		aModel.read(aURL.openStream(), null);
 		this.aModel.add(aModel);
@@ -90,7 +90,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	 *            The name of the task.
 	 */
 	private void addLongName(final Task aTask, final Literal aLiteral) {
-		RDFUnmarshallerJena.logger.debug("LongName lang:"
+		logger.debug("LongName lang:"
 				+ aLiteral.getLanguage() + " value:" + aLiteral.getString()
 				+ ".");
 		aTask.addLongName(aLiteral.getLanguage(), aLiteral.getString());
@@ -105,7 +105,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	 *            The description of the task.
 	 */
 	private void addDescription(final Task aTask, final Literal aLiteral) {
-		RDFUnmarshallerJena.logger.debug("Description lang:"
+		logger.debug("Description lang:"
 				+ aLiteral.getLanguage() + " value:" + aLiteral.getString()
 				+ ".");
 		aTask.addDescription(aLiteral.getLanguage(), aLiteral.getString());
@@ -120,7 +120,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	 *            The name of the parameter.
 	 */
 	private void addLongName(final Parameter aParameter, final Literal aLiteral) {
-		RDFUnmarshallerJena.logger.debug("Parameter long name lang:"
+		logger.debug("Parameter long name lang:"
 				+ aLiteral.getLanguage() + " value:" + aLiteral.getString()
 				+ ".");
 		aParameter.addLongName(aLiteral.getLanguage(), aLiteral.getString());
@@ -135,7 +135,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	 *            The name of the value.
 	 */
 	private void addLongName(final Value aValue, final Literal aLiteral) {
-		RDFUnmarshallerJena.logger.debug("Value long name lang:"
+		logger.debug("Value long name lang:"
 				+ aLiteral.getLanguage() + " value:" + aLiteral.getString()
 				+ ".");
 		aValue.addLongName(aLiteral.getLanguage(), aLiteral.getString());
@@ -154,11 +154,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 				RDFUnmarshallerJena.PROPERTY_REFERENCE).getLiteral().getString();
 		final Value oValue = aParameter.getValue(sValue);
 		if (null == oValue) {
-			RDFUnmarshallerJena.logger.warn("Value " + sValue
+			logger.warn("Value " + sValue
 					+ " not found in parameter " + aParameter.getName() + ".");
 			return;
 		}
-		RDFUnmarshallerJena.logger.debug("Parameter value  : " + sValue + ".");
+		logger.debug("Parameter value  : " + sValue + ".");
 		// find and add longName of the Value
 		for (final StmtIterator siLongName = aValue
 				.listProperties(RDFUnmarshallerJena.PROPERTY_LONGNAME); siLongName
@@ -183,11 +183,11 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 		final Parameter oParameter = aTask.getMapOfParameter().get(
 				sParameterReference);
 		if (null == oParameter) {
-			RDFUnmarshallerJena.logger.warn("Parameter " + sParameterReference
+			logger.warn("Parameter " + sParameterReference
 					+ " not found in task " + aTask.getID() + ".");
 			return;
 		}
-		RDFUnmarshallerJena.logger.debug("Parameter : " + sParameterReference
+		logger.debug("Parameter : " + sParameterReference
 				+ ".");
 		// find and add longName of the Parameter
 		for (StmtIterator siLongName = aParameter
@@ -203,7 +203,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 			final Resource aValue = (Resource) siValue.nextStatement()
 					.getObject();
 			if (null == aValue) {
-				RDFUnmarshallerJena.logger.error("Resource value == null.");
+				logger.error("Resource value == null.");
 				continue;
 			}
 			this.addValue(oParameter, aValue);
@@ -235,7 +235,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 				Framework.logger.debug(">> This is the default task.");
 			}
 		}
-		RDFUnmarshallerJena.logger.debug("Reference : "
+		logger.debug("Reference : "
 				+ aReference.getObject().toString() + ".");
 		// find and add longName of the task
 		for (final StmtIterator siLongName = aTask
@@ -259,7 +259,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 			final Resource aParameter = (Resource) siParameter.nextStatement()
 					.getObject();
 			if (null == aParameter) {
-				RDFUnmarshallerJena.logger.error("Resource parameter == null.");
+				logger.error("Resource parameter == null.");
 				continue;
 			}
 			this.addParameter(oTask, aParameter);
@@ -272,7 +272,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 	 * @see org.w3c.unicorn.util.Unmarshaller#unmarshal(java.net.URL)
 	 */
 	public void unmarshal() throws Exception {
-		RDFUnmarshallerJena.logger.trace("unmarshal");
+		logger.trace("unmarshal");
 
 		// find and add task
 		for (final StmtIterator siTask = this.aModel.listStatements(null,
@@ -281,7 +281,7 @@ public class RDFUnmarshallerJena implements RDFUnmarshaller {
 			final Resource aTask = siTask.nextStatement().getSubject();
 			this.addTask(aTask);
 		} // find and add task
-		RDFUnmarshallerJena.logger.trace("End.");
+		logger.trace("End.");
 	}
 
 	/**

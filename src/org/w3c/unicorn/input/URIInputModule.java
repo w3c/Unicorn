@@ -1,4 +1,4 @@
-// $Id: URIInputModule.java,v 1.3 2009-08-28 16:11:41 jean-gui Exp $
+// $Id: URIInputModule.java,v 1.4 2009-09-23 09:17:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -53,11 +53,8 @@ public class URIInputModule implements InputModule {
 	 */
 	protected URIInputModule(final MimeType aMimeType,
 			final Object oInputParameterValue) {
-		InputModule.logger.trace("Constructor.");
-		if (InputModule.logger.isDebugEnabled()) {
-			InputModule.logger.debug("oInputParameterValue : "
-					+ oInputParameterValue + ".");
-		}
+		logger.trace("Constructor.");
+		logger.debug("oInputParameterValue : " + oInputParameterValue + ".");
 		if (!(oInputParameterValue instanceof String)) {
 			throw new IllegalArgumentException("Object oInputParameterValue : "
 					+ oInputParameterValue.toString() + ".");
@@ -76,10 +73,8 @@ public class URIInputModule implements InputModule {
 	 *             odd error occurs
 	 */
 	protected URIInputModule(final InputModule aInputModule) throws IOException {
-		InputModule.logger.trace("Constructor.");
-		if (InputModule.logger.isDebugEnabled()) {
-			InputModule.logger.debug("InputModule : " + aInputModule + ".");
-		}
+		logger.trace("Constructor.");
+		logger.debug("InputModule : " + aInputModule + ".");
 		this.aMimeType = aInputModule.getMimeType();
 		final Date aDate = new Date();
 		final String sFileName;
@@ -98,32 +93,30 @@ public class URIInputModule implements InputModule {
 	}
 
 	public EnumInputMethod getEnumInputMethod() {
-		InputModule.logger.trace("getEnumInputMethod");
+		logger.trace("getEnumInputMethod");
 		return this.aEnumInputMethod;
 	}
 
 	public MimeType getMimeType() {
-		InputModule.logger.trace("getMimeType");
+		logger.trace("getMimeType");
 		return this.aMimeType;
 	}
 
 	public Object getParameterValue() {
-		InputModule.logger.trace("getParameterValue");
+		logger.trace("getParameterValue");
 		return this.sURI;
 	}
 
 	public String getStringContent() throws IOException {
-		InputModule.logger.trace("getString.");
+		logger.trace("getString.");
 		final URL aURL = new URL(this.sURI);
 		final String sResult = (String) aURL.openConnection().getContent();
-		if (InputModule.logger.isDebugEnabled()) {
-			InputModule.logger.debug("sResult : " + sResult + ".");
-		}
+		logger.debug("sResult : " + sResult + ".");
 		return sResult;
 	}
 
 	public String getURI() {
-		InputModule.logger.trace("getURI");
+		logger.trace("getURI");
 		return this.sURI;
 	}
 
@@ -131,9 +124,9 @@ public class URIInputModule implements InputModule {
 	 * Dispose the object
 	 */
 	public void dispose() {
-		InputModule.logger.trace("dispose");
+		logger.trace("dispose");
 		if (null != this.aFile && this.aFile.delete()) {
-			InputModule.logger.info("File deleted.");
+			logger.info("File deleted.");
 			this.aFile = null;
 		}
 	}

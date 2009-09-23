@@ -30,7 +30,7 @@ public class TLTIf {
 	 * 
 	 */
 	public TLTIf() {
-		TLTIf.logger.trace("Constructor");
+		logger.trace("Constructor");
 		this.conds = new ArrayList<TLTCond>();
 		this.ifOk = new TLTNode();
 		this.ifNotOk = new TLTNode();
@@ -46,8 +46,8 @@ public class TLTIf {
 	 *            The next node if the condition is ok
 	 */
 	public TLTIf(ArrayList<TLTCond> cond, TLTNode ifOk) {
-		TLTIf.logger.trace("Constructor");
-		TLTIf.logger.trace("Cond : ");
+		logger.trace("Constructor");
+		logger.trace("Cond : ");
 		this.conds = cond;
 		this.ifOk = ifOk;
 		this.ifNotOk = new TLTNode();
@@ -65,8 +65,8 @@ public class TLTIf {
 	 *            The next node if the condition is not ok
 	 */
 	public TLTIf(ArrayList<TLTCond> cond, TLTNode ifOk, TLTNode ifNotOK) {
-		TLTIf.logger.trace("Constructor");
-		TLTIf.logger.trace("Cond : ");
+		logger.trace("Constructor");
+		logger.trace("Cond : ");
 		this.conds = cond;
 		this.ifOk = ifOk;
 		this.ifNotOk = ifNotOK;
@@ -97,7 +97,7 @@ public class TLTIf {
 	 * @param ifOk
 	 */
 	public void setIfOk(TLTNode ifOk) {
-		TLTIf.logger.trace("setIfOk");
+		logger.trace("setIfOk");
 		this.ifOk = ifOk;
 	}
 
@@ -107,7 +107,7 @@ public class TLTIf {
 	 * @param ifNotOk
 	 */
 	public void setIfNotOk(TLTNode ifNotOk) {
-		TLTIf.logger.trace("setIfNotOk");
+		logger.trace("setIfNotOk");
 		this.ifNotOk = ifNotOk;
 	}
 
@@ -117,7 +117,7 @@ public class TLTIf {
 	 * @param cond
 	 */
 	public void addCond(TLTCond cond) {
-		TLTIf.logger.trace("addCond : " + cond.getId());
+		logger.trace("addCond : " + cond.getId());
 		this.conds.add(cond);
 	}
 
@@ -126,7 +126,7 @@ public class TLTIf {
 	 * @return The child node corresponding to the "ok" case
 	 */
 	public TLTNode getIfOk() {
-		TLTIf.logger.trace("getIfOk");
+		logger.trace("getIfOk");
 		return ifOk;
 	}
 
@@ -135,7 +135,7 @@ public class TLTIf {
 	 * @return The child node corresponding to the "notOk" case
 	 */
 	public TLTNode getIfNotOk() {
-		TLTIf.logger.trace("getIfNotOk");
+		logger.trace("getIfNotOk");
 		return ifNotOk;
 	}
 
@@ -144,7 +144,7 @@ public class TLTIf {
 	 * @return The condition
 	 */
 	public ArrayList<TLTCond> getCondArray() {
-		TLTIf.logger.trace("getCond");
+		logger.trace("getCond");
 		return conds;
 	}
 

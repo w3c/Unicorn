@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.3 2009-09-18 17:17:59 tgambet Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.4 2009-09-23 09:16:29 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -111,7 +111,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	 * @throws ParserConfigurationException
 	 */
 	public WADLUnmarshallerXPath() throws ParserConfigurationException {
-		WADLUnmarshallerXPath.logger.trace("Constructor");
+		logger.trace("Constructor");
 
 		this.aDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 
@@ -129,13 +129,13 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	 */
 	public void addURL(final URL aURL) throws IOException {
 
-		WADLUnmarshallerXPath.logger.trace("addURL");
-		WADLUnmarshallerXPath.logger.trace("URL : " + aURL + ".");
+		logger.trace("addURL");
+		logger.trace("URL : " + aURL + ".");
 
 		try {
 			this.aDocument = this.aDocumentBuilder.parse(aURL.openStream());
 		} catch (SAXException e) {
-			WADLUnmarshallerXPath.logger.error(
+			logger.error(
 					"Parsing error with SAX in WADLUnmarshaller", e);
 			e.printStackTrace();
 		}
@@ -150,7 +150,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	public void unmarshal() throws XPathExpressionException,
 			ParserConfigurationException, SAXException, IOException,
 			MimeTypeParseException {
-		WADLUnmarshallerXPath.logger.trace("unmarshal");
+		logger.trace("unmarshal");
 		this.parseDocsHeader();
 		this.parseMethods();
 	}
@@ -226,7 +226,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	 */
 	private void parseMethods() throws ParserConfigurationException,
 			SAXException, IOException, XPathExpressionException {
-		WADLUnmarshallerXPath.logger.trace("parseMethods");
+		logger.trace("parseMethods");
 
 		// base uri
 		final Node aNodeResource = this.aDocument.getElementsByTagName(

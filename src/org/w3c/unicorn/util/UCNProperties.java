@@ -6,13 +6,15 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.w3c.unicorn.Framework;
 
 public class UCNProperties extends Properties {
 	
 	private static final long serialVersionUID = 1L;
 	
-	static Logger logger = Logger.getLogger("Framework");
+	public static Log logger = LogFactory.getLog(Framework.class);
 	
 	private Pattern pattern = Pattern.compile("\\$\\{[a-zA-Z_0-9]*\\}");
 	

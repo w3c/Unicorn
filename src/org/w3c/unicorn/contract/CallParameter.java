@@ -1,4 +1,4 @@
-// $Id: CallParameter.java,v 1.2 2009-08-28 12:40:09 jean-gui Exp $
+// $Id: CallParameter.java,v 1.3 2009-09-23 09:16:29 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -90,15 +90,12 @@ public class CallParameter {
 			final boolean bRepeating) {
 		super();
 
-		CallParameter.logger
-				.trace("Constructor(String, List<String>, String, boolean, boolean)");
-		if (CallParameter.logger.isDebugEnabled()) {
-			CallParameter.logger.debug("Name : " + sName + ".");
-			CallParameter.logger.debug("List of value : " + listOfValue + ".");
-			CallParameter.logger.debug("Fixed : " + sFixed + ".");
-			CallParameter.logger.debug("Required : " + bRequired + ".");
-			CallParameter.logger.debug("Repeating : " + bRepeating + ".");
-		}
+		logger.trace("Constructor(String, List<String>, String, boolean, boolean)");
+		logger.debug("Name : " + sName + ".");
+		logger.debug("List of value : " + listOfValue + ".");
+		logger.debug("Fixed : " + sFixed + ".");
+		logger.debug("Required : " + bRequired + ".");
+		logger.debug("Repeating : " + bRepeating + ".");
 
 		this.sName = sName;
 		this.listOfPossibleValue = listOfValue;
@@ -115,7 +112,7 @@ public class CallParameter {
 	 */
 	public CallParameter(final String sName) {
 		this(sName, new ArrayList<String>(), null, false, false);
-		CallParameter.logger.trace("Constructor(String)");
+		logger.trace("Constructor(String)");
 	}
 
 	/**
@@ -123,7 +120,7 @@ public class CallParameter {
 	 */
 	public CallParameter() {
 		this("", new ArrayList<String>(), null, false, false);
-		CallParameter.logger.trace("Constructor()");
+		logger.trace("Constructor()");
 	}
 
 	// ===================

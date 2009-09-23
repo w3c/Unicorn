@@ -71,21 +71,21 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	}
 
 	public TaskListUnmarshallerBeans(final Map<String, Observer> mapOfObserver) {
-		TaskListUnmarshallerBeans.logger.trace("Constructor");
+		logger.trace("Constructor");
 		//this.mapOfTask = new LinkedHashMap<String, org.w3c.unicorn.tasklist.Task>();
 		this.mapOfTask = new Tasklist();
 		this.mapOfObserver = mapOfObserver;
 	}
 
 	private void addTask(final TaskType aTask) throws ParameterException, UnknownObserverException {
-		TaskListUnmarshallerBeans.logger.trace("addTask");
+		logger.trace("addTask");
 
 		if (aTask == null) {
-			TaskListUnmarshallerBeans.logger.warn("Task : null");
+			logger.warn("Task : null");
 			return;
 		}
 
-		TaskListUnmarshallerBeans.logger.trace("Add task : "
+		logger.trace("Add task : "
 				+ aTask.getId());
 
 		final Task aTaskCurrent = new Task();
@@ -180,7 +180,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	 * @return the created mapping
 	 */
 	private Mapping createMapping(final MappedType aMapped) {
-		TaskListUnmarshallerBeans.logger.trace("createMapping");
+		logger.trace("createMapping");
 
 		// The mapped observer
 		final String sMappingObserver = aMapped.getObserver();
@@ -188,7 +188,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 				.get(sMappingObserver);
 
 		if (aObserverMapped == null) {
-			TaskListUnmarshallerBeans.logger.error("The observer "
+			logger.error("The observer "
 					+ sMappingObserver
 					+ " does not seem to exist... Skipping mapping.");
 			return null;
@@ -231,7 +231,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 					.getEnumInputMethod(aTInputMethod);
 			// the observer can handle this input method
 			if (aObserverMapped.getInputMethod(aEnumInputMethod) == null) {
-				TaskListUnmarshallerBeans.logger.warn(sMappingObserver
+				logger.warn(sMappingObserver
 						+ " does not support " + aEnumInputMethod.value()
 						+ " input method.");
 				continue;
@@ -241,14 +241,14 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 					aEnumInputMethod).getCallParameterByName(sMappingParam);
 			// the parameter exists
 			if (aCallParameterMapped == null) {
-				TaskListUnmarshallerBeans.logger.error(sMappingObserver
+				logger.error(sMappingObserver
 						+ " does not have " + "a parameter named "
 						+ sMappingParam + ".");
 				continue;
 			}
 			// the value exists
 			if (!aCallParameterMapped.contains(sMappingValue)) {
-				TaskListUnmarshallerBeans.logger.error("Parameter "
+				logger.error("Parameter "
 						+ sMappingParam + " does not accept " + sMappingValue
 						+ " as a value.");
 				continue;
@@ -270,26 +270,18 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			final String sObserverName, final TUi.Enum aTUi,
 			final String sDefaultValues, final TParamType.Enum aTParamType)
 			throws ParameterException {
-		TaskListUnmarshallerBeans.logger.trace("getParameterFromObserver");
-		if (TaskListUnmarshallerBeans.logger.isDebugEnabled()) {
-			TaskListUnmarshallerBeans.logger.debug("Parameter name : "
-					+ sParamName + ".");
-			TaskListUnmarshallerBeans.logger.debug("Observer name : "
-					+ sObserverName + ".");
-			TaskListUnmarshallerBeans.logger.debug("TUi : " + aTUi + ".");
-			TaskListUnmarshallerBeans.logger.debug("Default values : "
-					+ sDefaultValues + ".");
-			TaskListUnmarshallerBeans.logger.debug("TParamType : "
-					+ aTParamType + ".");
-		}
+		logger.trace("getParameterFromObserver");
+		logger.debug("Parameter name : " + sParamName + ".");
+		logger.debug("Observer name : " + sObserverName + ".");
+		logger.debug("TUi : " + aTUi + ".");
+		logger.debug("Default values : " + sDefaultValues + ".");
+		logger.debug("TParamType : " + aTParamType + ".");
 
 		final Observer aObserver = this.mapOfObserver.get(sObserverName);
 
 		// does the requested observer exist?
 		if (aObserver == null) {
-			TaskListUnmarshallerBeans.logger.warn("The parameter " + sParamName
-					+ "refers to a " + "non-existing observer: "
-					+ sObserverName + ".");
+			logger.warn("The parameter " + sParamName + "refers to a " + "non-existing observer: " + sObserverName + ".");
 			return null;
 		}
 
@@ -310,8 +302,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			if (aInputMethod.getCallParameter().getName().equals(sParamName)) {
 				// the referenced parameter is an input one for the current
 				// method, so it must be ignored
-				TaskListUnmarshallerBeans.logger
-						.info("The referenced parameter is an input one for the current method, so it must be ignored.");
+				logger.info("The referenced parameter is an input one for the current method, so it must be ignored.");
 				continue;
 			}
 
@@ -371,9 +362,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	 * @throws UnknownObserverException 
 	 */
 	public TLTNode expandTree(TaskType myTask, RoutineType subroutine) throws UnknownObserverException {
-		TaskListUnmarshallerBeans.logger
-				.trace("Creation of the tree based on the Task "
-						+ myTask.getId());
+		logger.trace("Creation of the tree based on the Task " + myTask.getId());
 		TLTNode root = new TLTNode();
 		root.setID(NodeID++);
 		for (ExecType exec : subroutine.getExecList()) {
@@ -398,7 +387,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	 * @throws UnknownObserverException 
 	 */
 	private TLTIf fillIfs(TaskType myTask, IfType ifs) throws UnknownObserverException {
-		TaskListUnmarshallerBeans.logger.trace("Creation of an If ");
+		logger.trace("Creation of an If ");
 		// Create the if node
 		TLTIf ifnode = new TLTIf();
 		// Cares about the conditions
@@ -409,8 +398,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			for (CondType condlist : myTask.getConds().getCondList()) {
 				if (condlist.getId().equals(cond)) {
 					TLTCond myCond = TLTCond.createCond(condlist.getType().toString());
-					TaskListUnmarshallerBeans.logger
-							.trace("Creation of a condition " + cond);
+					logger.trace("Creation of a condition " + cond);
 					myCond.setId(condlist.getId());
 					final Observer obs = Framework.mapOfObserver.get(condlist
 							.getObserver());
@@ -433,13 +421,11 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
 		// Add recursively the inner ifs in the then part
 		if (ifs.getThen() != null) {
-			TaskListUnmarshallerBeans.logger
-					.trace("Call recursion for the Then ");
+			logger.trace("Call recursion for the Then ");
 			ifnode.setIfOk(expandTree(myTask, ifs.getThen()));
 			// Add recursively the inner if in the else part
 			if (ifs.getElse() != null) {
-				TaskListUnmarshallerBeans.logger
-						.trace("Call recursion for the else");
+				logger.trace("Call recursion for the else");
 				ifnode.setIfNotOk(expandTree(myTask, ifs.getElse()));
 			}
 		}
@@ -450,17 +436,12 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			final TParamType.Enum aTParamType, final String sName,
 			final TUi.Enum aTUi, final String sDefaultValues,
 			final Map<String, Value> mapOfValue) throws ParameterException {
-		TaskListUnmarshallerBeans.logger.trace("createParameter");
-		if (TaskListUnmarshallerBeans.logger.isDebugEnabled()) {
-			TaskListUnmarshallerBeans.logger.debug("TParamType : "
-					+ aTParamType + ".");
-			TaskListUnmarshallerBeans.logger.debug("Name : " + sName + ".");
-			TaskListUnmarshallerBeans.logger.debug("TUi : " + aTUi + ".");
-			TaskListUnmarshallerBeans.logger.debug("Default values : "
-					+ sDefaultValues + ".");
-			TaskListUnmarshallerBeans.logger.debug("Map of value : "
-					+ mapOfValue + ".");
-		}
+		logger.trace("createParameter");
+		logger.debug("TParamType : " + aTParamType + ".");
+		logger.debug("Name : " + sName + ".");
+		logger.debug("TUi : " + aTUi + ".");
+		logger.debug("Default values : " + sDefaultValues + ".");
+		logger.debug("Map of value : " + mapOfValue + ".");
 
 		final org.w3c.unicorn.tasklist.parameters.Parameter aParameter = ParameterFactory
 				.getParameter(aTParamType);
@@ -495,32 +476,28 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	}
 
 	public Tasklist getMapOfTask() {
-		TaskListUnmarshallerBeans.logger.trace("getMapOfTask");
+		logger.trace("getMapOfTask");
 		return this.mapOfTask;
 	}
 
 	public void addURL(URL aURL) throws IOException {
-		TaskListUnmarshallerBeans.logger.trace("addURL");
-		if (TaskListUnmarshallerBeans.logger.isDebugEnabled()) {
-			TaskListUnmarshallerBeans.logger.debug("URL : " + aURL + ".");
-		}
+		logger.trace("addURL");
+		logger.debug("URL : " + aURL + ".");
 
 		try {
 			this.aTaskList = TasklistDocument.Factory.parse(aURL.openStream());
 		} catch (XmlException e) {
-			TaskListUnmarshallerBeans.logger.error(
-					"Parsing error in TasklistUnmarshaller", e);
+			logger.error("Parsing error in TasklistUnmarshaller", e);
 			e.printStackTrace();
 		}
 	}
 
 	public void unmarshal() {
-		TaskListUnmarshallerBeans.logger.trace("unmarshal tasklist");
+		logger.trace("unmarshal tasklist");
 		// creates the tasklist without computing references
 		for (final TaskType aTask : this.aTaskList.getTasklist().getTaskList()) {
 			if (this.mapOfTask.containsKey(aTask.getId())) {
-				TaskListUnmarshallerBeans.logger.warn("Task with id "
-						+ aTask.getId() + " already defined.");
+				logger.warn("Task with id " + aTask.getId() + " already defined.");
 			} else {
 				try {
 					Framework.logger.debug("> Found task: " + aTask.getId());
@@ -538,8 +515,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		// and parameters
 		for (final org.w3c.unicorn.tasklist.Task aTask : this.mapOfTask
 				.values()) {
-			TaskListUnmarshallerBeans.logger.debug("Expand task : "
-					+ aTask.getID() + ".");
+			logger.debug("Expand task : " + aTask.getID() + ".");
 			aTask.setTree(aTask.expandNode(mapOfTask, aTask.getTree()));
 		}
 

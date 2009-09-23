@@ -1,4 +1,4 @@
-// $Id: CallMethod.java,v 1.2 2009-08-28 12:40:09 jean-gui Exp $
+// $Id: CallMethod.java,v 1.3 2009-09-23 09:16:29 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -64,15 +64,12 @@ public class CallMethod {
 	public CallMethod(final URL aURL, final boolean bPost, final String sName,
 			final String sID,
 			final Map<String, CallParameter> mapOfCallParameter) {
-		CallMethod.logger.trace("Constructor");
-		if (CallMethod.logger.isDebugEnabled()) {
-			CallMethod.logger.debug("URL : " + aURL + ".");
-			CallMethod.logger.debug("Post : " + bPost + ".");
-			CallMethod.logger.debug("Name : " + sName + ".");
-			CallMethod.logger.debug("ID : " + sID + ".");
-			CallMethod.logger.debug("Map of call parameter : "
-					+ mapOfCallParameter + ".");
-		}
+		logger.trace("Constructor");
+		logger.debug("URL : " + aURL + ".");
+		logger.debug("Post : " + bPost + ".");
+		logger.debug("Name : " + sName + ".");
+		logger.debug("ID : " + sID + ".");
+		logger.debug("Map of call parameter : " + mapOfCallParameter + ".");
 
 		this.aURL = aURL;
 		this.mapOfCallParameter = mapOfCallParameter;

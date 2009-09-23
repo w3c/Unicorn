@@ -32,7 +32,7 @@ public class TLTNode {
 	 * 
 	 */
 	public TLTNode() {
-		TLTNode.logger.trace("Constructor");
+		logger.trace("Constructor");
 		NodeID = 0;
 		executionList = new ArrayList<TLTExec>();
 		ifList = new ArrayList<TLTIf>();
@@ -50,10 +50,10 @@ public class TLTNode {
 	 */
 	public TLTNode(int NodeID, ArrayList<TLTExec> executionList,
 			ArrayList<TLTIf> ifList) {
-		TLTNode.logger.trace("Constructor");
-		TLTNode.logger.trace("NodeID : " + NodeID);
-		TLTNode.logger.trace("Number of executions : " + executionList.size());
-		TLTNode.logger.trace("Number of ifs : " + ifList.size());
+		logger.trace("Constructor");
+		logger.trace("NodeID : " + NodeID);
+		logger.trace("Number of executions : " + executionList.size());
+		logger.trace("Number of ifs : " + ifList.size());
 		this.NodeID = NodeID;
 		this.executionList = executionList;
 		this.ifList = ifList;
@@ -65,7 +65,7 @@ public class TLTNode {
 	 *            The level of execution
 	 */
 	public void setID(int NodeID) {
-		TLTNode.logger.trace("setID : " + NodeID);
+		logger.trace("setID : " + NodeID);
 		this.NodeID = NodeID;
 	}
 
@@ -76,7 +76,7 @@ public class TLTNode {
 	 *            The "exec" to add
 	 */
 	public void addExec(TLTExec exec) {
-		TLTNode.logger.trace("addExec : " + exec.getId());
+		logger.trace("addExec : " + exec.getId());
 		if (!executionList.contains(exec)) {
 			executionList.add(exec);
 		}
@@ -89,7 +89,7 @@ public class TLTNode {
 	 *            The "if" to add
 	 */
 	public void addIf(TLTIf tltIf) {
-		TLTNode.logger.trace("addIf : ");
+		logger.trace("addIf : ");
 		ifList.add(tltIf);
 	}
 
@@ -98,7 +98,7 @@ public class TLTNode {
 	 * @return The list of executions
 	 */
 	public List<TLTExec> getExecutionList() {
-		TLTNode.logger.trace("getExecutionList");
+		logger.trace("getExecutionList");
 		return executionList;
 	}
 
@@ -129,7 +129,7 @@ public class TLTNode {
 	 * @return The list of "ifs"
 	 */
 	public ArrayList<TLTIf> getIfList() {
-		TLTNode.logger.trace("getIfList");
+		logger.trace("getIfList");
 		return ifList;
 	}
 
@@ -138,7 +138,7 @@ public class TLTNode {
 	 * @return The level of execution
 	 */
 	public int getID() {
-		TLTNode.logger.trace("getLevel");
+		logger.trace("getLevel");
 		return NodeID;
 	}
 

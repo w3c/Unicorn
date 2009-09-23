@@ -1,4 +1,4 @@
-// $Id: DirectInputModule.java,v 1.2 2009-08-28 12:40:04 jean-gui Exp $
+// $Id: DirectInputModule.java,v 1.3 2009-09-23 09:17:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -42,12 +42,9 @@ public class DirectInputModule implements InputModule {
 	 */
 	protected DirectInputModule(final MimeType aMimeType,
 			final Object oInputParameterValue) {
-		InputModule.logger.trace("Constructor");
-		if (InputModule.logger.isDebugEnabled()) {
-			InputModule.logger.debug("Mime type : " + aMimeType + ".");
-			InputModule.logger.debug("Input parameter value : "
-					+ oInputParameterValue + ".");
-		}
+		logger.trace("Constructor");
+		logger.debug("Mime type : " + aMimeType + ".");
+		logger.debug("Input parameter value : " + oInputParameterValue + ".");
 		if (!(oInputParameterValue instanceof String)) {
 			throw new IllegalArgumentException("Object oInputParameterValue : "
 					+ oInputParameterValue.toString() + ".");
@@ -66,31 +63,29 @@ public class DirectInputModule implements InputModule {
 	 */
 	protected DirectInputModule(final InputModule aInputModule)
 			throws IOException {
-		InputModule.logger.trace("Constructor");
-		if (InputModule.logger.isDebugEnabled()) {
-			InputModule.logger.debug("Input module : " + aInputModule + ".");
-		}
+		logger.trace("Constructor");
+		logger.debug("Input module : " + aInputModule + ".");
 		this.sInput = aInputModule.getStringContent();
 		this.aMimeType = aInputModule.getMimeType();
 	}
 
 	public EnumInputMethod getEnumInputMethod() {
-		InputModule.logger.trace("getEnumInputMethod");
+		logger.trace("getEnumInputMethod");
 		return this.aEnumInputMethod;
 	}
 
 	public MimeType getMimeType() {
-		InputModule.logger.trace("getMimeType");
+		logger.trace("getMimeType");
 		return this.aMimeType;
 	}
 
 	public Object getParameterValue() {
-		InputModule.logger.trace("getParameterValue");
+		logger.trace("getParameterValue");
 		return this.sInput;
 	}
 
 	public String getStringContent() {
-		InputModule.logger.trace("getStringContent");
+		logger.trace("getStringContent");
 		return this.sInput;
 	}
 
@@ -98,7 +93,7 @@ public class DirectInputModule implements InputModule {
 	 * Dispose the object
 	 */
 	public void dispose() {
-		InputModule.logger.trace("dispose");
+		logger.trace("dispose");
 	}
 
 	/**

@@ -1,4 +1,4 @@
-// $Id: Observer.java,v 1.3 2009-09-18 17:16:24 tgambet Exp $
+// $Id: Observer.java,v 1.4 2009-09-23 09:16:29 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -82,7 +82,7 @@ public class Observer {
 	 * 
 	 */
 	public Observer() {
-		Observer.logger.trace("Constructor");
+		logger.trace("Constructor");
 	}
 
 	public String getID() {

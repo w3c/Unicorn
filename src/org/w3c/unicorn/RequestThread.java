@@ -80,7 +80,7 @@ class RequestThread extends Thread {
 		} catch (final UnicornException e) {
 			messages.add(e.getUnicornMessage());
 		} catch (final Exception e) {
-			RequestThread.logger.error("Exception : " + e.getMessage(), e);
+			logger.error("Exception : " + e.getMessage(), e);
 			try {
 				StringBuilder builder = new StringBuilder();
 				VelocityContext context = new VelocityContext(Framework.getLanguageContexts().get(lang));
@@ -106,12 +106,10 @@ class RequestThread extends Thread {
 				aResponse = ResponseParserFactory.parse(builder.toString(), "default");				
 				aResponse.setXml(builder);				
 			} catch (IOException e1) {
-				RequestThread.logger
-						.error("Exception : " + e1.getMessage(), e1);
+				logger.error("Exception : " + e1.getMessage(), e1);
 				e1.printStackTrace();
 			} catch (Exception e1) {
-				RequestThread.logger
-						.error("Exception : " + e1.getMessage(), e1);
+				logger.error("Exception : " + e1.getMessage(), e1);
 				e1.printStackTrace();
 			}
 		}
