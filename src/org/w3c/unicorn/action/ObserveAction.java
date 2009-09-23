@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.40 2009-09-23 09:14:27 tgambet Exp $
+// $Id: ObserveAction.java,v 1.41 2009-09-23 14:08:46 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -76,8 +76,11 @@ public class ObserveAction extends Action {
 		
 		// Protects the action in case that Framework is not initialized
 		if (!Framework.isUcnInitialized) {
-			resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
-			return;
+			Framework.init();
+			if (!Framework.isUcnInitialized) {
+				resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
+				return;
+			}
 		}
 		
 		// Objects initialization

@@ -26,8 +26,11 @@ public abstract class Action extends HttpServlet {
 			throws ServletException, IOException {
 		
 		if (!Framework.isUcnInitialized) {
-			resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
-			return;
+			Framework.init();
+			if (!Framework.isUcnInitialized) {
+				resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
+				return;
+			}
 		}
 	}
 
