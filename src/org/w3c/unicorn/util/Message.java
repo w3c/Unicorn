@@ -29,6 +29,11 @@ public class Message {
 		this.message = message;
 		this.content = content;
 	}
+	
+	public Message(Level level, String message) {
+		this.level = level;
+		this.message = message;
+	}
 
 	public String getMessage() {
 		return message;
