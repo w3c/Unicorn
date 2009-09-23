@@ -29,9 +29,7 @@ public class UnicornAuthenticator extends Authenticator {
 			    username = st.nextToken();
 			    password = st.nextToken();
 			}
-		} catch (HeadlessException e) {
-			Framework.logger.error("Before sending mails you must specify a username and a password in mail.properties. If your SMTP server does not need authentication, set mail.smtp.auth to false.");
-		} catch (NoClassDefFoundError e) {
+		} catch (Exception e) {
 			Framework.logger.error("Before sending mails you must specify a username and a password in mail.properties. If your SMTP server does not need authentication, set mail.smtp.auth to false.");
 		}
 
