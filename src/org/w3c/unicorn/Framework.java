@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.12 2009-09-23 09:16:00 tgambet Exp $
+// $Id: Framework.java,v 1.13 2009-09-23 12:57:28 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -92,7 +92,8 @@ public class Framework {
 		"extensions.properties",
 		"responseParsers.properties",
 		"specialFormaters.properties",
-		"velocity.properties"};
+		"velocity.properties",
+		"mail.properties"};
 
 	public static void reset() {
 		unicornPropertiesFiles = new Hashtable<String, Properties>();
