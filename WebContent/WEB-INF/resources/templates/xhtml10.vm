@@ -4,7 +4,7 @@
 #set ($noEscape_title = $result_for_upload)
 #end  
 #set ($css = ['base_ucn.css'])
-#set ($js = ['scripts/mootools-1.2.3-core-nc.js', 'scripts/mootools-1.2.3.1-more.js', 'scripts/w3c_unicorn_results.js'])
+#set ($js = ['mootools-1.2.3-core-nc.js', 'mootools-1.2.3.1-more.js', 'w3c_unicorn_results.js'])
 #if ($unicorncall.isPassed())
 #set ($fav = "favicon_green.ico")
 #else

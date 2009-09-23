@@ -3,25 +3,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$lang" lang="$lang">
 <head>
 	<title>$noEscape_title</title>
-	<link rev="start" href="./" title="Home Page" />
+	<link rev="start" href="$!{baseUri}" title="Home Page" />
 #foreach( $sheet in $css )
-	<link href="./style/$sheet" type="text/css" media="screen" rel="stylesheet" />
+	<link href="$!{baseUri}style/$sheet" type="text/css" media="screen" rel="stylesheet" />
 #end
 #foreach( $script in $js )
-	<script type="text/javascript" src="$script"></script>
+	<script type="text/javascript" src="$!{baseUri}scripts/$script"></script>
 #end
 	<link rev="made" href="mailto:www-validator@w3.org" />
 #if ($fav)
-	<link rel="icon" href="/unicorn/images/$fav" type="image/x-icon" />
+	<link rel="icon" href="$!{baseUri}images/$fav" type="image/x-icon" />
 #else
-	<link rel="icon" href="/unicorn/images/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="$!{baseUri}images/favicon.ico" type="image/x-icon" />
 #end
 </head>
 <body>
 	<div id="banner">
 		<h1>
-			<a href="http://www.w3.org/"><img alt="W3C" width="110" height="61" id="logo" src="images/w3c.png" /></a>
-			<a href="./"><span>Unicorn</span></a>
+			<a href="http://www.w3.org/"><img alt="W3C" width="110" height="61" id="logo" src="$!{baseUri}images/w3c.png" /></a>
+			<a href="$!{baseUri}"><span>Unicorn</span></a>
 		</h1>
 		<p>The Web's Universal Conformance Checker</p>
 	</div>
