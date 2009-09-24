@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.25 2009-09-23 17:00:33 tgambet Exp $
+// $Id: UnicornCall.java,v 1.26 2009-09-24 17:38:55 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -76,6 +76,11 @@ public class UnicornCall {
 		messages = new ArrayList<Message>();
 	}
 
+	
+	public void check() throws UnicornException {
+		inputParameter.check();
+	}
+	
 	/**
 	 * Execute the task aTask
 	 * 
@@ -87,8 +92,6 @@ public class UnicornCall {
 		logger.debug("EnumInputMethod : " + inputParameter.getInputMethod() + ".");
 		logger.debug("Document name : " + inputParameter.getDocumentName() + ".");
 		logger.debug("Map of string parameter : " + mapOfStringParameter + ".");
-		
-		inputParameter.check();
 		
 		MimeType aMimeType = inputParameter.getMimeType();
 		if (!aTask.getSupportedMimeTypes().contains(aMimeType.toString()))
@@ -157,7 +160,7 @@ public class UnicornCall {
 			final InputMethod aInputMethod = aObserver
 					.getBestInputMethod(aEnumInputMethod);
 			
-			//TODO: add warning if inputMethod has changed
+			//TODO: add warning if inputMethod has changed -> check behavior
 			if (aInputMethod.getMethod() != inputParameter.getInputMethod()) {
 				
 				messages.add(new Message(Message.Level.WARNING, "Input method changed for observer: \"" + aObserver.getName(sLang) 
