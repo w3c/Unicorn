@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.41 2009-09-23 14:08:46 tgambet Exp $
+// $Id: ObserveAction.java,v 1.42 2009-09-24 15:34:35 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,7 +13,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -108,6 +107,8 @@ public class ObserveAction extends Action {
 		mapOfStringObject.put("messages", messages);
 		mapOfStringObject.put("unicorncall", aUnicornCall);
 		
+		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=UTF-8");
+		
 		// Retrieve the parameters from the request
 		Map<String, Object> reqParams;
 		try {
@@ -115,7 +116,7 @@ public class ObserveAction extends Action {
 		} catch (FileUploadException e) {
 			OutputModule aOutputModule = OutputFactory.createOutputModule(mapOfOutputParameter, mapOfSpecificParameter);
 			messages.add(new Message(e));
-			createError(req, resp, null, mapOfStringObject, aOutputModule);
+			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 			return;
 		}
 		
@@ -154,6 +155,7 @@ public class ObserveAction extends Action {
 				} else if (paramName.equals("task")) {
 					logger.trace("Task parameter: " + key + " - " + (String) reqParams.get(key));
 					String task = getTask((String) reqParams.get(key), messages);
+					mapOfStringObject.put("current_task", Framework.mapOfTask.get(task));
 					if (!task.equals(reqParams.get(key))) {
 						mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
 						logger.trace("Task parameter unsupported. Resolved to: " + task);
@@ -205,6 +207,7 @@ public class ObserveAction extends Action {
 			reqParams.put(paramPrefix + "task", task);
 			logger.debug("No task parameter found. Task parameter is set to task id: " + task);
 			mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
+			mapOfStringObject.put("current_task", Framework.mapOfTask.get(task));
 			aUnicornCall.setTask(task);
 		}
 		
@@ -212,11 +215,32 @@ public class ObserveAction extends Action {
 		
 		if (!reqParams.containsKey(paramPrefix + "uri") && !reqParams.containsKey(paramPrefix + "text") && !reqParams.containsKey(paramPrefix + "file")) {
 			messages.add(new Message(Message.Level.ERROR, "$message_nothing_to_validate", null));
-			createError(req, resp, reqParams, mapOfStringObject, aOutputModule);
+			aOutputModule.produceError( mapOfStringObject, resp.getWriter());
 			return;
 		}
 		
-		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=" + mapOfOutputParameter.get("charset"));
+		//req.setAttribute("unicorn_parameters", reqParams);
+		
+		for (Object objKey : reqParams.keySet()) {
+			String key = (String) objKey;
+			String ref;
+			if (key.startsWith(Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX")))
+				continue;
+			if (key.startsWith(paramPrefix))
+				ref = "param_" + key.substring(paramPrefix.length());
+			else
+				ref = "param_" + key;
+			if (reqParams.get(key) instanceof String[]) {
+				String[] s = (String[]) reqParams.get(key);
+				ArrayList<String> array = new ArrayList<String>();
+				for (int i = 0; i < s.length; i++)
+					array.add(s[i]);
+				mapOfStringObject.put(ref, array);
+			}
+			else {
+				mapOfStringObject.put(ref, reqParams.get(key));
+			}
+		}
 		
 		String s = "Resolved parameters:";
 		for (String key : reqParams.keySet()) {
@@ -235,12 +259,12 @@ public class ObserveAction extends Action {
 		
 		// Launch the observation
 		try {
-			aOutputModule.produceFirstOutput( mapOfStringObject, resp.getWriter());
+			aOutputModule.produceFirstOutput(mapOfStringObject, resp.getWriter());
 			aUnicornCall.doTask();
 			messages.addAll(aUnicornCall.getMessages());
 			if (aUnicornCall.getResponses().size() == 0) {
 				messages.add(new Message(Message.Level.ERROR, "$message_no_observation_done", null));
-				createError(req, resp, reqParams, mapOfStringObject, aOutputModule);
+				aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 			} else {
 				aOutputModule.produceOutput(mapOfStringObject, resp.getWriter());
 			}
@@ -249,11 +273,11 @@ public class ObserveAction extends Action {
 				messages.add(ucnException.getUnicornMessage());
 			else
 				messages.add(new Message(Message.Level.ERROR, ucnException.getMessage(), null));
-			createError(req, resp, reqParams, mapOfStringObject, aOutputModule);
+			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 		} catch (final Exception aException) {
 			logger.error("Exception : " + aException.getMessage(), aException);
 			messages.add(new Message(aException));
-			createError(req, resp, reqParams, mapOfStringObject, aOutputModule);
+			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 		} finally {
 			if ("true".equals(Property.get("DELETE_UPLOADED_FILES")) && aFileItemUploaded != null)
 				aFileItemUploaded.delete();
@@ -328,27 +352,6 @@ public class ObserveAction extends Action {
 		logger.debug(s);
 		
 		return params;
-	}
-	
-	private void createError(HttpServletRequest req, HttpServletResponse resp,
-			Map<String, Object> reqParams, Map<String, Object> mapOfStringObject, OutputModule aOutputModule) throws IOException, ServletException {
-		
-		// If text/html is the mime-type the error will be displayed directly on index
-		if (aOutputModule.getOutputParameter("mimetype").equals("text/html")) {// mapOfOutputParameter.get("mimetype").equals("text/html")) {
-			redirect(req, resp, reqParams, (ArrayList<?>) mapOfStringObject.get("messages"));
-			return;
-		}
-		
-		aOutputModule.produceError( mapOfStringObject, resp.getWriter());
-	}
-	
-	private void redirect(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> reqParams, ArrayList<?> messages) throws IOException, ServletException {
-		req.setAttribute("unicorn_messages", messages);
-		if (reqParams != null)
-			req.setAttribute("unicorn_parameters", reqParams);
-		RequestDispatcher dispatcher = req.getRequestDispatcher("index.html");
-		dispatcher.forward(req, resp);
-		logger.info("request redirected to index");
 	}
 
 	/**
