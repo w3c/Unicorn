@@ -1,8 +1,9 @@
+// $Id: UnicornClient.java,v 1.4 2009-09-24 17:39:16 tgambet Exp $
+// Author: Jean-Guilhem Rouel
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
+// Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -10,15 +11,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.action.Action;
-import org.w3c.unicorn.input.DirectInputParameter;
 import org.w3c.unicorn.input.URIInputParameter;
-import org.w3c.unicorn.input.UploadInputParameter;
 import org.w3c.unicorn.output.OutputFactory;
-import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.OutputModule;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
