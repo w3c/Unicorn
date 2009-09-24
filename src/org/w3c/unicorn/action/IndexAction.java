@@ -1,10 +1,11 @@
-// $Id: IndexAction.java,v 1.20 2009-09-22 08:57:35 tgambet Exp $Id $
+// $Id: IndexAction.java,v 1.21 2009-09-24 15:33:49 tgambet Exp $Id $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Map;
@@ -13,8 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.util.Language;
@@ -26,12 +27,12 @@ public class IndexAction extends Action {
 
 	private static final long serialVersionUID = 599055553694915687L;
 	
-	private static Log logger = LogFactory.getLog(IndexAction.class);
+	//private static Log logger = LogFactory.getLog(IndexAction.class);
 	
 	private VelocityContext velocityContext;
 	
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		if (!Framework.isUcnInitialized) {
 			Framework.init();
@@ -56,7 +57,6 @@ public class IndexAction extends Action {
 		} else {
 			lang = getLanguage((String) req.getParameter(paramPrefix + "lang"), req, messages);
 			task = getTask((String) req.getParameter(paramPrefix + "task"), null);
-			
 		}
 		
 		if (req.getAttribute("unicorn_messages") != null) {
@@ -119,13 +119,13 @@ public class IndexAction extends Action {
 			}
 		}
 		
+		PrintWriter writer = resp.getWriter();
 		if (req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest")) {
-			Templates.write("parameters.vm", velocityContext, resp.getWriter());
-			resp.getWriter().close();
+			Templates.write("parameters.vm", velocityContext, writer);
 		} else {
-			Templates.write("index.vm", velocityContext, resp.getWriter());
-			resp.getWriter().close();
+			Templates.write("index.vm", velocityContext, writer);
 		}
+		writer.close();
 	}
 
 	@Override
