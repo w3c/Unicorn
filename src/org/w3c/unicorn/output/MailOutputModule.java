@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.7 2009-09-23 16:59:53 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.8 2009-09-24 15:33:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,12 +8,11 @@ import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.util.Date;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
-
-import java.util.*; 
 import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UnicornAuthenticator;
@@ -23,7 +22,7 @@ import org.w3c.unicorn.util.UnicornAuthenticator;
  * 
  * @author Thomas GAMBET
  */
-public class MailOutputModule implements OutputModule {
+public class MailOutputModule extends OutputModule {
 	
 	private OutputFormater firstOutputFormater;
 	
@@ -33,11 +32,8 @@ public class MailOutputModule implements OutputModule {
 	
 	private String recipient;
 	
-	private Map<String, String> mapOfOutputParameters;
-	
 	public MailOutputModule(Map<String, String> mapOfOutputParameters, Map<String, String> mapOfSpecificParameters) {
-		this.mapOfOutputParameters = mapOfOutputParameters;
-		//this.mapOfSpecificParameters = mapOfSpecificParameters;
+		super(mapOfOutputParameters, mapOfSpecificParameters);
 		
 		recipient = mapOfSpecificParameters.get("email");
 		mimeType = mapOfOutputParameters.get("mimetype");
@@ -54,16 +50,14 @@ public class MailOutputModule implements OutputModule {
 	}
 	
 	public void produceFirstOutput(Map<String, Object> mapOfStringObject, Writer aWriter) {
-		try {
-			aWriter.append("mail en cours d'envoi.");
-			aWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//mapOfStringObject.put("baseUri", "http://qa-dev.w3.org/unicorn/");
+		
+		((ArrayList<org.w3c.unicorn.util.Message>) mapOfStringObject.get("messages")). add(new org.w3c.unicorn.util.Message(org.w3c.unicorn.util.Message.Level.INFO, "Le rapport est en cours d'envoi à l'adresse: " + recipient));
+		displayOnIndex(mapOfStringObject, aWriter);
 	}
 	
 	public void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) {
-	    
+		
 		try {
 			
 			mapOfStringObject.put("baseUri", "http://qa-dev.w3.org:8001/unicorn/");
@@ -92,7 +86,7 @@ public class MailOutputModule implements OutputModule {
 				subject += "SUCCEEDED: ";
 			else 
 				subject += "FAILED: ";
-			subject += "Task \"" + uniCall.getTask().getLongName(mapOfOutputParameters.get("lang")) + "\" for \"" + uniCall.getDocumentName() + "\"";
+			subject += "Task \"" + uniCall.getTask().getLongName(outputParameters.get("lang")) + "\" for \"" + uniCall.getDocumentName() + "\"";
 			
 			msg.setSubject(subject);
 			
@@ -116,10 +110,6 @@ public class MailOutputModule implements OutputModule {
 
 	public void produceError(Map<String, Object> mapOfStringObject, final Writer aWriter) {
 		firstOutputFormater.produceError(mapOfStringObject, aWriter);
-	}
-
-	public String getOutputParameter(String string) {
-		return mapOfOutputParameters.get(string);
 	}
 
 }
