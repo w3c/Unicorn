@@ -1,5 +1,5 @@
-// $Id: Framework.java,v 1.13 2009-09-23 12:57:28 tgambet Exp $
-// Author: Damien LEROY.
+// $Id: Framework.java,v 1.14 2009-09-24 17:37:53 tgambet Exp $
+// Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn;
@@ -50,7 +50,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 /**
  * Main class of the central module of UniCORN.
  * 
- * @author Damien LEROY
+ * @author Damien LEROY & Thomas GAMBET
  */
 public class Framework {
 
@@ -147,25 +147,17 @@ public class Framework {
 		}
 		
 		// Log4j initialization attempt
-		//String log4jPath = unicornHome.getPath() + "/WEB-INF/conf/log4j.properties";
 		String log4jPath = unicornHome.getPath() + "/WEB-INF/conf/log4j.xml";
-		//try {
-			//loadConfigFile(log4jPath, true);
-			//PropertyConfigurator.configure(unicornPropertiesFiles.get("log4j.properties"));
+		File log4jFile = new File(log4jPath);
+		if (log4jFile.exists()) {
 			DOMConfigurator.configure(log4jPath);
 			logger.info("OK - JVM parameter \"unicorn.home\" was found: " + unicornHome.getPath());
 			logger.info("OK - Log4j successfully initialized");
 			logger.debug("> Used log4j.properties file: " + log4jPath);
-			
-			//logger.debug("> Used log4j.properties file: " + log4jPath);
-			//logger.debug("> log4j.properties:" + (UCNProperties) unicornPropertiesFiles.get("log4j.properties")); // already logged by loadConfigFile()
-		/*} catch (FileNotFoundException e) {
+		} else {
 			logger.warn("Log4j config file \"log4j.properties\" could not be found: " + log4jPath);
 			logger.warn("Log4j will not be initialized");
-		} catch (IOException e) {
-			logger.error("Error reading \"log4j.properties\": ", e);
-			logger.warn("Log4j will not be initialized");
-		}*/
+		}
 		
 	}	
 	public static void initConfig() throws InitializationFailedException {
