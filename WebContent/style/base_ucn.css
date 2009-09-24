@@ -427,10 +427,11 @@ fieldset.toggled legend {
 	background-position:3px 0;
 	display:inline-block;
 	overflow:hidden;
+	font-size:0;
 	height:0;
 	width:0;
 	padding:18px 25px 0 0;
-	vertical-align:-20%;
+	vertical-align:bottom;
 }
 #observations div.observer h2 span.icons a.infos span {
 	background-image:url(../images/icone_info.png);
@@ -508,7 +509,7 @@ fieldset.toggled legend {
 	display:inline-block;
 	overflow:hidden;
 	padding:11px 0 0 11px;
-	background:url(../images/permalink.gif);
+	background:url(../images/permalink.gif) no-repeat;
 }
 #observations table {
 	border-collapse:collapse;
