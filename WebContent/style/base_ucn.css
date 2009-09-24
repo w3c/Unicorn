@@ -395,6 +395,7 @@ fieldset.toggled legend {
 #observations div.observer h2 a.direct_link {
 	height:0;
 	width:0;
+	font-size:0;
 	display:inline-block;
 	overflow:hidden;
 	padding:11px 0 0 12px;
@@ -403,6 +404,7 @@ fieldset.toggled legend {
 #observations div.observer h2 a.anchor {
 	height:0;
 	width:0;
+	font-size:0 !important;
 	display:inline-block;
 	overflow:hidden;
 	padding:1em 0 0 1.2em;
@@ -507,6 +509,8 @@ fieldset.toggled legend {
 	height:0;
 	width:0;
 	display:inline-block;
+	/*float:right;*/
+	font-size:0;
 	overflow:hidden;
 	padding:11px 0 0 11px;
 	background:url(../images/permalink.gif) no-repeat;
