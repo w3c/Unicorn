@@ -1,5 +1,5 @@
-// $Id: ObserveAction.java,v 1.42 2009-09-24 15:34:35 tgambet Exp $
-// Author: Jean-Guilhem Rouel
+// $Id: ObserveAction.java,v 1.43 2009-09-24 17:40:44 tgambet Exp $
+// Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.action;
@@ -106,6 +106,7 @@ public class ObserveAction extends Action {
 		// messages is the ArrayList containing the messages to display
 		mapOfStringObject.put("messages", messages);
 		mapOfStringObject.put("unicorncall", aUnicornCall);
+		mapOfStringObject.put("baseUri", "./");
 		
 		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=UTF-8");
 		
@@ -259,6 +260,7 @@ public class ObserveAction extends Action {
 		
 		// Launch the observation
 		try {
+			aUnicornCall.check();
 			aOutputModule.produceFirstOutput(mapOfStringObject, resp.getWriter());
 			aUnicornCall.doTask();
 			messages.addAll(aUnicornCall.getMessages());
