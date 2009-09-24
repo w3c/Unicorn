@@ -1,3 +1,7 @@
+// $Id: Action.java,v 1.12 2009-09-24 17:34:59 tgambet Exp $
+// Author: Thomas Gambet
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
+// Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.action;
 
 import java.io.IOException;
@@ -8,8 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.Message;
@@ -18,8 +21,6 @@ import org.w3c.unicorn.util.Property;
 public abstract class Action extends HttpServlet {
 	
 	private static final long serialVersionUID = -7503310240481494239L;
-	
-	private static Log logger = LogFactory.getLog(Action.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -51,7 +52,7 @@ public abstract class Action extends HttpServlet {
 			if (!queryString.equals("?"))
 				queryString += "&";
 		}
-		return queryString;
+		return StringEscapeUtils.escapeHtml(queryString);
 	}
 	
 	public String getLanguage(String langParameter, HttpServletRequest req, ArrayList<Message> messages) {
