@@ -29,13 +29,4 @@
     <servlet-name>Init</servlet-name>
     <url-pattern>/init</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <servlet-name>TestAction</servlet-name>
-    <servlet-class>org.w3c.unicorn.action.TestAction</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>TestAction</servlet-name>
-    <url-pattern>/test</url-pattern>
-  </servlet-mapping>
 </web-app>
