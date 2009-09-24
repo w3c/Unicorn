@@ -1,4 +1,4 @@
-// $Id: SimpleOutputFormater.java,v 1.6 2009-09-23 09:19:00 tgambet Exp $
+// $Id: SimpleOutputFormater.java,v 1.7 2009-09-24 15:29:35 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,7 +6,6 @@ package org.w3c.unicorn.output;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.velocity.VelocityContext;
@@ -62,13 +61,12 @@ public class SimpleOutputFormater implements OutputFormater {
 		this.format = outputFormat;
 	}
 	
-	public void produceOutput(final Map<String, Object> mapOfStringObject, final Writer output) {
-
+	public void produceOutput(Map<String, Object> mapOfStringObject, Writer output) {
 		logger.trace("produceOutput");
 		logger.debug("Map of String -> Object : " + mapOfStringObject + ".");
 		logger.debug("Writer : " + output + ".");
 		
-		for (final String sObjectName : mapOfStringObject.keySet())
+		for (String sObjectName : mapOfStringObject.keySet())
 			aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));
 		
 		Templates.write(format + ".vm", aVelocityContext, output);
@@ -79,13 +77,12 @@ public class SimpleOutputFormater implements OutputFormater {
 		}
 	}
 
-	public void produceError(Map<String, Object> mapOfStringObject, final Writer output) {
-		
+	public void produceError(Map<String, Object> mapOfStringObject, Writer output) {
 		logger.trace("produceError");
 		logger.debug("Writer : " + output + ".");
 		
-		ArrayList<?> messages = (ArrayList<?>) mapOfStringObject.get("messages");
-		aVelocityContext.put("messages", messages);
+		for (String sObjectName : mapOfStringObject.keySet())
+			aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));
 		
 		Templates.write(format + ".error.vm", aVelocityContext, output);
 		try {
