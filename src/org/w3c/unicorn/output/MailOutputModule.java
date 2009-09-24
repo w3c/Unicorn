@@ -1,24 +1,26 @@
-// $Id: MailOutputModule.java,v 1.8 2009-09-24 15:33:03 tgambet Exp $
-// Author: Damien LEROY.
-// (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
+// $Id: MailOutputModule.java,v 1.9 2009-09-24 17:42:22 tgambet Exp $
+// Author: Thomas Gambet
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
 
 import java.io.CharArrayWriter;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.Date;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Properties;
+import org.w3c.unicorn.util.Message;
 import javax.mail.*;
 import javax.mail.internet.*;
 import org.w3c.unicorn.UnicornCall;
+import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UnicornAuthenticator;
 
 /**
- * This module allow to generate output in mail format.
+ * This module allows to send the response by mail.
  * 
  * @author Thomas GAMBET
  */
@@ -49,17 +51,32 @@ public class MailOutputModule extends OutputModule {
 		mailOutputFormater = OutputFactory.createOutputFormater(format, lang, mimeType);
 	}
 	
-	public void produceFirstOutput(Map<String, Object> mapOfStringObject, Writer aWriter) {
+	@SuppressWarnings("unchecked")
+	public void produceFirstOutput(Map<String, Object> mapOfStringObject, Writer aWriter) throws UnicornException {
 		//mapOfStringObject.put("baseUri", "http://qa-dev.w3.org/unicorn/");
 		
-		((ArrayList<org.w3c.unicorn.util.Message>) mapOfStringObject.get("messages")). add(new org.w3c.unicorn.util.Message(org.w3c.unicorn.util.Message.Level.INFO, "Le rapport est en cours d'envoi à l'adresse: " + recipient));
+		ArrayList<Message> messages = ((ArrayList<Message>) mapOfStringObject.get("messages"));
+		Message pendingMess = new Message(Message.Level.INFO, "Le rapport est en cours d'envoi à l'adresse: " + recipient);
+		
+		if (recipient == null) {
+			throw new UnicornException(new Message(Message.Level.ERROR, "Aucune adresse email spécifiée. Rajoutez &opt_email=votre.adresse@mail.com à la requête."));
+		} else {
+			messages.add(pendingMess);
+		}
 		displayOnIndex(mapOfStringObject, aWriter);
+		messages.remove(pendingMess);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) {
 		
+		if (recipient == null)
+			return;
+		
+		ArrayList<Message> messages = ((ArrayList<Message>) mapOfStringObject.get("messages"));
+		messages.add(new Message(Message.Level.INFO, "Observation effectuée le " + new Date()));
+		
 		try {
-			
 			mapOfStringObject.put("baseUri", "http://qa-dev.w3.org:8001/unicorn/");
 			
 			Properties mailProps = Property.getProps("mail.properties");
@@ -71,11 +88,11 @@ public class MailOutputModule extends OutputModule {
 				debug = true;
 			
 			session.setDebug(debug);
-		    Message msg = new MimeMessage(session);
+			javax.mail.Message msg = new MimeMessage(session);
 		    
 		    InternetAddress addressFrom = new InternetAddress(mailProps.getProperty("unicorn.mail.from"), "Unicorn");
 			msg.setFrom(addressFrom);
-			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+			msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(recipient));
 			
 			// Setting the Subject and Content Type
 			UnicornCall uniCall = (UnicornCall) mapOfStringObject.get("unicorncall");
@@ -109,6 +126,10 @@ public class MailOutputModule extends OutputModule {
 	}
 
 	public void produceError(Map<String, Object> mapOfStringObject, final Writer aWriter) {
+		if (outputParameters.get("mimetype").equals("text/html")) {
+			displayOnIndex(mapOfStringObject, aWriter);
+			return;
+		}
 		firstOutputFormater.produceError(mapOfStringObject, aWriter);
 	}
 
