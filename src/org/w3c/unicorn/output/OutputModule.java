@@ -1,4 +1,4 @@
-// $Id: OutputModule.java,v 1.9 2009-09-24 15:28:42 tgambet Exp $
+// $Id: OutputModule.java,v 1.10 2009-09-24 17:43:13 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
+import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.Templates;
 
@@ -36,13 +37,13 @@ public abstract class OutputModule {
 	 * Generate a first output before the requests are launched.
 	 * 
 	 */
-	public abstract void produceFirstOutput(Map<String, Object> mapOfStringObject, final Writer aWriter);
+	public abstract void produceFirstOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) throws UnicornException;
 	
 	/**
 	 * Generate the output of all response.
 	 * 
 	 */
-	public abstract void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter);
+	public abstract void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) throws UnicornException;
 
 	/**
 	 * Generates an error output
