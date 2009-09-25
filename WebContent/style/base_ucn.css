@@ -442,13 +442,13 @@ fieldset.toggled legend {
 	margin-right:4px;
 }
 #observations div.observer h2 span.icons a.infos span.legend {
-	background:url(../images/icons_sprite.png) no-repeat 0 0;
+	background:url(../images/unicons_sprite.png) no-repeat 0 -40px;
 }
 #observations div.observer h2 span.icons a.errors span.legend {
-	background:url(../images/icons_sprite.png) no-repeat 0 -36px;
+	background:url(../images/unicons_sprite.png) no-repeat -18px -40px;
 }
 #observations div.observer h2 span.icons a.warnings span.legend {
-	background:url(../images/icons_sprite.png) no-repeat 0 -18px;
+	background:url(../images/unicons_sprite.png) no-repeat 0 -58px;
 }
 #observations div.observer h2 span.icons img {
 	vertical-align: -20%;
