@@ -399,7 +399,10 @@ fieldset.toggled legend {
 	display:inline-block;
 	overflow:hidden;
 	padding:11px 0 0 12px;
-	background:url(../images/external_link_2.gif) no-repeat;
+	background:url(../images/sprite_links.png) no-repeat -22px 0;
+}
+#observations div.observer h2 a.direct_link:hover {
+	background:url(../images/sprite_links.png) no-repeat -22px -11px;
 }
 #observations div.observer h2 a.anchor {
 	height:0;
@@ -407,9 +410,11 @@ fieldset.toggled legend {
 	font-size:0 !important;
 	display:inline-block;
 	overflow:hidden;
-	padding:1em 0 0 1.2em;
-	background:url(../images/permalink.png) no-repeat 0.2em 0;
-	vertical-align:-15%;
+	padding:11px 0 0 11px;
+	background:url(../images/sprite_links.png) no-repeat -11px 0;
+}
+#observations div.observer h2 a.anchor:hover {
+	background:url(../images/sprite_links.png) no-repeat -11px -11px;
 }
 #observations div.observer h2 span.name {
 	font-style: italic;
@@ -475,12 +480,13 @@ fieldset.toggled legend {
 	border-bottom:1px solid #CCCCCC;
 }
 #observations h3 a.anchor {
-	height:0;
+	/*height:0;
 	width:0;
 	overflow:hidden;
 	padding:15px 0 0 23px;
 	background:url(../images/permalink.gif) no-repeat 6px 2px;
-	float:right;
+	float:right;*/
+	margin: 2px 6px 0 0;
 }
 #observations .infos h3 {
 	color: #17882a;
@@ -505,15 +511,18 @@ fieldset.toggled legend {
 	width:11px;
 	text-align:right;
 }
-#observations td.anchor a {
+#observations td.anchor a, #observations h3 a.anchor {
 	height:0;
 	width:0;
-	display:inline-block;
-	/*float:right;*/
+	/*display:inline-block;*/
+	float:right;
 	font-size:0;
 	overflow:hidden;
 	padding:11px 0 0 11px;
-	background:url(../images/permalink.gif) no-repeat;
+	background:url(../images/sprite_links.png) no-repeat 0 0;
+}
+#observations td.anchor a:hover, #observations h3 a.anchor:hover {
+	background:url(../images/sprite_links.png) no-repeat 0 -11px;
 }
 #observations table {
 	border-collapse:collapse;
