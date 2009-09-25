@@ -381,7 +381,6 @@ fieldset.toggled legend {
 #observations div.observer h2 {
 	font-size: 1.3em;
 	padding: 0.3em;
-	padding-left: 0.5em;
 	text-align:left;
 	color:white
 }
@@ -571,35 +570,34 @@ div#markup-validator td.info code, div#css-validator td.info code, div#css1-vali
 	color:#444444;
 }
 
-div.errors h3.toggles {
-	background: url(../images/arrow_red_closed_2.png) no-repeat left 55%;
-	padding-left:10px !important;
+#observations span.arrow {
+	display:inline-block;
+	height:9px;
+	width:9px;
 }
-div.errors h3.toggled {
-	background: url(../images/arrow_red_open_2.png) no-repeat left 55%;
-	padding-left:10px !important;
+div.errors h3 span.arrow {
+	background: url(../images/sprite_arrow.png) no-repeat -18px 0;
 }
-div.infos h3.toggles {
-	background: url(../images/arrow_green_closed_2.png) no-repeat left 55%;
-	padding-left:10px !important;
+div.errors h3.toggled span.arrow {
+	background: url(../images/sprite_arrow.png) no-repeat -18px -9px;
 }
-div.infos h3.toggled {
-	background: url(../images/arrow_green_open_2.png) no-repeat left 55%;
-	padding-left:10px !important;
+div.infos h3 span.arrow {
+	background: url(../images/sprite_arrow.png) no-repeat 0 0;
 }
-div.warnings h3.toggles {
-	background: url(../images/arrow_yellow_closed_2.png) no-repeat left 55%;
-	padding-left:10px !important;
+div.infos h3.toggled span.arrow {
+	background: url(../images/sprite_arrow.png) no-repeat 0 -9px;
 }
-div.warnings h3.toggled {
-	background: url(../images/arrow_yellow_open_2.png) no-repeat left 55%;
-	padding-left:10px !important;
+div.warnings h3 span.arrow {
+	background: url(../images/sprite_arrow.png) no-repeat -9px 0;
 }
-div.observer h2.toggles {
-	background: url(../images/arrow_white_closed.png) no-repeat 4px 50%;
-	padding-left:17px !important;
+div.warnings h3.toggled span.arrow {
+	background: url(../images/sprite_arrow.png) no-repeat -9px -9px;
 }
-div.observer h2.toggled {
-	background: url(../images/arrow_white_open.png) no-repeat 4px 50%;
-	padding-left:17px !important;
+div.observer h2 span.arrow {
+	background: url(../images/sprite_arrow.png) no-repeat -27px 0;
+	margin-bottom:1px;
+}
+div.observer h2.toggled span.arrow {
+	background: url(../images/sprite_arrow.png) no-repeat -27px -9px;
+	margin-bottom:0;
 }

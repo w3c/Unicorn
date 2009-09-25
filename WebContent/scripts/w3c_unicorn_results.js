@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_results.js,v 1.10 2009-09-15 16:00:12 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.11 2009-09-25 14:11:08 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
@@ -11,7 +11,13 @@ var W3C = {
 		
 		$$('.title').each(function(title) {
 			title.addClass('pointer');
-			title.addClass('toggles');
+			var iconHolder = new Element('span', {class: 'arrow'});
+			var a;
+			if (title.getElement('span.icons') != null)
+				a = title.getElement('span.icons');
+			else
+				a = title.getElement('a.anchor');
+			iconHolder.inject(a, 'after');
 		});
 		
 		$$('.section').each(function(section) {
