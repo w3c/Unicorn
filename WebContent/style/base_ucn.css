@@ -429,24 +429,23 @@ fieldset.toggled legend {
 	text-decoration:none;
 }
 #observations div.observer h2 span.icons a span {
-	background-repeat:no-repeat;
-	background-position:3px 0;
 	display:inline-block;
 	overflow:hidden;
 	font-size:0;
 	height:0;
 	width:0;
-	padding:18px 25px 0 0;
+	padding:18px 18px 0 0;
 	vertical-align:bottom;
+	margin-right:4px;
 }
 #observations div.observer h2 span.icons a.infos span {
-	background-image:url(../images/icone_info.png);
+	background:url(../images/icons_sprite.png) no-repeat 0 0;
 }
 #observations div.observer h2 span.icons a.errors span {
-	background-image:url(../images/icone_error.png);
+	background:url(../images/icons_sprite.png) no-repeat 0 -18px;
 }
 #observations div.observer h2 span.icons a.warnings span {
-	background-image:url(../images/icone_warning.png);
+	background:url(../images/icons_sprite.png) no-repeat 0 -36px;
 }
 #observations div.observer h2 span.icons img {
 	vertical-align: -20%;
@@ -576,28 +575,28 @@ div#markup-validator td.info code, div#css-validator td.info code, div#css1-vali
 	width:9px;
 }
 div.errors h3 span.arrow {
-	background: url(../images/sprite_arrow.png) no-repeat -18px 0;
+	background: url(../images/unicons_sprite.png) no-repeat -18px 0;
 }
 div.errors h3.toggled span.arrow {
-	background: url(../images/sprite_arrow.png) no-repeat -18px -9px;
+	background: url(../images/unicons_sprite.png) no-repeat -18px -9px;
 }
 div.infos h3 span.arrow {
-	background: url(../images/sprite_arrow.png) no-repeat 0 0;
+	background: url(../images/unicons_sprite.png) no-repeat 0 0;
 }
 div.infos h3.toggled span.arrow {
-	background: url(../images/sprite_arrow.png) no-repeat 0 -9px;
+	background: url(../images/unicons_sprite.png) no-repeat 0 -9px;
 }
 div.warnings h3 span.arrow {
-	background: url(../images/sprite_arrow.png) no-repeat -9px 0;
+	background: url(../images/unicons_sprite.png) no-repeat -9px 0;
 }
 div.warnings h3.toggled span.arrow {
-	background: url(../images/sprite_arrow.png) no-repeat -9px -9px;
+	background: url(../images/unicons_sprite.png) no-repeat -9px -9px;
 }
 div.observer h2 span.arrow {
-	background: url(../images/sprite_arrow.png) no-repeat -27px 0;
+	background: url(../images/unicons_sprite.png) no-repeat -27px 0;
 	margin-bottom:1px;
 }
 div.observer h2.toggled span.arrow {
-	background: url(../images/sprite_arrow.png) no-repeat -27px -9px;
+	background: url(../images/unicons_sprite.png) no-repeat -27px -9px;
 	margin-bottom:0;
 }
