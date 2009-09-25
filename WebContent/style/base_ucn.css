@@ -428,7 +428,10 @@ fieldset.toggled legend {
 #observations div.observer h2 span.icons a:hover {
 	text-decoration:none;
 }
-#observations div.observer h2 span.icons a span {
+#observations div.observer h2 span.icons a:hover span.count {
+	text-decoration:underline;
+}
+#observations div.observer h2 span.icons a span.legend {
 	display:inline-block;
 	overflow:hidden;
 	font-size:0;
@@ -438,14 +441,14 @@ fieldset.toggled legend {
 	vertical-align:bottom;
 	margin-right:4px;
 }
-#observations div.observer h2 span.icons a.infos span {
+#observations div.observer h2 span.icons a.infos span.legend {
 	background:url(../images/icons_sprite.png) no-repeat 0 0;
 }
-#observations div.observer h2 span.icons a.errors span {
-	background:url(../images/icons_sprite.png) no-repeat 0 -18px;
-}
-#observations div.observer h2 span.icons a.warnings span {
+#observations div.observer h2 span.icons a.errors span.legend {
 	background:url(../images/icons_sprite.png) no-repeat 0 -36px;
+}
+#observations div.observer h2 span.icons a.warnings span.legend {
+	background:url(../images/icons_sprite.png) no-repeat 0 -18px;
 }
 #observations div.observer h2 span.icons img {
 	vertical-align: -20%;

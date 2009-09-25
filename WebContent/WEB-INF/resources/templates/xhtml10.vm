@@ -40,9 +40,9 @@
 <div class="observer section #if($observation.isPassed()) valid #else invalid #end" id="$observationName">
 	<h2 class="title">
 		<span class="icons">
-			#if ($infoCount && $infoCount > 0)<a class="infos"><span>Infos:</span>$infoCount</a> #end
-			#if ($errorCount && $errorCount > 0)<a class="errors"><span>Errors:</span>$errorCount</a> #end
-			#if ($warningCount && $warningCount > 0)<a class="warnings"><span>Warnings:</span>$warningCount</a> #end
+			#if ($infoCount && $infoCount > 0)<a class="infos"><span class="legend">Infos:</span><span class="count">$infoCount</span></a> #end
+			#if ($errorCount && $errorCount > 0)<a class="errors"><span class="legend">Errors:</span><span class="count">$errorCount</span></a> #end
+			#if ($warningCount && $warningCount > 0)<a class="warnings"><span class="legend">Warnings:</span><span class="count">$warningCount</span></a> #end
 			<a class="anchor smooth" href="#$observationName" title="anchor to this observation">[anchor]</a>
 		</span>
 		#if($observation.isPassed())
