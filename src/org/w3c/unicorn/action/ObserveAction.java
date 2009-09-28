@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.43 2009-09-24 17:40:44 tgambet Exp $
+// $Id: ObserveAction.java,v 1.44 2009-09-28 14:24:19 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -108,13 +108,12 @@ public class ObserveAction extends Action {
 		mapOfStringObject.put("unicorncall", aUnicornCall);
 		mapOfStringObject.put("baseUri", "./");
 		
-		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=UTF-8");
-		
 		// Retrieve the parameters from the request
 		Map<String, Object> reqParams;
 		try {
 			reqParams = getRequestParameters(req);
 		} catch (FileUploadException e) {
+			resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=UTF-8");
 			OutputModule aOutputModule = OutputFactory.createOutputModule(mapOfOutputParameter, mapOfSpecificParameter);
 			messages.add(new Message(e));
 			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
@@ -213,6 +212,7 @@ public class ObserveAction extends Action {
 		}
 		
 		OutputModule aOutputModule = OutputFactory.createOutputModule(mapOfOutputParameter, mapOfSpecificParameter);
+		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=UTF-8");
 		
 		if (!reqParams.containsKey(paramPrefix + "uri") && !reqParams.containsKey(paramPrefix + "text") && !reqParams.containsKey(paramPrefix + "file")) {
 			messages.add(new Message(Message.Level.ERROR, "$message_nothing_to_validate", null));
