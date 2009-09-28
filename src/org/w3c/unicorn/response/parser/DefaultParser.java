@@ -162,7 +162,8 @@ public class DefaultParser implements ResponseParser {
 			// just don't set the column. Or set it to 0?
 		}
 		try {
-			y.setContext(x.getContext());
+			if (x.getContext() != null)
+				y.setContext(x.getContext().trim());
 		} catch(XmlValueOutOfRangeException e) {
 			// just don't set the context. Or set it to 0?
 		}
@@ -208,7 +209,8 @@ public class DefaultParser implements ResponseParser {
 			// just don't set the column. Or set it to 0?
 		}
 		try {
-			y.setContext(x.getContext());
+			if (x.getContext() != null)
+				y.setContext(x.getContext().trim());
 		} catch(XmlValueOutOfRangeException e) {
 			// just don't set the context. Or set it to 0?
 		}
@@ -245,7 +247,8 @@ public class DefaultParser implements ResponseParser {
 		Info y = new Info();
 		y.setLine(x.getLine());
 		y.setColumn(x.getColumn());
-		y.setContext(x.getContext());
+		if (x.getContext() != null)
+			y.setContext(x.getContext().trim());
 		y.setMessage(swapListMessage(x.getMessageList(), lang));
 		y.setLongmessage(swapListLongmessage(x.getLongmessageList(), lang));
 		return y;
@@ -264,7 +267,7 @@ public class DefaultParser implements ResponseParser {
 	private List<LocalizedString> swapListMessage(List<String> x, String lang) {
 		List<LocalizedString> y = new ArrayList<LocalizedString>();
 		for (Object ox : x) {
-			String cox = (String) ox;
+			String cox = ((String) ox).trim();
 			LocalizedString coy = new LocalizedString(cox, lang);
 			y.add(coy);
 		}
