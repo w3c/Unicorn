@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.9 2009-09-24 17:42:22 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.10 2009-09-28 16:41:18 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -47,6 +47,8 @@ public class MailOutputModule extends OutputModule {
 		
 		if (mapOfSpecificParameters.get("format") != null)
 			format = mapOfSpecificParameters.get("format");
+		if (mapOfSpecificParameters.get("mimetype") != null)
+			mimeType = mapOfSpecificParameters.get("mimetype");
 		
 		mailOutputFormater = OutputFactory.createOutputFormater(format, lang, mimeType);
 	}
@@ -69,6 +71,10 @@ public class MailOutputModule extends OutputModule {
 	
 	@SuppressWarnings("unchecked")
 	public void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) {
+		
+		
+		// TODO http://java.sun.com/developer/EJTechTips/2004/tt0625.html#1 for multipart messages
+		
 		
 		if (recipient == null)
 			return;
@@ -96,7 +102,7 @@ public class MailOutputModule extends OutputModule {
 			
 			// Setting the Subject and Content Type
 			UnicornCall uniCall = (UnicornCall) mapOfStringObject.get("unicorncall");
-			boolean passed = ((UnicornCall) mapOfStringObject.get("unicorncall")).isPassed();
+			boolean passed = uniCall.isPassed();
 			
 			String subject = "[Unicorn] ";
 			if (passed)
