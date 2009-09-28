@@ -1,114 +1,23 @@
-#macro(error $error)
--- Error -------------------------
-#if($error.Line)Line $error.Line #end #if($error.Column)Column $error.Column #end:
-#foreach($message in $error.Message)
->> error.Message: $message
-#end
-#if($error.Context && $error.Context != "")
->> error.Context: $error.Context
-#end
-#foreach($longMessage in $error.Longmessage)
-#foreach($longMessagePiece in $longMessage.Content)
->> error.longMessagePiece: $longMessagePiece
+#if ($messages.size() > 0)
+#foreach ($message in $messages)
+#if ($message.Level == "ERROR")
+Error:
+	#evaluate($message.Message)
+	$!{message.Content}
 #end
 #end
-#end
-
-#macro(info $information)
--- Information -------------------
-#if($information.Line)Line $information.Line #end #if($information.Column)Column $information.Column #end:
-#foreach($message in $information.Message)
->> information.Message: $message
-#end
-#if($information.Context && $information.Context != "")
->> information.Context: $information.Context
-#end
-#foreach($longMessage in $information.Longmessage)
-#foreach($longMessagePiece in $longMessage.Content)
->> information.longMessagePiece: $longMessagePiece
+#foreach ($message in $messages)
+#if ($message.Level == "WARNING")
+Warning:
+	#evaluate($message.Message)
+	$!{message.Content}
 #end
 #end
-#end
-
-#macro(warning $warning)
--- Alerte -----------------------
-#if($warning.Line)Line $warning.Line #end #if($warning.Column)Column $warning.Column #end:
-#foreach($message in $warning.Message)
->> warning.Message: $message
-#end
-#if($warning.Context && $warning.Context != "")
->> warning.Context: $warning.Context
-#end
-#foreach($longMessage in $warning.Longmessage)
-#foreach($longMessagePiece in $longMessage.Content)
->> warning.longMessagePiece: $longMessagePiece
+#foreach ($message in $messages)
+#if ($message.Level == "INFO")
+Info:
+	#evaluate($message.Message)
+	$!{message.Content}
 #end
 #end
-#end
-
-#macro(produceErrors $errors)
-// Errors /////////////////////////////////////////
-
-#foreach($errorList in $errors.Errorlist)
->>>> Location: $errorList.Uri
-#foreach($error in $errorList.Error)
-#error($error)
-#end
-#end
-#end
-
-#macro(produceWarnings $warnings)
-// Alerts ///////////////////////////////////////
-
-#foreach($warningList in $warnings.Warninglist)
-#if($warningList.Warning && $warningList.Warning.size() != 0)
->>>> Location: $warningList.Uri
-#foreach($warning in $warningList.Warning)
-#warning($warning)
-#end
-#end
-#end
-#end
-
-#macro(produceInfos $infos)
-// Informations ///////////////////////////////////
-
-#foreach($infoList in $infos.Infolist)
->>>> Location: $infoList.Uri
-#foreach($information in $infoList.Info)
-#info($information)
-#end
-#end
-#end
-
-
-#set($observationList = $unicorncall.ObservationList)
-#foreach($observationName in $observationList.keySet())
-#set($observation = $observationList.get($observationName))
-
-
-
-========================= $observationName ====================================
-
-#if($observation.isPassed())
-> Le document est valide le test #if($observation.getVersion()) $observation.getVersion().toUpperCase() #else $observationName #end !
-#else
-> Le document ne passe pas le test #if($observation.getVersion()) $observation.getVersion().toUpperCase() #else $observationName #end !
-#produceErrors($observation.Result.Errors)
-#end
-
-
-#if($observation.Result.Informations)
-#produceInfos($observation.Result.Informations)
-#end
-#if($observation.Result.Warnings)
-#produceWarnings($observation.Result.Warnings)
-#end
-#end
-
-#if(!$unicorncall.haveHighPassed())
-$fail_high_priority
-#end
-#if(!$unicorncall.haveMediumPassed())
-$fail_medium_priority
 #end
