@@ -29,7 +29,7 @@ Info:
 #set ($errorCount = $observation.getErrorCount())
 #set ($warningCount = $observation.getWarningCount())
 ==================================================================================================================================================
->> #if($observation.isPassed())$test_ok_1#else$test_fail_1#end $unicorncall.getObserverName($observationName, $lang)#if($observation.Rating) ($observation.Rating/100)#end
+=> #if($observation.isPassed())$test_ok_1#else$test_fail_1#end $unicorncall.getObserverName($observationName, $lang)#if($observation.Rating) ($observation.Rating/100)#end
 
 #if($infoCount && $infoCount > 0)   Infos: $infoCount
 #end#if($errorCount && $errorCount > 0)   Errors: $errorCount
@@ -42,9 +42,9 @@ Infos ($infoCount)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 #foreach($result in $observation.getResultsList())
 #if(!$result.Infos.isEmpty())
-#if ($unicorncall.getInputMethod() == "URI")>> URI : $result.Uri#end
-#if ($unicorncall.getInputMethod() == "UPLOAD")>> File : $result.Uri#end
-#if ($unicorncall.getInputMethod() == "DIRECT")>> File : Direct Input#end
+#if ($unicorncall.getInputMethod() == "URI")=> URI : $result.Uri#end
+#if ($unicorncall.getInputMethod() == "UPLOAD")=> File : $result.Uri#end
+#if ($unicorncall.getInputMethod() == "DIRECT")=> File : Direct Input#end
 
 #foreach($info in $result.Infos)
    -#if($info.Line) Line:$info.Line#end#if($info.Column) Column:$info.Column#end#if($info.Context) Context:$info.Context#end
@@ -70,9 +70,9 @@ Errors ($errorCount)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 #foreach($result in $observation.getResultsList())
 #if(!$result.Errors.isEmpty())
-#if ($unicorncall.getInputMethod() == "URI")>> URI : $result.Uri#end
-#if ($unicorncall.getInputMethod() == "UPLOAD")>> File : $result.Uri#end
-#if ($unicorncall.getInputMethod() == "DIRECT")>> File : Direct Input#end
+#if ($unicorncall.getInputMethod() == "URI")=> URI : $result.Uri#end
+#if ($unicorncall.getInputMethod() == "UPLOAD")=> File : $result.Uri#end
+#if ($unicorncall.getInputMethod() == "DIRECT")=> File : Direct Input#end
 
 #foreach($error in $result.Errors)
    -#if($error.Line) Line:$error.Line#end#if($error.Column) Column:$error.Column#end#if($error.Context) Context:$error.Context#end
@@ -98,9 +98,9 @@ Warnings ($warningCount)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 #foreach($result in $observation.getResultsList())
 #if(!$result.Warnings.isEmpty())
-#if ($unicorncall.getInputMethod() == "URI")>> URI : $result.Uri#end
-#if ($unicorncall.getInputMethod() == "UPLOAD")>> File : $result.Uri#end
-#if ($unicorncall.getInputMethod() == "DIRECT")>> File : Direct Input#end
+#if ($unicorncall.getInputMethod() == "URI")=> URI : $result.Uri#end
+#if ($unicorncall.getInputMethod() == "UPLOAD")=> File : $result.Uri#end
+#if ($unicorncall.getInputMethod() == "DIRECT")=> File : Direct Input#end
 
 #foreach($warning in $result.Warnings)
    -#if($warning.Line) Line:$warning.Line#end#if($warning.Column) Column:$warning.Column#end#if($warning.Context) Context:$warning.Context#end
