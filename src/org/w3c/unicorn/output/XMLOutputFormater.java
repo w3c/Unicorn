@@ -1,4 +1,4 @@
-// $Id: XMLOutputFormater.java,v 1.6 2009-09-23 09:20:10 tgambet Exp $
+// $Id: XMLOutputFormater.java,v 1.7 2009-09-29 16:05:58 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -22,10 +22,6 @@ public class XMLOutputFormater extends SimpleOutputFormater {
 		final EventCartridge aEventCartridge = new EventCartridge();
 		aEventCartridge.addEventHandler(new XHTMLize());
 		aEventCartridge.attachToContext(aVelocityContext);
-	}
-	
-	public void setLang(String lang) {
-		super.setLang(lang);
 	}
 
 }
