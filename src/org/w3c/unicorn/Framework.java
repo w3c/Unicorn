@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.14 2009-09-24 17:37:53 tgambet Exp $
+// $Id: Framework.java,v 1.15 2009-09-29 16:10:10 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -91,7 +91,7 @@ public class Framework {
 	private static String[] configFiles = {
 		"extensions.properties",
 		"responseParsers.properties",
-		"specialFormaters.properties",
+		"output.properties",
 		"velocity.properties",
 		"mail.properties"};
 
