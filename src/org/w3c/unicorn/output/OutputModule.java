@@ -1,4 +1,4 @@
-// $Id: OutputModule.java,v 1.10 2009-09-24 17:43:13 tgambet Exp $
+// $Id: OutputModule.java,v 1.11 2009-09-29 16:04:35 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -22,6 +22,8 @@ import org.w3c.unicorn.util.Templates;
  */
 public abstract class OutputModule {
 	
+	protected OutputFormater defaultOutputFormater;
+	
 	protected Map<String, String> outputParameters;
 	
 	protected Map<String, String> specificParameters;
@@ -31,25 +33,32 @@ public abstract class OutputModule {
 	public OutputModule(Map<String, String> mapOfOutputParameters, Map<String, String> mapOfSpecificParameters) {
 		this.outputParameters = mapOfOutputParameters;
 		this.specificParameters = mapOfSpecificParameters;
+		this.defaultOutputFormater = OutputFactory.createOutputFormater(outputParameters.get("format"), outputParameters.get("lang"));
 	}
 	
 	/**
 	 * Generate a first output before the requests are launched.
 	 * 
 	 */
-	public abstract void produceFirstOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) throws UnicornException;
+	public void produceFirstOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) throws UnicornException {
+		return;
+	}
 	
 	/**
 	 * Generate the output of all response.
 	 * 
 	 */
-	public abstract void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) throws UnicornException;
+	public void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) throws UnicornException {
+		defaultOutputFormater.produceOutput(mapOfStringObject, aWriter);
+	}
 
 	/**
 	 * Generates an error output
 	 * 
 	 */
-	public abstract void produceError(Map<String, Object> mapOfStringObject, final Writer aWriter);
+	public void produceError(Map<String, Object> mapOfStringObject, final Writer aWriter) {
+		defaultOutputFormater.produceError(mapOfStringObject, aWriter);
+	}
 
 	protected void displayOnIndex(Map<String, Object> mapOfStringObject, Writer writer) {
 		VelocityContext context = new VelocityContext(Language.getContext(outputParameters.get("lang")));
@@ -77,4 +86,7 @@ public abstract class OutputModule {
 		this.outputParameters = mapOfOutputParameters;
 	}
 	
+	public String getMimeType() {
+		return defaultOutputFormater.getMimeType();
+	}
 }
