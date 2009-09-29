@@ -1,4 +1,4 @@
-// $Id: SimpleOutputFormater.java,v 1.7 2009-09-24 15:29:35 tgambet Exp $
+// $Id: SimpleOutputFormater.java,v 1.8 2009-09-29 16:07:08 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,47 +18,22 @@ import org.w3c.unicorn.util.Templates;
  * 
  * @author Jean-Guilhem ROUEL
  */
-public class SimpleOutputFormater implements OutputFormater {
+public class SimpleOutputFormater extends OutputFormater {
 
 	protected VelocityContext aVelocityContext;
 	
-	private String format;
-	
-	private String lang;
-	
 	public SimpleOutputFormater() {
-		setLang(Property.get("DEFAULT_LANGUAGE"));
-		setFormat(Property.get("DEFAULT_FORMAT"));
+		this(Property.get("DEFAULT_FORMAT"), Property.get("DEFAULT_LANGUAGE"));
 	}
 
 	public SimpleOutputFormater(final String format, final String lang) {
-		logger.trace("Constructor");
-		logger.debug("Output format : " + format + ".");
-		logger.debug("Output language : " + lang + ".");
+		super(format, lang);
 		
-		setFormat(format);
-		setLang(lang);		
-	}
-
-	public String getLang() {
-		return lang;
-	}
-
-	public void setLang(String lang) {
-		this.lang = lang;
 		if (Framework.getLanguageContexts().get(lang) != null) {
 			aVelocityContext = new VelocityContext(Framework.getLanguageContexts().get(lang));
 		} else {
 			aVelocityContext = new VelocityContext(Framework.getLanguageContexts().get(Property.get("DEFAULT_LANGUAGE")));
 		}
-	}
-
-	public String getFormat() {
-		return format;
-	}
-
-	public void setFormat(String outputFormat) {
-		this.format = outputFormat;
 	}
 	
 	public void produceOutput(Map<String, Object> mapOfStringObject, Writer output) {
