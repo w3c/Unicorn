@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.44 2009-09-28 14:24:19 tgambet Exp $
+// $Id: ObserveAction.java,v 1.45 2009-09-29 16:01:40 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -92,9 +92,6 @@ public class ObserveAction extends Action {
 		
 		// Default output parameters
 		mapOfOutputParameter.put("output", "simple");
-		mapOfOutputParameter.put("format", "xhtml10");
-		mapOfOutputParameter.put("charset", "UTF-8");
-		mapOfOutputParameter.put("mimetype", "text/html");
 		
 		// Retrieve parameter prefixes from unicorn.properties
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
@@ -212,15 +209,13 @@ public class ObserveAction extends Action {
 		}
 		
 		OutputModule aOutputModule = OutputFactory.createOutputModule(mapOfOutputParameter, mapOfSpecificParameter);
-		resp.setContentType(mapOfOutputParameter.get("mimetype") + "; charset=UTF-8");
+		resp.setContentType(aOutputModule.getMimeType() + "; charset=UTF-8");
 		
 		if (!reqParams.containsKey(paramPrefix + "uri") && !reqParams.containsKey(paramPrefix + "text") && !reqParams.containsKey(paramPrefix + "file")) {
 			messages.add(new Message(Message.Level.ERROR, "$message_nothing_to_validate", null));
 			aOutputModule.produceError( mapOfStringObject, resp.getWriter());
 			return;
 		}
-		
-		//req.setAttribute("unicorn_parameters", reqParams);
 		
 		for (Object objKey : reqParams.keySet()) {
 			String key = (String) objKey;
