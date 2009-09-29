@@ -574,8 +574,11 @@ div#markup-validator td.info code, div#css-validator td.info code, div#css1-vali
 
 #observations span.arrow {
 	display:inline-block;
-	height:9px;
-	width:9px;
+	height:0;
+	width:0;
+	padding:9px 0 0 9px;
+	overflow:hidden;
+	font-size:0;
 }
 div.errors h3 span.arrow {
 	background: url(../images/unicons_sprite.png) no-repeat -18px 0;
