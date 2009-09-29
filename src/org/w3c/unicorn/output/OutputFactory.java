@@ -1,4 +1,4 @@
-// $Id: OutputFactory.java,v 1.8 2009-09-23 13:14:34 tgambet Exp $
+// $Id: OutputFactory.java,v 1.9 2009-09-29 16:09:04 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -62,17 +62,21 @@ public class OutputFactory {
 	 *            The format who the output formatter must produce.
 	 * @return The new output formatter.
 	 */
-	public static OutputFormater createOutputFormater(final String sOutputFormat,
-			final String sLang, final String sMimeType)  {
+	public static OutputFormater createOutputFormater(String sOutputFormat,	String sLang)  {
+		
+		if (sLang == null)
+			sLang = Property.get("DEFAULT_LANGUAGE");
+		
+		if (sOutputFormat == null)
+			sOutputFormat = Property.get("DEFAULT_FORMAT");
 		
 		logger.trace("createOutputformater");
 		logger.debug("Output format : " + sOutputFormat + ".");
 		logger.debug("Language : " + sLang + ".");
-		logger.debug("Mime type : " + sMimeType + ".");
-
+		
 		OutputFormater aOutputFormater;
 		
-		String sFormaterName = Property.getProps("specialFormaters.properties").getProperty(sMimeType);
+		String sFormaterName = Property.getProps("output.properties").getProperty(sOutputFormat + ".formater");
 		
 		if (null != sFormaterName) {
 			try {
