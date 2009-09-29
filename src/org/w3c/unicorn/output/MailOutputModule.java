@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.10 2009-09-28 16:41:18 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.11 2009-09-29 16:08:25 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,16 +8,20 @@ import java.io.CharArrayWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Properties;
 import org.w3c.unicorn.util.Message;
+
 import javax.mail.*;
 import javax.mail.internet.*;
 import org.w3c.unicorn.UnicornCall;
 import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UnicornAuthenticator;
+
+import javax.mail.internet.MimeBodyPart;
 
 /**
  * This module allows to send the response by mail.
@@ -26,31 +30,31 @@ import org.w3c.unicorn.util.UnicornAuthenticator;
  */
 public class MailOutputModule extends OutputModule {
 	
-	private OutputFormater firstOutputFormater;
-	
-	private OutputFormater mailOutputFormater;
-	
-	private String mimeType;
+private List<OutputFormater> mailOutputFormaters;
 	
 	private String recipient;
+	
+	private String mailFormat;
 	
 	public MailOutputModule(Map<String, String> mapOfOutputParameters, Map<String, String> mapOfSpecificParameters) {
 		super(mapOfOutputParameters, mapOfSpecificParameters);
 		
-		recipient = mapOfSpecificParameters.get("email");
-		mimeType = mapOfOutputParameters.get("mimetype");
+		recipient = specificParameters.get("email");
 		
-		String format = mapOfOutputParameters.get("format");
-		String lang = mapOfOutputParameters.get("lang"); 
+		mailFormat = specificParameters.get("format");
 		
-		firstOutputFormater = OutputFactory.createOutputFormater(format, lang, mimeType);
+		mailOutputFormaters = new ArrayList<OutputFormater>(); 
+			
+		mailOutputFormaters.add(OutputFactory.createOutputFormater("text", outputParameters.get("lang")));
 		
-		if (mapOfSpecificParameters.get("format") != null)
-			format = mapOfSpecificParameters.get("format");
-		if (mapOfSpecificParameters.get("mimetype") != null)
-			mimeType = mapOfSpecificParameters.get("mimetype");
+		if (mailFormat == null) {
+			mailFormat = defaultOutputFormater.getFormat();
+		}
 		
-		mailOutputFormater = OutputFactory.createOutputFormater(format, lang, mimeType);
+		if (!"text".equals(mailFormat)) {
+			mailOutputFormaters.add(OutputFactory.createOutputFormater(mailFormat, outputParameters.get("lang")));
+		}
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -65,6 +69,9 @@ public class MailOutputModule extends OutputModule {
 		} else {
 			messages.add(pendingMess);
 		}
+		if (mailOutputFormaters == null && mailOutputFormaters.get(0) == null)
+			throw new UnicornException();
+		
 		displayOnIndex(mapOfStringObject, aWriter);
 		messages.remove(pendingMess);
 	}
@@ -72,17 +79,19 @@ public class MailOutputModule extends OutputModule {
 	@SuppressWarnings("unchecked")
 	public void produceOutput(Map<String, Object> mapOfStringObject, final Writer aWriter) {
 		
+		if (recipient == null)
+			return;
+		if (mailOutputFormaters == null && mailOutputFormaters.get(0) == null)
+			return;
 		
 		// TODO http://java.sun.com/developer/EJTechTips/2004/tt0625.html#1 for multipart messages
 		
-		
-		if (recipient == null)
-			return;
-		
-		ArrayList<Message> messages = ((ArrayList<Message>) mapOfStringObject.get("messages"));
-		messages.add(new Message(Message.Level.INFO, "Observation effectuée le " + new Date()));
+
 		
 		try {
+			ArrayList<Message> messages = ((ArrayList<Message>) mapOfStringObject.get("messages"));
+			messages.add(new Message(Message.Level.INFO, "Observation effectuée le " + new Date()));
+			
 			mapOfStringObject.put("baseUri", "http://qa-dev.w3.org:8001/unicorn/");
 			
 			Properties mailProps = Property.getProps("mail.properties");
@@ -94,13 +103,7 @@ public class MailOutputModule extends OutputModule {
 				debug = true;
 			
 			session.setDebug(debug);
-			javax.mail.Message msg = new MimeMessage(session);
-		    
-		    InternetAddress addressFrom = new InternetAddress(mailProps.getProperty("unicorn.mail.from"), "Unicorn");
-			msg.setFrom(addressFrom);
-			msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(recipient));
 			
-			// Setting the Subject and Content Type
 			UnicornCall uniCall = (UnicornCall) mapOfStringObject.get("unicorncall");
 			boolean passed = uniCall.isPassed();
 			
@@ -111,14 +114,34 @@ public class MailOutputModule extends OutputModule {
 				subject += "FAILED: ";
 			subject += "Task \"" + uniCall.getTask().getLongName(outputParameters.get("lang")) + "\" for \"" + uniCall.getDocumentName() + "\"";
 			
+			javax.mail.Message msg = new MimeMessage(session);
+		    InternetAddress addressFrom = new InternetAddress(mailProps.getProperty("unicorn.mail.from"), "Unicorn");
+			msg.setFrom(addressFrom);
+			msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(recipient));
 			msg.setSubject(subject);
 			
-			CharArrayWriter writer = new CharArrayWriter();
-			mailOutputFormater.produceOutput(mapOfStringObject, writer);
-			writer.close();
-			msg.setContent(writer.toString(), mimeType);
+			if (mailOutputFormaters.size() > 1) {
+				// New multipart message
+				Multipart mp = new MimeMultipart("alternative");
+				for (OutputFormater outputFormater : mailOutputFormaters) {
+					MimeBodyPart bodyPart = new MimeBodyPart();
+					bodyPart.addHeader("Content-Type", outputFormater.getMimeType() + ", charset=UTF-8");
+					CharArrayWriter writer = new CharArrayWriter();
+					outputFormater.produceOutput(mapOfStringObject, writer);
+					writer.close();
+					bodyPart.setContent(writer.toString(), outputFormater.getMimeType());
+					mp.addBodyPart(bodyPart);
+				}
+				msg.setContent(mp);
+			} else {
+				CharArrayWriter writer = new CharArrayWriter();
+				mailOutputFormaters.get(0).produceOutput(mapOfStringObject, writer);
+				writer.close();
+				msg.setContent(writer.toString(), mailOutputFormaters.get(0).getMimeType());
+			}
 			
 			Transport.send(msg);
+			
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,11 +155,11 @@ public class MailOutputModule extends OutputModule {
 	}
 
 	public void produceError(Map<String, Object> mapOfStringObject, final Writer aWriter) {
-		if (outputParameters.get("mimetype").equals("text/html")) {
+		if (getMimeType().equals("text/html")) {
 			displayOnIndex(mapOfStringObject, aWriter);
 			return;
 		}
-		firstOutputFormater.produceError(mapOfStringObject, aWriter);
+		defaultOutputFormater.produceError(mapOfStringObject, aWriter);
 	}
 
 }
