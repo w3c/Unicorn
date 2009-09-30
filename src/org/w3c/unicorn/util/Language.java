@@ -24,6 +24,15 @@ public class Language {
 		return false;
 	}
 	
+	public static Locale getLocale(String languageCode) {
+		Locale[] locales= Locale.getAvailableLocales();
+		for (Locale locale : locales) {
+			if (locale.getLanguage().equals(languageCode))
+				return locale;
+		}
+		return null;
+	}
+	
 	public static String negociate(Enumeration<?> locales) {
 		while (locales.hasMoreElements()) {
 			Locale loc = (Locale) locales.nextElement();
