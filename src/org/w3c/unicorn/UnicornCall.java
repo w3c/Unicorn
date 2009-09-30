@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.26 2009-09-24 17:38:55 tgambet Exp $
+// $Id: UnicornCall.java,v 1.27 2009-09-30 11:36:00 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -432,7 +432,7 @@ public class UnicornCall {
 						String passedId = null;
 						for (String observerId : group.getObservationList()) {
 							if (mapOfResponse.get(observerId) == null) {
-								logger.error("unknown observer id (" + observerId + ") in output group of task: " + this.getTask().getID());
+								logger.warn("unknown observer id (" + observerId + ") in output group of task: " + this.getTask().getID() + ". It is possible that this observation failed, or that the tasklist is not valid.");
 								continue;
 							}
 							if (mapOfResponse.get(observerId).isPassed()) {
