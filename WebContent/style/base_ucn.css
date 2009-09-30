@@ -424,6 +424,7 @@ fieldset.toggled legend {
 }
 #observations div.observer h2 span.icons a {
 	font-size:0.8em;
+	outline:0;
 }
 #observations div.observer h2 span.icons a:hover {
 	text-decoration:none;
@@ -521,6 +522,7 @@ fieldset.toggled legend {
 	overflow:hidden;
 	padding:11px 0 0 11px;
 	background:url(../images/unicons_sprite.png) no-repeat 0 -18px;
+	outline:0;
 }
 #observations td.anchor a:hover, #observations h3 a.anchor:hover {
 	background:url(../images/unicons_sprite.png) no-repeat 0 -29px;
