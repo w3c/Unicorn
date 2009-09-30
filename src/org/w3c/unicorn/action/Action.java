@@ -1,4 +1,4 @@
-// $Id: Action.java,v 1.13 2009-09-30 13:35:32 tgambet Exp $
+// $Id: Action.java,v 1.14 2009-09-30 15:02:41 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,6 +6,7 @@ package org.w3c.unicorn.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.Message;
@@ -21,6 +24,8 @@ import org.w3c.unicorn.util.Property;
 public abstract class Action extends HttpServlet {
 	
 	private static final long serialVersionUID = -7503310240481494239L;
+	
+	private static Log logger = LogFactory.getLog(Action.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -60,13 +65,6 @@ public abstract class Action extends HttpServlet {
 		String lang;
 		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter)) {
 			lang = Language.negociate(req.getLocales());
-			if (langParameter != null && !Framework.getLanguageProperties().containsKey(langParameter)) {
-				if (Language.isISOLanguageCode(langParameter)) {
-					messages.add(new Message(Message.Level.INFO, "$message_unavailable_requested_language (" + langParameter + ")", null));
-				} else {
-					messages.add(new Message(Message.Level.INFO, "$message_invalid_requested_language (" + langParameter + ")", null));
-				}
-			}
 		} else
 			lang = langParameter;
 		
@@ -77,6 +75,16 @@ public abstract class Action extends HttpServlet {
 			messages.add(new Message(Message.Level.INFO, "$message_incomplete_language. $message_translation", null));
 		else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE").equals("true"))
 			messages.add(new Message(Message.Level.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
+		else if (langParameter != null && !Framework.getLanguageProperties().containsKey(langParameter)) {
+			if (Language.isISOLanguageCode(langParameter)) {
+				Locale locale = Language.getLocale(langParameter);
+				if (locale == null)
+					logger.warn("Missing locale: " + langParameter + ". This locale should be installed on the system in order to translate Unicorn in this language.");
+				messages.add(new Message(Message.Level.INFO, "$message_unavailable_requested_language (" + locale.getDisplayLanguage(locale) + "). $message_translation", null));
+			} else {
+				messages.add(new Message(Message.Level.INFO, "$message_invalid_requested_language (" + langParameter + ")", null));
+			}
+		}
 		
 		return lang;
 	}
