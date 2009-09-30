@@ -1,4 +1,4 @@
-// $Id: SimpleOutputModule.java,v 1.9 2009-09-29 16:07:57 tgambet Exp $
+// $Id: SimpleOutputModule.java,v 1.10 2009-09-30 11:35:35 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -23,7 +23,7 @@ public class SimpleOutputModule extends OutputModule {
 	}
 
 	public void produceError(Map<String, Object> mapOfStringObject, final Writer aWriter) {
-		if (getMimeType().equals("text/html")) {
+		if (defaultOutputFormater.getFormat().equals("xhtml10")) {
 			displayOnIndex(mapOfStringObject, aWriter);
 			return;
 		}
