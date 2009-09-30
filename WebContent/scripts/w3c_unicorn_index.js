@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_index.js,v 1.10 2009-09-15 11:41:36 tgambet Exp $Id */
+/* $Id: w3c_unicorn_index.js,v 1.11 2009-09-30 09:32:00 tgambet Exp $Id */
 var W3C = {
 	
 	start: function(){
@@ -162,12 +162,16 @@ var W3C = {
 		
 		var options = $$('fieldset.options');
 		options.setStyle('display', 'none');
-		
 		options.getElements('.option_input').each(function (input) {
 			input.setProperty('disabled', 'disabled');
 		});
 		
+		var mimeSelect = $$('.ucn_text_mime');
+		mimeSelect.setStyle('display', 'none');
+		mimeSelect.setProperty('disabled', 'disabled');
+		
 		var currentOptions = options.filter('fieldset.' + taskId);
+		var currentMimeSelect = $$('.ucn_text_mime.' + taskId);
 		
 		if (!currentOptions.length > 0)
 			W3C.requestOptions(taskIndex, withFX);
@@ -182,6 +186,15 @@ var W3C = {
 				currentOptions.tween('opacity', 0, 1);
 			}
 			currentOptions.setStyle('opacity', 1);
+			
+			currentMimeSelect.removeProperty('disabled');
+			currentMimeSelect.setStyle('opacity', 0);
+			currentMimeSelect.setStyle('display', 'block');
+			if (withFX) {
+				currentMimeSelect.set('tween', {'duration': 350});
+				currentMimeSelect.tween('opacity', 0, 1);
+			}
+			currentMimeSelect.setStyle('opacity', 1);
 		}
 		
 		W3C.toggleOptions(false);
@@ -207,6 +220,15 @@ var W3C = {
 						}
 						clone.setStyle('opacity', 1);
 					});
+				});
+				responseElements.filter('.ucn_text_mime').each(function(select) {
+					select.setStyle('opacity', 0);
+					select.inject($('ucn_text'), 'after');
+					if (withFX) {
+						select.set('tween', {'duration': 350});
+						select.tween('opacity', 0, 1);
+					}
+					select.setStyle('opacity', 1);
 				});
 				W3C.Loader.dispose();
 				W3C.toggleOptions(false);

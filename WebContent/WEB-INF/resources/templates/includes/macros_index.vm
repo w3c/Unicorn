@@ -1,3 +1,11 @@
+#macro (mimeList $task)
+							<select name="${param_prefix}text_mime" class="ucn_text_mime $task.getID()">
+							#foreach($mime in $task.SupportedMimeTypes)  
+								<option value="$mime" #if($param_text_mime && $param_text_mime == $mime)selected="selected"#end>$mime</option>
+							#end
+							</select>
+#end
+
 #macro (submit_button)
 					<div class="submit">
 						#if ($!param_lang)<input type="hidden" name="${param_prefix}lang" value="$lang" class="lang" />#end

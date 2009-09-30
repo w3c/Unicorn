@@ -168,7 +168,7 @@ input#ucn_file {
 	width:85%;
 	padding-left:0.4em;
 }
-select#ucn_text_mime {
+select.ucn_text_mime {
 	margin-top:0.4em;
 }
 img.loader {

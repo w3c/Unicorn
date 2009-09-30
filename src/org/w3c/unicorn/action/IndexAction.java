@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.22 2009-09-24 17:39:54 tgambet Exp $
+// $Id: IndexAction.java,v 1.23 2009-09-30 09:32:00 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -121,6 +121,7 @@ public class IndexAction extends Action {
 		
 		PrintWriter writer = resp.getWriter();
 		if (req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest")) {
+			velocityContext.put("ajaxCall", "true");
 			Templates.write("parameters.vm", velocityContext, writer);
 		} else {
 			Templates.write("index.vm", velocityContext, writer);

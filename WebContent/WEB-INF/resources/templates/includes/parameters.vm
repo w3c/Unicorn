@@ -32,3 +32,7 @@
 <fieldset class="options none $current_task.getID()">
 </fieldset>
 #end
+
+#if ($ajaxCall)
+#mimeList($current_task)
+#end

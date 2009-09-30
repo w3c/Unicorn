@@ -69,12 +69,8 @@
 					<div class="input">
 						<p class="instructions">$instruction-by-input</p>
 						<p>
-							<textarea name="${param_prefix}text" rows="12" cols="70">$!param_text</textarea>
-							<select id="ucn_text_mime" name="${param_prefix}text_mime">
-							#foreach($mime in $current_task.SupportedMimeTypes)  
-								<option value="$mime" #if($param_text_mime && $param_text_mime == $mime)selected="selected"#end>$mime</option>
-							#end
-							</select>
+							<textarea id="ucn_text" name="${param_prefix}text" rows="12" cols="70">$!param_text</textarea>
+							#mimeList($current_task)
 						</p> 
 					</div>
 #parse('parameters.vm')
@@ -102,7 +98,6 @@
 		<h2 id="news_200609">September 2006: public preview</h2>
 		<p>Welcome to the public preview of the unicorn tool. To learn more about this tool
 		or how you can provide feedback for this preview, check the <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
-		<p><strong>Note</strong>: You need to enable Javascript to be able to check documents.</p>
 	</div>-->
 
 #parse( 'footer.vm' )
