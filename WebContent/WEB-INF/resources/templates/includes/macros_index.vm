@@ -131,7 +131,7 @@
 #if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
 #set($defaults = $param.getMapOfDefaultValue())
 <label><span>$param_name:</span> 
-	<textarea name="$param.getName()" class="option_input">#foreach($default in $defaults)$default.Name#end</textarea>' +
+	<textarea name="$param.getName()" class="option_input">#foreach($default in $defaults)$default.Name#end</textarea>
 </label>
 #end
 
