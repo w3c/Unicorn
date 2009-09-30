@@ -15,6 +15,15 @@
 		</layout>
 	</appender>
 	
+	<appender name="velocity_log" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${unicorn.home}/WEB-INF/logs/velocity.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+	
 	<appender name="level-error" class="org.apache.log4j.RollingFileAppender">
 		<param name="File" value="${unicorn.home}/WEB-INF/logs/level/error.log" />
 		<param name="MaxFileSize" value="1024KB" />
@@ -168,6 +177,7 @@
 
 	<logger name="org.apache.velocity">
 		<level value="debug"/>
+		<appender-ref ref="velocity_log" />
 	</logger>
 
 	<logger name="org.w3c.unicorn.Framework">
