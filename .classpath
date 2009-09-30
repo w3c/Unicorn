@@ -10,7 +10,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/activation.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-fileupload-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-io-1.2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/icu4j_3_4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/iri.jar"/>
@@ -31,5 +30,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/tasklist.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mail.jar" sourcepath="C:/Users/Tom-Laptop/Desktop/javamail-1.4.2/docs/javadocs"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
