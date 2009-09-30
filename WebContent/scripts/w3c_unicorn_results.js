@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_results.js,v 1.13 2009-09-30 16:29:17 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.14 2009-09-30 17:00:27 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
@@ -49,9 +49,6 @@ var W3C = {
 				W3C.close(observer, false);
 			observer.getElement('a.anchor').addEvent('click', function(event) {
 				W3C.open(observer, true);
-				/*(new Chain()).wait(slideDuration).chain(function() {
-					W3C.setHash(observer.getProperty('id'));
-				}).callChain();*/
 			});
 			if (observer.getElement('a.infos')) {
 				observer.getElement('a.infos').addEvent('click', function(event) {
@@ -79,8 +76,15 @@ var W3C = {
 			}
 		});
 		
-		$('banner').addEvent('click', function() {
-			W3C.closeAllObserversBut(W3C.Observers[0], true);
+		$$('div#messages pre').slide('hide');
+		
+		$$('div#messages > div').each(function(message) {
+			if (message.getElement('pre')) {
+				message.addClass('pointer');
+				message.addEvent('click', function(event) {
+					message.getElement('pre').slide('toggle');
+				});
+			}
 		});
 		
 		var mySmoothScroll = new Fx.SmoothScroll({
