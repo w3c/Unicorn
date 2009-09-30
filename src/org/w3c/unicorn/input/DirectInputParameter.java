@@ -34,8 +34,7 @@ public class DirectInputParameter extends InputParameter {
 
 	@Override
 	public String getDocumentName() {
-		//TODO Velocitize this
-		return "Direct Input Document";
+		return "$submitted_file";
 	}
 
 	@Override
