@@ -74,7 +74,7 @@ public class Language {
 	}
 
 	public static boolean isComplete(String langParameter) {
-		return Framework.getLanguageProperties().get(langParameter).get("complete") == "true";
+		return Framework.getLanguageProperties().get(langParameter).get("complete").equals("true");
 	}
 	
 }
