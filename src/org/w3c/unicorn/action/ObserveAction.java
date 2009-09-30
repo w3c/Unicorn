@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.45 2009-09-29 16:01:40 tgambet Exp $
+// $Id: ObserveAction.java,v 1.46 2009-09-30 17:07:58 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -199,15 +199,6 @@ public class ObserveAction extends Action {
 			else
 				aUnicornCall.setLang(lang + "," + aLocale);
 		}
-		if (!reqParams.containsKey(paramPrefix + "task")) {
-			String task = getTask(null, messages);
-			reqParams.put(paramPrefix + "task", task);
-			logger.debug("No task parameter found. Task parameter is set to task id: " + task);
-			mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
-			mapOfStringObject.put("current_task", Framework.mapOfTask.get(task));
-			aUnicornCall.setTask(task);
-		}
-		
 		OutputModule aOutputModule = OutputFactory.createOutputModule(mapOfOutputParameter, mapOfSpecificParameter);
 		resp.setContentType(aOutputModule.getMimeType() + "; charset=UTF-8");
 		
@@ -215,6 +206,14 @@ public class ObserveAction extends Action {
 			messages.add(new Message(Message.Level.ERROR, "$message_nothing_to_validate", null));
 			aOutputModule.produceError( mapOfStringObject, resp.getWriter());
 			return;
+		}
+		if (!reqParams.containsKey(paramPrefix + "task")) {
+			String task = getTask(null, messages);
+			reqParams.put(paramPrefix + "task", task);
+			logger.debug("No task parameter found. Task parameter is set to task id: " + task);
+			mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
+			mapOfStringObject.put("current_task", Framework.mapOfTask.get(task));
+			aUnicornCall.setTask(task);
 		}
 		
 		for (Object objKey : reqParams.keySet()) {
