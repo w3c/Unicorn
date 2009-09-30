@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.27 2009-09-30 11:36:00 tgambet Exp $
+// $Id: UnicornCall.java,v 1.28 2009-09-30 13:40:36 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -397,9 +397,9 @@ public class UnicornCall {
 		}
 	}
 	
-	public void addParameter(final String sName, final String tStringValue) {
-		String[] tab = {tStringValue};
-		addParameter(sName, tab);
+	public void addParameter(final String name, final String value) {
+		String[] tab = {value};
+		addParameter(name, tab);
 	}
 	
 	public String getDocumentName() {
@@ -407,6 +407,8 @@ public class UnicornCall {
 	}
 	
 	public String getObserverName(String observer, String lang) {
+		if (Framework.mapOfObserver.get(observer).getName(lang) == null)
+			return Framework.mapOfObserver.get(observer).getID();
 		return Framework.mapOfObserver.get(observer).getName(lang);
 	}
 	
