@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.11 2009-09-29 16:08:25 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.12 2009-09-30 13:36:15 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -7,8 +7,10 @@ package org.w3c.unicorn.output;
 import java.io.CharArrayWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -62,10 +64,10 @@ private List<OutputFormater> mailOutputFormaters;
 		//mapOfStringObject.put("baseUri", "http://qa-dev.w3.org/unicorn/");
 		
 		ArrayList<Message> messages = ((ArrayList<Message>) mapOfStringObject.get("messages"));
-		Message pendingMess = new Message(Message.Level.INFO, "Le rapport est en cours d'envoi à l'adresse: " + recipient);
+		Message pendingMess = new Message(Message.Level.INFO, "$message_mail " + recipient);
 		
 		if (recipient == null) {
-			throw new UnicornException(new Message(Message.Level.ERROR, "Aucune adresse email spécifiée. Rajoutez &opt_email=votre.adresse@mail.com à la requête."));
+			throw new UnicornException(new Message(Message.Level.ERROR, "$message_missing_email"));
 		} else {
 			messages.add(pendingMess);
 		}
@@ -84,15 +86,13 @@ private List<OutputFormater> mailOutputFormaters;
 		if (mailOutputFormaters == null && mailOutputFormaters.get(0) == null)
 			return;
 		
-		// TODO http://java.sun.com/developer/EJTechTips/2004/tt0625.html#1 for multipart messages
-		
-
-		
 		try {
 			ArrayList<Message> messages = ((ArrayList<Message>) mapOfStringObject.get("messages"));
-			messages.add(new Message(Message.Level.INFO, "Observation effectuée le " + new Date()));
+			SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss (Z)", new Locale(outputParameters.get("lang")));
 			
-			mapOfStringObject.put("baseUri", "http://qa-dev.w3.org:8001/unicorn/");
+			messages.add(new Message(Message.Level.INFO, "$message_mail_date " + dateFormat.format(new Date())));
+			
+			mapOfStringObject.put("baseUri", Property.get("UNICORN_URL"));
 			
 			Properties mailProps = Property.getProps("mail.properties");
 			Authenticator auth = new UnicornAuthenticator(mailProps.getProperty("unicorn.mail.username"), mailProps.getProperty("unicorn.mail.password"));
