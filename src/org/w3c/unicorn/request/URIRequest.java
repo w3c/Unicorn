@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.8 2009-09-30 13:37:15 tgambet Exp $
+// $Id: URIRequest.java,v 1.9 2009-09-30 15:22:42 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
@@ -122,10 +123,19 @@ public class URIRequest extends Request {
 			}
 			logger.debug("URL : " + aURL + " .");
 			
-			URLConnection aURLConnection = aURL.openConnection();
+			HttpURLConnection aURLConnection = (HttpURLConnection) aURL.openConnection();
 			aURLConnection.setConnectTimeout(connectTimeOut);
 			aURLConnection.setReadTimeout(readTimeOut);
 			aURLConnection.setRequestProperty("Accept-Language", this.sLang);
+			
+			aURLConnection.connect();
+			int responseCode = aURLConnection.getResponseCode();
+			switch (responseCode) {
+			case HttpURLConnection.HTTP_NOT_FOUND:
+				throw new UnicornException(Message.Level.ERROR, "$message_observer_not_found " + Framework.mapOfObserver.get(observerId).getName(sLang.split(",")[0]), null);
+			case HttpURLConnection.HTTP_INTERNAL_ERROR:
+				throw new UnicornException(Message.Level.ERROR, "$message_observer_internal_error " + Framework.mapOfObserver.get(observerId).getName(sLang.split(",")[0]), null);
+			}
 			
 			InputStream is = aURLConnection.getInputStream();
 			Response response = streamToResponse(is);
@@ -144,6 +154,7 @@ public class URIRequest extends Request {
 				throw new UnicornException(new Message(e));
 			}
 		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
 			throw new UnicornException(new Message(e));
 		}
 	}
