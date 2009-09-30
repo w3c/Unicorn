@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.29 2009-09-30 14:58:22 tgambet Exp $
+// $Id: UnicornCall.java,v 1.30 2009-09-30 16:48:05 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -163,9 +163,7 @@ public class UnicornCall {
 			
 			//TODO: add warning if inputMethod has changed -> check behavior
 			if (aInputMethod.getMethod() != inputParameter.getInputMethod()) {
-				
-				messages.add(new Message(Message.Level.WARNING, "Input method changed for observer: \"" + aObserver.getName(sLang) 
-						+ "\" from " + inputParameter.getInputMethod() + " to " + aInputMethod.getMethod(), null));
+				messages.add(new Message(Message.Level.WARNING, "\"" + aObserver.getName(sLang) + "\" $message_input_changed_1 " + inputParameter.getInputMethod().toString().toLowerCase() + " $message_input_changed_2", "$message_input_changed_long"));
 			}
 
 			// create a new request with input parameter
