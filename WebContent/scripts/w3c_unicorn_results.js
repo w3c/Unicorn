@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_results.js,v 1.12 2009-09-29 09:53:48 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.13 2009-09-30 16:29:17 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
@@ -229,7 +229,7 @@ var W3C = {
 			W3C.FakeForm = W3C.FakeForm || new Element('form', {'method': 'get'}).injectInside(document.body);
 			W3C.FakeForm.setProperty('action', '#' + hash).submit();
 		} else {
-			window.location.hash = hash;
+			window.location.hash = '#' + hash;
 		}
 	}
 };
