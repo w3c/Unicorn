@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.9 2009-09-30 15:22:42 tgambet Exp $
+// $Id: URIRequest.java,v 1.10 2009-09-30 16:29:50 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -12,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import org.w3c.unicorn.Framework;
