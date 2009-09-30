@@ -47,8 +47,8 @@
 		$test_fail
 		#end
 		<span class="name">$unicorncall.getObserverName($observationName, $lang) #if ($observation.Rating) ($observation.Rating/100) #end</span>
-		#if ($observation.getFilteredRequestUri())<a class="direct_link" href="$observation.getFilteredRequestUri()" title="direct_link_title_1">$direct_link_label</a>
-		#else <a class="direct_link" href="$observation.getBaseURI($observationName)" title="direct_link_title_2">$direct_link_label</a>#end
+		#if ($observation.getFilteredRequestUri())<a class="direct_link" href="$observation.getFilteredRequestUri()" title="$direct_link_title_1">$direct_link_label</a>
+		#else <a class="direct_link" href="$observation.getBaseURI($observationName)" title="$direct_link_title_2">$direct_link_label</a>#end
 	</h2>
 	
 	<div class="results block">
