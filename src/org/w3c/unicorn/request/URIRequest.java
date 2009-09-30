@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.7 2009-09-21 16:28:33 tgambet Exp $
+// $Id: URIRequest.java,v 1.8 2009-09-30 13:37:15 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -69,7 +69,7 @@ public class URIRequest extends Request {
 		this.addParameter(sInputParameterName, aURIInputModule.getURI());
 		this.setResponseType(responseType);
 		if (Property.get("OBSERVER_CONNECT_TIMEOUT") != null)
-			connectTimeOut = Integer.parseInt(Property.get("DOCUMENT_CONNECT_TIMEOUT"));
+			connectTimeOut = Integer.parseInt(Property.get("OBSERVER_CONNECT_TIMEOUT"));
 		else 
 			connectTimeOut = 0;
 		if (Property.get("OBSERVER_READ_TIMEOUT") != null)
