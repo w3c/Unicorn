@@ -21,7 +21,7 @@
 	<div class="error">
 		<h4>#evaluate($message.Message)</h4>
 		#if ($message.Content)
-		<pre>$message.Content</pre>
+		<pre>#evaluate($message.Content)</pre>
 		#end
 	</div>
 	#end
@@ -31,7 +31,7 @@
 	<div class="warning">
 		<h4>#evaluate($message.Message)</h4>
 		#if ($message.Content)
-		<pre>$message.Content</pre>
+		<pre>#evaluate($message.Content)</pre>
 		#end
 	</div>
 	#end
@@ -41,7 +41,7 @@
 	<div class="info">
 		<h4>#evaluate($message.Message)</h4>
 		#if ($message.Content)
-		<pre>$message.Content</pre>
+		<pre>#evaluate($message.Content)</pre>
 		#end
 	</div>
 	#end
