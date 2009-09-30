@@ -349,11 +349,12 @@ fieldset div.submit input {
 #messages .error pre {
 	padding-top:0.6em;
 }
-#messages .pointer:hover h4 {
-	text-decoration: underline;
-}
 #messages .pointer h4 {
 	font-weight:bold;
+	font-size:0.8em;
+}
+#messages .pointer:hover h4 {
+	text-decoration: underline;
 }
 /* Post-javascript */
 fieldset.toggles legend {
