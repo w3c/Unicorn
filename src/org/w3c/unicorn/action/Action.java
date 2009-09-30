@@ -1,4 +1,4 @@
-// $Id: Action.java,v 1.12 2009-09-24 17:34:59 tgambet Exp $
+// $Id: Action.java,v 1.13 2009-09-30 13:35:32 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -58,9 +58,16 @@ public abstract class Action extends HttpServlet {
 	public String getLanguage(String langParameter, HttpServletRequest req, ArrayList<Message> messages) {
 		
 		String lang;
-		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter))
+		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter)) {
 			lang = Language.negociate(req.getLocales());
-		else
+			if (langParameter != null && !Framework.getLanguageProperties().containsKey(langParameter)) {
+				if (Language.isISOLanguageCode(langParameter)) {
+					messages.add(new Message(Message.Level.INFO, "$message_unavailable_requested_language (" + langParameter + ")", null));
+				} else {
+					messages.add(new Message(Message.Level.INFO, "$message_invalid_requested_language (" + langParameter + ")", null));
+				}
+			}
+		} else
 			lang = langParameter;
 		
 		if (messages == null)
