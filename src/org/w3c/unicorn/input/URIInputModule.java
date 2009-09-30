@@ -1,4 +1,4 @@
-// $Id: URIInputModule.java,v 1.4 2009-09-23 09:17:03 tgambet Exp $
+// $Id: URIInputModule.java,v 1.5 2009-09-30 14:58:23 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,6 +13,8 @@ import java.util.Date;
 import javax.activation.MimeType;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.util.Property;
 
@@ -23,6 +25,8 @@ import org.w3c.unicorn.util.Property;
  */
 public class URIInputModule implements InputModule {
 
+	public static final Log logger = LogFactory.getLog(URIInputModule.class);
+	
 	/**
 	 * Sets the method of input to URI
 	 */
@@ -72,7 +76,7 @@ public class URIInputModule implements InputModule {
 	 * @throws IOException
 	 *             odd error occurs
 	 */
-	protected URIInputModule(final InputModule aInputModule) throws IOException {
+	public URIInputModule(final InputModule aInputModule) throws IOException {
 		logger.trace("Constructor.");
 		logger.debug("InputModule : " + aInputModule + ".");
 		this.aMimeType = aInputModule.getMimeType();

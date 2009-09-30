@@ -1,4 +1,4 @@
-// $Id: DirectInputModule.java,v 1.3 2009-09-23 09:17:03 tgambet Exp $
+// $Id: DirectInputModule.java,v 1.4 2009-09-30 14:58:23 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -61,7 +61,7 @@ public class DirectInputModule implements InputModule {
 	 * @throws IOException
 	 *             for unknown error
 	 */
-	protected DirectInputModule(final InputModule aInputModule)
+	public DirectInputModule(final InputModule aInputModule)
 			throws IOException {
 		logger.trace("Constructor");
 		logger.debug("Input module : " + aInputModule + ".");

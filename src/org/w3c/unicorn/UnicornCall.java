@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.28 2009-09-30 13:40:36 tgambet Exp $
+// $Id: UnicornCall.java,v 1.29 2009-09-30 14:58:22 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -20,6 +20,7 @@ import org.w3c.unicorn.contract.InputMethod;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.input.InputParameter;
+import org.w3c.unicorn.input.*;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.request.RequestList;
 import org.w3c.unicorn.response.Response;
@@ -170,8 +171,8 @@ public class UnicornCall {
 			// create a new request with input parameter
 			final Request aRequest = Request.createRequest(
 			// the corresponding best input module
-					//aInputFactory.getInputModule(aInputMethod.getMethod()),
-					inputParameter.getInputModule(),
+					//InputFactory.getInputModule(aInputMethod.getMethod()),
+					createInputModule(aInputMethod, inputParameter.getInputModule()),
 					// URL of the service to call
 					aInputMethod.getCallMethod().getURL().toString(),
 					// Name of the parameter holding resource information
@@ -548,4 +549,28 @@ public class UnicornCall {
 	public void setMessages(ArrayList<Message> messages) {
 		this.messages = messages;
 	}
+	
+	public InputModule createInputModule(InputMethod aInputMethod, InputModule inputModule) {
+		if (aInputMethod.getMethod() == inputModule.getEnumInputMethod()) {
+			return inputModule;
+		}
+		
+		try {
+			switch (aInputMethod.getMethod()) {
+			case DIRECT:
+				return new DirectInputModule(inputModule);
+			case UPLOAD:
+				return new FakeUploadInputModule(inputModule);
+				//return new FileItemInputModule(inputModule);
+			case URI:
+				return new URIInputModule(inputModule);
+			default:
+				return null;
+			}
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+			return null;
+		}
+	}
+
 }
