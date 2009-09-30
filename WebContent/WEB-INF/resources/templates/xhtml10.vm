@@ -1,8 +1,4 @@
-#if($unicorncall.DocumentName)
-#set ($noEscape_title = "$result_for $unicorncall.DocumentName")
-#else
-#set ($noEscape_title = $result_for_upload)
-#end  
+#set ($noEscape_title = "$result_for #evaluate($unicorncall.DocumentName)")
 #set ($css = ['base_ucn.css'])
 #set ($js = ['mootools-1.2.3-core-nc.js', 'mootools-1.2.3.1-more.js', 'w3c_unicorn_results.js'])
 #if ($unicorncall.isPassed())
@@ -71,9 +67,9 @@
 						#set ($i = $i + 1)
 						<tr>
 							<td colspan="4" class="uri" id="${observationName}_info_${i}">
-							#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token</span><a href="$result.Uri">$result.Uri</a>#end
-							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token</span>$result.Uri#end
-							#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
+							#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token: </span><a href="$result.Uri">$result.Uri</a>#end
+							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token: </span>$result.Uri#end
+							#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file: </span>#end
 							</td>
 							<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_info_${i}">a</a></td>
 						</tr>
@@ -119,9 +115,9 @@
 						#set ($i = $i + 1)
 						<tr>
 							<td colspan="4" class="uri" id="${observationName}_error_${i}">
-							#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token</span><a href="$result.Uri">$result.Uri</a>#end
-							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token</span>$result.Uri#end
-							#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
+							#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token: </span><a href="$result.Uri">$result.Uri</a>#end
+							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token: </span>$result.Uri#end
+							#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file: </span>#end
 							</td>
 							<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_error_${i}">a</a></td>
 						</tr>
@@ -167,9 +163,9 @@
 						#set ($i = $i + 1)
 						<tr>
 							<td colspan="4" class="uri" id="${observationName}_warning_${i}">
-							#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token</span><a href="$result.Uri">$result.Uri</a>#end
-							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token</span>$result.Uri#end
-							#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
+							#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token: </span><a href="$result.Uri">$result.Uri</a>#end
+							#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token: </span>$result.Uri#end
+							#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file: </span>#end
 							</td>
 							<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_warning_${i}">a</a></td>
 						</tr>
