@@ -1,4 +1,4 @@
-// $Id: Task.java,v 1.7 2009-09-10 15:45:49 tgambet Exp $
+// $Id: Task.java,v 1.8 2009-09-30 13:39:26 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -421,8 +421,10 @@ public class Task {
 		for (String key : mapOfTaskParameter.keySet()) {
 			Parameter param = mapOfTaskParameter.get(key);
 			aStringBuffer.append("\t\t" + key + " (" + param.getUiLevel() + "-" + param.getType() + ") => \n");
-			for (String key1: param.getMapOfValue().keySet()) {
-				aStringBuffer.append("\t\t\t" + key1 + " => " + mapOfTaskParameter.get(key).getMapOfValue().get(key1) + "\n");
+			if (param.getMapOfValue() != null) {
+				for (String key1: param.getMapOfValue().keySet()) {
+					aStringBuffer.append("\t\t\t" + key1 + " => " + mapOfTaskParameter.get(key).getMapOfValue().get(key1) + "\n");
+				}
 			}
 		}
 		aStringBuffer.append("\treferences:").append(this.listOfReference);
