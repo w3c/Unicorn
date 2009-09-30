@@ -77,47 +77,4 @@ public class Language {
 		return Framework.getLanguageProperties().get(langParameter).get("complete") == "true";
 	}
 	
-	/*public static void addToContext(VelocityContext velocityContext, Locale lang) throws Exception {
-		File languageFile = new File(Property.get("PATH_TO_LANGUAGE_FILES") + lang.getLanguage() + ".properties");
-		FileReader fr = new FileReader(languageFile);
-		
-		Properties langProps = new Properties();
-		langProps.load(fr);
-		
-	    Set<Object> keys = langProps.keySet();
-	    Iterator<Object> itr = keys.iterator();
-	    String key;
-	    while (itr.hasNext()) {
-			key = itr.next().toString();
-			velocityContext.put(key, langProps.get(key));
-	    }
-	}
-	
-	public static void addToContext(Properties langProps, VelocityContext context) throws Exception {
-	    Set<Object> keys = langProps.keySet();
-	    Iterator<Object> itr = keys.iterator();
-	    String key;
-	    while (itr.hasNext()) {
-			key = itr.next().toString();
-			context.put(key, langProps.get(key));
-	    }
-	    
-	    for (Object keyss : langProps.keySet()) {
-	    	context.put((String) keyss, langProps.get(keyss));
-	    }
-	}*/
-	
-
-	
-	/*public static void addLanguageFile(File langFile) throws MalformedURLException, IOException {
-		String fileName = langFile.getName();
-		String locale = fileName.split("\\.")[0];
-		if (!isISOLanguageCode(locale)) {
-			return;
-		}
-		//Locale locale = new Locale(localeString);
-		Properties props = new Properties();
-		props.load(langFile.toURI().toURL().openStream());
-		//languages.put(locale, props);
-	}*/
 }
