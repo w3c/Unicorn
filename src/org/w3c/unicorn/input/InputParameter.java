@@ -44,5 +44,9 @@ public abstract class InputParameter {
 	public void setInputMethod(EnumInputMethod inputMethod) {
 		this.inputMethod = inputMethod;
 	}
+
+	public void dispose() {
+		inputModule.dispose();
+	}
 	
 }

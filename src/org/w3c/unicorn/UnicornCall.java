@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.30 2009-09-30 16:48:05 tgambet Exp $
+// $Id: UnicornCall.java,v 1.31 2009-10-01 13:58:59 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -19,7 +19,6 @@ import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.contract.InputMethod;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.exceptions.UnicornException;
-import org.w3c.unicorn.input.InputParameter;
 import org.w3c.unicorn.input.*;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.request.RequestList;
@@ -571,4 +570,8 @@ public class UnicornCall {
 		}
 	}
 
+	public void dispose() {
+		inputParameter.dispose();
+	}
+	
 }
