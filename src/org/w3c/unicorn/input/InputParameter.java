@@ -46,7 +46,8 @@ public abstract class InputParameter {
 	}
 
 	public void dispose() {
-		inputModule.dispose();
+		if (inputModule != null)
+			inputModule.dispose();
 	}
 	
 }
