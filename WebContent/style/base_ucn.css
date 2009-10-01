@@ -407,6 +407,7 @@ fieldset.toggled legend {
 #observations div.observer h2 a.anchor {
 	height:0;
 	width:0;
+	margin-left:2px;
 	font-size:0 !important;
 	display:inline-block;
 	overflow:hidden;
