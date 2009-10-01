@@ -11,7 +11,8 @@
 	<ucn:Task ucn:reference="conformance" ucn:default="true">
 		<ucn:longName xml:lang="en">General Conformance Check</ucn:longName>
 		<ucn:longName xml:lang="fr">Vérifie la conformité générale</ucn:longName>
-		<ucn:description xml:lang="en">This task will do as much observations as possible.</ucn:description>
+		<ucn:description xml:lang="en">Performs as many checks as possible.</ucn:description>
+		<ucn:description xml:lang="en">Effectue tous les tests possibles.</ucn:description>
 		<!--<ucn:hasParameter>
 			<ucn:Dropdown ucn:reference="profile">
 				<ucn:longName xml:lang="en">CSS Profile</ucn:longName>
@@ -78,6 +79,9 @@
 
 	<ucn:Task ucn:reference="full-css">
 		<ucn:longName xml:lang="en">Global CSS Validation</ucn:longName>
+		<ucn:longName xml:lang="fr">Validation CSS Globale</ucn:longName>		
+		<ucn:description xml:lang="en">Checks validity against CSS 1, CSS 2, CSS 2.1 and CSS 3 profiles</ucn:description>
+		<ucn:description xml:lang="fr">Vérifie la validité pour les profils CSS 1, CSS 2, CSS 2.1 and CSS 3</ucn:description>		
     	<ucn:hasParameter>
 			<ucn:Radio ucn:reference="warning">
 				<ucn:longName xml:lang="en">Warning</ucn:longName>
@@ -134,50 +138,150 @@
 	
 	<ucn:Task ucn:reference="mobileok">
 		<ucn:longName xml:lang="en">MobileOK Checker</ucn:longName>
-		<ucn:longName xml:lang="fr">Validateur MobileOk</ucn:longName>
+		<ucn:description xml:lang="en">Checks mobile-friendliness</ucn:description>
 	</ucn:Task>
 	
 	<ucn:Task ucn:reference="custom">
 		<ucn:longName xml:lang="en">Custom task</ucn:longName>
 		<ucn:longName xml:lang="fr">Tâche personnalisée</ucn:longName>
+		<ucn:description xml:lang="en">Lets you choose which checks to perform</ucn:description>
+		<ucn:description xml:lang="fr">Sélectionnez les tests à effectuer</ucn:description>
 		<ucn:hasParameter>
 			<ucn:CheckBoxList ucn:reference="observers">
 				<ucn:longName xml:lang="en">Observers</ucn:longName>
 				<ucn:longName xml:lang="fr">Observateurs</ucn:longName>
 				<ucn:hasValue>
-					<ucn:Value ucn:reference="css1-validator">
-						<ucn:longName xml:lang="en">W3C CSS Validator (Level 1)</ucn:longName>
-						<ucn:longName xml:lang="fr">W3C Validateur CSS (Niveau 1)</ucn:longName>
+					<ucn:Value ucn:reference="css-validator">
+						<ucn:longName xml:lang="en">CSS</ucn:longName>
 					</ucn:Value>
 				</ucn:hasValue>
 				<ucn:hasValue>
-					<ucn:Value ucn:reference="css2-validator">
-						<ucn:longName xml:lang="en">W3C CSS Validator (Level 2)</ucn:longName>
-						<ucn:longName xml:lang="fr">W3C Validateur CSS (Niveau 2)</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="css21-validator">
-						<ucn:longName xml:lang="en">W3C CSS Validator (Level 2.1)</ucn:longName>
-						<ucn:longName xml:lang="fr">W3C Validateur CSS (Niveau 2.1)</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="css3-validator">
-						<ucn:longName xml:lang="en">W3C CSS Validator (Level 3)</ucn:longName>
-						<ucn:longName xml:lang="fr">W3C Validateur CSS (Niveau 3)</ucn:longName>
+					<ucn:Value ucn:reference="appc-checker">
+						<ucn:longName xml:lang="en">XHTML - Appendix C</ucn:longName>
 					</ucn:Value>
 				</ucn:hasValue>
 				<ucn:hasValue>
 					<ucn:Value ucn:reference="markup-validator">
-						<ucn:longName xml:lang="en">W3C HTML Validator</ucn:longName>
-						<ucn:longName xml:lang="fr">W3C Validateur HTML</ucn:longName>
+						<ucn:longName xml:lang="en">(X)HTML</ucn:longName>
 					</ucn:Value>
 				</ucn:hasValue>
 				<ucn:hasValue>
 					<ucn:Value ucn:reference="mobileok">
-						<ucn:longName xml:lang="en">W3C Mobile OK Checker</ucn:longName>
-						<ucn:longName xml:lang="fr">W3C Validateur Mobile OK</ucn:longName>
+						<ucn:longName xml:lang="en">Mobile OK</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+			</ucn:CheckBoxList>
+		</ucn:hasParameter>
+		<ucn:hasParameter>
+			<ucn:Dropdown ucn:reference="profile">
+				<ucn:longName xml:lang="en">CSS Profile</ucn:longName>
+				<ucn:longName xml:lang="fr">Profil CSS</ucn:longName>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="css1">
+						<ucn:longName xml:lang="en">CSS level 1</ucn:longName>
+						<ucn:longName xml:lang="fr">CSS niveau 1</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="css2">
+						<ucn:longName xml:lang="en">CSS level 2</ucn:longName>
+						<ucn:longName xml:lang="fr">CSS niveau 2</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="css21">
+						<ucn:longName xml:lang="en">CSS level 2.1</ucn:longName>
+						<ucn:longName xml:lang="fr">CSS niveau 2.1</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="css3">
+						<ucn:longName xml:lang="en">CSS level 3</ucn:longName>
+						<ucn:longName xml:lang="fr">CSS niveau 3</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="svg">
+						<ucn:longName xml:lang="en">SVG</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="svgbasic">
+						<ucn:longName xml:lang="en">SVG Basic</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="svgtiny">
+						<ucn:longName xml:lang="en">SVG Tiny</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="mobile">
+						<ucn:longName xml:lang="en">Mobile</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="atsc-tv">
+						<ucn:longName xml:lang="en">ATSC TV Profile</ucn:longName>
+						<ucn:longName xml:lang="fr">Profil ATSC TV</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="tv">
+						<ucn:longName xml:lang="en">TV Profile</ucn:longName>
+						<ucn:longName xml:lang="fr">Profil TV</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+			</ucn:Dropdown>
+		</ucn:hasParameter>
+		<ucn:hasParameter>
+			<ucn:Dropdown ucn:reference="warning">
+				<ucn:longName xml:lang="en">Warning Level</ucn:longName>
+				<ucn:longName xml:lang="fr">Avertissements</ucn:longName>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="0">
+						<ucn:longName xml:lang="en">Most important</ucn:longName>
+						<ucn:longName xml:lang="fr">Les plus importants</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="1">
+						<ucn:longName xml:lang="en">Normal report</ucn:longName>
+						<ucn:longName xml:lang="fr">Rapport normal</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="2">
+						<ucn:longName xml:lang="en">All</ucn:longName>
+						<ucn:longName xml:lang="fr">Tous</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="no">
+						<ucn:longName xml:lang="en">No warnings</ucn:longName>
+						<ucn:longName xml:lang="fr">Aucun avertissement</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+			</ucn:Dropdown>
+		</ucn:hasParameter>
+		<ucn:hasParameter>
+			<ucn:CheckBoxList ucn:reference="usermedium">
+				<ucn:longName xml:lang="en">CSS User Medium</ucn:longName>
+				<ucn:longName xml:lang="fr">CSS Média</ucn:longName>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="all">
+						<ucn:longName xml:lang="en">All</ucn:longName>
+						<ucn:longName xml:lang="fr">Tous</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="tty">
+						<ucn:longName xml:lang="en">TTY</ucn:longName>
+					</ucn:Value>
+				</ucn:hasValue>
+				<ucn:hasValue>
+					<ucn:Value ucn:reference="tv">
+						<ucn:longName xml:lang="en">TV</ucn:longName>
 					</ucn:Value>
 				</ucn:hasValue>
 			</ucn:CheckBoxList>
