@@ -12,7 +12,7 @@
 		<ucn:longName xml:lang="en">General Conformance Check</ucn:longName>
 		<ucn:longName xml:lang="fr">Vérifie la conformité générale</ucn:longName>
 		<ucn:description xml:lang="en">Performs as many checks as possible.</ucn:description>
-		<ucn:description xml:lang="en">Effectue tous les tests possibles.</ucn:description>
+		<ucn:description xml:lang="fr">Effectue tous les tests possibles.</ucn:description>
 		<!--<ucn:hasParameter>
 			<ucn:Dropdown ucn:reference="profile">
 				<ucn:longName xml:lang="en">CSS Profile</ucn:longName>
