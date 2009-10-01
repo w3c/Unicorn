@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.31 2009-10-01 13:58:59 tgambet Exp $
+// $Id: UnicornCall.java,v 1.32 2009-10-01 14:33:28 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -66,6 +66,8 @@ public class UnicornCall {
 	
 	private ArrayList<Message> messages;
 
+	private List<InputModule> inputModules;
+
 	/**
 	 * Creates a new UnicornCall.
 	 */
@@ -74,6 +76,7 @@ public class UnicornCall {
 		mapOfStringParameter = new LinkedHashMap<String, String[]>();
 		mapOfResponse = new LinkedHashMap<String, Response>();
 		messages = new ArrayList<Message>();
+		inputModules = new ArrayList<InputModule>();
 	}
 
 	
@@ -164,12 +167,15 @@ public class UnicornCall {
 			if (aInputMethod.getMethod() != inputParameter.getInputMethod()) {
 				messages.add(new Message(Message.Level.WARNING, "\"" + aObserver.getName(sLang) + "\" $message_input_changed_1 " + inputParameter.getInputMethod().toString().toLowerCase() + " $message_input_changed_2", "$message_input_changed_long"));
 			}
-
+			
+			InputModule inputModule = createInputModule(aInputMethod, inputParameter.getInputModule());
+			inputModules.add(inputModule);
+			
 			// create a new request with input parameter
 			final Request aRequest = Request.createRequest(
 			// the corresponding best input module
 					//InputFactory.getInputModule(aInputMethod.getMethod()),
-					createInputModule(aInputMethod, inputParameter.getInputModule()),
+					inputModule,
 					// URL of the service to call
 					aInputMethod.getCallMethod().getURL().toString(),
 					// Name of the parameter holding resource information
@@ -555,11 +561,14 @@ public class UnicornCall {
 		try {
 			switch (aInputMethod.getMethod()) {
 			case DIRECT:
+				logger.debug("Creating DirectInputModule");
 				return new DirectInputModule(inputModule);
 			case UPLOAD:
+				logger.debug("Creating FakeUploadInputModule");
 				return new FakeUploadInputModule(inputModule);
 				//return new FileItemInputModule(inputModule);
 			case URI:
+				logger.debug("Creating URIInputModule");
 				return new URIInputModule(inputModule);
 			default:
 				return null;
@@ -572,6 +581,8 @@ public class UnicornCall {
 
 	public void dispose() {
 		inputParameter.dispose();
+		for (InputModule inputModule : inputModules)
+			inputModule.dispose();
 	}
 	
 }
