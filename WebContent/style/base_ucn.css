@@ -351,7 +351,7 @@ fieldset div.submit input {
 }
 #messages .pointer h4 {
 	font-weight:bold;
-	font-size:0.8em;
+	font-size:0.9em;
 }
 #messages .pointer:hover h4 {
 	text-decoration: underline;
