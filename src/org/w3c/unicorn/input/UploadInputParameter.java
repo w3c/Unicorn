@@ -45,5 +45,14 @@ public class UploadInputParameter extends InputParameter {
 	public EnumInputMethod getInputMethod() {
 		return EnumInputMethod.UPLOAD;
 	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (null != this.file) {
+			this.file.delete();
+			this.file = null;
+		}
+	}
 
 }
