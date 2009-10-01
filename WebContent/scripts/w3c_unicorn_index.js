@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_index.js,v 1.12 2009-09-30 16:29:17 tgambet Exp $Id */
+/* $Id: w3c_unicorn_index.js,v 1.13 2009-10-01 17:19:18 tgambet Exp $Id */
 var W3C = {
 	
 	start: function(){
@@ -202,7 +202,7 @@ var W3C = {
 	
 	requestOptions: function(taskIndex, withFX) {
 		
-		var req = new Request.HTML({url: window.location.pathname,
+		var req = new Request.HTML({url: window.location.pathname.replace(new RegExp('observe$'), ''),
 			method: 'get',
 			onRequest: function() {
 				W3C.Loader.injectBefore(W3C.Forms[W3C.SelectedTab].getElement('div.submit'));
