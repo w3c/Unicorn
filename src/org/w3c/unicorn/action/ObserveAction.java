@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.46 2009-09-30 17:07:58 tgambet Exp $
+// $Id: ObserveAction.java,v 1.47 2009-10-01 13:59:39 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -275,6 +275,7 @@ public class ObserveAction extends Action {
 			messages.add(new Message(aException));
 			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 		} finally {
+			aUnicornCall.dispose();
 			if ("true".equals(Property.get("DELETE_UPLOADED_FILES")) && aFileItemUploaded != null)
 				aFileItemUploaded.delete();
 		}
