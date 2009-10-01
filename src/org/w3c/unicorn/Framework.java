@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.15 2009-09-29 16:10:10 tgambet Exp $
+// $Id: Framework.java,v 1.16 2009-10-01 17:32:24 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.ParserConfigurationException;
@@ -86,7 +87,7 @@ public class Framework {
 	private static Hashtable<String, Properties> unicornPropertiesFiles;
 	private static Hashtable<String, VelocityContext> languageContexts;
 	private static Hashtable<String, Properties> languageProperties;
-	private static Hashtable<String, String> languages;
+	private static TreeMap<String, String> languages;
 	private static VelocityEngine velocityEngine;
 	private static String[] configFiles = {
 		"extensions.properties",
@@ -99,7 +100,7 @@ public class Framework {
 		unicornPropertiesFiles = new Hashtable<String, Properties>();
 		languageContexts = new Hashtable<String, VelocityContext>();
 		languageProperties = new Hashtable<String, Properties>();
-		languages = new Hashtable<String, String>();
+		languages = new TreeMap<String, String>();
 		mapOfObserver = new LinkedHashMap<String, Observer>();
 		mapOfReponseParser = new LinkedHashMap<String, ResponseParser>();
 	}
