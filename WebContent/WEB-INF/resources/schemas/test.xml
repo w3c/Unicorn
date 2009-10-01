@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<observationresponse xmlns="http://www.w3.org/unicorn/observationresponse"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://www.w3.org/unicorn/observationresponse ./observer-response2.xsd">
+
+	<passed>true</passed>
+	  
+	<rating>37</rating>
+	  
+	<list uri="http://www.w3.org/style.css">
+		<message type="error">
+			<context line="2" column="5">color: green</context>
+			<context line="26" column="5">background-color: green</context>
+			<context line="26" column="5">color: orange</context>
+			<text>Color not supported</text>
+			<description>
+				blahqsd
+			</description>
+		</message>
+		
+		<message type="info">
+			<context line="2" column="5">color: green</context>
+			<context line="26" column="5">background-color: green</context>
+			<context line="26" column="5">color: orange</context>
+			<text>Color not supported</text>
+			<description>
+				blahqsd
+			</description>
+		</message>
+		
+		<message type="warning">
+			<context line="2" column="5">color: green</context>
+			<context line="26" column="5">background-color: green</context>
+			<context line="26" column="5">color: orange</context>
+			<text>Color not supported</text>
+			<description>
+				blahqsd
+			</description>
+		</message>
+	</list>
+
+</observationresponse>

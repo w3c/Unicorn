@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified"
+	targetNamespace="http://www.w3.org/unicorn/observationresponse"
+	xmlns:m="http://www.w3.org/unicorn/observationresponse">
+	<xs:import
+		namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+	
+	<xs:element name="observationresponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="passed" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="rating" type="m:ratingType" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="list" type="m:listType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="listType">
+		<xs:sequence>
+			<xs:element name="message" type="m:messageType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="uri" type="xs:anyURI"/>
+	</xs:complexType>
+	
+	<xs:complexType name="messageType">
+        <xs:sequence>
+			<xs:element name="context" type="m:contextType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="text" type="xs:string" />
+			<xs:element name="description" type="xs:string" />
+		</xs:sequence>
+		<xs:attribute name="type" type="m:messageTypeEnum"/>
+	</xs:complexType>
+
+
+	<xs:simpleType name="ratingType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="messageTypeEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="info"/>
+			<xs:enumeration value="error"/>
+			<xs:enumeration value="warning"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+    <xs:complexType name="descriptionType"/>
+
+
+    <xs:complexType name="contextType">
+    	<xs:simpleContent>
+    		<xs:extension base="xs:string">
+
+    			<xs:attribute name="line" type="xs:string"></xs:attribute>
+    			<xs:attribute name="column" type="xs:string"></xs:attribute>
+    		</xs:extension>
+    	</xs:simpleContent>
+
+    </xs:complexType>
+</xs:schema>
