@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.23 2009-09-30 09:32:00 tgambet Exp $
+// $Id: IndexAction.java,v 1.24 2009-10-02 16:49:52 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +28,7 @@ public class IndexAction extends Action {
 	
 	//private static Log logger = LogFactory.getLog(IndexAction.class);
 	
-	private VelocityContext velocityContext;
+	//private VelocityContext velocityContext;
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,22 +49,22 @@ public class IndexAction extends Action {
 		String lang;
 		String task;
 		String queryString = "./" + getQueryStringWithout(paramPrefix + "lang", req);
-		if (req.getAttribute("unicorn_parameters") instanceof Map<?, ?>) {
+		/*if (req.getAttribute("unicorn_parameters") instanceof Map<?, ?>) {
 			Map<?, ?> reqParams = (Map<?, ?>) req.getAttribute("unicorn_parameters");
 			lang = getLanguage((String) reqParams.get(paramPrefix + "lang"), req, messages);
 			task = getTask((String) reqParams.get(paramPrefix + "task"), null);
-		} else {
+		} else {*/
 			lang = getLanguage((String) req.getParameter(paramPrefix + "lang"), req, messages);
 			task = getTask((String) req.getParameter(paramPrefix + "task"), null);
-		}
+		//}
 		
-		if (req.getAttribute("unicorn_messages") != null) {
+		/*if (req.getAttribute("unicorn_messages") != null) {
 			ArrayList<?> ucnMessages = (ArrayList<?>) req.getAttribute("unicorn_messages");
 			for (Object mess : ucnMessages)
 				messages.add((Message) mess);
-		}
+		}*/
 		
-		velocityContext = new VelocityContext(Language.getContext(lang));
+		VelocityContext velocityContext = new VelocityContext(Language.getContext(lang));
 		velocityContext.put("queryString", queryString);
 		velocityContext.put("messages", messages);
 		velocityContext.put("current_task", Framework.mapOfTask.get(task));
@@ -94,7 +93,7 @@ public class IndexAction extends Action {
 			}
 		}
 		
-		if (req.getAttribute("unicorn_parameters") instanceof Map<?, ?>) {
+		/*if (req.getAttribute("unicorn_parameters") instanceof Map<?, ?>) {
 			Map<?, ?> reqParams = (Map<?, ?>) req.getAttribute("unicorn_parameters");
 			
 			for (Object objKey : reqParams.keySet()) {
@@ -117,7 +116,7 @@ public class IndexAction extends Action {
 					velocityContext.put(ref, reqParams.get(key));
 				}
 			}
-		}
+		}*/
 		
 		PrintWriter writer = resp.getWriter();
 		if (req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest")) {
