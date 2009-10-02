@@ -17,7 +17,8 @@ public class Message {
 	}
 	
 	public Message(Exception e) {
-		content = e.getMessage() + "\n";
+		content = e.getClass() + "\n";
+		content += e.getMessage() + "\n";
 		for (StackTraceElement stackTraceElement : e.getStackTrace()) {
 			content += stackTraceElement.toString() + "\n";
 		}
