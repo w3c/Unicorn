@@ -68,7 +68,7 @@ public class URIInputParameter extends InputParameter {
 		} catch (MimeTypeParseException e) {
 			throw new UnicornException(Message.Level.ERROR, "$message_invalid_mime_type", null);
 		} catch (UnknownHostException e) { 
-			throw new UnicornException(Message.Level.ERROR, "$message_unknown_host", null);
+			throw new UnicornException(Message.Level.ERROR, "$message_unknown_host " + docUrl.getHost(), null);
 		} catch (SSLException e) {
 			throw new UnicornException(Message.Level.ERROR, "$message_ssl_exception", null);
 		} catch (ConnectException e) {
