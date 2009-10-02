@@ -2,7 +2,8 @@ package org.w3c.unicorn.input;
 
 import java.io.IOException;
 import java.net.ConnectException;
-import java.net.HttpURLConnection;
+//import java.net.HttpURLConnection;
+import sun.net.www.protocol.http.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
@@ -51,8 +52,9 @@ public class URIInputParameter extends InputParameter {
 			if (!docUrl.getProtocol().equals("http") && !docUrl.getProtocol().equals("https"))
 				throw new UnicornException(Message.Level.ERROR, "$message_unsupported_protocol " + docUrl.getProtocol(), null);
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
+			System.out.println(con.getClass());
 			con.setConnectTimeout(connectTimeOut);
-			((URLConnection) con).connect();
+			con.connect();
 			int responseCode = con.getResponseCode();
 			switch (responseCode) {
 			case HttpURLConnection.HTTP_UNAUTHORIZED:
