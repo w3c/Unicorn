@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_results.js,v 1.15 2009-10-02 12:16:40 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.16 2009-10-02 12:23:59 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
@@ -23,13 +23,14 @@ var W3C = {
 				else
 					a = title.getElement('a.anchor');
 				iconHolder.inject(a, 'after');
-				
-				section.store('fxSlide', new Fx.Slide(block, {'duration': slideDuration, 'link': 'cancel'}));
-				section.store('block', block);
-				title.addEvent('click', function(event) {
-					W3C.toggle(section);
-				});
 			}
+			
+			section.store('fxSlide', new Fx.Slide(block, {'duration': slideDuration, 'link': 'cancel'}));
+			section.store('block', block);
+			title.addEvent('click', function(event) {
+				W3C.toggle(section);
+			});
+			
 		});
 		
 		$$('.observer .section').each(function(section) {
