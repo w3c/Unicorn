@@ -11,6 +11,7 @@ public class Message {
 	private String message;
 	private String content;
 	private Level level;
+	private boolean evaluateContent = false;
 	
 	public Message() {
 	}
@@ -22,12 +23,14 @@ public class Message {
 		}
 		level = Level.ERROR;
 		message = "$stack_trace_text";
+		evaluateContent = false;
 	}
 	
 	public Message(Level level, String message, String content) {
 		this.level = level;
 		this.message = message;
 		this.content = content;
+		evaluateContent = true;
 	}
 	
 	public Message(Level level, String message) {
@@ -58,6 +61,13 @@ public class Message {
 	public void setLevel(Level level) {
 		this.level = level;
 	}
-	
+
+	public boolean doEvaluateContent() {
+		return evaluateContent;
+	}
+
+	public void setEvaluateContent(boolean evaluateContent) {
+		this.evaluateContent = evaluateContent;
+	}
 	
 }
