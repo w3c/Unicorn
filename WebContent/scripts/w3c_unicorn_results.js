@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_results.js,v 1.14 2009-09-30 17:00:27 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.15 2009-10-02 12:16:40 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
@@ -9,25 +9,27 @@ var W3C = {
 		var invalidObservers = $$('.observer.invalid');
 		var scroller = new Fx.Scroll(document);
 		
-		$$('.title').each(function(title) {
-			title.addClass('pointer');
-			var iconHolder = new Element('span', {'class': 'arrow'});
-			var a;
-			if (title.getElement('span.icons') != null)
-				a = title.getElement('span.icons');
-			else
-				a = title.getElement('a.anchor');
-			iconHolder.inject(a, 'after');
-		});
-		
 		$$('.section').each(function(section) {
 			var title = section.getElement('.title');
 			var block = section.getElement('.block');
-			section.store('fxSlide', new Fx.Slide(block, {'duration': slideDuration, 'link': 'cancel'}));
-			section.store('block', block);
-			title.addEvent('click', function(event) {
-				W3C.toggle(section);
-			});
+			var results = block.getElement('.results');
+			
+			if (!section.hasClass('observer') || section.getElement('.section') != null) {
+				title.addClass('pointer');
+				var iconHolder = new Element('span', {'class': 'arrow'});
+				var a;
+				if (title.getElement('span.icons') != null)
+					a = title.getElement('span.icons');
+				else
+					a = title.getElement('a.anchor');
+				iconHolder.inject(a, 'after');
+				
+				section.store('fxSlide', new Fx.Slide(block, {'duration': slideDuration, 'link': 'cancel'}));
+				section.store('block', block);
+				title.addEvent('click', function(event) {
+					W3C.toggle(section);
+				});
+			}
 		});
 		
 		$$('.observer .section').each(function(section) {
