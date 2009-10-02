@@ -83,7 +83,18 @@ public class Language {
 	}
 
 	public static boolean isComplete(String langParameter) {
-		return Framework.getLanguageProperties().get(langParameter).get("complete").equals("true");
+		Properties testedProps = Framework.getLanguageProperties().get(langParameter);
+		
+		if (testedProps.get("complete") == null) {
+			for (Object key : Framework.getLanguageProperties().get(Property.get("DEFAULT_LANGUAGE")).keySet()) {
+				if (!testedProps.containsKey(key)) {
+					testedProps.put("complete", "false");
+					return false;
+				}
+			}
+			return true;
+		} else
+			return testedProps.get("complete").equals("true");
 	}
 	
 }
