@@ -17,6 +17,10 @@
     <servlet-name>Observe</servlet-name>
     <servlet-class>org.w3c.unicorn.action.ObserveAction</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Language</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.LanguageAction</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Index</servlet-name>
     <url-pattern>/index.html</url-pattern>
@@ -28,5 +32,9 @@
   <servlet-mapping>
     <servlet-name>Init</servlet-name>
     <url-pattern>/init</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Language</servlet-name>
+    <url-pattern>/translations</url-pattern>
   </servlet-mapping>
 </web-app>
