@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.16 2009-10-01 17:32:24 tgambet Exp $
+// $Id: Framework.java,v 1.17 2009-10-02 16:52:10 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -29,6 +29,8 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.tools.generic.EscapeTool;
+import org.w3c.unicorn.action.LanguageAction;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.contract.WADLUnmarshaller;
 import org.w3c.unicorn.contract.WADLUnmarshallerXPath;
@@ -103,6 +105,7 @@ public class Framework {
 		languages = new TreeMap<String, String>();
 		mapOfObserver = new LinkedHashMap<String, Observer>();
 		mapOfReponseParser = new LinkedHashMap<String, ResponseParser>();
+		LanguageAction.setLanguageProperties(new TreeMap<String, Properties>());
 	}
 	
 	/**
@@ -423,6 +426,7 @@ public class Framework {
 			defaultProps = Language.load(defaultLanguageFile);
 			logger.debug("> Found language (default): " + defaultProps.getProperty("lang") + " - " + defaultProps.getProperty("language"));
 			defaultProps.put("complete", "true");
+			LanguageAction.addLanguageProperties(defaultProps);
 			languageProperties.put(Property.get("DEFAULT_LANGUAGE"), defaultProps);
 		} catch (IllegalArgumentException e) {
 			logger.warn(e.getMessage());
@@ -441,6 +445,7 @@ public class Framework {
 			try {
 				Properties props = Language.load(langFile);
 				logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
+				LanguageAction.addLanguageProperties(props);
 				Language.complete(props, defaultProps);
 				languageProperties.put(props.getProperty("lang"), props);
 			} catch (IllegalArgumentException e) {
@@ -480,6 +485,7 @@ public class Framework {
 			for (Object key : langProps.keySet()) {
 		    	context.put((String) key, langProps.get(key));
 		    }
+			context.put("esc", new EscapeTool());
 			context.put("tasklist", mapOfTask);
 			context.put("param_prefix", Property.get("UNICORN_PARAMETER_PREFIX"));
 			context.put("languages", languages);
