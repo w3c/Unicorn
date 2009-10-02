@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.17 2009-10-02 16:52:10 tgambet Exp $
+// $Id: Framework.java,v 1.18 2009-10-02 16:59:55 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -426,7 +426,7 @@ public class Framework {
 			defaultProps = Language.load(defaultLanguageFile);
 			logger.debug("> Found language (default): " + defaultProps.getProperty("lang") + " - " + defaultProps.getProperty("language"));
 			defaultProps.put("complete", "true");
-			LanguageAction.addLanguageProperties(defaultProps);
+			LanguageAction.setDefaultProperties(defaultProps);
 			languageProperties.put(Property.get("DEFAULT_LANGUAGE"), defaultProps);
 		} catch (IllegalArgumentException e) {
 			logger.warn(e.getMessage());

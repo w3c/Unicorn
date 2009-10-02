@@ -26,6 +26,8 @@ public class LanguageAction extends Action {
 	private static final long serialVersionUID = 1L;
 	
 	private static TreeMap<String, Properties> languageProperties;
+	
+	private static Properties defaultProperties;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -54,10 +56,11 @@ public class LanguageAction extends Action {
 		
 		
 		
-		languages.put(defaultLang, languageProperties.get(defaultLang).getProperty("language"));
+		languages.put(defaultLang, defaultProperties.getProperty("language"));
 		velocityContext.put("languages", languages);
+		languageProperties.remove(defaultLang);
 		velocityContext.put("languageProps", languageProperties);
-		velocityContext.put("defaultProps", languageProperties.get(defaultLang));
+		velocityContext.put("defaultProps", defaultProperties);
 		
 		PrintWriter writer = resp.getWriter();
 		Templates.write("language.vm", velocityContext, writer);
@@ -84,5 +87,15 @@ public class LanguageAction extends Action {
 	public static void setLanguageProperties(TreeMap<String, Properties> languageProperties) {
 		LanguageAction.languageProperties = languageProperties;
 	}
+
+	public static Properties getDefaultProperties() {
+		return defaultProperties;
+	}
+
+	public static void setDefaultProperties(Properties defaultProperties) {
+		LanguageAction.defaultProperties = defaultProperties;
+	}
+	
+	
 
 }
