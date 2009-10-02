@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.util.regex.Pattern;
 
@@ -51,7 +52,7 @@ public class URIInputParameter extends InputParameter {
 				throw new UnicornException(Message.Level.ERROR, "$message_unsupported_protocol " + docUrl.getProtocol(), null);
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
 			con.setConnectTimeout(connectTimeOut);
-			con.connect();
+			((URLConnection) con).connect();
 			int responseCode = con.getResponseCode();
 			switch (responseCode) {
 			case HttpURLConnection.HTTP_UNAUTHORIZED:
