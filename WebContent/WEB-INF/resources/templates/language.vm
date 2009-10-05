@@ -2,25 +2,31 @@
 #set ($css = ['base_ucn.css'])
 #parse('head.vm')
 
-<table>
-	<thead>
-		<tr>
-			<th scope="col">Property</th>
-			#foreach($prop in $languageProps)
-			<th scope="col">$prop.get("language")</th>
-			#end
-		</tr>
-	</thead>
-	<tbody>
-		#foreach($key in $defaultProps.keySet())
+<div id="translations">
+	<table>
+		<thead>
 			<tr>
-				<th scope="row">$key <p>$esc.html($defaultProps.get($key))</p></th>
+				<th scope="col">Property</th>
 				#foreach($prop in $languageProps)
-				<td title="$esc.html($!prop.get($key))">#if($prop.get($key))true#{else}false#end</td>
+				<th scope="col">$prop.get("language")</th>
 				#end
 			</tr>
-		#end
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			#foreach($key in $defaultProps.keySet())
+				<tr>
+					<th class="property_name" scope="row">$key <p>$esc.html($defaultProps.get($key))</p></th>
+					#foreach($prop in $languageProps)
+						#if($prop.get($key))
+						<td class="ok" title="$!esc.html($prop.get($key))">✔</td>
+						#{else}
+						<td class="missing" title="$!esc.html($prop.get($key))">✘</td>
+						#end
+					#end
+				</tr>
+			#end
+		</tbody>
+	</table>
+</div>
 
 #parse('footer.vm')
