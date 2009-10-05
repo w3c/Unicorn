@@ -7,23 +7,26 @@
 		<thead>
 			<tr>
 				<th scope="col">Property</th>
-				#foreach($prop in $languageProps)
-				<th scope="col">$prop.get("language")</th>
-				#end
+			#foreach($prop in $languageProps)
+				#set($percent = 100 * $math.div($prop.size(), $defaultProps.size()))
+				<th scope="col">$prop.get("language")<br />$percent.intValue()%</th>
+			#end
 			</tr>
 		</thead>
 		<tbody>
 			#foreach($key in $defaultProps.keySet())
+				#if ($key != "lang" && $key != "language")
 				<tr>
 					<th class="property_name" scope="row">$key <p>$esc.html($defaultProps.get($key))</p></th>
 					#foreach($prop in $languageProps)
 						#if($prop.get($key))
-						<td class="ok" title="$!esc.html($prop.get($key))">✔</td>
+						<td class="ok"><span #if($prop.get($key))title="$!esc.html($prop.get($key))"#end>✔</span></td>
 						#{else}
-						<td class="missing" title="$!esc.html($prop.get($key))">✘</td>
+						<td class="missing"><span #if($prop.get($key))title="$!esc.html($prop.get($key))"#end>✘</span></td>
 						#end
 					#end
 				</tr>
+				#end
 			#end
 		</tbody>
 	</table>
