@@ -372,7 +372,7 @@ fieldset.toggled legend {
 }
 
 /* Result page */
-#observations {
+#observations, #translations {
 	font-size: 0.8em;
 	margin:1em 2.5em;
 }
@@ -529,16 +529,16 @@ fieldset.toggled legend {
 #observations td.anchor a:hover, #observations h3 a.anchor:hover {
 	background:url(../images/unicons_sprite.png) no-repeat 0 -35px;
 }
-#observations table {
+#observations table, #translations table {
 	border-collapse:collapse;
 	width:100%;
 }
-#observations table tr {
+#observations table tr, #translations table tr {
 	border-collapse:collapse;
 	border:1px solid #CCCCCC;
 	border-left-width: 0;
 }
-#observations td, #observations th  {
+#observations td, #observations th, #translations td, #translations th {
 	padding:3px 6px;
 }
 #observations td.linenumber, #observations td.colnumber {
@@ -565,7 +565,38 @@ div.warnings td.level1 {
 div.warnings td.level2 {
 	border-left:6px solid #FFB1A7 !important;
 }
-
+#translations table {
+	border-left:1px solid #CCCCCC;
+}
+#translations thead th {
+	background-color:#E1E1E1;
+}
+#translations th {
+	background-color:#EEEEEE;
+	text-align:center;
+}
+#translations th.property_name {
+	padding:0.2em 0 0 !important;
+}
+#translations th p {
+	text-align:left;
+	background-color:#FFF;
+	font-size:xx-small;
+	margin:0.5em 0 0;
+	padding:0.5em 0.5em 0.4em;
+	font-weight:normal;
+}
+#translations td.ok {
+	background-color:#89E5A7;
+	text-align:center;
+}
+#translations td.missing {
+	background-color:#FF5555;
+	text-align:center;
+}
+#translations th {
+	font-weight:bold;
+}
 /* Specific result styles */
 div#markup-validator td.info img, div#css-validator td.info img, div#css1-validator td.info img, div#css2-validator td.info img, div#css21-validator td.info img, div#css3-validator td.info img {
 	float:left;
