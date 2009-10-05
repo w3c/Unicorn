@@ -529,11 +529,11 @@ fieldset.toggled legend {
 #observations td.anchor a:hover, #observations h3 a.anchor:hover {
 	background:url(../images/unicons_sprite.png) no-repeat 0 -35px;
 }
-#observations table, #translations table {
+#observations table {
 	border-collapse:collapse;
 	width:100%;
 }
-#observations table tr, #translations table tr {
+#observations table tr {
 	border-collapse:collapse;
 	border:1px solid #CCCCCC;
 	border-left-width: 0;
@@ -566,14 +566,20 @@ div.warnings td.level2 {
 	border-left:6px solid #FFB1A7 !important;
 }
 #translations table {
-	border-left:1px solid #CCCCCC;
+	border-collapse:collapse;
+}
+#translations tr {
+	border-collapse:collapse;
+	border:1px solid #CCCCCC;
+}
+#translations th {
+	border-right:1px solid #CCCCCC;
+	background-color:#EEEEEE;
+	text-align:center;
 }
 #translations thead th {
 	background-color:#E1E1E1;
-}
-#translations th {
-	background-color:#EEEEEE;
-	text-align:center;
+	font-size:1.2em;
 }
 #translations th.property_name {
 	padding:0.2em 0 0 !important;
@@ -586,16 +592,24 @@ div.warnings td.level2 {
 	padding:0.5em 0.5em 0.4em;
 	font-weight:normal;
 }
+#translations td.ok, #translations td.missing {
+	text-align:center;
+	border:1px solid #EEE;
+	border-width:0 0px 1px 1px;
+	border-collapse:collapse;
+}
 #translations td.ok {
 	background-color:#89E5A7;
-	text-align:center;
 }
 #translations td.missing {
 	background-color:#FF5555;
-	text-align:center;
 }
 #translations th {
 	font-weight:bold;
+}
+#translations span[title] {
+	border-bottom:thin dotted;
+	cursor:help;
 }
 /* Specific result styles */
 div#markup-validator td.info img, div#css-validator td.info img, div#css1-validator td.info img, div#css2-validator td.info img, div#css21-validator td.info img, div#css3-validator td.info img {
