@@ -576,6 +576,7 @@ div.warnings td.level2 {
 	border-right:1px solid #CCCCCC;
 	background-color:#EEEEEE;
 	text-align:center;
+	font-weight:bold;
 }
 #translations thead th {
 	background-color:#E1E1E1;
@@ -604,13 +605,19 @@ div.warnings td.level2 {
 #translations td.missing {
 	background-color:#FF5555;
 }
-#translations th {
-	font-weight:bold;
-}
-#translations span[title] {
+#translations td.ok span {
 	border-bottom:thin dotted;
 	cursor:help;
 }
+div.tip {
+	font-size:0.9em;
+	padding:0.5em;
+	color:#11438a;
+	border:1px solid #c2dafb;
+	background:#e3edfa;
+}
+
+
 /* Specific result styles */
 div#markup-validator td.info img, div#css-validator td.info img, div#css1-validator td.info img, div#css2-validator td.info img, div#css21-validator td.info img, div#css3-validator td.info img {
 	float:left;
