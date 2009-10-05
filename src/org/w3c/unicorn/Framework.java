@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.19 2009-10-05 12:12:34 tgambet Exp $
+// $Id: Framework.java,v 1.20 2009-10-05 13:05:47 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -30,6 +30,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.tools.generic.EscapeTool;
+import org.apache.velocity.tools.generic.MathTool;
 import org.w3c.unicorn.action.LanguageAction;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.contract.WADLUnmarshaller;
@@ -486,6 +487,7 @@ public class Framework {
 		    	context.put((String) key, langProps.get(key));
 		    }
 			context.put("esc", new EscapeTool());
+			context.put("math", new MathTool());
 			context.put("tasklist", mapOfTask);
 			context.put("param_prefix", Property.get("UNICORN_PARAMETER_PREFIX"));
 			context.put("languages", languages);
