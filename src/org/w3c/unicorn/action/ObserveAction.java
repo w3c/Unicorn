@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.47 2009-10-01 13:59:39 tgambet Exp $
+// $Id: ObserveAction.java,v 1.48 2009-10-05 14:25:42 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -203,7 +203,7 @@ public class ObserveAction extends Action {
 		resp.setContentType(aOutputModule.getMimeType() + "; charset=UTF-8");
 		
 		if (!reqParams.containsKey(paramPrefix + "uri") && !reqParams.containsKey(paramPrefix + "text") && !reqParams.containsKey(paramPrefix + "file")) {
-			messages.add(new Message(Message.Level.ERROR, "$message_nothing_to_validate", null));
+			messages.add(new Message(Message.ERROR, "$message_nothing_to_validate", null));
 			aOutputModule.produceError( mapOfStringObject, resp.getWriter());
 			return;
 		}
@@ -259,7 +259,7 @@ public class ObserveAction extends Action {
 			aUnicornCall.doTask();
 			messages.addAll(aUnicornCall.getMessages());
 			if (aUnicornCall.getResponses().size() == 0) {
-				messages.add(new Message(Message.Level.ERROR, "$message_no_observation_done", null));
+				messages.add(new Message(Message.ERROR, "$message_no_observation_done", null));
 				aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 			} else {
 				aOutputModule.produceOutput(mapOfStringObject, resp.getWriter());
@@ -268,7 +268,7 @@ public class ObserveAction extends Action {
 			if (ucnException.getUnicornMessage() != null)
 				messages.add(ucnException.getUnicornMessage());
 			else
-				messages.add(new Message(Message.Level.ERROR, ucnException.getMessage(), null));
+				messages.add(new Message(Message.ERROR, ucnException.getMessage(), null));
 			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 		} catch (final Exception aException) {
 			logger.error("Exception : " + aException.getMessage(), aException);

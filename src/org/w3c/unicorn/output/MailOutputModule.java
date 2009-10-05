@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.13 2009-10-05 13:04:52 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.14 2009-10-05 14:25:42 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -64,10 +64,10 @@ private List<OutputFormater> mailOutputFormaters;
 		//mapOfStringObject.put("baseUri", "http://qa-dev.w3.org/unicorn/");
 		
 		ArrayList<Message> messages = ((ArrayList<Message>) mapOfStringObject.get("messages"));
-		Message pendingMess = new Message(Message.Level.INFO, "$message_mail " + recipient);
+		Message pendingMess = new Message(Message.INFO, "$message_mail " + recipient);
 		
 		if (recipient == null) {
-			throw new UnicornException(new Message(Message.Level.ERROR, "$message_missing_email"));
+			throw new UnicornException(new Message(Message.ERROR, "$message_missing_email"));
 		} else {
 			messages.add(pendingMess);
 		}
@@ -90,7 +90,7 @@ private List<OutputFormater> mailOutputFormaters;
 			ArrayList<Message> messages = ((ArrayList<Message>) mapOfStringObject.get("messages"));
 			SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss (Z)", new Locale(outputParameters.get("lang")));
 			
-			messages.add(new Message(Message.Level.INFO, "$message_mail_date " + dateFormat.format(new Date())));
+			messages.add(new Message(Message.INFO, "$message_mail_date " + dateFormat.format(new Date())));
 			
 			mapOfStringObject.put("baseUri", Property.get("UNICORN_URL"));
 			

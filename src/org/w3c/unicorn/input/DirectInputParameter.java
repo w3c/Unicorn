@@ -21,13 +21,13 @@ public class DirectInputParameter extends InputParameter {
 	@Override
 	public void check() throws UnicornException {
 		if (document == null || document.equals(""))
-			throw new UnicornException(Message.Level.ERROR, "$message_empty_direct_input", null);
+			throw new UnicornException(Message.ERROR, "$message_empty_direct_input", null);
 		if (sMimeType == null || sMimeType.equals(""))
-			throw new UnicornException(Message.Level.ERROR, "$message_missing_mime_type", null);
+			throw new UnicornException(Message.ERROR, "$message_missing_mime_type", null);
 		try {
 			mimeType = new MimeType(sMimeType);
 		} catch (MimeTypeParseException e) {
-			throw new UnicornException(Message.Level.ERROR, "$message_invalid_mime_type", null);
+			throw new UnicornException(Message.ERROR, "$message_invalid_mime_type", null);
 		}
 		inputModule = new DirectInputModule(mimeType, document);
 	}

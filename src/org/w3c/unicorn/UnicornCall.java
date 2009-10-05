@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.32 2009-10-01 14:33:28 tgambet Exp $
+// $Id: UnicornCall.java,v 1.33 2009-10-05 14:25:42 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -98,7 +98,7 @@ public class UnicornCall {
 		
 		MimeType aMimeType = inputParameter.getMimeType();
 		if (!aTask.getSupportedMimeTypes().contains(aMimeType.toString()))
-			throw new UnicornException(Message.Level.ERROR, "$message_unsupported_mime_type", null);
+			throw new UnicornException(Message.ERROR, "$message_unsupported_mime_type", null);
 		
 		doNode(inputParameter, aTask.getTree());
 	}
@@ -165,7 +165,7 @@ public class UnicornCall {
 			
 			//TODO: add warning if inputMethod has changed -> check behavior
 			if (aInputMethod.getMethod() != inputParameter.getInputMethod()) {
-				messages.add(new Message(Message.Level.WARNING, "\"" + aObserver.getName(sLang) + "\" $message_input_changed_1 " + inputParameter.getInputMethod().toString().toLowerCase() + " $message_input_changed_2", "$message_input_changed_long"));
+				messages.add(new Message(Message.WARNING, "\"" + aObserver.getName(sLang) + "\" $message_input_changed_1 " + inputParameter.getInputMethod().toString().toLowerCase() + " $message_input_changed_2", "$message_input_changed_long"));
 			}
 			
 			InputModule inputModule = createInputModule(aInputMethod, inputParameter.getInputModule());

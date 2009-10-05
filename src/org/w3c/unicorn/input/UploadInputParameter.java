@@ -18,20 +18,20 @@ public class UploadInputParameter extends InputParameter {
 	@Override
 	public void check() throws UnicornException {
 		if (file.getName() == null || file.getName().equals("")) {
-			throw new UnicornException(Message.Level.ERROR, "$message_no_uploaded_file", null);
+			throw new UnicornException(Message.ERROR, "$message_no_uploaded_file", null);
 		}
 		if (file.getSize() == 0) {
-			throw new UnicornException(Message.Level.ERROR, "$message_empty_uploaded_file", null);
+			throw new UnicornException(Message.ERROR, "$message_empty_uploaded_file", null);
 		}
 		String sMimeType = file.getContentType();
 		if (null == sMimeType || "".equals(sMimeType)) {
 			// TODO Is there another solution here to find the mime-type ?
-			throw new UnicornException(Message.Level.ERROR, "$message_not_found_mime_type", null);
+			throw new UnicornException(Message.ERROR, "$message_not_found_mime_type", null);
 		}
 		try {
 			mimeType = new MimeType(sMimeType);
 		} catch (MimeTypeParseException e) {
-			throw new UnicornException(Message.Level.ERROR, "$message_invalid_mime_type", null);
+			throw new UnicornException(Message.ERROR, "$message_invalid_mime_type", null);
 		}
 		inputModule = new FileItemInputModule(mimeType, file);
 	}

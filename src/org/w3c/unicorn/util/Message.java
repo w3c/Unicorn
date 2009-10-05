@@ -2,15 +2,13 @@ package org.w3c.unicorn.util;
 
 public class Message {
 	
-	public enum Level {
-		ERROR,
-		WARNING,
-		INFO;
-	}
+	public static final int INFO = 0;
+	public static final int WARNING = 1;
+	public static final int ERROR = 2;
 	
 	private String message;
 	private String content;
-	private Level level;
+	private int level;
 	private boolean evaluateContent = false;
 	
 	public Message() {
@@ -22,19 +20,19 @@ public class Message {
 		for (StackTraceElement stackTraceElement : e.getStackTrace()) {
 			content += stackTraceElement.toString() + "\n";
 		}
-		level = Level.ERROR;
+		level = ERROR;
 		message = "$stack_trace_text";
 		evaluateContent = false;
 	}
 	
-	public Message(Level level, String message, String content) {
+	public Message(int level, String message, String content) {
 		this.level = level;
 		this.message = message;
 		this.content = content;
 		evaluateContent = true;
 	}
 	
-	public Message(Level level, String message) {
+	public Message(int level, String message) {
 		this.level = level;
 		this.message = message;
 	}
@@ -55,11 +53,11 @@ public class Message {
 		this.content = content;
 	}
 
-	public Level getLevel() {
+	public int getLevel() {
 		return level;
 	}
 
-	public void setLevel(Level level) {
+	public void setLevel(int level) {
 		this.level = level;
 	}
 

@@ -1,4 +1,4 @@
-// $Id: Action.java,v 1.14 2009-09-30 15:02:41 tgambet Exp $
+// $Id: Action.java,v 1.15 2009-10-05 14:25:42 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -72,17 +72,17 @@ public abstract class Action extends HttpServlet {
 			return lang;
 		
 		if (!Language.isComplete(lang))
-			messages.add(new Message(Message.Level.INFO, "$message_incomplete_language. $message_translation", null));
+			messages.add(new Message(Message.INFO, "$message_incomplete_language. $message_translation", null));
 		else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE").equals("true"))
-			messages.add(new Message(Message.Level.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
+			messages.add(new Message(Message.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
 		else if (langParameter != null && !Framework.getLanguageProperties().containsKey(langParameter)) {
 			if (Language.isISOLanguageCode(langParameter)) {
 				Locale locale = Language.getLocale(langParameter);
 				if (locale == null)
 					logger.warn("Missing locale: " + langParameter + ". This locale should be installed on the system in order to translate Unicorn in this language.");
-				messages.add(new Message(Message.Level.INFO, "$message_unavailable_requested_language (" + locale.getDisplayLanguage(locale) + "). $message_translation", null));
+				messages.add(new Message(Message.INFO, "$message_unavailable_requested_language (" + locale.getDisplayLanguage(locale) + "). $message_translation", null));
 			} else {
-				messages.add(new Message(Message.Level.INFO, "$message_invalid_requested_language (" + langParameter + ")", null));
+				messages.add(new Message(Message.INFO, "$message_invalid_requested_language (" + langParameter + ")", null));
 			}
 		}
 		
@@ -101,10 +101,10 @@ public abstract class Action extends HttpServlet {
 			return task;
 		
 		if (taskParameter == null) {
-			Message mess = new Message(Message.Level.WARNING, "$message_no_task " + "$default_task.getLongName($lang) ", null);
+			Message mess = new Message(Message.WARNING, "$message_no_task " + "$default_task.getLongName($lang) ", null);
 			messages.add(mess);
 		} else if (!Framework.mapOfTask.containsKey(taskParameter)) {
-			Message mess = new Message(Message.Level.WARNING, "$message_unknown_task " + "$default_task.getLongName($lang) ", null);
+			Message mess = new Message(Message.WARNING, "$message_unknown_task " + "$default_task.getLongName($lang) ", null);
 			messages.add(mess);
 		}
 		
