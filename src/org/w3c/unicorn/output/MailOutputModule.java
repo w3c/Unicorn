@@ -1,4 +1,4 @@
-// $Id: MailOutputModule.java,v 1.12 2009-09-30 13:36:15 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.13 2009-10-05 13:04:52 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -155,7 +155,7 @@ private List<OutputFormater> mailOutputFormaters;
 	}
 
 	public void produceError(Map<String, Object> mapOfStringObject, final Writer aWriter) {
-		if (getMimeType().equals("text/html")) {
+		if (defaultOutputFormater.getFormat().equals("xhtml10")) {
 			displayOnIndex(mapOfStringObject, aWriter);
 			return;
 		}
