@@ -17,7 +17,7 @@
 #macro(displayMessages $messages)
 <div id="messages">
 #foreach ($message in $messages)
-	#if ($message.Level == "ERROR")
+	#if ($message.Level == 2)
 	<div class="error">
 		<h4>#evaluate($message.Message)</h4>
 		#if ($message.Content)
@@ -27,7 +27,7 @@
 	#end
 #end
 #foreach ($message in $messages)
-	#if ($message.Level == "WARNING")
+	#if ($message.Level == 1)
 	<div class="warning">
 		<h4>#evaluate($message.Message)</h4>
 		#if ($message.Content)
@@ -37,7 +37,7 @@
 	#end
 #end
 #foreach ($message in $messages)
-	#if ($message.Level == "INFO")
+	#if ($message.Level == 0)
 	<div class="info">
 		<h4>#evaluate($message.Message)</h4>
 		#if ($message.Content)
