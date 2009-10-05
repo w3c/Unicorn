@@ -23,5 +23,5 @@
 			<a href="http://www.w3.org/"><img alt="W3C" width="110" height="61" id="logo" src="$!{baseUri}images/w3c.png" /></a>
 			<a href="$!{baseUri}"><span>Unicorn</span></a>
 		</h1>
-		<p>The Web's Universal Conformance Checker</p>
+		<p>$universal_checker</p>
 	</div>
