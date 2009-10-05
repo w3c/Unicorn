@@ -27,7 +27,7 @@ public class LanguageAction extends Action {
 	
 	private static TreeMap<String, Properties> languageProperties;
 	
-	private static Properties defaultProperties;
+	private static TreeMap<String, String> defaultProperties = new TreeMap<String, String>();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,7 +56,7 @@ public class LanguageAction extends Action {
 		
 		
 		
-		languages.put(defaultLang, defaultProperties.getProperty("language"));
+		languages.put(defaultLang, defaultProperties.get("language"));
 		velocityContext.put("languages", languages);
 		languageProperties.remove(defaultLang);
 		velocityContext.put("languageProps", languageProperties);
@@ -88,14 +88,19 @@ public class LanguageAction extends Action {
 		LanguageAction.languageProperties = languageProperties;
 	}
 
-	public static Properties getDefaultProperties() {
+	public static TreeMap<String, String> getDefaultProperties() {
 		return defaultProperties;
 	}
 
-	public static void setDefaultProperties(Properties defaultProperties) {
+	public static void setDefaultProperties(TreeMap<String, String> defaultProperties) {
 		LanguageAction.defaultProperties = defaultProperties;
 	}
 	
-	
+	public static void setDefaultProperties(Properties defaultProperties) {
+		for (Object obj : defaultProperties.keySet()) {
+			String key = (String) obj;
+			LanguageAction.defaultProperties.put(key, defaultProperties.getProperty(key));
+		}
+	}
 
 }
