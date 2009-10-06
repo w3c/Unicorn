@@ -1,7 +1,5 @@
 package org.w3c.unicorn.util;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,12 +15,6 @@ public class UCNProperties extends Properties {
 	public static Log logger = LogFactory.getLog(Framework.class);
 	
 	private Pattern pattern = Pattern.compile("\\$\\{[a-zA-Z_0-9]*\\}");
-	
-	@Override
-	public synchronized void load(InputStream inStream) throws IOException {
-		super.load(inStream);
-		this.parse();
-	}
 
 	public void parse() {
 		for(Object key : this.keySet()) {
