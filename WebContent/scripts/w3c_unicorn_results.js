@@ -1,8 +1,10 @@
-/* $Id: w3c_unicorn_results.js,v 1.16 2009-10-02 12:23:59 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.17 2009-10-06 15:22:08 tgambet Exp $Id */
 var W3C = {
 	
 	start: function() {
 		
+		document.addEvent('onHistoryChange')
+	
 		W3C.Observers = $$('.observer');
 		
 		var slideDuration = 500;
@@ -30,7 +32,6 @@ var W3C = {
 			title.addEvent('click', function(event) {
 				W3C.toggle(section);
 			});
-			
 		});
 		
 		$$('.observer .section').each(function(section) {
@@ -236,10 +237,15 @@ var W3C = {
 			W3C.FakeForm = W3C.FakeForm || new Element('form', {'method': 'get'}).injectInside(document.body);
 			W3C.FakeForm.setProperty('action', '#' + hash).submit();
 		} else {
-			window.location.hash = '#' + hash;
+			window.location.replace('#' + hash);
 		}
 	}
 };
 
 window.addEvent('domready', W3C.start);
+
+window.addEvent('onbeforeunload', function () {
+	console.log(history.toString());
+	history.go(-2);
+});
 
