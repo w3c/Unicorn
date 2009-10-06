@@ -23,7 +23,7 @@
 	<h3>Help complete the translation Unicorn in your language</h3>
 	<p>The table below lists all the text strings used to translate the CSS validator:</p>
 	<ul>
-		<li>Cells marked <span class='missing'><a title="Cross Mark">✘</a></span> need a new or updated translation. Click on the relevant <span class='missing'>✘</span> to submit a translation by mail.</li>
+		<li>Cells marked <span class='missing'>✘</span> need a new or updated translation. Click on the relevant <span class='missing'>✘</span> to submit a translation by mail.</li>
 		<li>Cells marked <span class='ok'>✔</span> are translated and up-to-date. Hover above <span class='ok'>✔</span> to read the current translation for each string.</li>
 	</ul>
 	<p>You can help fill the blanks and complete the translation in <strong>your</strong> language!</p>
