@@ -5,10 +5,12 @@ var W3C = {
 		
 		var tdOk = $$('#translations td.ok');
 		tdOk.each(function(element) {
-			element.store('tip:text', element.getElement('span').title);
+			var span = element.getElement('span'); 
+			element.store('tip:text', span.title);
+			span.removeProperty('title');
 		});
 		
-		new Tips($$('#translations td.ok'));
+		new Tips(tdOk);
 		
 	}
 	
