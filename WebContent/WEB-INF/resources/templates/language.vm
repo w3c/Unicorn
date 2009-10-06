@@ -9,8 +9,8 @@
 
 <div class="text">
 	<h2>Translation of Unicorn</h2>
-
-	<p>Unicorn is currently available in 2 languages. <!--The translations are mainly contributed by <a href="thanks.html">volunteers</a>.--></p>
+	#set($langNb = $languageProps.size() + 1)
+	<p>Unicorn is currently available in $langNb languages. <!--The translations are mainly contributed by <a href="thanks.html">volunteers</a>.--></p>
 
 	<h3>Translate Unicorn in a new language</h3>
 	<p>If Unicorn is not yet available in your native language and you would like to translate it:</p>
