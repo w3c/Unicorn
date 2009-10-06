@@ -15,7 +15,7 @@
 	<h3>Translate Unicorn in a new language</h3>
 	<p>If Unicorn is not yet available in your native language and you would like to translate it:</p>
 	<ol>
-		<li><a href="http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/languages/en.properties">Download the english properties file</a></li>
+		<li><a href="http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/languages/en.properties">Download the english properties file</a>.</li>
 		<li><a href="http://www.w3.org/Consortium/Translation/#discussions">Get in touch with us</a> <strong>before</strong> you start translating: someone may already be on the job. Someone from the W3C staff or validator development team will get back to you with details about how to translate the validator.</li>
 		<li>Translate. Congratulations, you have made Unicorn more accessible to a lot more Web developers and designers.</li>
 	</ol>
