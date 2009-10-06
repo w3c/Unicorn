@@ -10,6 +10,10 @@ public class Tasklist extends LinkedHashMap<String, Task> {
 
 	private String defaultTaskId;
 
+	public Task getDefaultTask() {
+		return Framework.mapOfTask.get(getDefaultTaskId());
+	}
+	
 	public String getDefaultTaskId() {
 		if (defaultTaskId == null) {
 			String id = Framework.mapOfTask.values().toArray(new Task[0])[0].getID();
