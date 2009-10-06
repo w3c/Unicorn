@@ -61,7 +61,13 @@ public class LanguageAction extends Action {
 		velocityContext.put("defaultProps", defaultProperties);
 		
 		PrintWriter writer = resp.getWriter();
-		Templates.write("language.vm", velocityContext, writer);
+		String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
+		if (langParameter == null)
+			Templates.write("language.vm", velocityContext, writer);
+		else {
+			velocityContext.put("prop", languageProperties.get(langParameter));
+			Templates.write("language.form.vm", velocityContext, writer);
+		}
 		writer.close();
 	}
 
