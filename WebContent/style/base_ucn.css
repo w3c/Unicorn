@@ -624,10 +624,11 @@ div.warnings td.level2 {
 	border-width:0 0px 1px 1px;
 	border-collapse:collapse;
 }
-#translations td.ok {
+#translations td.ok, div.text span.ok {
 	background-color:#89E5A7;
 }
-#translations td.missing {
+#translations td.missing, div.text span.missing {
+	color:yellow;
 	background-color:#FF5555;
 }
 #translations td.ok span {
