@@ -20,8 +20,8 @@ public class UnicornException extends Exception {
 		this.message = message;
 	}
 
-	public UnicornException(int level, String message, String content) {
-		this.message = new Message(level, message, content);
+	public UnicornException(int level, String message, String content, String... parameters) {
+		this.message = new Message(level, message, content, parameters);
 	}
 	
 	public UnicornException(int level, String message) {
