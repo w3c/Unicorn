@@ -1,4 +1,4 @@
-// $Id: Action.java,v 1.16 2009-10-06 08:16:02 tgambet Exp $
+// $Id: Action.java,v 1.17 2009-10-06 10:06:13 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -77,15 +77,12 @@ public abstract class Action extends HttpServlet {
 				Locale locale = Language.getLocale(langParameter);
 				if (locale == null)
 					logger.warn("Missing locale: " + langParameter + ". This locale should be installed on the system in order to translate Unicorn in this language.");
-				messages.add(new Message(Message.INFO, 
-						Language.evaluate(lang, "$message_unavailable_requested_language", locale.getDisplayLanguage(locale))));
+				messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, locale.getDisplayLanguage(locale)));
 			} else {
-				messages.add(new Message(Message.INFO, 
-						Language.evaluate(lang, "$message_invalid_requested_language", langParameter)));
+				messages.add(new Message(Message.INFO, "$message_invalid_requested_language", null, langParameter));
 			}
 		} else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE").equals("true"))
-			messages.add(new Message(Message.INFO, 
-					Language.evaluate(lang, "$message_unavailable_language", req.getLocale().getDisplayLanguage(req.getLocale()))));
+			messages.add(new Message(Message.INFO, "$message_unavailable_language", null, req.getLocale().getDisplayLanguage(req.getLocale())));
 		else if (!Language.isComplete(lang))
 			messages.add(new Message(Message.INFO, "$message_incomplete_language"));
 		
@@ -104,12 +101,10 @@ public abstract class Action extends HttpServlet {
 			return task;
 		
 		if (taskParameter == null) {
-			Message mess = new Message(Message.WARNING, 
-					Language.evaluate(messages.getLang(), "$message_no_task", Framework.getDefaultTask().getLongName(messages.getLang())));
+			Message mess = new Message(Message.WARNING, "$message_no_task", null, Framework.getDefaultTask().getLongName(messages.getLang()));
 			messages.add(mess);
 		} else if (!Framework.mapOfTask.containsKey(taskParameter)) {
-			Message mess = new Message(Message.WARNING,
-					Language.evaluate(messages.getLang(), "$message_unknown_task", taskParameter, Framework.getDefaultTask().getLongName(messages.getLang())));
+			Message mess = new Message(Message.WARNING, "$message_unknown_task", null, taskParameter, Framework.getDefaultTask().getLongName(messages.getLang()));
 			messages.add(mess);
 		}
 		
