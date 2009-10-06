@@ -1,4 +1,4 @@
-// $Id: UnicornClient.java,v 1.4 2009-09-24 17:39:16 tgambet Exp $
+// $Id: UnicornClient.java,v 1.5 2009-10-06 08:20:52 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -17,7 +17,7 @@ import org.w3c.unicorn.action.Action;
 import org.w3c.unicorn.input.URIInputParameter;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputModule;
-import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 
 public class UnicornClient {
@@ -70,7 +70,7 @@ public class UnicornClient {
 		Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 		Map<String, String> specificParameters = new Hashtable<String, String>();
 		Map<String, String> outputParameters   = new Hashtable<String, String>();
-		ArrayList<Message> messages = new ArrayList<Message>();
+		MessageList messages = new MessageList();
 
 		// Retrieve parameter prefixes from unicorn.properties
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
@@ -92,11 +92,12 @@ public class UnicornClient {
 				String paramName = param[0].substring(paramPrefix.length());
 				if (paramName.equals("lang")) {
 					outputParameters.put(paramName, param[1]);
+					messages.setLang(param[1]);
 					aUnicornCall.setLang(param[1] + "," + Property.get("DEFAULT_LANGUAGE"));
 				} else if (paramName.equals("task")) {
 					String task = Action.getTask(param[1], messages);
 					if (!task.equals(param[1])) {
-						mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
+						mapOfStringObject.put("default_task", Framework.getDefaultTask());
 					}
 					aUnicornCall.setTask(task);
 				} else if (outputParams.contains(paramName)) {
