@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.24 2009-10-02 16:49:52 tgambet Exp $
+// $Id: IndexAction.java,v 1.25 2009-10-06 08:16:02 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.util.Language;
-import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
 
@@ -43,32 +43,20 @@ public class IndexAction extends Action {
 		
 		resp.setContentType("text/html; charset=UTF-8");
 		
-		ArrayList<Message> messages = new ArrayList<Message>();
+		//ArrayList<Message> messages = new ArrayList<Message>();
+		MessageList messages = new MessageList(Property.get("DEFAULT_LANGUAGE"));
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
 		
-		String lang;
-		String task;
 		String queryString = "./" + getQueryStringWithout(paramPrefix + "lang", req);
-		/*if (req.getAttribute("unicorn_parameters") instanceof Map<?, ?>) {
-			Map<?, ?> reqParams = (Map<?, ?>) req.getAttribute("unicorn_parameters");
-			lang = getLanguage((String) reqParams.get(paramPrefix + "lang"), req, messages);
-			task = getTask((String) reqParams.get(paramPrefix + "task"), null);
-		} else {*/
-			lang = getLanguage((String) req.getParameter(paramPrefix + "lang"), req, messages);
-			task = getTask((String) req.getParameter(paramPrefix + "task"), null);
-		//}
-		
-		/*if (req.getAttribute("unicorn_messages") != null) {
-			ArrayList<?> ucnMessages = (ArrayList<?>) req.getAttribute("unicorn_messages");
-			for (Object mess : ucnMessages)
-				messages.add((Message) mess);
-		}*/
+		String lang = getLanguage((String) req.getParameter(paramPrefix + "lang"), req, messages);
+		messages.setLang(lang);
+		String task = getTask((String) req.getParameter(paramPrefix + "task"), null);
 		
 		VelocityContext velocityContext = new VelocityContext(Language.getContext(lang));
 		velocityContext.put("queryString", queryString);
 		velocityContext.put("messages", messages);
 		velocityContext.put("current_task", Framework.mapOfTask.get(task));
-		velocityContext.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
+		velocityContext.put("default_task", Framework.mapOfTask.getDefaultTask());
 		velocityContext.put("baseUri", "./");
 		
 		Enumeration<?> paramEnum = req.getParameterNames();
@@ -92,31 +80,6 @@ public class IndexAction extends Action {
 				velocityContext.put(ref, req.getParameter(key));
 			}
 		}
-		
-		/*if (req.getAttribute("unicorn_parameters") instanceof Map<?, ?>) {
-			Map<?, ?> reqParams = (Map<?, ?>) req.getAttribute("unicorn_parameters");
-			
-			for (Object objKey : reqParams.keySet()) {
-				String key = (String) objKey;
-				String ref;
-				if (key.startsWith(Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX")))
-					continue;
-				if (key.startsWith(paramPrefix))
-					ref = "param_" + key.substring(paramPrefix.length());
-				else
-					ref = "param_" + key;
-				if (reqParams.get(key) instanceof String[]) {
-					String[] s = (String[]) reqParams.get(key);
-					ArrayList<String> array = new ArrayList<String>();
-					for (int i = 0; i < s.length; i++)
-						array.add(s[i]);
-					velocityContext.put(ref, array);
-				}
-				else {
-					velocityContext.put(ref, reqParams.get(key));
-				}
-			}
-		}*/
 		
 		PrintWriter writer = resp.getWriter();
 		if (req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest")) {

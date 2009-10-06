@@ -44,13 +44,12 @@ public class URIInputParameter extends InputParameter {
 				if (!uri.contains("://")) 
 					uri = "http://" + uri;
 				if (!urlPattern.matcher(uri).matches())
-					throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax " + uri, null);
+					throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax ", uri);
 			}
 			docUrl = new URL(uri);
 			if (!docUrl.getProtocol().equals("http") && !docUrl.getProtocol().equals("https"))
 				throw new UnicornException(Message.ERROR, "$message_unsupported_protocol " + docUrl.getProtocol(), null);
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
-			System.out.println(con.getClass());
 			con.setConnectTimeout(connectTimeOut);
 			con.connect();
 			int responseCode = con.getResponseCode();

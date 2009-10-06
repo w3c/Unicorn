@@ -9,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
-
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 
@@ -61,7 +60,7 @@ public class Language {
 		}
 	}
 	
-	public static Properties load(File langFile) throws IllegalArgumentException, FileNotFoundException, IOException {
+	public static UCNProperties load(File langFile) throws IllegalArgumentException, FileNotFoundException, IOException {
 
 		String localeString = langFile.getName().split("\\.")[0];
 		if (!Language.isISOLanguageCode(localeString))
@@ -71,7 +70,7 @@ public class Language {
 		InputStreamReader isr;
 		try {
 			isr = new InputStreamReader(fis, "UTF-8");
-			Properties props = new Properties();
+			UCNProperties props = new UCNProperties();
 			props.load(isr);
 			props.put("lang", localeString);
 			return props;
@@ -95,6 +94,20 @@ public class Language {
 			return true;
 		} else
 			return testedProps.get("complete").equals("true");
+	}
+	
+	public static String evaluate(String lang, String messageKey, String... args) {
+		if (Framework.getLanguageProperties().get(lang) == null)
+			return messageKey;
+		
+		String message = Framework.getLanguageProperties().get(lang).getProperty(messageKey.replace("$", ""));
+		String result = message;
+		int i = 1;
+		for (String str : args) {
+			result = result.replaceAll("%"+i, str);
+			i++;
+		}
+		return result;
 	}
 	
 }

@@ -2,7 +2,6 @@ package org.w3c.unicorn.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -14,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.util.Language;
-import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
 
@@ -44,7 +43,7 @@ public class LanguageAction extends Action {
 		
 		String defaultLang = Property.get("DEFAULT_LANGUAGE");
 		
-		ArrayList<Message> messages = new ArrayList<Message>();
+		MessageList messages = new MessageList(defaultLang);
 		
 		resp.setContentType("text/html; charset=UTF-8");
 		
@@ -52,20 +51,17 @@ public class LanguageAction extends Action {
 		velocityContext.put("queryString", "./");
 		velocityContext.put("messages", messages);
 		velocityContext.put("baseUri", "./");
+		
 		Hashtable<String, String> languages = new Hashtable<String, String>();
-		
-		
-		
 		languages.put(defaultLang, defaultProperties.get("language"));
 		velocityContext.put("languages", languages);
+		
 		languageProperties.remove(defaultLang);
 		velocityContext.put("languageProps", languageProperties);
 		velocityContext.put("defaultProps", defaultProperties);
 		
 		PrintWriter writer = resp.getWriter();
 		Templates.write("language.vm", velocityContext, writer);
-		//writer.println(languageProperties);
-		//writer.println(languages);
 		writer.close();
 	}
 

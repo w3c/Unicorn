@@ -23,6 +23,10 @@ public class UnicornException extends Exception {
 	public UnicornException(int level, String message, String content) {
 		this.message = new Message(level, message, content);
 	}
+	
+	public UnicornException(int level, String message) {
+		this.message = new Message(level, message);
+	}
 
 	public Message getUnicornMessage() {
 		return message;

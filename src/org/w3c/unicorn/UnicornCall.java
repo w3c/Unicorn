@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.33 2009-10-05 14:25:42 tgambet Exp $
+// $Id: UnicornCall.java,v 1.34 2009-10-06 08:16:02 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -31,6 +31,7 @@ import org.w3c.unicorn.tasklist.parameters.Value;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
+import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 
@@ -98,7 +99,8 @@ public class UnicornCall {
 		
 		MimeType aMimeType = inputParameter.getMimeType();
 		if (!aTask.getSupportedMimeTypes().contains(aMimeType.toString()))
-			throw new UnicornException(Message.ERROR, "$message_unsupported_mime_type", null);
+			throw new UnicornException(Message.ERROR, 
+					Language.evaluate(sLang.split(",")[0], "$message_unsupported_mime_type", aMimeType.toString()));
 		
 		doNode(inputParameter, aTask.getTree());
 	}

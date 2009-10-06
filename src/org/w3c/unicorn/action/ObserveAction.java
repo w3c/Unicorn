@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.48 2009-10-05 14:25:42 tgambet Exp $
+// $Id: ObserveAction.java,v 1.49 2009-10-06 08:16:02 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -33,6 +33,7 @@ import org.w3c.unicorn.input.UploadInputParameter;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputModule;
 import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.Framework;
 
@@ -87,7 +88,7 @@ public class ObserveAction extends Action {
 		Map<String, Object> mapOfStringObject = new LinkedHashMap<String, Object>();
 		Map<String, String> mapOfSpecificParameter = new Hashtable<String, String>();
 		Map<String, String> mapOfOutputParameter = new Hashtable<String, String>();
-		ArrayList<Message> messages = new ArrayList<Message>();
+		MessageList messages = new MessageList();
 		UnicornCall aUnicornCall = new UnicornCall();
 		
 		// Default output parameters
@@ -139,6 +140,7 @@ public class ObserveAction extends Action {
 				if (paramName.equals("lang")) {
 					logger.trace("Lang parameter: " + key + " - " + (String) reqParams.get(key));
 					String lang = getLanguage((String) reqParams.get(key), req, null);
+					messages.setLang(lang);
 					mapOfOutputParameter.put(paramName, lang);
 					String aLocale = convertEnumerationToString(req.getLocales());		
 					if (null == aLocale)
@@ -154,7 +156,7 @@ public class ObserveAction extends Action {
 					String task = getTask((String) reqParams.get(key), messages);
 					mapOfStringObject.put("current_task", Framework.mapOfTask.get(task));
 					if (!task.equals(reqParams.get(key))) {
-						mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
+						mapOfStringObject.put("default_task", Framework.mapOfTask.getDefaultTask());
 						logger.trace("Task parameter unsupported. Resolved to: " + task);
 						reqParams.put(key, task);
 					}
@@ -190,6 +192,7 @@ public class ObserveAction extends Action {
 		// Check that all mandatory parameters are set
 		if (!reqParams.containsKey(paramPrefix + "lang")) {
 			String lang = getLanguage(null, req, null);
+			messages.setLang(lang);
 			reqParams.put(paramPrefix + "lang", getLanguage(null, req, null));
 			logger.debug("No language parameter found. Language negociation resolved language to: " + lang);
 			mapOfOutputParameter.put("lang", lang);
@@ -211,7 +214,7 @@ public class ObserveAction extends Action {
 			String task = getTask(null, messages);
 			reqParams.put(paramPrefix + "task", task);
 			logger.debug("No task parameter found. Task parameter is set to task id: " + task);
-			mapOfStringObject.put("default_task", Framework.mapOfTask.get(Framework.mapOfTask.getDefaultTaskId()));
+			mapOfStringObject.put("default_task", Framework.mapOfTask.getDefaultTask());
 			mapOfStringObject.put("current_task", Framework.mapOfTask.get(task));
 			aUnicornCall.setTask(task);
 		}

@@ -1,4 +1,4 @@
-// $Id: Action.java,v 1.15 2009-10-05 14:25:42 tgambet Exp $
+// $Id: Action.java,v 1.16 2009-10-06 08:16:02 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 
 public abstract class Action extends HttpServlet {
@@ -71,25 +72,27 @@ public abstract class Action extends HttpServlet {
 		if (messages == null)
 			return lang;
 		
-		if (!Language.isComplete(lang))
-			messages.add(new Message(Message.INFO, "$message_incomplete_language. $message_translation", null));
-		else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE").equals("true"))
-			messages.add(new Message(Message.INFO, "$message_unavailable_language (" + req.getLocale().getDisplayLanguage(req.getLocale()) + "). $message_translation", null));
-		else if (langParameter != null && !Framework.getLanguageProperties().containsKey(langParameter)) {
+		if (langParameter != null && !Framework.getLanguageProperties().containsKey(langParameter)) {
 			if (Language.isISOLanguageCode(langParameter)) {
 				Locale locale = Language.getLocale(langParameter);
 				if (locale == null)
 					logger.warn("Missing locale: " + langParameter + ". This locale should be installed on the system in order to translate Unicorn in this language.");
-				messages.add(new Message(Message.INFO, "$message_unavailable_requested_language (" + locale.getDisplayLanguage(locale) + "). $message_translation", null));
+				messages.add(new Message(Message.INFO, 
+						Language.evaluate(lang, "$message_unavailable_requested_language", locale.getDisplayLanguage(locale))));
 			} else {
-				messages.add(new Message(Message.INFO, "$message_invalid_requested_language (" + langParameter + ")", null));
+				messages.add(new Message(Message.INFO, 
+						Language.evaluate(lang, "$message_invalid_requested_language", langParameter)));
 			}
-		}
+		} else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE").equals("true"))
+			messages.add(new Message(Message.INFO, 
+					Language.evaluate(lang, "$message_unavailable_language", req.getLocale().getDisplayLanguage(req.getLocale()))));
+		else if (!Language.isComplete(lang))
+			messages.add(new Message(Message.INFO, "$message_incomplete_language"));
 		
 		return lang;
 	}
 
-	public static String getTask(String taskParameter, ArrayList<Message> messages) {
+	public static String getTask(String taskParameter, MessageList messages) {
 		
 		String task;
 		if (taskParameter == null || !Framework.mapOfTask.containsKey(taskParameter))
@@ -101,10 +104,12 @@ public abstract class Action extends HttpServlet {
 			return task;
 		
 		if (taskParameter == null) {
-			Message mess = new Message(Message.WARNING, "$message_no_task " + "$default_task.getLongName($lang) ", null);
+			Message mess = new Message(Message.WARNING, 
+					Language.evaluate(messages.getLang(), "$message_no_task", Framework.getDefaultTask().getLongName(messages.getLang())));
 			messages.add(mess);
 		} else if (!Framework.mapOfTask.containsKey(taskParameter)) {
-			Message mess = new Message(Message.WARNING, "$message_unknown_task " + "$default_task.getLongName($lang) ", null);
+			Message mess = new Message(Message.WARNING,
+					Language.evaluate(messages.getLang(), "$message_unknown_task", taskParameter, Framework.getDefaultTask().getLongName(messages.getLang())));
 			messages.add(mess);
 		}
 		

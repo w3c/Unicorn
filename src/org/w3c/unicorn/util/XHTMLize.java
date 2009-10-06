@@ -43,7 +43,7 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 			Code code = (Code) oValue;
 			return insertCode(code);
 		}
-		if (sReference.startsWith("$noEscape_"))
+		if (sReference.startsWith("$ucn.evaluate"))
 			return oValue.toString();
 		else
 			return StringEscapeUtils.escapeHtml(oValue.toString());
