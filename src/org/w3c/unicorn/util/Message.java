@@ -11,6 +11,8 @@ public class Message {
 	private int level;
 	private boolean evaluateContent = false;
 	
+	private String[] parameters;
+	
 	public Message() {
 	}
 	
@@ -25,11 +27,12 @@ public class Message {
 		evaluateContent = false;
 	}
 	
-	public Message(int level, String message, String content) {
+	public Message(int level, String message, String content, String... parameters) {
 		this.level = level;
 		this.message = message;
 		this.content = content;
 		evaluateContent = true;
+		this.parameters = parameters;
 	}
 	
 	public Message(int level, String message) {
@@ -41,6 +44,10 @@ public class Message {
 		return message;
 	}
 
+	public String getMessage(String lang) {
+		return Language.evaluate(lang, message, parameters);
+	}
+	
 	public void setMessage(String message) {
 		this.message = message;
 	}
