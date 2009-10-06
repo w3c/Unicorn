@@ -39,7 +39,7 @@ body {
 	min-width:40em;
 	padding-bottom:2em;
 }
-#frontforms, #don_program, #menu, #footer {
+#frontforms, #don_program, #menu, #footer, div.text {
 	margin:1em 2em;
 }
 #banner {
@@ -229,6 +229,31 @@ img.loader {
 	line-height:1.4;
 	text-align:center;
 	text-transform:uppercase;
+}
+div.text h2 {
+	font-size:1.3em;
+	color:#953636;
+}
+div.text h3 {
+	font-size:1.1em;
+	color:#438600;
+	border-bottom:1px dotted #64c800;
+}
+div.text p {
+	margin:0.5em 0 0.5em 1em;
+}
+div.text ol {
+	margin:0.5em 0 0.5em 2em;
+	list-style-type:decimal;
+	list-style-position:inside;
+}
+div.text ul {
+	margin:0.5em 0 0.5em 2em;
+	list-style-type:disc;
+	list-style-position:inside;
+}
+div.text li {
+	line-height:130%;
 }
 
 /* Backgrounds & colors */
