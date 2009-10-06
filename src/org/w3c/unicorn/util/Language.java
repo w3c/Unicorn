@@ -103,6 +103,8 @@ public class Language {
 		String message = Framework.getLanguageProperties().get(lang).getProperty(messageKey.replace("$", ""));
 		String result = message;
 		int i = 1;
+		if (args == null)
+			return result;
 		for (String str : args) {
 			result = result.replaceAll("%"+i, str);
 			i++;
