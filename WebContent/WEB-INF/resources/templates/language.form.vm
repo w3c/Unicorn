@@ -1,0 +1,45 @@
+#set ($title = "Unicorn - Translations")
+#set ($css = ['base_ucn.css'])
+#set ($js = ['mootools-1.2.3-core-nc.js', 'mootools-1.2.3.1-more.js', 'w3c_unicorn_languages.js'])
+#parse('head.vm')
+
+#if ($messages)
+#displayMessages($messages)
+#end
+
+<div id="translations">
+	<form method="post" action="./translations">
+		<!--<label for="">Name<input type="text" name="" value="" /></label>
+		<label for="">Email address<input type="text" name="" value="" /></label>
+		<label for="">Comments<textarea name="" value=""></textarea></label>-->
+		
+		<table style="width:100%">
+			<thead>
+				<tr>
+					<th scope="col" style="width:33%">$defaultProps.get("language") properties</th>
+					#set($percent = 100 * $math.div($prop.size(), $defaultProps.size()))
+					<th scope="col">$prop.get("language") $percent.intValue()%</th>
+				</tr>
+			</thead>
+			<tbody>
+				#foreach($key in $defaultProps.keySet())
+					#if ($key != "lang" && $key != "language")
+					<tr>
+						<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
+						#foreach($prop in $languageProps)
+							<td #if(!$prop.get($key))class="missing"#end><input style="padding:0.3em; width:98%" type="text" name="$key" value="$!esc.html($!prop.get($key))" /></td>
+						#end
+					</tr>
+					#end
+				#end
+			</tbody>
+		</table>
+		<fieldset>
+			<div class="submit">
+				<input type="submit" value="Submit" />
+			</div>
+		</fieldset>
+	</form>
+</div>
+
+#parse('footer.vm')
