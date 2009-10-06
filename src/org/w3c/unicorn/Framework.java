@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.20 2009-10-05 13:05:47 tgambet Exp $
+// $Id: Framework.java,v 1.21 2009-10-06 08:11:13 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -421,12 +421,13 @@ public class Framework {
 		}
 		
 		File defaultLanguageFile = new File(Property.get("PATH_TO_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".properties");
-		Properties defaultProps = new Properties();
+		UCNProperties defaultProps = new UCNProperties();
 		
 		try {
 			defaultProps = Language.load(defaultLanguageFile);
 			logger.debug("> Found language (default): " + defaultProps.getProperty("lang") + " - " + defaultProps.getProperty("language"));
 			LanguageAction.setDefaultProperties(defaultProps);
+			defaultProps.parse();
 			defaultProps.put("complete", "true");
 			languageProperties.put(Property.get("DEFAULT_LANGUAGE"), defaultProps);
 		} catch (IllegalArgumentException e) {
@@ -444,9 +445,10 @@ public class Framework {
 			if (langFile.equals(defaultLanguageFile))
 				continue;
 			try {
-				Properties props = Language.load(langFile);
+				UCNProperties props = Language.load(langFile);
 				logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
 				LanguageAction.addLanguageProperties(props);
+				props.parse();
 				Language.complete(props, defaultProps);
 				languageProperties.put(props.getProperty("lang"), props);
 			} catch (IllegalArgumentException e) {
@@ -488,6 +490,7 @@ public class Framework {
 		    }
 			context.put("esc", new EscapeTool());
 			context.put("math", new MathTool());
+			context.put("ucn", new Language());
 			context.put("tasklist", mapOfTask);
 			context.put("param_prefix", Property.get("UNICORN_PARAMETER_PREFIX"));
 			context.put("languages", languages);
@@ -524,6 +527,7 @@ public class Framework {
 			if (addUnicornHome)
 				properties.put("UNICORN_HOME", unicornHome.getPath());
 			properties.load(new FileInputStream(configFile));
+			properties.parse();
 			unicornPropertiesFiles.put(fileName, properties);
 			logger.debug("> " + fileName + ":" + properties);
 		}
@@ -540,5 +544,8 @@ public class Framework {
 	}
 	public static Hashtable<String, Properties> getLanguageProperties() {
 		return languageProperties;
+	}
+	public static Task getDefaultTask() {
+		return mapOfTask.getDefaultTask();
 	}
 }
