@@ -1,8 +1,11 @@
-#set ($noEscape_title = "Unicorn - Translations")
+#set ($title = "Unicorn - Translations")
 #set ($css = ['base_ucn.css'])
 #set ($js = ['mootools-1.2.3-core-nc.js', 'mootools-1.2.3.1-more.js', 'w3c_unicorn_languages.js'])
 #parse('head.vm')
 
+#if ($messages)
+#displayMessages($messages)
+#end
 <div id="translations">
 	<table>
 		<thead>

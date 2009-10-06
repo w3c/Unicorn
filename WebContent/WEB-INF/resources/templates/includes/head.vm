@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$lang" lang="$lang">
 <head>
-	<title>$noEscape_title</title>
+	<title>$title</title>
 	<link rev="start" href="$!{baseUri}" title="Home Page" />
 #foreach( $sheet in $css )
 	<link href="$!{baseUri}style/$sheet" type="text/css" media="screen" rel="stylesheet" />

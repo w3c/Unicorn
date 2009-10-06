@@ -1,4 +1,4 @@
-#set ($noEscape_title = "$result_for #evaluate($unicorncall.DocumentName)")
+#set ($title = "#evaluate($ucn.evaluate($lang, 'result_for', $unicorncall.DocumentName))")
 #set ($css = ['base_ucn.css'])
 #set ($js = ['mootools-1.2.3-core-nc.js', 'mootools-1.2.3.1-more.js', 'w3c_unicorn_results.js'])
 #if ($unicorncall.isPassed())
@@ -41,12 +41,8 @@
 			#if ($warningCount && $warningCount > 0)<a class="warnings" href="#${observationName}_warning" title="$warning_label:$warningCount"><span class="legend">$warning_label</span><span class="count">$warningCount</span></a> #end
 			<a class="anchor smooth" href="#$observationName" title="$anchor_observation">a</a>
 		</span>
-		#if($observation.isPassed())
-		$test_ok
-		#else
-		$test_fail
-		#end
-		<span class="name">$unicorncall.getObserverName($observationName, $lang) #if ($observation.Rating) ($observation.Rating/100) #end</span>
+		#if($observation.isPassed()) #set($ref = "test_ok") #else #set($ref = "test_fail") #end
+		$ucn.evaluate($lang, "test_ok", "<span class=\"name\">$unicorncall.getObserverName($observationName, $lang)#if($observation.Rating) ($observation.Rating/100)#end</span>")
 		#if ($observation.getFilteredRequestUri())<a class="direct_link" href="$observation.getFilteredRequestUri()" title="$direct_link_title_1">$direct_link_label</a>
 		#else <a class="direct_link" href="$observation.getBaseURI($observationName)" title="$direct_link_title_2">$direct_link_label</a>#end
 	</h2>

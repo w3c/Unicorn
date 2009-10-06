@@ -1,7 +1,7 @@
-#set ($noEscape_title = "Unicorn")
+#set ($title = "Unicorn")
 #set ($css = ['base_ucn.css'])
 #set ($js = ['mootools-1.2.3-core-nc.js', 'mootools-1.2.3.1-more.js', 'w3c_unicorn_index.js'])
-#parse( 'head.vm' )
+#parse('head.vm')
 
 #if ($messages)
 #displayMessages($messages)
@@ -82,22 +82,5 @@
 	<div id="don_program">
 		<script type="text/javascript" src="http://www.w3.org/QA/Tools/don_prog.js"></script>
 	</div>
-	<!--<div id="ucn_news">
-		<h1>Latest News</h1>
-		<h2 id="news_200809">September 2008: public preview, phase 2</h2>
-		<p>The public preview of the Unicorn framework gets a massive update after two summers of code and spec improvements. All the changes, aimed at making the unicorn framework faster, more reliable and easier to integrate with validators and web observation tools, include:</p>
-		<ul>
-			<li><strong>Simplified contract format</strong>, making it easier to define interactions between unicorn and an observer</li>
-			<li><strong>New tasks format</strong>, providing a more flexible way to sequence, mix and match observations</li>
-			<li><strong>Performance</strong> improvements, with a new multithreaded architecture</li>
-			<li>The ability to function as a <strong>servlet under more engines</strong>, including Jigsaw</li>
-			<li>A <strong>localized UI</strong> (currently: English and French, as a demo)</li>
-			<li>A brand new <strong>XML parser</strong> taking care of parsing tasks, contracts and observation responses</li>
-			<li>Tons of <strong>bug fixes</strong></li>
-		</ul>
-		<h2 id="news_200609">September 2006: public preview</h2>
-		<p>Welcome to the public preview of the unicorn tool. To learn more about this tool
-		or how you can provide feedback for this preview, check the <a href="http://www.w3.org/QA/2006/09/unicorn_public_preview.html">W3C QA Weblog</a>.</p>
-	</div>-->
 
-#parse( 'footer.vm' )
+#parse('footer.vm')
