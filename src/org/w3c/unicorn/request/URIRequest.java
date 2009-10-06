@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.12 2009-10-06 10:03:24 tgambet Exp $
+// $Id: URIRequest.java,v 1.13 2009-10-06 12:36:25 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -124,6 +124,7 @@ public class URIRequest extends Request {
 			logger.debug("URL : " + aURL + " .");
 			
 			HttpURLConnection aURLConnection = (HttpURLConnection) aURL.openConnection();
+			aURLConnection.setInstanceFollowRedirects(true);
 			aURLConnection.setConnectTimeout(connectTimeOut);
 			aURLConnection.setReadTimeout(readTimeOut);
 			aURLConnection.setRequestProperty("Accept-Language", this.sLang);
