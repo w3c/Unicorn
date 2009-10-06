@@ -615,6 +615,7 @@ div.tip {
 	color:#11438a;
 	border:1px solid #c2dafb;
 	background:#e3edfa;
+	max-width:25em;
 }
 
 
