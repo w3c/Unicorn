@@ -37,45 +37,45 @@ public class URIInputParameter extends InputParameter {
 		URL docUrl = null;
 		try {
 			if (uri.equals(""))
-				throw new UnicornException(Message.ERROR, "$message_empty_uri", null);
+				throw new UnicornException(Message.ERROR, "$message_empty_uri");
 			
 			Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)*(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
 			if (!urlPattern.matcher(uri).matches()) {
 				if (!uri.contains("://")) 
 					uri = "http://" + uri;
 				if (!urlPattern.matcher(uri).matches())
-					throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax ", uri);
+					throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax", null, uri);
 			}
 			docUrl = new URL(uri);
 			if (!docUrl.getProtocol().equals("http") && !docUrl.getProtocol().equals("https"))
-				throw new UnicornException(Message.ERROR, "$message_unsupported_protocol " + docUrl.getProtocol(), null);
+				throw new UnicornException(Message.ERROR, "$message_unsupported_protocol", null, docUrl.getProtocol());
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
 			con.setConnectTimeout(connectTimeOut);
 			con.connect();
 			int responseCode = con.getResponseCode();
 			switch (responseCode) {
 			case HttpURLConnection.HTTP_UNAUTHORIZED:
-				throw new UnicornException(Message.ERROR, "$message_unauthorized_access", null);
+				throw new UnicornException(Message.ERROR, "$message_unauthorized_access");
 			case HttpURLConnection.HTTP_NOT_FOUND:
-				throw new UnicornException(Message.ERROR, "$message_document_not_found", null);
+				throw new UnicornException(Message.ERROR, "$message_document_not_found");
 			}
 			String sMimeType = con.getContentType();
 			sMimeType = sMimeType.split(";")[0];
 			mimeType = new MimeType(sMimeType);
 			inputModule = new URIInputModule(mimeType, uri);
 		} catch (MalformedURLException e) {
-			throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax " + uri, null);
+			throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax", null, uri);
 		} catch (MimeTypeParseException e) {
-			throw new UnicornException(Message.ERROR, "$message_invalid_mime_type", null);
+			throw new UnicornException(Message.ERROR, "$message_invalid_mime_type");
 		} catch (UnknownHostException e) { 
-			throw new UnicornException(Message.ERROR, "$message_unknown_host " + docUrl.getHost(), null);
+			throw new UnicornException(Message.ERROR, "$message_unknown_host" , null, docUrl.getHost());
 		} catch (SSLException e) {
-			throw new UnicornException(Message.ERROR, "$message_ssl_exception", null);
+			throw new UnicornException(Message.ERROR, "$message_ssl_exception");
 		} catch (ConnectException e) {
-			throw new UnicornException(Message.ERROR, "$message_connect_exception", null);
+			throw new UnicornException(Message.ERROR, "$message_connect_exception");
 		} catch (SocketTimeoutException e) {
 			if (e.getMessage().contains("connect timed out")) {
-				throw new UnicornException(Message.ERROR, "$message_connect_exception", null);
+				throw new UnicornException(Message.ERROR, "$message_connect_exception");
 			} else {
 				throw new UnicornException(new Message(e));
 			}
