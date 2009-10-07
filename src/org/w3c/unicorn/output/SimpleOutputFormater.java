@@ -1,4 +1,4 @@
-// $Id: SimpleOutputFormater.java,v 1.8 2009-09-29 16:07:08 tgambet Exp $
+// $Id: SimpleOutputFormater.java,v 1.9 2009-10-07 15:52:20 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -41,8 +41,9 @@ public class SimpleOutputFormater extends OutputFormater {
 		logger.debug("Map of String -> Object : " + mapOfStringObject + ".");
 		logger.debug("Writer : " + output + ".");
 		
-		for (String sObjectName : mapOfStringObject.keySet())
-			aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));
+		if (mapOfStringObject != null)
+			for (String sObjectName : mapOfStringObject.keySet())
+				aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));
 		
 		Templates.write(format + ".vm", aVelocityContext, output);
 		try {
@@ -56,8 +57,9 @@ public class SimpleOutputFormater extends OutputFormater {
 		logger.trace("produceError");
 		logger.debug("Writer : " + output + ".");
 		
-		for (String sObjectName : mapOfStringObject.keySet())
-			aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));
+		if (mapOfStringObject != null)
+			for (String sObjectName : mapOfStringObject.keySet())
+				aVelocityContext.put(sObjectName, mapOfStringObject.get(sObjectName));
 		
 		Templates.write(format + ".error.vm", aVelocityContext, output);
 		try {
