@@ -66,6 +66,8 @@ public class Language {
 		if (!Language.isISOLanguageCode(localeString))
 			throw new IllegalArgumentException("Invalid language file: " + langFile + ". " + localeString + " is not a valid ISO language code. This file will not be loaded.");
 
+		Locale locale = Language.getLocale(localeString);
+		
 		FileInputStream fis = new FileInputStream(langFile);
 		InputStreamReader isr;
 		try {
@@ -73,6 +75,10 @@ public class Language {
 			UCNProperties props = new UCNProperties();
 			props.load(isr);
 			props.put("lang", localeString);
+			char[] languageArray = locale.getDisplayLanguage(locale).toCharArray();
+			languageArray[0] = Character.toUpperCase(languageArray[0]);
+			String language = new String(languageArray);
+			props.put("language", language);
 			return props;
 		} catch (UnsupportedEncodingException e) {
 			// This should not happen
