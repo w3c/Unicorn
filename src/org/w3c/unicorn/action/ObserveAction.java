@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.49 2009-10-06 08:16:02 tgambet Exp $
+// $Id: ObserveAction.java,v 1.50 2009-10-07 12:48:18 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -165,8 +165,14 @@ public class ObserveAction extends Action {
 					logger.trace("Output parameter: " + key + " - " + (String) reqParams.get(key));
 					mapOfOutputParameter.put(paramName, (String) reqParams.get(key));
 				} else if (paramName.equals("uri")) {
-					logger.trace("Uri parameter: " + key + " - " + (String) reqParams.get(key));
-					aUnicornCall.setInputParameter(new URIInputParameter((String) reqParams.get(key)));
+					String uriParam = (String) reqParams.get(key);
+					if (uriParam.equals("referer")) {
+						uriParam = req.getHeader("Referer");
+						if (uriParam == null)
+							messages.add(new Message(Message.ERROR, "$message_no_referer"));
+					}
+					logger.trace("Uri parameter: " + key + " - " + uriParam);
+					aUnicornCall.setInputParameter(new URIInputParameter(uriParam));
 				} else if (paramName.equals("text")) {
 					logger.trace("Text parameter: " + key + " - " + (String) reqParams.get(key));
 					aUnicornCall.setInputParameter(new DirectInputParameter((String) reqParams.get(key), (String) reqParams.get(paramPrefix + "text_mime")));
