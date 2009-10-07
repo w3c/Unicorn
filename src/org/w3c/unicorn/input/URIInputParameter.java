@@ -36,7 +36,7 @@ public class URIInputParameter extends InputParameter {
 	public void check() throws UnicornException {
 		URL docUrl = null;
 		try {
-			if (uri.equals(""))
+			if (uri == null || uri.equals(""))
 				throw new UnicornException(Message.ERROR, "$message_empty_uri");
 			
 			Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)*(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
