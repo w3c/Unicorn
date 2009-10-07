@@ -101,6 +101,13 @@ public class Language {
 			return messageKey;
 		
 		String message = Framework.getLanguageProperties().get(lang).getProperty(messageKey.replace("$", ""));
+		
+		if (message == null)
+			return messageKey;
+		
+		if (!message.contains("%"))
+			return message;
+		
 		String result = message;
 		int i = 1;
 		if (args == null)
