@@ -9,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 
@@ -75,10 +77,7 @@ public class Language {
 			UCNProperties props = new UCNProperties();
 			props.load(isr);
 			props.put("lang", localeString);
-			char[] languageArray = locale.getDisplayLanguage(locale).toCharArray();
-			languageArray[0] = Character.toUpperCase(languageArray[0]);
-			String language = new String(languageArray);
-			props.put("language", language);
+			props.put("language", StringUtils.capitalize(locale.getDisplayLanguage(locale)));
 			return props;
 		} catch (UnsupportedEncodingException e) {
 			// This should not happen
