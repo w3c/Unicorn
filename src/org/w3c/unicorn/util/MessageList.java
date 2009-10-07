@@ -12,6 +12,27 @@ public class MessageList extends ArrayList<Message> {
 		this.lang = Property.get("DEFAULT_LANGUAGE");
 	}
 	
+	public boolean hasInfo() {
+		for (Message m : this)
+			if (m.getLevel() == Message.INFO)
+				return true;
+		return false;
+	}
+	
+	public boolean hasWarning() {
+		for (Message m : this)
+			if (m.getLevel() == Message.WARNING)
+				return true;
+		return false;
+	}
+	
+	public boolean hasErrors() {
+		for (Message m : this)
+			if (m.getLevel() == Message.ERROR)
+				return true;
+		return false;
+	}
+	
 	public MessageList(String lang) {
 		this.lang = lang;
 	}
