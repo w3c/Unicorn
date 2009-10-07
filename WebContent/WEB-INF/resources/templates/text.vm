@@ -1,25 +1,35 @@
 #if ($messages.size() > 0)
+
+#if ($messages.hasError())
+$error_label
 #foreach ($message in $messages)
 #if ($message.Level == "ERROR")
-Error:
 	#evaluate($message.Message)
 	$!{message.Content}
 #end
 #end
+#end
+
+#if ($messages.hasWarning())
+$warning_label
 #foreach ($message in $messages)
 #if ($message.Level == "WARNING")
-Warning:
 	#evaluate($message.Message)
 	$!{message.Content}
 #end
 #end
+#end
+
+#if ($messages.hasInfo())
+$info_label
 #foreach ($message in $messages)
 #if ($message.Level == "INFO")
-Info:
 	#evaluate($message.Message)
 	$!{message.Content}
 #end
 #end
+#end
+
 #end
 
 #set($observationList = $unicorncall.ObservationList)
@@ -31,9 +41,9 @@ Info:
 ==================================================================================================================================================
 #if($observation.isPassed())$test_ok#else$test_fail#end $unicorncall.getObserverName($observationName, $lang)#if($observation.Rating) ($observation.Rating/100)#end
 
-#if($infoCount && $infoCount > 0)$info_label: $infoCount
-#end#if($errorCount && $errorCount > 0)$error_label: $errorCount
-#end#if($warningCount && $warningCount > 0)$warning_label: $warningCount
+#if($infoCount && $infoCount > 0)$info_label ($infoCount)
+#end#if($errorCount && $errorCount > 0)$error_label ($errorCount)
+#end#if($warningCount && $warningCount > 0)$warning_label ($warningCount)
 #end#if($observation.getFilteredRequestUri())$direct_link_label: $observation.getFilteredRequestUri()
 #{else}$direct_link_label: $observation.getBaseURI($observationName)#end
 #if ($infoCount && $infoCount > 0)
@@ -42,12 +52,12 @@ $info_label ($infoCount)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 #foreach($result in $observation.getResultsList())
 #if(!$result.Infos.isEmpty())
-#if ($unicorncall.getInputMethod() == "URI")=> $uri_token: $result.Uri#end
-#if ($unicorncall.getInputMethod() == "UPLOAD")=> $file_token: $result.Uri#end
+#if ($unicorncall.getInputMethod() == "URI")=> $uri_token $result.Uri#end
+#if ($unicorncall.getInputMethod() == "UPLOAD")=> $file_token $result.Uri#end
 #if ($unicorncall.getInputMethod() == "DIRECT")=> $submitted_file#end
 
 #foreach($info in $result.Infos)
-   -#if($info.Line) $line_token:$info.Line#end#if($info.Column) $column_token:$info.Column#end#if($info.Context) $context_token:$info.Context#end
+   -#if($info.Line) $line_token $info.Line#end#if($info.Column) $column_token $info.Column#end#if($info.Context) $context_token $info.Context#end
 #if ($info.Line || $info.Column || $info.Context)
 
     #end
@@ -70,12 +80,12 @@ $error_label ($errorCount)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 #foreach($result in $observation.getResultsList())
 #if(!$result.Errors.isEmpty())
-#if ($unicorncall.getInputMethod() == "URI")=> $uri_token: $result.Uri#end
-#if ($unicorncall.getInputMethod() == "UPLOAD")=> $file_token: $result.Uri#end
+#if ($unicorncall.getInputMethod() == "URI")=> $uri_token $result.Uri#end
+#if ($unicorncall.getInputMethod() == "UPLOAD")=> $file_token $result.Uri#end
 #if ($unicorncall.getInputMethod() == "DIRECT")=> $submitted_file#end
 
 #foreach($error in $result.Errors)
-   -#if($error.Line) $line_token:$error.Line#end#if($error.Column) $column_token:$error.Column#end#if($error.Context) $context_token:$error.Context#end
+   -#if($error.Line) $line_token $error.Line#end#if($error.Column) $column_token $error.Column#end#if($error.Context) $context_token $error.Context#end
 #if ($error.Line || $error.Column || $error.Context)
 
     #end
@@ -98,12 +108,12 @@ $warning_label ($warningCount)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 #foreach($result in $observation.getResultsList())
 #if(!$result.Warnings.isEmpty())
-#if ($unicorncall.getInputMethod() == "URI")=> $uri_token: $result.Uri#end
-#if ($unicorncall.getInputMethod() == "UPLOAD")=> $file_token: $result.Uri#end
+#if ($unicorncall.getInputMethod() == "URI")=> $uri_token $result.Uri#end
+#if ($unicorncall.getInputMethod() == "UPLOAD")=> $file_token $result.Uri#end
 #if ($unicorncall.getInputMethod() == "DIRECT")=> $submitted_file#end
 
 #foreach($warning in $result.Warnings)
-   -#if($warning.Line) $line_token:$warning.Line#end#if($warning.Column) $column_token:$warning.Column#end#if($warning.Context) $context_token:$warning.Context#end
+   -#if($warning.Line) $line_token $warning.Line#end#if($warning.Column) $column_token $warning.Column#end#if($warning.Context) $context_token $warning.Context#end
 #if ($warning.Line || $warning.Column || $warning.Context)
 
     #end
