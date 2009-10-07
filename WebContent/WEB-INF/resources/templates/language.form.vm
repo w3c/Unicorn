@@ -25,7 +25,7 @@
 				<thead>
 					<tr>
 						<th scope="col" style="width:33%">$defaultProps.get("language") properties</th>
-						#set($percent = 100 * $math.div($math.sub($prop.size(), 1), $math.sub($defaultProps.size(), 1)))
+						#set($percent = 100 * $math.div($math.sub($prop.size(), 2), $math.sub($defaultProps.size(), 2)))
 						<th scope="col">$prop.get("language") $percent.intValue()%</th>
 					</tr>
 				</thead>
