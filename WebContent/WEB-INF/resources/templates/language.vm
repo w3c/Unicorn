@@ -35,7 +35,7 @@
 			<tr>
 				<th scope="col">Property</th>
 			#foreach($prop in $languageProps)
-				#set($percent = 100 * $math.div($prop.size(), $defaultProps.size()))
+				#set($percent = 100 * $math.div($math.sub($prop.size(), 1), $math.sub($defaultProps.size(), 1)))
 				<th scope="col">$prop.get("language")<br />$percent.intValue()%</th>
 			#end
 			</tr>

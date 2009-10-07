@@ -9,33 +9,40 @@
 
 <div id="translations">
 	<form method="post" action="./translations">
-		<!--<label for="">Name<input type="text" name="" value="" /></label>
-		<label for="">Email address<input type="text" name="" value="" /></label>
-		<label for="">Comments<textarea name="" value=""></textarea></label>-->
 		
-		<table style="width:100%">
-			<thead>
-				<tr>
-					<th scope="col" style="width:33%">$defaultProps.get("language") properties</th>
-					#set($percent = 100 * $math.div($prop.size(), $defaultProps.size()))
-					<th scope="col">$prop.get("language") $percent.intValue()%</th>
-				</tr>
-			</thead>
-			<tbody>
-				#foreach($key in $defaultProps.keySet())
-					#if ($key != "lang" && $key != "language")
-					<tr>
-						<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
-						#foreach($prop in $languageProps)
-							<td #if(!$prop.get($key))class="missing"#end><input style="padding:0.3em; width:98%" type="text" name="$key" value="$!esc.html($!prop.get($key))" /></td>
-						#end
-					</tr>
-					#end
-				#end
-			</tbody>
-		</table>
 		<fieldset>
+			<legend>About you</legend>
+			<label for="translator_name"><span style="min-width:7em; text-align:right;">Name</span><input type="text" name="translator_name" /></label><br />
+			<label for="translator_mail"><span style="min-width:7em; text-align:right;">Email address</span><input type="text" name="translator_mail" /></label><br />
+			<label for="translator_comments"><span style="min-width:7em; text-align:right;">Comments</span><textarea name="translator_comments" style="vertical-align:top" rows="5" cols="20"></textarea></label>
+		</fieldset>
+		
+		<fieldset>
+			<legend>Translation</legend>
+			
+			
+			<table style="width:100%">
+				<thead>
+					<tr>
+						<th scope="col" style="width:33%">$defaultProps.get("language") properties</th>
+						#set($percent = 100 * $math.div($math.sub($prop.size(), 1), $math.sub($defaultProps.size(), 1)))
+						<th scope="col">$prop.get("language") $percent.intValue()%</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($key in $defaultProps.keySet())
+						#if ($key != "lang" && $key != "language")
+						<tr>
+							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
+							<td #if(!$prop.get($key))class="missing"#end><input style="padding:0.3em; width:98%" type="text" name="$prop.get('lang')_$key" value="$!esc.html($!prop.get($key))" /></td>
+						</tr>
+						#end
+					#end
+				</tbody>
+			</table>
+		
 			<div class="submit">
+				<input type="hidden" name="translation_language" value="$prop.get('lang')" />
 				<input type="submit" value="Submit" />
 			</div>
 		</fieldset>

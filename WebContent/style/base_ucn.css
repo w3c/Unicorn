@@ -39,7 +39,7 @@ body {
 	min-width:40em;
 	padding-bottom:2em;
 }
-#frontforms, #don_program, #menu, #footer, div.text {
+#frontforms, #don_program, #menu, #footer, div.text, #translations {
 	margin:1em 2em;
 }
 #banner {
@@ -398,7 +398,7 @@ fieldset.toggled legend {
 }
 
 /* Result page */
-#observations, #translations {
+#observations {
 	font-size: 0.8em;
 	margin:1em 2.5em;
 }
@@ -593,6 +593,7 @@ div.warnings td.level2 {
 }
 #translations table {
 	border-collapse:collapse;
+	font-size:0.8em;
 }
 #translations tr {
 	border-collapse:collapse;
