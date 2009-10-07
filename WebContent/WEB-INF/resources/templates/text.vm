@@ -44,8 +44,8 @@ $info_label
 #if($infoCount && $infoCount > 0)$info_label ($infoCount)
 #end#if($errorCount && $errorCount > 0)$error_label ($errorCount)
 #end#if($warningCount && $warningCount > 0)$warning_label ($warningCount)
-#end#if($observation.getFilteredRequestUri())$direct_link_label: $observation.getFilteredRequestUri()
-#{else}$direct_link_label: $observation.getBaseURI($observationName)#end
+#end#if($observation.getFilteredRequestUri())$direct_link_label $observation.getFilteredRequestUri()
+#{else}$direct_link_label $observation.getBaseURI($observationName)#end
 #if ($infoCount && $infoCount > 0)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 $info_label ($infoCount)

@@ -36,9 +36,9 @@
 <div class="observer section #if($observation.isPassed()) valid #else invalid #end" id="$observationName">
 	<h2 class="title">
 		<span class="icons">
-			#if ($infoCount && $infoCount > 0)<a class="infos" href="#${observationName}_info" title="$info_label:$infoCount"><span class="legend">$info_label</span><span class="count">$infoCount</span></a> #end
-			#if ($errorCount && $errorCount > 0)<a class="errors" href="#${observationName}_error" title="$error_label:$errorCount"><span class="legend">$error_label</span><span class="count">$errorCount</span></a> #end
-			#if ($warningCount && $warningCount > 0)<a class="warnings" href="#${observationName}_warning" title="$warning_label:$warningCount"><span class="legend">$warning_label</span><span class="count">$warningCount</span></a> #end
+			#if ($infoCount && $infoCount > 0)<a class="infos" href="#${observationName}_info" title="$info_label ($infoCount)"><span class="legend">$info_label</span><span class="count">$infoCount</span></a> #end
+			#if ($errorCount && $errorCount > 0)<a class="errors" href="#${observationName}_error" title="$error_label ($errorCount)"><span class="legend">$error_label</span><span class="count">$errorCount</span></a> #end
+			#if ($warningCount && $warningCount > 0)<a class="warnings" href="#${observationName}_warning" title="$warning_label ($warningCount)"><span class="legend">$warning_label</span><span class="count">$warningCount</span></a> #end
 			<a class="anchor smooth" href="#$observationName" title="$anchor_observation">a</a>
 		</span>
 		#if($observation.isPassed()) #set($ref = "test_ok") #else #set($ref = "test_fail") #end
@@ -72,8 +72,8 @@
 #foreach($info in $result.Infos)
 #set ($messageId = "${observationName}_info_${i}_$velocityCount")
 						<tr>
-							<td class="linenumber" title="#if($info.Line)$line_token: $info.Line#end">$!info.Line</td>
-							<td class="colnumber" title="#if($info.Column)$column_token: $info.Column#end">$!info.Column</td>
+							<td class="linenumber" title="#if($info.Line)$line_token $info.Line#end">$!info.Line</td>
+							<td class="colnumber" title="#if($info.Column)$column_token $info.Column#end">$!info.Column</td>
 							<td class="codeContext" title="$context_token">$!{info.Context}</td>
 							<td class="info" id="$messageId">
 							#foreach($message in $info.Message)<span class="msg">$message</span>#end
@@ -120,8 +120,8 @@
 #foreach($error in $result.Errors)
 #set ($messageId = "${observationName}_error_${i}_$velocityCount")
 						<tr>
-							<td class="linenumber" title="#if($error.Line)$line_token: $error.Line#end">$!error.Line</td>
-							<td class="colnumber" title="#if($error.Column)$column_token: $error.Column#end">$!error.Column</td>
+							<td class="linenumber" title="#if($error.Line)$line_token $error.Line#end">$!error.Line</td>
+							<td class="colnumber" title="#if($error.Column)$column_token $error.Column#end">$!error.Column</td>
 							<td class="codeContext" title="$context_token">$!error.Context</td>
 							<td class="error" id="$messageId">
 							#foreach($message in $error.Message)<span class="msg">$message</span>#end
@@ -168,8 +168,8 @@
 #foreach($warning in $result.Warnings)
 #set ($messageId = "${observationName}_warning_${i}_$velocityCount")
 						<tr>
-							<td class="linenumber" title="#if($warning.Line)$line_token: $warning.Line#end">$!warning.Line</td>
-							<td class="colnumber" title="#if($warning.Column)$column_token: $warning.Column#end">$!warning.Column</td>
+							<td class="linenumber" title="#if($warning.Line)$line_token $warning.Line#end">$!warning.Line</td>
+							<td class="colnumber" title="#if($warning.Column)$column_token $warning.Column#end">$!warning.Column</td>
 							<td class="codeContext" title="$context_token">$!warning.Context</td>
 							<td class="warning level$warning.getLevel()" id="$messageId">
 							#foreach($message in $warning.Message)<span class="msg">$message</span>#end
