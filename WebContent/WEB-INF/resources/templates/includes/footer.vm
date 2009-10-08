@@ -1,5 +1,5 @@
 	<ul id="menu">
-			<li><a href="http://www.w3.org/QA/2006/obs_framework/" title="$documentation_title">$documentation</a></li>
+			<li><a href="http://www.w3.org/QA/Tools/Unicorn/" title="$documentation_title">$documentation</a></li>
 			<li><a href="http://dev.w3.org/cvsweb/2006/unicorn/" title="$download_title">$download</a></li>
 			<li><a href="mailto:public-qa-dev@w3.org" title="$feedback_title">$feedback</a></li>
 			<li><a href="${baseUri}translations" title="$translations_title">$translations</a></li>
