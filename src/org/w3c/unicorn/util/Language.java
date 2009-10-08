@@ -31,6 +31,8 @@ public class Language {
 			if (locale.getLanguage().equals(languageCode))
 				return locale;
 		}
+		if (isISOLanguageCode(languageCode))
+			Framework.logger.warn("Missing locale: " + languageCode + ". This locale should be installed on the system in order to translate Unicorn in this language.");
 		return null;
 	}
 	
