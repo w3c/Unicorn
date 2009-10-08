@@ -1,4 +1,4 @@
-// $Id: Action.java,v 1.17 2009-10-06 10:06:13 tgambet Exp $
+// $Id: Action.java,v 1.18 2009-10-08 11:14:43 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -75,9 +75,12 @@ public abstract class Action extends HttpServlet {
 		if (langParameter != null && !Framework.getLanguageProperties().containsKey(langParameter)) {
 			if (Language.isISOLanguageCode(langParameter)) {
 				Locale locale = Language.getLocale(langParameter);
-				if (locale == null)
+				if (locale == null) {
 					logger.warn("Missing locale: " + langParameter + ". This locale should be installed on the system in order to translate Unicorn in this language.");
-				messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, locale.getDisplayLanguage(locale)));
+					messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, "locale not installed"));
+				}
+				else 
+					messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, locale.getDisplayLanguage(locale)));
 			} else {
 				messages.add(new Message(Message.INFO, "$message_invalid_requested_language", null, langParameter));
 			}
