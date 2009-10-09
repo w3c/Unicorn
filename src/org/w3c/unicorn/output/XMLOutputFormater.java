@@ -1,4 +1,4 @@
-// $Id: XMLOutputFormater.java,v 1.7 2009-09-29 16:05:58 tgambet Exp $
+// $Id: XMLOutputFormater.java,v 1.8 2009-10-09 06:46:40 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -15,8 +15,8 @@ import org.w3c.unicorn.util.XHTMLize;
 
 public class XMLOutputFormater extends SimpleOutputFormater {
 	
-	public XMLOutputFormater(final String format, final String lang) {
-		super(format, lang);
+	public XMLOutputFormater(final String format, final String lang, String mimeType) {
+		super(format, lang, mimeType);
 		
 		// Replace tag objects (A, Img, ...) with their XHTML representation
 		final EventCartridge aEventCartridge = new EventCartridge();

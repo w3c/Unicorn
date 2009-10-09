@@ -1,4 +1,4 @@
-// $Id: OutputFactory.java,v 1.9 2009-09-29 16:09:04 tgambet Exp $
+// $Id: OutputFactory.java,v 1.10 2009-10-09 06:46:40 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -77,20 +77,26 @@ public class OutputFactory {
 		OutputFormater aOutputFormater;
 		
 		String sFormaterName = Property.getProps("output.properties").getProperty(sOutputFormat + ".formater");
+		String mimeType = Property.getProps("output.properties").getProperty(sOutputFormat + ".mimetype");
+		
+		if (sFormaterName == null)
+			sFormaterName = "SimpleOutputFormater";
+		if (mimeType == null)
+			mimeType = "text/plain";
 		
 		if (null != sFormaterName) {
 			try {
 				final Class<?> aFormaterClass = Class.forName("org.w3c.unicorn.output." + sFormaterName);
-				final Class<?>[] tClassParamType = { String.class, String.class };
-				final Object[] tObjectParamValue = { sOutputFormat, sLang };
+				final Class<?>[] tClassParamType = { String.class, String.class, String.class };
+				final Object[] tObjectParamValue = { sOutputFormat, sLang, mimeType };
 				aOutputFormater = (OutputFormater) aFormaterClass.getConstructor(tClassParamType).newInstance(tObjectParamValue);
 			} catch (Exception e) {
 				logger.error("Error instanciating outputFormater: " + sFormaterName + ". Using SimpleOutputFormater instead.", e);
-				aOutputFormater = new SimpleOutputFormater(sOutputFormat, sLang);
+				aOutputFormater = new SimpleOutputFormater(sOutputFormat, sLang, mimeType);
 			} 
 		}
 		else {
-			aOutputFormater = new SimpleOutputFormater(sOutputFormat, sLang);
+			aOutputFormater = new SimpleOutputFormater(sOutputFormat, sLang, mimeType);
 		}
 
 		return aOutputFormater;

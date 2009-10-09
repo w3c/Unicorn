@@ -1,4 +1,4 @@
-// $Id: SimpleOutputFormater.java,v 1.9 2009-10-07 15:52:20 tgambet Exp $
+// $Id: SimpleOutputFormater.java,v 1.10 2009-10-09 06:46:40 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -23,11 +23,11 @@ public class SimpleOutputFormater extends OutputFormater {
 	protected VelocityContext aVelocityContext;
 	
 	public SimpleOutputFormater() {
-		this(Property.get("DEFAULT_FORMAT"), Property.get("DEFAULT_LANGUAGE"));
+		this(Property.get("DEFAULT_FORMAT"), Property.get("DEFAULT_LANGUAGE"), Property.getProps("output.properties").getProperty(Property.get("DEFAULT_FORMAT") + ".mimetype"));
 	}
 
-	public SimpleOutputFormater(final String format, final String lang) {
-		super(format, lang);
+	public SimpleOutputFormater(final String format, final String lang, String mimeType) {
+		super(format, lang, mimeType);
 		
 		if (Framework.getLanguageContexts().get(lang) != null) {
 			aVelocityContext = new VelocityContext(Framework.getLanguageContexts().get(lang));

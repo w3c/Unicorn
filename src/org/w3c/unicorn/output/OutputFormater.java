@@ -1,4 +1,4 @@
-// $Id: OutputFormater.java,v 1.7 2009-09-29 16:03:31 tgambet Exp $
+// $Id: OutputFormater.java,v 1.8 2009-10-09 06:46:40 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.unicorn.util.Property;
 
 /**
  * SimpleOutputFormater<br />
@@ -25,12 +24,12 @@ public abstract class OutputFormater {
 	
 	protected String lang;
 	
-	public OutputFormater(String format, String lang) {
+	public OutputFormater(String format, String lang, String mimeType) {
 		logger.trace("Constructor");
 		logger.debug("Output format : " + format + ".");
 		logger.debug("Output language : " + lang + ".");
 		
-		this.mimeType = Property.getProps("output.properties").getProperty(format + ".mimetype");
+		this.mimeType = mimeType;
 		this.format = format;
 		this.lang = lang;
 	}
