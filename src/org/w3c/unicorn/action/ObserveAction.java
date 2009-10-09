@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.50 2009-10-07 12:48:18 tgambet Exp $
+// $Id: ObserveAction.java,v 1.51 2009-10-09 14:58:50 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -167,9 +167,10 @@ public class ObserveAction extends Action {
 				} else if (paramName.equals("uri")) {
 					String uriParam = (String) reqParams.get(key);
 					if (uriParam.equals("referer")) {
-						uriParam = req.getHeader("Referer");
-						if (uriParam == null)
+						if (req.getHeader("Referer") == null)
 							messages.add(new Message(Message.ERROR, "$message_no_referer"));
+						else
+							uriParam = req.getHeader("Referer");
 					}
 					logger.trace("Uri parameter: " + key + " - " + uriParam);
 					aUnicornCall.setInputParameter(new URIInputParameter(uriParam));
@@ -273,11 +274,11 @@ public class ObserveAction extends Action {
 			} else {
 				aOutputModule.produceOutput(mapOfStringObject, resp.getWriter());
 			}
-		} catch (final UnicornException ucnException) {
-			if (ucnException.getUnicornMessage() != null)
-				messages.add(ucnException.getUnicornMessage());
-			else
-				messages.add(new Message(Message.ERROR, ucnException.getMessage(), null));
+		} catch (final UnicornException e) {
+			if (e.getUnicornMessage() != null)
+				messages.add(e.getUnicornMessage());
+			else if (e.getMessage() != null)
+				messages.add(new Message(Message.ERROR, e.getMessage(), null));
 			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 		} catch (final Exception aException) {
 			logger.error("Exception : " + aException.getMessage(), aException);
