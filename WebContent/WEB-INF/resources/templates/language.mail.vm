@@ -2,7 +2,7 @@
 New translation in $language#else
 Updated $language translation#end
 
-Submitter: $translator_name ($translator_mail)
+Submitter: $translator_name <$translator_mail>
 #if($translator_comments)
 Submitter comments:
 $translator_comments

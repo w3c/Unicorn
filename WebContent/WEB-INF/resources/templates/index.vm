@@ -40,7 +40,7 @@
 						<p class="instructions">$instruction-by-uri</p>
 						<p>
 							<label title="$uri_title" for="ucn_uri"><span>$uri_label</span>
-								<input type="text" name="${param_prefix}uri" id="ucn_uri" size="45" value="$!param_uri"/>
+								<input type="text" name="${param_prefix}uri" id="ucn_uri" size="45" value="#if($param_uri && $param_uri!='referer')$!param_uri#end"/>
 							</label>
 						</p>
 					</div>

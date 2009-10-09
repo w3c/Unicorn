@@ -10,21 +10,20 @@
 <div id="translations">
 	<form method="post" action="./translations">
 		
-		<fieldset>
+		<fieldset class="about_you">
 			<legend>About you</legend>
-			<label for="translator_name"><span style="min-width:7em; text-align:right;">Name</span><input type="text" name="translator_name" /></label><br />
-			<label for="translator_mail"><span style="min-width:7em; text-align:right;">Email address</span><input type="text" name="translator_mail" /></label><br />
-			<label for="translator_comments"><span style="min-width:7em; text-align:right;">Comments</span><textarea name="translator_comments" style="vertical-align:top" rows="5" cols="20"></textarea></label>
+			<label for="name"><span>Name<b style="color:red">*</b>:</span><input type="text" name="translator_name" id="name" size="50"/></label><br />
+			<label for="mail"><span>Email address<b style="color:red">*</b>:</span><input type="text" name="translator_mail" id="mail" size="50"/></label><br />
+			<label for="comments"><span>Comments:</span><textarea id="comments" name="translator_comments" rows="5" cols="20"></textarea></label>
 		</fieldset>
 		
-		<fieldset>
+		<fieldset class="translation">
 			<legend>Translation</legend>
-			
 			
 			<table style="width:100%">
 				<thead>
 					<tr>
-						<th scope="col" style="width:33%">$defaultProps.get("language") properties</th>
+						<th scope="col" class="first_col">$defaultProps.get("language") properties</th>
 						#set($percent = 100 * $math.div($math.sub($prop.size(), 2), $math.sub($defaultProps.size(), 2)))
 						<th scope="col">$prop.get("language") $percent.intValue()%</th>
 					</tr>
@@ -34,7 +33,7 @@
 						#if ($key != "lang" && $key != "language")
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
-							<td #if(!$prop.get($key))class="missing"#end><input style="padding:0.3em; width:98%" type="text" name="$prop.get('lang')_$key" value="$!esc.html($!prop.get($key))" /></td>
+							<td #if(!$prop.get($key))class="missing"#end><input type="text" name="$prop.get('lang')_$key" value="$!esc.html($!prop.get($key))" /></td>
 						</tr>
 						#end
 					#end
