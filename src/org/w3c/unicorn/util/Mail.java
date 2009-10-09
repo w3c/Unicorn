@@ -1,13 +1,12 @@
+// $Id: Mail.java,v 1.3 2009-10-09 11:13:10 tgambet Exp $
+// Author: Thomas Gambet
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
+// Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.CharArrayWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.Properties;
 import javax.mail.Address;
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -25,9 +23,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.unicorn.exceptions.UnicornException;
-import org.w3c.unicorn.output.AttachmentOutputFormater;
+import org.w3c.unicorn.output.FileOutputFormater;
 import org.w3c.unicorn.output.OutputFormater;
 
 public class Mail {
@@ -63,16 +60,12 @@ public class Mail {
 				MimeMultipart mp = new MimeMultipart();
 				for (OutputFormater outputFormater : outputFormaters) {		
 					MimeBodyPart bodyPart = new MimeBodyPart();
-					if (outputFormater instanceof AttachmentOutputFormater)
-						bodyPart.setFileName(((AttachmentOutputFormater) outputFormater).getFileName());
+					if (outputFormater instanceof FileOutputFormater)
+						bodyPart.setFileName(((FileOutputFormater) outputFormater).getFileName());
 
 					ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 					OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
-					
 					outputFormater.produceOutput(contextObjects, outputStreamWriter);
-					
-					
-					
 					try {
 						outputStreamWriter.close();
 						byteArrayOutputStream.close();
@@ -81,49 +74,31 @@ public class Mail {
 						e.printStackTrace();
 					}
 					
-					
-					
-					bodyPart.setContent(byteArrayOutputStream.toString("UTF-8"), outputFormater.getMimeType());
-					
-					bodyPart.setHeader("Content-Type", outputFormater.getMimeType() + "; charset=UTF-8");
-					bodyPart.setHeader("Content-Transfer-Encoding", "8bit");
+					bodyPart.setContent(byteArrayOutputStream.toString("UTF-8"), outputFormater.getMimeType() + "; charset=UTF-8");
+					bodyPart.setHeader("Content-Transfer-Encoding", "7bit");
 					mp.addBodyPart(bodyPart);
 				}
 				msg.setContent(mp);
 			} else {
 				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 				OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
-				//CharArrayWriter wr = new CharArrayWriter();
-				
 				outputFormaters.get(0).produceOutput(contextObjects, outputStreamWriter);
-				
-				//outputStreamWriter.write("んのこと仲介手数料もなし");
-				
 				try {
 					outputStreamWriter.close();
 					byteArrayOutputStream.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
-				System.out.println(byteArrayOutputStream.toString("UTF-8"));
-				
-				
+				}				
 				msg.setContent(byteArrayOutputStream.toString("UTF-8"), outputFormaters.get(0).getMimeType() + "; charset=UTF-8");
-				msg.writeTo(new FileOutputStream(new File(Property.get("UPLOADED_FILES_REPOSITORY") + "/test1.txt")));
-				msg.setHeader("Content-Type", outputFormaters.get(0).getMimeType() + "; charset=UTF-8");
 				msg.setHeader("Content-Transfer-Encoding", "7bit");
-				
 			}
-			msg.writeTo(new FileOutputStream(new File(Property.get("UPLOADED_FILES_REPOSITORY") + "/test.txt")));
+			
 			Transport.send(msg);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
