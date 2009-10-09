@@ -39,6 +39,9 @@ public class URIInputParameter extends InputParameter {
 			if (uri == null || uri.equals(""))
 				throw new UnicornException(Message.ERROR, "$message_empty_uri");
 			
+			if (uri.equals("referer"))
+				throw new UnicornException();
+			
 			Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)*(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
 			if (!urlPattern.matcher(uri).matches()) {
 				if (!uri.contains("://")) 
