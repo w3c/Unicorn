@@ -1,6 +1,13 @@
 package org.w3c.unicorn.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +25,9 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.unicorn.exceptions.UnicornException;
+import org.w3c.unicorn.output.AttachmentOutputFormater;
 import org.w3c.unicorn.output.OutputFormater;
 
 public class Mail {
@@ -51,29 +60,70 @@ public class Mail {
 			
 			if (outputFormaters.size() > 1) {
 				// New multipart message
-				Multipart mp = new MimeMultipart("alternative");
-				for (OutputFormater outputFormater : outputFormaters) {
+				MimeMultipart mp = new MimeMultipart();
+				for (OutputFormater outputFormater : outputFormaters) {		
 					MimeBodyPart bodyPart = new MimeBodyPart();
-					bodyPart.addHeader("Content-Type", outputFormater.getMimeType() + ", charset=UTF-8");
-					CharArrayWriter writer = new CharArrayWriter();
-					outputFormater.produceOutput(contextObjects, writer);
-					writer.close();
-					bodyPart.setContent(writer.toString(), outputFormater.getMimeType());
+					if (outputFormater instanceof AttachmentOutputFormater)
+						bodyPart.setFileName(((AttachmentOutputFormater) outputFormater).getFileName());
+
+					ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+					OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
+					
+					outputFormater.produceOutput(contextObjects, outputStreamWriter);
+					
+					
+					
+					try {
+						outputStreamWriter.close();
+						byteArrayOutputStream.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+					
+					bodyPart.setContent(byteArrayOutputStream.toString("UTF-8"), outputFormater.getMimeType());
+					
+					bodyPart.setHeader("Content-Type", outputFormater.getMimeType() + "; charset=UTF-8");
+					bodyPart.setHeader("Content-Transfer-Encoding", "8bit");
 					mp.addBodyPart(bodyPart);
 				}
 				msg.setContent(mp);
 			} else {
-				CharArrayWriter writer = new CharArrayWriter();
-				outputFormaters.get(0).produceOutput(contextObjects, writer);
-				writer.close();
-				msg.setContent(writer.toString(), outputFormaters.get(0).getMimeType());
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+				OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
+				//CharArrayWriter wr = new CharArrayWriter();
+				
+				outputFormaters.get(0).produceOutput(contextObjects, outputStreamWriter);
+				
+				//outputStreamWriter.write("んのこと仲介手数料もなし");
+				
+				try {
+					outputStreamWriter.close();
+					byteArrayOutputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(byteArrayOutputStream.toString("UTF-8"));
+				
+				
+				msg.setContent(byteArrayOutputStream.toString("UTF-8"), outputFormaters.get(0).getMimeType() + "; charset=UTF-8");
+				msg.writeTo(new FileOutputStream(new File(Property.get("UPLOADED_FILES_REPOSITORY") + "/test1.txt")));
+				msg.setHeader("Content-Type", outputFormaters.get(0).getMimeType() + "; charset=UTF-8");
+				msg.setHeader("Content-Transfer-Encoding", "7bit");
+				
 			}
-			
+			msg.writeTo(new FileOutputStream(new File(Property.get("UPLOADED_FILES_REPOSITORY") + "/test.txt")));
 			Transport.send(msg);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
