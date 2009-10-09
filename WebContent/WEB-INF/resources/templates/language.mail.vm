@@ -1,2 +1,14 @@
+#if(${new_translation})
+New translation in $language#else
+Updated $language translation#end
 
-んのこと仲介手数料もなし éàâäë
+Submitter: $translator_name ($translator_mail)
+#if($translator_comments)
+Submitter comments:
+$translator_comments
+#end
+
+-----------------------------------------------
+ChangeLog:
+
+$changeLog
