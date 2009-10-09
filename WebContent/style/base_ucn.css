@@ -57,7 +57,7 @@ body {
 #banner p {
 	font-size:0.7em;
 	line-height:100% !important;
-	margin:-2em 0 0 12.1em;
+	margin:-2em 12.1em 0 12.1em;
 	padding-bottom:1em;
 	background-color: transparent;
 }
@@ -149,7 +149,7 @@ fieldset input#task_change {
 	cursor:pointer;
 	font-size:0.7em;
 }
-input#ucn_uri, input#ucn_file, textarea, select {
+input#ucn_uri, input#ucn_file, textarea, select, fieldset.about_you input {
 	background:#FEFEFE url(../images/textbg.png) no-repeat scroll left top;
 	border-color:#777777 #BBBBBB #DDDDDD;
 	border-style:solid;
@@ -636,6 +636,32 @@ div.warnings td.level2 {
 #translations td.ok span {
 	border-bottom:thin dotted;
 	cursor:help;
+}
+fieldset.about_you input, fieldset.about_you textarea {
+	margin:0 0 0.5em 0.5em;
+}
+fieldset.about_you label span {
+	min-width:7em;
+	text-align:right;
+}
+fieldset.about_you textarea {
+	vertical-align:top;
+}
+fieldset.translation table {
+	width: 100%;
+}
+fieldset.translation th.first_col {
+	width: 33%;
+}
+fieldset.translation td input {
+	padding:0.3em;
+	width:98%;
+}
+#translations div.submit {
+	background-color:#eaebee;
+}
+#translations fieldset legend {
+	margin:0 0 0.5em 0;
 }
 div.tip {
 	font-size:0.9em;
