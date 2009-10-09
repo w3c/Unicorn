@@ -1,9 +1,7 @@
-/* $Id: w3c_unicorn_results.js,v 1.17 2009-10-06 15:22:08 tgambet Exp $Id */
+/* $Id: w3c_unicorn_results.js,v 1.18 2009-10-09 15:24:58 tgambet Exp $ */
 var W3C = {
 	
 	start: function() {
-		
-		document.addEvent('onHistoryChange')
 	
 		W3C.Observers = $$('.observer');
 		

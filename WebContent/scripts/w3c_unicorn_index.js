@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_index.js,v 1.14 2009-10-06 15:22:08 tgambet Exp $Id */
+/* $Id: w3c_unicorn_index.js,v 1.15 2009-10-09 15:24:58 tgambet Exp $ */
 var W3C = {
 	
 	start: function(){

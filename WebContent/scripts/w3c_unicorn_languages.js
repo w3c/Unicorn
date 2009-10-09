@@ -1,4 +1,4 @@
-/* $Id:  */
+/* $Id: w3c_unicorn_languages.js,v 1.3 2009-10-09 15:24:58 tgambet Exp $ */
 var W3C = {
 	
 	start: function(){
@@ -11,6 +11,8 @@ var W3C = {
 		});
 		
 		new Tips(tdOk);
+		
+		
 		
 	}
 	
