@@ -1,20 +1,13 @@
+// $Id: LanguageAction.java,v 1.8 2009-10-09 11:11:37 tgambet Exp $
+// Author: Thomas Gambet
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
+// Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.action;
 
-import java.io.CharArrayWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Writer;
-import java.net.URLDecoder;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -27,11 +20,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.exceptions.UnicornException;
-import org.w3c.unicorn.output.AttachmentOutputFormater;
+import org.w3c.unicorn.output.FileOutputFormater;
 import org.w3c.unicorn.output.OutputFormater;
 import org.w3c.unicorn.output.SimpleOutputFormater;
 import org.w3c.unicorn.util.Language;
@@ -47,6 +41,8 @@ import org.w3c.unicorn.util.Mail;
 public class LanguageAction extends Action {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private static Log logger = LogFactory.getLog(LanguageAction.class);
 	
 	private static TreeMap<String, Properties> languageProperties;
 	
@@ -95,7 +91,18 @@ public class LanguageAction extends Action {
 			Templates.write("language.vm", velocityContext, writer);
 		else {
 			if (Framework.getLanguageProperties().containsKey(langParameter)) {
-				messages.add(new Message(Message.INFO, "This translation lacks " + (defaultProperties.size() - languageProperties.get(langParameter).size()) + " properties. Help us to improve it."));
+				if (langParameter.equals(Property.get("DEFAULT_LANGUAGE"))) {
+					messages.add(new Message(Message.INFO, "You cannot edit the default language"));
+					Templates.write("language.vm", velocityContext, writer);
+					writer.close(); return;
+				} else {
+					int missings = defaultProperties.size() - languageProperties.get(langParameter).size();
+					
+					if (missings > 0)
+						messages.add(new Message(Message.INFO, "This translation lacks " + (defaultProperties.size() - languageProperties.get(langParameter).size()) + " properties. Help us to improve it."));
+					else 
+						messages.add(new Message(Message.INFO, "This translation is complete but you can help us to improve it if needed."));
+				}
 				velocityContext.put("prop", languageProperties.get(langParameter));
 			} else if (Language.isISOLanguageCode(langParameter)) {
 				Locale locale = Language.getLocale(langParameter);
@@ -134,15 +141,6 @@ public class LanguageAction extends Action {
 		
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
-	    
-	    //resp.getWriter().println(new String(req.getParameter("ja_universal_checker").getBytes("UTF-8"), "UTF-8"));
-	    
-	    /*File file = new File(Property.get("UPLOADED_FILES_REPOSITORY") + "/test.txt");
-	    file.createNewFile();
-	    FileOutputStream fileStream = new FileOutputStream(file);
-	    OutputStreamWriter os = new OutputStreamWriter(fileStream, "UTF-8");
-	    os.write(req.getParameter("ja_universal_checker"));
-	    os.close();*/
 		
 		String languageParameter = req.getParameter("translation_language");
 		Map<String, Object> contextObjects = new Hashtable<String, Object>();
@@ -151,17 +149,18 @@ public class LanguageAction extends Action {
 			doGet(req, resp);
 			return;
 		} else {
-			Properties langProps = languageProperties.get(languageParameter);
-			if (langProps == null) {
+			Properties langProps;
+			if (languageProperties.get(languageParameter) == null) {
 				langProps = createProperties(languageParameter);
+				contextObjects.put("new_translation", true);
 				if (langProps == null) {
 					doGet(req, resp);
 					return;
 				}
-			}
+			} else
+				langProps = (Properties) languageProperties.get(languageParameter).clone();
 			
 			StringBuilder changeLog = new StringBuilder();
-			
 			for (Object obj : req.getParameterMap().keySet()) {
 				String paramKey = (String) obj;
 				String key;
@@ -171,27 +170,26 @@ public class LanguageAction extends Action {
 					key = paramKey.replace(languageParameter + "_", "");
 				
 				if (!req.getParameter(paramKey).equals("") && !req.getParameter(paramKey).equals(langProps.getProperty(key))) {
-					changeLog.append(key + ":\n");
+					changeLog.append("\n" + key + ":\n");
 					changeLog.append("\t + " + req.getParameter(paramKey) + "\n");
 					if (langProps.getProperty(key) != null)
 						changeLog.append("\t - " + langProps.getProperty(key) + "\n");
 					
 					langProps.put(key, req.getParameter(paramKey));
 				}
-				
-				
 			}
 			
-			
-			
-			//contextObjects.put("changeLog", changeLog);
-			
-			//Writer os = new CharArrayWriter();
-		
-			
-			//langProps.store(new OutputStreamWriter(new ByteArrayOutputStream(), "UTF-8"), "");
-			
-			//contextObjects.put("properties", os.toString());
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
+			langProps.store(osw, "Submitted by " + req.getParameter("translator_name") + " (" + req.getParameter("translator_mail") +")");
+			osw.close();
+			baos.close();
+			contextObjects.put("properties", baos.toString("UTF-8"));
+			contextObjects.put("changeLog", changeLog);
+			contextObjects.put("translator_name", req.getParameter("translator_name"));
+			contextObjects.put("translator_mail", req.getParameter("translator_mail"));
+			contextObjects.put("translator_comments", req.getParameter("translator_comments"));
+			contextObjects.put("language", Language.getLocale(languageParameter).getDisplayLanguage(Locale.ENGLISH));
 			
 			MessageList messages = new MessageList();
 			messages.add(new Message(Message.INFO, "Thank you for your submission."));
@@ -201,24 +199,24 @@ public class LanguageAction extends Action {
 			doGet(req, resp);
 			// From now on the response is committed, careful 
 			
-			String[] recipients = {"thomas.gambet@orange.fr"};
+			String[] recipients = {Property.getProps("mail.properties").getProperty("unicorn.mail.language.to"), 
+					req.getParameter("translator_mail")};
+			String subject = "Unicorn - Translation in " + contextObjects.get("language") + " (submitted by " + req.getParameter("translator_name") + ")";
 			
 			OutputFormater mainOutputFormater = new SimpleOutputFormater("language.mail", Property.get("DEFAULT_LANGUAGE"), "text/plain");
-			OutputFormater attachmentOutputFormater = new AttachmentOutputFormater("language.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", "test.txt");
+			OutputFormater fileOutputFormater = new FileOutputFormater("language.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter + ".properties");
 			
 			List<OutputFormater> outputFormaters = new ArrayList<OutputFormater>();
 			outputFormaters.add(mainOutputFormater);
-			//outputFormaters.add(attachmentOutputFormater);
+			outputFormaters.add(fileOutputFormater);
 			
 			Mail mailer = new Mail();
 			try {
-				mailer.sendMail(recipients, "test subject", outputFormaters, contextObjects);
+				mailer.sendMail(recipients, subject, outputFormaters, contextObjects);
 			} catch (UnicornException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 			
-			//checkParameters(req);
 		}
 		
 	}
