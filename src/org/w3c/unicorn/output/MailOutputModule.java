@@ -1,10 +1,13 @@
-// $Id: MailOutputModule.java,v 1.15 2009-10-06 10:03:57 tgambet Exp $
+// $Id: MailOutputModule.java,v 1.16 2009-10-09 06:47:19 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
 
+import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
@@ -125,11 +128,17 @@ private List<OutputFormater> mailOutputFormaters;
 				Multipart mp = new MimeMultipart("alternative");
 				for (OutputFormater outputFormater : mailOutputFormaters) {
 					MimeBodyPart bodyPart = new MimeBodyPart();
-					bodyPart.addHeader("Content-Type", outputFormater.getMimeType() + ", charset=UTF-8");
-					CharArrayWriter writer = new CharArrayWriter();
-					outputFormater.produceOutput(mapOfStringObject, writer);
-					writer.close();
-					bodyPart.setContent(writer.toString(), outputFormater.getMimeType());
+					
+					//CharArrayWriter writer = new CharArrayWriter();
+					ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+					OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
+					
+					outputFormater.produceOutput(mapOfStringObject, outputStreamWriter);
+					outputStreamWriter.close();
+					byteArrayOutputStream.close();
+					bodyPart.setContent(byteArrayOutputStream.toString(), outputFormater.getMimeType());
+					bodyPart.setHeader("Content-Type", outputFormater.getMimeType() + "; charset=UTF-8");
+					bodyPart.setHeader("Content-Transfer-Encoding", "8bit");
 					mp.addBodyPart(bodyPart);
 				}
 				msg.setContent(mp);
@@ -149,6 +158,9 @@ private List<OutputFormater> mailOutputFormaters;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
