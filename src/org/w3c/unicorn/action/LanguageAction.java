@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.8 2009-10-09 11:11:37 tgambet Exp $
+// $Id: LanguageAction.java,v 1.9 2009-10-09 14:57:42 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -181,7 +181,7 @@ public class LanguageAction extends Action {
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
-			langProps.store(osw, "Submitted by " + req.getParameter("translator_name") + " (" + req.getParameter("translator_mail") +")");
+			langProps.store(osw, "Submitted by " + req.getParameter("translator_name") + " <" + req.getParameter("translator_mail") + ">");
 			osw.close();
 			baos.close();
 			contextObjects.put("properties", baos.toString("UTF-8"));
