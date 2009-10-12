@@ -13,17 +13,39 @@
 	<p>Unicorn is currently available in $langNb languages. <!--The translations are mainly contributed by <a href="thanks.html">volunteers</a>.--></p>
 
 	<h3>Translate Unicorn in a new language</h3>
+	
 	<p>If Unicorn is not yet available in your native language and you would like to translate it:</p>
-	<ol>
-		<li><a href="http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/languages/en.properties">Download the english properties file</a>.</li>
-		<li><a href="http://www.w3.org/Consortium/Translation/#discussions">Get in touch with us</a> <strong>before</strong> you start translating: someone may already be on the job. Someone from the W3C staff or validator development team will get back to you with details about how to translate the validator.</li>
-		<li>Translate. Congratulations, you have made Unicorn more accessible to a lot more Web developers and designers.</li>
-	</ol>
+	
+	<ul>
+		<li>You can select your language in the dropdown menu and start translating online: 
+			<form method="get" action="./translations" id="lang_select">
+				<fieldset>
+				<select name="${param_prefix}lang">
+					<optgroup label="Select a language">
+					#foreach ($key in $availableLocales.keySet())
+						<option value="$key">$availableLocales.get($key)</option>
+					#end
+					</optgroup>
+				</select>
+				<input id="lang_code" type="submit" value="OK" />
+				</fieldset>
+			</form>
+		</li>
+		<li>Or you can follow these steps:
+			<ol>
+				<li><a href="http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/languages/en.properties">Download the english properties file</a>.</li>
+				<li><a href="http://www.w3.org/Consortium/Translation/#discussions">Get in touch with us</a> <strong>before</strong> you start translating: someone may already be on the job. Someone from the W3C staff or validator development team will get back to you with details about how to translate the validator.</li>
+				<li>Translate.<!-- Congratulations, you have made Unicorn more accessible to a lot more Web developers and designers.--></li>
+			</ol>
+		</li>
+	</ul>
+	
+	
 
-	<h3>Help complete the translation Unicorn in your language</h3>
+	<h3>Help complete the translation of Unicorn in your language</h3>
 	<p>The table below lists all the text strings used to translate the CSS validator:</p>
 	<ul>
-		<li>Cells marked <span class='missing'>✘</span> need a new or updated translation. Click on the relevant <span class='missing'>✘</span> to submit a translation by mail.</li>
+		<li>Cells marked <span class='missing'>✘</span> need a new or updated translation. You can click on any <span class='missing'>✘</span> to edit the coresponding language.</li>
 		<li>Cells marked <span class='ok'>✔</span> are translated and up-to-date. Hover above <span class='ok'>✔</span> to read the current translation for each string.</li>
 	</ul>
 	<p>You can help fill the blanks and complete the translation in <strong>your</strong> language!</p>
@@ -36,7 +58,7 @@
 				<th scope="col">Property</th>
 			#foreach($prop in $languageProps)
 				#set($percent = 100 * $math.div($math.sub($prop.size(), 2), $math.sub($defaultProps.size(), 2)))
-				<th scope="col">$prop.get("language") <a href="./translations?ucn_lang=$prop.get('lang')">Edit</a><br />$percent.intValue()%</th>
+				<th scope="col">$prop.get("language")<br />$percent.intValue()% <a href="./translations?ucn_lang=$prop.get('lang')">Edit</a></th>
 			#end
 			</tr>
 		</thead>

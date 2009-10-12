@@ -18,7 +18,11 @@
 		</fieldset>
 		
 		<fieldset class="translation">
-			<legend>Translation</legend>
+			<legend>Translation 
+				<a id="a_miss" title="Display only missings" href="#" style="display: none">Display only missings</a>
+				<a id="a_mod" title="Display only modified" href="#" style="display: none">Display only modified</a>
+				<a id="a_all" title="Display all" href="#" style="display: none">Display all</a>
+			</legend>
 			
 			<table style="width:100%">
 				<thead>
@@ -30,7 +34,15 @@
 				</thead>
 				<tbody>
 					#foreach($key in $defaultProps.keySet())
-						#if ($key != "lang" && $key != "language")
+						#if (!$prop.get($key))
+						<tr>
+							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
+							<td class="missing"><input type="text" name="$prop.get('lang')_$key" value="$!esc.html($!prop.get($key))" /></td>
+						</tr>
+						#end
+					#end
+					#foreach($key in $defaultProps.keySet())
+						#if ($key != "lang" && $key != "language" && $prop.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
 							<td #if(!$prop.get($key))class="missing"#end><input type="text" name="$prop.get('lang')_$key" value="$!esc.html($!prop.get($key))" /></td>
