@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.12 2009-10-12 15:26:46 tgambet Exp $
+// $Id: LanguageAction.java,v 1.13 2009-10-12 16:02:51 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -92,7 +92,7 @@ public class LanguageAction extends Action {
 		
 		PrintWriter writer = resp.getWriter();
 		String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
-		if (langParameter == null)
+		if (langParameter == null || req.getAttribute("submitted") != null)
 			Templates.write("language.vm", velocityContext, writer);
 		else {
 			if (Framework.getLanguageProperties().containsKey(langParameter)) {
@@ -166,6 +166,7 @@ public class LanguageAction extends Action {
 				langProps = (Properties) languageProperties.get(languageParameter).clone();
 			
 			StringBuilder changeLog = new StringBuilder();
+			boolean changed = false;
 			for (Object obj : req.getParameterMap().keySet()) {
 				String paramKey = (String) obj;
 				String key;
@@ -175,6 +176,8 @@ public class LanguageAction extends Action {
 					key = paramKey.replace(languageParameter + "_", "");
 				
 				if (!req.getParameter(paramKey).equals("") && !req.getParameter(paramKey).equals(langProps.getProperty(key))) {
+					changed = true;
+					
 					changeLog.append("\n" + key + ":\n");
 					changeLog.append("\t + " + req.getParameter(paramKey) + "\n");
 					if (langProps.getProperty(key) != null)
@@ -182,6 +185,13 @@ public class LanguageAction extends Action {
 					
 					langProps.put(key, req.getParameter(paramKey));
 				}
+			}
+			
+			if (!changed) {
+				MessageList messages = new MessageList();
+				messages.add(new Message(Message.ERROR, "You haven't made any changes."));
+				req.setAttribute("messages", messages);
+				doGet(req, resp);
 			}
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -206,14 +216,16 @@ public class LanguageAction extends Action {
 			MessageList messages = new MessageList();
 			messages.add(new Message(Message.INFO, "Thank you for your submission."));
 			req.setAttribute("messages", messages);
-			if (req.getParameterMap().containsKey("ucn_lang"))
-				req.getParameterMap().remove("ucn_lang");
+			req.setAttribute("submitted", true);
 			doGet(req, resp);
-			// From now on the response is committed, careful 
 			
 			String[] recipients = {Property.getProps("mail.properties").getProperty("unicorn.mail.language.to"), 
 					req.getParameter("translator_mail")};
-			String subject = "Unicorn - Translation in " + contextObjects.get("language") + " (submitted by " + req.getParameter("translator_name") + ")";
+			String subject;
+			if (!"".equals(req.getParameter("translator_name")))
+				subject = "Unicorn - Translation in " + contextObjects.get("language") + " (submitted by " + req.getParameter("translator_name") + ")";
+			else
+				subject = "Unicorn - Translation in " + contextObjects.get("language") + " (anonymous submission)";
 			
 			OutputFormater mainOutputFormater = new SimpleOutputFormater("language.mail", Property.get("DEFAULT_LANGUAGE"), "text/plain");
 			OutputFormater fileOutputFormater = new FileOutputFormater("language.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter + ".properties");
