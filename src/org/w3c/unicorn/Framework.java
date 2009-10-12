@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.21 2009-10-06 08:11:13 tgambet Exp $
+// $Id: Framework.java,v 1.22 2009-10-12 15:27:33 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -477,6 +477,8 @@ public class Framework {
 		for (String key : languageProperties.keySet()) {
 			languages.put(key, languageProperties.get(key).getProperty("language"));
 		}
+		
+		LanguageAction.setAvailableLocales(Language.getAvailablesLocales());
 	}	
 	public static void initVelocity() throws InitializationFailedException {	
 		// Creating velocity contexts
