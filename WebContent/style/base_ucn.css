@@ -620,7 +620,7 @@ div.warnings td.level2 {
 	padding:0.5em 0.5em 0.4em;
 	font-weight:normal;
 }
-#translations td.ok, #translations td.missing {
+#translations td.ok, #translations td.missing, #translations .translation td {
 	text-align:center;
 	border:1px solid #EEE;
 	border-width:0 0px 1px 1px;
@@ -632,6 +632,9 @@ div.warnings td.level2 {
 #translations td.missing, div.text span.missing {
 	color:yellow;
 	background-color:#FF5555;
+}
+#translations td.modified {
+	background-color:#5d97e2;
 }
 #translations td.ok span {
 	border-bottom:thin dotted;
@@ -649,6 +652,27 @@ fieldset.about_you textarea {
 }
 fieldset.translation table {
 	width: 100%;
+}
+fieldset.translation legend a {
+	display:inline-block;
+	height:0;
+	width:0;
+	padding:12px 0 0 12px;
+	overflow:hidden;
+	font-size:0;
+	outline: 0;
+}
+fieldset.translation legend a#a_miss {
+	background-color:#FF5555;
+	border:1px solid #b40000;
+}
+fieldset.translation legend a#a_mod {
+	background-color:#5D97E2;
+	border:1px solid #154078;
+}
+fieldset.translation legend a#a_all {
+	background-color: white;
+	border:1px solid #CCCCCC;
 }
 fieldset.translation th.first_col {
 	width: 33%;
