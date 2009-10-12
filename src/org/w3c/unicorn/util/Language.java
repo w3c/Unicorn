@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.VelocityContext;
@@ -122,6 +123,16 @@ public class Language {
 		for (String str : args) {
 			result = result.replaceAll("%"+i, str);
 			i++;
+		}
+		return result;
+	}
+
+	public static TreeMap<String, String> getAvailablesLocales() {
+		Locale[] locales= Locale.getAvailableLocales();
+		TreeMap<String, String> result = new TreeMap<String, String>();
+		for (Locale loc : locales) {
+			if (!loc.getLanguage().equals(Property.get("DEFAULT_LANGUAGE")))
+				result.put(loc.getLanguage(), StringUtils.capitalize(loc.getDisplayLanguage(loc)));
 		}
 		return result;
 	}
