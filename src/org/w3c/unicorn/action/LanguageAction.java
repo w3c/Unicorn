@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.11 2009-10-12 13:14:34 tgambet Exp $
+// $Id: LanguageAction.java,v 1.12 2009-10-12 15:26:46 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
@@ -47,6 +48,8 @@ public class LanguageAction extends Action {
 	private static TreeMap<String, Properties> languageProperties;
 	
 	private static TreeMap<String, String> defaultProperties = new TreeMap<String, String>();
+	
+	private static TreeMap<String, String> availableLocales;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -76,6 +79,8 @@ public class LanguageAction extends Action {
 		velocityContext.put("queryString", "./");
 		velocityContext.put("messages", messages);
 		velocityContext.put("baseUri", "./");
+		velocityContext.put("availableLocales", availableLocales);
+		
 		
 		Hashtable<String, String> languages = new Hashtable<String, String>();
 		languages.put(defaultLang, defaultProperties.get("language"));
@@ -234,7 +239,7 @@ public class LanguageAction extends Action {
 		if (locale == null)
 			return null;
 		props.put("lang", locale.getLanguage());
-		props.put("language", locale.getDisplayLanguage(locale));
+		props.put("language", StringUtils.capitalize(locale.getDisplayLanguage(locale)));
 		return props;
 	}
 
@@ -263,6 +268,14 @@ public class LanguageAction extends Action {
 			String key = (String) obj;
 			LanguageAction.defaultProperties.put(key, defaultProperties.getProperty(key));
 		}
+	}
+
+	public static TreeMap<String, String> getAvailableLocales() {
+		return availableLocales;
+	}
+
+	public static void setAvailableLocales(TreeMap<String, String> availableLocales) {
+		LanguageAction.availableLocales = availableLocales;
 	}
 
 }
