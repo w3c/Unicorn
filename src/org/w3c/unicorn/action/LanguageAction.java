@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.9 2009-10-09 14:57:42 tgambet Exp $
+// $Id: LanguageAction.java,v 1.10 2009-10-12 13:12:26 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -186,8 +186,15 @@ public class LanguageAction extends Action {
 			baos.close();
 			contextObjects.put("properties", baos.toString("UTF-8"));
 			contextObjects.put("changeLog", changeLog);
-			contextObjects.put("translator_name", req.getParameter("translator_name"));
-			contextObjects.put("translator_mail", req.getParameter("translator_mail"));
+			
+			if (req.getParameter("translator_name") != null)
+				contextObjects.put("translator_name", req.getParameter("translator_name"));
+			else
+				contextObjects.put("translator_name", "Anonymous");
+			if (req.getParameter("translator_mail") != null)
+				contextObjects.put("translator_mail", req.getParameter("translator_mail"));
+			else 
+				contextObjects.put("translator_mail", "Not specified");
 			contextObjects.put("translator_comments", req.getParameter("translator_comments"));
 			contextObjects.put("language", Language.getLocale(languageParameter).getDisplayLanguage(Locale.ENGLISH));
 			
