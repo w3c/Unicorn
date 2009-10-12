@@ -359,6 +359,18 @@ fieldset div.submit input {
 	border-color:#c2dafb;
 	background:#e3edfa;
 }
+#messages a {
+	text-decoration: underline;
+}
+#messages .info a {
+	color:#0c3267;
+}
+#messages .warning a {
+	color:#342e15;
+}
+#messages .error a {
+	color:#67170c;
+}
 #messages .error h4, #messages .warning h4, #messages .info h4 {
 	line-height:22px;
 	padding-left:30px;
