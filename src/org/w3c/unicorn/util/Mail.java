@@ -1,4 +1,4 @@
-// $Id: Mail.java,v 1.3 2009-10-09 11:13:10 tgambet Exp $
+// $Id: Mail.java,v 1.4 2009-10-12 13:07:02 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -13,22 +13,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.mail.Address;
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.output.FileOutputFormater;
 import org.w3c.unicorn.output.OutputFormater;
 
 public class Mail {
 
+	private static Log logger = LogFactory.getLog(Mail.class);
+	
 	public void sendMail(String[] recipients, String subject, List<OutputFormater> outputFormaters, Map<String, Object> contextObjects) throws UnicornException {
 		
 		try {
@@ -46,13 +50,25 @@ public class Mail {
 		    InternetAddress addressFrom = new InternetAddress(mailProps.getProperty("unicorn.mail.from"), "Unicorn");
 			msg.setFrom(addressFrom);
 
-			Address[] recipientAdresses = new Address[recipients.length];
-			int i = 0;
+			List<InternetAddress> validAddresses = new ArrayList<InternetAddress>();
+			
 			for (String recipient : recipients) {
-				recipientAdresses[i] = new InternetAddress(recipient);
+				try {
+					InternetAddress address = new InternetAddress(recipient);
+					validAddresses.add(address);
+				} catch(AddressException e) {
+					logger.warn("Invalid address: \"" + recipient + "\". Skipping.");
+				}
+			}
+			
+			InternetAddress[] recipientsAddresses = new InternetAddress[validAddresses.size()];
+			int i = 0;
+			for (InternetAddress add : validAddresses) {
+				recipientsAddresses[i] = add;
 				i++;
 			}
-			msg.setRecipients(javax.mail.Message.RecipientType.TO, recipientAdresses);
+			
+			msg.setRecipients(javax.mail.Message.RecipientType.TO, recipientsAddresses);
 			msg.setSubject(subject);
 			
 			if (outputFormaters.size() > 1) {
