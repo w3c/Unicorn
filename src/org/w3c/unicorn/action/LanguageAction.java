@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.14 2009-10-12 16:04:42 tgambet Exp $
+// $Id: LanguageAction.java,v 1.15 2009-10-12 16:15:45 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -189,7 +189,7 @@ public class LanguageAction extends Action {
 			
 			if (!changed) {
 				MessageList messages = new MessageList();
-				messages.add(new Message(Message.ERROR, "You haven't made any changes."));
+				messages.add(new Message(Message.WARNING, "You haven't made any changes."));
 				req.setAttribute("messages", messages);
 				doGet(req, resp);
 				return;
