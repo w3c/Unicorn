@@ -663,6 +663,10 @@ fieldset.translation td input {
 #translations fieldset legend {
 	margin:0 0 0.5em 0;
 }
+#translations td.missing a {
+	color:inherit;
+	text-decoration:underline;
+}
 div.tip {
 	font-size:0.9em;
 	padding:0.5em;
