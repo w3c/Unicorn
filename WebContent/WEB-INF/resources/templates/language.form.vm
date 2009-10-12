@@ -24,6 +24,8 @@
 				<a id="a_all" title="Display all" href="#" style="display: none">Display all</a>
 			</legend>
 			
+			<input type="hidden" name="${param_prefix}lang" value="$prop.get('lang')"/>
+			
 			<table style="width:100%">
 				<thead>
 					<tr>
