@@ -1,4 +1,4 @@
-// $Id: Action.java,v 1.18 2009-10-08 11:14:43 tgambet Exp $
+// $Id: Action.java,v 1.19 2009-10-12 15:25:24 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -77,17 +77,17 @@ public abstract class Action extends HttpServlet {
 				Locale locale = Language.getLocale(langParameter);
 				if (locale == null) {
 					logger.warn("Missing locale: " + langParameter + ". This locale should be installed on the system in order to translate Unicorn in this language.");
-					messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, "locale not installed"));
+					messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, langParameter, "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + langParameter));
 				}
 				else 
-					messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, locale.getDisplayLanguage(locale)));
+					messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, locale.getDisplayLanguage(locale), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + langParameter));
 			} else {
 				messages.add(new Message(Message.INFO, "$message_invalid_requested_language", null, langParameter));
 			}
 		} else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE").equals("true"))
-			messages.add(new Message(Message.INFO, "$message_unavailable_language", null, req.getLocale().getDisplayLanguage(req.getLocale())));
+			messages.add(new Message(Message.INFO, "$message_unavailable_language", null, req.getLocale().getDisplayLanguage(req.getLocale()), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + req.getLocale().getLanguage()));
 		else if (!Language.isComplete(lang))
-			messages.add(new Message(Message.INFO, "$message_incomplete_language"));
+			messages.add(new Message(Message.INFO, "$message_incomplete_language", null, "", "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + lang));
 		
 		return lang;
 	}
