@@ -23,7 +23,7 @@
 				<select name="${param_prefix}lang">
 					<optgroup label="Select a language">
 					#foreach ($key in $availableLocales.keySet())
-						<option value="$key">$availableLocales.get($key)</option>
+						<option value="$key" xml:lang="$key" #if($native_lang == $key)selected="selected"#end>$availableLocales.get($key)</option>
 					#end
 					</optgroup>
 				</select>
@@ -69,7 +69,7 @@
 					<th class="property_name" scope="row">$key <p>$esc.html($defaultProps.get($key))</p></th>
 					#foreach($prop in $languageProps)
 						#if($prop.get($key))
-						<td class="ok"><span #if($prop.get($key))title="$!esc.html($prop.get($key))"#end>✔</span></td>
+						<td class="ok"><span xml:lang="$prop.get('lang')" #if($prop.get($key))title="$!esc.html($prop.get($key))"#end>✔</span></td>
 						#{else}
 						<td class="missing"><span #if($prop.get($key))title="$!esc.html($prop.get($key))"#end><a href="./translations?ucn_lang=$prop.get('lang')">✘</a></span></td>
 						#end

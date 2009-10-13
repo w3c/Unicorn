@@ -12,9 +12,9 @@
 		
 		<fieldset class="about_you">
 			<legend>About you</legend>
-			<label for="name"><span>Name<b style="color:red">*</b>:</span><input type="text" name="translator_name" id="name" size="50"/></label><br />
-			<label for="mail"><span>Email address<b style="color:red">*</b>:</span><input type="text" name="translator_mail" id="mail" size="50"/></label><br />
-			<label for="comments"><span>Comments:</span><textarea id="comments" name="translator_comments" rows="5" cols="20"></textarea></label>
+			<label for="name"><span>Name<b style="color:red">*</b>:</span><input type="text" name="translator_name" id="name" size="50" value="$!translator_name"/></label><br />
+			<label for="mail"><span>Email address<b style="color:red">*</b>:</span><input type="text" name="translator_mail" id="mail" size="50" value="$!translator_mail"/></label><br />
+			<label for="comments"><span>Comments:</span><textarea id="comments" name="translator_comments" rows="5" cols="20">$!translator_comments</textarea></label>
 		</fieldset>
 		
 		<fieldset class="translation">
