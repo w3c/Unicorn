@@ -59,7 +59,8 @@ public class Language {
 		for (Object key : defaultProps.keySet()) {
 			if (!props.containsKey(key)) {
 				props.put("complete", "false");
-				props.put(key, "<span dir=\"" + defaultProps.get("direction") + "\" xml:lang=\"" + defaultProps.get("lang") + "\">" + defaultProps.get(key) + "</span>");
+				//props.put(key, "<span dir=\"" + defaultProps.get("direction") + "\" xml:lang=\"" + defaultProps.get("lang") + "\">" + defaultProps.get(key) + "</span>");
+				props.put(key, defaultProps.get(key));
 				Framework.logger.warn(">> Missing property in " + props.getProperty("lang") + ".properties for key: \"" + (String) key + "\". Added default property for this key: \"" + defaultProps.get(key) + "\""); 
 			}
 		}
