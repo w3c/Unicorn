@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.51 2009-10-09 14:58:50 tgambet Exp $
+// $Id: ObserveAction.java,v 1.52 2009-10-13 16:33:46 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -32,6 +32,7 @@ import org.w3c.unicorn.input.URIInputParameter;
 import org.w3c.unicorn.input.UploadInputParameter;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputModule;
+import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
@@ -272,6 +273,27 @@ public class ObserveAction extends Action {
 				messages.add(new Message(Message.ERROR, "$message_no_observation_done", null));
 				aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 			} else {
+				if (req.getMethod().equals("HEAD")) {
+					LinkedHashMap<String, Response> observationList = aUnicornCall.getObservationList();
+					int errors = 0;
+					int warnings = 0;
+					int infos = 0;
+					for (Object ob : observationList.keySet()) {
+						String key = (String) ob;
+						errors += observationList.get(key).getErrorCount();
+						warnings += observationList.get(key).getWarningCount();
+						infos += observationList.get(key).getInfoCount();
+					}
+					resp.setHeader("X-W3C-Validator-Errors", Integer.toString(errors));
+					resp.setHeader("X-W3C-Validator-Info", Integer.toString(errors));
+					resp.setHeader("X-W3C-Validator-Warnings", Integer.toString(errors));
+					if (errors > 0)
+						resp.setHeader("X-W3C-Validator-Status", "Invalid");
+					else
+						resp.setHeader("X-W3C-Validator-Status", "Valid");
+				}
+				
+				
 				aOutputModule.produceOutput(mapOfStringObject, resp.getWriter());
 			}
 		} catch (final UnicornException e) {
@@ -297,6 +319,12 @@ public class ObserveAction extends Action {
 		doGet(req, resp);
 	}
 	
+	@Override
+	protected void doHead(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		doGet(req, resp);
+	}
+
 	protected Map<String, Object> getRequestParameters(HttpServletRequest req) throws FileUploadException {
 		
 		Hashtable<String, Object> params = new Hashtable<String, Object>();
