@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.35 2009-10-06 10:00:28 tgambet Exp $
+// $Id: UnicornCall.java,v 1.36 2009-10-13 15:23:55 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -352,7 +352,7 @@ public class UnicornCall {
 
 		for (final String obsID : requests.keySet()) {
 			// send request to observer
-			threadsList.add(new RequestThread(requests.get(obsID), obsID, this.getLang()));
+			threadsList.add(new RequestThread(requests.get(obsID), obsID));
 			logger.debug("Request " + requests.get(obsID) + " added to threadsList");
 		}
 		for (RequestThread thread : threadsList) {

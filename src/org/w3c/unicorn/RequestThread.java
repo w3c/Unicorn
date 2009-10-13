@@ -1,23 +1,13 @@
 package org.w3c.unicorn;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.event.EventCartridge;
 import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.request.Request;
 import org.w3c.unicorn.response.Response;
-import org.w3c.unicorn.response.parser.ResponseParserFactory;
-import org.w3c.unicorn.util.EscapeXMLEntities;
 import org.w3c.unicorn.util.Message;
-import org.w3c.unicorn.util.Templates;
 
 /**
  * Thread executing a request
@@ -42,8 +32,6 @@ class RequestThread extends Thread {
 	 * ID of the Observer
 	 */
 	private String obsID;
-
-	private String lang;
 	
 	private ArrayList<Message> messages;
 
@@ -61,11 +49,9 @@ class RequestThread extends Thread {
 	 */
 	public RequestThread( 
 			Request aRequest,
-			String obsID,
-			String lang) {
+			String obsID) {
 		this.aRequest = aRequest;
 		this.obsID = obsID;
-		this.lang = lang;
 		messages = new ArrayList<Message>();
 	}
 
@@ -80,8 +66,9 @@ class RequestThread extends Thread {
 		} catch (final UnicornException e) {
 			messages.add(e.getUnicornMessage());
 		} catch (final Exception e) {
-			logger.error("Exception : " + e.getMessage(), e);
-			try {
+			messages.add(new Message(e));
+			logger.error(e.getMessage(), e);
+			/*try {
 				StringBuilder builder = new StringBuilder();
 				VelocityContext context = new VelocityContext(Framework.getLanguageContexts().get(lang));
 				EventCartridge aEventCartridge = new EventCartridge();
@@ -111,7 +98,7 @@ class RequestThread extends Thread {
 			} catch (Exception e1) {
 				logger.error("Exception : " + e1.getMessage(), e1);
 				e1.printStackTrace();
-			}
+			}*/
 		}
 	}
 
