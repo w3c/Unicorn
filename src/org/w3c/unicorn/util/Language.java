@@ -109,7 +109,10 @@ public class Language {
 		if (Framework.getLanguageProperties().get(lang) == null)
 			return messageKey;
 		
-		String message = Framework.getLanguageProperties().get(lang).getProperty(messageKey.replace("$", ""));
+		if (messageKey.startsWith("$"))
+			messageKey = messageKey.replace("$", "");
+		
+		String message = Framework.getLanguageProperties().get(lang).getProperty(messageKey);
 		
 		if (message == null)
 			return messageKey;
@@ -122,7 +125,11 @@ public class Language {
 		if (args == null)
 			return result;
 		for (String str : args) {
-			result = result.replaceAll("%"+i, str);
+			if (str.startsWith("$"))
+				str = str.replace("$", "");
+			
+			String string = Framework.getLanguageProperties().get(lang).getProperty(str) != null ? Framework.getLanguageProperties().get(lang).getProperty(str) : str; 
+			result = result.replaceAll("%"+i, string);
 			i++;
 		}
 		return result;
