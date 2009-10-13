@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.16 2009-10-13 12:00:13 tgambet Exp $
+// $Id: LanguageAction.java,v 1.17 2009-10-13 12:08:36 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -231,13 +231,8 @@ public class LanguageAction extends Action {
 			req.setAttribute("submitted", true);
 			doGet(req, resp);
 			
-			String[] recipients = {Property.getProps("mail.properties").getProperty("unicorn.mail.language.to"), 
-					req.getParameter("translator_mail")};
-			String subject;
-			if (!"".equals(req.getParameter("translator_name")))
-				subject = "Unicorn - Translation in " + contextObjects.get("language") + " (submitted by " + req.getParameter("translator_name") + ")";
-			else
-				subject = "Unicorn - Translation in " + contextObjects.get("language") + " (anonymous submission)";
+			String[] recipients = {Property.getProps("mail.properties").getProperty("unicorn.mail.language.to"), req.getParameter("translator_mail")};
+			String subject = "Unicorn - Translation in " + contextObjects.get("language") + " (submitted by " + req.getParameter("translator_name") + ")";
 			
 			OutputFormater mainOutputFormater = new SimpleOutputFormater("language.mail", Property.get("DEFAULT_LANGUAGE"), "text/plain");
 			OutputFormater fileOutputFormater = new FileOutputFormater("language.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter + ".properties");
@@ -252,9 +247,7 @@ public class LanguageAction extends Action {
 			} catch (UnicornException e) {
 				logger.error(e.getMessage(), e);
 			}
-			
 		}
-		
 	}
 
 	private Properties createProperties(String langParameter) {
