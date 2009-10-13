@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.15 2009-10-12 16:15:45 tgambet Exp $
+// $Id: LanguageAction.java,v 1.16 2009-10-13 12:00:13 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -108,7 +108,12 @@ public class LanguageAction extends Action {
 					else 
 						messages.add(new Message(Message.INFO, "This translation is complete but you can help us to improve it if needed."));
 				}
-				velocityContext.put("prop", languageProperties.get(langParameter));
+				if (req.getAttribute("submitted_props") != null) {
+					Properties submittedProps = (Properties) req.getAttribute("submitted_props");
+					velocityContext.put("prop", submittedProps);
+				} else {
+					velocityContext.put("prop", languageProperties.get(langParameter));
+				}
 			} else if (Language.isISOLanguageCode(langParameter)) {
 				Locale locale = Language.getLocale(langParameter);
 				if (locale == null) {
@@ -195,24 +200,30 @@ public class LanguageAction extends Action {
 				return;
 			}
 			
+			if ("".equals(req.getParameter("translator_name")) || "".equals(req.getParameter("translator_mail"))) {
+				MessageList messages = new MessageList();
+				messages.add(new Message(Message.WARNING, "Please enter your name and your email address so we can contact you."));
+				req.setAttribute("messages", messages);
+				req.setAttribute("submitted_props", langProps);
+				doGet(req, resp);
+				return;
+			}
+			
+			contextObjects.put("translator_name", req.getParameter("translator_name"));
+			contextObjects.put("translator_mail", req.getParameter("translator_mail"));
+			contextObjects.put("translator_comments", req.getParameter("translator_comments"));
+			contextObjects.put("language", Language.getLocale(languageParameter).getDisplayLanguage(Locale.ENGLISH));
+			contextObjects.put("changeLog", changeLog);
+			
+			langProps.remove("lang");
+			langProps.remove("language");
+			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
 			langProps.store(osw, "Submitted by " + req.getParameter("translator_name") + " <" + req.getParameter("translator_mail") + ">");
 			osw.close();
 			baos.close();
 			contextObjects.put("properties", baos.toString("UTF-8"));
-			contextObjects.put("changeLog", changeLog);
-			
-			if (!"".equals(req.getParameter("translator_name")))
-				contextObjects.put("translator_name", req.getParameter("translator_name"));
-			else
-				contextObjects.put("translator_name", "Anonymous");
-			if (!"".equals(req.getParameter("translator_mail")))
-				contextObjects.put("translator_mail", req.getParameter("translator_mail"));
-			else 
-				contextObjects.put("translator_mail", "Not specified");
-			contextObjects.put("translator_comments", req.getParameter("translator_comments"));
-			contextObjects.put("language", Language.getLocale(languageParameter).getDisplayLanguage(Locale.ENGLISH));
 			
 			MessageList messages = new MessageList();
 			messages.add(new Message(Message.INFO, "Thank you for your submission."));
