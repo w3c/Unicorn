@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.18 2009-10-13 12:57:46 tgambet Exp $
+// $Id: LanguageAction.java,v 1.19 2009-10-13 15:10:41 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -37,6 +37,7 @@ import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
 import org.w3c.unicorn.util.Mail;
+import org.w3c.unicorn.util.UCNProperties;
 
 /**
  * Servlet implementation class LanguageServlet
@@ -82,13 +83,15 @@ public class LanguageAction extends Action {
 		velocityContext.put("messages", messages);
 		velocityContext.put("baseUri", "./");
 		velocityContext.put("availableLocales", availableLocales);
-		
+		velocityContext.put("native_lang", req.getLocale().getLanguage());
+		velocityContext.put("translator_name", req.getAttribute("translator_name"));
+		velocityContext.put("translator_mail", req.getAttribute("translator_mail"));
+		velocityContext.put("translator_comments", req.getAttribute("translator_comments"));
 		
 		Hashtable<String, String> languages = new Hashtable<String, String>();
 		languages.put(defaultLang, defaultProperties.get("language"));
 		velocityContext.put("languages", languages);
 		
-		languageProperties.remove(defaultLang);
 		velocityContext.put("languageProps", languageProperties);
 		velocityContext.put("defaultProps", defaultProperties);
 		
@@ -161,7 +164,7 @@ public class LanguageAction extends Action {
 			doGet(req, resp);
 			return;
 		} else {
-			Properties langProps;
+			UCNProperties langProps;
 			if (languageProperties.get(languageParameter) == null) {
 				langProps = createProperties(languageParameter);
 				contextObjects.put("new_translation", true);
@@ -170,7 +173,7 @@ public class LanguageAction extends Action {
 					return;
 				}
 			} else
-				langProps = (Properties) languageProperties.get(languageParameter).clone();
+				langProps = (UCNProperties) languageProperties.get(languageParameter).clone();
 			
 			StringBuilder changeLog = new StringBuilder();
 			boolean changed = false;
@@ -198,6 +201,9 @@ public class LanguageAction extends Action {
 				MessageList messages = new MessageList();
 				messages.add(new Message(Message.WARNING, "You haven't made any changes."));
 				req.setAttribute("messages", messages);
+				req.setAttribute("translator_name", req.getParameter("translator_name"));
+				req.setAttribute("translator_mail", req.getParameter("translator_mail"));
+				req.setAttribute("translator_comments", req.getParameter("translator_comments"));
 				doGet(req, resp);
 				return;
 			}
@@ -207,6 +213,9 @@ public class LanguageAction extends Action {
 				messages.add(new Message(Message.WARNING, "Please enter your name and your email address so we can contact you."));
 				req.setAttribute("messages", messages);
 				req.setAttribute("submitted_props", langProps);
+				req.setAttribute("translator_name", req.getParameter("translator_name"));
+				req.setAttribute("translator_mail", req.getParameter("translator_mail"));
+				req.setAttribute("translator_comments", req.getParameter("translator_comments"));
 				doGet(req, resp);
 				return;
 			}
@@ -219,6 +228,9 @@ public class LanguageAction extends Action {
 				messages.add(new Message(Message.WARNING, "The email address you entered is invalid."));
 				req.setAttribute("messages", messages);
 				req.setAttribute("submitted_props", langProps);
+				req.setAttribute("translator_name", req.getParameter("translator_name"));
+				req.setAttribute("translator_mail", req.getParameter("translator_mail"));
+				req.setAttribute("translator_comments", req.getParameter("translator_comments"));
 				doGet(req, resp);
 				return;
 			}
@@ -264,8 +276,8 @@ public class LanguageAction extends Action {
 		}
 	}
 
-	private Properties createProperties(String langParameter) {
-		Properties props = new Properties();
+	private UCNProperties createProperties(String langParameter) {
+		UCNProperties props = new UCNProperties();
 		Locale locale = Language.getLocale(langParameter);
 		if (locale == null)
 			return null;
@@ -275,7 +287,8 @@ public class LanguageAction extends Action {
 	}
 
 	public static void addLanguageProperties(Properties props) {
-		languageProperties.put(props.getProperty("lang"), (Properties) props.clone());
+		if (!props.getProperty("lang").equals(Property.get("DEFAULT_LANGUAGE")))
+			languageProperties.put(props.getProperty("lang"), (Properties) props.clone());
 	}
 
 	public static TreeMap<String, Properties> getLanguageProperties() {
