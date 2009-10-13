@@ -1,6 +1,9 @@
 package org.w3c.unicorn.util;
 
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +51,16 @@ public class UCNProperties extends Properties {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public Enumeration keys() {
+		Enumeration keysEnum = super.keys();
+		Vector<String> keyList = new Vector<String>();
+		while(keysEnum.hasMoreElements())
+			keyList.add((String)keysEnum.nextElement());
+		Collections.sort(keyList);
+		return keyList.elements();
+	}
+	
 	@Override
 	public String toString() {
 		String result = "";
