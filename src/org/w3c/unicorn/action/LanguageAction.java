@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.17 2009-10-13 12:08:36 tgambet Exp $
+// $Id: LanguageAction.java,v 1.18 2009-10-13 12:57:46 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -203,6 +205,18 @@ public class LanguageAction extends Action {
 			if ("".equals(req.getParameter("translator_name")) || "".equals(req.getParameter("translator_mail"))) {
 				MessageList messages = new MessageList();
 				messages.add(new Message(Message.WARNING, "Please enter your name and your email address so we can contact you."));
+				req.setAttribute("messages", messages);
+				req.setAttribute("submitted_props", langProps);
+				doGet(req, resp);
+				return;
+			}
+			
+			try {
+				InternetAddress ia = new InternetAddress(req.getParameter("translator_mail"));
+				ia.validate();
+			} catch (AddressException e) {
+				MessageList messages = new MessageList();
+				messages.add(new Message(Message.WARNING, "The email address you entered is invalid."));
 				req.setAttribute("messages", messages);
 				req.setAttribute("submitted_props", langProps);
 				doGet(req, resp);
