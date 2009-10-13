@@ -68,37 +68,6 @@ class RequestThread extends Thread {
 		} catch (final Exception e) {
 			messages.add(new Message(e));
 			logger.error(e.getMessage(), e);
-			/*try {
-				StringBuilder builder = new StringBuilder();
-				VelocityContext context = new VelocityContext(Framework.getLanguageContexts().get(lang));
-				EventCartridge aEventCartridge = new EventCartridge();
-				aEventCartridge.addEventHandler(new EscapeXMLEntities());
-				aEventCartridge.attachToContext(context);
-				
-				if (e.getMessage() != null)	
-					context.put("exception", e.getMessage());
-				else
-					context.put("exception", "");
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				OutputStreamWriter osw = new OutputStreamWriter(os);
-				Templates.write("io_error.vm", context, osw);
-				osw.close();
-				InputStreamReader isr = new InputStreamReader(
-						new ByteArrayInputStream(os.toByteArray()));
-				char[] chararray = new char[8192];
-				int readLength = 0;
-				while ((readLength = isr.read(chararray, 0, 8192)) > -1) {
-					builder.append(chararray, 0, readLength);
-				}
-				aResponse = ResponseParserFactory.parse(builder.toString(), "default");				
-				aResponse.setXml(builder);				
-			} catch (IOException e1) {
-				logger.error("Exception : " + e1.getMessage(), e1);
-				e1.printStackTrace();
-			} catch (Exception e1) {
-				logger.error("Exception : " + e1.getMessage(), e1);
-				e1.printStackTrace();
-			}*/
 		}
 	}
 
