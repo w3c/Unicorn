@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.53 2009-10-13 16:36:23 tgambet Exp $
+// $Id: ObserveAction.java,v 1.54 2009-10-13 16:38:55 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -284,13 +284,13 @@ public class ObserveAction extends Action {
 						warnings += observationList.get(key).getWarningCount();
 						infos += observationList.get(key).getInfoCount();
 					}
-					resp.setHeader("X-W3C-Validator-Errors", Integer.toString(errors));
-					resp.setHeader("X-W3C-Validator-Info", Integer.toString(infos));
-					resp.setHeader("X-W3C-Validator-Warnings", Integer.toString(warnings));
 					if (errors > 0)
 						resp.setHeader("X-W3C-Validator-Status", "Invalid");
 					else
 						resp.setHeader("X-W3C-Validator-Status", "Valid");
+					resp.setHeader("X-W3C-Validator-Errors", Integer.toString(errors));
+					resp.setHeader("X-W3C-Validator-Warnings", Integer.toString(warnings));
+					resp.setHeader("X-W3C-Validator-Info", Integer.toString(infos));
 				}
 				
 				
