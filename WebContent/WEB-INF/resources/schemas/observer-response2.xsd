@@ -8,6 +8,8 @@
 		namespace="http://www.w3.org/XML/1998/namespace"
 		schemaLocation="http://www.w3.org/2001/xml.xsd"/>
 	
+	<xs:include schemaLocation="./xhtml/xhtml-basic10-modules-1.xsd"/>
+	
 	<!-- Simple types -->
 	<xs:simpleType name="collapseString.type">
 		<xs:restriction base="xs:string">
@@ -83,7 +85,7 @@
 	</xs:complexType>
 
 	<!-- Root element -->
-	<xs:element name="unicornresponse">	
+	<xs:element name="observationresponse">	
 		<xs:complexType>
 			<xs:sequence>
 				<xs:group ref="meta"/>
@@ -112,10 +114,32 @@
 	
 	<xs:group name="description.group">
 		<xs:choice>
-			<!-- Must import xhtml modules here -->
-			<xs:element name="a"></xs:element>
-			<xs:element name="b"></xs:element>
-			<xs:element name="u"></xs:element>
+			<xs:element name="address" type="xhtml.address.type" />
+			<xs:element name="blockquote" type="xhtml.blockquote.type" />
+			<xs:element name="pre" type="xhtml.pre.type" />
+			<xs:element name="h1" type="xhtml.h1.type" />
+			<xs:element name="h2" type="xhtml.h2.type" />
+			<xs:element name="h3" type="xhtml.h3.type" />
+			<xs:element name="h4" type="xhtml.h4.type" />
+			<xs:element name="h5" type="xhtml.h5.type" />
+			<xs:element name="h6" type="xhtml.h6.type" />
+			<xs:element name="div" type="xhtml.div.type" />
+			<xs:element name="p" type="xhtml.p.type" />
+			<xs:element name="abbr" type="xhtml.abbr.type" />
+			<xs:element name="acronym" type="xhtml.acronym.type" />
+			<xs:element name="cite" type="xhtml.cite.type" />
+			<xs:element name="code" type="xhtml.code.type" />
+			<xs:element name="em" type="xhtml.em.type" />
+			<xs:element name="br" type="xhtml.br.type" />
+			<xs:element name="span" type="xhtml.span.type" />
+			<xs:element name="a" type="xhtml.a.type" />
+			<xs:element name="dt" type="xhtml.dt.type" />
+			<xs:element name="dl" type="xhtml.dl.type" />
+			<xs:element name="dd" type="xhtml.dd.type" />
+			<xs:element name="ol" type="xhtml.ol.type" />
+			<xs:element name="ul" type="xhtml.ul.type" />
+			<xs:element name="li" type="xhtml.li.type" />
+			<xs:element name="img" type="xhtml.img.type" />
 		</xs:choice>
 	</xs:group>
 	
