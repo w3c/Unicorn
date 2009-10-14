@@ -60,6 +60,10 @@
 		<xmlbean schema="WebContent/WEB-INF/resources/schemas/observer-response.xsd" destfile="WebContent/WEB-INF/lib/observationresponse.jar" javasource="1.5" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
 	</target>
 	
+	<target name="xsd2">
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/observer-response2.xsd" destfile="WebContent/WEB-INF/lib/observationresponse2.jar" javasource="1.5" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
+	</target>
+	
 	<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
 	
 </project>
