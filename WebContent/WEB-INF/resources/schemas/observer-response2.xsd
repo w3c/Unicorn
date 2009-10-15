@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema
+	xmlns="http://www.w3.org/unicorn/2009/10/observationresponse"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified"
-	targetNamespace="http://www.w3.org/unicorn/observationresponse"
-	xmlns="http://www.w3.org/unicorn/observationresponse">
+	targetNamespace="http://www.w3.org/unicorn/2009/10/observationresponse"
+	elementFormDefault="qualified">
 	<xs:import
 		namespace="http://www.w3.org/XML/1998/namespace"
 		schemaLocation="http://www.w3.org/2001/xml.xsd"/>
@@ -32,13 +32,19 @@
 			<xs:pattern value="error|warning|info"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="status.type">
-		<xs:restriction base="xs:token">
-			<xs:pattern value="passed|failed|undef"/>
-		</xs:restriction>
-	</xs:simpleType>
 
 	<!-- Complex Types -->
+	<xs:complexType name="status.type">
+		<xs:attribute name="value">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:pattern value="passed|failed|undef"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="rating" type="percent.type"/>
+	</xs:complexType>
+	
 	<xs:complexType mixed="true" name="description.type">
 		<xs:sequence>
 			<xs:group ref="description.group" minOccurs="0" maxOccurs="unbounded"/>
@@ -88,22 +94,15 @@
 	<xs:element name="observationresponse">	
 		<xs:complexType>
 			<xs:sequence>
-				<xs:group ref="meta"/>
+				<xs:element name="status" type="status.type" minOccurs="0"/>
 				<xs:group ref="messages" maxOccurs="unbounded"/>
 			</xs:sequence>
+			<xs:attribute name="ref" use="required"/>
+			<xs:attribute name="date"/>
 		</xs:complexType>
 	</xs:element>
 	
 	<!-- Groups -->
-	<xs:group name="meta">
-		<xs:sequence>
-			<xs:element name="docURI" type="xs:anyURI"/>
-			<xs:element name="date" type="xs:date" minOccurs="0"/>
-			<xs:element name="status" type="status.type"/>
-			<xs:element name="rating" type="percent.type" minOccurs="0"/>
-		</xs:sequence>
-	</xs:group>
-	
 	<xs:group name="messages">
 		<xs:choice>
 			<xs:element name="list" type="list.type"/>

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<observationresponse xmlns="http://www.w3.org/unicorn/observationresponse"
+<observationresponse xmlns="http://www.w3.org/unicorn/2009/10/observationresponse"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.w3.org/unicorn/observationresponse ./observer-response2.xsd">
+      xsi:schemaLocation="http://www.w3.org/unicorn/2009/10/observationresponse ./observer-response2.xsd"
+      ref="http://doc.uri" date="2009-10-14">
 
-	<docURI>http://doc.uri</docURI>
-	<date>2009-10-14</date> <!-- Valeurs: YYYY-MM-DD -->
-
-	<status>failed</status> <!-- Valeurs: failed|passed|undef -->
-	<rating>50</rating>     <!-- Optional - Valeurs: int 0-100 -->
+	<status value="failed" rating="50"/>
 	
 	<group name="group1">
 		<title>minimal group</title>
@@ -16,7 +13,9 @@
 	<group name="group2" parent="group1">
 		<title>child group</title>
 		<description>
+		    sdf
 			<h1 id="id" class="class">title</h1>
+			dd
 			<h2></h2>
 			<h3></h3>
 			
