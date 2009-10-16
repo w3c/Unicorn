@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.54 2009-10-13 16:38:55 tgambet Exp $
+// $Id: ObserveAction.java,v 1.55 2009-10-16 16:51:00 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -214,6 +214,7 @@ public class ObserveAction extends Action {
 		resp.setContentType(aOutputModule.getMimeType() + "; charset=UTF-8");
 		
 		if (!reqParams.containsKey(paramPrefix + "uri") && !reqParams.containsKey(paramPrefix + "text") && !reqParams.containsKey(paramPrefix + "file")) {
+			mapOfStringObject.put("current_task", Framework.getDefaultTask());
 			messages.add(new Message(Message.ERROR, "$message_nothing_to_validate", null));
 			aOutputModule.produceError( mapOfStringObject, resp.getWriter());
 			return;
