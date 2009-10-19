@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.23 2009-10-19 10:09:04 tgambet Exp $
+// $Id: Framework.java,v 1.24 2009-10-19 12:47:05 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -95,7 +95,7 @@ public class Framework {
 	private static VelocityEngine velocityEngine;
 	private static String[] configFiles = {
 		"extensions.properties",
-		"responseParsers.properties",
+		"responseImpl.properties",
 		"output.properties",
 		"velocity.properties",
 		"mail.properties"};
@@ -120,7 +120,7 @@ public class Framework {
 			initCore();
 			initConfig();
 			initUnmarshallers();
-			initResponseParsers();
+			initResponseImplementations();
 			initObservers();
 			initTasklists();
 			initLanguages();
@@ -260,23 +260,23 @@ public class Framework {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static void initResponseParsers() throws InitializationFailedException {
+	public static void initResponseImplementations() throws InitializationFailedException {
 	    // Load the map of ResponseParser
 		logger.debug("-------------------------------------------------------");
-		logger.debug("Loading available response implementations form responseParsers.properties");
-		Properties aProperties = Property.getProps("responseParsers.properties");
+		logger.debug("Loading available response implementations form responseImpl.properties");
+		Properties aProperties = Property.getProps("responseImpl.properties");
 		for (Object key : aProperties.keySet()) {
 			String className = aProperties.getProperty(key.toString());
 			try {
 				if (Response.class.isAssignableFrom(Class.forName(className))) {
 					Class.forName(className).getConstructor(InputStream.class, String.class);
 					responseImpl.put(key.toString(), (Class<Response>) Class.forName(className));
-					logger.debug("> Parser loaded: " + responseImpl.get(key).getClass().toString());
+					logger.debug("> Implementation loaded: " + responseImpl.get(key).getClass().toString());
 				} else {
 					logger.error("> Class: " + className + " is not a Response implementation.");
 				}
 			} catch (ClassNotFoundException e) {
-				logger.error("Class not found: " + className + ". Check responseParsers.properties.");
+				logger.error("Class not found: " + className + ". Check responseImpl.properties.");
 			} catch (NoSuchMethodException e) {
 				logger.error("Response implementation: " + className + " does not have a constructor with signature (InputStream is, String charset). Implementation skipped.");
 			} catch (Exception e) {
@@ -284,7 +284,7 @@ public class Framework {
 			}
 		}
 		if (responseImpl.size() == 0) {
-			throw new InitializationFailedException("There is no parser loaded. Check responseParsers.properties.");
+			throw new InitializationFailedException("There is no response implementation loaded. Check responseImpl.properties.");
 		} else {
 			logger.info("OK - " + responseImpl.size() + " implementation(s) successfully loaded.");
 		}

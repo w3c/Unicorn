@@ -75,7 +75,7 @@ public class InitAction extends HttpServlet {
 				out.write("Initializing response parsers: ");
 				response.flushBuffer();
 				try {
-					Framework.initResponseParsers();
+					Framework.initResponseImplementations();
 					out.write("OK\n");
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
