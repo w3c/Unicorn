@@ -287,5 +287,9 @@ public class OldResponseXBeans implements Response {
 		}
 		return sortedMap;
 	}
+
+	public String getHTMLIndexUri() {
+		return Framework.mapOfObserver.get(observerID).getIndexURI();
+	}
 	
 }

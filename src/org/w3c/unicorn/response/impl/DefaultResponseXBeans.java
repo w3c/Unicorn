@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.3 2009-10-19 16:20:18 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.4 2009-10-19 17:18:50 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -326,6 +326,10 @@ public class DefaultResponseXBeans implements Response {
 
 	public Iterable<Message> getWarningMessages(String uri) {
 		return getMessages(uri, Message.WARNING);
+	}
+
+	public String getHTMLIndexUri() {
+		return Framework.mapOfObserver.get(observerID).getIndexURI();
 	}
 
 }
