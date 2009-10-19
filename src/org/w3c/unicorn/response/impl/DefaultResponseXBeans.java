@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.1 2009-10-16 16:24:31 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.2 2009-10-19 12:42:07 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlException;
@@ -120,11 +119,7 @@ public class DefaultResponseXBeans implements Response {
 	}
 	
 	public Date getDate() {
-		String[] s = or.getDate().getStringValue().split("-");
-		int year = Integer.parseInt(s[0]);
-		int month = Integer.parseInt(s[1]);
-		int day = Integer.parseInt(s[2]);
-		return new GregorianCalendar(year, month - 1, day).getTime();
+		return or.getDate().getTime();
 	}
 	
 	public String getURI() {
@@ -254,6 +249,12 @@ public class DefaultResponseXBeans implements Response {
 			}
 		}
 		return children;
+	}
+
+	public boolean isPassed() {
+		if (getStatus() == PASSED)
+			return true;
+		return false;
 	}
 
 }
