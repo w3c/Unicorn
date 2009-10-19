@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.22 2009-10-12 15:27:33 tgambet Exp $
+// $Id: Framework.java,v 1.23 2009-10-19 10:09:04 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -37,7 +38,6 @@ import org.w3c.unicorn.contract.WADLUnmarshaller;
 import org.w3c.unicorn.contract.WADLUnmarshallerXPath;
 import org.w3c.unicorn.exceptions.InitializationFailedException;
 import org.w3c.unicorn.exceptions.UnknownParserException;
-import org.w3c.unicorn.response.parser.ResponseParser;
 import org.w3c.unicorn.tasklist.RDFUnmarshaller;
 import org.w3c.unicorn.tasklist.RDFUnmarshallerJena;
 import org.w3c.unicorn.tasklist.Task;
@@ -48,6 +48,7 @@ import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UCNProperties;
+import org.w3c.unicorn.response.Response;
 
 import com.hp.hpl.jena.rdf.model.Model;
 
@@ -71,7 +72,7 @@ public class Framework {
 	/**
 	 * Data structure for the various response parser
 	 */
-	public static Map<String, ResponseParser> mapOfReponseParser;
+	public static Map<String, Class<Response>> responseImpl;
 	
 	/**
 	 * Logger
@@ -105,7 +106,7 @@ public class Framework {
 		languageProperties = new Hashtable<String, Properties>();
 		languages = new TreeMap<String, String>();
 		mapOfObserver = new LinkedHashMap<String, Observer>();
-		mapOfReponseParser = new LinkedHashMap<String, ResponseParser>();
+		responseImpl = new LinkedHashMap<String, Class<Response>>();
 		LanguageAction.setLanguageProperties(new TreeMap<String, Properties>());
 	}
 	
@@ -257,31 +258,38 @@ public class Framework {
 				namespace + "value"));
 		logger.info("OK - RDFUnmarshallerJena successfully initialized.");
 	}
+	
+	@SuppressWarnings("unchecked")
 	public static void initResponseParsers() throws InitializationFailedException {
 	    // Load the map of ResponseParser
 		logger.debug("-------------------------------------------------------");
-		logger.debug("Loading available parsers form responseParsers.properties");
+		logger.debug("Loading available response implementations form responseParsers.properties");
 		Properties aProperties = Property.getProps("responseParsers.properties");
 		for (Object key : aProperties.keySet()) {
 			String className = aProperties.getProperty(key.toString());
 			try {
-				ResponseParser aResponseParser = (ResponseParser) Class
-					.forName(className).newInstance();
-				mapOfReponseParser.put(key.toString(), aResponseParser);
-				logger.debug("> Parser loaded: " + mapOfReponseParser.get(key).getClass().toString());
+				if (Response.class.isAssignableFrom(Class.forName(className))) {
+					Class.forName(className).getConstructor(InputStream.class, String.class);
+					responseImpl.put(key.toString(), (Class<Response>) Class.forName(className));
+					logger.debug("> Parser loaded: " + responseImpl.get(key).getClass().toString());
+				} else {
+					logger.error("> Class: " + className + " is not a Response implementation.");
+				}
 			} catch (ClassNotFoundException e) {
-				logger.warn("Class not found: " + className + ". Check responseParsers.properties.", e);
+				logger.error("Class not found: " + className + ". Check responseParsers.properties.");
+			} catch (NoSuchMethodException e) {
+				logger.error("Response implementation: " + className + " does not have a constructor with signature (InputStream is, String charset). Implementation skipped.");
 			} catch (Exception e) {
-				logger.warn("Error trying to instanciate: " + className, e);
+				logger.error("Error trying to instanciate: " + className, e);
 			}
 		}
-		if (mapOfReponseParser.size() == 0) {
+		if (responseImpl.size() == 0) {
 			throw new InitializationFailedException("There is no parser loaded. Check responseParsers.properties.");
 		} else {
-			logger.info("OK - " + mapOfReponseParser.size() + " parser(s) successfully loaded.");
+			logger.info("OK - " + responseImpl.size() + " implementation(s) successfully loaded.");
 		}
-
 	}
+	
 	public static void initObservers() throws InitializationFailedException {
 		// Loading observers
 		logger.debug("-------------------------------------------------------");

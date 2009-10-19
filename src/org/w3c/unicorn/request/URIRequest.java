@@ -1,11 +1,10 @@
-// $Id: URIRequest.java,v 1.14 2009-10-06 14:48:16 tgambet Exp $
+// $Id: URIRequest.java,v 1.15 2009-10-19 10:09:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
@@ -21,6 +20,7 @@ import org.w3c.unicorn.input.URIInputModule;
 import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
+import org.w3c.unicorn.response.ResponseFactory;
 
 /**
  * Use to handle a request to a observer.
@@ -137,10 +137,8 @@ public class URIRequest extends Request {
 				throw new UnicornException(Message.ERROR, "$message_observer_internal_error", null, observerName);
 			}
 			
-			InputStream is = aURLConnection.getInputStream();
-			Response response = streamToResponse(is);
-			response.setRequestUri(aURL.toString());
-			return response;
+			return ResponseFactory.getResponse(aURLConnection.getInputStream(), responseType, aURL.toString(), aURLConnection.getContentEncoding());
+			
 		} catch (MalformedURLException e) {
 			throw new UnicornException(new Message(e));
 		} catch (ConnectException e) {

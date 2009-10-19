@@ -1,11 +1,10 @@
-// $Id: UploadRequest.java,v 1.7 2009-09-23 13:55:19 tgambet Exp $
+// $Id: UploadRequest.java,v 1.8 2009-10-19 10:09:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.Hashtable;
 import java.util.Map;
@@ -16,6 +15,7 @@ import org.w3c.unicorn.response.Response;
 import org.w3c.unicorn.util.ClientHttpRequest;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.exceptions.UnicornException;
+import org.w3c.unicorn.response.ResponseFactory;
 
 /**
  * Class to deal with the upload request
@@ -107,9 +107,10 @@ public class UploadRequest extends Request {
 				logger.debug("Value :" + sValue + ".");
 				aClientHttpRequest.setParameter(sName, sValue);
 			}
-			InputStream is = this.aClientHttpRequest.post();
+			
+			// TODO How to find the response content encoding here ?
+			return ResponseFactory.getResponse(aClientHttpRequest.post(), responseType, sURL.toString(), null);
 
-			return streamToResponse(is);
 		} catch (MalformedURLException e) {
 			throw new UnicornException(new Message(e));
 		} catch (IOException e) {

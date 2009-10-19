@@ -2,9 +2,6 @@ package org.w3c.unicorn.util;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
-import org.w3c.unicorn.response.A;
-import org.w3c.unicorn.response.Code;
-import org.w3c.unicorn.response.Img;
 
 /**
  * Escape all XML Entities in the reference insertion. Specifically, the
@@ -31,7 +28,7 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 		if (oValue == null) {
 			return null;
 		}
-		if (oValue instanceof A) {
+/*		if (oValue instanceof A) {
 			A link = (A) oValue;
 			return insertA(link);
 		}
@@ -42,11 +39,16 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 		if (oValue instanceof Code) {
 			Code code = (Code) oValue;
 			return insertCode(code);
-		}
-		if (sReference.startsWith("$ucn.evaluate"))
+		}*/
+		
+		return oValue.toString();
+		
+		/*if (sReference.startsWith("$ucn.evaluate"))
+			return oValue.toString();
+		if (sReference.contains("getDescription()"))
 			return oValue.toString();
 		else
-			return StringEscapeUtils.escapeHtml(oValue.toString());
+			return StringEscapeUtils.escapeHtml(oValue.toString());*/
 	}
 
 	/**
@@ -56,7 +58,7 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 	 *            link to insert
 	 * @return return the object containing the link
 	 */
-	private Object insertA(final A aLink) {
+/*	private Object insertA(final A aLink) {
 		String sResultat = "<a href=\""
 			    + StringEscapeUtils.escapeHtml(aLink.getHref()) + "\">";
 		for (final Object oElement : aLink.getContent()) {
@@ -77,7 +79,7 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 	 *            code to insert
 	 * @return object with code inserted
 	 */
-	private Object insertCode(final Code aCode) {
+/*	private Object insertCode(final Code aCode) {
 		String sResultat = "<code>";
 		for (final Object oElement : aCode.getContent()) {
 			if (oElement instanceof A) {
@@ -99,10 +101,10 @@ public class XHTMLize implements ReferenceInsertionEventHandler {
 	 *            image path to insert
 	 * @return the string containing the image tag
 	 */
-	private String insertImg(final Img aImage) {
+/*	private String insertImg(final Img aImage) {
 		return "<img src=\"" + StringEscapeUtils.escapeHtml(aImage.getSrc())
 				+ "\" alt=\"" + StringEscapeUtils.escapeHtml(aImage.getAlt())
 				+ "\"/>";
-	}
+	}*/
 
 }

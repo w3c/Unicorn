@@ -1,17 +1,17 @@
-// $Id: DirectRequestPOST.java,v 1.7 2009-09-23 13:55:19 tgambet Exp $
+// $Id: DirectRequestPOST.java,v 1.8 2009-10-19 10:09:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Map;
 
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.DirectInputModule;
 import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.response.ResponseFactory;
 import org.w3c.unicorn.util.ClientHttpRequest;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.exceptions.UnicornException;
@@ -77,9 +77,10 @@ public class DirectRequestPOST extends Request {
 			ClientHttpRequest request = new ClientHttpRequest(sURL);
 			request.setLang(sLang);
 			request.setParameters(mapOfParameter);
-	
-			InputStream is = request.post();
-			return streamToResponse(is);
+			
+			// TODO How to find the response content encoding here ?
+			return ResponseFactory.getResponse(request.post(), responseType, sURL.toString(), null);
+			
 		} catch (IOException e) {
 			throw new UnicornException(new Message(e));
 		}

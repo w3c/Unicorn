@@ -1,304 +1,64 @@
+// $Id: Response.java,v 1.10 2009-10-19 10:09:03 tgambet Exp $
+// Author: Thomas Gambet
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
+// Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.response;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.w3c.unicorn.Framework;
-
-public class Response {
-	protected String uri;
+public interface Response {
 	
-	protected String requestUri;
-
-	protected String version;
-
-	protected XMLGregorianCalendar date;
-
-	protected Boolean passed;
-
-	protected StringBuilder xml; // the xml version of the response
+	public static final int PASSED = 0;
 	
-	protected Integer rating;
+	public static final int FAILED = 1;
 	
-	protected String observerId;
-
-	/**
-	 * Result aResult =
-	 * mapOfLangURIResult.get("fr").get("http://w3.org/home.css")
-	 */
-	protected Map<String, Map<String, Result>> mapOfLangURIResult = new LinkedHashMap<String, Map<String, Result>>();
-
-	/**
-	 * Gets the value of the uri property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getUri() {
-		return uri;
-	}
-
-	/**
-	 * Sets the value of the uri property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setUri(String value) {
-		this.uri = value;
-	}
-
-	/**
-	 * Gets the value of the version property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getVersion() {
-		return version;
-	}
-
-	/**
-	 * Sets the value of the version property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setVersion(String value) {
-		this.version = value;
-	}
-
-	/**
-	 * Gets the value of the date property.
-	 * 
-	 * @return possible object is {@link XMLGregorianCalendar }
-	 * 
-	 */
-	public XMLGregorianCalendar getDate() {
-		return date;
-	}
-
-	/**
-	 * Sets the value of the date property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link XMLGregorianCalendar }
-	 * 
-	 */
-	public void setDate(XMLGregorianCalendar value) {
-		this.date = value;
-	}
-
-	/**
-	 * Gets the value of the passed property.
-	 * 
-	 * @return possible object is {@link Boolean }
-	 * 
-	 */
-	public Boolean isPassed() {
-		return passed;
-	}
-
-	/**
-	 * Sets the value of the passed property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link Boolean }
-	 * 
-	 */
-	public void setPassed(Boolean value) {
-		this.passed = value;
-	}
-
-	/**
-	 * Gets the value of the result property.
-	 * 
-	 * @return possible object is {@link Result }
-	 * 
-	 */
-	public List<Result> getResultsList() {
-		List<Result> resultList = new ArrayList<Result>();
-		// iterate all language
-		for (Map<String, Result> aMapOfURIResult : mapOfLangURIResult.values()) {
-			// iterate all URI
-			for (Result aResult : aMapOfURIResult.values()) {
-				resultList.add(aResult);
-			}
-		}
-		return resultList;
-	}
-
-	/**
-	 * Gets the result of the specified URI given a language.
-	 * 
-	 * @param lang
-	 *            The language to consider.
-	 * @param uri
-	 *            The URI to consider.
-	 * @return The result in the given language for the URI.
-	 */
-	public Result getResult(String lang, String uri) {
-		if (mapOfLangURIResult.get(lang) == null) {
-			mapOfLangURIResult.put(lang, new LinkedHashMap<String, Result>());
-		}
-		if (mapOfLangURIResult.get(lang).get(uri) == null) {
-			mapOfLangURIResult.get(lang).put(uri, new Result(lang, uri));
-		}
-		return mapOfLangURIResult.get(lang).get(uri);
-	}
-
-	/**
-	 * Adds a Result r to the map, if there is already a result which has the
-	 * same uri and the same language, we will append r to this result otherwise
-	 * we'll simply add r to the list.
-	 * 
-	 * @param value
-	 *            The value of the result.
-	 */
-	public void addResult(Result value) {
-		// search in the list a result which have the same uri and the same
-		// language
-		Result currentRes = this.getResult(value.lang, value.uri);
-		if (currentRes != null) {
-			currentRes.warnings.addAll(value.warnings);
-			currentRes.errors.addAll(value.errors);
-			currentRes.infos.addAll(value.infos);
-		} else {
-			if (mapOfLangURIResult.get(value.lang) == null) {
-				mapOfLangURIResult.put(value.lang,
-						new LinkedHashMap<String, Result>());
-			}
-			mapOfLangURIResult.get(value.lang).put(value.uri, value);
-		}
-	}
-
-	/**
-	 * 
-	 * @return The list of errors corresponding to the results.
-	 */
-	public List<Error> getErrorList() {
-		List<Error> xList = new ArrayList<Error>();
-		// iterate all language
-		for (Map<String, Result> aMapOfURIResult : mapOfLangURIResult.values()) {
-			// iterate all URI
-			for (Result aResult : aMapOfURIResult.values()) {
-				xList.addAll(aResult.errors);
-			}
-		}
-		return xList;
-	}
-
-	/**
-	 * 
-	 * @return The list of warnings corresponding to the results.
-	 */
-	public List<Warning> getWarningList() {
-		List<Warning> xList = new ArrayList<Warning>();
-		// iterate all language
-		for (Map<String, Result> aMapOfURIResult : mapOfLangURIResult.values()) {
-			// iterate all URI
-			for (Result aResult : aMapOfURIResult.values()) {
-				xList.addAll(aResult.warnings);
-			}
-		}
-		return xList;
-	}
-
-	public int getWarningCount() {
-		int count = 0;
-		for (Map<String, Result> aMapOfURIResult : mapOfLangURIResult.values()) {
-			for (Result aResult : aMapOfURIResult.values()) {
-				count += aResult.warnings.size();
-			}
-		}
-		return count;
-	}
+	public static final int UNDEF = 2;
 	
-	public int getErrorCount() {
-		int count = 0;
-		for (Map<String, Result> aMapOfURIResult : mapOfLangURIResult.values()) {
-			for (Result aResult : aMapOfURIResult.values()) {
-				count += aResult.errors.size();
-			}
-		}
-		return count;
-	}
+	public Date getDate();
+
+	public List<Group> getGroups();
 	
-	public int getInfoCount() {
-		int count = 0;
-		for (Map<String, Result> aMapOfURIResult : mapOfLangURIResult.values()) {
-			for (Result aResult : aMapOfURIResult.values()) {
-				count += aResult.infos.size();
-			}
-		}
-		return count;
-	}
+	public List<Group> getGroupChildren(Group group);
+
+	public List<Message> getMessages();
+
+	public List<Message> getErrorMessages();
+
+	public List<Message> getWarningMessages();
+
+	public List<Message> getInfoMessages();
+
+	public Integer getRating();
+
+	public String getURI();
+
+	public int getErrorCount();
+
+	public int getInfoCount();
 	
-	/**
-	 * 
-	 * @return The list of infos corresponding to the results.
-	 */
-	List<Info> getAllInfo() {
-		List<Info> xList = new ArrayList<Info>();
-		// iterate all language
-		for (Map<String, Result> aMapOfURIResult : mapOfLangURIResult.values()) {
-			// iterate all URI
-			for (Result aResult : aMapOfURIResult.values()) {
-				xList.addAll(aResult.infos);
-			}
-		}
-		return xList;
-	}
+	public int getWarningCount();
 
-	public void setXml(StringBuilder sb) {
-		this.xml = sb;
-	}
+	public int getStatus();
 
-	public StringBuilder getXml() {
-		return this.xml;
-	}
-
-	public String getRequestUri() {
-		return requestUri;
-	}
+	public boolean isSetRating();
 	
-	public String getFilteredRequestUri() {
-		if (requestUri != null) {
-			String outputParamName = Framework.mapOfObserver.get(observerId).getParamOutputName();
-			return requestUri.replaceAll("&?" + outputParamName + "=[^&]*", "");
-		} else {
-			return null;
-		}
-	}
+	public boolean hasGroups();
 	
-	public String getBaseURI(String observerId) {
-		return Framework.mapOfObserver.get(observerId).getListOfCallMethod().get(0).getURL().toString();
-	}
-
-	public void setRequestUri(String requestUri) {
-		this.requestUri = requestUri;
-	}
-
-	public Integer getRating() {
-		return rating;
-	}
-
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
-
-	public String getObserverId() {
-		return observerId;
-	}
-
-	public void setObserverId(String observerId) {
-		this.observerId = observerId;
-	}
+	public String getObserverID();
+	
+	public void setObserverId(String obsId);
+	
+	public String[] execQuery(String query);
+	
+	public String[] selectPath(String xpath);
+	
+	public boolean evaluateXPath(String xpathQuery);
+	
+	public void setRequestUri(String uri);
+	
+	public String getRequestUri();
+	
+	public String getHTMLRequestUri();
 	
 }

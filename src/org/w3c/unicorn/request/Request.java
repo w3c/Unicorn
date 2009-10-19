@@ -1,13 +1,10 @@
-// $Id: Request.java,v 1.10 2009-09-23 13:55:19 tgambet Exp $
+// $Id: Request.java,v 1.11 2009-10-19 10:09:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,8 +13,6 @@ import org.w3c.unicorn.input.DirectInputModule;
 import org.w3c.unicorn.input.InputModule;
 import org.w3c.unicorn.input.URIInputModule;
 import org.w3c.unicorn.input.UploadInputModule;
-import org.w3c.unicorn.response.Response;
-import org.w3c.unicorn.response.parser.ResponseParserFactory;
 import org.w3c.unicorn.exceptions.UnicornException;
 
 /**
@@ -130,25 +125,6 @@ public abstract class Request {
 
 	public void setResponseType(String responseType) {
 		this.responseType = responseType;
-	}
-
-	protected Response streamToResponse(InputStream is) throws IOException {
-		
-		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-		BufferedReader buf = new BufferedReader(isr);
-		StringBuilder build = new StringBuilder();
-		
-		String s = buf.readLine();
-		while (s != null) {
-			build.append(s + "\n");
-			s = buf.readLine();
-		} 
-		
-		Response res = ResponseParserFactory.parse(build.toString(), this.getResponseType());
-		if(res != null)
-			res.setXml(build);
-
-		return res;
 	}
 
 	public String getObserverId() {

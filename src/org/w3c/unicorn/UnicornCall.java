@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.36 2009-10-13 15:23:55 tgambet Exp $
+// $Id: UnicornCall.java,v 1.37 2009-10-19 10:09:04 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -440,7 +440,7 @@ public class UnicornCall {
 								logger.warn("unknown observer id (" + observerId + ") in output group of task: " + this.getTask().getID() + ". It is possible that this observation failed, or that the tasklist is not valid.");
 								continue;
 							}
-							if (mapOfResponse.get(observerId).isPassed()) {
+							if (mapOfResponse.get(observerId).getStatus() == Response.PASSED) {
 								passedId = observerId;
 								break;
 							}
@@ -461,7 +461,7 @@ public class UnicornCall {
 	public boolean isPassed() {
 		boolean passed = true;
 		for (String key : getObservationList().keySet()) {
-			if (!observationMap.get(key).isPassed()) {
+			if (observationMap.get(key).getStatus() != Response.PASSED) {
 				passed = false;
 			}
 		}
@@ -565,7 +565,6 @@ public class UnicornCall {
 			case UPLOAD:
 				logger.debug("Creating FakeUploadInputModule");
 				return new FakeUploadInputModule(inputModule);
-				//return new FileItemInputModule(inputModule);
 			case URI:
 				logger.debug("Creating URIInputModule");
 				return new URIInputModule(inputModule);

@@ -1,11 +1,10 @@
-// $Id: DirectRequestGET.java,v 1.8 2009-09-23 13:55:19 tgambet Exp $
+// $Id: DirectRequestGET.java,v 1.9 2009-10-19 10:09:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -14,6 +13,7 @@ import java.net.URLEncoder;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.DirectInputModule;
 import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.response.ResponseFactory;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.exceptions.UnicornException;
 
@@ -84,19 +84,18 @@ public class DirectRequestGET extends Request {
 	public Response doRequest() throws UnicornException {
 		try {
 			logger.trace("doRequest");
-			final URL aURL;
+			URL aURL;
 			if (null == this.sParameter) {
 				aURL = new URL(this.sURL);
 			} else {
 				logger.debug(this.sParameter);
 				aURL = new URL(this.sURL + "?" + this.sParameter);
 			}
-			final URLConnection aURLConnection = aURL.openConnection();
+			URLConnection aURLConnection = aURL.openConnection();
 			aURLConnection.setRequestProperty("Accept-Language", this.sLang);
-	
-			InputStream is = aURLConnection.getInputStream();
-	
-			return streamToResponse(is);
+			
+			return ResponseFactory.getResponse(aURLConnection.getInputStream(), responseType, sURL.toString(), aURLConnection.getContentEncoding());
+			
 		} catch (IOException e) {
 			throw new UnicornException(new Message(e));
 		}
