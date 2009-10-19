@@ -1,4 +1,4 @@
-// $Id: DefaultContextXBeans.java,v 1.1 2009-10-16 16:24:32 tgambet Exp $
+// $Id: DefaultContextXBeans.java,v 1.2 2009-10-19 16:16:57 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -33,20 +33,6 @@ public class DefaultContextXBeans implements Context {
 		}
 		
 		value = context.xmlText().replaceAll("</?xml-fragment[^>]*>", "");
-		
-		System.out.println("Context ----------------------");
-		System.out.println(getLine());
-		System.out.println(getColumn());
-		System.out.println(getLineMin());
-		System.out.println(getLineMax());
-		System.out.println(getColumnMin());
-		System.out.println(getColumnMax());
-		System.out.println(getContext());
-		System.out.println(getOffset());
-		System.out.println(getPosition());
-		System.out.println(getURI());
-		System.out.println("------------------------------");
-		
 	}
 	
 	public Integer getLine() {

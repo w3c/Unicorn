@@ -1,4 +1,4 @@
-// $Id: DefaultGroupXBeans.java,v 1.1 2009-10-16 16:24:31 tgambet Exp $
+// $Id: DefaultGroupXBeans.java,v 1.2 2009-10-19 16:17:14 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -19,24 +19,13 @@ public class DefaultGroupXBeans implements Group {
 	private String parent;
 	
 	public DefaultGroupXBeans(GroupType group) {
-		
 		if (group.isSetDescription() && group.getDescription().validate())
 			description = group.getDescription().xmlText(new XmlOptions().setUseDefaultNamespace()
 					.setSavePrettyPrint()).replaceAll("</?xml-fragment[^>]*>", "").replaceAll("xmlns=\".*\"", "");
 		title = group.getTitle();
-		
 		name = group.getName();
-		
 		if (group.isSetParent())
 			parent = group.getParent();
-		
-		System.out.println("Group ----------------------");
-		System.out.println("Title: " + title);
-		System.out.println("Description: " + description);
-		System.out.println("Name: " + name);
-		System.out.println("Parent: " + parent);
-		System.out.println("----------------------------");
-		
 	}
 
 	public String getDescription() {

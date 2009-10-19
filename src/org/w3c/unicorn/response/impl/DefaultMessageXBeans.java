@@ -1,4 +1,4 @@
-// $Id: DefaultMessageXBeans.java,v 1.1 2009-10-16 16:24:31 tgambet Exp $
+// $Id: DefaultMessageXBeans.java,v 1.2 2009-10-19 16:17:28 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -56,16 +56,6 @@ public class DefaultMessageXBeans implements Message {
 	
 		for (ContextType context : message.getContextList())
 			contexts.add(new DefaultContextXBeans(context));
-		
-		System.out.println("Message ----------------------");
-		System.out.println("Title: " + title);
-		System.out.println("Description: " + description);
-		System.out.println("level: " + level);
-		System.out.println("type: " + type);
-		System.out.println("uri: " + uri);
-		System.out.println("group: " + group);
-		System.out.println("contexts.size(): " + contexts.size());
-		System.out.println("------------------------------");
 	}
 	
 	public List<Context> getContexts() {
