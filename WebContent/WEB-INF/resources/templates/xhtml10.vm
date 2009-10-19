@@ -110,11 +110,11 @@
 								#foreach($context in $message.getContexts())
 								<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
 								<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
-								<td class="codeContext" title="$context_token">$!{context.Context}</td>
+								<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
 								#end
 								<td class="info" id="$messageId" rowspan="$message.getContexts().size()">
 									<span class="msg">$message.Title</span>
-									#if($message.Description != "")<div>$!message.Description</div>#end
+									#if($message.Description != "")<div class="description">$!message.Description</div>#end
 								</td>
 								<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
 							</tr>
@@ -152,11 +152,11 @@
 								#foreach($context in $message.getContexts())
 								<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
 								<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
-								<td class="codeContext" title="$context_token">$!{context.Context}</td>
+								<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
 								#end
 								<td class="error" id="$messageId" rowspan="$message.getContexts().size()">
 									<span class="msg">$message.Title</span>
-									#if($message.Description != "")<div>$!message.Description</div>#end
+									#if($message.Description != "")<div class="description">$!message.Description</div>#end
 								</td>
 								<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
 							</tr>
@@ -194,11 +194,11 @@
 								#foreach($context in $message.getContexts())
 								<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
 								<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
-								<td class="codeContext" title="$context_token">$!{context.Context}</td>
+								<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
 								#end
 								<td class="warning" id="$messageId" rowspan="$message.getContexts().size()">
 									<span class="msg">$message.Title</span>
-									#if($message.Description != "")<div>$!message.Description</div>#end
+									#if($message.Description != "")<div class="description">$!message.Description</div>#end
 								</td>
 								<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
 							</tr>
