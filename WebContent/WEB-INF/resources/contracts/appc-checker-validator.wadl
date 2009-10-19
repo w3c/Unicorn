@@ -9,7 +9,7 @@
 	<resources base="http://qa-dev.w3.org/appc/">
 		<resource path="">
 
-			<doc title="responseType">default</doc>
+			<doc title="responseType">old</doc>
 			
 			<doc xml:lang="en" title="name">W3C XHTML 1.0 Appendix C checker</doc>
 			<doc xml:lang="fr" title="name">W3C Validateur XHTML 1.0 Appendice C</doc>
