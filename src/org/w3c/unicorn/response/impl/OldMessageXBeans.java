@@ -30,12 +30,21 @@ public class OldMessageXBeans implements Message {
 		description = buildDescription(error.getLongmessageList());
 		Integer line;
 		Integer column;
-		if (error.getLine() != null)
-			line = error.getLine().intValue();
+		if (error.isSetLine()) {
+			try {
+				line = error.getLine().intValue();
+			} catch (Exception e) {
+				line = null;
+			}
+		}
 		else
 			line = null;
-		if (error.getColumn() != null)
-			column = error.getColumn().intValue();
+		if (error.isSetColumn())
+			try {
+				column = error.getColumn().intValue();
+			} catch (Exception e) {
+				column = null;
+			}
 		else
 			column = null;
 		contexts.add((Context) new OldContextXBeans(error.getContext(), line, column));
@@ -51,12 +60,21 @@ public class OldMessageXBeans implements Message {
 		description = buildDescription(info.getLongmessageList());
 		Integer line;
 		Integer column;
-		if (info.getLine() != null)
-			line = info.getLine().intValue();
+		if (info.isSetLine()) {
+			try {
+				line = info.getLine().intValue();
+			} catch (Exception e) {
+				line = null;
+			}
+		}
 		else
 			line = null;
-		if (info.getColumn() != null)
-			column = info.getColumn().intValue();
+		if (info.isSetColumn())
+			try {
+				column = info.getColumn().intValue();
+			} catch (Exception e) {
+				column = null;
+			}
 		else
 			column = null;
 		contexts.add((Context) new OldContextXBeans(info.getContext(), line, column));
