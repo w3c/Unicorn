@@ -44,7 +44,7 @@ public class OldMessageXBeans implements Message {
 	public OldMessageXBeans(Info info) {
 		type = INFO;
 		level = 0;
-		if (info.getMessageList() != null)
+		if (info.getMessageList() != null && info.getMessageList().size() > 0)
 			title = info.getMessageList().get(0);
 		else
 			title = "";
