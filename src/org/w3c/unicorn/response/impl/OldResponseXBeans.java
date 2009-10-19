@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
@@ -28,9 +31,13 @@ public class OldResponseXBeans implements Response {
 	private Observationresponse or;
 	
 	private List<Message> messages = new ArrayList<Message>();
-	private List<Message> errorMessages = new ArrayList<Message>();
-	private List<Message> warningMessages = new ArrayList<Message>();
-	private List<Message> infoMessages = new ArrayList<Message>();
+	private int errorCount = 0;
+	private int warningCount = 0;
+	private int infoCount = 0;
+	
+	//private List<Message> errorMessages = new ArrayList<Message>();
+	//private List<Message> warningMessages = new ArrayList<Message>();
+	//private List<Message> infoMessages = new ArrayList<Message>();
 	
 	private String requestURI;
 	
@@ -66,7 +73,8 @@ public class OldResponseXBeans implements Response {
 					else
 						mess.setURI(or.getUri());
 					messages.add(mess);
-					errorMessages.add(mess);
+					errorCount++;
+					//errorMessages.add(mess);
 				}
 			}
 		}
@@ -79,7 +87,8 @@ public class OldResponseXBeans implements Response {
 					else
 						mess.setURI(or.getUri());
 					messages.add(mess);
-					infoMessages.add(mess);
+					infoCount++;
+					//infoMessages.add(mess);
 				}
 			}
 		}
@@ -92,7 +101,8 @@ public class OldResponseXBeans implements Response {
 					else
 						mess.setURI(or.getUri());
 					messages.add(mess);
-					warningMessages.add(mess);
+					warningCount++;
+					//warningMessages.add(mess);
 				}
 			}
 		}
@@ -113,14 +123,6 @@ public class OldResponseXBeans implements Response {
 		return null;
 	}
 
-	public int getErrorCount() {
-		return errorMessages.size();
-	}
-
-	public List<Message> getErrorMessages() {
-		return errorMessages;
-	}
-
 	public List<Group> getGroupChildren(Group group) {
 		return null;
 	}
@@ -138,14 +140,30 @@ public class OldResponseXBeans implements Response {
 		}
 	}
 
+	public int getErrorCount() {
+		return errorCount;
+	}
+
+	public Iterable<Message> getErrorMessages() {
+		return getMessages(null, Message.ERROR);
+	}
+	
 	public int getInfoCount() {
-		return infoMessages.size();
+		return infoCount;
 	}
 
-	public List<Message> getInfoMessages() {
-		return infoMessages;
+	public Iterable<Message> getInfoMessages() {
+		return getMessages(null, Message.INFO);
 	}
 
+	public int getWarningCount() {
+		return warningCount;
+	}
+
+	public Iterable<Message> getWarningMessages() {
+		return getMessages(null, Message.WARNING);
+	}
+	
 	public List<Message> getMessages() {
 		return messages;
 	}
@@ -168,14 +186,6 @@ public class OldResponseXBeans implements Response {
 		return or.getUri();
 	}
 
-	public int getWarningCount() {
-		return warningMessages.size();
-	}
-
-	public List<Message> getWarningMessages() {
-		return warningMessages;
-	}
-
 	public boolean hasGroups() {
 		return false;
 	}
@@ -190,7 +200,6 @@ public class OldResponseXBeans implements Response {
 
 	public void setObserverId(String obsId) {
 		observerID = obsId;
-		
 	}
 
 	public String getObserverID() {
@@ -206,5 +215,77 @@ public class OldResponseXBeans implements Response {
 			return true;
 		return false;
 	}
+	
+	public Iterable<Message> getMessages(String uri, Integer type) {
+		return new MessageIterable(uri, type);
+	}
 
+	protected class MessageIterable implements Iterable<Message> {
+
+		private int index = 0;
+		private Integer type;
+		private String uri;
+		
+		public MessageIterable(String uri, Integer type) {
+			this.uri = uri;
+			this.type = type;
+		}
+		
+		public Iterator<Message> iterator() {
+			return new Iterator<Message>() {
+				public boolean hasNext() {
+					int x = index;
+					while (x < messages.size()) {
+						if ((uri == null || messages.get(x).getURI().equals(uri)) && 
+							(type == null || messages.get(x).getType() == type))
+							return true;
+						x++;
+					}
+					return false;
+				}
+
+				public Message next() {
+					while (index < messages.size()) {
+						if ((uri == null || messages.get(index).getURI().equals(uri)) && 
+							(type == null || messages.get(index).getType() == type)) {
+							index++;
+							return messages.get(index - 1);
+						}
+						index++;
+					}
+					return null;
+				}
+
+				public void remove() {
+					return;
+				}
+			};
+		}
+	}
+
+	public Iterable<Message> getErrorMessages(String uri) {
+		return getMessages(uri, Message.ERROR);
+	}
+
+	public Iterable<Message> getInfoMessages(String uri) {
+		return getMessages(uri, Message.INFO);
+	}
+	
+	public Iterable<Message> getWarningMessages(String uri) {
+		return getMessages(uri, Message.WARNING);
+	}
+
+	public Map<String, Iterable<Message>> getURISortedMessages(int type) {
+		List<String> uris = new ArrayList<String>();
+		for (Message mess : getMessages(null, type)) {
+			if (!uris.contains(mess.getURI()))
+				uris.add(mess.getURI());
+		}
+		Map<String, Iterable<Message>> sortedMap = new Hashtable<String, Iterable<Message>>();
+		for (String uri : uris) {
+			sortedMap.put(uri, getMessages(uri, type));
+		}
+		return sortedMap;
+	}
+	
 }

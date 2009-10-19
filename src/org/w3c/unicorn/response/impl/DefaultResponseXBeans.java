@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.2 2009-10-19 12:42:07 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.3 2009-10-19 16:20:18 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -30,9 +33,9 @@ public class DefaultResponseXBeans implements Response {
 	private Observationresponse or;
 	
 	private List<Message> messages = new ArrayList<Message>();
-	private List<Message> errorMessages = new ArrayList<Message>();
-	private List<Message> warningMessages = new ArrayList<Message>();
-	private List<Message> infoMessages = new ArrayList<Message>();
+	private int errorCount = 0;
+	private int warningCount = 0;
+	private int infoCount = 0;
 	
 	private List<Group> groups = new ArrayList<Group>();
 	
@@ -48,17 +51,8 @@ public class DefaultResponseXBeans implements Response {
 		try {
 			ord = ObservationresponseDocument.Factory.parse(is, new XmlOptions().setCharacterEncoding(charset));
 			or = ord.getObservationresponse();
-			
 			if (!or.validate())
 				throw new UnicornException(new org.w3c.unicorn.util.Message(2, "$message_response_validation_error"));
-			
-			System.out.println("Response ----------------------");
-			System.out.println("Date: " + getDate());
-			System.out.println("URI: " + getURI());
-			System.out.println("Status: " + getStatus());
-			System.out.println("Rating: " + getRating());
-			System.out.println("-------------------------------");
-			
 		} catch (XmlException e) {
 			if (e.getMessage().contains("is not a valid observationresponse"))
 				throw new UnicornException(new org.w3c.unicorn.util.Message(org.w3c.unicorn.util.Message.ERROR, "$message_observer_invalid_response_schema"));
@@ -84,13 +78,13 @@ public class DefaultResponseXBeans implements Response {
 					m.setGroupName(list.getGroup());
 				switch (m.getType()) {
 				case Message.ERROR:
-					errorMessages.add(m);
+					errorCount++;
 					break;
 				case Message.WARNING:
-					warningMessages.add(m);
+					warningCount++;
 					break;
 				case Message.INFO:
-					infoMessages.add(m);
+					infoCount++;
 					break;
 				}
 				messages.add(m);
@@ -105,17 +99,18 @@ public class DefaultResponseXBeans implements Response {
 			
 			switch (m.getType()) {
 			case Message.ERROR:
-				errorMessages.add(m);
+				errorCount++;
 				break;
 			case Message.WARNING:
-				warningMessages.add(m);
+				warningCount++;
 				break;
 			case Message.INFO:
-				infoMessages.add(m);
+				infoCount++;
 				break;
 			}
 			messages.add(m);
 		}
+		
 	}
 	
 	public Date getDate() {
@@ -142,32 +137,32 @@ public class DefaultResponseXBeans implements Response {
 		return null;
 	}
 	
-	public List<Message> getMessages() {
+	public Iterable<Message> getMessages() {
 		return messages;
 	}
 	
-	public List<Message> getErrorMessages() {
-		return errorMessages;
+	public Iterable<Message> getErrorMessages() {
+		return getMessages(null, Message.ERROR);
 	}
 	
-	public List<Message> getInfoMessages() {
-		return infoMessages;
+	public Iterable<Message> getInfoMessages() {
+		return getMessages(null, Message.INFO);
 	}
 	
-	public List<Message> getWarningMessages() {
-		return warningMessages;
+	public Iterable<Message> getWarningMessages() {
+		return getMessages(null, Message.WARNING);
 	}
 	
 	public int getErrorCount() {
-		return errorMessages.size();
+		return errorCount;
 	}
 	
 	public int getWarningCount() {
-		return warningMessages.size();
+		return warningCount;
 	}
 	
 	public int getInfoCount() {
-		return infoMessages.size();
+		return infoCount;
 	}
 
 	public List<Group> getGroups() {		
@@ -255,6 +250,82 @@ public class DefaultResponseXBeans implements Response {
 		if (getStatus() == PASSED)
 			return true;
 		return false;
+	}
+
+	public Iterable<Message> getMessages(String uri, int type) {
+		return new MessageIterable(uri, type);
+	}
+	
+	private class MessageIterable implements Iterable<Message> {
+
+		private int index = 0;
+		private Integer type;
+		private String uri;
+		
+		public MessageIterable(String uri, Integer type) {
+			this.uri = uri;
+			this.type = type;
+		}
+		
+		public Iterator<Message> iterator() {
+			return new Iterator<Message>() {
+				public boolean hasNext() {
+					int x = index;
+					while (x < messages.size()) {
+						if ((uri == null || messages.get(x).getURI().equals(uri)) && 
+							(type == null || messages.get(x).getType() == type))
+							return true;
+						x++;
+					}
+					return false;
+				}
+
+				public Message next() {
+					while (index < messages.size()) {
+						if ((uri == null || messages.get(index).getURI().equals(uri)) && 
+							(type == null || messages.get(index).getType() == type)) {
+							index++;
+							return messages.get(index - 1);
+						}
+						index++;
+					}
+					return null;
+				}
+
+				public void remove() {
+					return;
+				}
+			};
+		}
+	}
+
+	public Iterable<Message> getErrorMessages(String uri) {
+		return getMessages(uri, Message.ERROR);
+	}
+
+	public Iterable<Message> getInfoMessages(String uri) {
+		return getMessages(uri, Message.INFO);
+	}
+
+	public Iterable<Message> getMessages(String uri, Integer type) {
+		return new MessageIterable(uri, type);
+	}
+
+	public Map<String, Iterable<Message>> getURISortedMessages(int type) {
+		List<String> uris = new ArrayList<String>();
+		for (Message mess : getMessages(null, type)) {
+			if (!uris.contains(mess.getURI()))
+				uris.add(mess.getURI());
+		}
+		Map<String, Iterable<Message>> sortedMap = new Hashtable<String, Iterable<Message>>();
+		for (String uri : uris) {
+			sortedMap.put(uri, getMessages(uri, type));
+		}
+		return sortedMap;
+	}
+
+	public Iterable<Message> getWarningMessages(String uri) {
+		return getMessages(uri, Message.WARNING);
 	}
 
 }
