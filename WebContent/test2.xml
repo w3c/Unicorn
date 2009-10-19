@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<observationresponse xmlns="http://www.w3.org/unicorn/2009/10/observationresponse"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.w3.org/unicorn/2009/10/observationresponse ./observer-response2.xsd"
+      ref="http://doc.uri" date="2009-10-14" a="s">
+
+	<status value="failed" rating="50"/>
+	
+	
+	<list ref="http://uri" group="uri-scope-group">
+		<message type="error" level="1">
+			<title>minimal message. 'type' attribute is one of info|warning|error</title>
+		</message>
+		
+		<message type="error" ref="http://message.uri">
+			<title>message-scope uri</title>
+		</message>
+		
+		<message type="error" ref="http://message.uri">
+			<context column="1" line="2" line-range="5-8" column-range="25-58" offset="1" position="any string">context1</context>
+			<context ref="http://context.uri">context-scope uri</context>
+			<title>message</title>
+		</message>
+	</list>
+	
+	
+	<message type="error" ref="http://message.uri" group="group3">
+		<title>...</title>
+		<description></description>
+	</message>
+	
+</observationresponse>

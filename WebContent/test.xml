@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<observationresponse xmlns="http://www.w3.org/unicorn/2009/10/observationresponse"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.w3.org/unicorn/2009/10/observationresponse ./WEB-INF/resources/schemas/observer-response2.xsd"
+      ref="http://www.w3.org" date="2010-10-14">
+
+	<status value="failed" rating="75"/>
+	
+	<group name="markup">
+		<title>Markup</title>
+		<description>The quality of the markup sent to mobile browsers will impact the reliability and smoothness of the rendering of the page. Markup validity is the first step to delivering content that can be parsed and rendered reliably by browsers. The recommended markup format for mobile content is <a href="http://www.w3.org/TR/2008/REC-xhtml-basic-20080729/">XHTML Basic 1.1</a>. But beyond validity, various tags and attributes have a specific impact in the mobile world. For instance, CSS style sheets should be used to control the layout of the page instead of presentational tags (e.g. <code>center</code>, <code>big</code>, or <code>font</code>) and images sizes should be defined in the markup to avoid reflows.</description>
+	</group>
+	
+	<message type="error" level="2" group="markup">
+		<context line="3" column="68">Attribute "lang" is not allowed for element type "html".</context>
+		<context line="32" column="44">Attribute "lang" is not allowed for element type "option".</context>
+		<context line="33" column="50">Attribute "lang" is not allowed for element type "option".</context>
+		<context line="35" column="54">Attribute "lang" is not allowed for element type "option".</context>
+		<context line="37" column="44">Attribute "lang" is not allowed for element type "option".</context>
+		<context line="38" column="44">Attribute "lang" is not allowed for element type "option".</context>
+		<context line="40" column="44">Attribute "lang" is not allowed for element type "option".</context>
+		<context line="41" column="44">Attribute "lang" is not allowed for element type "option".</context>
+		<context line="43" column="44">Attribute "lang" is not allowed for element type "option".</context>
+		<context line="44" column="44">Attribute "lang" is not allowed for element type "option".</context>
+		<title>The document does not validate against XHTML Basic 1.1 or MP 1.2.</title>
+		<description>
+			<div class="err_why">The document uses elements or structures that are not allowed in the XHTML Basic 1.1 specification, and thus are likely to be problematic for mobile browsers.</div>
+			<div class="err_how">Check the page with the <a href="http://validator.w3.org/check?uri=http%3A%2F%2Fwww.w3.org%2F&amp;charset=(detect+automatically)&amp;doctype=XHTML+Basic+1.1&amp;group=0&amp;accept=application%2Fxhtml%2Bxml%2Ctext%2Fhtml%3Bq%3D0.1%2Capplication%2Fvnd.wap.xhtml%2Bxml%3Bq%3D0.1%2Ctext%2Fcss%2Cimage%2Fjpeg%2Cimage%2Fgif&amp;accept-charset=UTF-8&amp;user-agent=mobileok" title="Checking the page with the W3C Markup Validator">W3C Markup Validator</a></div>
+			<div class="err_pos">Triggered 16 times by <a href="http://www.w3.org/">http://www.w3.org/</a>.</div>
+			<em>Related best practice:</em><br />[<a href="http://www.w3.org/TR/mobile-bp/#VALID_MARKUP">VALID_MARKUP</a>]Create documents that validate to published formal grammars. 
+		</description>
+	</message>
+	
+	<message type="error" level="3" group="markup">
+		<context>img alt="" height="32" src="/2008/site/images/logo-shadow"</context>
+		<context>img alt="ISOC" src="/2009/11/TPAC/isoc-sm.gif"/</context>
+		<title>Either the height or width attribute is missing</title>
+		<description>
+			    <div class="err_why">When the <code>width</code> and <code>height</code> attributes are not specified on an image, browsers need to reflow the page when the image has finished loading, which may disrupt the user experience.</div>
+                <div class="err_how">Add <code>width</code> and <code>height</code> attributes matching the actual dimensions of the image.</div>
+                <div class="err_pos">Triggered 2 times by the resource under test.</div>
+                <div class="err_bp"><em>Related best practice:</em><br/>[<a href="http://www.w3.org/TR/mobile-bp/#IMAGES_SPECIFY_SIZE">IMAGES_SPECIFY_SIZE</a>]
+				Specify the size of images in markup, if they have an intrinsic size. </div>
+		</description>
+	</message>
+	
+	<message type="warning" group="markup">
+		<title>The document uses an XHTML doctype that is not a well-known mobile-friendly doctype (-//W3C//DTD XHTML 1.0 Strict//EN http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd)</title>
+		<description>
+		    <div class="err_why">The document uses a doctype that is not recognized as a well-known XHTML mobile flavor. Switching to such a doctype may help finding problems with the markup of the page when using validating tools (such a the <a href="http://validator.w3.org/">W3C Markup Validator</a>).</div>
+            <div class="err_how">Pick a <a href="http://www.w3.org/QA/2002/04/valid-dtd-list.html">well-known XHTML mobile doctype</a>.</div>
+            <div class="err_pos">Triggered  by the resource under test.</div>
+            <div class="err_bp"><em>Related best practice:</em><br/>[<a href="http://www.w3.org/TR/mobile-bp/#CONTENT_FORMAT_SUPPORT">CONTENT_FORMAT_SUPPORT</a>]
+			Send content in a format that is known to be supported by the device. </div>
+		</description>
+	</message>
+	
+	<group name="structure">
+		<title>Structure of the page</title>
+		<description>Markup validity does not ensure that tags are used appropriately. For instance, given the lack of support for nested tables in mobile browsers and the small screen sizes, using tables for layout will not work on mobile devices. The same goes with the use of applets, frames, pop-ups, and so on. The size of the page is also a very important aspect to keep in mind when designing mobile-friendly pages.</description>
+	</group>
+	
+	<group name="weight" parent="structure">
+		<title>Page weight</title>
+		<description>The size of the page includes the page itself, the external style sheet(s), and the embedded images and objects. mobileOK requires the total size of the page to be under 20 KB, and the markup itself to be under 10 KB to ensure that the page can be retrieved and rendered by a mobile device in a reasonable amount of time.</description>
+	</group>
+	
+	<group name="scripting" parent="structure">
+		<title>Scripting</title>
+		<description>Scripts can be used as long as scripting support is not required, since many mobile browsers have limited or no support for Javascripts.</description>
+	</group>
+	
+	<message type="error" level="2" group="weight">
+		<title>The total size of the page (87.6KB) exceeds 20 kilobytes (Primary document: 23.1KB, Images: 44.9KB, Style sheets: 19.5KB)</title>
+		<description>
+			<div class="err_why">Big pages require a possibly high cost and a long waiting time in many mobile networks. For instance, on many mobile networks, downloading 100KB worth of data takes as long as 1 minute.</div>
+			<div class="err_how">Focus on the piece of information that you want to deliver. Scale down images to a reasonable size. Remove images that are not essential to the layout of the page. Make sure to separate CSS styles defined for <code>screen</code> and <code>handheld</code> media types so that only relevant CSS styles are downloaded by most devices.</div>
+			<div class="err_pos">Triggered  by the resource under test.</div>
+			<div class="err_bp"><em>Related best practice:</em><br/>[<a href="http://www.w3.org/TR/mobile-bp/#PAGE_SIZE_LIMIT">PAGE_SIZE_LIMIT</a>]
+			Ensure that the overall size of page is appropriate to the memory limitations of the device.</div>
+		</description>
+	</message>
+	
+	<message type="warning" group="scripting">
+		<context>script src="/2008/site/js/main" type="text/javascript"//!-- --///script</context>
+		<title>The document uses scripting</title>
+		<description>
+			<div class="err_why">Scripting can be used, but shouldn't be relied upon, since many mobile devices do not support or hardly support scripting. The page should still be usable when scripting is not enabled.</div>
+			<div class="err_how">Use scripting to enhance your page, but <em>degrade gracefully</em> when scripting is not supported.</div>
+			<div class="err_pos">Triggered by the resource under test</div>
+			<div class="err_bp"><em>Related best practice:</em><br/>[<a href="http://www.w3.org/TR/mobile-bp/#OBJECTS_OR_SCRIPT">OBJECTS_OR_SCRIPT</a>]
+			Do not rely on embedded objects or script.</div>
+		</description>
+	</message>
+	
+</observationresponse>
