@@ -13,7 +13,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/icu4j_3_4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/iri.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jena.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/observationresponse.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/resolver.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/saxon8-dom.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/saxon8-jdom.jar"/>
@@ -34,5 +33,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-api-1.5.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-log4j12-1.5.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/velocity-tools-generic-1.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/observationresponse2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/observationresponse.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
