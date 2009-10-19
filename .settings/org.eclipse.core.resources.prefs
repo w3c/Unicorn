@@ -1,7 +1,10 @@
-#Tue Oct 13 16:45:50 CEST 2009
+#Mon Oct 19 18:34:45 CEST 2009
 eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/languages=UTF-8
 encoding//WebContent/WEB-INF/languages/en.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/es.properties=UTF-8
 encoding//WebContent/WEB-INF/languages/fr.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/hu.properties=UTF-8
 encoding//WebContent/WEB-INF/languages/it.properties=UTF-8
 encoding//WebContent/WEB-INF/languages/nl.properties=UTF-8
 encoding/<project>=UTF-8
