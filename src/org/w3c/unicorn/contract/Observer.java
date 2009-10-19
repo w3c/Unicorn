@@ -1,4 +1,4 @@
-// $Id: Observer.java,v 1.5 2009-10-19 12:50:24 tgambet Exp $
+// $Id: Observer.java,v 1.6 2009-10-19 17:14:54 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -77,6 +77,8 @@ public class Observer {
 
 	private List<MimeType> supportedMimeTypes;
 
+	private String indexURI;
+	
 	/**
 	 * Creates the observer
 	 * 
@@ -278,6 +280,14 @@ public class Observer {
 
 	public void setParamOutputName(String sParamOutputName) {
 		this.sParamOutputName = sParamOutputName;
+	}
+
+	public String getIndexURI() {
+		return indexURI;
+	}
+
+	public void setIndexURI(String indexURI) {
+		this.indexURI = indexURI;
 	}
 
 }
