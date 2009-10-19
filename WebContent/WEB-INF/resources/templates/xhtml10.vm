@@ -44,10 +44,45 @@
 		#if($observation.isPassed()) #set($ref = "test_ok") #else #set($ref = "test_fail") #end
 		$ucn.evaluate($lang, $ref, "<span class=\"name\">$unicorncall.getObserverName($observationName, $lang)#if($observation.Rating) ($observation.Rating/100)#end</span>")
 		#if ($observation.getFilteredRequestUri())<a class="direct_link" href="$observation.getFilteredRequestUri()" title="$direct_link_title_1">$direct_link_label</a>
-		#else <a class="direct_link" href="$observation.getBaseURI($observationName)" title="$direct_link_title_2">$direct_link_label</a>#end
+		#else <a class="direct_link" href="$observation.getHTMLRequestUri()" title="$direct_link_title_2">$direct_link_label</a>#end
 	</h2>
 	
 	<div class="results block">
+	#if ($observation.hasGroups())
+		#foreach($group in $observation.getGroups())
+			#if (!$group.hasParent())
+				<div>$group.getTitle()</div>
+				<div>$group.getDescription()</div>
+				#foreach($message in $observation.getMessages())
+					#if ($message.getGroupName() && $message.getGroupName() == $group.getName())
+						<div style="margin-left:25px">$message.getTitle()
+						$message.getDescription()</div>
+					#end
+				#end
+				#foreach($group in $observation.getGroupChildren($group))
+					<div class="child" style="margin-left:50px">$group.getTitle()</div>
+					<div class="child" style="margin-left:50px">$group.getDescription()</div>
+					#foreach($message in $observation.getMessages())
+						#if ($message.getGroupName() && $message.getGroupName() == $group.getName())
+							<div style="margin-left:75px">$message.getTitle()
+							$message.getDescription()</div>
+						#end
+					#end
+					#foreach($group in $observation.getGroupChildren($group))
+						<div class="child2" style="margin-left:100px">$group.getTitle()</div>
+						<div class="child2" style="margin-left:100px">$group.getDescription()</div>
+						#foreach($message in $observation.getMessages())
+							#if ($message.getGroupName() && $message.getGroupName() == $group.getName())
+								<div style="margin-left:125px">$message.getTitle()
+								$message.getDescription()</div>
+							#end
+						#end
+					#end
+				#end
+			#end
+		#end
+	#else
+	
 	#if ($infoCount && $infoCount > 0)
 		<div class="section infos" id="${observationName}_info">
 			<h3 class="title">
@@ -190,6 +225,8 @@
 				</table>
 			</div>
 		</div>
+	#end
+	
 	#end
 	</div>
 </div>
