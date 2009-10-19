@@ -1,4 +1,4 @@
-// $Id: Response.java,v 1.12 2009-10-19 16:18:52 tgambet Exp $
+// $Id: Response.java,v 1.13 2009-10-19 17:18:01 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -74,4 +74,5 @@ public interface Response {
 	
 	public String getHTMLRequestUri();
 	
+	public String getHTMLIndexUri();
 }
