@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshaller.java,v 1.3 2009-09-18 17:17:59 tgambet Exp $
+// $Id: WADLUnmarshaller.java,v 1.4 2009-10-19 17:16:35 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -42,5 +42,7 @@ public interface WADLUnmarshaller extends Unmarshaller {
 	public String getResponseType();
 
 	public List<MimeType> getSupportedMimeTypes();
+
+	public String getIndexUri();
 
 }

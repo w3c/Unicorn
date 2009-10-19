@@ -1,4 +1,4 @@
-// $Id: WADLUnmarshallerXPath.java,v 1.4 2009-09-23 09:16:29 tgambet Exp $
+// $Id: WADLUnmarshallerXPath.java,v 1.5 2009-10-19 17:16:35 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -105,6 +105,8 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	 */
 	private Map<EnumInputMethod, InputMethod> mapOfInputMethod = new LinkedHashMap<EnumInputMethod, InputMethod>();
 
+	private String indexURI;
+	
 	/**
 	 * Create the object to Unmarshall WADL with XPATH
 	 * 
@@ -233,6 +235,8 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 				"resources").item(0);
 		final String sBaseURI = aNodeResource.getAttributes().getNamedItem(
 				"base").getNodeValue();
+		
+		indexURI = sBaseURI;
 
 		final NodeList aNodeListMethod = this.aDocument
 				.getElementsByTagName("method");
@@ -439,6 +443,10 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 
 	public void setNameOfOutputParameter(String nameOfOutputParameter) {
 		this.nameOfOutputParameter = nameOfOutputParameter;
+	}
+
+	public String getIndexUri() {
+		return indexURI;
 	}
 
 }

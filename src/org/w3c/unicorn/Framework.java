@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.25 2009-10-19 12:50:24 tgambet Exp $
+// $Id: Framework.java,v 1.26 2009-10-19 17:19:54 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -355,6 +355,7 @@ public class Framework {
 			obs.setProvider(unmarshaller.getProvider());
 			obs.setMapOfInputMethod(unmarshaller.getMapOfInputMethod());
 			obs.setSupportedMimeTypes(unmarshaller.getSupportedMimeTypes());
+			obs.setIndexURI(unmarshaller.getIndexUri());
 			mapOfObserver.put(new String(obs.getID()), obs);
 		} while (readLine != null);
 		if (mapOfObserver.size() == 0) {
