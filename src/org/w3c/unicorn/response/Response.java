@@ -1,4 +1,4 @@
-// $Id: Response.java,v 1.10 2009-10-19 10:09:03 tgambet Exp $
+// $Id: Response.java,v 1.11 2009-10-19 12:38:30 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -40,6 +40,8 @@ public interface Response {
 	public int getWarningCount();
 
 	public int getStatus();
+	
+	public boolean isPassed();
 
 	public boolean isSetRating();
 	
