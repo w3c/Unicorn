@@ -88,8 +88,8 @@ public class OldMessageXBeans implements Message {
 		for (Longmessage mess : longMessages) {
 			descript.append(mess.xmlText(new XmlOptions().setUseDefaultNamespace()
 					.setSavePrettyPrint())
-					.replaceAll("<xml-fragment[^>]*>", "<p class=\"longmsg\">")
-					.replaceAll("</xml-fragment[^>]*>", "</p>")
+					.replaceAll("<xml-fragment[^>]*>", "<div>")
+					.replaceAll("</xml-fragment[^>]*>", "</div>")
 					.replaceAll("xmlns=\".*\"", ""));
 		}
 		return descript.toString();
