@@ -1,4 +1,4 @@
-// $Id: Observer.java,v 1.4 2009-09-23 09:16:29 tgambet Exp $
+// $Id: Observer.java,v 1.5 2009-10-19 12:50:24 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -266,8 +266,8 @@ public class Observer {
 	}
 
 	public void setResponseType(String responseType) throws UnknownParserException {
-		if (!Property.getProps("responseParsers.properties").containsKey(responseType))
-			throw new UnknownParserException("Unknown parser: " + responseType + ". Check observer contract or responseParsers.properties.");
+		if (!Property.getProps("responseImpl.properties").containsKey(responseType))
+			throw new UnknownParserException("Unknown parser: " + responseType + ". Check observer contract or responseImpl.properties.");
 			
 		this.responseType = responseType;
 	}

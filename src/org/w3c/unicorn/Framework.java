@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.24 2009-10-19 12:47:05 tgambet Exp $
+// $Id: Framework.java,v 1.25 2009-10-19 12:50:24 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -261,7 +261,7 @@ public class Framework {
 	
 	@SuppressWarnings("unchecked")
 	public static void initResponseImplementations() throws InitializationFailedException {
-	    // Load the map of ResponseParser
+	    // Load the map of Response implementations
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Loading available response implementations form responseImpl.properties");
 		Properties aProperties = Property.getProps("responseImpl.properties");
@@ -341,7 +341,7 @@ public class Framework {
 			try {
 				obs.setResponseType(unmarshaller.getResponseType());
 			} catch (UnknownParserException e) {
-				logger.error("Unknown parser: " + unmarshaller.getResponseType() + ". Check observer contract or responseParsers.properties.", e);
+				logger.error("Unknown implementation: " + unmarshaller.getResponseType() + ". Check observer contract or responseImpl.properties.", e);
 				logger.warn("> This observer will be skiped");
 				continue;
 			}
