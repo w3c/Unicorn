@@ -72,12 +72,21 @@ public class OldMessageXBeans implements Message {
 		description = buildDescription(warning.getLongmessageList());
 		Integer line;
 		Integer column;
-		if (warning.getLine() != null)
-			line = warning.getLine().intValue();
+		if (warning.isSetLine()) {
+			try {
+				line = warning.getLine().intValue();
+			} catch (Exception e) {
+				line = null;
+			}
+		}
 		else
 			line = null;
-		if (warning.getColumn() != null)
-			column = warning.getColumn().intValue();
+		if (warning.isSetColumn())
+			try {
+				column = warning.getColumn().intValue();
+			} catch (Exception e) {
+				column = null;
+			}
 		else
 			column = null;
 		contexts.add((Context) new OldContextXBeans(warning.getContext(), line, column));
