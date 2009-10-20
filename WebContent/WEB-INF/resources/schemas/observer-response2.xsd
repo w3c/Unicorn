@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema
-	xmlns="http://www.w3.org/unicorn/2009/10/observationresponse"
+	xmlns="http://www.w3.org/2009/10/unicorn/observationresponse"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.w3.org/unicorn/2009/10/observationresponse"
+	targetNamespace="http://www.w3.org/2009/10/unicorn/observationresponse"
 	elementFormDefault="qualified">
 	<xs:import
 		namespace="http://www.w3.org/XML/1998/namespace"
@@ -98,7 +98,7 @@
 				<xs:group ref="messages" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="ref" use="required"/>
-			<xs:attribute name="date" type="xs:date"/>
+			<xs:attribute name="date" type="xs:dateTime"/>
 		</xs:complexType>
 	</xs:element>
 	
