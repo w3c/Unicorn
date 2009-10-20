@@ -291,5 +291,9 @@ public class OldResponseXBeans implements Response {
 	public String getHTMLIndexUri() {
 		return Framework.mapOfObserver.get(observerID).getIndexURI();
 	}
+
+	public Iterable<Message> getMessages(String group) {
+		return null;
+	}
 	
 }
