@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.4 2009-10-19 17:18:50 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.5 2009-10-20 10:35:59 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -256,7 +256,7 @@ public class DefaultResponseXBeans implements Response {
 		return new MessageIterable(uri, type);
 	}
 	
-	private class MessageIterable implements Iterable<Message> {
+	protected class MessageIterable implements Iterable<Message> {
 
 		private int index = 0;
 		private Integer type;
