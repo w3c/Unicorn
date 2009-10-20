@@ -21,7 +21,7 @@
 	<div class="error">
 		<h4>$message.getMessage($lang)</h4>
 		#if ($message.Content)
-		<pre>#if($message.doEvaluateContent())#evaluate($message.Content)#else$message.Content#end</pre>
+		<pre>#if($message.doEvaluateContent())#evaluate($message.Content)#else$!esc.html($message.Content)#end</pre>
 		#end
 	</div>
 	#end
