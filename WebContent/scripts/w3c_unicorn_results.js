@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_results.js,v 1.18 2009-10-09 15:24:58 tgambet Exp $ */
+/* $Id: w3c_unicorn_results.js,v 1.19 2009-10-20 12:44:40 tgambet Exp $ */
 var W3C = {
 	
 	start: function() {
@@ -12,7 +12,7 @@ var W3C = {
 		$$('.section').each(function(section) {
 			var title = section.getElement('.title');
 			var block = section.getElement('.block');
-			var results = block.getElement('.results');
+			//var results = block.getElement('.results');
 			
 			if (!section.hasClass('observer') || section.getElement('.section') != null) {
 				title.addClass('pointer');
@@ -35,7 +35,8 @@ var W3C = {
 		$$('.observer .section').each(function(section) {
 			if (section.hasClass('warnings'))
 				W3C.close(section, false);
-			if (section.hasClass('errors') || section.hasClass('infos'))
+			else
+			//if (section.hasClass('errors') || section.hasClass('infos'))
 				W3C.open(section, false);
 		});
 		
