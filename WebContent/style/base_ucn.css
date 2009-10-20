@@ -437,13 +437,19 @@ fieldset.toggled legend {
 	display:inline-block;
 	overflow:hidden;
 	padding:11px 0 0 12px;
+}
+#observations div.observer h2 a.direct_link {
 	background:url(../images/unicons_sprite.png) no-repeat -22px -22px;
+}
+#observations div.observer h2 a.direct_link:hover {
+	background:url(../images/unicons_sprite.png) no-repeat -22px -35px;
 }
 #observations .codeContext a.direct_link {
 	float:right;
+	background:url(../images/unicons_sprite.png) no-repeat -34px -22px;
 }
-#observations div.observer h2 a.direct_link:hover, #observations td.codeContext a.direct_link:hover {
-	background:url(../images/unicons_sprite.png) no-repeat -22px -35px;
+#observations td.codeContext a.direct_link:hover  {
+	background:url(../images/unicons_sprite.png) no-repeat -34px -35px;
 }
 #observations div.observer h2 a.anchor {
 	height:0;
