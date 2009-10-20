@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.5 2009-10-20 10:35:59 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.6 2009-10-20 12:43:58 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -16,11 +16,11 @@ import java.util.Map;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.w3.unicorn.x2009.x10.observationresponse.GroupType;
-import org.w3.unicorn.x2009.x10.observationresponse.ListType;
-import org.w3.unicorn.x2009.x10.observationresponse.MessageType;
-import org.w3.unicorn.x2009.x10.observationresponse.ObservationresponseDocument;
-import org.w3.unicorn.x2009.x10.observationresponse.ObservationresponseDocument.Observationresponse;
+import org.w3.x2009.x10.unicorn.observationresponse.GroupType;
+import org.w3.x2009.x10.unicorn.observationresponse.ListType;
+import org.w3.x2009.x10.unicorn.observationresponse.MessageType;
+import org.w3.x2009.x10.unicorn.observationresponse.ObservationresponseDocument;
+import org.w3.x2009.x10.unicorn.observationresponse.ObservationresponseDocument.Observationresponse;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.response.Group;
 import org.w3c.unicorn.response.Message;
@@ -253,7 +253,7 @@ public class DefaultResponseXBeans implements Response {
 	}
 
 	public Iterable<Message> getMessages(String uri, int type) {
-		return new MessageIterable(uri, type);
+		return new MessageIterable(uri, type, null);
 	}
 	
 	protected class MessageIterable implements Iterable<Message> {
@@ -261,10 +261,28 @@ public class DefaultResponseXBeans implements Response {
 		private int index = 0;
 		private Integer type;
 		private String uri;
+		private String group;
 		
-		public MessageIterable(String uri, Integer type) {
+		public MessageIterable(String uri, Integer type, String group) {
 			this.uri = uri;
 			this.type = type;
+			this.group = group;
+		}
+		
+		public int size() {
+			index = 0;
+			int size = 0;
+			while (index < messages.size()) {
+				if ((uri == null || uri.equals(messages.get(index).getURI())) && 
+					(type == null || messages.get(index).getType() == type) &&
+					(group == null || group.equals(messages.get(index).getGroupName()))) {
+					index++;
+					size++;
+				}
+				index++;
+			}
+			index = 0;
+			return size;
 		}
 		
 		public Iterator<Message> iterator() {
@@ -272,8 +290,10 @@ public class DefaultResponseXBeans implements Response {
 				public boolean hasNext() {
 					int x = index;
 					while (x < messages.size()) {
-						if ((uri == null || messages.get(x).getURI().equals(uri)) && 
-							(type == null || messages.get(x).getType() == type))
+						if ((uri == null || uri.equals(messages.get(x).getURI())) && 
+							(type == null || messages.get(x).getType() == type) &&
+							(group == null || group.equals(messages.get(x).getGroupName())))
+							
 							return true;
 						x++;
 					}
@@ -282,8 +302,9 @@ public class DefaultResponseXBeans implements Response {
 
 				public Message next() {
 					while (index < messages.size()) {
-						if ((uri == null || messages.get(index).getURI().equals(uri)) && 
-							(type == null || messages.get(index).getType() == type)) {
+						if ((uri == null || uri.equals(messages.get(index).getURI())) && 
+							(type == null || messages.get(index).getType() == type) &&
+							(group == null || group.equals(messages.get(index).getGroupName()))) {
 							index++;
 							return messages.get(index - 1);
 						}
@@ -308,7 +329,7 @@ public class DefaultResponseXBeans implements Response {
 	}
 
 	public Iterable<Message> getMessages(String uri, Integer type) {
-		return new MessageIterable(uri, type);
+		return new MessageIterable(uri, type, null);
 	}
 
 	public Map<String, Iterable<Message>> getURISortedMessages(int type) {
@@ -330,6 +351,10 @@ public class DefaultResponseXBeans implements Response {
 
 	public String getHTMLIndexUri() {
 		return Framework.mapOfObserver.get(observerID).getIndexURI();
+	}
+
+	public MessageIterable getMessages(String group) {
+		return new MessageIterable(null, null, group);
 	}
 
 }
