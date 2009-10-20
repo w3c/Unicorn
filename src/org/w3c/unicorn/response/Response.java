@@ -1,4 +1,4 @@
-// $Id: Response.java,v 1.14 2009-10-20 12:40:39 tgambet Exp $
+// $Id: Response.java,v 1.15 2009-10-20 16:45:12 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -31,6 +31,8 @@ public interface Response {
 	public int getWarningCount();
 	
 	public Map<String, Iterable<Message>> getURISortedMessages(int type);
+	
+	public Map<String, Iterable<Message>> getURISortedMessages(String group);
 	
 	public Iterable<Message> getMessages();
 	

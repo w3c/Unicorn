@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.6 2009-10-20 12:43:58 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.7 2009-10-20 16:45:13 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -353,8 +353,25 @@ public class DefaultResponseXBeans implements Response {
 		return Framework.mapOfObserver.get(observerID).getIndexURI();
 	}
 
-	public MessageIterable getMessages(String group) {
+	public Iterable<Message> getMessages(String group) {
 		return new MessageIterable(null, null, group);
+	}
+	
+	public Iterable<Message> getMessages(String group, String uri) {
+		return new MessageIterable(uri, null, group);
+	}
+
+	public Map<String, Iterable<Message>> getURISortedMessages(String group) {
+		List<String> uris = new ArrayList<String>();
+		for (Message mess : getMessages(group)) {
+			if (!uris.contains(mess.getURI()))
+				uris.add(mess.getURI());
+		}
+		Map<String, Iterable<Message>> sortedMap = new Hashtable<String, Iterable<Message>>();
+		for (String uri : uris) {
+			sortedMap.put(uri, getMessages(group, uri));
+		}
+		return sortedMap;
 	}
 
 }
