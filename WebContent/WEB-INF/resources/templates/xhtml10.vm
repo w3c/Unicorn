@@ -49,38 +49,119 @@
 	
 	<div class="results block">
 	#if ($observation.hasGroups())
-		#foreach($group in $observation.getGroups())
-			#if (!$group.hasParent())
-				<div>$group.getTitle()</div>
-				<div>$group.getDescription()</div>
-				#foreach($message in $observation.getMessages())
-					#if ($message.getGroupName() && $message.getGroupName() == $group.getName())
-						<div style="margin-left:25px">$message.getTitle()
-						$message.getDescription()</div>
+		#foreach($group in $observation.getGroups()) #if (!$group.hasParent())
+		<div class="section group">
+			<h3 class="title">$group.getTitle()<a class="anchor">a</a></h3>					
+			<div class="block">
+				<p>$group.getDescription()</p>
+				<div class="messages">
+					#set ($messages = $observation.getMessages($group.getName()))
+					#set ($a = true)
+					#foreach($message in $messages)
+					#if ($a)
+					<table>
+						<tbody>
+					#set ($a = false)
 					#end
-				#end
-				#foreach($group in $observation.getGroupChildren($group))
-					<div class="child" style="margin-left:50px">$group.getTitle()</div>
-					<div class="child" style="margin-left:50px">$group.getDescription()</div>
-					#foreach($message in $observation.getMessages())
-						#if ($message.getGroupName() && $message.getGroupName() == $group.getName())
-							<div style="margin-left:75px">$message.getTitle()
-							$message.getDescription()</div>
+						#set ($uriCount = $velocityCount)
+						#set ($messageId = "${observationName}_error_${uriCount}_$velocityCount")
+						#set ($contextsCount = $message.getContexts().size())
+						#set ($b = true)
+						#if ($contextsCount == 0)
+							<tr>
+								<td class="linenumber" title=""></td>
+								<td class="colnumber" title=""></td>
+								<td class="codeContext" title=""></td>
+								<td class="error" id="$messageId">
+									<span class="msg">$!esc.html($message.Title)</span>
+									#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+								</td>
+								<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+							</tr>
+						#else
+							#foreach($context in $message.getContexts())
+							<tr>
+								<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+								<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+								<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
+								
+								#if ($b)
+								#set ($b = false)
+								<td class="error" id="$messageId" rowspan="$message.getContexts().size()">
+									<span class="msg">$!esc.html($message.Title)</span>
+									#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+								</td>
+								<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+								#end
+							</tr>
+							#end								
 						#end
 					#end
-					#foreach($group in $observation.getGroupChildren($group))
-						<div class="child2" style="margin-left:100px">$group.getTitle()</div>
-						<div class="child2" style="margin-left:100px">$group.getDescription()</div>
-						#foreach($message in $observation.getMessages())
-							#if ($message.getGroupName() && $message.getGroupName() == $group.getName())
-								<div style="margin-left:125px">$message.getTitle()
-								$message.getDescription()</div>
+					#if (!$a)
+						</tbody>
+					</table>
+					#end
+				</div>
+				
+				#foreach($group in $observation.getGroupChildren($group))
+				<div class="section group">
+					<h3 class="title">$group.getTitle()<a class="anchor">a</a></h3>
+					<div class="block">
+						<p>$group.getDescription()</p>
+						<div class="messages">
+						#set ($messages = $observation.getMessages($group.getName()))
+						#set ($a = true)
+						#foreach($message in $messages)
+						#if ($a)
+						<table>
+							<tbody>
+						#set ($a = false)
+						#end
+							#set ($uriCount = $velocityCount)
+							#set ($messageId = "${observationName}_error_${uriCount}_$velocityCount")
+							#set ($contextsCount = $message.getContexts().size())
+							#set ($b = true)
+							#if ($contextsCount == 0)
+								<tr>
+									<td class="linenumber" title=""></td>
+									<td class="colnumber" title=""></td>
+									<td class="codeContext" title=""></td>
+									<td class="error" id="$messageId">
+										<span class="msg">$!esc.html($message.Title)</span>
+										#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+									</td>
+									<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+								</tr>
+							#else
+								#foreach($context in $message.getContexts())
+								<tr>
+									<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+									<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+									<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
+									
+									#if ($b)
+									#set ($b = false)
+									<td class="error" id="$messageId" rowspan="$message.getContexts().size()">
+										<span class="msg">$!esc.html($message.Title)</span>
+										#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+									</td>
+									<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+									#end
+								</tr>
+								#end								
 							#end
 						#end
-					#end
+						#if (!$a)
+							</tbody>
+						</table>
+						#end
+						</div>
+					</div>
+				</div>
 				#end
-			#end
-		#end
+			</div>
+		</div>
+		#end#end
 	
 	#else
 	
@@ -106,18 +187,37 @@
 							</tr>
 							#foreach($message in $messages.get($uri))
 							#set ($messageId = "${observationName}_info_${uriCount}_$velocityCount")
-							<tr>
-								#foreach($context in $message.getContexts())
-								<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
-								<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
-								<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
+							#set ($contextsCount = $message.getContexts().size())
+							#set ($b = true)
+								#if ($contextsCount == 0)
+									<tr>
+										<td class="linenumber" title=""></td>
+										<td class="colnumber" title=""></td>
+										<td class="codeContext" title=""></td>
+										<td class="info" id="$messageId">
+											<span class="msg">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+									</tr>
+								#else
+									#foreach($context in $message.getContexts())
+									<tr>
+										<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+										<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
+										
+										#if ($b)
+										#set ($b = false)
+										<td class="info" id="$messageId" rowspan="$message.getContexts().size()">
+											<span class="msg">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+										#end
+									</tr>
+									#end								
 								#end
-								<td class="info" id="$messageId" rowspan="$message.getContexts().size()">
-									<span class="msg">$message.Title</span>
-									#if($message.Description != "")<div class="description">$!message.Description</div>#end
-								</td>
-								<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
-							</tr>
 							#end
 						#end
 						</tbody>
@@ -148,18 +248,37 @@
 							</tr>
 							#foreach($message in $messages.get($uri))
 							#set ($messageId = "${observationName}_error_${uriCount}_$velocityCount")
-							<tr>
-								#foreach($context in $message.getContexts())
-								<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
-								<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
-								<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
+							#set ($contextsCount = $message.getContexts().size())
+							#set ($b = true)
+								#if ($contextsCount == 0)
+									<tr>
+										<td class="linenumber" title=""></td>
+										<td class="colnumber" title=""></td>
+										<td class="codeContext" title=""></td>
+										<td class="error" id="$messageId">
+											<span class="msg">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+									</tr>
+								#else
+									#foreach($context in $message.getContexts())
+									<tr>
+										<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+										<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
+										
+										#if ($b)
+										#set ($b = false)
+										<td class="error" id="$messageId" rowspan="$message.getContexts().size()">
+											<span class="msg">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+										#end
+									</tr>
+									#end								
 								#end
-								<td class="error" id="$messageId" rowspan="$message.getContexts().size()">
-									<span class="msg">$message.Title</span>
-									#if($message.Description != "")<div class="description">$!message.Description</div>#end
-								</td>
-								<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
-							</tr>
 							#end
 						#end
 						</tbody>
@@ -190,18 +309,37 @@
 							</tr>
 							#foreach($message in $messages.get($uri))
 							#set ($messageId = "${observationName}_warning_${uriCount}_$velocityCount")
-							<tr>
-								#foreach($context in $message.getContexts())
-								<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
-								<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
-								<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
+							#set ($contextsCount = $message.getContexts().size())
+							#set ($b = true)
+								#if ($contextsCount == 0)
+									<tr>
+										<td class="linenumber" title=""></td>
+										<td class="colnumber" title=""></td>
+										<td class="codeContext" title=""></td>
+										<td class="warning" id="$messageId">
+											<span class="msg">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+									</tr>
+								#else
+									#foreach($context in $message.getContexts())
+									<tr>
+										<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+										<td class="codeContext" title="$context_token">$!esc.html($!{context.Context})</td>
+										
+										#if ($b)
+										#set ($b = false)
+										<td class="warning" id="$messageId" rowspan="$message.getContexts().size()">
+											<span class="msg">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+										#end
+									</tr>
+									#end								
 								#end
-								<td class="warning" id="$messageId" rowspan="$message.getContexts().size()">
-									<span class="msg">$message.Title</span>
-									#if($message.Description != "")<div class="description">$!message.Description</div>#end
-								</td>
-								<td class="anchor" rowspan="$message.getContexts().size()"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
-							</tr>
 							#end
 						#end
 						</tbody>
