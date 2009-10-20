@@ -1,4 +1,4 @@
-// $Id: DefaultMessageXBeans.java,v 1.2 2009-10-19 16:17:28 tgambet Exp $
+// $Id: DefaultMessageXBeans.java,v 1.3 2009-10-20 12:41:46 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlOptions;
-import org.w3.unicorn.x2009.x10.observationresponse.ContextType;
-import org.w3.unicorn.x2009.x10.observationresponse.MessageType;
+import org.w3.x2009.x10.unicorn.observationresponse.ContextType;
+import org.w3.x2009.x10.unicorn.observationresponse.MessageType;
 import org.w3c.unicorn.response.Context;
 import org.w3c.unicorn.response.Message;
 import org.w3c.unicorn.response.impl.DefaultContextXBeans;

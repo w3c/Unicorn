@@ -1,10 +1,10 @@
-// $Id: DefaultContextXBeans.java,v 1.2 2009-10-19 16:16:57 tgambet Exp $
+// $Id: DefaultContextXBeans.java,v 1.3 2009-10-20 12:41:46 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.response.impl;
 
-import org.w3.unicorn.x2009.x10.observationresponse.ContextType;
+import org.w3.x2009.x10.unicorn.observationresponse.ContextType;
 import org.w3c.unicorn.response.Context;
 
 public class DefaultContextXBeans implements Context {
