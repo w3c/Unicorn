@@ -1,4 +1,4 @@
-// $Id: Response.java,v 1.13 2009-10-19 17:18:01 tgambet Exp $
+// $Id: Response.java,v 1.14 2009-10-20 12:40:39 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -35,6 +35,8 @@ public interface Response {
 	public Iterable<Message> getMessages();
 	
 	public Iterable<Message> getMessages(String uri, Integer type);
+	
+	public Iterable<Message> getMessages(String group);
 
 	public Iterable<Message> getErrorMessages();
 	
