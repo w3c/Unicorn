@@ -430,7 +430,7 @@ fieldset.toggled legend {
 #observations div.observer h2 a:hover {
 	color:white;
 }
-#observations div.observer h2 a.direct_link {
+#observations div.observer h2 a.direct_link, #observations td.codeContext a.direct_link {
 	height:0;
 	width:0;
 	font-size:0;
@@ -439,7 +439,10 @@ fieldset.toggled legend {
 	padding:11px 0 0 12px;
 	background:url(../images/unicons_sprite.png) no-repeat -22px -22px;
 }
-#observations div.observer h2 a.direct_link:hover {
+#observations .codeContext a.direct_link {
+	float:right;
+}
+#observations div.observer h2 a.direct_link:hover, #observations td.codeContext a.direct_link:hover {
 	background:url(../images/unicons_sprite.png) no-repeat -22px -35px;
 }
 #observations div.observer h2 a.anchor {
@@ -472,7 +475,7 @@ fieldset.toggled legend {
 #observations div.observer h2 span.icons a:hover span.count {
 	text-decoration:underline;
 }
-#observations div.observer h2 span.icons a span.legend {
+#observations div.observer h2 span.icons a span.legend, #observations div.group span.legend {
 	display:inline-block;
 	overflow:hidden;
 	font-size:0;
@@ -482,13 +485,13 @@ fieldset.toggled legend {
 	vertical-align:bottom;
 	margin-right:4px;
 }
-#observations div.observer h2 span.icons a.infos span.legend {
+#observations div.observer h2 span.icons a.infos span.legend, #observations div.group span.legend.info  {
 	background:url(../images/unicons_sprite.png) no-repeat 0 -48px;
 }
-#observations div.observer h2 span.icons a.errors span.legend {
+#observations div.observer h2 span.icons a.errors span.legend, #observations div.group span.legend.error {
 	background:url(../images/unicons_sprite.png) no-repeat -18px -48px;
 }
-#observations div.observer h2 span.icons a.warnings span.legend {
+#observations div.observer h2 span.icons a.warnings span.legend , #observations div.group span.legend.warning {
 	background:url(../images/unicons_sprite.png) no-repeat 0 -68px;
 }
 #observations div.observer h2 span.icons img {
@@ -540,7 +543,8 @@ fieldset.toggled legend {
 	color: #b48700;
 }
 #observations .results h3.pointer:hover {
-	background-color:#f5f5f5;
+	/*background-color:#f5f5f5;*/
+	background-color:#EEEEEE;
 } 
 #observations td.uri {
 	background-color:#EEEEEE;
@@ -596,6 +600,32 @@ fieldset.toggled legend {
 	white-space:pre;
 	font-size:0.8em;
 	margin-top:0.5em;
+}
+#observations .group table {
+	margin-bottom:0.5em;
+}
+#observations .group .title {
+	font-weight:bold;
+	font-size:1.2em;
+}
+#observations .group .block {
+	padding-left:1em;
+}
+#observations .group .block .block {
+	border-left:1px dotted #CCCCCC;
+}
+#observations .group .block p {
+	margin:1em 0;
+	line-height:150%;
+}
+#observations .group .messages div.description  {
+	margin-top:0.3em;
+}
+#observations .group .messages div.description div  {
+	line-height:140%;
+}
+#observations .group .messages span.msg.desc {
+	font-weight:bold;
 }
 div.warnings td.level1 {
 	border-left:6px solid #f97c6e !important;
@@ -733,6 +763,14 @@ div#markup-validator td.info code, div#css-validator td.info code, div#css1-vali
 	padding:9px 0 0 9px;
 	overflow:hidden;
 	font-size:0;
+}
+div.group h3 span.arrow {
+	background: url(../images/unicons_sprite.png) no-repeat -18px 0;
+	margin-right:4px;
+}
+div.group h3.toggled span.arrow {
+	background: url(../images/unicons_sprite.png) no-repeat -18px -11px;
+	margin-right:4px;
 }
 div.errors h3 span.arrow {
 	background: url(../images/unicons_sprite.png) no-repeat -18px 0;
