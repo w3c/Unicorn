@@ -1,18 +1,22 @@
-/* $Id: w3c_unicorn_results.js,v 1.19 2009-10-20 12:44:40 tgambet Exp $ */
+/* $Id: w3c_unicorn_results.js,v 1.20 2009-10-21 15:06:28 tgambet Exp $ */
 var W3C = {
 	
 	start: function() {
 	
+		W3C.cleanHash();
+	
+		W3C.ContextsToShow = 7;
+		
 		W3C.Observers = $$('.observer');
 		
 		var slideDuration = 500;
 		var invalidObservers = $$('.observer.invalid');
 		var scroller = new Fx.Scroll(document);
+		var instantScroller = new Fx.Scroll(document, {'duration': 0});
 		
 		$$('.section').each(function(section) {
 			var title = section.getElement('.title');
 			var block = section.getElement('.block');
-			//var results = block.getElement('.results');
 			
 			if (!section.hasClass('observer') || section.getElement('.section') != null) {
 				title.addClass('pointer');
@@ -36,7 +40,6 @@ var W3C = {
 			if (section.hasClass('warnings'))
 				W3C.close(section, false);
 			else
-			//if (section.hasClass('errors') || section.hasClass('infos'))
 				W3C.open(section, false);
 		});
 		
@@ -95,8 +98,96 @@ var W3C = {
 		    wheelStops: true
 		});
 		
-		W3C.cleanHash();
 		W3C.parseHash();
+		
+		var classes = $('observations').getProperty('class');
+		
+		var re = new RegExp(/contextShow:'[^']*'/);
+		var m = re.exec(classes);
+		var s =  "";
+	    for (i = 0; i < m.length; i++) {
+	      s = s + m[i];
+	    }
+	    var showString = s.replace('contextShow:', '').replace(/'/g, '');
+	    
+	    var re = new RegExp(/contextHide:'[^']*'/);
+		var m = re.exec(classes);
+		var s =  "";
+	    for (i = 0; i < m.length; i++) {
+	      s = s + m[i];
+	    }
+	    var hideString = s.replace('contextHide:', '').replace(/'/g, '');
+		
+		$$('td.message').each(function (td) {
+			if (td.getProperty('rowspan') > W3C.ContextsToShow) {
+				var mainTr = td.getParent('tr');
+				var anchorTd = mainTr.getElement('td.anchor');
+				var nbContexts = td.getProperty('rowspan');
+				var i = 1;
+				var tr = mainTr;
+				
+				var array = new Array();
+				var index = 0;
+				
+				while (i <= nbContexts) {
+					if (i > W3C.ContextsToShow) {
+						tr.setStyle('display', 'none');
+						array[index] = tr;
+						index++;
+					}
+					
+					if (i == nbContexts) {
+						var showTr = new Element('tr', {'class' : 'showContext'});
+						var showTd = new Element('td', {'colspan': '3'});
+						showTd.addClass('pointer');
+						showTd.setProperty('title', showString.replace(/%1/, array.length));
+						showTd.set('text', showString.replace(/%1/, array.length));
+						
+						showTd.inject(showTr);
+						showTr.inject(tr, 'after');
+						
+						showTr.addEvent('click', function(event) {
+							
+							var isClosed = array.some(function (tr) {
+								if (tr.getStyle('display') == 'none') {
+									return true;
+								} else
+									return false;
+							});
+							
+							if (isClosed) {
+								array.each(function (tr) {
+									tr.setStyle('display', '');
+								});
+								td.setProperty('rowspan', nbContexts + 1);
+								anchorTd.setProperty('rowspan', nbContexts + 1);
+								showTd.setProperty('title', hideString);
+								showTd.set('text', hideString);
+								instantScroller.toElement(mainTr);
+							} else {
+								array.each(function (tr) {
+									tr.setStyle('display', 'none');
+								});
+								td.setProperty('rowspan', W3C.ContextsToShow + 1);
+								anchorTd.setProperty('rowspan', W3C.ContextsToShow + 1);
+								showTd.setProperty('title', showString.replace(/%1/, array.length));
+								showTd.set('text', showString.replace(/%1/, array.length));
+								instantScroller.toElement(mainTr);
+							}
+							
+						});
+						
+					}
+					
+					tr = tr.getNext('tr');
+					i++;
+				}
+				
+				td.setProperty('rowspan', W3C.ContextsToShow + 1);
+				anchorTd.setProperty('rowspan', W3C.ContextsToShow + 1);
+			}
+		});
+		
 	},
 	
 	toggle: function(section) {
