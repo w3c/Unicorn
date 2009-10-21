@@ -515,6 +515,10 @@ fieldset.toggled legend {
 	background-color:#cc2323;
 	border: 1px solid #aa1d1d;
 }
+#observations div.undef h2 {
+	background-color:#355c95;
+	border: 1px solid #254066;
+}
 #observations div.results {
 	padding-left:0.5em;
 	border-left:1px solid;
@@ -524,6 +528,9 @@ fieldset.toggled legend {
 }
 #observations div.invalid div.results {
 	border-color:#cc2323;
+}
+#observations div.undef div.results {
+	border-color:#4778bc;
 }
 #observations div.infos, #observations div.warnings, #observations div.errors {
 	padding-top: 0;
@@ -543,7 +550,7 @@ fieldset.toggled legend {
 	margin: 2px 6px 0 0;
 }
 #observations .infos h3 {
-	color: #17882a;
+	color: #4778BC;
 }
 #observations .errors h3 {
 	color: #aa1d1d;
@@ -584,10 +591,16 @@ fieldset.toggled legend {
 	border-collapse:collapse;
 	width:100%;
 }
-#observations table tr {
+#observations table tr td {
 	border-collapse:collapse;
 	border:1px solid #CCCCCC;
 	border-left-width: 0;
+}
+#observations table tr td.message, #observations table tr td.uri {
+	border-right-width: 0;
+}
+#observations table tr td.uri.anchor {
+	border-right-width: 1px;
 }
 #observations td, #observations th, #translations td, #translations th {
 	padding:3px 6px;
