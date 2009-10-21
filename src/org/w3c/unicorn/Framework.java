@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.26 2009-10-19 17:19:54 tgambet Exp $
+// $Id: Framework.java,v 1.27 2009-10-21 14:25:33 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -457,8 +457,8 @@ public class Framework {
 				UCNProperties props = Language.load(langFile);
 				logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
 				LanguageAction.addLanguageProperties(props);
-				props.parse();
 				Language.complete(props, defaultProps);
+				props.parse();
 				languageProperties.put(props.getProperty("lang"), props);
 			} catch (IllegalArgumentException e) {
 				logger.warn(e.getMessage());
