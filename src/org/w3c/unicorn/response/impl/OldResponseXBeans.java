@@ -35,10 +35,6 @@ public class OldResponseXBeans implements Response {
 	private int warningCount = 0;
 	private int infoCount = 0;
 	
-	//private List<Message> errorMessages = new ArrayList<Message>();
-	//private List<Message> warningMessages = new ArrayList<Message>();
-	//private List<Message> infoMessages = new ArrayList<Message>();
-	
 	private String requestURI;
 	
 	private String observerID;
@@ -74,7 +70,6 @@ public class OldResponseXBeans implements Response {
 						mess.setURI(or.getUri());
 					messages.add(mess);
 					errorCount++;
-					//errorMessages.add(mess);
 				}
 			}
 		}
@@ -88,7 +83,6 @@ public class OldResponseXBeans implements Response {
 						mess.setURI(or.getUri());
 					messages.add(mess);
 					infoCount++;
-					//infoMessages.add(mess);
 				}
 			}
 		}
@@ -102,7 +96,6 @@ public class OldResponseXBeans implements Response {
 						mess.setURI(or.getUri());
 					messages.add(mess);
 					warningCount++;
-					//warningMessages.add(mess);
 				}
 			}
 		}
@@ -177,6 +170,8 @@ public class OldResponseXBeans implements Response {
 	}
 
 	public int getStatus() {
+		if (!or.isSetPassed())
+			return UNDEF;
 		if (or.getPassed())
 			return PASSED;
 		return FAILED;
@@ -301,6 +296,8 @@ public class OldResponseXBeans implements Response {
 	}
 
 	public boolean isUndef() {
+		if (getStatus() == UNDEF)
+			return true;
 		return false;
 	}
 	
