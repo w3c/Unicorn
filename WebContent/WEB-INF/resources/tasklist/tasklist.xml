@@ -33,7 +33,7 @@
 				<observation>css21-validator</observation>
 				<observation>css2-validator</observation>
 				<observation>css3-validator</observation>
-				<observation>css1-validator</observation>				
+				<observation>css1-validator</observation>
 			</group>
 		</output>
 	</task>
@@ -214,7 +214,7 @@
 			</group>
 		</output>
 	</task>
-	
+	<!--
 	<task id="mobileok">
 		<routine>
 			<exec id="mobileok" value="mobileok" type="observation" />
@@ -229,7 +229,7 @@
 			</group>
 		</output>
 	</task>
-
+  -->
 	<task id="custom">
 		<conds>
 			<cond id="param_css" result="passed" type="parameter" parameter="observers">
@@ -241,9 +241,11 @@
 			<cond id="param_appc" result="passed" type="parameter" parameter="observers">
 				<value>appc-checker</value>
 			</cond>
+      <!--
 			<cond id="param_mobile" result="passed" type="parameter" parameter="observers">
 				<value>mobileok</value>
 			</cond>
+      -->
 		</conds>
 
 		<routine>
@@ -253,9 +255,11 @@
 			<if test="param_css">
 				<then><exec id="css" value="css-validator" type="observation" /></then>
 			</if>
+      <!--
 			<if test="param_mobile">
 				<then><exec id="mobileok" value="mobileok" type="observation" /></then>
-			</if>						
+			</if>
+      -->
 			<if test="param_appc">
 				<then><exec id="appc" value="appc-checker" type="observation" /></then>
 			</if>
@@ -263,10 +267,10 @@
 
 		<parameters>
 			<parameter name="observers" type="checkboxlist" default="" ui="simple">
-				<value name="markup-validator"></value>			
-				<value name="css-validator"></value>				
+				<value name="markup-validator"></value>
+				<value name="css-validator"></value>
 				<value name="appc-checker"></value>
-				<value name="mobileok"></value>
+				<!--<value name="mobileok"></value>-->
 			</parameter>
 			<parameter name="profile" type="dropdown" ui="advanced" observer="css-validator" default="css21"/>
 			<parameter name="warning" type="dropdown" ui="advanced" observer="css-validator" default="2"/>
@@ -276,9 +280,9 @@
 		<output>
 			<group>
 				<observation>markup-validator</observation>
-				<observation>appc-checker</observation>				
+				<observation>appc-checker</observation>
 				<observation>css-validator</observation>
-				<observation>mobileok</observation>
+        <!--<observation>mobileok</observation>-->
 			</group>
 		</output>
 	</task>
