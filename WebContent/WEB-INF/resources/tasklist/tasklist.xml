@@ -7,7 +7,6 @@
 
 		<routine>
 			<exec id="markup-validator" value="markup-validator" type="observation" />
-			<exec id="appc-checker" value="appc-checker" type="observation" />
 			<exec id="css2" value="css2-validator" type="observation" />
 			<exec id="css21" value="css21-validator" type="observation" />
 			<exec id="css3" value="css3-validator" type="observation" />
@@ -29,7 +28,6 @@
 		<output>
 			<group>
 				<observation>markup-validator</observation>
-				<observation>appc-checker</observation>
 			</group>
 			<group type="firstPassed">
 				<observation>css21-validator</observation>
