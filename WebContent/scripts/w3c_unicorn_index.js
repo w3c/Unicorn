@@ -1,4 +1,4 @@
-/* $Id: w3c_unicorn_index.js,v 1.15 2009-10-09 15:24:58 tgambet Exp $ */
+/* $Id: w3c_unicorn_index.js,v 1.16 2009-10-21 17:12:02 tgambet Exp $ */
 var W3C = {
 	
 	start: function(){
@@ -102,8 +102,7 @@ var W3C = {
 	},
 	
 	addOptionEvents: function () {
-		$$('fieldset.advanced legend').removeEvent('click');
-		
+		$$('fieldset.advanced legend').removeEvents('click');
 		$$('fieldset.advanced legend').addEvent('click', function (event) {
 			W3C.WithOptions = !W3C.WithOptions;
 			W3C.toggleOptions(true);
