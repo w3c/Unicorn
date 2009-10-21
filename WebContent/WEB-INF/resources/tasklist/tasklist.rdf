@@ -148,8 +148,8 @@
 		<ucn:description xml:lang="fr">Sélectionnez les tests à effectuer</ucn:description>
 		<ucn:hasParameter>
 			<ucn:CheckBoxList ucn:reference="observers">
-				<ucn:longName xml:lang="en">Observers:</ucn:longName>
-				<ucn:longName xml:lang="fr">Observateurs :</ucn:longName>
+				<ucn:longName xml:lang="en">Checkers:</ucn:longName>
+				<ucn:longName xml:lang="fr">Tests :</ucn:longName>
 				<ucn:hasValue>
 					<ucn:Value ucn:reference="css-validator">
 						<ucn:longName xml:lang="en">CSS</ucn:longName>
