@@ -35,7 +35,7 @@
 #set ($infoCount = $observation.getInfoCount())
 #set ($errorCount = $observation.getErrorCount())
 #set ($warningCount = $observation.getWarningCount())
-<div class="observer section #if($observation.isPassed()) valid #else invalid #end" id="$observationName">
+<div class="observer section #if($observation.isPassed()) valid #elseif ($observation.isUndef()) undef #else invalid #end" id="$observationName">
 	<h2 class="title">
 		<span class="icons">
 			#if ($infoCount && $infoCount > 0)<a class="infos" href="#${observationName}_info" title="$info_label ($infoCount)"><span class="legend">$info_label</span><span class="count">$infoCount</span></a> #end
@@ -43,7 +43,7 @@
 			#if ($warningCount && $warningCount > 0)<a class="warnings" href="#${observationName}_warning" title="$warning_label ($warningCount)"><span class="legend">$warning_label</span><span class="count">$warningCount</span></a> #end
 			<a class="anchor smooth" href="#$observationName" title="$anchor_observation">a</a>
 		</span>
-		#if($observation.isPassed()) #set($ref = "test_ok") #else #set($ref = "test_fail") #end
+		#if($observation.isPassed()) #set($ref = "test_ok") #elseif ($observation.isUndef()) #set($ref = "test_undef") #else #set($ref = "test_fail") #end
 		$ucn.evaluate($lang, $ref, "<span class=\"name\">$unicorncall.getObserverName($observationName, $lang)#if($observation.isSetRating()) ($observation.Rating/100)#end</span>")
 		#if ($unicorncall.getInputMethod() == "URI") <a class="direct_link" href="$esc.html($observation.getHTMLRequestUri())" title="$direct_link_title_1">$direct_link_label</a>
 		#else <a class="direct_link" href="$esc.html($observation.getHTMLIndexUri())" title="$direct_link_title_2">$direct_link_label</a>#end
