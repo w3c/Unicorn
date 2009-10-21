@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.8 2009-10-21 16:01:10 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.9 2009-10-21 16:35:13 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -124,7 +124,8 @@ public class DefaultResponseXBeans implements Response {
 	public int getStatus() {
 		if (or.isSetStatus() && or.getStatus().getValue().equalsIgnoreCase("passed")) {
 			return PASSED;
-		} else if (or.isSetStatus() && or.getStatus().getValue().equalsIgnoreCase("failed") || getErrorCount() > 0) {
+		} else if ((or.isSetStatus() && or.getStatus().getValue().equalsIgnoreCase("failed")) ||
+				  (!or.isSetStatus() && getErrorCount() > 0)) {
 			return FAILED;
 		} else { 
 			return UNDEF;
