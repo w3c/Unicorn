@@ -299,5 +299,9 @@ public class OldResponseXBeans implements Response {
 	public Map<String, Iterable<Message>> getURISortedMessages(String group) {
 		return null;
 	}
+
+	public boolean isUndef() {
+		return false;
+	}
 	
 }

@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.7 2009-10-20 16:45:13 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.8 2009-10-21 16:01:10 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -372,6 +372,12 @@ public class DefaultResponseXBeans implements Response {
 			sortedMap.put(uri, getMessages(group, uri));
 		}
 		return sortedMap;
+	}
+
+	public boolean isUndef() {
+		if (getStatus() == UNDEF)
+			return true;
+		return false;
 	}
 
 }
