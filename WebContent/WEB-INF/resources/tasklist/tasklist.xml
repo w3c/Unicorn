@@ -232,16 +232,16 @@
 
 	<task id="custom">
 		<conds>
-			<cond id="param_css" result="passed" type="parameter" parameter="observers">
+			<cond id="param_css" result="passed" type="parameter" parameter="tests">
 				<value>css-validator</value>
 			</cond>
-			<cond id="param_html" result="passed" type="parameter" parameter="observers">
+			<cond id="param_html" result="passed" type="parameter" parameter="tests">
 				<value>markup-validator</value>
 			</cond>
-			<cond id="param_appc" result="passed" type="parameter" parameter="observers">
+			<cond id="param_appc" result="passed" type="parameter" parameter="tests">
 				<value>appc-checker</value>
 			</cond>
-			<cond id="param_mobile" result="passed" type="parameter" parameter="observers">
+			<cond id="param_mobile" result="passed" type="parameter" parameter="tests">
 				<value>mobileok</value>
 			</cond>
 		</conds>
