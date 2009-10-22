@@ -74,19 +74,22 @@
 							#foreach ($message in $messages.get($uri))
 								#if($message.getType()==2)#set($type="error")#elseif($message.getType()==1)#set($type="warning")#else#set($type="info")#end
 								#set ($messageId = "${observationName}_${group.Name}_${uriCount}_$velocityCount")
-								#set ($contextsCount = $message.getContexts().size())
-								#if ($contextsCount == 0)
+								#if ($message.getContexts().size() == 0)
 									<tr>
 										<td class="linenumber" title=""></td>
 										<td class="colnumber" title=""></td>
 										<td class="codeContext" title="$context_token"></td>
 										<td class="info level$message.Level message" id="$messageId">
-											<span class="msg">$!esc.html($message.Title)</span>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
+												<span class="$type legend">$type</span> 	 
+												$!esc.html($message.Title) 	 
+											</span> 
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
 										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
 									</tr>
 								#else
+									#set ($b = true)
 									#set ($rowspan = $message.getContexts().size())
 									#foreach($context in $message.getContexts())
 									<tr>
@@ -96,14 +99,16 @@
 											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
 											$!esc.html($!{context.Context})
 										</td>
-										
 										#if ($b)
 										#set ($b = false)
-										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
-											<span class="msg">$!esc.html($message.Title)</span>
+										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1)rowspan="$rowspan"#end>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
+												<span class="$type legend">$type</span> 	 
+												$!esc.html($message.Title) 	 
+											</span> 
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
-										<td class="anchor" #if($rowspan>1) rowspan="$rowspan" #end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+										<td class="anchor" #if($rowspan>1)rowspan="$rowspan"#end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
 										#end
 									</tr>
 									#end								
@@ -138,19 +143,22 @@
 									#foreach ($message in $messages.get($uri))
 										#if($message.getType()==2)#set($type="error")#elseif($message.getType()==1)#set($type="warning")#else#set($type="info")#end
 										#set ($messageId = "${observationName}_${group.Name}_${uriCount}_$velocityCount")
-										#set ($contextsCount = $message.getContexts().size())
-										#if ($contextsCount == 0)
+										#if ($message.getContexts().size() == 0)
 											<tr>
 												<td class="linenumber" title=""></td>
 												<td class="colnumber" title=""></td>
 												<td class="codeContext" title="$context_token"></td>
 												<td class="info level$message.Level message" id="$messageId">
-													<span class="msg">$!esc.html($message.Title)</span>
+													<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
+														<span class="$type legend">$type</span> 	 
+														$!esc.html($message.Title) 	 
+													</span> 
 													#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 												</td>
 												<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
 											</tr>
 										#else
+											#set ($b = true)
 											#set ($rowspan = $message.getContexts().size())
 											#foreach($context in $message.getContexts())
 											<tr>
@@ -160,11 +168,13 @@
 													#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
 													$!esc.html($!{context.Context})
 												</td>
-												
 												#if ($b)
 												#set ($b = false)
 												<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
-													<span class="msg">$!esc.html($message.Title)</span>
+													<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
+														<span class="$type legend">$type</span> 	 
+														$!esc.html($message.Title) 	 
+													</span> 
 													#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 												</td>
 												<td class="anchor" #if($rowspan>1) rowspan="$rowspan" #end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
@@ -209,9 +219,7 @@
 							</tr>
 							#foreach($message in $messages.get($uri))
 							#set ($messageId = "${observationName}_info_${uriCount}_$velocityCount")
-							#set ($contextsCount = $message.getContexts().size())
-							#set ($b = true)
-								#if ($contextsCount == 0)
+								#if ($message.getContexts().size() == 0)
 									<tr>
 										<td class="linenumber" title=""></td>
 										<td class="colnumber" title=""></td>
@@ -223,6 +231,7 @@
 										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
 									</tr>
 								#else
+									#set ($b = true)
 									#set ($rowspan = $message.getContexts().size())
 									#foreach($context in $message.getContexts())
 									<tr>
@@ -274,9 +283,7 @@
 							</tr>
 							#foreach($message in $messages.get($uri))
 							#set ($messageId = "${observationName}_error_${uriCount}_$velocityCount")
-							#set ($contextsCount = $message.getContexts().size())
-							#set ($b = true)
-								#if ($contextsCount == 0)
+								#if ($message.getContexts().size() == 0)
 									<tr>
 										<td class="linenumber" title=""></td>
 										<td class="colnumber" title=""></td>
@@ -288,6 +295,7 @@
 										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
 									</tr>
 								#else
+									#set ($b = true)
 									#set ($rowspan = $message.getContexts().size())
 									#foreach($context in $message.getContexts())
 									<tr>
@@ -297,7 +305,6 @@
 											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
 											$!esc.html($!{context.Context})
 										</td>
-										
 										#if ($b)
 										#set ($b = false)
 										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
@@ -339,9 +346,7 @@
 							</tr>
 							#foreach($message in $messages.get($uri))
 							#set ($messageId = "${observationName}_warning_${uriCount}_$velocityCount")
-							#set ($contextsCount = $message.getContexts().size())
-							#set ($b = true)
-								#if ($contextsCount == 0)
+								#if ($message.getContexts().size() == 0)
 									<tr>
 										<td class="linenumber" title=""></td>
 										<td class="colnumber" title=""></td>
@@ -353,6 +358,7 @@
 										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
 									</tr>
 								#else
+									#set ($b = true)
 									#set ($rowspan = $message.getContexts().size())
 									#foreach($context in $message.getContexts())
 									<tr>
@@ -362,7 +368,6 @@
 											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
 											$!esc.html($!{context.Context})
 										</td>
-										
 										#if ($b)
 										#set ($b = false)
 										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
@@ -381,7 +386,6 @@
 				</div>
 			</div>
 		#end
-	
 	#end
 	</div>
 </div>
