@@ -8,9 +8,7 @@
 #end
 	<div id="frontforms">
 		<ul id="tabset_tabs">
-			<li><a href="#validate-by-uri">$validate-by-uri</a></li><!--
-		 --><li><a href="#validate-by-upload">$validate-by-upload</a></li><!--
-		 --><li><a href="#validate-by-input">$validate-by-input</a></li>
+			<li><a href="#validate-by-uri">$validate-by-uri</a></li><li><a href="#validate-by-upload">$validate-by-upload</a></li><li><a href="#validate-by-input">$validate-by-input</a></li>
 		</ul>
 
 		<div id="fields">
