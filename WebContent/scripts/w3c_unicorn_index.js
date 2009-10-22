@@ -1,4 +1,6 @@
-/* $Id: w3c_unicorn_index.js,v 1.16 2009-10-21 17:12:02 tgambet Exp $ */
+// $Id: w3c_unicorn_index.js,v 1.17 2009-10-22 12:56:50 tgambet Exp $
+// Author: Thomas GAMBET.
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 var W3C = {
 	
 	start: function(){

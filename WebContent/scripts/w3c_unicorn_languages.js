@@ -1,4 +1,6 @@
-/* $Id: w3c_unicorn_languages.js,v 1.4 2009-10-12 12:27:38 tgambet Exp $ */
+// $Id: w3c_unicorn_languages.js,v 1.5 2009-10-22 12:56:50 tgambet Exp $
+// Author: Thomas GAMBET.
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 var W3C = {
 	
 	start: function(){
