@@ -1,4 +1,4 @@
-// $Id: w3c_unicorn_index.js,v 1.18 2009-10-22 17:28:22 tgambet Exp $
+// $Id: w3c_unicorn_index.js,v 1.19 2009-10-22 17:39:29 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 var W3C = {
@@ -16,6 +16,7 @@ var W3C = {
 		W3C.LangParameter = $$('html').getProperty('lang')[0];
 		
 		W3C.Forms = $$('form.ucn_form');
+		W3C.Action = W3C.Forms[0].getProperty('action');
 		
 		// index of selected tab
 		W3C.SelectedTab = 0;
@@ -85,7 +86,7 @@ var W3C = {
 					if (passed) {
 						event.preventDefault();	
 						var queryString = form.toQueryString().replace('uri=http%3A%2F%2F', 'uri=') + "#" + W3C.getHash();
-						window.location = "./observe?" + queryString;
+						window.location = "./" + W3C.Action + "?" + queryString;
 					}
 				}
 			});
@@ -203,7 +204,7 @@ var W3C = {
 	
 	requestOptions: function(taskIndex, withFX) {
 		
-		var req = new Request.HTML({url: window.location.pathname.replace(new RegExp('observe$'), ''),
+		var req = new Request.HTML({url: window.location.pathname.replace(new RegExp('' + W3C.Action + '$'), ''),
 			method: 'get',
 			onRequest: function() {
 				W3C.Loader.injectBefore(W3C.Forms[W3C.SelectedTab].getElement('div.submit'));
