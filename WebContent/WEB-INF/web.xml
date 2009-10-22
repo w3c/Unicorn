@@ -27,7 +27,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Observe</servlet-name>
-    <url-pattern>/observe</url-pattern>
+    <url-pattern>/check</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Init</servlet-name>
