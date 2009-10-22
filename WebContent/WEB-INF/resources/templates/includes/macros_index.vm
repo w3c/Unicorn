@@ -122,11 +122,17 @@
 #macro(createRadio $param)
 #if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
 #set($defaults = $param.getMapOfDefaultValue())
+#set( $D = '$' )
+#set ($a = "${D}!{param_${param.Name}}")
+#set ($paramValue = "#evaluate ($a)")
 <label><span>$param_name</span></label>
 <span class="radiolist">
 #foreach ($value in $param.getMapOfValue())
-	<label>$value.getLongName($lang)
-		<input type="radio" name="$param.getName()" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end class="option_input" />
+#set ($s = '')
+#if (($paramValue != "" && $paramValue.contains($value.Name)) || ($paramValue == "" && $defaults.containsKey($value.getName()))) #set ($s = 'checked="checked"') #end
+	<label>
+		<input type="radio" name="$param.getName()" value="$value.getName()" $s class="option_input" />
+		$value.getLongName($lang)
 	</label>
 #end
 </span>
