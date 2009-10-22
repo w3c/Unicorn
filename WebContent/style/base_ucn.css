@@ -1,4 +1,4 @@
-/* $Id: base_ucn.css,v 1.59 2009-10-22 17:03:42 tgambet Exp $
+/* $Id: base_ucn.css,v 1.60 2009-10-22 19:41:56 tgambet Exp $
    Author: Thomas GAMBET.
    (c) COPYRIGHT MIT, ERCIM and Keio, 2009. */
 /* YUI Reset CSS */
@@ -642,9 +642,6 @@ fieldset.toggled legend {
 	white-space:pre;
 	font-size:0.8em;
 	margin-top:0.5em;
-}
-#observations .group table {
-	margin-bottom:0.5em;
 }
 #observations .group .title {
 	font-weight:bold;
