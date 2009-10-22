@@ -1,4 +1,4 @@
-/* $Id: base_ucn.css,v 1.58 2009-10-22 12:56:50 tgambet Exp $
+/* $Id: base_ucn.css,v 1.59 2009-10-22 17:03:42 tgambet Exp $
    Author: Thomas GAMBET.
    (c) COPYRIGHT MIT, ERCIM and Keio, 2009. */
 /* YUI Reset CSS */
@@ -112,10 +112,10 @@ div.options select {
 fieldset.options.none {
 	display:none !important;
 }
-fieldset span.checkboxlist{
+fieldset span.checkboxlist, fieldset span.radiolist {
 	font-size:0.9em;
 }
-fieldset .checkboxlist label {
+fieldset .checkboxlist label, fieldset .radiolist label {
 	margin-right:0.5em;
 }
 fieldset legend {
