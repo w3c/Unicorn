@@ -139,7 +139,9 @@ public class OldMessageXBeans implements Message {
 	}
 
 	public String getTitle() {
-		return title;
+		if (title != null)
+			return title.trim();
+		return null;
 	}
 
 	public int getType() {

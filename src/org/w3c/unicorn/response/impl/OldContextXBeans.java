@@ -27,7 +27,9 @@ public class OldContextXBeans implements Context {
 	}
 
 	public String getContext() {
-		return context;
+		if (context != null)
+			return context.trim();
+		return null;
 	}
 
 	public Integer getLine() {
