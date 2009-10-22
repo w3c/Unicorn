@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.15 2009-10-19 10:09:03 tgambet Exp $
+// $Id: URIRequest.java,v 1.16 2009-10-22 17:03:09 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -147,7 +147,7 @@ public class URIRequest extends Request {
 			if (e.getMessage().contains("connect timed out")) {
 				throw new UnicornException(Message.ERROR, "$message_observer_connect_exception", null, observerName);
 			} else if (e.getMessage().contains("Read timed out")) {
-				throw new UnicornException(Message.ERROR, "$message_observer_read_timeout");
+				throw new UnicornException(Message.ERROR, "$message_observer_read_timeout", null, observerName);
 			} else {
 				throw new UnicornException(new Message(e));
 			}
