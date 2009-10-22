@@ -147,7 +147,7 @@
 		<ucn:description xml:lang="en">Lets you choose which checks to perform</ucn:description>
 		<ucn:description xml:lang="fr">Sélectionnez les tests à effectuer</ucn:description>
 		<ucn:hasParameter>
-			<ucn:CheckBoxList ucn:reference="observers">
+			<ucn:CheckBoxList ucn:reference="tests">
 				<ucn:longName xml:lang="en">Tests:</ucn:longName>
 				<ucn:longName xml:lang="fr">Tests :</ucn:longName>
 				<ucn:hasValue>

@@ -262,11 +262,11 @@
 		</routine>
 
 		<parameters>
-			<parameter name="observers" type="checkboxlist" default="" ui="simple">
+			<parameter name="tests" type="checkboxlist" default="" ui="simple">
 				<value name="markup-validator"></value>
 				<value name="css-validator"></value>
 				<value name="appc-checker"></value>
-        <value name="mobileok"></value>
+        		<value name="mobileok"></value>
 			</parameter>
 			<parameter name="profile" type="dropdown" ui="advanced" observer="css-validator" default="css21"/>
 			<parameter name="warning" type="dropdown" ui="advanced" observer="css-validator" default="2"/>
@@ -278,7 +278,7 @@
 				<observation>markup-validator</observation>
 				<observation>appc-checker</observation>
 				<observation>css-validator</observation>
-        <observation>mobileok</observation>
+        		<observation>mobileok</observation>
 			</group>
 		</output>
 	</task>
