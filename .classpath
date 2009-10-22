@@ -35,5 +35,10 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/velocity-tools-generic-1.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/observationresponse2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/observationresponse.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/compactor.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/Tom-Laptop/Desktop/compactor/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

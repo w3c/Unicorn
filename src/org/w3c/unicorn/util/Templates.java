@@ -1,5 +1,6 @@
 package org.w3c.unicorn.util;
 
+import java.io.StringWriter;
 import java.io.Writer;
 
 import org.apache.velocity.VelocityContext;
@@ -7,12 +8,15 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.w3c.unicorn.Framework;
+import com.mindprod.compactor.*;
 
 public class Templates {
 	
 	public static void write(String templateName, VelocityContext context, Writer writer) {
 		try {
-			Framework.getVelocityEngine().mergeTemplate(templateName, "UTF-8", context, writer);
+			StringWriter sw = new StringWriter();
+			Framework.getVelocityEngine().mergeTemplate(templateName, "UTF-8", context, sw);
+			writer.append(Compactor.compactString(sw.toString(), templateName));
 		} catch (ResourceNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
