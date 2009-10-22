@@ -31,7 +31,7 @@
 					</div>
 				</fieldset>
 			</form>
-			<form action="check" method="get" id="validate-by-uri">
+			<form action="check" method="get" id="validate-by-uri" class="ucn_form">
 				<fieldset>
 					<legend>$legend-by-uri</legend>
 					<div class="input">
@@ -46,7 +46,7 @@
 #submit_button
 				</fieldset>
 			</form>
-			<form action="check" method="post" enctype="multipart/form-data"  id="validate-by-upload">
+			<form action="check" method="post" enctype="multipart/form-data" id="validate-by-upload" class="ucn_form">
 				<fieldset>
 					<legend>$legend-by-upload</legend>
 					<div class="input">
@@ -61,7 +61,7 @@
 #submit_button
 				</fieldset>
 			</form>
-			<form action="check" method="post" id="validate-by-input">
+			<form action="check" method="post" id="validate-by-input" class="ucn_form">
 				<fieldset>
 					<legend>$legend-by-input</legend>
 					<div class="input">
