@@ -1,4 +1,4 @@
-/* $Id: base_ucn.css,v 1.60 2009-10-22 19:41:56 tgambet Exp $
+/* $Id: base_ucn.css,v 1.61 2009-10-22 19:49:13 tgambet Exp $
    Author: Thomas GAMBET.
    (c) COPYRIGHT MIT, ERCIM and Keio, 2009. */
 /* YUI Reset CSS */
@@ -794,7 +794,9 @@ div#markup-validator td.info img, div#css-validator td.info img, div#css1-valida
 div#markup-validator td.info code, div#css-validator td.info code, div#css1-validator td.info code, div#css2-validator td.info code, div#css21-validator td.info code, div#css3-validator td.info code {
 	color:#444444;
 }
-
+div#mobileok .description em {
+	font-style:italic;
+}
 #observations span.arrow {
 	display:inline-block;
 	height:0;
