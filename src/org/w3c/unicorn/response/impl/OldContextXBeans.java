@@ -9,7 +9,8 @@ public class OldContextXBeans implements Context {
 	private Integer column;
 	
 	public OldContextXBeans(String context, Integer line, Integer column) {
-		this.context = context;
+		if (context != null)
+			this.context = context.trim();
 		this.line = line;
 		this.column = column;
 	}
@@ -27,9 +28,7 @@ public class OldContextXBeans implements Context {
 	}
 
 	public String getContext() {
-		if (context != null)
-			return context.trim();
-		return null;
+		return context;
 	}
 
 	public Integer getLine() {
