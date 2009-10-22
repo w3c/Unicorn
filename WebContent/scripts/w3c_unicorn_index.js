@@ -1,4 +1,4 @@
-// $Id: w3c_unicorn_index.js,v 1.17 2009-10-22 12:56:50 tgambet Exp $
+// $Id: w3c_unicorn_index.js,v 1.18 2009-10-22 17:28:22 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 var W3C = {
@@ -15,7 +15,7 @@ var W3C = {
 		
 		W3C.LangParameter = $$('html').getProperty('lang')[0];
 		
-		W3C.Forms = $$('form[action=observe]');
+		W3C.Forms = $$('form.ucn_form');
 		
 		// index of selected tab
 		W3C.SelectedTab = 0;
