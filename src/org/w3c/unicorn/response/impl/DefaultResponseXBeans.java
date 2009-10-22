@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.9 2009-10-21 16:35:13 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.10 2009-10-22 17:11:58 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -25,6 +25,7 @@ import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.response.Group;
 import org.w3c.unicorn.response.Message;
 import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.exceptions.UnicornException;
 
 public class DefaultResponseXBeans implements Response {
@@ -43,6 +44,8 @@ public class DefaultResponseXBeans implements Response {
 	
 	private String observerID;
 	
+	//TODO lang information is missing here, something must be added to the schema
+	
 	public DefaultResponseXBeans(InputStream is, String charset) throws UnicornException {
 		
 		if (charset == null)
@@ -52,10 +55,10 @@ public class DefaultResponseXBeans implements Response {
 			ord = ObservationresponseDocument.Factory.parse(is, new XmlOptions().setCharacterEncoding(charset));
 			or = ord.getObservationresponse();
 			if (!or.validate())
-				throw new UnicornException(new org.w3c.unicorn.util.Message(2, "$message_response_validation_error"));
+				throw new UnicornException(new org.w3c.unicorn.util.Message(2, "$message_response_validation_error", null, Framework.mapOfObserver.get(observerID).getName(Property.get("DEFAULT_LANGUAGE"))));
 		} catch (XmlException e) {
 			if (e.getMessage().contains("is not a valid observationresponse"))
-				throw new UnicornException(new org.w3c.unicorn.util.Message(org.w3c.unicorn.util.Message.ERROR, "$message_observer_invalid_response_schema"));
+				throw new UnicornException(new org.w3c.unicorn.util.Message(org.w3c.unicorn.util.Message.ERROR, "$message_response_invalid_schema", null, Framework.mapOfObserver.get(observerID).getName(Property.get("DEFAULT_LANGUAGE"))));
 			else
 				throw new UnicornException(new org.w3c.unicorn.util.Message(e));
 		} catch (IOException e) {
