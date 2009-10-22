@@ -73,8 +73,13 @@
 #macro(createCheckbox $param)
 #if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
 #set($defaults = $param.getMapOfDefaultValue())
+#set( $D = '$' )
+#set ($a = "${D}!{param_${param.Name}}")
+#set ($paramValue = "#evaluate ($a)")
+#set ($s = '')
+#if (($paramValue != "" && $paramValue.equals('checked')) || ($paramValue == "" && $defaults.containsKey('checked'))) #set ($s = 'checked="checked"') #end
 <label><span>$param_name</span> 
-	<input type="checkbox" name="$param.getName()" value="$value.getName()"#if($defaults.containsKey($value.getName())) checked="checked" #end class="option_input" />
+	<input type="checkbox" name="$param.getName()" value="$param.getValue('checked').getName()" $s class="option_input" />
 </label>
 #end
 
