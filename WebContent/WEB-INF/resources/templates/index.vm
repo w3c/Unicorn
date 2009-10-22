@@ -31,7 +31,7 @@
 					</div>
 				</fieldset>
 			</form>
-			<form action="observe" method="get" id="validate-by-uri">
+			<form action="check" method="get" id="validate-by-uri">
 				<fieldset>
 					<legend>$legend-by-uri</legend>
 					<div class="input">
