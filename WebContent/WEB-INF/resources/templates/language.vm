@@ -1,6 +1,6 @@
 #set ($title = "Unicorn - Translations")
-#set ($css = ['base_ucn.css'])
-#set ($js = ['mootools-1.2.3-core+more-yc.js', 'w3c_unicorn_languages.js'])
+#set ($css = ['base_ucn-yc.css'])
+#set ($js = ['mootools-1.2.3-core+more-yc.js', 'w3c_unicorn_languages-yc.js'])
 #parse('head.vm')
 
 #if ($messages)
