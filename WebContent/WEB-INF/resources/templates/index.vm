@@ -46,7 +46,7 @@
 #submit_button
 				</fieldset>
 			</form>
-			<form action="observe" method="post" enctype="multipart/form-data"  id="validate-by-upload">
+			<form action="check" method="post" enctype="multipart/form-data"  id="validate-by-upload">
 				<fieldset>
 					<legend>$legend-by-upload</legend>
 					<div class="input">
@@ -61,7 +61,7 @@
 #submit_button
 				</fieldset>
 			</form>
-			<form action="observe" method="post" id="validate-by-input">
+			<form action="check" method="post" id="validate-by-input">
 				<fieldset>
 					<legend>$legend-by-input</legend>
 					<div class="input">
