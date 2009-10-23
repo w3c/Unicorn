@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.13 2009-10-23 13:24:41 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.14 2009-10-23 13:50:18 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -55,9 +55,9 @@ public class DefaultResponseXBeans implements Response {
 			ord = ObservationresponseDocument.Factory.parse(is, new XmlOptions().setCharacterEncoding(charset));
 			or = ord.getObservationresponse();
 			if (!or.validate())
-				throw new UnicornException(new org.w3c.unicorn.util.Message(2, "$message_response_validation_error", null, Framework.mapOfObserver.get(observerID).getName(Property.get("DEFAULT_LANGUAGE"))));
+				throw new UnicornException(new org.w3c.unicorn.util.Message(2, "$message_response_validation_error", null, Framework.mapOfObserver.get(observerID).getName(Property.get(getLang()))));
 		} catch (XmlException e) {
-			if (e.getMessage().contains("is not a valid observationresponse"))
+			if (e.getMessage().contains("document element namespace mismatch"))
 				throw new UnicornException(new org.w3c.unicorn.util.Message(org.w3c.unicorn.util.Message.ERROR, "$message_response_invalid_schema", null, Framework.mapOfObserver.get(observerID).getName(Property.get("DEFAULT_LANGUAGE"))));
 			else
 				throw new UnicornException(new org.w3c.unicorn.util.Message(e));
