@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.11 2009-10-23 12:36:12 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.12 2009-10-23 12:59:14 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -390,7 +390,7 @@ public class DefaultResponseXBeans implements Response {
 	}
 
 	public String getLang() {
-		return or.isSetLang() ? or.getLang() : Property.get("DEFAULT_LANGUAGE");
+		return or.getLang();
 	}
 
 }
