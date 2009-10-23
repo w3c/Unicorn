@@ -1,4 +1,4 @@
-// $Id: w3c_unicorn_results.js,v 1.21 2009-10-22 12:56:50 tgambet Exp $
+// $Id: w3c_unicorn_results.js,v 1.22 2009-10-23 09:45:39 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 var W3C = {
@@ -58,29 +58,32 @@ var W3C = {
 			observer.getElement('a.anchor').addEvent('click', function(event) {
 				W3C.open(observer, true);
 			});
-			if (observer.getElement('a.infos')) {
-				observer.getElement('a.infos').addEvent('click', function(event) {
-					event.preventDefault();
-					W3C.open(observer, true);
-					W3C.closeAllSectionsBut(observer, observer.getElement('div.infos'), true);
-					scroller.toElement(observer);
-				});
-			}
-			if (observer.getElement('a.errors')) {
-				observer.getElement('a.errors').addEvent('click', function(event) {
-					event.preventDefault();
-					W3C.open(observer, true);
-					W3C.closeAllSectionsBut(observer, observer.getElement('div.errors'), true);
-					scroller.toElement(observer);
-				});
-			}
-			if (observer.getElement('a.warnings')) {
-				observer.getElement('a.warnings').addEvent('click', function(event) {
-					event.preventDefault();
-					W3C.open(observer, true);
-					W3C.closeAllSectionsBut(observer, observer.getElement('div.warnings'), true);
-					scroller.toElement(observer);
-				});
+			
+			if (!observer.hasClass('grouped')) {
+				if (observer.getElement('a.infos')) {
+					observer.getElement('a.infos').addEvent('click', function(event) {
+						event.preventDefault();
+						W3C.open(observer, true);
+						W3C.closeAllSectionsBut(observer, observer.getElement('div.infos'), true);
+						scroller.toElement(observer);
+					});
+				}
+				if (observer.getElement('a.errors')) {
+					observer.getElement('a.errors').addEvent('click', function(event) {
+						event.preventDefault();
+						W3C.open(observer, true);
+						W3C.closeAllSectionsBut(observer, observer.getElement('div.errors'), true);
+						scroller.toElement(observer);
+					});
+				}
+				if (observer.getElement('a.warnings')) {
+					observer.getElement('a.warnings').addEvent('click', function(event) {
+						event.preventDefault();
+						W3C.open(observer, true);
+						W3C.closeAllSectionsBut(observer, observer.getElement('div.warnings'), true);
+						scroller.toElement(observer);
+					});
+				}
 			}
 		});
 		

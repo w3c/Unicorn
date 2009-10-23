@@ -1,4 +1,4 @@
-/* $Id: base_ucn.css,v 1.61 2009-10-22 19:49:13 tgambet Exp $
+/* $Id: base_ucn.css,v 1.62 2009-10-23 09:45:39 tgambet Exp $
    Author: Thomas GAMBET.
    (c) COPYRIGHT MIT, ERCIM and Keio, 2009. */
 /* YUI Reset CSS */
@@ -484,8 +484,15 @@ fieldset.toggled legend {
 #observations div.observer h2 span.icons a:hover {
 	text-decoration:none;
 }
+#observations div.observer.group h2 span.icons a:hover {
+	text-decoration:none;
+	cursor:default;
+}
 #observations div.observer h2 span.icons a:hover span.count {
 	text-decoration:underline;
+}
+#observations div.observer.grouped h2 span.icons a:hover span.count {
+	text-decoration:none;
 }
 #observations div.observer h2 span.icons a span.legend, #observations div.group span.legend {
 	display:inline-block;
