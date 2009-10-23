@@ -1,11 +1,13 @@
-// $Id: UnicornCall.java,v 1.37 2009-10-19 10:09:04 tgambet Exp $
+// $Id: UnicornCall.java,v 1.38 2009-10-23 16:27:40 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -581,6 +583,11 @@ public class UnicornCall {
 		inputParameter.dispose();
 		for (InputModule inputModule : inputModules)
 			inputModule.dispose();
+	}
+	
+	public String getDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+		return format.format(new Date());
 	}
 	
 }
