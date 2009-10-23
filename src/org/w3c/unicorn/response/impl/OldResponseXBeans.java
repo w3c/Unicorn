@@ -24,6 +24,7 @@ import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.response.Group;
 import org.w3c.unicorn.response.Message;
 import org.w3c.unicorn.response.Response;
+import org.w3c.unicorn.util.Property;
 
 public class OldResponseXBeans implements Response {
 
@@ -63,6 +64,12 @@ public class OldResponseXBeans implements Response {
 		}
 		
 		if (or.getResult().getErrors() != null) {
+			String lang;
+			if (or.getResult().getErrors().getLang() != null) {
+				lang = or.getResult().getErrors().getLang();
+			} else {
+				lang = Property.get("DEFAULT_LANGUAGE");
+			}
 			for (Errorlist errorList : or.getResult().getErrors().getErrorlistList()) {
 				for (Error error : errorList.getErrorList()) {
 					OldMessageXBeans mess = new OldMessageXBeans(error);
@@ -70,12 +77,19 @@ public class OldResponseXBeans implements Response {
 						mess.setURI(errorList.getUri());
 					else
 						mess.setURI(or.getUri());
+					mess.setLang(lang);
 					messages.add(mess);
 					errorCount++;
 				}
 			}
 		}
 		if (or.getResult().getInformations() != null) {
+			String lang;
+			if (or.getResult().getInformations().getLang() != null) {
+				lang = or.getResult().getInformations().getLang();
+			} else {
+				lang = Property.get("DEFAULT_LANGUAGE");
+			}
 			for (Infolist infoList : or.getResult().getInformations().getInfolistList()) {
 				for (Info info : infoList.getInfoList()) {
 					OldMessageXBeans mess = new OldMessageXBeans(info);
@@ -83,12 +97,19 @@ public class OldResponseXBeans implements Response {
 						mess.setURI(infoList.getUri());
 					else
 						mess.setURI(or.getUri());
+					mess.setLang(lang);
 					messages.add(mess);
 					infoCount++;
 				}
 			}
 		}
 		if (or.getResult().getWarnings() != null) {
+			String lang;
+			if (or.getResult().getWarnings().getLang() != null) {
+				lang = or.getResult().getWarnings().getLang();
+			} else {
+				lang = Property.get("DEFAULT_LANGUAGE");
+			}
 			for (Warninglist warningList : or.getResult().getWarnings().getWarninglistList()) {
 				for (Warning warning : warningList.getWarningList()) {
 					OldMessageXBeans mess = new OldMessageXBeans(warning);
@@ -96,6 +117,7 @@ public class OldResponseXBeans implements Response {
 						mess.setURI(warningList.getUri());
 					else
 						mess.setURI(or.getUri());
+					mess.setLang(lang);
 					messages.add(mess);
 					warningCount++;
 				}
@@ -304,7 +326,7 @@ public class OldResponseXBeans implements Response {
 	}
 
 	public String getLang() {
-		return null;
+		return Property.get("DEFAULT_LANGUAGE");
 	}
 	
 }

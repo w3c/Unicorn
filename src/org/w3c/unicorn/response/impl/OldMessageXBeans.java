@@ -19,6 +19,7 @@ public class OldMessageXBeans implements Message {
 	private String title;
 	private String description;
 	private List<Context> contexts = new ArrayList<Context>();
+	private String lang;
 	
 	public OldMessageXBeans(Error error) {
 		type = ERROR;
@@ -157,7 +158,11 @@ public class OldMessageXBeans implements Message {
 	}
 
 	public String getLang() {
-		return null;
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 }
