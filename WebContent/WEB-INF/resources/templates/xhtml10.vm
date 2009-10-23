@@ -35,7 +35,7 @@
 #set ($infoCount = $observation.getInfoCount())
 #set ($errorCount = $observation.getErrorCount())
 #set ($warningCount = $observation.getWarningCount())
-<div class="observer section #if($observation.isPassed()) valid #elseif ($observation.isUndef()) undef #else invalid #end" id="$observationName">
+<div class="observer section #if($observation.isPassed()) valid #elseif ($observation.isUndef()) undef #else invalid #end #if($observation.hasGroups()) grouped #end" id="$observationName">
 	<h2 class="title">
 		<span class="icons">
 			#if ($infoCount && $infoCount > 0)<a class="infos" href="#${observationName}_info" title="$info_label ($infoCount)"><span class="legend">$info_label</span><span class="count">$infoCount</span></a> #end
@@ -52,8 +52,8 @@
 	<div class="results block">
 	#if ($observation.hasGroups())
 		#foreach($group in $observation.getGroups()) #if (!$group.hasParent())
-		<div class="section group">
-			<h3 class="title"><a class="anchor">a</a>$group.getTitle()</h3>					
+		<div class="section group" id="${observationName}_${group.Name}">
+			<h3 class="title"><a class="anchor" href="#${observationName}_${group.Name}">a</a>$group.getTitle()</h3>					
 			<div class="block">
 				<p>$group.getDescription()</p>
 				<div class="messages">
@@ -121,8 +121,8 @@
 				</div>
 				
 				#foreach($group in $observation.getGroupChildren($group))
-				<div class="section group">
-					<h3 class="title"><a class="anchor">a</a>$group.getTitle()</h3>
+				<div class="section group" id="${observationName}_${group.Name}">
+					<h3 class="title"><a class="anchor" href="#${observationName}_${group.Name}">a</a>$group.getTitle()</h3>
 					<div class="block">
 						<p>$group.getDescription()</p>
 						<div class="messages">
