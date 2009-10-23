@@ -156,4 +156,8 @@ public class OldMessageXBeans implements Message {
 		this.uri = uri;
 	}
 
+	public String getLang() {
+		return null;
+	}
+
 }

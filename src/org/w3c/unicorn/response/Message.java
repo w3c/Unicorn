@@ -1,4 +1,4 @@
-// $Id: Message.java,v 1.1 2009-10-16 16:25:00 tgambet Exp $
+// $Id: Message.java,v 1.2 2009-10-23 12:36:12 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -27,5 +27,7 @@ public interface Message {
 	public List<Context> getContexts();
 	
 	public String getGroupName();
+	
+	public String getLang();
 	
 }

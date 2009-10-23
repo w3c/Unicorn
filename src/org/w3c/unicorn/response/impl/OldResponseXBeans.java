@@ -300,5 +300,9 @@ public class OldResponseXBeans implements Response {
 			return true;
 		return false;
 	}
+
+	public String getLang() {
+		return null;
+	}
 	
 }

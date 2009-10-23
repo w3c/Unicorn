@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.10 2009-10-22 17:11:58 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.11 2009-10-23 12:36:12 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -44,8 +44,6 @@ public class DefaultResponseXBeans implements Response {
 	
 	private String observerID;
 	
-	//TODO lang information is missing here, something must be added to the schema
-	
 	public DefaultResponseXBeans(InputStream is, String charset) throws UnicornException {
 		
 		if (charset == null)
@@ -65,11 +63,16 @@ public class DefaultResponseXBeans implements Response {
 			throw new UnicornException(new org.w3c.unicorn.util.Message(e));
 		}
 		
-		for (GroupType group : or.getGroupList())
+		for (GroupType group : or.getGroupList()) {
+			if (group.getLang() == null)
+				group.setLang(getLang());
 			groups.add(new DefaultGroupXBeans(group));
+		}
 		
 		for (ListType list : or.getListList()) {
 			for (MessageType message : list.getMessageList()) {
+				if (message.getLang() == null)
+					message.setLang(getLang());
 				DefaultMessageXBeans m = new DefaultMessageXBeans(message);
 				if (m.getURI() == null) {
 					if (list.isSetRef())
@@ -95,6 +98,8 @@ public class DefaultResponseXBeans implements Response {
 		}
 		
 		for (MessageType message : or.getMessageList()) {
+			if (message.getLang() == null)
+				message.setLang(getLang());
 			DefaultMessageXBeans m = new DefaultMessageXBeans(message);
 			
 			if (m.getURI() == null)
@@ -382,6 +387,10 @@ public class DefaultResponseXBeans implements Response {
 		if (getStatus() == UNDEF)
 			return true;
 		return false;
+	}
+
+	public String getLang() {
+		return or.isSetLang() ? or.getLang() : Property.get("DEFAULT_LANGUAGE");
 	}
 
 }

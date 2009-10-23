@@ -1,4 +1,4 @@
-// $Id: DefaultMessageXBeans.java,v 1.3 2009-10-20 12:41:46 tgambet Exp $
+// $Id: DefaultMessageXBeans.java,v 1.4 2009-10-23 12:36:13 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -30,9 +30,13 @@ public class DefaultMessageXBeans implements Message {
 	
 	private String group;
 	
+	private String lang;
+	
 	public DefaultMessageXBeans(MessageType message) {
 		
 		title = message.getTitle();
+		
+		lang = message.getLang();
 		
 		if (message.isSetRef())
 			uri = message.getRef();
@@ -92,5 +96,9 @@ public class DefaultMessageXBeans implements Message {
 
 	public void setGroupName(String group) {
 		this.group = group;
+	}
+
+	public String getLang() {
+		return lang;
 	}
 }

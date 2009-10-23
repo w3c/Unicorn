@@ -1,4 +1,4 @@
-// $Id: DefaultGroupXBeans.java,v 1.3 2009-10-20 12:41:46 tgambet Exp $
+// $Id: DefaultGroupXBeans.java,v 1.4 2009-10-23 12:36:12 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -18,6 +18,8 @@ public class DefaultGroupXBeans implements Group {
 	
 	private String parent;
 	
+	private String lang;
+	
 	public DefaultGroupXBeans(GroupType group) {
 		if (group.isSetDescription() && group.getDescription().validate())
 			description = group.getDescription().xmlText(new XmlOptions().setUseDefaultNamespace()
@@ -26,6 +28,7 @@ public class DefaultGroupXBeans implements Group {
 		name = group.getName();
 		if (group.isSetParent())
 			parent = group.getParent();
+		lang = group.getLang();
 	}
 
 	public String getDescription() {
@@ -48,6 +51,10 @@ public class DefaultGroupXBeans implements Group {
 		if (parent != null)
 			return true;
 		return false;
+	}
+
+	public String getLang() {
+		return lang;
 	}
 
 }
