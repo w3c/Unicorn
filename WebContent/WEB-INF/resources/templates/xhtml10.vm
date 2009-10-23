@@ -55,7 +55,7 @@
 		<div class="section group" id="${observationName}_${group.Name}">
 			<h3 class="title" #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end><a class="anchor" href="#${observationName}_${group.Name}">a</a>$group.getTitle()</h3>					
 			<div class="block">
-				<p #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end>$group.getDescription()</p>
+				#if($group.getDescription())<p #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end>$group.getDescription()</p>#end
 				<div class="messages">
 					#set ($messages = $observation.getURISortedMessages($group.getName()))
 					#if ($messages.size() > 0)
@@ -124,7 +124,7 @@
 				<div class="section group" id="${observationName}_${group.Name}">
 					<h3 class="title" #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end><a class="anchor" href="#${observationName}_${group.Name}">a</a>$group.getTitle()</h3>
 					<div class="block">
-						<p #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end>$group.getDescription()</p>
+						#if($group.getDescription())<p #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end>$group.getDescription()</p>#end
 						<div class="messages">
 							#set ($messages = $observation.getURISortedMessages($group.getName()))
 							#if ($messages.size() > 0)
