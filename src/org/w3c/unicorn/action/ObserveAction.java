@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.55 2009-10-16 16:51:00 tgambet Exp $
+// $Id: ObserveAction.java,v 1.56 2009-10-23 11:44:38 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -286,23 +286,27 @@ public class ObserveAction extends Action {
 						infos += observationList.get(key).getInfoCount();
 					}
 					if (errors > 0)
-						resp.setHeader("X-W3C-Validator-Status", "Invalid");
+						resp.setHeader("X-W3C-Validator-Status", "Failed");
 					else
-						resp.setHeader("X-W3C-Validator-Status", "Valid");
+						resp.setHeader("X-W3C-Validator-Status", "Passed");
 					resp.setHeader("X-W3C-Validator-Errors", Integer.toString(errors));
 					resp.setHeader("X-W3C-Validator-Warnings", Integer.toString(warnings));
 					resp.setHeader("X-W3C-Validator-Info", Integer.toString(infos));
+				} else {
+					aOutputModule.produceOutput(mapOfStringObject, resp.getWriter());
 				}
-				
-				
-				aOutputModule.produceOutput(mapOfStringObject, resp.getWriter());
 			}
 		} catch (final UnicornException e) {
-			if (e.getUnicornMessage() != null)
-				messages.add(e.getUnicornMessage());
-			else if (e.getMessage() != null)
-				messages.add(new Message(Message.ERROR, e.getMessage(), null));
-			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
+			resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			if (req.getMethod().equals("HEAD")) {
+				resp.setHeader("X-W3C-Validator-Status", "Abort");
+			} else {
+				if (e.getUnicornMessage() != null)
+					messages.add(e.getUnicornMessage());
+				else if (e.getMessage() != null)
+					messages.add(new Message(Message.ERROR, e.getMessage(), null));
+				aOutputModule.produceError(mapOfStringObject, resp.getWriter());
+			}
 		} catch (final Exception aException) {
 			logger.error("Exception : " + aException.getMessage(), aException);
 			messages.add(new Message(aException));
