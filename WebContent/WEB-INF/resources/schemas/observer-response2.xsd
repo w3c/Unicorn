@@ -71,6 +71,7 @@
 		<xs:attribute name="type" use="required" type="message.level"/>
 		<xs:attribute name="group" type="xs:token"/>
 		<xs:attribute name="level" type="percent.type"/>
+		<xs:attribute name="lang" type="xs:language"/>
 	</xs:complexType>
 
 	<xs:complexType name="list.type">
@@ -88,6 +89,7 @@
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:token" use="required"/>
 		<xs:attribute name="parent" type="xs:token"/>
+		<xs:attribute name="lang" type="xs:language"/>
 	</xs:complexType>
 
 	<!-- Root element -->
@@ -99,6 +101,7 @@
 			</xs:sequence>
 			<xs:attribute name="ref" use="required"/>
 			<xs:attribute name="date" type="xs:dateTime"/>
+			<xs:attribute name="lang" type="xs:language"/>
 		</xs:complexType>
 	</xs:element>
 	
