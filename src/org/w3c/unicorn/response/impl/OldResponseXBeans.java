@@ -39,10 +39,12 @@ public class OldResponseXBeans implements Response {
 	
 	private String observerID;
 	
-	public OldResponseXBeans(InputStream is, String charset) throws UnicornException {
+	public OldResponseXBeans(InputStream is, String charset, String observerID) throws UnicornException {
 		
 		if (charset == null)
 			charset = "UTF-8";
+		
+		this.observerID = observerID;
 		
 		try {
 			ord = ObservationresponseDocument.Factory.parse(is, new XmlOptions().setCharacterEncoding(charset));

@@ -1,4 +1,4 @@
-// $Id: URIRequest.java,v 1.16 2009-10-22 17:03:09 tgambet Exp $
+// $Id: URIRequest.java,v 1.17 2009-10-23 13:24:41 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -137,8 +137,8 @@ public class URIRequest extends Request {
 				throw new UnicornException(Message.ERROR, "$message_observer_internal_error", null, observerName);
 			}
 			
-			return ResponseFactory.getResponse(aURLConnection.getInputStream(), responseType, aURL.toString(), aURLConnection.getContentEncoding());
-			
+			return ResponseFactory.getResponse(aURLConnection.getInputStream(), responseType, aURL.toString(), aURLConnection.getContentEncoding(), observerId);
+		
 		} catch (MalformedURLException e) {
 			throw new UnicornException(new Message(e));
 		} catch (ConnectException e) {

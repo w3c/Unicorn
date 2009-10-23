@@ -1,4 +1,4 @@
-// $Id: UploadRequest.java,v 1.8 2009-10-19 10:09:03 tgambet Exp $
+// $Id: UploadRequest.java,v 1.9 2009-10-23 13:24:41 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -109,7 +109,7 @@ public class UploadRequest extends Request {
 			}
 			
 			// TODO How to find the response content encoding here ?
-			return ResponseFactory.getResponse(aClientHttpRequest.post(), responseType, sURL.toString(), null);
+			return ResponseFactory.getResponse(aClientHttpRequest.post(), responseType, sURL.toString(), null, observerId);
 
 		} catch (MalformedURLException e) {
 			throw new UnicornException(new Message(e));

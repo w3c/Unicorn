@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.27 2009-10-21 14:25:33 tgambet Exp $
+// $Id: Framework.java,v 1.28 2009-10-23 13:24:41 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -269,7 +269,7 @@ public class Framework {
 			String className = aProperties.getProperty(key.toString());
 			try {
 				if (Response.class.isAssignableFrom(Class.forName(className))) {
-					Class.forName(className).getConstructor(InputStream.class, String.class);
+					Class.forName(className).getConstructor(InputStream.class, String.class, String.class);
 					responseImpl.put(key.toString(), (Class<Response>) Class.forName(className));
 					logger.debug("> Implementation loaded: " + responseImpl.get(key).getClass().toString());
 				} else {
@@ -278,7 +278,7 @@ public class Framework {
 			} catch (ClassNotFoundException e) {
 				logger.error("Class not found: " + className + ". Check responseImpl.properties.");
 			} catch (NoSuchMethodException e) {
-				logger.error("Response implementation: " + className + " does not have a constructor with signature (InputStream is, String charset). Implementation skipped.");
+				logger.error("Response implementation: " + className + " does not have a constructor with signature (InputStream is, String charset, String observerId). Implementation skipped.");
 			} catch (Exception e) {
 				logger.error("Error trying to instanciate: " + className, e);
 			}

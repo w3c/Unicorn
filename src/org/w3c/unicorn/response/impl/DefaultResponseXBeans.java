@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.12 2009-10-23 12:59:14 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.13 2009-10-23 13:24:41 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -44,10 +44,12 @@ public class DefaultResponseXBeans implements Response {
 	
 	private String observerID;
 	
-	public DefaultResponseXBeans(InputStream is, String charset) throws UnicornException {
+	public DefaultResponseXBeans(InputStream is, String charset, String observerID) throws UnicornException {
 		
 		if (charset == null)
 			charset = "UTF-8";
+		
+		this.observerID = observerID;
 		
 		try {
 			ord = ObservationresponseDocument.Factory.parse(is, new XmlOptions().setCharacterEncoding(charset));

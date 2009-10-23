@@ -1,4 +1,4 @@
-// $Id: DirectRequestGET.java,v 1.9 2009-10-19 10:09:03 tgambet Exp $
+// $Id: DirectRequestGET.java,v 1.10 2009-10-23 13:24:41 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -94,7 +94,7 @@ public class DirectRequestGET extends Request {
 			URLConnection aURLConnection = aURL.openConnection();
 			aURLConnection.setRequestProperty("Accept-Language", this.sLang);
 			
-			return ResponseFactory.getResponse(aURLConnection.getInputStream(), responseType, sURL.toString(), aURLConnection.getContentEncoding());
+			return ResponseFactory.getResponse(aURLConnection.getInputStream(), responseType, sURL.toString(), aURLConnection.getContentEncoding(), observerId);
 			
 		} catch (IOException e) {
 			throw new UnicornException(new Message(e));
