@@ -13,68 +13,6 @@
 		<ucn:longName xml:lang="fr">Vérifie la conformité générale</ucn:longName>
 		<ucn:description xml:lang="en">Performs as many checks as possible.</ucn:description>
 		<ucn:description xml:lang="fr">Effectue tous les tests possibles.</ucn:description>
-		<!--<ucn:hasParameter>
-			<ucn:Dropdown ucn:reference="profile">
-				<ucn:longName xml:lang="en">CSS Profile</ucn:longName>
-				<ucn:longName xml:lang="fr">Profil CSS</ucn:longName>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="css1">
-						<ucn:longName xml:lang="en">CSS level 1</ucn:longName>
-						<ucn:longName xml:lang="fr">CSS niveau 1</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="css2">
-						<ucn:longName xml:lang="en">CSS level 2</ucn:longName>
-						<ucn:longName xml:lang="fr">CSS niveau 2</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="css21">
-						<ucn:longName xml:lang="en">CSS level 2.1</ucn:longName>
-						<ucn:longName xml:lang="fr">CSS niveau 2.1</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="css3">
-						<ucn:longName xml:lang="en">CSS level 3</ucn:longName>
-						<ucn:longName xml:lang="fr">CSS niveau 3</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="svg">
-						<ucn:longName xml:lang="en">SVG</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="svgbasic">
-						<ucn:longName xml:lang="en">SVG Basic</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="svgtiny">
-						<ucn:longName xml:lang="en">SVG Tiny</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="mobile">
-						<ucn:longName xml:lang="en">Mobile</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="atsc-tv">
-						<ucn:longName xml:lang="en">ATSC TV Profile</ucn:longName>
-						<ucn:longName xml:lang="fr">Profil ATSC TV</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-				<ucn:hasValue>
-					<ucn:Value ucn:reference="tv">
-						<ucn:longName xml:lang="en">TV Profile</ucn:longName>
-						<ucn:longName xml:lang="fr">Profil TV</ucn:longName>
-					</ucn:Value>
-				</ucn:hasValue>
-			</ucn:Dropdown>
-		</ucn:hasParameter>-->
 	</ucn:Task>
 
 	<ucn:Task ucn:reference="full-css">
