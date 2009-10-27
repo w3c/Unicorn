@@ -26,7 +26,7 @@
 				<img src="$!{baseUri}images/I_heart_validator.png" alt="I heart Validator logo"/>
 			</a>
 		</p>
-		<p class="copyright" xml:lang="en" lang="en" dir="ltr">
+		<p class="copyright" #if($lang!="en")xml:lang="en" lang="en"#end #if($direction!="ltr")dir="ltr"#end>
 			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-2009
 			<a href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a>&reg;
 
