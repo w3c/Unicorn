@@ -1,4 +1,4 @@
-// $Id: w3c_unicorn_results.js,v 1.22 2009-10-23 09:45:39 tgambet Exp $
+// $Id: w3c_unicorn_results.js,v 1.23 2009-10-27 14:13:02 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 var W3C = {
@@ -309,7 +309,7 @@ var W3C = {
 			return;
 		}
 		
-		W3C.setHash(hash);
+		W3C.setHash(hash.replace('#', ''));
 		
 	},
 	
@@ -338,9 +338,4 @@ var W3C = {
 };
 
 window.addEvent('domready', W3C.start);
-
-window.addEvent('onbeforeunload', function () {
-	console.log(history.toString());
-	history.go(-2);
-});
 
