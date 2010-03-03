@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.28 2009-10-23 13:24:41 tgambet Exp $
+// $Id: Framework.java,v 1.29 2010-03-03 17:20:43 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -129,7 +129,6 @@ public class Framework {
 		} catch (InitializationFailedException e) {
 			logger.fatal(e.getMessage(), e);
 		}
-		
 	}
 	
 	public static void initCore() throws InitializationFailedException {
@@ -164,8 +163,8 @@ public class Framework {
 			logger.warn("Log4j config file \"log4j.properties\" could not be found: " + log4jPath);
 			logger.warn("Log4j will not be initialized");
 		}
-		
-	}	
+	}
+	
 	public static void initConfig() throws InitializationFailedException {
 		// Load unicorn.properties	
 		logger.debug("-------------------------------------------------------");
@@ -193,6 +192,7 @@ public class Framework {
 			}
 		}
 	}
+	
 	public static void initUnmarshallers() {
 		// Initialize WADLUnmarshallerXPath (Gets the Namespace URI and the prefix)
 		WADLUnmarshallerXPath.setNamespaceContext(new NamespaceContext() {
@@ -364,6 +364,7 @@ public class Framework {
 			logger.info("OK - " + mapOfObserver.size() + " observer(s) successfully loaded.");
 		}
 	}
+	
 	public static void initTasklists() throws InitializationFailedException {	
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Loading xml task files from tasklist directory: " + Property.get("PATH_TO_TASKLIST"));
@@ -421,6 +422,7 @@ public class Framework {
 			logger.info("OK - " + mapOfTask.size() + " task(s) successfully loaded.");
 		}
 	}
+	
 	public static void initLanguages() throws InitializationFailedException {	
 		// Loading language files
 		logger.debug("-------------------------------------------------------");
@@ -455,11 +457,14 @@ public class Framework {
 				continue;
 			try {
 				UCNProperties props = Language.load(langFile);
-				logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
-				LanguageAction.addLanguageProperties(props);
-				Language.complete(props, defaultProps);
-				props.parse();
-				languageProperties.put(props.getProperty("lang"), props);
+				if (!props.getProperty("lang").equals(Property.get("DEFAULT_LANGUAGE"))) {
+					logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
+					Language.clean(props, defaultProps);
+					LanguageAction.addLanguageProperties(props);
+					Language.complete(props, defaultProps);
+					props.parse();
+					languageProperties.put(props.getProperty("lang"), props);
+				}
 			} catch (IllegalArgumentException e) {
 				logger.warn(e.getMessage());
 			} catch (FileNotFoundException e) {
@@ -488,7 +493,8 @@ public class Framework {
 		}
 		
 		LanguageAction.setAvailableLocales(Language.getAvailablesLocales());
-	}	
+	}
+	
 	public static void initVelocity() throws InitializationFailedException {	
 		// Creating velocity contexts
 		logger.debug("-------------------------------------------------------");

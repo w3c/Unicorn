@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
@@ -64,6 +65,18 @@ public class Language {
 				Framework.logger.warn(">> Missing property in " + props.getProperty("lang") + ".properties for key: \"" + (String) key + "\". Added default property for this key: \"" + defaultProps.get(key) + "\""); 
 			}
 		}
+	}
+	
+	public static void clean(UCNProperties props, UCNProperties defaultProps) {
+		ArrayList<String> keys = new ArrayList<String>();
+		for (Object key : props.keySet()) {
+			if (!defaultProps.containsKey(key)) {
+				keys.add((String) key);
+				Framework.logger.error(">> Unexisting property in " + props.getProperty("lang") + ".properties for key: \"" + (String) key + "\". This property should be removed manually from the language file."); 
+			}
+		}
+		for (String key : keys)
+			props.remove(key);
 	}
 	
 	public static UCNProperties load(File langFile) throws IllegalArgumentException, FileNotFoundException, IOException {
