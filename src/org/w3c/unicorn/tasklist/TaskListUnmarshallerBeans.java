@@ -167,7 +167,10 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 				}
 			}
 		}
-
+		
+		if (aTask.isSetDefault() && aTask.getDefault().equals("true"))
+			this.mapOfTask.setDefaultTaskId(aTaskCurrent.getID());
+		
 		this.mapOfTask.put(aTaskCurrent.getID(), aTaskCurrent);
 
 	}

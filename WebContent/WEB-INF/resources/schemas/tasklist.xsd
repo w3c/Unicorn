@@ -7,13 +7,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="taskType">
-        <xs:all>
+    <xs:all>
       <xs:element type="tas:condsType" name="conds" xmlns:tas="http://www.w3.org/unicorn/tasklist" minOccurs="0" />
       <xs:element type="tas:routineType" name="routine" xmlns:tas="http://www.w3.org/unicorn/tasklist" />
       <xs:element type="tas:outputType" name="output" xmlns:tas="http://www.w3.org/unicorn/tasklist" />
       <xs:element type="tas:parametersType" name="parameters" xmlns:tas="http://www.w3.org/unicorn/tasklist" minOccurs="0" />
     </xs:all>
     <xs:attribute type="xs:string" name="id" use="required"/>
+    <xs:attribute type="xs:string" name="default" use="optional"/>
   </xs:complexType>
   <xs:complexType name="parameterType" mixed="true">
     <xs:sequence>

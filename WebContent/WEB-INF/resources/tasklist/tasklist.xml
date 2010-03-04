@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.w3.org/unicorn/tasklist ../schemas/tasklist.xsd"
 	xmlns="http://www.w3.org/unicorn/tasklist">
 
-	<task id="conformance">
+	<task id="conformance" default="true">
 
 		<routine>
 			<exec id="markup-validator" value="markup-validator" type="observation" />
