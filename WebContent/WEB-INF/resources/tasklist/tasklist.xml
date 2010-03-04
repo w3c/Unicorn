@@ -282,20 +282,5 @@
 			</group>
 		</output>
 	</task>
-	
-		<task id="new">
-		<routine>
-			<exec id="new" value="new" type="observation" />
-		</routine>
-
-		<parameters>
-		</parameters>
-
-		<output>
-			<group>
-				<observation>new</observation>
-			</group>
-		</output>
-	</task>
 
 </tasklist>
