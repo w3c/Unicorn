@@ -16,7 +16,7 @@
     <ucn:description xml:lang="en">Performs as many checks as possible.</ucn:description>
     <ucn:description xml:lang="fr">Effectue tous les tests possibles.</ucn:description>
     <ucn:description xml:lang="es">Realiza todos los tests posibles.</ucn:description>
-    <ucn:longName xml:lang="it">Effettua il massimo dei controlli possibili</ucn:longName>
+    <ucn:description xml:lang="it">Effettua il massimo dei controlli possibili</ucn:description>
   </ucn:Task>
 
   <ucn:Task ucn:reference="full-css">
