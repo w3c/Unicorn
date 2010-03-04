@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.29 2010-03-03 17:20:43 tgambet Exp $
+// $Id: Framework.java,v 1.30 2010-03-04 18:18:21 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -32,18 +32,20 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.tools.generic.EscapeTool;
 import org.apache.velocity.tools.generic.MathTool;
+import org.w3.unicorn.tasklist.TUi;
 import org.w3c.unicorn.action.LanguageAction;
 import org.w3c.unicorn.contract.Observer;
 import org.w3c.unicorn.contract.WADLUnmarshaller;
 import org.w3c.unicorn.contract.WADLUnmarshallerXPath;
 import org.w3c.unicorn.exceptions.InitializationFailedException;
 import org.w3c.unicorn.exceptions.UnknownParserException;
-import org.w3c.unicorn.tasklist.RDFUnmarshaller;
 import org.w3c.unicorn.tasklist.RDFUnmarshallerJena;
 import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.TaskListUnmarshallerBeans;
 import org.w3c.unicorn.tasklist.Tasklist;
 import org.w3c.unicorn.tasklist.TasksListUnmarshaller;
+import org.w3c.unicorn.tasklist.parameters.Parameter;
+import org.w3c.unicorn.tasklist.parameters.Value;
 import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.Property;
@@ -385,41 +387,109 @@ public class Framework {
 				logger.warn("> This task file will be skiped");
 			}
 		}
-		logger.debug("-------------------------------------------------------");
-		logger.debug("Loading rdf task files from tasklist directory: " + Property.get("PATH_TO_TASKLIST"));
-		File[] tFileRDF = ListFiles.listFiles(Property.get("PATH_TO_TASKLIST"), "\\.rdf$");
-		RDFUnmarshaller aRDFUnmarshaller = new RDFUnmarshallerJena();
-		aRDFUnmarshaller.setMapOfTask(aTaskListUnmarshaller.getMapOfTask());
-		for (final File aFile : tFileRDF) {
-			try {
-				logger.debug("- Loading rdf file: " + aFile.getName());
-				aRDFUnmarshaller.addURL(aFile.toURI().toURL());
-				aRDFUnmarshaller.unmarshal();
-			} catch (MalformedURLException e) {
-				logger.error(e.getMessage(), e);
-			} catch (IOException e) {
-				logger.error("Error reading file: " + aFile.getName(), e);
-				logger.warn("> This task file will be skiped");
-			} catch (Exception e) {
-				logger.error("Error unmarshalling file: " + aFile.getName(), e);
-				logger.warn("> This task file will be skiped");
-			}
-		}
 		mapOfTask = aTaskListUnmarshaller.getMapOfTask();
-		for (Object key : mapOfTask.keySet()) {
-			Task task = mapOfTask.get(key.toString());
-			String defaultLang = Property.get("DEFAULT_LANGUAGE");
-			if (task.getLongName().getLocalization(defaultLang) == null) {
-				task.getLongName().addLocalization(defaultLang, key.toString());
-				logger.warn("Missing default language long name for task: " + key + ". Long name will be the task id.");
-			}
-		}
 		if (mapOfTask.size() == 0) {
 			throw new InitializationFailedException("No task have been loaded. Check task files in: " + Property.get("PATH_TO_TASKLIST"));
 		} else {
 			String s = "Map of tasks:";
 			logger.debug(s + mapOfTask);
 			logger.info("OK - " + mapOfTask.size() + " task(s) successfully loaded.");
+		}
+		
+		logger.debug("-------------------------------------------------------");
+		logger.debug("Loading tasks metadata files from tasks language directory: " + Property.get("PATH_TO_TASK_LANGUAGE_FILES"));
+		
+		File defaultTaskFile = new File(Property.get("PATH_TO_TASK_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".tasklist.properties");
+		String defaultLang = Property.get("DEFAULT_LANGUAGE");
+		
+		try{
+			UCNProperties defaultProps = Language.load(defaultTaskFile);
+			logger.debug("> Found default tasks metadata file: " + defaultTaskFile.getPath());
+			for (String taskKey : mapOfTask.keySet()) {
+				Task task = mapOfTask.get(taskKey);
+				if (defaultProps.containsKey(taskKey)) 
+					task.addLongName(defaultLang, defaultProps.getProperty(taskKey));
+				else
+					logger.warn(">> No default longname found for the task: " + taskKey + ". This task longname will be its key and it won't appear in the translation form.");
+				if (defaultProps.containsKey(taskKey + ".description"))
+					task.addDescription(defaultLang, defaultProps.getProperty(taskKey + ".description"));
+				else
+					logger.warn(">> No default description found for the task: " + taskKey + ". This task description will be empty and it won't appear in the translation form.");
+				
+				Map<String, Parameter> params = task.getMapOfParameter();
+				for (Object paramKey : params.keySet()) {
+					Parameter param = (Parameter) params.get(paramKey);
+					if (defaultProps.containsKey(taskKey + ".param." + paramKey))
+						param.addLongName(defaultLang, defaultProps.getProperty(taskKey + ".param." + paramKey));
+					else if (defaultProps.containsKey("param." + paramKey))
+						param.addLongName(defaultLang, defaultProps.getProperty("param." + paramKey));
+					else
+						logger.warn(">> No default parameter longname found for the parameter: " + paramKey + ". This parameter longname will be its key and it won't appear in the translation form.");
+					
+					Map<String, Value> values = param.getMapOfValue();
+					for (Object valueKey : values.keySet()) {
+						Value value = (Value) values.get(valueKey);
+						if (defaultProps.containsKey(taskKey + ".param." + paramKey + "." + valueKey))
+							value.addLongName(defaultLang, defaultProps.getProperty(taskKey + ".param." + paramKey + "." + valueKey));
+						else if (defaultProps.containsKey("param." + paramKey + "." + valueKey))
+							value.addLongName(defaultLang, defaultProps.getProperty("param." + paramKey + "." + valueKey));
+						else if (param.getUiLevel() != TUi.NONE) // Warn only if the value is displayed
+							logger.warn(">> No default value longname found for the value \"" + valueKey + "\" for the parameter \"" + paramKey + "\" from the task " + taskKey + ". This value longname will be its key and it won't appear in the translation form.");
+					}
+				}
+			}
+		} catch (IllegalArgumentException e) {
+			logger.warn(e.getMessage());
+		} catch (FileNotFoundException e) {
+			throw new InitializationFailedException("Default tasks metadata file does not exist: " + defaultTaskFile.getPath());
+		} catch (IOException e) {
+			throw new InitializationFailedException("Unable to read default tasks metadata file " + defaultTaskFile);
+		}
+		
+		File[] taskFiles = ListFiles.listFiles(Property.get("PATH_TO_TASK_LANGUAGE_FILES"), "\\.tasklist.properties$");
+		
+		for (File taskFile : taskFiles) {
+			String lang = taskFile.getName().split("\\.")[0];
+			
+			if (taskFile.equals(defaultTaskFile))
+				continue;
+			try {
+				UCNProperties props = Language.load(taskFile);
+				logger.debug("> Found tasks metadata file: " + taskFile.getPath());
+				
+				for (String taskKey : mapOfTask.keySet()) {
+					Task task = mapOfTask.get(taskKey);
+					if (props.containsKey(taskKey)) 
+						task.addLongName(lang, props.getProperty(taskKey));
+					if (props.containsKey(taskKey + ".description"))
+						task.addDescription(lang, props.getProperty(taskKey + ".description"));
+					
+					Map<String, Parameter> params = task.getMapOfParameter();
+					for (Object paramKey : params.keySet()) {
+						Parameter param = (Parameter) params.get(paramKey);
+						if (props.containsKey(taskKey + ".param." + paramKey))
+							param.addLongName(lang, props.getProperty(taskKey + ".param." + paramKey));
+						else if (props.containsKey("param." + paramKey))
+							param.addLongName(lang, props.getProperty("param." + paramKey));
+						
+						Map<String, Value> values = param.getMapOfValue();
+						for (Object valueKey : values.keySet()) {
+							Value value = (Value) values.get(valueKey);
+							if (props.containsKey(taskKey + ".param." + paramKey + "." + valueKey))
+								value.addLongName(lang, props.getProperty(taskKey + ".param." + paramKey + "." + valueKey));
+							else if (props.containsKey("param." + paramKey + "." + valueKey))
+								value.addLongName(lang, props.getProperty("param." + paramKey + "." + valueKey));
+						}
+					}
+				}
+			} catch (IllegalArgumentException e) {
+				logger.warn(e.getMessage());
+			} catch (FileNotFoundException e) {
+				// Should not happen
+				logger.error(e.getMessage(), e);
+			} catch (IOException e) {
+				logger.error("Unable to read task file " + taskFile + ". This file will be skiped.");
+			}
 		}
 	}
 	
@@ -444,11 +514,10 @@ public class Framework {
 		} catch (IllegalArgumentException e) {
 			logger.warn(e.getMessage());
 		} catch (FileNotFoundException e) {
-			throw new InitializationFailedException("Default language file does not exists: " + defaultLanguageFile.getPath());
+			throw new InitializationFailedException("Default language file does not exist: " + defaultLanguageFile.getPath());
 		} catch (IOException e) {
-			throw new InitializationFailedException("Unable to read default language file. " + defaultLanguageFile.getPath());
+			throw new InitializationFailedException("Unable to read default language file " + defaultLanguageFile.getPath());
 		}
-		
 		
 		File[] languageFiles = ListFiles.listFiles(Property.get("PATH_TO_LANGUAGE_FILES"), "\\.properties$");
 		
@@ -457,21 +526,19 @@ public class Framework {
 				continue;
 			try {
 				UCNProperties props = Language.load(langFile);
-				if (!props.getProperty("lang").equals(Property.get("DEFAULT_LANGUAGE"))) {
-					logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
-					Language.clean(props, defaultProps);
-					LanguageAction.addLanguageProperties(props);
-					Language.complete(props, defaultProps);
-					props.parse();
-					languageProperties.put(props.getProperty("lang"), props);
-				}
+				logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
+				Language.clean(props, defaultProps);
+				LanguageAction.addLanguageProperties(props);
+				Language.complete(props, defaultProps);
+				props.parse();
+				languageProperties.put(props.getProperty("lang"), props);
 			} catch (IllegalArgumentException e) {
 				logger.warn(e.getMessage());
 			} catch (FileNotFoundException e) {
 				// Should not happen
 				logger.error(e.getMessage(), e);
 			} catch (IOException e) {
-				logger.error("Unable to read language file. " + langFile + ". This file will be skiped.");
+				logger.error("Unable to read language file " + langFile + ". This file will be skiped.");
 			}
 		}
 		
