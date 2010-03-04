@@ -1,7 +1,8 @@
-#Wed Oct 21 16:23:53 CEST 2009
+#Thu Mar 04 16:27:21 CET 2010
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/languages=UTF-8
 encoding//WebContent/WEB-INF/languages/ca.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/de.properties=UTF-8
 encoding//WebContent/WEB-INF/languages/en.properties=UTF-8
 encoding//WebContent/WEB-INF/languages/es.properties=UTF-8
 encoding//WebContent/WEB-INF/languages/fr.properties=UTF-8
@@ -9,4 +10,9 @@ encoding//WebContent/WEB-INF/languages/hu.properties=UTF-8
 encoding//WebContent/WEB-INF/languages/it.properties=UTF-8
 encoding//WebContent/WEB-INF/languages/ja.properties=UTF-8
 encoding//WebContent/WEB-INF/languages/nl.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/sv.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/tasks/en.tasklist.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/tasks/es.tasklist.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/tasks/fr.tasklist.properties=UTF-8
+encoding//WebContent/WEB-INF/languages/tasks/it.tasklist.properties=UTF-8
 encoding/<project>=UTF-8
