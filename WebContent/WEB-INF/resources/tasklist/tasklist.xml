@@ -90,7 +90,7 @@
 				</value>
 			</parameter>
 
-			<parameter name="usermedium" type="checkboxlist"
+			<parameter name="usermedium" type="dropdown"
 				default="all">
 				<value name="all">
 					<mapped param="usermedium" observer="css1-validator"
