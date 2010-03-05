@@ -13,11 +13,15 @@ Submitter comments:
 $translator_comments
 #end
 
+#if($interfaceChanged)
 -----------------------------------------------
 Interface ChangeLog:
 -----------------------------------------------
 $interfaceChangeLog
+#end
+#if($tasklistChanged)
 -----------------------------------------------
 Tasklist ChangeLog:
 -----------------------------------------------
 $tasklistChangeLog
+#end
