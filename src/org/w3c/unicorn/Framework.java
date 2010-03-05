@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.32 2010-03-05 13:48:42 tgambet Exp $
+// $Id: Framework.java,v 1.33 2010-03-05 14:28:08 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -362,8 +363,9 @@ public class Framework {
 		File defaultTaskFile = new File(Property.get("PATH_TO_TASK_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".tasklist.properties");
 		String defaultLang = Property.get("DEFAULT_LANGUAGE");
 		
+		UCNProperties defaultProps = null;
 		try{
-			UCNProperties defaultProps = Language.load(defaultTaskFile);
+			defaultProps = Language.load(defaultTaskFile);
 			logger.debug("> Found default tasks metadata file: " + defaultTaskFile.getPath());
 			LanguageAction.setDefaultMetadatas(defaultProps);
 			for (String taskKey : mapOfTask.keySet()) {
@@ -417,6 +419,17 @@ public class Framework {
 			try {
 				UCNProperties props = Language.load(taskFile);
 				logger.debug("> Found tasks metadata file: " + taskFile.getPath());
+				
+				ArrayList<Object> keys = new ArrayList<Object>();
+				for (Object key : props.keySet()) {
+					if (defaultProps != null && !defaultProps.containsKey(key)) {
+						keys.add(key);
+						logger.warn(">> Unknown key \"" + key + "\" found in " + taskFile.getPath() + ". Please remove this key manually from the tasklist properties file.");
+					}
+				}
+				for (Object key : keys)
+					props.remove(key);
+				
 				LanguageAction.addMetadatasProperties(lang, props);
 				
 				for (String taskKey : mapOfTask.keySet()) {
