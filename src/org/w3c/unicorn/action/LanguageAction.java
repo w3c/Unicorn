@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.21 2010-03-05 14:06:08 tgambet Exp $
+// $Id: LanguageAction.java,v 1.22 2010-03-05 15:13:18 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -113,20 +113,23 @@ public class LanguageAction extends Action {
 					Templates.write("language.vm", velocityContext, writer);
 					writer.close(); return;
 				} else {
-					int missings = defaultProperties.size() - languageProperties.get(langParameter).size();
+					int missings = defaultProperties.size() - languageProperties.get(langParameter).size() + defaultMetadatas.size() - metadataProperties.get(langParameter).size();
 					
 					if (missings > 0)
-						messages.add(new Message(Message.INFO, "This translation lacks " + (defaultProperties.size() - languageProperties.get(langParameter).size()) + " properties. Help us to improve it."));
+						messages.add(new Message(Message.INFO, "This translation lacks " + missings + " properties. Help us to improve it."));
 					else 
 						messages.add(new Message(Message.INFO, "This translation is complete but you can help us to improve it if needed."));
 				}
 				if (req.getAttribute("submitted_props") != null) {
 					Properties submittedProps = (Properties) req.getAttribute("submitted_props");
 					velocityContext.put("prop", submittedProps);
-				} else {
+				} else
 					velocityContext.put("prop", languageProperties.get(langParameter));
+				if (req.getAttribute("submitted_metas") != null) {
+					Properties submittedMetas = (Properties) req.getAttribute("submitted_metas");
+					velocityContext.put("metadatas", submittedMetas);
+				} else
 					velocityContext.put("metadatas", metadataProperties.get(langParameter));
-				}
 			} else if (Language.isISOLanguageCode(langParameter)) {
 				Locale locale = Language.getLocale(langParameter);
 				if (locale == null) {
@@ -256,6 +259,7 @@ public class LanguageAction extends Action {
 				messages.add(new Message(Message.WARNING, "Please enter your name and your email address so we can contact you."));
 				req.setAttribute("messages", messages);
 				req.setAttribute("submitted_props", langProps);
+				req.setAttribute("submitted_metas", metaProps);
 				req.setAttribute("translator_name", req.getParameter("translator_name"));
 				req.setAttribute("translator_mail", req.getParameter("translator_mail"));
 				req.setAttribute("translator_comments", req.getParameter("translator_comments"));
@@ -271,6 +275,7 @@ public class LanguageAction extends Action {
 				messages.add(new Message(Message.WARNING, "The email address you entered is invalid."));
 				req.setAttribute("messages", messages);
 				req.setAttribute("submitted_props", langProps);
+				req.setAttribute("submitted_metas", metaProps);
 				req.setAttribute("translator_name", req.getParameter("translator_name"));
 				req.setAttribute("translator_mail", req.getParameter("translator_mail"));
 				req.setAttribute("translator_comments", req.getParameter("translator_comments"));
