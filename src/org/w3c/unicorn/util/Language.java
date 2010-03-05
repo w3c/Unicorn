@@ -56,10 +56,10 @@ public class Language {
 	}
 
 	public static void complete(Properties props, Properties defaultProps) {
-		props.put("complete", "true");
+		//props.put("complete", "true");
 		for (Object key : defaultProps.keySet()) {
-			if (!props.containsKey(key)) {
-				props.put("complete", "false");
+			if (!props.containsKey(key) && key != "complete") {
+				//props.put("complete", "false");
 				//props.put(key, "<span dir=\"" + defaultProps.get("direction") + "\" xml:lang=\"" + defaultProps.get("lang") + "\">" + defaultProps.get(key) + "</span>");
 				props.put(key, defaultProps.get(key));
 				Framework.logger.warn(">> Missing property in " + props.getProperty("lang") + ".properties for key: \"" + (String) key + "\". Added default property for this key: \"" + defaultProps.get(key) + "\""); 
@@ -105,17 +105,25 @@ public class Language {
 
 	public static boolean isComplete(String langParameter) {
 		Properties testedProps = Framework.getLanguageProperties().get(langParameter);
+		Properties testedMetadataProps = Framework.getMetadataProperties().get(langParameter);
 		
 		if (testedProps.get("complete") == null) {
 			for (Object key : Framework.getLanguageProperties().get(Property.get("DEFAULT_LANGUAGE")).keySet()) {
-				if (!testedProps.containsKey(key)) {
+				if (!testedProps.containsKey(key) && key != "complete") {
+					testedProps.put("complete", "false");
+					return false;
+				}
+			}
+			for (Object key : Framework.getMetadataProperties().get(Property.get("DEFAULT_LANGUAGE")).keySet()) {
+				if (!testedMetadataProps.containsKey(key)) {
 					testedProps.put("complete", "false");
 					return false;
 				}
 			}
 			return true;
-		} else
+		} else {
 			return testedProps.get("complete").equals("true");
+		}
 	}
 	
 	public static String evaluate(String lang, String messageKey, String... args) {
