@@ -270,7 +270,7 @@
 			</parameter>
 			<parameter name="profile" type="dropdown" ui="advanced" observer="css-validator" default="css21"/>
 			<parameter name="warning" type="dropdown" ui="advanced" observer="css-validator" default="2"/>
-			<parameter name="usermedium" type="checkboxlist" ui="advanced" observer="css-validator" default="screen"/>
+			<parameter name="usermedium" type="dropdown" ui="advanced" observer="css-validator" default="screen"/>
 		</parameters>
 
 		<output>
