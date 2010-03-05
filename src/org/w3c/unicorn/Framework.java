@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.31 2010-03-05 09:48:31 tgambet Exp $
+// $Id: Framework.java,v 1.32 2010-03-05 13:48:42 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -107,6 +107,7 @@ public class Framework {
 		mapOfObserver = new LinkedHashMap<String, Observer>();
 		responseImpl = new LinkedHashMap<String, Class<Response>>();
 		LanguageAction.setLanguageProperties(new TreeMap<String, Properties>());
+		LanguageAction.setMetadataProperties(new TreeMap<String, Properties>());
 	}
 	
 	/**
@@ -364,6 +365,7 @@ public class Framework {
 		try{
 			UCNProperties defaultProps = Language.load(defaultTaskFile);
 			logger.debug("> Found default tasks metadata file: " + defaultTaskFile.getPath());
+			LanguageAction.setDefaultMetadatas(defaultProps);
 			for (String taskKey : mapOfTask.keySet()) {
 				Task task = mapOfTask.get(taskKey);
 				if (defaultProps.containsKey(taskKey)) 
@@ -415,6 +417,7 @@ public class Framework {
 			try {
 				UCNProperties props = Language.load(taskFile);
 				logger.debug("> Found tasks metadata file: " + taskFile.getPath());
+				LanguageAction.addMetadatasProperties(lang, props);
 				
 				for (String taskKey : mapOfTask.keySet()) {
 					Task task = mapOfTask.get(taskKey);
@@ -491,6 +494,12 @@ public class Framework {
 				Language.complete(props, defaultProps);
 				props.parse();
 				languageProperties.put(props.getProperty("lang"), props);
+				if (!LanguageAction.getMetadataProperties().containsKey(props.getProperty("lang"))) {
+					UCNProperties metaProps = new UCNProperties();
+					metaProps.put("lang", props.getProperty("lang"));
+					metaProps.put("language", props.getProperty("language"));
+					LanguageAction.getMetadataProperties().put(props.getProperty("lang"), metaProps);
+				}
 			} catch (IllegalArgumentException e) {
 				logger.warn(e.getMessage());
 			} catch (FileNotFoundException e) {

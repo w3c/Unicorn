@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.19 2009-10-13 15:10:41 tgambet Exp $
+// $Id: LanguageAction.java,v 1.20 2010-03-05 13:48:42 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -50,7 +50,11 @@ public class LanguageAction extends Action {
 	
 	private static TreeMap<String, Properties> languageProperties;
 	
+	private static TreeMap<String, Properties> metadataProperties;
+	
 	private static TreeMap<String, String> defaultProperties = new TreeMap<String, String>();
+	
+	private static TreeMap<String, String> defaultMetadatas = new TreeMap<String, String>();
 	
 	private static TreeMap<String, String> availableLocales;
 
@@ -95,6 +99,9 @@ public class LanguageAction extends Action {
 		velocityContext.put("languageProps", languageProperties);
 		velocityContext.put("defaultProps", defaultProperties);
 		
+		velocityContext.put("metadataProps", metadataProperties);
+		velocityContext.put("defaultMetadata", defaultMetadatas);
+		
 		PrintWriter writer = resp.getWriter();
 		String langParameter = req.getParameter(Property.get("UNICORN_PARAMETER_PREFIX") + "lang");
 		if (langParameter == null || req.getAttribute("submitted") != null)
@@ -118,6 +125,7 @@ public class LanguageAction extends Action {
 					velocityContext.put("prop", submittedProps);
 				} else {
 					velocityContext.put("prop", languageProperties.get(langParameter));
+					velocityContext.put("metadatas", metadataProperties.get(langParameter));
 				}
 			} else if (Language.isISOLanguageCode(langParameter)) {
 				Locale locale = Language.getLocale(langParameter);
@@ -130,6 +138,7 @@ public class LanguageAction extends Action {
 							+ Language.getLocale(langParameter).getDisplayLanguage(Locale.ENGLISH) 
 							+ ". You can submit a full or a partial translation."));
 					velocityContext.put("prop", createProperties(langParameter));
+					velocityContext.put("metadatas", createProperties(langParameter));
 				}
 			} else {
 				messages.add(new Message(Message.ERROR, "$message_invalid_requested_language", null, langParameter));
@@ -165,18 +174,30 @@ public class LanguageAction extends Action {
 			return;
 		} else {
 			UCNProperties langProps;
-			if (languageProperties.get(languageParameter) == null) {
-				langProps = createProperties(languageParameter);
-				contextObjects.put("new_translation", true);
-				if (langProps == null) {
+			UCNProperties metaProps;
+			if (languageProperties.get(languageParameter) == null || metadataProperties.get(languageParameter) == null) {
+				if (languageProperties.get(languageParameter) == null) {
+					langProps = createProperties(languageParameter);
+					contextObjects.put("new_interface_translation", true);
+				} else
+					langProps = (UCNProperties) languageProperties.get(languageParameter).clone();
+				if (metadataProperties.get(languageParameter) == null) {
+					metaProps = createProperties(languageParameter);
+					contextObjects.put("new_tasklist_translation", true);
+				} else
+					metaProps = (UCNProperties) metadataProperties.get(languageParameter).clone();
+				
+				if (langProps == null || metaProps == null) {
 					doGet(req, resp);
 					return;
 				}
-			} else
+			} else {
 				langProps = (UCNProperties) languageProperties.get(languageParameter).clone();
+				metaProps = (UCNProperties) metadataProperties.get(languageParameter).clone();
+			}
 			
-			StringBuilder changeLog = new StringBuilder();
-			boolean changed = false;
+			StringBuilder interfaceChangeLog = new StringBuilder();
+			boolean interfaceChanged = false;
 			for (Object obj : req.getParameterMap().keySet()) {
 				String paramKey = (String) obj;
 				String key;
@@ -186,18 +207,40 @@ public class LanguageAction extends Action {
 					key = paramKey.replace(languageParameter + "_", "");
 				
 				if (!req.getParameter(paramKey).equals("") && !req.getParameter(paramKey).equals(langProps.getProperty(key))) {
-					changed = true;
+					interfaceChanged = true;
 					
-					changeLog.append("\n" + key + ":\n");
-					changeLog.append("\t + " + req.getParameter(paramKey) + "\n");
+					interfaceChangeLog.append("\n" + key + ":\n");
+					interfaceChangeLog.append("\t + " + req.getParameter(paramKey) + "\n");
 					if (langProps.getProperty(key) != null)
-						changeLog.append("\t - " + langProps.getProperty(key) + "\n");
+						interfaceChangeLog.append("\t - " + langProps.getProperty(key) + "\n");
 					
 					langProps.put(key, req.getParameter(paramKey));
 				}
 			}
 			
-			if (!changed) {
+			StringBuilder tasklistChangeLog = new StringBuilder();
+			boolean tasklistChanged = false;
+			for (Object obj : req.getParameterMap().keySet()) {
+				String paramKey = (String) obj;
+				String key;
+				if (!paramKey.startsWith("metadata_" + languageParameter + "_"))
+					continue;
+				else
+					key = paramKey.replace("metadata_" + languageParameter + "_", "");
+				
+				if (!req.getParameter(paramKey).equals("") && !req.getParameter(paramKey).equals(metaProps.getProperty(key))) {
+					tasklistChanged = true;
+					
+					tasklistChangeLog.append("\n" + key + ":\n");
+					tasklistChangeLog.append("\t + " + req.getParameter(paramKey) + "\n");
+					if (metaProps.getProperty(key) != null)
+						tasklistChangeLog.append("\t - " + metaProps.getProperty(key) + "\n");
+					
+					metaProps.put(key, req.getParameter(paramKey));
+				}
+			}
+			
+			if (!interfaceChanged || !tasklistChanged) {
 				MessageList messages = new MessageList();
 				messages.add(new Message(Message.WARNING, "You haven't made any changes."));
 				req.setAttribute("messages", messages);
@@ -239,17 +282,31 @@ public class LanguageAction extends Action {
 			contextObjects.put("translator_mail", req.getParameter("translator_mail"));
 			contextObjects.put("translator_comments", req.getParameter("translator_comments"));
 			contextObjects.put("language", Language.getLocale(languageParameter).getDisplayLanguage(Locale.ENGLISH));
-			contextObjects.put("changeLog", changeLog);
+			contextObjects.put("interfaceChangeLog", interfaceChangeLog);
+			contextObjects.put("tasklistChangeLog", tasklistChangeLog);
 			
 			langProps.remove("lang");
 			langProps.remove("language");
+			metaProps.remove("lang");
+			metaProps.remove("language");
 			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
-			langProps.store(osw, "Submitted by " + req.getParameter("translator_name") + " <" + req.getParameter("translator_mail") + ">");
-			osw.close();
-			baos.close();
-			contextObjects.put("properties", baos.toString("UTF-8"));
+			if (interfaceChanged) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
+				langProps.store(osw, "Submitted by " + req.getParameter("translator_name") + " <" + req.getParameter("translator_mail") + ">");
+				osw.close();
+				baos.close();
+				contextObjects.put("interfaceProperties", baos.toString("UTF-8"));
+			}
+			
+			if (tasklistChanged) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
+				metaProps.store(osw, "Submitted by " + req.getParameter("translator_name") + " <" + req.getParameter("translator_mail") + ">");
+				osw.close();
+				baos.close();
+				contextObjects.put("tasklistProperties", baos.toString("UTF-8"));
+			}
 			
 			MessageList messages = new MessageList();
 			messages.add(new Message(Message.INFO, "Thank you for your submission."));
@@ -260,12 +317,22 @@ public class LanguageAction extends Action {
 			String[] recipients = {Property.getProps("mail.properties").getProperty("unicorn.mail.language.to"), req.getParameter("translator_mail")};
 			String subject = "Unicorn - Translation in " + contextObjects.get("language") + " (submitted by " + req.getParameter("translator_name") + ")";
 			
-			OutputFormater mainOutputFormater = new SimpleOutputFormater("language.mail", Property.get("DEFAULT_LANGUAGE"), "text/plain");
-			OutputFormater fileOutputFormater = new FileOutputFormater("language.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter + ".properties");
-			
 			List<OutputFormater> outputFormaters = new ArrayList<OutputFormater>();
+			
+			OutputFormater mainOutputFormater = new SimpleOutputFormater("language.mail", Property.get("DEFAULT_LANGUAGE"), "text/plain");
 			outputFormaters.add(mainOutputFormater);
-			outputFormaters.add(fileOutputFormater);
+			
+			OutputFormater fileOutputFormater;
+			if (interfaceChanged) {
+				fileOutputFormater = new FileOutputFormater("language.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter + ".properties");
+				outputFormaters.add(fileOutputFormater);
+			}
+			
+			OutputFormater fileOutputFormater2;
+			if (tasklistChanged) {
+				fileOutputFormater2 = new FileOutputFormater("tasklist.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter + ".tasklist.properties");
+				outputFormaters.add(fileOutputFormater2);
+			}
 			
 			Mail mailer = new Mail();
 			try {
@@ -322,4 +389,31 @@ public class LanguageAction extends Action {
 		LanguageAction.availableLocales = availableLocales;
 	}
 
+	public static TreeMap<String, Properties> getMetadataProperties() {
+		return metadataProperties;
+	}
+
+	public static void setMetadataProperties(
+			TreeMap<String, Properties> metadataProperties) {
+		LanguageAction.metadataProperties = metadataProperties;
+	}
+
+	public static TreeMap<String, String> getDefaultMetadatas() {
+		return defaultMetadatas;
+	}
+
+	public static void setDefaultMetadatas(TreeMap<String, String> defaultMetadatas) {
+		LanguageAction.defaultMetadatas = defaultMetadatas;
+	}
+
+	public static void setDefaultMetadatas(Properties defaultProperties) {
+		for (Object obj : defaultProperties.keySet()) {
+			String key = (String) obj;
+			LanguageAction.defaultMetadatas.put(key, defaultProperties.getProperty(key));
+		}
+	}
+	
+	public static void addMetadatasProperties(String lang, Properties props) {
+		metadataProperties.put(lang, (Properties) props.clone());
+	}
 }
