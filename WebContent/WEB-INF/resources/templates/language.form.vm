@@ -30,7 +30,7 @@
 				<thead>
 					<tr>
 						<th scope="col" class="first_col">$defaultProps.get("language") properties</th>
-						#set($percent = 100 * $math.div($math.sub($prop.size(), 2), $math.sub($defaultProps.size(), 2)))
+						#set($percent = 100 * $math.div($math.sub($math.add($prop.size(), $metadatas.size()), 4), $math.sub($math.add($defaultProps.size(), $defaultMetadata.size()), 4)))
 						<th scope="col">$prop.get("language") $percent.intValue()%</th>
 					</tr>
 				</thead>
@@ -43,11 +43,28 @@
 						</tr>
 						#end
 					#end
+					#foreach($key in $defaultMetadata.keySet())
+						#if (!$metadatas.get($key) && $key != "lang" && $key != "language")
+						<tr>
+							<th class="property_name" scope="row">$key <p>$!esc.html($defaultMetadata.get($key))</p></th>
+							<td class="missing"><input type="text" name="metadata_$metadatas.get('lang')_$key" value="$!esc.html($!metadatas.get($key))" /></td>
+						</tr>
+						#end
+					#end
+					
 					#foreach($key in $defaultProps.keySet())
 						#if ($key != "lang" && $key != "language" && $prop.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
 							<td #if(!$prop.get($key))class="missing"#end><input type="text" name="$prop.get('lang')_$key" value="$!esc.html($!prop.get($key))" /></td>
+						</tr>
+						#end
+					#end
+					#foreach($key in $defaultMetadata.keySet())
+						#if ($key != "lang" && $key != "language" && $metadatas.get($key))
+						<tr>
+							<th class="property_name" scope="row">$key <p>$!esc.html($defaultMetadata.get($key))</p></th>
+							<td #if(!$metadatas.get($key))class="missing"#end><input type="text" name="metadata_$metadatas.get('lang')_$key" value="$!esc.html($!metadatas.get($key))" /></td>
 						</tr>
 						#end
 					#end
