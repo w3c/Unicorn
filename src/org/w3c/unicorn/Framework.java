@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.33 2010-03-05 14:28:08 tgambet Exp $
+// $Id: Framework.java,v 1.34 2010-03-05 15:11:45 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -91,6 +91,7 @@ public class Framework {
 	private static Hashtable<String, Properties> unicornPropertiesFiles;
 	private static Hashtable<String, VelocityContext> languageContexts;
 	private static Hashtable<String, Properties> languageProperties;
+	private static Hashtable<String, Properties> metadataProperties;
 	private static TreeMap<String, String> languages;
 	private static VelocityEngine velocityEngine;
 	private static String[] configFiles = {
@@ -104,6 +105,7 @@ public class Framework {
 		unicornPropertiesFiles = new Hashtable<String, Properties>();
 		languageContexts = new Hashtable<String, VelocityContext>();
 		languageProperties = new Hashtable<String, Properties>();
+		metadataProperties = new Hashtable<String, Properties>();
 		languages = new TreeMap<String, String>();
 		mapOfObserver = new LinkedHashMap<String, Observer>();
 		responseImpl = new LinkedHashMap<String, Class<Response>>();
@@ -368,6 +370,7 @@ public class Framework {
 			defaultProps = Language.load(defaultTaskFile);
 			logger.debug("> Found default tasks metadata file: " + defaultTaskFile.getPath());
 			LanguageAction.setDefaultMetadatas(defaultProps);
+			metadataProperties.put(Property.get("DEFAULT_LANGUAGE"), defaultProps);
 			for (String taskKey : mapOfTask.keySet()) {
 				Task task = mapOfTask.get(taskKey);
 				if (defaultProps.containsKey(taskKey)) 
@@ -431,6 +434,7 @@ public class Framework {
 					props.remove(key);
 				
 				LanguageAction.addMetadatasProperties(lang, props);
+				metadataProperties.put(lang, props);
 				
 				for (String taskKey : mapOfTask.keySet()) {
 					Task task = mapOfTask.get(taskKey);
@@ -512,6 +516,7 @@ public class Framework {
 					metaProps.put("lang", props.getProperty("lang"));
 					metaProps.put("language", props.getProperty("language"));
 					LanguageAction.getMetadataProperties().put(props.getProperty("lang"), metaProps);
+					metadataProperties.put(props.getProperty("lang"), metaProps);
 				}
 			} catch (IllegalArgumentException e) {
 				logger.warn(e.getMessage());
@@ -609,6 +614,9 @@ public class Framework {
 	}
 	public static Hashtable<String, Properties> getLanguageProperties() {
 		return languageProperties;
+	}
+	public static Hashtable<String, Properties> getMetadataProperties() {
+		return metadataProperties;
 	}
 	public static Task getDefaultTask() {
 		return mapOfTask.getDefaultTask();
