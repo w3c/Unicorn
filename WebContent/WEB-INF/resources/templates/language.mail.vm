@@ -1,6 +1,11 @@
-#if(${new_translation})
-New translation in $language#else
-Updated $language translation#end
+#if(${new_interface_translation})
+New interface translation in $language
+#else
+Updated interface $language translation
+#end
+#if(${new_tasklist_translation})
+New tasklist translation in $language#else
+Updated tasklist $language translation#end
 
 Submitter: $translator_name <$translator_mail>
 #if($translator_comments)
@@ -9,6 +14,10 @@ $translator_comments
 #end
 
 -----------------------------------------------
-ChangeLog:
-
-$changeLog
+Interface ChangeLog:
+-----------------------------------------------
+$interfaceChangeLog
+-----------------------------------------------
+Tasklist ChangeLog:
+-----------------------------------------------
+$tasklistChangeLog
