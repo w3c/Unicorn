@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.20 2010-03-05 13:48:42 tgambet Exp $
+// $Id: LanguageAction.java,v 1.21 2010-03-05 14:06:08 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -240,7 +240,7 @@ public class LanguageAction extends Action {
 				}
 			}
 			
-			if (!interfaceChanged || !tasklistChanged) {
+			if (!interfaceChanged && !tasklistChanged) {
 				MessageList messages = new MessageList();
 				messages.add(new Message(Message.WARNING, "You haven't made any changes."));
 				req.setAttribute("messages", messages);
@@ -284,6 +284,8 @@ public class LanguageAction extends Action {
 			contextObjects.put("language", Language.getLocale(languageParameter).getDisplayLanguage(Locale.ENGLISH));
 			contextObjects.put("interfaceChangeLog", interfaceChangeLog);
 			contextObjects.put("tasklistChangeLog", tasklistChangeLog);
+			contextObjects.put("interfaceChanged", interfaceChanged);
+			contextObjects.put("tasklistChanged", tasklistChanged);
 			
 			langProps.remove("lang");
 			langProps.remove("language");
