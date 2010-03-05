@@ -47,7 +47,7 @@
 		</routine>
 
 		<parameters>
-			<parameter name="warning" type="radio" default="no">
+			<parameter name="warning" type="dropdown" default="no">
 				<value name="no">
 					<mapped param="warning" observer="css1-validator"
 						value="no" />
