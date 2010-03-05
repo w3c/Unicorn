@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.30 2010-03-04 18:18:21 tgambet Exp $
+// $Id: Framework.java,v 1.31 2010-03-05 09:48:31 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -39,7 +39,6 @@ import org.w3c.unicorn.contract.WADLUnmarshaller;
 import org.w3c.unicorn.contract.WADLUnmarshallerXPath;
 import org.w3c.unicorn.exceptions.InitializationFailedException;
 import org.w3c.unicorn.exceptions.UnknownParserException;
-import org.w3c.unicorn.tasklist.RDFUnmarshallerJena;
 import org.w3c.unicorn.tasklist.Task;
 import org.w3c.unicorn.tasklist.TaskListUnmarshallerBeans;
 import org.w3c.unicorn.tasklist.Tasklist;
@@ -51,8 +50,6 @@ import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UCNProperties;
 import org.w3c.unicorn.response.Response;
-
-import com.hp.hpl.jena.rdf.model.Model;
 
 /**
  * Main class of the central module of UniCORN.
@@ -221,44 +218,6 @@ public class Framework {
 				return null;
 			}
 		});
-		
-		// Initialize RDFUnmarshallerJena
-		logger.debug("-------------------------------------------------------");
-		logger.debug("Initializing RDFUnmarshallerJena");
-		
-		try {
-			FileInputStream fis = new FileInputStream(Property.get("TASKLIST_RDF_MODEL"));
-			RDFUnmarshallerJena.getModel().read(fis, null);
-			logger.debug("> Used model: " + Property.get("TASKLIST_RDF_MODEL"));
-		} catch (FileNotFoundException e) {
-			logger.fatal("The tasklist rdf model could not be found: " + Property.get("TASKLIST_RDF_MODEL"));
-			return;
-		}
-		Model model = RDFUnmarshallerJena.getModel();
-		String namespace = RDFUnmarshallerJena.getUcnNamespace();
-		// define resource use to find information into the RDF graph
-		RDFUnmarshallerJena.setRESOURCE_TASK(model.getProperty(
-				namespace + "Task"));
-		// define property use to find information into the RDF graph
-		RDFUnmarshallerJena.setPROPERTY_DESCRIPTION(model.getProperty(
-				namespace + "description"));
-		RDFUnmarshallerJena.setPROPERTY_HASPARAMETER(model.getProperty(
-				namespace + "hasParameter"));
-		RDFUnmarshallerJena.setPROPERTY_HASVALUE(model.getProperty(
-				namespace + "hasValue"));
-		RDFUnmarshallerJena.setPROPERTY_LONGNAME(model.getProperty(
-				namespace + "longName"));
-		RDFUnmarshallerJena.setPROPERTY_PARAMETER(model.getProperty(
-				namespace + "parameter"));
-		RDFUnmarshallerJena.setPROPERTY_REFERENCE(model.getProperty(
-				namespace + "reference"));
-		RDFUnmarshallerJena.setPROPERTY_DEFAULT(model.getProperty(
-				namespace + "default"));
-		RDFUnmarshallerJena.setPROPERTY_TYPE(model.getProperty(
-				"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
-		RDFUnmarshallerJena.setPROPERTY_VALUE(model.getProperty(
-				namespace + "value"));
-		logger.info("OK - RDFUnmarshallerJena successfully initialized.");
 	}
 	
 	@SuppressWarnings("unchecked")
