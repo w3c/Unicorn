@@ -1,4 +1,4 @@
-// $Id: w3c_unicorn_languages.js,v 1.5 2009-10-22 12:56:50 tgambet Exp $
+// $Id: w3c_unicorn_languages.js,v 1.6 2010-03-16 16:25:06 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 var W3C = {
@@ -60,13 +60,13 @@ var W3C = {
 		
 		} else {
 		
-			var tdOk = $$('#translations td.ok');
-			tdOk.each(function(element) {
+			var td = $$('#translations td');
+			td.each(function(element) {
 				var span = element.getElement('span'); 
 				element.store('tip:text', span.title);
 				span.removeProperty('title');
 			});
-			new Tips(tdOk);
+			new Tips(td);
 		}
 		
 	},
