@@ -66,12 +66,12 @@
 			#foreach($key in $defaultProps.keySet())
 				#if ($key != "lang" && $key != "language")
 				<tr>
-					<th class="property_name" scope="row">$key <p>$esc.html($defaultProps.get($key))</p></th>
+					<th class="property_name" scope="row">$key <p>$esc.xml($defaultProps.get($key))</p></th>
 					#foreach($prop in $languageProps)
 						#if($prop.get($key))
-						<td class="ok"><span xml:lang="$prop.get('lang')" #if($prop.get($key))title="$!esc.html($prop.get($key))"#end>✔</span></td>
+						<td class="ok"><span xml:lang="$prop.get('lang')" title="$!esc.xml($prop.get($key))">✔</span></td>
 						#{else}
-						<td class="missing"><span #if($prop.get($key))title="$!esc.html($prop.get($key))"#end><a href="./translations?ucn_lang=$prop.get('lang')">✘</a></span></td>
+						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultProps.get($key))&quot; in language &quot;$prop.get('language')&quot;"><a href="./translations?ucn_lang=$prop.get('lang')">✘</a></span></td>
 						#end
 					#end
 				</tr>
@@ -80,12 +80,12 @@
 			#foreach($key in $defaultMetadata.keySet())
 				#if ($key != "lang" && $key != "language")
 				<tr>
-					<th class="property_name" scope="row">$key <p>$esc.html($defaultMetadata.get($key))</p></th>
+					<th class="property_name" scope="row">$key <p>$esc.xml($defaultMetadata.get($key))</p></th>
 					#foreach($meta in $metadataProps)
 						#if($meta.get($key))
-						<td class="ok"><span xml:lang="$meta.get('lang')" #if($meta.get($key))title="$!esc.html($meta.get($key))"#end>✔</span></td>
+						<td class="ok"><span xml:lang="$meta.get('lang')" title="$!esc.xml($meta.get($key))">✔</span></td>
 						#{else}
-						<td class="missing"><span #if($meta.get($key))title="$!esc.html($meta.get($key))"#end><a href="./translations?ucn_lang=$meta.get('lang')">✘</a></span></td>
+						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultMetadata.get($key))&quot; in language &quot;$meta.get('language')&quot;"><a href="./translations?ucn_lang=$meta.get('lang')">✘</a></span></td>
 						#end
 					#end
 				</tr>
