@@ -1,4 +1,4 @@
-// $Id: UnicornClient.java,v 1.5 2009-10-06 08:20:52 tgambet Exp $
+// $Id: UnicornClient.java,v 1.6 2010-03-20 17:08:55 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -17,6 +17,7 @@ import org.w3c.unicorn.action.Action;
 import org.w3c.unicorn.input.URIInputParameter;
 import org.w3c.unicorn.output.OutputFactory;
 import org.w3c.unicorn.output.OutputModule;
+import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 
@@ -92,7 +93,7 @@ public class UnicornClient {
 				String paramName = param[0].substring(paramPrefix.length());
 				if (paramName.equals("lang")) {
 					outputParameters.put(paramName, param[1]);
-					messages.setLang(param[1]);
+					messages.setLocale(Language.getLocale(param[1]));
 					aUnicornCall.setLang(param[1] + "," + Property.get("DEFAULT_LANGUAGE"));
 				} else if (paramName.equals("task")) {
 					String task = Action.getTask(param[1], messages);
