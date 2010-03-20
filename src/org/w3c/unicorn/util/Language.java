@@ -7,72 +7,114 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Locale;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 
+import com.ibm.icu.util.LocaleMatcher;
+import com.ibm.icu.util.LocalePriorityList;
+import com.ibm.icu.util.ULocale;
+
 public class Language {
 	
-	public static boolean isISOLanguageCode(String languageCode) {
-		String[] isoCodes = Locale.getISOLanguages();
-		for (String code : isoCodes) {
-			if (code.equals(languageCode))
-				return true;
-		}
-		return false;
+	private static ULocale defaultLocale;
+	private static ArrayList<ULocale> uiLocales;
+	private static ArrayList<ULocale> availableLocales;
+	private static LocaleMatcher uiLocaleMatcher;
+	private static LocaleMatcher availableLocaleMatcher;
+	private static LocaleMatcher installedLocaleMatcher;
+	
+	public static void reset() {
+		defaultLocale = null;
+		uiLocales = null;
+		availableLocales = null;
+		uiLocaleMatcher = null;
+		availableLocaleMatcher = null;
+		installedLocaleMatcher = null;
 	}
 	
-	public static Locale getLocale(String languageCode) {
-		Locale[] locales= Locale.getAvailableLocales();
-		for (Locale locale : locales) {
-			if (locale.getLanguage().equals(languageCode))
-				return locale;
-		}
-		if (isISOLanguageCode(languageCode))
-			Framework.logger.warn("Missing locale: " + languageCode + ". This locale should be installed on the system in order to translate Unicorn in this language.");
-		return null;
-	}
-	
-	public static String negociate(Enumeration<?> locales) {
-		while (locales.hasMoreElements()) {
-			Locale loc = (Locale) locales.nextElement();
-			if (Framework.getLanguageProperties().containsKey(loc.getLanguage())) {
-				return loc.getLanguage();
+	public static void initLocaleMatcher(ULocale defaultLocale) {
+		Language.defaultLocale = defaultLocale;
+		availableLocales = new ArrayList<ULocale>();
+		
+		LocalePriorityList.Builder builder = LocalePriorityList.add(defaultLocale);
+		for (ULocale locale : ULocale.getAvailableLocales())
+			if (locale != defaultLocale)
+				builder = builder.add(locale);
+		LocalePriorityList installedLocalesPriorityList = builder.build();
+		installedLocaleMatcher = new LocaleMatcher(installedLocalesPriorityList);
+		
+		TreeMap<String, ULocale> availableLocalesTree = new TreeMap<String, ULocale>();
+		for (ULocale locale : ULocale.getAvailableLocales()) {
+			if (!availableLocalesTree.containsKey(locale.getLanguage())) {
+				availableLocalesTree.put(locale.getLanguage(), locale);
+				continue;
+			} else {
+				String localeName = locale.getLanguage() + "_" + locale.getScript();
+				if (!availableLocalesTree.get(locale.getLanguage()).getScript().equals(locale.getScript()) && !availableLocalesTree.containsKey(localeName))
+					availableLocalesTree.put(localeName, locale);
 			}
 		}
-		return Property.get("DEFAULT_LANGUAGE");
+		LocalePriorityList.Builder builder2 = LocalePriorityList.add(defaultLocale);
+		for (String key : availableLocalesTree.keySet()) {
+			availableLocales.add(availableLocalesTree.get(key));
+			if (availableLocalesTree.get(key) != defaultLocale)
+				builder2 = builder2.add(availableLocalesTree.get(key));
+		}
+		LocalePriorityList availableLocalesPriorityList = builder2.build();
+		availableLocaleMatcher = new LocaleMatcher(availableLocalesPriorityList);
+		sortByDisplayName(availableLocales);
 	}
 	
-	public static VelocityContext getContext(String langParameter) {
-		if (langParameter != null && Framework.getLanguageContexts().containsKey(langParameter))
-			return Framework.getLanguageContexts().get(langParameter);
+	public static void initUILocaleMatcher() {
+		LocalePriorityList.Builder builder = null;
+		builder = LocalePriorityList.add(defaultLocale);
+		for (ULocale locale : uiLocales)
+			if (locale != defaultLocale)
+				builder = builder.add(locale);
+		LocalePriorityList uiLocalesPriorityList = builder.build();
+		uiLocaleMatcher = new LocaleMatcher(uiLocalesPriorityList);
+		sortByDisplayName(uiLocales);
+	}
+	
+	public static ULocale getLocale(String languageCode) {
+		return installedLocaleMatcher.getBestMatch(languageCode);
+	}
+	
+	public static ULocale getUILocale(String languageCode) {
+		return uiLocaleMatcher.getBestMatch(languageCode);
+	}
+	
+	public static ULocale getAvailableLocale(String languageCode) {
+		return availableLocaleMatcher.getBestMatch(languageCode);
+	}
+	
+	public static VelocityContext getContext(ULocale localeParam) {
+		if (localeParam != null && Framework.getLanguageContexts().containsKey(localeParam))
+			return Framework.getLanguageContexts().get(localeParam);
 		else
-			return Framework.getLanguageContexts().get(Property.get("DEFAULT_LANGUAGE"));
+			return Framework.getLanguageContexts().get(defaultLocale);
 	}
 
-	public static void complete(Properties props, Properties defaultProps) {
-		//props.put("complete", "true");
+	public static void complete(Properties props, Properties defaultProps, String fileName) {
 		for (Object key : defaultProps.keySet()) {
 			if (!props.containsKey(key) && key != "complete") {
-				//props.put("complete", "false");
-				//props.put(key, "<span dir=\"" + defaultProps.get("direction") + "\" xml:lang=\"" + defaultProps.get("lang") + "\">" + defaultProps.get(key) + "</span>");
 				props.put(key, defaultProps.get(key));
-				Framework.logger.warn(">> Missing property in " + props.getProperty("lang") + ".properties for key: \"" + (String) key + "\". Added default property for this key: \"" + defaultProps.get(key) + "\""); 
+				Framework.logger.info(">> Missing property in " + fileName + " for key: \"" + (String) key + "\". Added default property for this key: \"" + defaultProps.get(key) + "\""); 
 			}
 		}
 	}
 	
-	public static void clean(UCNProperties props, UCNProperties defaultProps) {
+	public static void clean(UCNProperties props, UCNProperties defaultProps, String fileName) {
 		ArrayList<String> keys = new ArrayList<String>();
 		for (Object key : props.keySet()) {
 			if (!defaultProps.containsKey(key)) {
 				keys.add((String) key);
-				Framework.logger.error(">> Unexisting property in " + props.getProperty("lang") + ".properties for key: \"" + (String) key + "\". This property should be removed manually from the language file."); 
+				Framework.logger.warn(">> Inexistent property in " + fileName + " for key: \"" + (String) key + "\". This property should be removed manually from the language file."); 
 			}
 		}
 		for (String key : keys)
@@ -80,21 +122,12 @@ public class Language {
 	}
 	
 	public static UCNProperties load(File langFile) throws IllegalArgumentException, FileNotFoundException, IOException {
-
-		String localeString = langFile.getName().split("\\.")[0];
-		if (!Language.isISOLanguageCode(localeString))
-			throw new IllegalArgumentException("Invalid language file: " + langFile + ". " + localeString + " is not a valid ISO language code. This file will not be loaded.");
-
-		Locale locale = Language.getLocale(localeString);
-		
 		FileInputStream fis = new FileInputStream(langFile);
 		InputStreamReader isr;
 		try {
 			isr = new InputStreamReader(fis, "UTF-8");
 			UCNProperties props = new UCNProperties();
 			props.load(isr);
-			props.put("lang", localeString);
-			props.put("language", StringUtils.capitalize(locale.getDisplayLanguage(locale)));
 			return props;
 		} catch (UnsupportedEncodingException e) {
 			// This should not happen
@@ -102,19 +135,33 @@ public class Language {
 			return null;
 		}
 	}
-
-	public static boolean isComplete(String langParameter) {
-		Properties testedProps = Framework.getLanguageProperties().get(langParameter);
-		Properties testedMetadataProps = Framework.getMetadataProperties().get(langParameter);
+	
+	public static ULocale getLocaleFromFileName(String fileName) throws IllegalArgumentException{
+		String localeString = fileName.split("\\.")[0];
+		ULocale locale = Language.getLocale(localeString);
+		if (locale == null) {
+			throw new IllegalArgumentException("Locale not found for file name: " + fileName);
+		} else if (!availableLocales.contains(locale)) {
+			throw new IllegalArgumentException("Locale for file name: " + fileName + " is not a Unicorn available locale.");
+		}
+		return locale;
+	}
+	
+	public static boolean isComplete(ULocale localeParam) {
+		Properties testedProps = Framework.getLanguageProperties().get(localeParam);
+		Properties testedMetadataProps = Framework.getMetadataProperties().get(localeParam);
+		
+		if (testedProps == null)
+			return false;
 		
 		if (testedProps.get("complete") == null) {
-			for (Object key : Framework.getLanguageProperties().get(Property.get("DEFAULT_LANGUAGE")).keySet()) {
+			for (Object key : Framework.getLanguageProperties().get(defaultLocale).keySet()) {
 				if (!testedProps.containsKey(key) && key != "complete") {
 					testedProps.put("complete", "false");
 					return false;
 				}
 			}
-			for (Object key : Framework.getMetadataProperties().get(Property.get("DEFAULT_LANGUAGE")).keySet()) {
+			for (Object key : Framework.getMetadataProperties().get(defaultLocale).keySet()) {
 				if (!testedMetadataProps.containsKey(key)) {
 					testedProps.put("complete", "false");
 					return false;
@@ -155,15 +202,41 @@ public class Language {
 		}
 		return result;
 	}
+	
+	public static String getLocaleDirection(ULocale locale) {
+		if (locale.getLineOrientation().equals("left-to-right"))
+			return "ltr";
+		if (locale.getLineOrientation().equals("right-to-left"))
+			return "rtl";
+		return "ltr";
+	}
+	
+	private static void sortByDisplayName(ArrayList<ULocale> localeArray) {
+		Collections.sort(localeArray, new Comparator<ULocale>() {
+			public int compare(ULocale l1, ULocale l2) {
+				String loc1 = l1.getDisplayName(l1);
+				String loc2 = l2.getDisplayName(l2);
+				return loc1.compareToIgnoreCase(loc2);
+			}
+		});
+	}
+	
+	public static ULocale getDefaultLocale() {
+		return defaultLocale;
+	}
 
-	public static TreeMap<String, String> getAvailablesLocales() {
-		Locale[] locales= Locale.getAvailableLocales();
-		TreeMap<String, String> result = new TreeMap<String, String>();
-		for (Locale loc : locales) {
-			if (!loc.getLanguage().equals(Property.get("DEFAULT_LANGUAGE")))
-				result.put(loc.getLanguage(), StringUtils.capitalize(loc.getDisplayLanguage(loc)));
-		}
-		return result;
+	public static void addUiLocale(ULocale locale) {
+		if (uiLocales == null)
+			uiLocales = new ArrayList<ULocale>();
+		uiLocales.add(locale);
+	}
+
+	public static ArrayList<ULocale> getUiLocales() {
+		return uiLocales;
+	}
+
+	public static ArrayList<ULocale> getAvailableLocales() {
+		return availableLocales;
 	}
 	
 }
