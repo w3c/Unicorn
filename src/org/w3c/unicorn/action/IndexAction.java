@@ -1,4 +1,4 @@
-// $Id: IndexAction.java,v 1.25 2009-10-06 08:16:02 tgambet Exp $
+// $Id: IndexAction.java,v 1.26 2010-03-20 17:04:37 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -22,13 +22,11 @@ import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.Templates;
 
+import com.ibm.icu.util.ULocale;
+
 public class IndexAction extends Action {
 
 	private static final long serialVersionUID = 599055553694915687L;
-	
-	//private static Log logger = LogFactory.getLog(IndexAction.class);
-	
-	//private VelocityContext velocityContext;
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,13 +41,12 @@ public class IndexAction extends Action {
 		
 		resp.setContentType("text/html; charset=UTF-8");
 		
-		//ArrayList<Message> messages = new ArrayList<Message>();
-		MessageList messages = new MessageList(Property.get("DEFAULT_LANGUAGE"));
+		MessageList messages = new MessageList(Language.getDefaultLocale());
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
 		
 		String queryString = "./" + getQueryStringWithout(paramPrefix + "lang", req);
-		String lang = getLanguage((String) req.getParameter(paramPrefix + "lang"), req, messages);
-		messages.setLang(lang);
+		ULocale lang = getLanguage((String) req.getParameter(paramPrefix + "lang"), req, messages);
+		messages.setLocale(lang);
 		String task = getTask((String) req.getParameter(paramPrefix + "task"), null);
 		
 		VelocityContext velocityContext = new VelocityContext(Language.getContext(lang));
