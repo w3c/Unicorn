@@ -1,4 +1,4 @@
-// $Id: ObserveAction.java,v 1.56 2009-10-23 11:44:38 tgambet Exp $
+// $Id: ObserveAction.java,v 1.57 2010-03-20 17:07:20 tgambet Exp $
 // Author: Jean-Guilhem Rouel & Thomas GAMBET
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -37,6 +37,8 @@ import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.Framework;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * ObserveAction
@@ -140,8 +142,9 @@ public class ObserveAction extends Action {
 				String paramName = key.substring(paramPrefix.length());
 				if (paramName.equals("lang")) {
 					logger.trace("Lang parameter: " + key + " - " + (String) reqParams.get(key));
-					String lang = getLanguage((String) reqParams.get(key), req, null);
-					messages.setLang(lang);
+					ULocale locale = getLanguage((String) reqParams.get(key), req, null);
+					String lang = locale.getName();
+					messages.setLocale(locale);
 					mapOfOutputParameter.put(paramName, lang);
 					String aLocale = convertEnumerationToString(req.getLocales());		
 					if (null == aLocale)
@@ -199,8 +202,9 @@ public class ObserveAction extends Action {
 		
 		// Check that all mandatory parameters are set
 		if (!reqParams.containsKey(paramPrefix + "lang")) {
-			String lang = getLanguage(null, req, null);
-			messages.setLang(lang);
+			ULocale locale = getLanguage(null, req, null);
+			String lang = locale.getName();
+			messages.setLocale(locale);
 			reqParams.put(paramPrefix + "lang", getLanguage(null, req, null));
 			logger.debug("No language parameter found. Language negociation resolved language to: " + lang);
 			mapOfOutputParameter.put("lang", lang);
