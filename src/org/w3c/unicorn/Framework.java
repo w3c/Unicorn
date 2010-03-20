@@ -1,4 +1,4 @@
-// $Id: Framework.java,v 1.34 2010-03-05 15:11:45 tgambet Exp $
+// $Id: Framework.java,v 1.35 2010-03-20 17:11:11 tgambet Exp $
 // Author: Damien LEROY & Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -20,11 +20,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.TreeMap;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -51,6 +51,8 @@ import org.w3c.unicorn.util.ListFiles;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UCNProperties;
 import org.w3c.unicorn.response.Response;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Main class of the central module of UniCORN.
@@ -88,11 +90,10 @@ public class Framework {
 	 * True if initialization did not throw any exception
 	 */
 	public static boolean isUcnInitialized;
-	private static Hashtable<String, Properties> unicornPropertiesFiles;
-	private static Hashtable<String, VelocityContext> languageContexts;
-	private static Hashtable<String, Properties> languageProperties;
-	private static Hashtable<String, Properties> metadataProperties;
-	private static TreeMap<String, String> languages;
+	private static Hashtable<String, UCNProperties> unicornPropertiesFiles;
+	private static Hashtable<ULocale, VelocityContext> languageContexts;
+	private static Hashtable<ULocale, UCNProperties> languageProperties;
+	private static Hashtable<ULocale, UCNProperties> metadataProperties;
 	private static VelocityEngine velocityEngine;
 	private static String[] configFiles = {
 		"extensions.properties",
@@ -102,15 +103,13 @@ public class Framework {
 		"mail.properties"};
 
 	public static void reset() {
-		unicornPropertiesFiles = new Hashtable<String, Properties>();
-		languageContexts = new Hashtable<String, VelocityContext>();
-		languageProperties = new Hashtable<String, Properties>();
-		metadataProperties = new Hashtable<String, Properties>();
-		languages = new TreeMap<String, String>();
+		unicornPropertiesFiles = new Hashtable<String, UCNProperties>();
+		languageContexts = new Hashtable<ULocale, VelocityContext>();
+		languageProperties = new Hashtable<ULocale, UCNProperties>();
+		metadataProperties = new Hashtable<ULocale, UCNProperties>();
 		mapOfObserver = new LinkedHashMap<String, Observer>();
 		responseImpl = new LinkedHashMap<String, Class<Response>>();
-		LanguageAction.setLanguageProperties(new TreeMap<String, Properties>());
-		LanguageAction.setMetadataProperties(new TreeMap<String, Properties>());
+		Language.reset();
 	}
 	
 	/**
@@ -125,8 +124,8 @@ public class Framework {
 			initUnmarshallers();
 			initResponseImplementations();
 			initObservers();
-			initTasklists();
 			initLanguages();
+			initTasklists();
 			initVelocity();
 			isUcnInitialized = true;
 		} catch (InitializationFailedException e) {
@@ -330,6 +329,92 @@ public class Framework {
 		}
 	}
 	
+	public static void initLanguages() throws InitializationFailedException {	
+		
+		// Loading language files
+		logger.debug("-------------------------------------------------------");
+		logger.debug("Loading language files from language directory: " + Property.get("PATH_TO_LANGUAGE_FILES"));
+		ULocale defaultLocale = null;
+		for (ULocale locale : ULocale.getAvailableLocales()) {
+			if (locale.getName().equals(Property.get("DEFAULT_LANGUAGE"))) {
+				defaultLocale = locale;
+				break;
+			}
+		}
+		
+		if (defaultLocale == null)
+			throw new InitializationFailedException("Locale not found for default language in unicorn.properties: " + Property.get("DEFAULT_LANGUAGE"));
+	
+		Language.initLocaleMatcher(defaultLocale);	
+		
+		File defaultLanguageFile = new File(Property.get("PATH_TO_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".properties");
+		UCNProperties defaultProps = new UCNProperties();
+		try {
+			defaultProps = Language.load(defaultLanguageFile);
+			logger.debug("> Found language (default): " + defaultLocale.getName() + " - " + defaultLocale.getDisplayName(defaultLocale));
+			Language.addUiLocale(defaultLocale);
+			LanguageAction.addLanguageProperties(defaultLocale, defaultProps);
+			defaultProps.parse();
+			defaultProps.put("complete", "true");
+			languageProperties.put(defaultLocale, defaultProps);
+			UCNProperties metaProps = new UCNProperties();
+			LanguageAction.addMetadatasProperties(defaultLocale, metaProps);
+			metadataProperties.put(defaultLocale, metaProps);
+		} catch (IllegalArgumentException e) {
+			logger.warn(e.getMessage());
+		} catch (FileNotFoundException e) {
+			throw new InitializationFailedException("Default language file does not exist: " + defaultLanguageFile.getPath());
+		} catch (IOException e) {
+			throw new InitializationFailedException("Unable to read default language file " + defaultLanguageFile.getPath());
+		}
+		
+		File[] languageFiles = ListFiles.listFiles(Property.get("PATH_TO_LANGUAGE_FILES"), "\\.properties$");
+		
+		for (File langFile : languageFiles) {
+			if (langFile.equals(defaultLanguageFile))
+				continue;
+			try {
+				ULocale fileLocale = Language.getLocaleFromFileName(langFile.getName());
+				UCNProperties props = Language.load(langFile);
+				logger.debug("> Found language: " + fileLocale.getName() + " - " + fileLocale.getDisplayName(Language.getDefaultLocale()));
+				Language.addUiLocale(fileLocale);
+				Language.clean(props, defaultProps, langFile.getName());
+				LanguageAction.addLanguageProperties(fileLocale, props);
+				Language.complete(props, defaultProps, langFile.getName());
+				props.parse();
+				languageProperties.put(fileLocale, props);
+				UCNProperties metaProps = new UCNProperties();
+				LanguageAction.addMetadatasProperties(fileLocale, metaProps);
+				metadataProperties.put(fileLocale, metaProps);
+			} catch (IllegalArgumentException e) {
+				logger.warn(e.getMessage());
+			} catch (FileNotFoundException e) {
+				// Should not happen
+				logger.error(e.getMessage(), e);
+			} catch (IOException e) {
+				logger.error("Unable to read language file " + langFile + ". This file will be skiped.");
+			}
+		}
+		
+		Language.initUILocaleMatcher();	
+		
+		if (languageProperties.size() == 0) {
+			throw new InitializationFailedException("No language have been loaded. Check language files in: " + Property.get("PATH_TO_LANGUAGE_FILES"));
+		} else {
+			String s = "Language properties:";
+			for (ULocale localeKey : languageProperties.keySet()) {
+				Properties props = languageProperties.get(localeKey);
+				s += "\n\n\t" + localeKey.getDisplayName(Language.getDefaultLocale()) + ":";
+				for (Object langKey : props.keySet()) {
+					s += "\n\t\t" + langKey + " => " + props.getProperty((String) langKey); 
+				}
+			}
+			logger.debug(s);
+			logger.info("OK - " + languageProperties.size() + " language(s) successfully loaded.");
+		}
+		
+	}
+	
 	public static void initTasklists() throws InitializationFailedException {	
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Loading xml task files from tasklist directory: " + Property.get("PATH_TO_TASKLIST"));
@@ -363,14 +448,14 @@ public class Framework {
 		logger.debug("Loading tasks metadata files from tasks language directory: " + Property.get("PATH_TO_TASK_LANGUAGE_FILES"));
 		
 		File defaultTaskFile = new File(Property.get("PATH_TO_TASK_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".tasklist.properties");
-		String defaultLang = Property.get("DEFAULT_LANGUAGE");
+		String defaultLang = Language.getDefaultLocale().getName();
 		
 		UCNProperties defaultProps = null;
 		try{
 			defaultProps = Language.load(defaultTaskFile);
 			logger.debug("> Found default tasks metadata file: " + defaultTaskFile.getPath());
-			LanguageAction.setDefaultMetadatas(defaultProps);
-			metadataProperties.put(Property.get("DEFAULT_LANGUAGE"), defaultProps);
+			LanguageAction.addMetadatasProperties(Language.getDefaultLocale(), defaultProps);
+			metadataProperties.put(Language.getDefaultLocale(), defaultProps);
 			for (String taskKey : mapOfTask.keySet()) {
 				Task task = mapOfTask.get(taskKey);
 				if (defaultProps.containsKey(taskKey)) 
@@ -415,11 +500,11 @@ public class Framework {
 		File[] taskFiles = ListFiles.listFiles(Property.get("PATH_TO_TASK_LANGUAGE_FILES"), "\\.tasklist.properties$");
 		
 		for (File taskFile : taskFiles) {
-			String lang = taskFile.getName().split("\\.")[0];
-			
 			if (taskFile.equals(defaultTaskFile))
 				continue;
 			try {
+				ULocale fileLocale = Language.getLocaleFromFileName(taskFile.getName());
+				String lang = fileLocale.getName();
 				UCNProperties props = Language.load(taskFile);
 				logger.debug("> Found tasks metadata file: " + taskFile.getPath());
 				
@@ -433,8 +518,8 @@ public class Framework {
 				for (Object key : keys)
 					props.remove(key);
 				
-				LanguageAction.addMetadatasProperties(lang, props);
-				metadataProperties.put(lang, props);
+				LanguageAction.addMetadatasProperties(fileLocale, props);
+				metadataProperties.put(fileLocale, props);
 				
 				for (String taskKey : mapOfTask.keySet()) {
 					Task task = mapOfTask.get(taskKey);
@@ -472,87 +557,11 @@ public class Framework {
 		}
 	}
 	
-	public static void initLanguages() throws InitializationFailedException {	
-		// Loading language files
-		logger.debug("-------------------------------------------------------");
-		logger.debug("Loading language files from language directory: " + Property.get("PATH_TO_LANGUAGE_FILES"));
-		if (!Language.isISOLanguageCode(Property.get("DEFAULT_LANGUAGE"))) {
-			throw new InitializationFailedException("Property DEFAULT_LANGUAGE is not a valid ISO639 code: " + Property.get("DEFAULT_LANGUAGE"));
-		}
-		
-		File defaultLanguageFile = new File(Property.get("PATH_TO_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".properties");
-		UCNProperties defaultProps = new UCNProperties();
-		
-		try {
-			defaultProps = Language.load(defaultLanguageFile);
-			logger.debug("> Found language (default): " + defaultProps.getProperty("lang") + " - " + defaultProps.getProperty("language"));
-			LanguageAction.setDefaultProperties(defaultProps);
-			defaultProps.parse();
-			defaultProps.put("complete", "true");
-			languageProperties.put(Property.get("DEFAULT_LANGUAGE"), defaultProps);
-		} catch (IllegalArgumentException e) {
-			logger.warn(e.getMessage());
-		} catch (FileNotFoundException e) {
-			throw new InitializationFailedException("Default language file does not exist: " + defaultLanguageFile.getPath());
-		} catch (IOException e) {
-			throw new InitializationFailedException("Unable to read default language file " + defaultLanguageFile.getPath());
-		}
-		
-		File[] languageFiles = ListFiles.listFiles(Property.get("PATH_TO_LANGUAGE_FILES"), "\\.properties$");
-		
-		for (File langFile : languageFiles) {
-			if (langFile.equals(defaultLanguageFile))
-				continue;
-			try {
-				UCNProperties props = Language.load(langFile);
-				logger.debug("> Found language: " + props.getProperty("lang") + " - " + props.getProperty("language"));
-				Language.clean(props, defaultProps);
-				LanguageAction.addLanguageProperties(props);
-				Language.complete(props, defaultProps);
-				props.parse();
-				languageProperties.put(props.getProperty("lang"), props);
-				if (!LanguageAction.getMetadataProperties().containsKey(props.getProperty("lang"))) {
-					UCNProperties metaProps = new UCNProperties();
-					metaProps.put("lang", props.getProperty("lang"));
-					metaProps.put("language", props.getProperty("language"));
-					LanguageAction.getMetadataProperties().put(props.getProperty("lang"), metaProps);
-					metadataProperties.put(props.getProperty("lang"), metaProps);
-				}
-			} catch (IllegalArgumentException e) {
-				logger.warn(e.getMessage());
-			} catch (FileNotFoundException e) {
-				// Should not happen
-				logger.error(e.getMessage(), e);
-			} catch (IOException e) {
-				logger.error("Unable to read language file " + langFile + ". This file will be skiped.");
-			}
-		}
-		
-		if (languageProperties.size() == 0) {
-			throw new InitializationFailedException("No language have been loaded. Check language files in: " + Property.get("PATH_TO_LANGUAGE_FILES"));
-		} else {
-			String s = "Language properties:";
-			for (String key : languageProperties.keySet()) {
-				s += "\n\n\t" + languageProperties.get(key).getProperty("language") + ":";
-				for (Object langKey : languageProperties.get(key).keySet()) {
-					s += "\n\t\t" + langKey + " => " + languageProperties.get(key).getProperty((String) langKey); 
-				}
-			}
-			logger.debug(s);
-			logger.info("OK - " + languageProperties.size() + " language(s) successfully loaded.");
-		}
-		for (String key : languageProperties.keySet()) {
-			languages.put(key, languageProperties.get(key).getProperty("language"));
-		}
-		
-		LanguageAction.setAvailableLocales(Language.getAvailablesLocales());
-	}
-	
 	public static void initVelocity() throws InitializationFailedException {	
 		// Creating velocity contexts
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Initializing Velocity");
-		for (String locale : languageProperties.keySet()) {
+		for (ULocale locale : languageProperties.keySet()) {
 			VelocityContext context = new VelocityContext();
 			Properties langProps = languageProperties.get(locale);
 			for (Object key : langProps.keySet()) {
@@ -561,12 +570,16 @@ public class Framework {
 			context.put("esc", new EscapeTool());
 			context.put("math", new MathTool());
 			context.put("ucn", new Language());
+			context.put("strUtils", new StringUtils());
 			context.put("tasklist", mapOfTask);
 			context.put("param_prefix", Property.get("UNICORN_PARAMETER_PREFIX"));
-			context.put("languages", languages);
+			context.put("languages", Language.getUiLocales());
+			context.put("lang", locale.getName());
+			context.put("direction", Language.getLocaleDirection(locale));
+			context.put("defaultLocale", Language.getDefaultLocale());
 			languageContexts.put(locale, context);
 		}
-		logger.debug("> "+languageContexts.size()+" velocity context(s) created");
+		logger.debug("> " + languageContexts.size() + " velocity context(s) created");
 		
 		// Creating velocity engine
 		velocityEngine = new VelocityEngine();
@@ -603,19 +616,19 @@ public class Framework {
 		}
 	}
 	
-	public static Hashtable<String, Properties> getUnicornPropertiesFiles() {
+	public static Hashtable<String, UCNProperties> getUnicornPropertiesFiles() {
 		return unicornPropertiesFiles;
 	}
-	public static Hashtable<String, VelocityContext> getLanguageContexts() {
+	public static Hashtable<ULocale, VelocityContext> getLanguageContexts() {
 		return languageContexts;
 	}
 	public static VelocityEngine getVelocityEngine() {
 		return velocityEngine;
 	}
-	public static Hashtable<String, Properties> getLanguageProperties() {
+	public static Hashtable<ULocale, UCNProperties> getLanguageProperties() {
 		return languageProperties;
 	}
-	public static Hashtable<String, Properties> getMetadataProperties() {
+	public static Hashtable<ULocale, UCNProperties> getMetadataProperties() {
 		return metadataProperties;
 	}
 	public static Task getDefaultTask() {
