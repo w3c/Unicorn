@@ -3,6 +3,8 @@ package org.w3c.unicorn.util;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,6 +63,11 @@ public class UCNProperties extends Properties {
 		return keyList.elements();
 	}
 	
+	@Override
+	public Set<Object> keySet() {
+		return new TreeSet<Object>(super.keySet());
+	}
+
 	@Override
 	public String toString() {
 		String result = "";
