@@ -2,17 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v6.0"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/velocity-1.6.2.jar" sourcepath="E:/Unicorn/librairies/velocity-1.6.2/src/java"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.15.jar" sourcepath="E:/Unicorn/librairies/apache-log4j-1.2.15/src/main/java"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/velocity-1.6.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xbean.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jsr173_1.0_api.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/activation.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/icu4j_3_4.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/iri.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jena.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/resolver.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/saxon8-dom.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/saxon8-jdom.jar"/>
@@ -26,7 +22,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xmlpublic.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/tasklist.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mail.jar" sourcepath="C:/Users/Tom-Laptop/Desktop/javamail-1.4.2/docs/javadocs"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mail.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-io-1.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-api-1.5.6.jar"/>
@@ -34,11 +30,8 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/velocity-tools-generic-1.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/observationresponse2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/observationresponse.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/compactor.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/Tom-Laptop/Desktop/compactor/javadoc/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/compactor.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/icu4j-4_4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
