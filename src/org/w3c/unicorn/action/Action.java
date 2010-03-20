@@ -1,4 +1,4 @@
-// $Id: Action.java,v 1.19 2009-10-12 15:25:24 tgambet Exp $
+// $Id: Action.java,v 1.20 2010-03-20 17:02:10 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -6,7 +6,6 @@ package org.w3c.unicorn.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,11 +21,13 @@ import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 
+import com.ibm.icu.util.ULocale;
+
 public abstract class Action extends HttpServlet {
 	
 	private static final long serialVersionUID = -7503310240481494239L;
 	
-	private static Log logger = LogFactory.getLog(Action.class);
+	protected static Log logger = LogFactory.getLog(Action.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -61,39 +62,34 @@ public abstract class Action extends HttpServlet {
 		return StringEscapeUtils.escapeHtml(queryString);
 	}
 	
-	public String getLanguage(String langParameter, HttpServletRequest req, ArrayList<Message> messages) {
+	public ULocale getLanguage(String langParameter, HttpServletRequest req, ArrayList<Message> messages) {
+		ULocale parameterLocale;
+		ULocale browserLocale;
+		ULocale matchedLocale;
 		
-		String lang;
-		if (langParameter == null || !Framework.getLanguageProperties().containsKey(langParameter)) {
-			lang = Language.negociate(req.getLocales());
-		} else
-			lang = langParameter;
-		
-		if (messages == null)
-			return lang;
-		
-		if (langParameter != null && !Framework.getLanguageProperties().containsKey(langParameter)) {
-			if (Language.isISOLanguageCode(langParameter)) {
-				Locale locale = Language.getLocale(langParameter);
-				if (locale == null) {
-					logger.warn("Missing locale: " + langParameter + ". This locale should be installed on the system in order to translate Unicorn in this language.");
-					messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, langParameter, "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + langParameter));
-				}
-				else 
-					messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, locale.getDisplayLanguage(locale), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + langParameter));
-			} else {
-				messages.add(new Message(Message.INFO, "$message_invalid_requested_language", null, langParameter));
+		if (langParameter != null) {
+			parameterLocale = Language.getAvailableLocale(langParameter);
+			matchedLocale = Language.getUILocale(langParameter);
+			if (messages != null && parameterLocale != matchedLocale) {
+				messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, parameterLocale.getDisplayName(parameterLocale), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + parameterLocale.getName()));
+				return matchedLocale;
 			}
-		} else if (!Framework.getLanguageProperties().containsKey(req.getLocale().getLanguage()) && Property.get("SHOW_LANGUAGE_UNAVAILABLE_MESSAGE").equals("true"))
-			messages.add(new Message(Message.INFO, "$message_unavailable_language", null, req.getLocale().getDisplayLanguage(req.getLocale()), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + req.getLocale().getLanguage()));
-		else if (!Language.isComplete(lang))
-			messages.add(new Message(Message.INFO, "$message_incomplete_language", null, "", "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + lang));
+		} else {
+			browserLocale = Language.getAvailableLocale(req.getHeader("Accept-Language"));
+			matchedLocale = Language.getUILocale(req.getHeader("Accept-Language"));
+			if (messages != null && browserLocale != matchedLocale) {
+				messages.add(new Message(Message.INFO, "$message_unavailable_language", null, browserLocale.getDisplayName(browserLocale), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + browserLocale.getName()));
+				return matchedLocale;
+			}
+		}
 		
-		return lang;
+		if (messages != null && !Language.isComplete(matchedLocale))
+			messages.add(new Message(Message.INFO, "$message_incomplete_language", null, "", "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + matchedLocale.getName()));
+		
+		return matchedLocale;
 	}
 
 	public static String getTask(String taskParameter, MessageList messages) {
-		
 		String task;
 		if (taskParameter == null || !Framework.mapOfTask.containsKey(taskParameter))
 			task = Framework.mapOfTask.getDefaultTaskId();
@@ -104,10 +100,10 @@ public abstract class Action extends HttpServlet {
 			return task;
 		
 		if (taskParameter == null) {
-			Message mess = new Message(Message.WARNING, "$message_no_task", null, Framework.getDefaultTask().getLongName(messages.getLang()));
+			Message mess = new Message(Message.WARNING, "$message_no_task", null, Framework.getDefaultTask().getLongName(messages.getLocale().getName()));
 			messages.add(mess);
 		} else if (!Framework.mapOfTask.containsKey(taskParameter)) {
-			Message mess = new Message(Message.WARNING, "$message_unknown_task", null, taskParameter, Framework.getDefaultTask().getLongName(messages.getLang()));
+			Message mess = new Message(Message.WARNING, "$message_unknown_task", null, taskParameter, Framework.getDefaultTask().getLongName(messages.getLocale().getName()));
 			messages.add(mess);
 		}
 		
