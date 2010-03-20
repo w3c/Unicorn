@@ -9,7 +9,7 @@
 
 <div class="text">
 	<h2>Translation of Unicorn</h2>
-	#set($langNb = $languageProps.size() + 1)
+	#set($langNb = $uiLocales.size())
 	<p>Unicorn is currently available in $langNb languages. <!--The translations are mainly contributed by <a href="thanks.html">volunteers</a>.--></p>
 
 	<h3>Translate Unicorn in a new language</h3>
@@ -22,8 +22,9 @@
 				<fieldset>
 				<select name="${param_prefix}lang">
 					<optgroup label="Select a language">
-					#foreach ($key in $availableLocales.keySet())
-						<option value="$key" xml:lang="$key" #if($native_lang == $key)selected="selected"#end>$availableLocales.get($key)</option>
+					#foreach ($locale in $availableLocales)
+					#set($localeKey = $locale.getName())
+						<option value="$localeKey" xml:lang="$localeKey" #if($native_lang == $localeKey)selected="selected"#end>$esc.html($strUtils.capitalize($locale.getDisplayName($locale)))</option>
 					#end
 					</optgroup>
 				</select>
@@ -56,40 +57,48 @@
 		<thead>
 			<tr>
 				<th scope="col">Property</th>
-			#foreach($prop in $languageProps)
-				#set($percent = 100 * $math.div($math.sub($math.add($prop.size(), $metadataProps.get($prop.get('lang')).size()), 4), $math.sub($math.add($defaultProps.size(), $defaultMetadata.size()), 4)))
-				<th scope="col">$prop.get("language")<br />$percent.intValue()% <a href="./translations?ucn_lang=$prop.get('lang')">Edit</a></th>
+			#foreach($locale in $uiLocales)
+			#if ($locale != $defaultLocale)
+				#set($prop = $languageProps.get($locale))
+				#set($meta = $metadataProps.get($locale))
+				#set($percent = 100 * $math.div($math.add($prop.size(), $meta.size()), $math.add($defaultProps.size(), $defaultMetadata.size())))
+				<th scope="col">$strUtils.capitalize($locale.getDisplayName($locale))<br />$percent.intValue()% <a href="./translations?ucn_lang=$locale.getName()">Edit</a></th>
+			#end
 			#end
 			</tr>
 		</thead>
 		<tbody>
 			#foreach($key in $defaultProps.keySet())
-				#if ($key != "lang" && $key != "language")
 				<tr>
 					<th class="property_name" scope="row">$key <p>$esc.xml($defaultProps.get($key))</p></th>
-					#foreach($prop in $languageProps)
+					#foreach($locale in $uiLocales)
+					#if ($locale != $defaultLocale)
+						#set($localeKey = $locale.getName())
+						#set($prop = $languageProps.get($locale))
 						#if($prop.get($key))
-						<td class="ok"><span xml:lang="$prop.get('lang')" title="$!esc.xml($prop.get($key))">✔</span></td>
+						<td class="ok"><span xml:lang="$localeKey" title="$!esc.xml($prop.get($key))">✔</span></td>
 						#{else}
-						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultProps.get($key))&quot; in language &quot;$prop.get('language')&quot;"><a href="./translations?ucn_lang=$prop.get('lang')">✘</a></span></td>
+						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultProps.get($key))&quot; in $locale.getDisplayName($defaultLocale)"><a href="./translations?ucn_lang=$localeKey">✘</a></span></td>
 						#end
 					#end
+					#end
 				</tr>
-				#end
 			#end
 			#foreach($key in $defaultMetadata.keySet())
-				#if ($key != "lang" && $key != "language")
 				<tr>
 					<th class="property_name" scope="row">$key <p>$esc.xml($defaultMetadata.get($key))</p></th>
-					#foreach($meta in $metadataProps)
+					#foreach($locale in $uiLocales)
+					#if ($locale != $defaultLocale)
+						#set($localeKey = $locale.getName())
+						#set($meta = $metadataProps.get($locale))
 						#if($meta.get($key))
-						<td class="ok"><span xml:lang="$meta.get('lang')" title="$!esc.xml($meta.get($key))">✔</span></td>
+						<td class="ok"><span xml:lang="localeKey" title="$!esc.xml($meta.get($key))">✔</span></td>
 						#{else}
-						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultMetadata.get($key))&quot; in language &quot;$meta.get('language')&quot;"><a href="./translations?ucn_lang=$meta.get('lang')">✘</a></span></td>
+						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultMetadata.get($key))&quot; in $locale.getDisplayName($defaultLocale)"><a href="./translations?ucn_lang=$localeKey">✘</a></span></td>
 						#end
 					#end
+					#end
 				</tr>
-				#end
 			#end
 		</tbody>
 	</table>

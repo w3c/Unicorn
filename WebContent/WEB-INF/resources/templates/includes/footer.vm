@@ -5,12 +5,14 @@
 			<li><a href="${baseUri}translations" hreflang="en" title="$translations_title">$translations</a></li>
 	</ul>
 	<ul id="lang_choice">
-#foreach( $key in $languages.keySet() )
+#foreach( $locale in $languages )
 		<li>
-			#if ($key == $lang)
-			$languages.get($key)
+			#set($localeName = $strUtils.capitalize($locale.getDisplayName($locale)))
+			#if ($locale.getName() == $lang)
+			$localeName
 			#else
-			<a href="${queryString}ucn_lang=$key" lang="$key" xml:lang="$key" hreflang="$key" rel="alternate">$languages.get($key)</a>
+			#set($langKey = $locale.getName())
+			<a href="${queryString}ucn_lang=$langKey" lang="$langKey" xml:lang="$langKey" hreflang="$langKey" rel="alternate">$localeName</a>
 			#end
 		</li>
 #end

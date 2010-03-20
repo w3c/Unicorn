@@ -24,14 +24,12 @@
 				<a id="a_all" title="Display all" href="#" style="display: none">Display all</a>
 			</legend>
 			
-			<input type="hidden" name="${param_prefix}lang" value="$prop.get('lang')"/>
-			
 			<table style="width:100%">
 				<thead>
 					<tr>
-						<th scope="col" class="first_col">$defaultProps.get("language") properties</th>
-						#set($percent = 100 * $math.div($math.sub($math.add($prop.size(), $metadatas.size()), 4), $math.sub($math.add($defaultProps.size(), $defaultMetadata.size()), 4)))
-						<th scope="col">$prop.get("language") $percent.intValue()%</th>
+						<th scope="col" class="first_col">$strUtils.capitalize($defaultLocale.getDisplayName($defaultLocale)) properties</th>
+						#set($percent = 100 * $math.div($math.add($prop.size(), $metadatas.size()), $math.add($defaultProps.size(), $defaultMetadata.size())))
+						<th scope="col">$strUtils.capitalize($transLocale.getDisplayName($transLocale)) $percent.intValue()%</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -39,32 +37,32 @@
 						#if (!$prop.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
-							<td class="missing"><input type="text" name="$prop.get('lang')_$key" value="$!esc.html($!prop.get($key))" /></td>
+							<td class="missing"><input type="text" name="$transLocale.getName()_$key" value="$!esc.html($!prop.get($key))" /></td>
 						</tr>
 						#end
 					#end
 					#foreach($key in $defaultMetadata.keySet())
-						#if (!$metadatas.get($key) && $key != "lang" && $key != "language")
+						#if (!$metadatas.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultMetadata.get($key))</p></th>
-							<td class="missing"><input type="text" name="metadata_$metadatas.get('lang')_$key" value="$!esc.html($!metadatas.get($key))" /></td>
+							<td class="missing"><input type="text" name="metadata_$transLocale.getName()_$key" value="$!esc.html($!metadatas.get($key))" /></td>
 						</tr>
 						#end
 					#end
 					
 					#foreach($key in $defaultProps.keySet())
-						#if ($key != "lang" && $key != "language" && $prop.get($key))
+						#if ($prop.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
-							<td #if(!$prop.get($key))class="missing"#end><input type="text" name="$prop.get('lang')_$key" value="$!esc.html($!prop.get($key))" /></td>
+							<td #if(!$prop.get($key))class="missing"#end><input type="text" name="$transLocale.getName()_$key" value="$!esc.html($!prop.get($key))" /></td>
 						</tr>
 						#end
 					#end
 					#foreach($key in $defaultMetadata.keySet())
-						#if ($key != "lang" && $key != "language" && $metadatas.get($key))
+						#if ($metadatas.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultMetadata.get($key))</p></th>
-							<td #if(!$metadatas.get($key))class="missing"#end><input type="text" name="metadata_$metadatas.get('lang')_$key" value="$!esc.html($!metadatas.get($key))" /></td>
+							<td #if(!$metadatas.get($key))class="missing"#end><input type="text" name="metadata_$transLocale.getName()_$key" value="$!esc.html($!metadatas.get($key))" /></td>
 						</tr>
 						#end
 					#end
@@ -72,7 +70,7 @@
 			</table>
 		
 			<div class="submit">
-				<input type="hidden" name="translation_language" value="$prop.get('lang')" />
+				<input type="hidden" name="translation_language" value="$transLocale.getName()" />
 				<input type="submit" value="Submit" />
 			</div>
 		</fieldset>
