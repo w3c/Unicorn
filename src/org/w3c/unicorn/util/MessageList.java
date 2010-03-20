@@ -2,14 +2,16 @@ package org.w3c.unicorn.util;
 
 import java.util.ArrayList;
 
+import com.ibm.icu.util.ULocale;
+
 public class MessageList extends ArrayList<Message> {
 
 	private static final long serialVersionUID = -720345110444544838L;
 	
-	private String lang;
+	private ULocale locale;
 
 	public MessageList() {
-		this.lang = Property.get("DEFAULT_LANGUAGE");
+		this.locale = Language.getDefaultLocale();
 	}
 	
 	public boolean hasInfo() {
@@ -33,16 +35,16 @@ public class MessageList extends ArrayList<Message> {
 		return false;
 	}
 	
-	public MessageList(String lang) {
-		this.lang = lang;
+	public MessageList(ULocale lang) {
+		this.locale = lang;
 	}
 
-	public String getLang() {
-		return lang;
+	public ULocale getLocale() {
+		return locale;
 	}
 
-	public void setLang(String lang) {
-		this.lang = lang;
+	public void setLocale(ULocale locale) {
+		this.locale = locale;
 	}
 
 }
