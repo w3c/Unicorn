@@ -1,4 +1,4 @@
-// $Id: OutputModule.java,v 1.11 2009-09-29 16:04:35 tgambet Exp $
+// $Id: OutputModule.java,v 1.12 2010-03-20 16:58:20 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -61,7 +61,7 @@ public abstract class OutputModule {
 	}
 
 	protected void displayOnIndex(Map<String, Object> mapOfStringObject, Writer writer) {
-		VelocityContext context = new VelocityContext(Language.getContext(outputParameters.get("lang")));
+		VelocityContext context = new VelocityContext(Language.getContext(Language.getLocale(outputParameters.get("lang"))));
 		
 		for (final String sObjectName : mapOfStringObject.keySet())
 			context.put(sObjectName, mapOfStringObject.get(sObjectName));
