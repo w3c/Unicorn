@@ -1,4 +1,4 @@
-// $Id: LocalizedString.java,v 1.4 2009-09-23 09:23:30 tgambet Exp $
+// $Id: LocalizedString.java,v 1.5 2010-03-20 15:32:11 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -69,9 +69,9 @@ public class LocalizedString {
 	 *         there was no mapping for key.
 	 */
 	public String addLocalization(final String sLocale, final String sMessage) {
-		logger.trace("addLocalization");
-		logger.debug("Locale : " + sLocale + ".");
-		logger.debug("Message : " + sMessage + ".");
+		logger.trace("addLocalization\n" +
+				     "Locale : " + sLocale + ".\n" +
+				     "Message : " + sMessage + ".");
 		return this.mapOfString.put(sLocale, sMessage);
 	}
 

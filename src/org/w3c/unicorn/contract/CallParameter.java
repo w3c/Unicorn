@@ -1,4 +1,4 @@
-// $Id: CallParameter.java,v 1.3 2009-09-23 09:16:29 tgambet Exp $
+// $Id: CallParameter.java,v 1.4 2010-03-20 15:32:12 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -90,12 +90,12 @@ public class CallParameter {
 			final boolean bRepeating) {
 		super();
 
-		logger.trace("Constructor(String, List<String>, String, boolean, boolean)");
-		logger.debug("Name : " + sName + ".");
-		logger.debug("List of value : " + listOfValue + ".");
-		logger.debug("Fixed : " + sFixed + ".");
-		logger.debug("Required : " + bRequired + ".");
-		logger.debug("Repeating : " + bRepeating + ".");
+		logger.trace("Constructor(String, List<String>, String, boolean, boolean)\n" +
+					 "Name : " + sName + ".\n" +
+					 "List of value : " + listOfValue + ".\n" +
+					 "Fixed : " + sFixed + ".\n" +
+					 "Required : " + bRequired + ".\n" +
+					 "Repeating : " + bRepeating + ".");
 
 		this.sName = sName;
 		this.listOfPossibleValue = listOfValue;

@@ -59,7 +59,6 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	/**
 	 * The tasklist corresponding to the xml file
 	 */
-	//private Map<String, Task> mapOfTask;
 	private Tasklist mapOfTask;
 	
 	/**
@@ -72,7 +71,6 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
 	public TaskListUnmarshallerBeans(final Map<String, Observer> mapOfObserver) {
 		logger.trace("Constructor");
-		//this.mapOfTask = new LinkedHashMap<String, org.w3c.unicorn.tasklist.Task>();
 		this.mapOfTask = new Tasklist();
 		this.mapOfObserver = mapOfObserver;
 	}
@@ -273,12 +271,12 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			final String sObserverName, final TUi.Enum aTUi,
 			final String sDefaultValues, final TParamType.Enum aTParamType)
 			throws ParameterException {
-		logger.trace("getParameterFromObserver");
-		logger.debug("Parameter name : " + sParamName + ".");
-		logger.debug("Observer name : " + sObserverName + ".");
-		logger.debug("TUi : " + aTUi + ".");
-		logger.debug("Default values : " + sDefaultValues + ".");
-		logger.debug("TParamType : " + aTParamType + ".");
+		logger.trace("getParameterFromObserver\n" +
+				     "Parameter name : " + sParamName + ".\n" +
+				     "Observer name : " + sObserverName + ".\n" +
+				     "TUi : " + aTUi + ".\n" +
+				     "Default values : " + sDefaultValues + ".\n" +
+				     "TParamType : " + aTParamType + ".");
 
 		final Observer aObserver = this.mapOfObserver.get(sObserverName);
 
@@ -439,12 +437,12 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 			final TParamType.Enum aTParamType, final String sName,
 			final TUi.Enum aTUi, final String sDefaultValues,
 			final Map<String, Value> mapOfValue) throws ParameterException {
-		logger.trace("createParameter");
-		logger.debug("TParamType : " + aTParamType + ".");
-		logger.debug("Name : " + sName + ".");
-		logger.debug("TUi : " + aTUi + ".");
-		logger.debug("Default values : " + sDefaultValues + ".");
-		logger.debug("Map of value : " + mapOfValue + ".");
+		logger.trace("createParameter\n" +
+				     "TParamType : " + aTParamType + ".\n" +
+				     "Name : " + sName + ".\n" +
+				     "TUi : " + aTUi + ".\n" +
+				     "Default values : " + sDefaultValues + ".\n" +
+				     "Map of value : " + mapOfValue + ".");
 
 		final org.w3c.unicorn.tasklist.parameters.Parameter aParameter = ParameterFactory
 				.getParameter(aTParamType);
@@ -484,8 +482,8 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	}
 
 	public void addURL(URL aURL) throws IOException {
-		logger.trace("addURL");
-		logger.debug("URL : " + aURL + ".");
+		logger.trace("addURL\n" +
+				     "URL : " + aURL + ".");
 
 		try {
 			this.aTaskList = TasklistDocument.Factory.parse(aURL.openStream());
@@ -518,7 +516,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		// and parameters
 		for (final org.w3c.unicorn.tasklist.Task aTask : this.mapOfTask
 				.values()) {
-			logger.debug("Expand task : " + aTask.getID() + ".");
+			logger.trace("Expand task : " + aTask.getID() + ".");
 			aTask.setTree(aTask.expandNode(mapOfTask, aTask.getTree()));
 		}
 
