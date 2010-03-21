@@ -14,6 +14,7 @@ import java.util.TreeMap;
 
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
+import org.w3c.unicorn.action.LanguageAction;
 
 import com.ibm.icu.util.LocaleMatcher;
 import com.ibm.icu.util.LocalePriorityList;
@@ -148,7 +149,7 @@ public class Language {
 	}
 	
 	public static boolean isComplete(ULocale localeParam) {
-		Properties testedProps = Framework.getLanguageProperties().get(localeParam);
+		Properties testedProps = LanguageAction.getLanguageProperties().get(localeParam);
 		Properties testedMetadataProps = Framework.getMetadataProperties().get(localeParam);
 		
 		if (testedProps == null)
