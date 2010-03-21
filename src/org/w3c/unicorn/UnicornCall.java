@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.38 2009-10-23 16:27:40 tgambet Exp $
+// $Id: UnicornCall.java,v 1.39 2010-03-21 22:53:46 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -83,7 +83,7 @@ public class UnicornCall {
 
 	
 	public void check() throws UnicornException {
-		inputParameter.check();
+		inputParameter.check(messages);
 	}
 	
 	/**
