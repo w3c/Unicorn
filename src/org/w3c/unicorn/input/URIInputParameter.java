@@ -7,14 +7,21 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
+import javax.net.ssl.TrustManager;
 
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.exceptions.UnicornException;
+import org.w3c.unicorn.request.TrustAllManager;
 import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.Property;
 
@@ -23,6 +30,22 @@ public class URIInputParameter extends InputParameter {
 	private String uri;
 	
 	private int connectTimeOut;
+	
+	private static SSLContext sc;
+	
+	static {
+		try {
+			sc = SSLContext.getInstance("SSL");
+			sc.init(null, new TrustManager[]{new TrustAllManager()}, new java.security.SecureRandom());
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (KeyManagementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public URIInputParameter(String uri) {
 		this.uri = uri;
@@ -33,7 +56,7 @@ public class URIInputParameter extends InputParameter {
 	}
 	
 	@Override
-	public void check() throws UnicornException {
+	public void check(ArrayList<Message> messages) throws UnicornException {
 		URL docUrl = null;
 		try {
 			if (uri == null || uri.equals(""))
@@ -52,9 +75,18 @@ public class URIInputParameter extends InputParameter {
 			docUrl = new URL(uri);
 			if (!docUrl.getProtocol().equals("http") && !docUrl.getProtocol().equals("https"))
 				throw new UnicornException(Message.ERROR, "$message_unsupported_protocol", null, docUrl.getProtocol());
-			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
+			
+			HttpsURLConnection con = (HttpsURLConnection) docUrl.openConnection();
 			con.setConnectTimeout(connectTimeOut);
-			con.connect();
+			try {
+				con.connect();
+			} catch (SSLException e) {
+				con.setSSLSocketFactory(sc.getSocketFactory());
+				con.connect();
+				Message message = new Message(Message.WARNING, "$message_ssl_warning", e.getClass() + "\n" + e.getMessage());
+				message.setEvaluateContent(false);
+				messages.add(message);
+			}
 			int responseCode = con.getResponseCode();
 			switch (responseCode) {
 			case HttpURLConnection.HTTP_UNAUTHORIZED:
@@ -72,8 +104,6 @@ public class URIInputParameter extends InputParameter {
 			throw new UnicornException(Message.ERROR, "$message_invalid_mime_type");
 		} catch (UnknownHostException e) { 
 			throw new UnicornException(Message.ERROR, "$message_unknown_host" , null, docUrl.getHost());
-		} catch (SSLException e) {
-			throw new UnicornException(Message.ERROR, "$message_ssl_exception");
 		} catch (ConnectException e) {
 			throw new UnicornException(Message.ERROR, "$message_connect_exception");
 		} catch (SocketTimeoutException e) {
