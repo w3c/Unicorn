@@ -1,5 +1,7 @@
 package org.w3c.unicorn.input;
 
+import java.util.ArrayList;
+
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 
@@ -19,7 +21,7 @@ public class DirectInputParameter extends InputParameter {
 	}
 
 	@Override
-	public void check() throws UnicornException {
+	public void check(ArrayList<Message> messages) throws UnicornException {
 		if (document == null || document.equals(""))
 			throw new UnicornException(Message.ERROR, "$message_empty_direct_input");
 		if (sMimeType == null || sMimeType.equals(""))

@@ -1,5 +1,7 @@
 package org.w3c.unicorn.input;
 
+import java.util.ArrayList;
+
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 import org.apache.commons.fileupload.FileItem;
@@ -16,7 +18,7 @@ public class UploadInputParameter extends InputParameter {
 	}
 	
 	@Override
-	public void check() throws UnicornException {
+	public void check(ArrayList<Message> messages) throws UnicornException {
 		if (file.getName() == null || file.getName().equals("")) {
 			throw new UnicornException(Message.ERROR, "$message_no_uploaded_file", null);
 		}

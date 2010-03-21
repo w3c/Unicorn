@@ -1,9 +1,12 @@
 package org.w3c.unicorn.input;
 
+import java.util.ArrayList;
+
 import javax.activation.MimeType;
 
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.exceptions.UnicornException;
+import org.w3c.unicorn.util.Message;
 
 public abstract class InputParameter {
 	
@@ -15,7 +18,7 @@ public abstract class InputParameter {
 	
 	protected String documentName;
 	
-	public abstract void check() throws UnicornException;
+	public abstract void check(ArrayList<Message> messages) throws UnicornException;
 
 	public InputModule getInputModule() {
 		return inputModule;
