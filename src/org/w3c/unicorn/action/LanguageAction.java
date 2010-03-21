@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.23 2010-03-20 17:06:04 tgambet Exp $
+// $Id: LanguageAction.java,v 1.24 2010-03-21 21:12:17 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -104,6 +104,7 @@ public class LanguageAction extends Action {
 			}
 			if (Language.getUiLocales().contains(locale)) {
 				if (locale.equals(Language.getDefaultLocale())) {
+					messages.clear();
 					messages.add(new Message(Message.ERROR, "The language you are trying to edit is either the default language or is unknown. " +
 															"If it is the latter and you think we are wrong please make a request on <a href=\"mailto:public-qa-dev@w3.org\">our public mailing-list</a>."));
 					Templates.write("language.vm", velocityContext, writer);
