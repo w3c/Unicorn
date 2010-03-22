@@ -150,19 +150,19 @@ public class Language {
 	
 	public static boolean isComplete(ULocale localeParam) {
 		Properties testedProps = LanguageAction.getLanguageProperties().get(localeParam);
-		Properties testedMetadataProps = Framework.getMetadataProperties().get(localeParam);
+		Properties testedMetadataProps = LanguageAction.getMetadataProperties().get(localeParam);
 		
 		if (testedProps == null)
 			return false;
 		
 		if (testedProps.get("complete") == null) {
-			for (Object key : Framework.getLanguageProperties().get(defaultLocale).keySet()) {
+			for (Object key : LanguageAction.getLanguageProperties().get(defaultLocale).keySet()) {
 				if (!testedProps.containsKey(key) && key != "complete") {
 					testedProps.put("complete", "false");
 					return false;
 				}
 			}
-			for (Object key : Framework.getMetadataProperties().get(defaultLocale).keySet()) {
+			for (Object key : LanguageAction.getMetadataProperties().get(defaultLocale).keySet()) {
 				if (!testedMetadataProps.containsKey(key)) {
 					testedProps.put("complete", "false");
 					return false;
