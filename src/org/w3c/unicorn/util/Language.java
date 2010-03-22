@@ -205,9 +205,9 @@ public class Language {
 	}
 	
 	public static String getLocaleDirection(ULocale locale) {
-		if (locale.getLineOrientation().equals("left-to-right"))
+		if (locale.getCharacterOrientation().equals("left-to-right"))
 			return "ltr";
-		if (locale.getLineOrientation().equals("right-to-left"))
+		if (locale.getCharacterOrientation().equals("right-to-left"))
 			return "rtl";
 		return "ltr";
 	}
