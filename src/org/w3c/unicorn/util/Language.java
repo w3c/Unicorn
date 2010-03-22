@@ -150,27 +150,29 @@ public class Language {
 	
 	public static boolean isComplete(ULocale localeParam) {
 		Properties testedProps = LanguageAction.getLanguageProperties().get(localeParam);
-		Properties testedMetadataProps = LanguageAction.getMetadataProperties().get(localeParam);
 		
 		if (testedProps == null)
 			return false;
 		
-		if (testedProps.get("complete") == null) {
+		Properties testedMetadataProps = LanguageAction.getMetadataProperties().get(localeParam);
+		Properties originalProps = Framework.getLanguageProperties().get(localeParam);
+		
+		if (originalProps.get("complete") == null) {
 			for (Object key : LanguageAction.getLanguageProperties().get(defaultLocale).keySet()) {
-				if (!testedProps.containsKey(key) && key != "complete") {
-					testedProps.put("complete", "false");
+				if (!testedProps.containsKey(key)) {
+					originalProps.put("complete", "false");
 					return false;
 				}
 			}
 			for (Object key : LanguageAction.getMetadataProperties().get(defaultLocale).keySet()) {
 				if (!testedMetadataProps.containsKey(key)) {
-					testedProps.put("complete", "false");
+					originalProps.put("complete", "false");
 					return false;
 				}
 			}
 			return true;
 		} else {
-			return testedProps.get("complete").equals("true");
+			return originalProps.get("complete").equals("true");
 		}
 	}
 	
