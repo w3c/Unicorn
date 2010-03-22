@@ -68,7 +68,7 @@ public class Language {
 		}
 		LocalePriorityList availableLocalesPriorityList = builder2.build();
 		availableLocaleMatcher = new LocaleMatcher(availableLocalesPriorityList);
-		sortByDisplayName(availableLocales);
+		sortByDisplayName(availableLocales, defaultLocale);
 	}
 	
 	public static void initUILocaleMatcher() {
@@ -79,7 +79,7 @@ public class Language {
 				builder = builder.add(locale);
 		LocalePriorityList uiLocalesPriorityList = builder.build();
 		uiLocaleMatcher = new LocaleMatcher(uiLocalesPriorityList);
-		sortByDisplayName(uiLocales);
+		sortByDisplayName(uiLocales, null);
 	}
 	
 	public static ULocale getLocale(String languageCode) {
@@ -212,11 +212,18 @@ public class Language {
 		return "ltr";
 	}
 	
-	private static void sortByDisplayName(ArrayList<ULocale> localeArray) {
+	private static void sortByDisplayName(ArrayList<ULocale> localeArray, final ULocale displayLocale) {
 		Collections.sort(localeArray, new Comparator<ULocale>() {
 			public int compare(ULocale l1, ULocale l2) {
-				String loc1 = l1.getDisplayName(l1);
-				String loc2 = l2.getDisplayName(l2);
+				String loc1;
+				String loc2;
+				if (displayLocale == null) {
+					loc1 = l1.getDisplayName(l1);
+					loc2 = l2.getDisplayName(l2);
+				} else {
+					loc1 = l1.getDisplayName(displayLocale);
+					loc2 = l2.getDisplayName(displayLocale);
+				}
 				return loc1.compareToIgnoreCase(loc2);
 			}
 		});
