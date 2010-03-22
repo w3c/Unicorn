@@ -24,7 +24,7 @@
 					<optgroup label="Select a language">
 					#foreach ($locale in $availableLocales)
 					#set($localeKey = $locale.getName())
-						<option value="$localeKey" xml:lang="$localeKey" #if($native_lang == $localeKey)selected="selected"#end>$esc.html($strUtils.capitalize($locale.getDisplayName($locale)))</option>
+						<option value="$localeKey" xml:lang="$localeKey" #if($native_lang == $localeKey)selected="selected"#end>$esc.html($strUtils.capitalize($locale.getDisplayName($defaultLocale))) - $esc.html($strUtils.capitalize($locale.getDisplayName($locale)))</option>
 					#end
 					</optgroup>
 				</select>
