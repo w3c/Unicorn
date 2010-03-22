@@ -37,7 +37,7 @@
 						#if (!$prop.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
-							<td class="missing"><input type="text" name="$transLocale.getName()_$key" value="$!esc.html($!prop.get($key))" /></td>
+							<td class="missing"><input type="text" name="$transLocale.getName()_$key" value="$!esc.html($!prop.get($key))" dir="$transLocaleDir" /></td>
 						</tr>
 						#end
 					#end
@@ -45,7 +45,7 @@
 						#if (!$metadatas.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultMetadata.get($key))</p></th>
-							<td class="missing"><input type="text" name="metadata_$transLocale.getName()_$key" value="$!esc.html($!metadatas.get($key))" /></td>
+							<td class="missing"><input type="text" name="metadata_$transLocale.getName()_$key" value="$!esc.html($!metadatas.get($key))" dir="$transLocaleDir" /></td>
 						</tr>
 						#end
 					#end
@@ -54,7 +54,7 @@
 						#if ($prop.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
-							<td #if(!$prop.get($key))class="missing"#end><input type="text" name="$transLocale.getName()_$key" value="$!esc.html($!prop.get($key))" /></td>
+							<td #if(!$prop.get($key))class="missing"#end><input type="text" name="$transLocale.getName()_$key" value="$!esc.html($!prop.get($key))" dir="$transLocaleDir" /></td>
 						</tr>
 						#end
 					#end
@@ -62,7 +62,7 @@
 						#if ($metadatas.get($key))
 						<tr>
 							<th class="property_name" scope="row">$key <p>$!esc.html($defaultMetadata.get($key))</p></th>
-							<td #if(!$metadatas.get($key))class="missing"#end><input type="text" name="metadata_$transLocale.getName()_$key" value="$!esc.html($!metadatas.get($key))" /></td>
+							<td #if(!$metadatas.get($key))class="missing"#end><input type="text" name="metadata_$transLocale.getName()_$key" value="$!esc.html($!metadatas.get($key))" dir="$transLocaleDir" /></td>
 						</tr>
 						#end
 					#end
