@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.24 2010-03-21 21:12:17 tgambet Exp $
+// $Id: LanguageAction.java,v 1.25 2010-03-22 18:00:45 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -134,6 +134,7 @@ public class LanguageAction extends Action {
 				velocityContext.put("metadatas", new UCNProperties());
 			}
 			velocityContext.put("transLocale", locale);
+			velocityContext.put("transLocaleDir", Language.getLocaleDirection(locale));
 			Templates.write("language.form.vm", velocityContext, writer);
 			writer.close();
 		}
