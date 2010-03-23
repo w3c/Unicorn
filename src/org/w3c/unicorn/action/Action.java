@@ -1,4 +1,4 @@
-// $Id: Action.java,v 1.20 2010-03-20 17:02:10 tgambet Exp $
+// $Id: Action.java,v 1.21 2010-03-23 12:36:06 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -75,8 +75,13 @@ public abstract class Action extends HttpServlet {
 				return matchedLocale;
 			}
 		} else {
-			browserLocale = Language.getAvailableLocale(req.getHeader("Accept-Language"));
-			matchedLocale = Language.getUILocale(req.getHeader("Accept-Language"));
+			if (req.getHeader("Accept-Language") != null) {
+				browserLocale = Language.getAvailableLocale(req.getHeader("Accept-Language"));
+				matchedLocale = Language.getUILocale(req.getHeader("Accept-Language"));
+			} else {
+				return Language.getDefaultLocale();
+			}
+			
 			if (messages != null && browserLocale != matchedLocale) {
 				messages.add(new Message(Message.INFO, "$message_unavailable_language", null, browserLocale.getDisplayName(browserLocale), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + browserLocale.getName()));
 				return matchedLocale;
