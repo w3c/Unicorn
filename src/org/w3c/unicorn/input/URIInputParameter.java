@@ -76,12 +76,12 @@ public class URIInputParameter extends InputParameter {
 			if (!docUrl.getProtocol().equals("http") && !docUrl.getProtocol().equals("https"))
 				throw new UnicornException(Message.ERROR, "$message_unsupported_protocol", null, docUrl.getProtocol());
 			
-			HttpsURLConnection con = (HttpsURLConnection) docUrl.openConnection();
+			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
 			con.setConnectTimeout(connectTimeOut);
 			try {
 				con.connect();
 			} catch (SSLException e) {
-				con.setSSLSocketFactory(sc.getSocketFactory());
+				((HttpsURLConnection) con).setSSLSocketFactory(sc.getSocketFactory());
 				con.connect();
 				Message message = new Message(Message.WARNING, "$message_ssl_warning", e.getClass() + "\n" + e.getMessage());
 				message.setEvaluateContent(false);
