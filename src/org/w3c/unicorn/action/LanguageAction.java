@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.25 2010-03-22 18:00:45 tgambet Exp $
+// $Id: LanguageAction.java,v 1.26 2010-04-12 14:10:03 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -191,7 +191,7 @@ public class LanguageAction extends Action {
 				if (!paramKey.startsWith(languageParameter + "_"))
 					continue;
 				else
-					key = paramKey.replace(languageParameter + "_", "");
+					key = paramKey.replaceFirst(languageParameter + "_", "");
 				
 				if (!req.getParameter(paramKey).equals("") && !req.getParameter(paramKey).equals(langProps.getProperty(key))) {
 					interfaceChanged = true;
