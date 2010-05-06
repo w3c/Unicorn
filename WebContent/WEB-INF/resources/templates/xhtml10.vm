@@ -97,7 +97,7 @@
 										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
 										<td class="codeContext" title="$context_token">
 											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
-											$!esc.html($!{context.Context})
+											$!{context.Context}
 										</td>
 										#if ($b)
 										#set ($b = false)
@@ -166,7 +166,7 @@
 												<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
 												<td class="codeContext" title="$context_token">
 													#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
-													$!esc.html($!{context.Context})
+													$!{context.Context}
 												</td>
 												#if ($b)
 												#set ($b = false)
@@ -239,7 +239,7 @@
 										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
 										<td class="codeContext" title="$context_token">
 											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
-											$!esc.html($!{context.Context})
+											$!{context.Context}
 										</td>
 										
 										#if ($b)
@@ -303,7 +303,7 @@
 										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
 										<td class="codeContext" title="$context_token">
 											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
-											$!esc.html($!{context.Context})
+											$!{context.Context}
 										</td>
 										#if ($b)
 										#set ($b = false)
@@ -366,7 +366,7 @@
 										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
 										<td class="codeContext" title="$context_token">
 											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
-											$!esc.html($!{context.Context})
+											$!{context.Context}
 										</td>
 										#if ($b)
 										#set ($b = false)
