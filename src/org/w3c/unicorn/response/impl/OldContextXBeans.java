@@ -1,5 +1,6 @@
 package org.w3c.unicorn.response.impl;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.unicorn.response.Context;
 
 public class OldContextXBeans implements Context {
@@ -10,7 +11,7 @@ public class OldContextXBeans implements Context {
 	
 	public OldContextXBeans(String context, Integer line, Integer column) {
 		if (context != null)
-			this.context = context.trim();
+			this.context = StringEscapeUtils.escapeXml(context.trim());
 		this.line = line;
 		this.column = column;
 	}
