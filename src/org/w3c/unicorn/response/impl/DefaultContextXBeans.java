@@ -1,9 +1,10 @@
-// $Id: DefaultContextXBeans.java,v 1.3 2009-10-20 12:41:46 tgambet Exp $
+// $Id: DefaultContextXBeans.java,v 1.4 2010-05-06 10:58:36 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.response.impl;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.w3.x2009.x10.unicorn.observationresponse.ContextType;
 import org.w3c.unicorn.response.Context;
 
@@ -32,7 +33,11 @@ public class DefaultContextXBeans implements Context {
 			colMax = Integer.parseInt(values[1]);
 		}
 		
-		value = context.xmlText().replaceAll("</?xml-fragment[^>]*>", "");
+		XmlOptions opts = new XmlOptions();
+		opts.setSaveCDataLengthThreshold(10000000);
+		opts.setSaveCDataEntityCountThreshold(-1);
+		
+		value = context.xmlText(opts).replaceAll("</?xml-fragment[^>]*>", "");
 	}
 	
 	public Integer getLine() {
@@ -64,6 +69,7 @@ public class DefaultContextXBeans implements Context {
 	}
 	
 	public String getContext() {
+		//Framework.logger.error(value);
 		return value;
 	}
 	
