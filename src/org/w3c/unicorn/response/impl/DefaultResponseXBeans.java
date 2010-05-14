@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.14 2009-10-23 13:50:18 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.15 2010-05-14 16:05:53 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -20,6 +20,7 @@ import org.w3.x2009.x10.unicorn.observationresponse.GroupType;
 import org.w3.x2009.x10.unicorn.observationresponse.ListType;
 import org.w3.x2009.x10.unicorn.observationresponse.MessageType;
 import org.w3.x2009.x10.unicorn.observationresponse.ObservationresponseDocument;
+import org.w3.x2009.x10.unicorn.observationresponse.StatusType;
 import org.w3.x2009.x10.unicorn.observationresponse.ObservationresponseDocument.Observationresponse;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.response.Group;
@@ -132,19 +133,31 @@ public class DefaultResponseXBeans implements Response {
 	}
 
 	public int getStatus() {
-		if (or.isSetStatus() && or.getStatus().getValue().equalsIgnoreCase("passed")) {
-			return PASSED;
-		} else if ((or.isSetStatus() && or.getStatus().getValue().equalsIgnoreCase("failed")) ||
-				  (!or.isSetStatus() && getErrorCount() > 0)) {
-			return FAILED;
-		} else { 
-			return UNDEF;
+		if (or.getStatusList().size() == 0) {
+			if (getErrorCount() > 0) {
+				return FAILED;
+			} else {
+				return UNDEF;
+			}
+		} else {
+			// Status element can be added at the top or the end of a document. If there are two status element, only the last one is used.
+			StatusType status = or.getStatusList().get(or.getStatusList().size() - 1);
+			if (status.isSetValue() && status.getValue().equalsIgnoreCase("passed")) {
+				return PASSED;
+			} else if (status.isSetValue() && status.getValue().equalsIgnoreCase("failed")) {
+				return FAILED;
+			} else {
+				return UNDEF;
+			}
 		}
 	}
 	
 	public Integer getRating() {
-		if(or.isSetStatus() && or.getStatus().isSetRating())
-			return or.getStatus().getRating();
+		if (or.getStatusList().size() != 0) {
+			StatusType status = or.getStatusList().get(or.getStatusList().size() - 1);
+			if (status.isSetRating())
+				return status.getRating();
+		}
 		return null;
 	}
 	
