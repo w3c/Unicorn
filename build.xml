@@ -47,6 +47,12 @@
         </javac>
 	</target>
 	
+	<target name="compress-css">
+		<java jar="lib/yuicompressor-2.4.2.jar" fork="true" output="WebContent/style/base_ucn-yc.css" >
+			<arg path="WebContent/style/base_ucn.css" />
+		</java>
+	</target>
+	
 	<target name="deploy" depends="war">
 		<copy todir="${webapps}" overwrite="true">
 			<fileset dir=".">
