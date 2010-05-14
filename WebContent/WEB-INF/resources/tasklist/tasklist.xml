@@ -283,4 +283,20 @@
 		</output>
 	</task>
 
+	<!-- This task allows developers to test their Unicorn output easily. It should removed in production. -->
+	<task id="test">
+		<routine>
+			<exec id="test" value="test" type="observation" />
+		</routine>
+
+		<parameters>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>test</observation>
+			</group>
+		</output>
+	</task>
+
 </tasklist>
