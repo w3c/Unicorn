@@ -1,4 +1,4 @@
-/* $Id: base_ucn.css,v 1.63 2010-05-06 16:54:27 tgambet Exp $
+/* $Id: base_ucn.css,v 1.64 2010-05-14 16:35:42 tgambet Exp $
    Author: Thomas GAMBET.
    (c) COPYRIGHT MIT, ERCIM and Keio, 2009. */
 /* YUI Reset CSS */
@@ -664,14 +664,17 @@ fieldset.toggled legend {
 	margin:1em 0;
 	line-height:150%;
 }
-#observations .group .messages div.description  {
+#observations .message div.description  {
 	margin-top:0.3em;
 }
-#observations .group .messages div.description div  {
+#observations .message div.description div  {
 	line-height:140%;
 }
-#observations .group .messages span.msg.desc {
+#observations .message span.msg.desc {
 	font-weight:bold;
+}
+#observations .message .description em {
+	font-style:italic;
 }
 div.warnings td.level1 {
 	border-left:6px solid #f97c6e !important;
@@ -800,9 +803,6 @@ div#markup-validator td.info img, div#css-validator td.info img, div#css1-valida
 }
 div#markup-validator td.info code, div#css-validator td.info code, div#css1-validator td.info code, div#css2-validator td.info code, div#css21-validator td.info code, div#css3-validator td.info code {
 	color:#444444;
-}
-div#mobileok .description em {
-	font-style:italic;
 }
 #observations span.arrow {
 	display:inline-block;
