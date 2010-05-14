@@ -1,4 +1,4 @@
-// $Id: DefaultMessageXBeans.java,v 1.4 2009-10-23 12:36:13 tgambet Exp $
+// $Id: DefaultMessageXBeans.java,v 1.5 2010-05-14 16:07:51 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -54,10 +54,15 @@ public class DefaultMessageXBeans implements Message {
 		if (message.isSetGroup())
 			group = message.getGroup();
 		
-		if (message.isSetDescription())
-			description = message.getDescription().xmlText(new XmlOptions().setUseDefaultNamespace()
-					.setSavePrettyPrint()).replaceAll("</?xml-fragment[^>]*>", "").replaceAll("xmlns=\".*\"", "");
-	
+		if (message.isSetDescription()) {
+			XmlOptions opts = new XmlOptions();
+			opts.setSaveCDataLengthThreshold(10000000);
+			opts.setSaveCDataEntityCountThreshold(-1);
+			opts.setUseDefaultNamespace();
+			description = message.getDescription().xmlText(opts)
+				.replaceAll("[ ]*xmlns=\"[^>]*\"", "").replaceAll("</?xml-fragment[^>]*>", "");
+		}
+		
 		for (ContextType context : message.getContextList())
 			contexts.add(new DefaultContextXBeans(context));
 	}
