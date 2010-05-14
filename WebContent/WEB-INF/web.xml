@@ -37,4 +37,13 @@
     <servlet-name>Language</servlet-name>
     <url-pattern>/translations</url-pattern>
   </servlet-mapping>
+  <!-- This servlet should not be mapped in production. It is used as a simple test observer. -->
+  <servlet>
+    <servlet-name>TestObserver</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.TestObserver</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestObserver</servlet-name>
+    <url-pattern>/test</url-pattern>
+  </servlet-mapping>
 </web-app>
