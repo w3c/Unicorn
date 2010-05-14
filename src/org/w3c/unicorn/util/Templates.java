@@ -15,8 +15,12 @@ public class Templates {
 	public static void write(String templateName, VelocityContext context, Writer writer) {
 		try {
 			StringWriter sw = new StringWriter();
-			Framework.getVelocityEngine().mergeTemplate(templateName, "UTF-8", context, sw);
-			writer.append(Compactor.compactString(sw.toString(), templateName));
+			if (Property.get("USE_HTML_COMPACTOR").equalsIgnoreCase("true")) {
+				Framework.getVelocityEngine().mergeTemplate(templateName, "UTF-8", context, sw);
+				writer.append(Compactor.compactString(sw.toString(), templateName));
+			} else {
+				Framework.getVelocityEngine().mergeTemplate(templateName, "UTF-8", context, writer);
+			}
 		} catch (ResourceNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
