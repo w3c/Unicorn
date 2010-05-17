@@ -2,11 +2,11 @@
 <observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.w3.org/2009/10/unicorn/observationresponse http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/resources/schemas/observer-response2.xsd"
-	xml:lang="en" ref="test/test_3.xml">
+	xml:lang="en" ref="tutorial/test_3.xml">
 	
 	<message type="info"> 
 		<title>This is an example observation that demonstrates the use of context and description elements</title> 
-		<description>Source file for this validation is located <a href="test/test_3.xml">here.</a> See <a href="check?ucn_uri=localhost:8080/unicorn/test/test_2.xml&amp;ucn_task=test">previous</a> or <a href="./check?ucn_uri=localhost:8080/unicorn/test/test_4.xml&amp;ucn_task=test">next example</a>.</description> 
+		<description>Source file for this validation is located <a href="tutorial/test_3.xml">here.</a> See <a href="check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_2.xml&amp;ucn_task=test">previous</a> or <a href="./check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_4.xml&amp;ucn_task=test">next example</a>.</description> 
 	</message> 
 	
 	<message type="info"> 
