@@ -1,4 +1,4 @@
-/* $Id: base_ucn.css,v 1.64 2010-05-14 16:35:42 tgambet Exp $
+/* $Id: base_ucn.css,v 1.65 2010-05-17 14:51:09 tgambet Exp $
    Author: Thomas GAMBET.
    (c) COPYRIGHT MIT, ERCIM and Keio, 2009. */
 /* YUI Reset CSS */
@@ -30,9 +30,9 @@ h1,h2,h3,h4,h5,h6 {
 q:before,q:after {
 	content:'';
 }
-abbr,acronym { 
+/*abbr,acronym { 
 	border:0;
-}
+}*/
 legend {
 	padding:0;
 }
@@ -423,20 +423,20 @@ fieldset.toggled legend {
 #observations div.observer {
 	margin-top: 0.5em;
 }
-#observations div.observer h2 {
+#observations div.observer h2.title {
 	font-size: 1.3em;
 	padding: 0.3em;
 	text-align:left;
 	color:white
 }
-#observations div.observer h2 a {
+#observations div.observer h2.title a {
 	font-size: 0.9em;
 	color:white;
 }
-#observations div.observer h2 a:hover {
+#observations div.observer h2.title a:hover {
 	color:white;
 }
-#observations div.observer h2 a.direct_link, #observations td.codeContext a.direct_link {
+#observations div.observer h2.title a.direct_link, #observations td.codeContext a.direct_link {
 	height:0;
 	width:0;
 	font-size:0;
@@ -444,10 +444,10 @@ fieldset.toggled legend {
 	overflow:hidden;
 	padding:11px 0 0 12px;
 }
-#observations div.observer h2 a.direct_link {
+#observations div.observer h2.title a.direct_link {
 	background:url(../images/unicons_sprite.png) no-repeat -22px -22px;
 }
-#observations div.observer h2 a.direct_link:hover {
+#observations div.observer h2.title a.direct_link:hover {
 	background:url(../images/unicons_sprite.png) no-repeat -22px -35px;
 }
 #observations .codeContext a.direct_link {
@@ -457,7 +457,7 @@ fieldset.toggled legend {
 #observations td.codeContext a.direct_link:hover  {
 	background:url(../images/unicons_sprite.png) no-repeat -34px -35px;
 }
-#observations div.observer h2 a.anchor {
+#observations div.observer h2.title a.anchor {
 	height:0;
 	width:0;
 	margin-left:2px;
@@ -467,34 +467,34 @@ fieldset.toggled legend {
 	padding:11px 0 0 11px;
 	background:url(../images/unicons_sprite.png) no-repeat -11px -22px;
 }
-#observations div.observer h2 a.anchor:hover {
+#observations div.observer h2.title a.anchor:hover {
 	background:url(../images/unicons_sprite.png) no-repeat -11px -35px;
 }
-#observations div.observer h2 span.name {
+#observations div.observer h2.title span.name {
 	font-style: italic;
 }
-#observations div.observer h2 span.icons {
+#observations div.observer h2.title span.icons {
 	float: right;
 	text-align:right;
 }
-#observations div.observer h2 span.icons a {
+#observations div.observer h2.title span.icons a {
 	font-size:0.8em;
 	outline:0;
 }
-#observations div.observer h2 span.icons a:hover {
+#observations div.observer h2.title span.icons a:hover {
 	text-decoration:none;
 }
-#observations div.observer.group h2 span.icons a:hover {
+#observations div.observer.group h2.title span.icons a:hover {
 	text-decoration:none;
 	cursor:default;
 }
-#observations div.observer h2 span.icons a:hover span.count {
+#observations div.observer h2.title span.icons a:hover span.count {
 	text-decoration:underline;
 }
-#observations div.observer.grouped h2 span.icons a:hover span.count {
+#observations div.observer.grouped h2.title span.icons a:hover span.count {
 	text-decoration:none;
 }
-#observations div.observer h2 span.icons a span.legend, #observations div.group span.legend {
+#observations div.observer h2.title span.icons a span.legend, #observations div.group span.legend {
 	display:inline-block;
 	overflow:hidden;
 	font-size:0;
@@ -504,28 +504,28 @@ fieldset.toggled legend {
 	vertical-align:bottom;
 	margin-right:4px;
 }
-#observations div.observer h2 span.icons a.infos span.legend, #observations div.group span.legend.info  {
+#observations div.observer h2.title span.icons a.infos span.legend, #observations div.group span.legend.info  {
 	background:url(../images/unicons_sprite.png) no-repeat 0 -48px;
 }
-#observations div.observer h2 span.icons a.errors span.legend, #observations div.group span.legend.error {
+#observations div.observer h2.title span.icons a.errors span.legend, #observations div.group span.legend.error {
 	background:url(../images/unicons_sprite.png) no-repeat -18px -48px;
 }
-#observations div.observer h2 span.icons a.warnings span.legend , #observations div.group span.legend.warning {
+#observations div.observer h2.title span.icons a.warnings span.legend , #observations div.group span.legend.warning {
 	background:url(../images/unicons_sprite.png) no-repeat 0 -68px;
 }
-#observations div.observer h2 span.icons img {
+#observations div.observer h2.title span.icons img {
 	vertical-align: -20%;
 	padding:0 0.2em;
 }
-#observations div.valid h2 {
+#observations div.valid h2.title {
 	background-color:#1daa34;
 	border: 1px solid #17882a;
 }
-#observations div.invalid h2 {
+#observations div.invalid h2.title {
 	background-color:#cc2323;
 	border: 1px solid #aa1d1d;
 }
-#observations div.undef h2 {
+#observations div.undef h2.title {
 	background-color:#355c95;
 	border: 1px solid #254066;
 }
@@ -545,12 +545,12 @@ fieldset.toggled legend {
 #observations div.infos, #observations div.warnings, #observations div.errors {
 	padding-top: 0;
 }
-#observations h3 {
+#observations h3.title {
 	font-size: 1.1em;
 	padding:0.3em 0 0.3em 0;
 	border-bottom:1px solid #CCCCCC;
 }
-#observations h3 a.anchor {
+#observations h3.title a.anchor {
 	/*height:0;
 	width:0;
 	overflow:hidden;
@@ -559,13 +559,13 @@ fieldset.toggled legend {
 	float:right;*/
 	margin: 2px 6px 0 0;
 }
-#observations .infos h3 {
+#observations .infos h3.title {
 	color: #4778BC;
 }
-#observations .errors h3 {
+#observations .errors h3.title {
 	color: #aa1d1d;
 }
-#observations .warnings h3 {
+#observations .warnings h3.title {
 	color: #b48700;
 }
 #observations .results h3.pointer:hover {
@@ -675,6 +675,12 @@ fieldset.toggled legend {
 }
 #observations .message .description em {
 	font-style:italic;
+}
+#observations .message .description ul {
+	margin-left:1em;
+}
+#observations .message .description ul li:before {
+	content:"- ";
 }
 div.warnings td.level1 {
 	border-left:6px solid #f97c6e !important;
