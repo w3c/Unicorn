@@ -2,7 +2,7 @@
 <observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.w3.org/2009/10/unicorn/observationresponse http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/resources/schemas/observer-response2.xsd"
-	xml:lang="en" ref="./test/test_4.xml">
+	xml:lang="en" ref="test/test_4.xml">
 	
 	<group name="group1">
 		<title>A group</title>
@@ -13,7 +13,7 @@
 	
 	<message type="info" group="group1"> 
 		<title>This is an example observation that demonstrates the use of list and group elements</title> 
-		<description>Source file for this validation is located <a href="./test/test_4.xml">here.</a> See <a href="./check?ucn_uri=localhost:8080/unicorn/test/test_3.xml&amp;ucn_task=test">previous example</a>.</description> 
+		<description>Source file for this validation is located <a href="test/test_4.xml">here.</a> See <a href="check?ucn_uri=localhost:8080/unicorn/test/test_3.xml&amp;ucn_task=test">previous example</a>.</description> 
 	</message> 
 	
 	<message type="info" group="group1"> 
