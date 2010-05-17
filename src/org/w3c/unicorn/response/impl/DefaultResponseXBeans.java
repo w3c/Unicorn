@@ -1,4 +1,4 @@
-// $Id: DefaultResponseXBeans.java,v 1.15 2010-05-14 16:05:53 tgambet Exp $
+// $Id: DefaultResponseXBeans.java,v 1.16 2010-05-17 12:10:29 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -119,6 +119,10 @@ public class DefaultResponseXBeans implements Response {
 				infoCount++;
 				break;
 			}
+			
+			if (hasGroups() && !message.isSetGroup())
+				m.setGroupName(groups.get(0).getName());
+			
 			messages.add(m);
 		}
 		
