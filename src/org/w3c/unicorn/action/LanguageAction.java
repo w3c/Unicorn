@@ -1,4 +1,4 @@
-// $Id: LanguageAction.java,v 1.26 2010-04-12 14:10:03 tgambet Exp $
+// $Id: LanguageAction.java,v 1.27 2010-05-17 15:39:21 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -71,7 +71,10 @@ public class LanguageAction extends Action {
 		velocityContext.put("messages", messages);
 		velocityContext.put("baseUri", "./");
 		velocityContext.put("availableLocales", Language.getAvailableLocales());
-		velocityContext.put("native_lang", Language.getAvailableLocale(req.getHeader("Accept-Language")).getName());
+		if (req.getHeader("Accept-Language") != null)
+			velocityContext.put("native_lang", Language.getAvailableLocale(req.getHeader("Accept-Language")).getName());
+		else
+			velocityContext.put("native_lang", Language.getDefaultLocale().getName());
 		velocityContext.put("translator_name", req.getAttribute("translator_name"));
 		velocityContext.put("translator_mail", req.getAttribute("translator_mail"));
 		velocityContext.put("translator_comments", req.getAttribute("translator_comments"));
