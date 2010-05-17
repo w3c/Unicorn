@@ -107,28 +107,6 @@ public class InitAction extends HttpServlet {
 				}
 			}
 			
-			if (task == null || task.equals("all") || task.equals("tasklist")) {
-				
-				if (!Framework.isUcnInitialized && task != null && task.equals("tasklist")) {
-					out.write("Unable to reload the tasklist because Unicorn is not initialized.\n" +
-							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
-					out.close();
-					return;
-				}
-				
-				out.write("Loading tasklist: ");
-				response.flushBuffer();
-				try {
-					Framework.initTasklists();
-					out.write("OK\n");
-				} catch (InitializationFailedException e) {
-					Framework.logger.fatal(e.getMessage(), e);
-					out.write("FAILED\n" + e);
-					Framework.isUcnInitialized = false;
-					return;
-				}
-			}
-			
 			if (task == null || task.equals("all") || task.equals("language")) {
 				
 				if (!Framework.isUcnInitialized && task != null && task.equals("language")) {
@@ -142,6 +120,28 @@ public class InitAction extends HttpServlet {
 				response.flushBuffer();
 				try {
 					Framework.initLanguages();
+					out.write("OK\n");
+				} catch (InitializationFailedException e) {
+					Framework.logger.fatal(e.getMessage(), e);
+					out.write("FAILED\n" + e);
+					Framework.isUcnInitialized = false;
+					return;
+				}
+			}
+			
+			if (task == null || task.equals("all") || task.equals("tasklist")) {
+				
+				if (!Framework.isUcnInitialized && task != null && task.equals("tasklist")) {
+					out.write("Unable to reload the tasklist because Unicorn is not initialized.\n" +
+							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
+					out.close();
+					return;
+				}
+				
+				out.write("Loading tasklist: ");
+				response.flushBuffer();
+				try {
+					Framework.initTasklists();
 					out.write("OK\n");
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
