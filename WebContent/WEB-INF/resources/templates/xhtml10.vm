@@ -1,10 +1,12 @@
 #set ($title = "$ucn.evaluate($lang, 'result_for', $unicorncall.DocumentName)")
 #set ($css = ['base_ucn-yc.css'])
 #set ($js = ['mootools-1.2.3-core-more-yc.js', 'w3c_unicorn_results-yc.js'])
-#if ($unicorncall.isPassed())
+#if ($unicorncall.getStatus() == "passed")
 #set ($fav = "favicon_green.ico")
-#else
+#elseif ($unicorncall.getStatus() == "failed")
 #set ($fav = "favicon_red.ico")
+#elseif ($unicorncall.getStatus() == "undef")
+#set ($fav = "favicon.ico")
 #end
 #parse('includes/head.vm')
 
@@ -53,7 +55,7 @@
 	#if ($observation.hasGroups())
 		#foreach($group in $observation.getGroups()) #if (!$group.hasParent())
 		<div class="section group" id="${observationName}_${group.Name}">
-			<h3 class="title" #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end><a class="anchor" href="#${observationName}_${group.Name}">a</a>$group.getTitle()</h3>					
+			<h3 class="title" #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end><a class="anchor" href="#${observationName}_${group.Name}">a</a>$group.getTitle()</h3>
 			<div class="block">
 				#if($group.getDescription())<p #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end>$group.getDescription()</p>#end
 				<div class="messages">
