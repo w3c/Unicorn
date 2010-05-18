@@ -1,4 +1,4 @@
-// $Id: UnicornCall.java,v 1.39 2010-03-21 22:53:46 tgambet Exp $
+// $Id: UnicornCall.java,v 1.40 2010-05-18 10:00:06 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
@@ -468,6 +468,21 @@ public class UnicornCall {
 			}
 		}
 		return passed;
+	}
+	
+	public String getStatus() {
+		boolean undef = true;
+		for (String key : getObservationList().keySet()) {
+			switch (observationMap.get(key).getStatus()) {
+			case Response.FAILED:
+				return "failed";
+			case Response.PASSED:
+				undef = false;
+			}	
+		}
+		if (undef)
+			return "undef";
+		return "passed";
 	}
 
 	public String getLang() {
