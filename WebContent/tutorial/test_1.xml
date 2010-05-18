@@ -1,17 +1,14 @@
 <?xml version="1.0" ?>
-<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.w3.org/2009/10/unicorn/observationresponse http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/resources/schemas/observer-response2.xsd"
-	xml:lang="en" ref="tutorial/test_1.xml">
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" xml:lang="en" ref="tutorial/test_1.xml">
 
 	<message type="info"> 
 		<title>This is a simple observation.</title> 
-		<description>Source file for this validation is located <a href="tutorial/test_1.xml">here.</a> See <a href="check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_2.xml&amp;ucn_task=test">next example</a>.</description> 
+		<description>See the <a href="tutorial/test_1.xml">source file</a> of this validation. See <a href="check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_2.xml&amp;ucn_task=test">next example</a>.</description> 
 	</message> 
 
 	<message type="info"> 
 		<title>Unicorn uses a custom XML format.</title>
-		<description>You can find the XML schema file for Unicorn <a href="http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/resources/schemas/observer-response2.xsd">here.</a></description> 
+		<description>You can download <a href="http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/resources/schemas/observer-response2.xsd">the XML schema file of Unicorn responses</a> on <a href="http://dev.w3.org/2006/">Unicorn public repository</a>.</description> 
 	</message>
 
 	<message type="info"> 
