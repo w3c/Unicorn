@@ -65,14 +65,19 @@ public class URIInputParameter extends InputParameter {
 			if (uri.equals("referer"))
 				throw new UnicornException();
 			
-			Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)*(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
-			if (!urlPattern.matcher(uri).matches()) {
-				if (!uri.contains("://")) 
+			//Pattern urlPattern = Pattern.compile("^(https?)://([A-Z0-9][A-Z0-9_-]*)(\\.[A-Z0-9][A-Z0-9_-]*)+(:(\\d+))?([/#]\\p{ASCII}*)?", Pattern.CASE_INSENSITIVE);
+			Pattern protocolPattern = Pattern.compile("^\\p{Alpha}*://.*");
+			try {
+				docUrl = new URL(uri);
+			} catch (MalformedURLException e) {
+				if (protocolPattern.matcher(uri).matches())
+					throw e;
+				else {
 					uri = "http://" + uri;
-				if (!urlPattern.matcher(uri).matches())
-					throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax", null, uri);
+					docUrl = new URL(uri);
+				} 
 			}
-			docUrl = new URL(uri);
+			
 			if (!docUrl.getProtocol().equals("http") && !docUrl.getProtocol().equals("https"))
 				throw new UnicornException(Message.ERROR, "$message_unsupported_protocol", null, docUrl.getProtocol());
 			
@@ -99,7 +104,7 @@ public class URIInputParameter extends InputParameter {
 			mimeType = new MimeType(sMimeType);
 			inputModule = new URIInputModule(mimeType, uri);
 		} catch (MalformedURLException e) {
-			throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax", null, uri);
+			throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax", e.getMessage(), uri);
 		} catch (MimeTypeParseException e) {
 			throw new UnicornException(Message.ERROR, "$message_invalid_mime_type");
 		} catch (UnknownHostException e) { 
