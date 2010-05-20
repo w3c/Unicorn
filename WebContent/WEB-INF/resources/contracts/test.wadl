@@ -13,7 +13,7 @@
                         
                         <doc title="reference">test</doc>
                 
-	                	<method name="GET" id="CssValidationUri">
+	                	<method name="GET" id="uriMethod">
                             <doc title="inputMethod">URI</doc>
                             <doc title="inputParamName">uri</doc>
                             <request>
