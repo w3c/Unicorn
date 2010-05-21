@@ -17,6 +17,7 @@ import javax.activation.MimeTypeParseException;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.TrustManager;
 
 import org.w3c.unicorn.contract.EnumInputMethod;
@@ -83,6 +84,7 @@ public class URIInputParameter extends InputParameter {
 			
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
 			con.setConnectTimeout(connectTimeOut);
+			con.setRequestMethod("HEAD");
 			try {
 				con.connect();
 			} catch (SSLException e) {
@@ -117,6 +119,8 @@ public class URIInputParameter extends InputParameter {
 			} else {
 				throw new UnicornException(new Message(e));
 			}
+		} catch (SSLHandshakeException e) {
+			throw new UnicornException(Message.ERROR, "$message_ssl_exception");
 		} catch (IOException e) {
 			throw new UnicornException(new Message(e));
 		}
