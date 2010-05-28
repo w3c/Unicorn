@@ -83,14 +83,20 @@ public class Language {
 	}
 	
 	public static ULocale getLocale(String languageCode) {
+		if (languageCode == null)
+			return Language.defaultLocale;
 		return installedLocaleMatcher.getBestMatch(languageCode);
 	}
 	
 	public static ULocale getUILocale(String languageCode) {
+		if (languageCode == null)
+			return Language.defaultLocale;
 		return uiLocaleMatcher.getBestMatch(languageCode);
 	}
 	
 	public static ULocale getAvailableLocale(String languageCode) {
+		if (languageCode == null)
+			return Language.defaultLocale;
 		return availableLocaleMatcher.getBestMatch(languageCode);
 	}
 	
