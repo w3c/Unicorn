@@ -56,7 +56,7 @@ public class OldResponseXBeans implements Response {
 			
 		} catch (XmlException e) {
 			if (e.getMessage().contains("is not a valid observationresponse"))
-				throw new UnicornException(new org.w3c.unicorn.util.Message(org.w3c.unicorn.util.Message.ERROR, "$message_observer_invalid_response_schema"));
+				throw new UnicornException(new org.w3c.unicorn.util.Message(org.w3c.unicorn.util.Message.ERROR, "$message_response_invalid_schema", null, Framework.mapOfObserver.get(observerID).getName(Property.get("DEFAULT_LANGUAGE"))));
 			else
 				throw new UnicornException(new org.w3c.unicorn.util.Message(e));
 		} catch (IOException e) {
