@@ -4,7 +4,7 @@
 	<resources base="http://qa-dev.w3.org:8001/css-validator/"> 
 		<resource path="validator"> 
 			
-			<doc title="responseType">old</doc>
+			<doc title="responseType">default</doc>
 			<doc xml:lang="en" title="name">W3C CSS Validator (Level 2)</doc>
 			<doc xml:lang="fr" title="name">W3C Validateur CSS (Niveau 2)</doc>
 			
