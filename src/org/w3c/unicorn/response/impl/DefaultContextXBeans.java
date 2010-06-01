@@ -36,8 +36,8 @@ public class DefaultContextXBeans implements Context {
 		XmlOptions opts = new XmlOptions();
 		opts.setSaveCDataLengthThreshold(10000000);
 		opts.setSaveCDataEntityCountThreshold(-1);
-		
-		value = context.xmlText(opts).replaceAll("</?xml-fragment[^>]*>", "");
+		opts.setUseDefaultNamespace();
+		value = context.xmlText(opts).replaceAll("[ ]*xmlns=\"[^>]*\"", "").replaceAll("</?xml-fragment[^>]*>", "");
 	}
 	
 	public Integer getLine() {
@@ -69,7 +69,6 @@ public class DefaultContextXBeans implements Context {
 	}
 	
 	public String getContext() {
-		//Framework.logger.error(value);
 		return value;
 	}
 	
