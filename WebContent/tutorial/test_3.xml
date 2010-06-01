@@ -1,0 +1,109 @@
+<?xml version="1.0" ?>
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" xml:lang="en" ref="tutorial/test_3.xml">
+	
+	<message type="info"> 
+		<title>This is an example observation that demonstrates the use of context and description elements</title> 
+		<description>See the <a href="tutorial/test_3.xml">source file</a> of this validation. See <a href="check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_2.xml&amp;ucn_task=test">previous</a> or <a href="./check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_4.xml&amp;ucn_task=test">next example</a>.</description> 
+	</message> 
+	
+	<message type="info"> 
+		<title>The context element</title>
+		<description>
+			A message can have zero, one or more associated contexts. Context content is simple text but can contain a <em>strong</em> element.<br />
+			Context elements can have seven optional attributes:
+			<ul>
+				<li><em>ref</em>, use to override the ref attribute of the message</li>
+				<li><em>line</em>, the line of the context</li>
+				<li><em>column</em>, the column of the context</li>
+				<li><em>line-range</em>, if you prefer to specify a range of lines instead of a single line use this attribute (type is [0-9]+-[0-9]+)</li>
+				<li><em>column-range</em>, same for columns</li>
+				<li><em>position</em>, you can also explain the position of the context with this simple text attribute</li>
+				<li><em>offset</em>, the offset of the context in the file (used for binary files)</li>
+			</ul>
+			Note that for now only <em>ref</em>, <em>line</em>, and <em>column</em> attributes are implemented in Unicorn output. Precedence of attributes on one another is not yet defined.
+		</description> 
+	</message>
+	
+	<message type="info"> 
+		<title>The description element</title>
+		<description>
+			Messages can have a <em>description</em> element that can contain a subset of XHTML (subject to changes).<br />
+			The allowed tags are:
+			<em>address</em>,
+			<em>blockquote</em>,
+			<em>pre</em>,
+			<em>h1</em>,
+			<em>h2</em>,
+			<em>h3</em>,
+			<em>h4</em>,
+			<em>h5</em>,
+			<em>h6</em>,
+			<em>div</em>,
+			<em>p</em>,
+			<em>abbr</em>,
+			<em>acronym</em>,
+			<em>cite</em>,
+			<em>code</em>,
+			<em>em</em>,
+			<em>strong</em>,
+			<em>br</em>,
+			<em>span</em>,
+			<em>a</em>,
+			<em>dt</em>,
+			<em>dl</em>,
+			<em>dd</em>,
+			<em>ol</em>,
+			<em>ul</em>,
+			<em>li</em>,
+			<em>img</em>.<br />
+			Note that your code must be valid or Unicorn won't parse your response.<br />
+			No all attributes are allowed (e.g. the style attribute). You can request your descriptions to be formated a certain way when your tool is integrated into Unicorn.
+		</description> 
+	</message>
+	
+	<message type="error">
+		<context>a simple context</context>
+		<title>An error message with a simple context</title>
+	</message>
+	
+	<message type="error">
+		<context>a context</context>
+		<context>a second context</context>
+		<context line="1" column="1">a third context with line and column attributes</context>
+		<title>An error message with mutiple contexts</title>
+	</message>
+	
+	<message type="error">
+		<context>context 1</context>
+		<context>context 2</context>
+		<context ref="http://www.w3.org">context 3 that overrides the ref attribute</context>
+		<context>context 4</context>
+		<context>context 5</context>
+		<context>context 6</context>
+		<context>context 7</context>
+		<context>context 8</context>
+		<context>context 9</context>
+		<context>context 10</context>
+		<context>context 11</context>
+		<context>context 12</context>
+		<context>context 13</context>
+		<context>context 14</context>
+		<context>context 15</context>
+		<context>context 16</context>
+		<context>context 17</context>
+		<title>An error message with more than seven contexts and a XHTML description</title>
+		<description>
+			<div>After the first seven, contexts are hidden by default.</div>
+			<img src="http://www.w3.org/2008/site/images/logo-w3c-mobile-lg" alt="W3C Logo" />
+			<p class="class_attribute">
+				The World Wide Web Consortium (W3C) is an international community where <a href="#">Member organizations</a>, 
+				a full-time <a href="#">staff</a>, and the public work together to develop <a href="#">Web standards</a>. 
+				Led by Web inventor <a href="#">Tim Berners-Lee</a> and <acronym title="Chief Executive Officer">CEO</acronym> <a href="#">Jeffrey Jaffe</a>, 
+				W3C's mission is to lead the Web to its full potential. <a href="#">Contact W3C</a> for more information.
+			</p>
+		</description>
+	</message>
+	
+	<status value="passed" /> 
+	
+</observationresponse>

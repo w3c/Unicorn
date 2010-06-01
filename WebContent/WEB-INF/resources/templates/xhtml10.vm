@@ -1,0 +1,396 @@
+#set ($title = "$ucn.evaluate($lang, 'result_for', $unicorncall.DocumentName)")
+#set ($css = ['base_ucn-yc.css'])
+#set ($js = ['mootools-1.2.3-core-more-yc.js', 'w3c_unicorn_results-yc.js'])
+#if ($unicorncall.getStatus() == "passed")
+#set ($fav = "favicon_green.ico")
+#elseif ($unicorncall.getStatus() == "failed")
+#set ($fav = "favicon_red.ico")
+#elseif ($unicorncall.getStatus() == "undef")
+#set ($fav = "favicon.ico")
+#end
+#parse('includes/head.vm')
+
+#set($observationList = $unicorncall.ObservationList)
+
+#if ($messages.size() > 0)
+#displayMessages($messages)
+#end
+<div id="don_program">
+	<script type="text/javascript" src="http://www.w3.org/QA/Tools/don_prog.js"></script>
+	<noscript>
+		<div>
+			<span id="don_program_img">
+				<a href="http://www.w3.org/QA/Tools/Donate">
+					<img src="http://www.w3.org/QA/Tools/I_heart_validator_lg" alt="Validators Donation Program Logo"/>
+				</a>
+			</span>
+			<span lang="en" id="don_program_text" dir="ltr">
+				The W3C validators rely on community support for hosting and development.<br />
+				<a href="http://www.w3.org/QA/Tools/Donate">Donate</a> and help us build better tools for a better web.
+			</span>
+		</div>
+	</noscript>
+</div>
+<div id="observations" class="contextShow:'$esc.html($contexts_show)' contextHide:'$esc.html($contexts_hide)'">
+#foreach ($observationName in $observationList.keySet())
+#set ($observation = $observationList.get($observationName))
+#set ($infoCount = $observation.getInfoCount())
+#set ($errorCount = $observation.getErrorCount())
+#set ($warningCount = $observation.getWarningCount())
+<div class="observer section #if($observation.isPassed()) valid #elseif ($observation.isUndef()) undef #else invalid #end #if($observation.hasGroups()) grouped #end" id="$observationName">
+	<h2 class="title">
+		<span class="icons">
+			#if ($infoCount && $infoCount > 0)<a class="infos" href="#${observationName}_info" title="$info_label ($infoCount)"><span class="legend">$info_label</span><span class="count">$infoCount</span></a> #end
+			#if ($errorCount && $errorCount > 0)<a class="errors" href="#${observationName}_error" title="$error_label ($errorCount)"><span class="legend">$error_label</span><span class="count">$errorCount</span></a> #end
+			#if ($warningCount && $warningCount > 0)<a class="warnings" href="#${observationName}_warning" title="$warning_label ($warningCount)"><span class="legend">$warning_label</span><span class="count">$warningCount</span></a> #end
+			<a class="anchor smooth" href="#$observationName" title="$anchor_observation">a</a>
+		</span>
+		#if($observation.isPassed()) #set($ref = "test_ok") #elseif ($observation.isUndef()) #set($ref = "test_undef") #else #set($ref = "test_fail") #end
+		$ucn.evaluate($lang, $ref, "<span class=\"name\">$unicorncall.getObserverName($observationName, $lang)#if($observation.isSetRating()) ($observation.Rating/100)#end</span>")
+		#if ($unicorncall.getInputMethod() == "URI") <a class="direct_link" href="$esc.html($observation.getHTMLRequestUri())" title="$direct_link_title_1">$direct_link_label</a>
+		#else <a class="direct_link" href="$esc.html($observation.getHTMLIndexUri())" title="$direct_link_title_2">$direct_link_label</a>#end
+	</h2>
+	
+	<div class="results block" #if($observation.getLang()!=$lang)xml:lang="$observation.getLang()"#end>
+	#if ($observation.hasGroups())
+		#foreach($group in $observation.getGroups()) #if (!$group.hasParent())
+		<div class="section group" id="${observationName}_${group.Name}">
+			<h3 class="title" #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end><a class="anchor" href="#${observationName}_${group.Name}">a</a>$group.getTitle()</h3>
+			<div class="block">
+				#if($group.getDescription())<p #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end>$group.getDescription()</p>#end
+				<div class="messages">
+					#set ($messages = $observation.getURISortedMessages($group.getName()))
+					#if ($messages.size() > 0)
+					<table>
+						<tbody>
+						#foreach ($uri in $messages.keySet())
+						#set ($uriCount = $velocityCount)
+							<tr>
+								<td colspan="4" class="uri" id="${observationName}_${group.Name}_$uriCount">
+								#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
+								#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+								#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
+								</td>
+								<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_${group.Name}_$uriCount">a</a></td>
+							</tr>
+							#foreach ($message in $messages.get($uri))
+								#if($message.getType()==2)#set($type="error")#elseif($message.getType()==1)#set($type="warning")#else#set($type="info")#end
+								#set ($messageId = "${observationName}_${group.Name}_${uriCount}_$velocityCount")
+								#if ($message.getContexts().size() == 0)
+									<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+										<td class="linenumber" title=""></td>
+										<td class="colnumber" title=""></td>
+										<td class="codeContext" title="$context_token"></td>
+										<td class="info level$message.Level message" id="$messageId">
+											<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
+												<span class="$type legend">$type</span> 	 
+												$!esc.html($message.Title) 	 
+											</span> 
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+									</tr>
+								#else
+									#set ($b = true)
+									#set ($rowspan = $message.getContexts().size())
+									#foreach($context in $message.getContexts())
+									<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+										<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+										<td class="codeContext" title="$context_token">
+											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
+											$!{context.Context}
+										</td>
+										#if ($b)
+										#set ($b = false)
+										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1)rowspan="$rowspan"#end>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
+												<span class="$type legend">$type</span> 	 
+												$!esc.html($message.Title) 	 
+											</span> 
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor" #if($rowspan>1)rowspan="$rowspan"#end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+										#end
+									</tr>
+									#end								
+								#end
+							#end
+						#end
+						</tbody>
+					</table>
+					#end
+				</div>
+				
+				#foreach($group in $observation.getGroupChildren($group))
+				<div class="section group" id="${observationName}_${group.Name}">
+					<h3 class="title" #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end><a class="anchor" href="#${observationName}_${group.Name}">a</a>$group.getTitle()</h3>
+					<div class="block">
+						#if($group.getDescription())<p #if($group.getLang()!=$observation.getLang())xml:lang="$group.getLang()"#end>$group.getDescription()</p>#end
+						<div class="messages">
+							#set ($messages = $observation.getURISortedMessages($group.getName()))
+							#if ($messages.size() > 0)
+							<table>
+								<tbody>
+								#foreach ($uri in $messages.keySet())
+								#set ($uriCount = $velocityCount)
+									<tr>
+										<td colspan="4" class="uri" id="${observationName}_${group.Name}_$uriCount">
+										#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
+										#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+										#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
+										</td>
+										<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_${group.Name}_$uriCount">a</a></td>
+									</tr>
+									#foreach ($message in $messages.get($uri))
+										#if($message.getType()==2)#set($type="error")#elseif($message.getType()==1)#set($type="warning")#else#set($type="info")#end
+										#set ($messageId = "${observationName}_${group.Name}_${uriCount}_$velocityCount")
+										#if ($message.getContexts().size() == 0)
+											<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+												<td class="linenumber" title=""></td>
+												<td class="colnumber" title=""></td>
+												<td class="codeContext" title="$context_token"></td>
+												<td class="info level$message.Level message" id="$messageId">
+													<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
+														<span class="$type legend">$type</span> 	 
+														$!esc.html($message.Title) 	 
+													</span> 
+													#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+												</td>
+												<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+											</tr>
+										#else
+											#set ($b = true)
+											#set ($rowspan = $message.getContexts().size())
+											#foreach($context in $message.getContexts())
+											<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+												<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+												<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+												<td class="codeContext" title="$context_token">
+													#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
+													$!{context.Context}
+												</td>
+												#if ($b)
+												#set ($b = false)
+												<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
+													<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
+														<span class="$type legend">$type</span> 	 
+														$!esc.html($message.Title) 	 
+													</span> 
+													#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+												</td>
+												<td class="anchor" #if($rowspan>1) rowspan="$rowspan" #end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+												#end
+											</tr>
+											#end								
+										#end
+									#end
+								#end
+								</tbody>
+							</table>
+							#end
+						</div>
+					</div>
+				</div>
+				#end
+			</div>
+		</div>
+		#end#end
+	
+	#else
+	
+		#if ($infoCount && $infoCount > 0)
+			<div class="section infos" id="${observationName}_info">
+				<h3 class="title">
+					<a class="smooth anchor" title="$anchor_uri" href="#${observationName}_info">a</a>
+					$info_label ($infoCount)
+				</h3>
+				<div class="block result" #if($observation.getLang()!=$lang)xml:lang="$observation.getLang()"#end>
+					<table>
+						<tbody>
+						#set ($messages = $observation.getURISortedMessages(0))
+						#foreach ($uri in $messages.keySet())
+						#set ($uriCount = $velocityCount)
+							<tr>
+								<td colspan="4" class="uri" id="${observationName}_info_$uriCount">
+								#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
+								#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+								#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
+								</td>
+								<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_info_$uriCount">a</a></td>
+							</tr>
+							#foreach($message in $messages.get($uri))
+							#set ($messageId = "${observationName}_info_${uriCount}_$velocityCount")
+								#if ($message.getContexts().size() == 0)
+									<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+										<td class="linenumber" title=""></td>
+										<td class="colnumber" title=""></td>
+										<td class="codeContext" title="$context_token"></td>
+										<td class="info level$message.Level message" id="$messageId">
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+									</tr>
+								#else
+									#set ($b = true)
+									#set ($rowspan = $message.getContexts().size())
+									#foreach($context in $message.getContexts())
+									<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+										<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+										<td class="codeContext" title="$context_token">
+											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
+											$!{context.Context}
+										</td>
+										
+										#if ($b)
+										#set ($b = false)
+										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor" #if($rowspan>1) rowspan="$rowspan" #end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+										#end
+									</tr>
+									#end								
+								#end
+							#end
+						#end
+						</tbody>
+					</table>
+				</div>
+			</div>
+		#end
+		
+		#if ($errorCount && $errorCount > 0)
+			<div class="section errors" id="${observationName}_error">
+				<h3 class="title">
+					<a class="smooth anchor" title="$anchor_uri" href="#${observationName}_error">a</a>
+					$error_label ($errorCount)
+				</h3>
+				<div class="block result" #if($observation.getLang()!=$lang)xml:lang="$observation.getLang()"#end>
+					<table>
+						<tbody>
+						#set ($messages = $observation.getURISortedMessages(2))
+						#foreach ($uri in $messages.keySet())
+						#set ($uriCount = $velocityCount)
+							<tr>
+								<td colspan="4" class="uri" id="${observationName}_error_$uriCount">
+								#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
+								#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+								#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
+								</td>
+								<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_error_$uriCount">a</a></td>
+							</tr>
+							#foreach($message in $messages.get($uri))
+							#set ($messageId = "${observationName}_error_${uriCount}_$velocityCount")
+								#if ($message.getContexts().size() == 0)
+									<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+										<td class="linenumber" title=""></td>
+										<td class="colnumber" title=""></td>
+										<td class="codeContext" title="$context_token"></td>
+										<td class="info level$message.Level message" id="$messageId">
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+									</tr>
+								#else
+									#set ($b = true)
+									#set ($rowspan = $message.getContexts().size())
+									#foreach($context in $message.getContexts())
+									<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+										<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+										<td class="codeContext" title="$context_token">
+											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
+											$!{context.Context}
+										</td>
+										#if ($b)
+										#set ($b = false)
+										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor" #if($rowspan>1) rowspan="$rowspan" #end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+										#end
+									</tr>
+									#end								
+								#end
+							#end
+						#end
+						</tbody>
+					</table>
+				</div>
+			</div>
+		#end
+		
+		#if ($warningCount && $warningCount > 0)
+			<div class="section warnings" id="${observationName}_warning">
+				<h3 class="title">
+					<a class="smooth anchor" title="$anchor_uri" href="#${observationName}_warning">a</a>
+					$warning_label ($warningCount)
+				</h3>
+				<div class="block result" #if($observation.getLang()!=$lang)xml:lang="$observation.getLang()"#end>
+					<table>
+						<tbody>
+						#set ($messages = $observation.getURISortedMessages(1))
+						#foreach ($uri in $messages.keySet())
+						#set ($uriCount = $velocityCount)
+							<tr>
+								<td colspan="4" class="uri" id="${observationName}_warning_$uriCount">
+								#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
+								#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+								#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
+								</td>
+								<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_warning_$uriCount">a</a></td>
+							</tr>
+							#foreach($message in $messages.get($uri))
+							#set ($messageId = "${observationName}_warning_${uriCount}_$velocityCount")
+								#if ($message.getContexts().size() == 0)
+									<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+										<td class="linenumber" title=""></td>
+										<td class="colnumber" title=""></td>
+										<td class="codeContext" title="$context_token"></td>
+										<td class="info level$message.Level message" id="$messageId">
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+									</tr>
+								#else
+									#set ($b = true)
+									#set ($rowspan = $message.getContexts().size())
+									#foreach($context in $message.getContexts())
+									<tr #if($message.getLang()!=$observation.getLang())xml:lang="$message.getLang()"#end>
+										<td class="linenumber" title="#if($context.Line)$line_token $context.Line#end">$!context.Line</td>
+										<td class="colnumber" title="#if($context.Column)$column_token $context.Column#end">$!context.Column</td>
+										<td class="codeContext" title="$context_token">
+											#if($context.URI && $context.URI != $uri) <a class="direct_link" href="$context.URI" title="$context.URI">link</a> #end
+											$!{context.Context}
+										</td>
+										#if ($b)
+										#set ($b = false)
+										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
+										</td>
+										<td class="anchor" #if($rowspan>1) rowspan="$rowspan" #end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
+										#end
+									</tr>
+									#end								
+								#end
+							#end
+						#end
+						</tbody>
+					</table>
+				</div>
+			</div>
+		#end
+	#end
+	</div>
+</div>
+#end
+</div>
+#parse('includes/footer.vm')
