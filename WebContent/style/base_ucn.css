@@ -650,6 +650,17 @@ fieldset.toggled legend {
 	font-size:1.2em;
 	margin-top:0.5em;
 }
+#observations strong {
+	font-weight:bold;
+}
+#observations .codeContext strong {
+	color:red;
+	padding-left:0.5ex;
+	padding-right:0.5ex;
+	font-weight:bolder;
+	border-bottom:thin dotted;
+	cursor:help;
+}
 #observations .group .title {
 	font-weight:bold;
 	font-size:1.2em;
