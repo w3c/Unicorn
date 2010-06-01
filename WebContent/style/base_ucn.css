@@ -647,7 +647,7 @@ fieldset.toggled legend {
 	font-family:"Bitstream Vera Sans Mono",Monaco,"Andale Mono",monospace;
 	line-height:100%;
 	white-space:pre;
-	font-size:0.8em;
+	font-size:1.2em;
 	margin-top:0.5em;
 }
 #observations .group .title {
@@ -805,7 +805,7 @@ form#lang_select, form#lang_select fieldset {
 div#markup-validator td.info img, div#css-validator td.info img, div#css1-validator td.info img, div#css2-validator td.info img, div#css21-validator td.info img, div#css3-validator td.info img {
 	float:left;
 	clear:left;
-	padding:2em 10px;
+	padding:2.4em 10px;
 }
 div#markup-validator td.info code, div#css-validator td.info code, div#css1-validator td.info code, div#css2-validator td.info code, div#css21-validator td.info code, div#css3-validator td.info code {
 	color:#444444;
