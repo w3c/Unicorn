@@ -646,7 +646,6 @@ fieldset.toggled legend {
 #observations code {
 	font-family:"Bitstream Vera Sans Mono",Monaco,"Andale Mono",monospace;
 	line-height:100%;
-	white-space:pre;
 	font-size:1.2em;
 	margin-top:0.5em;
 }
