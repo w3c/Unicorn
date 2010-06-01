@@ -9,7 +9,7 @@
 	<message type="info"> 
 		<title>The context element</title>
 		<description>
-			A message can have zero, one or more associated contexts. Context content is simple text.<br />
+			A message can have zero, one or more associated contexts. Context content is simple text but can contain a <em>strong</em> element.<br />
 			Context elements can have seven optional attributes:
 			<ul>
 				<li><em>ref</em>, use to override the ref attribute of the message</li>
@@ -45,6 +45,7 @@
 			<em>cite</em>,
 			<em>code</em>,
 			<em>em</em>,
+			<em>strong</em>,
 			<em>br</em>,
 			<em>span</em>,
 			<em>a</em>,
