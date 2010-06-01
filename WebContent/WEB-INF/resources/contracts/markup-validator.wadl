@@ -9,7 +9,7 @@
 	<resources base="http://qa-dev.w3.org/wmvs/HEAD/">
 		<resource path="check">
 
-			<doc title="responseType">old</doc>
+			<doc title="responseType">default</doc>
 		
 			<doc xml:lang="en" title="name">W3C HTML Validator</doc>
 			<doc xml:lang="fr" title="name">W3C Validateur HTML</doc>
