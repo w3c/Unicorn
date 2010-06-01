@@ -52,6 +52,9 @@
 	</xs:complexType>
 	
 	<xs:complexType name="context.type" mixed="true">
+		<xs:sequence>
+			<xs:element name="strong" type="xhtml.strong.type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
 		<xs:attribute name="line" type="xs:positiveInteger"/>
 		<xs:attribute name="column" type="xs:positiveInteger"/>
 		<xs:attribute name="line-range" type="range.type"/>
@@ -143,6 +146,7 @@
 			<xs:element name="ul" type="xhtml.ul.type" />
 			<xs:element name="li" type="xhtml.li.type" />
 			<xs:element name="img" type="xhtml.img.type" />
+			<xs:element name="strong" type="xhtml.strong.type" />
 		</xs:choice>
 	</xs:group>
 	
