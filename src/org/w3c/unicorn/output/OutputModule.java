@@ -1,4 +1,3 @@
-// $Id: OutputModule.java,v 1.12 2010-03-20 16:58:20 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

@@ -1,4 +1,3 @@
-// $Id: RequestList.java,v 1.3 2009-09-17 16:37:19 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
