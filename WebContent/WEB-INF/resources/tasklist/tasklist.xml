@@ -297,6 +297,21 @@
 			</group>
 		</output>
 	</task>
+	
+	<task id="feed">
+		<routine>
+			<exec id="feed" value="feed" type="observation" />
+		</routine>
+
+		<parameters>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>feed</observation>
+			</group>
+		</output>
+	</task>
 
 	<!-- This task allows developers to test their Unicorn output easily. It should removed in production. -->
 	<task id="test">
