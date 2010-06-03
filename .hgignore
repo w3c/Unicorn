@@ -2,6 +2,7 @@ syntax: glob
 dist/
 build/
 .settings/
-WebContent/WEB-INF/conf/
 .classpath
 .project
+syntax: regexp
+^WebContent/WEB-INF/conf$
