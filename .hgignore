@@ -1,0 +1,7 @@
+syntax: glob
+dist/
+build/
+.settings/
+WebContent/WEB-INF/conf/
+.classpath
+.project

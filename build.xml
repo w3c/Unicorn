@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<project name="" basedir=".">
+	<property name="warfile" value="unicorn"/>
+	<property name="webapps" value="."/>
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist" location="dist"/>
+	
+	<target name="all" depends="war, jigsaw, jar"/>
+	
+	<target name="war" depends="compile" description="Generate unicorn.war">
+		<mkdir dir="${dist}"/>
+		<war destfile="${dist}/${warfile}.war" webxml="WebContent/WEB-INF/web.xml" update="true">
+			<classes dir="build\classes"/>
+			<fileset dir="WebContent">
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+		</war>
+	</target>
+	
+	<target name="jigsaw" depends="compile" description="Generate folder for Jigsaw" >
+		<mkdir dir="${dist}/jigsaw"/>
+		<copy todir="${dist}/jigsaw" overwrite="true">
+			<fileset dir="WebContent"/>
+		</copy>
+		<copy todir="${dist}/jigsaw/WEB-INF" overwrite="true">
+			<fileset dir="${build}"/>
+		</copy>
+	</target>
+	
+	<target name="jar" depends="compile" description="Generate unicorn.jar" >
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/unicorn.jar" basedir="${build}"/>
+	</target>
+
+	<target name="clean" description="clean up" >
+		<delete dir="${build}/classes"/>
+		<delete dir="${dist}"/>
+	</target>
+	
+	<target name="compile">
+		<mkdir dir="${build}/classes"/>
+		<javac srcdir="${src}" destdir="${build}/classes" debug="on" debuglevel="lines,vars,source">
+			<classpath>
+				<fileset dir="WebContent/WEB-INF/lib" includes="*.jar"/>
+			</classpath>
+        </javac>
+	</target>
+	
+	<target name="compress-css">
+		<java jar="lib/yuicompressor-2.4.2.jar" fork="true" output="WebContent/style/base_ucn-yc.css" >
+			<arg path="WebContent/style/base_ucn.css" />
+		</java>
+	</target>
+	
+	<target name="deploy" depends="war">
+		<copy todir="${webapps}" overwrite="true">
+			<fileset dir=".">
+				<include name="${dist}/unicorn.war"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="xsd">
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/tasklist.xsd" destfile="WebContent/WEB-INF/lib/tasklist.jar" javasource="1.5" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/observer-response.xsd" destfile="WebContent/WEB-INF/lib/observationresponse.jar" javasource="1.5" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
+	</target>
+	
+	<target name="xsd2">
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/observer-response2.xsd" destfile="WebContent/WEB-INF/lib/observationresponse2.jar" javasource="1.5" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
+	</target>
+	
+	<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="WebContent/WEB-INF/lib/xbean.jar"/>
+	
+</project>
