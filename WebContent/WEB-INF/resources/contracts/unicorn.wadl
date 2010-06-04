@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd" xmlns="http://research.sun.com/wadl/2006/10"> 
+<grammars/> 
+	<resources base="http://localhost:8080/unicorn/"> 
+		<resource path="check"> 
+			
+			<doc title="responseType">default</doc>
+			
+			<doc xml:lang="en" title="name">Unicorn</doc>
+			
+			<doc title="mimetype">text/html</doc>
+			
+			<doc title="paramLang">lang</doc>
+			<doc title="paramOutput">output</doc>
+			
+			<doc title="reference">unicorn</doc>
+		
+      		<method name="GET" id="CssValidationUri">
+				<doc title="inputMethod">URI</doc>
+				<doc title="inputParamName">ucn_uri</doc>
+				<request>
+					<param name="ucn_uri" type="xs:anyURI" style="plain" required="true" />
+					<param name="ucn_format" fixed="xml" required="true" style="plain">
+						<option value="xml" />
+					</param>
+					<param name="ucn_task" fixed="mobileok" required="true" style="plain">
+						<option value="mobileok" />
+					</param>
+				</request>
+		    </method>
+		</resource>
+	</resources>
+</application>

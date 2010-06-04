@@ -1,0 +1,99 @@
+How to compile and deploy Unicorn:
+	1. The first thing you have to do in order to make Unicorn work is to add a unicorn.home parameter to your JVM parameters, pointing to the unicorn root directory.
+		example: -Dunicorn.home=/var/lib/tomcat6/webapps/unicorn/ or -Dunicorn.home=/C:/Program%20Files/Tomcat/webapps/unicorn/ (read your servlet engine documentation to know how to add this parameter) 
+	2. You will find all the configuration files that Unicorn uses in WEB-INF/conf. 
+		-The main one is unicorn.properties, which contains some properties that you may want to change:
+			UNICORN_URL is the url of your installation of Unicorn.
+			DEFAULT_LANGUAGE, the language Unicorn will use if language negotiation fails.
+			PROTECT_INIT_ACTION is a boolean to specify whether the InitAction servlet (see further) is available only from localhost or from any IP address.
+			You can nest properties in this file, meaning that Unicorn will replace any ${<Property_key>} by its value.
+			There is one property that is not specify in the file but added at runtime, UNICORN_HOME, which is equal to the JVM parameter unicorn.home.
+		-velocity.properties contains properties for the template engine that Unicorn uses: Apache Velocity
+			By default template caching is set to false. In a production environment you should set this property to true.
+			parser.pool.size is set to the default velocity value (20). If you have a lot of requests you may have to increase this value. In any case check the logs to see if you need to change it (Velocity will log warnings).
+		-log4j.properties is the properties file for Apache Log4J. The property UNICORN_HOME is also available in this file. By default logs will be written in WEB-INF/logs and sorted by package and level.
+			If you are developing Unicorn locally you should add the appender GUI to the root logger. This will pop up a useful LogFactor5 console.
+			You can find documentation about log4j configuration here: http://logging.apache.org/log4j/1.2/manual.html
+			Note that log4j is not mandatory for Unicorn to work properly. If log4j.properties does not exist the default java.util.Logger will be used.
+		-observers.list is the list of the observers contract links 
+	3. Under WEB-INF/resources/tasklist you will find the task related files which are xml files describing tasks and rdf files containing metadata about tasks.
+	4. Use ant to compile the project. You can use the 'war' task to make a war file of the 'jar' task to package Unicorn in a jar. The files will be written in the dist directory. See build.xml for more info.
+		ex: 'ant war'
+	5. As root, copy the file resources/tomcat_policy in the policy directory of tomcat (/etc/tomcat5/policy.d for Debian) and eventually edit it to fit your needs.
+  	   Note that this file is very important because it will give permissions to read and write files under Unicorn servlet dir, but also to connect to distant hosts (observers).
+
+How to initialize Unicorn:
+	Once you have compiled and deploy Unicorn on your engine you must initialize it. There are a few mandatory steps that Unicorn has to do before being usable, like parsing the contract files, language files, taklists, etc...
+	If your engine uses the web.xml description file (which should be the case with almost any servlet engine) initialization is automated at startup.
+	If you want to manually initialize Unicorn you can simply execute the InitAction by connecting to http://localhost:8080/unicorn/init. This task will launch all initialization tasks which are:
+		-initialize Unicorn core
+		-load Unicorn observers (you can execute this task only by connecting to /init?task=observers)
+		-load Unicorn tasklists (/init?task=tasklist)
+		-load language files (/init?task=language)
+	In a production environment InitAction servlet should be protected to be accessible only from localhost (set PROTECT_INIT_ACTION to true in unicorn.properties)
+	
+	
+	
+	
+	
+	
+	
+How to compile and deploy Unicorn under Tomcat
+- Move to unicorn directory (you're probably already inside)
+- Edit the file org/w3c/unicorn/conf/unicorn.properties
+  Here is a list of default values for each property:
+	UNICORN_HOME = /var/lib/tomcat6/webapps/unicorn/
+	UNICORN_URL = http://localhost:8080/unicorn
+	UNICORN_ENCODING = UTF-8
+	UNICORN_PARAMETER_PREFIX = ucn_
+	UNICORN_PARAMETER_OUTPUT_PREFIX = opt_
+	FILESYSTEM_PREFIX = file:
+	PATH_TO_RESOURCES = /var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/
+	PATH_TO_OBSERVER_LIST = /var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/
+	PATH_TO_TASKLIST = /var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/tasklist/
+	PATH_TO_TEMPLATES = /var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/templates/
+	PATH_TO_TEMPORARY_FILES = /var/lib/tomcat6/webapps/unicorn/temporary_files/
+	URL_TO_TEMPORARY_FILES = http://localhost:8080/unicorn/temporary_files/
+	PATH_TO_INDEX_OUTPUT = /var/lib/tomcat6/webapps/unicorn/
+	PATH_TO_LANGUAGE_FILES = /var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/templates/language/
+	OBSERVER_LIST_FILE = /var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/observers.list
+	OBSERVER_RDF_MODEL = file:/var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/schemas/Observer.rdfs
+	OBSERVER_XML_FILENAME = observer.wadl
+	OBSERVER_RDF_FILENAME = observer.rdf
+	TASKLIST_RDF_FILENAME = /tasklist.rdf
+	TASKLIST_RDF_FILE = /var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/tasklist/tasklist.rdf
+	TASKLIST_XML_FILENAME = /tasklist.xml
+	TASKLIST_XML_FILE = /var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/tasklist/tasklist.xml
+	TASKLIST_RDF_MODEL = file:/var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/schemas/Task.rdfs
+	UPLOADED_FILES_REPOSITORY = /var/lib/tomcat6/webapps/unicorn/WEB-INF/uploaded-files/
+	DELETE_UPLOADED_FILES = true
+	
+  Each entry of this file has the following form:
+        PROPERTY_NAME = ($REF_TO_OTHER_PROPERTY ,)* [^$,]*
+  For example, the property PATH_TO_RESOURCES can be :
+	PATH_TO_RESOURCES = $UNICORN_HOME , WEB-INF/resources/
+  Which will produce the path /var/lib/tomcat6/webapps/unicorn/WEB-INF/resources/ , provided that UNICORN_HOME is set to /var/lib/tomcat6/webapps/unicorn/
+  The only property you should have to set is UNICORN_URL, since Unicorn+Tomcat will guess the others, such as UNICORN_HOME and adapt them automagically to your configuration. For example, once you've set UNICORN_URL, URL_TO_TEMPORARY_FILES sould automatically point to the correct directory of this server.
+- Eventually, edit the file log4j.xml th change the logging behaviour
+- Edit the file resources/observers.list to add observers
+- Edit the files under resources/tasklist to create your own tasklist
+- > ant war
+- As root, copy the file resources/tomcat_policy in the policy directory of tomcat (/etc/tomcat5/policy.d for Debian) and eventually edit it to fit your needs.
+  Note that this file is very important because it will give permissions to read and write files under unicorn servlet dir, but also to connect to distant hosts (observers).
+- Finally, place the generated unicorn.war in your tomcat webapps directory (as root) and wait for it to auto-deploy or deploy it through the tomcat manager. 
+  At the end of the deployment, some files should be created in the unicorn webapp directory such as index.en.html and en_parameters.js. 
+  These are the auto-generated index files from the tasklist and observers. If they are not created, it's not normal. Check all the previous steps and see in the WEB-INF/logs/packages/info.log if the properties are correctly set.
+  If these files have been created, then, you could access Unicorn through index.en.html (it could be wise to rename it as index.html) and begin checking all sorts of documents :)
+- If no files have been created try to add "-Dunicorn.conf=/absolute/path/to/org/w3c/unicorn/conf/" to your jvm parameters (especially needed if you install unicorn on Jigsaw)
+
+
+N.B.: This is an alpha test, theres are probably many bugs and features lacking. If you find any problem, please report to qa-dev@w3.org list.
+N.B.2: Direct input size seems to be limited be Tomcat and/or browsers. So, big inputs won't work
+
+
+How does the log works :
+Under Tomcat logs files are on "webapps/unicorn/WEB-INF/logs/".
+There are split in two directory :
+	- "level" where log are split in one file by log level (trace, debug, info, warning and error).
+	- "package" where log are split by package where they come from. There are also one file called "all.log" which
+		contains all logs informations.
