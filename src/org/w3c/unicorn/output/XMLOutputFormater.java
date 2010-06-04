@@ -1,4 +1,3 @@
-// $Id: XMLOutputFormater.java,v 1.9 2009-10-22 14:59:51 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

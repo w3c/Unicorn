@@ -1,4 +1,3 @@
-// $Id: UnicornClient.java,v 1.6 2010-03-20 17:08:55 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

@@ -1,4 +1,3 @@
-// $Id: LanguageAction.java,v 1.27 2010-05-17 15:39:21 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html

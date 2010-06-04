@@ -1,5 +1,4 @@
 package org.w3c.unicorn.response;
-//$Id: ResponseFactory.java,v 1.2 2009-10-23 13:24:41 tgambet Exp $
 //Author: Thomas Gambet
 //(c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 //Please first read the full copyright statement in file COPYRIGHT.html

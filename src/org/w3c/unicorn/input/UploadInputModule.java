@@ -1,4 +1,3 @@
-// $Id: UploadInputModule.java,v 1.3 2009-09-04 15:49:48 jean-gui Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

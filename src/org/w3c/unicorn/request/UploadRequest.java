@@ -1,4 +1,3 @@
-// $Id: UploadRequest.java,v 1.9 2009-10-23 13:24:41 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html
