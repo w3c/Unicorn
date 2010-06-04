@@ -9,6 +9,7 @@
                         <doc title="responseType">default</doc>
                         
                         <doc title="mimetype">application/xml</doc>
+                        <doc title="mimetype">text/xml</doc>
                         
                         <doc title="reference">feed</doc>
                 
