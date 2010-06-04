@@ -1,4 +1,3 @@
-// $Id: CheckboxParameter.java,v 1.2 2009-08-28 12:40:10 jean-gui Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

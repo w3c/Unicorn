@@ -1,4 +1,3 @@
-// $Id: DefaultResponseXBeans.java,v 1.16 2010-05-17 12:10:29 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html

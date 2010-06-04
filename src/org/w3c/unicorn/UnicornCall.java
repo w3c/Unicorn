@@ -1,4 +1,3 @@
-// $Id: UnicornCall.java,v 1.40 2010-05-18 10:00:06 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

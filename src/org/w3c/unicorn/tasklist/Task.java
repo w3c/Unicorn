@@ -1,4 +1,3 @@
-// $Id: Task.java,v 1.8 2009-09-30 13:39:26 tgambet Exp $
 // Author: Jean-Guilhem Rouel
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

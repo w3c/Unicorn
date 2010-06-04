@@ -1,4 +1,3 @@
-// $Id: OutputFactory.java,v 1.10 2009-10-09 06:46:40 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

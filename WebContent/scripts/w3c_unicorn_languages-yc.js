@@ -1,4 +1,3 @@
-// $Id: w3c_unicorn_languages-yc.js,v 1.2 2010-03-16 16:25:06 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Compressed with YUI Compressor 2.4.2 (source: ./w3c_unicorn_index.js)

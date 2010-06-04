@@ -1,4 +1,3 @@
-// $Id: FileItemInputModule.java,v 1.4 2009-09-23 09:17:03 tgambet Exp $
 // Author: Damien LEROY.
 // (c) COPYRIGHT MIT, ERCIM ant Keio, 2006.
 // Please first read the full copyright statement in file COPYRIGHT.html

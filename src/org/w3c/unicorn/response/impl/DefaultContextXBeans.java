@@ -1,4 +1,3 @@
-// $Id: DefaultContextXBeans.java,v 1.4 2010-05-06 10:58:36 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html

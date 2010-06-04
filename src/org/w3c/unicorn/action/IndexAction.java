@@ -1,4 +1,3 @@
-// $Id: IndexAction.java,v 1.26 2010-03-20 17:04:37 tgambet Exp $
 // Author: Thomas Gambet
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Please first read the full copyright statement in file COPYRIGHT.html

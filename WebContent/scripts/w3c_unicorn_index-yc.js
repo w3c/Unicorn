@@ -1,4 +1,3 @@
-// $Id: w3c_unicorn_index-yc.js,v 1.3 2009-10-22 17:39:29 tgambet Exp $
 // Author: Thomas GAMBET.
 // (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
 // Compressed with YUI Compressor 2.4.2 (source: ./w3c_unicorn_index.js)
