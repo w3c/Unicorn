@@ -9,7 +9,7 @@
 	</appender>
 
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
-		<param name="Threshold" value="trace" />
+		<param name="Threshold" value="info" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p (%F:%L) : %m%n" />
 		</layout>
@@ -177,19 +177,19 @@
 
 	<logger name="org.apache.velocity">
 		<level value="debug"/>
-		<appender-ref ref="velocity_log" />
+		<!-- <appender-ref ref="velocity_log" /> -->
 	</logger>
 
 	<logger name="org.w3c.unicorn.Framework">
-		<level value="debug"/>
+		<level value="trace"/>
 	</logger>
 	
 	<logger name="org.w3c.unicorn">
 		<level value="debug"/>
-		<appender-ref ref="package-unicorn" />
+		<!-- <appender-ref ref="package-unicorn" /> -->
 	</logger>
 	
-	 <logger name="org.w3c.unicorn.action">
+	<!-- <logger name="org.w3c.unicorn.action">
 		<appender-ref ref="package-action" />
 	</logger>
 	
@@ -223,17 +223,17 @@
 	
 	<logger name="org.w3c.unicorn.util">
 		<appender-ref ref="package-util" />
-	</logger>
+	</logger> -->
 	
 	<root>
 		<level value="all"/>
-		<appender-ref ref="level-error" />
+		<!-- <appender-ref ref="level-error" />
 		<appender-ref ref="level-warning" />
 		<appender-ref ref="level-info" />
 		<appender-ref ref="level-debug" />
-		<appender-ref ref="level-trace" />
+		<appender-ref ref="level-trace" /> -->
 		<appender-ref ref="console" />
-		<!-- <appender-ref ref="gui" /> -->
+		<appender-ref ref="gui" />
 	</root>
 
 </log4j:configuration>
