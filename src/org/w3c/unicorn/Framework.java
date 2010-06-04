@@ -343,7 +343,8 @@ public class Framework {
 		
 		if (defaultLocale == null)
 			throw new InitializationFailedException("Locale not found for default language in unicorn.properties: " + Property.get("DEFAULT_LANGUAGE"));
-	
+		
+		Language.reset();
 		Language.initLocaleMatcher(defaultLocale);	
 		
 		File defaultLanguageFile = new File(Property.get("PATH_TO_LANGUAGE_FILES", "DEFAULT_LANGUAGE") + ".properties");
