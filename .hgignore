@@ -5,4 +5,4 @@ build/
 .classpath
 .project
 syntax: regexp
-^WebContent/WEB-INF/conf$
+^WebContent/WEB-INF/conf/
