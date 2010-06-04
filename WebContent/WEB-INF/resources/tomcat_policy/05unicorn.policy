@@ -1,0 +1,13 @@
+/* AUTOMATICALLY GENERATED ON Mon Jul 10 18:00:18 CEST 2006*/
+/* DO NOT EDIT */
+
+grant codeBase "file:${catalina.home}/webapps/unicorn/-" {
+  permission java.net.SocketPermission "*", "connect, resolve";
+  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+  permission java.util.PropertyPermission "*", "read";
+  permission java.lang.RuntimePermission "accessDeclaredMembers";
+  permission java.io.FilePermission "${catalina.home}/webapps/unicorn/WEB-INF/logs/-", "read, write, delete";
+  permission java.io.FilePermission "${catalina.home}/webapps/unicorn/WEB-INF/uploaded-files/*", "read, write, delete";
+  permission java.io.FilePermission "${catalina.home}/webapps/unicorn/*", "read, write, delete";
+  permission java.io.FilePermission "${catalina.home}/webapps/unicorn/temporary_files/*", "read, write, delete";
+};
