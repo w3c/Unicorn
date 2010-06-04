@@ -32,7 +32,7 @@ How to initialize Unicorn:
 		-load language files (/init?task=language)
 	In a production environment InitAction servlet should be protected to be accessible only from localhost (set PROTECT_INIT_ACTION to true in unicorn.properties)
 
-How does the log work :
+How does the log work:
 Under Tomcat logs files are on "webapps/unicorn/WEB-INF/logs/".
 There are split in two directory :
 	- "level" where log are split in one file by log level (trace, debug, info, warning and error).
