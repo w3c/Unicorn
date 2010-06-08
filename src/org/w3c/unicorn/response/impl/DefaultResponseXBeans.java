@@ -232,17 +232,6 @@ public class DefaultResponseXBeans implements Response {
 			return true;
 		return false;
 	}
-	
-	public String[] execQuery(String query) {
-		XmlObject[] objects = or.execQuery(query);
-		String[] result = new String[objects.length];
-		int i = 0;
-		for (XmlObject obj : objects) {
-			result[i] = obj.toString();
-			i++;
-		}
-		return result;
-	}
 
 	public String[] selectPath(String xpath) {
 		XmlObject[] objects = or.selectPath(xpath);

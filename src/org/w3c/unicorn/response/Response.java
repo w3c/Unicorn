@@ -67,8 +67,6 @@ public interface Response {
 	
 	public void setObserverId(String obsId);
 	
-	public String[] execQuery(String query);
-	
 	public String[] selectPath(String xpath);
 	
 	public boolean evaluateXPath(String xpathQuery);
