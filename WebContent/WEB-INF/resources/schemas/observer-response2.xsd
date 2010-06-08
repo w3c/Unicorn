@@ -55,11 +55,11 @@
 		<xs:sequence>
 			<xs:element name="strong" type="xhtml.strong.type" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="line" type="xs:positiveInteger"/>
-		<xs:attribute name="column" type="xs:positiveInteger"/>
+		<xs:attribute name="line" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="column" type="xs:nonNegativeInteger"/>
 		<xs:attribute name="line-range" type="range.type"/>
 		<xs:attribute name="column-range" type="range.type"/>
-		<xs:attribute name="offset" type="xs:positiveInteger"/>
+		<xs:attribute name="offset" type="xs:nonNegativeInteger"/>
 		<xs:attribute name="position" type="xs:string"/>
 		<xs:attribute name="ref" type="xs:anyURI"/>
 	</xs:complexType>
