@@ -11,6 +11,7 @@
 			<exec id="css21" value="css21-validator" type="observation" />
 			<exec id="css3" value="css3-validator" type="observation" />
 			<exec id="css1" value="css1-validator" type="observation" />
+			<exec id="feed" value="feed" type="observation" />
 		</routine>
 
 		<parameters>
@@ -34,6 +35,9 @@
 				<observation>css2-validator</observation>
 				<observation>css3-validator</observation>
 				<observation>css1-validator</observation>
+			</group>
+			<group>
+				<observation>feed</observation>
 			</group>
 		</output>
 	</task>
