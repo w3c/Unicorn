@@ -13,7 +13,8 @@
                         <doc title="mimetype">text/html</doc>
                         
                         <doc title="reference">feed</doc>
-                
+                		<doc title="paramOutput">output</doc>
+                		
 	                	<method name="GET" id="uriMethod">
                             <doc title="inputMethod">URI</doc>
                             <doc title="inputParamName">url</doc>
