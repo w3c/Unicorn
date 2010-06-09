@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	xmlns="http://www.w3.org/2009/10/unicorn/observationresponse"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.w3.org/2009/10/unicorn/observationresponse"
+	elementFormDefault="qualified">
+	<xs:import
+		namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+	
+	<xs:include schemaLocation="./xhtml/xhtml-basic10-modules-1.xsd"/>
+	
+	<!-- Simple types -->
+	<xs:simpleType name="collapseString.type">
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="range.type">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]+-[0-9]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="percent.type">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="message.level">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="error|warning|info"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- Complex Types -->
+	<xs:complexType name="status.type">
+		<xs:attribute name="value">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:pattern value="passed|failed|undef"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="rating" type="percent.type"/>
+	</xs:complexType>
+	
+	<xs:complexType mixed="true" name="description.type">
+		<xs:sequence>
+			<xs:group ref="description.group" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="context.type" mixed="true">
+		<xs:sequence>
+			<xs:element name="strong" type="xhtml.strong.type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="line" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="column" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="line-range" type="range.type"/>
+		<xs:attribute name="column-range" type="range.type"/>
+		<xs:attribute name="offset" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="position" type="xs:string"/>
+		<xs:attribute name="ref" type="xs:anyURI"/>
+	</xs:complexType>
+
+	<xs:complexType name="message.type">
+		<xs:sequence>
+			<xs:element name="context" type="context.type" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="title" type="collapseString.type"/>
+			<xs:element name="description" type="description.type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="ref" type="xs:anyURI"/>
+		<xs:attribute name="type" use="required" type="message.level"/>
+		<xs:attribute name="group" type="xs:token"/>
+		<xs:attribute name="level" type="percent.type"/>
+		<xs:attribute ref="xml:lang"/>
+	</xs:complexType>
+
+	<xs:complexType name="list.type">
+		<xs:sequence>
+			<xs:element name="message" type="message.type" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="ref" type="xs:anyURI"/>
+		<xs:attribute name="group" type="xs:token"/>
+	</xs:complexType>
+
+	<xs:complexType name="group.type">
+		<xs:sequence>
+			<xs:element name="title" type="collapseString.type"/>
+			<xs:element name="description" type="description.type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:token" use="required"/>
+		<xs:attribute name="parent" type="xs:token"/>
+		<xs:attribute ref="xml:lang"/>
+	</xs:complexType>
+
+	<!-- Root element -->
+	<xs:element name="observationresponse">	
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="status.type" minOccurs="0"/>
+				<xs:group ref="messages" maxOccurs="unbounded"/>
+				<xs:element name="status" type="status.type" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="ref" use="required"/>
+			<xs:attribute name="date" type="xs:dateTime"/>
+			<xs:attribute ref="xml:lang" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Groups -->
+	<xs:group name="messages">
+		<xs:choice>
+			<xs:element name="list" type="list.type"/>
+			<xs:element name="message" type="message.type"/>
+			<xs:element name="group" type="group.type"/>
+		</xs:choice>
+	</xs:group>	
+	
+	<xs:group name="description.group">
+		<xs:choice>
+			<xs:element name="address" type="xhtml.address.type" />
+			<xs:element name="blockquote" type="xhtml.blockquote.type" />
+			<xs:element name="pre" type="xhtml.pre.type" />
+			<xs:element name="h1" type="xhtml.h1.type" />
+			<xs:element name="h2" type="xhtml.h2.type" />
+			<xs:element name="h3" type="xhtml.h3.type" />
+			<xs:element name="h4" type="xhtml.h4.type" />
+			<xs:element name="h5" type="xhtml.h5.type" />
+			<xs:element name="h6" type="xhtml.h6.type" />
+			<xs:element name="div" type="xhtml.div.type" />
+			<xs:element name="p" type="xhtml.p.type" />
+			<xs:element name="abbr" type="xhtml.abbr.type" />
+			<xs:element name="acronym" type="xhtml.acronym.type" />
+			<xs:element name="cite" type="xhtml.cite.type" />
+			<xs:element name="code" type="xhtml.code.type" />
+			<xs:element name="em" type="xhtml.em.type" />
+			<xs:element name="br" type="xhtml.br.type" />
+			<xs:element name="span" type="xhtml.span.type" />
+			<xs:element name="a" type="xhtml.a.type" />
+			<xs:element name="dt" type="xhtml.dt.type" />
+			<xs:element name="dl" type="xhtml.dl.type" />
+			<xs:element name="dd" type="xhtml.dd.type" />
+			<xs:element name="ol" type="xhtml.ol.type" />
+			<xs:element name="ul" type="xhtml.ul.type" />
+			<xs:element name="li" type="xhtml.li.type" />
+			<xs:element name="img" type="xhtml.img.type" />
+			<xs:element name="strong" type="xhtml.strong.type" />
+		</xs:choice>
+	</xs:group>
+	
+</xs:schema>
