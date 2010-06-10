@@ -84,7 +84,7 @@
 										<td class="info level$message.Level message" id="$messageId">
 											<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
 												<span class="$type legend">$type</span> 	 
-												$!esc.html($message.Title) 	 
+												$!message.Title 	 
 											</span> 
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
@@ -106,7 +106,7 @@
 										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1)rowspan="$rowspan"#end>
 											<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
 												<span class="$type legend">$type</span> 	 
-												$!esc.html($message.Title) 	 
+												$!message.Title 	 
 											</span> 
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
@@ -153,7 +153,7 @@
 												<td class="info level$message.Level message" id="$messageId">
 													<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
 														<span class="$type legend">$type</span> 	 
-														$!esc.html($message.Title) 	 
+														$!message.Title 	 
 													</span> 
 													#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 												</td>
@@ -175,7 +175,7 @@
 												<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
 													<span class="msg#if($message.Description && $message.Description != "") desc#end"> 	 
 														<span class="$type legend">$type</span> 	 
-														$!esc.html($message.Title) 	 
+														$!message.Title 	 
 													</span> 
 													#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 												</td>
@@ -227,7 +227,7 @@
 										<td class="colnumber" title=""></td>
 										<td class="codeContext" title="$context_token"></td>
 										<td class="info level$message.Level message" id="$messageId">
-											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!message.Title</span>
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
 										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
@@ -247,7 +247,7 @@
 										#if ($b)
 										#set ($b = false)
 										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
-											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!message.Title</span>
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
 										<td class="anchor" #if($rowspan>1) rowspan="$rowspan" #end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
@@ -291,7 +291,7 @@
 										<td class="colnumber" title=""></td>
 										<td class="codeContext" title="$context_token"></td>
 										<td class="info level$message.Level message" id="$messageId">
-											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!message.Title</span>
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
 										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
@@ -310,7 +310,7 @@
 										#if ($b)
 										#set ($b = false)
 										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
-											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!message.Title</span>
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
 										<td class="anchor" #if($rowspan>1) rowspan="$rowspan" #end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
@@ -354,7 +354,7 @@
 										<td class="colnumber" title=""></td>
 										<td class="codeContext" title="$context_token"></td>
 										<td class="info level$message.Level message" id="$messageId">
-											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!message.Title</span>
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
 										<td class="anchor"><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
@@ -373,7 +373,7 @@
 										#if ($b)
 										#set ($b = false)
 										<td class="info level$message.Level message" id="$messageId" #if($rowspan>1) rowspan="$rowspan" #end>
-											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!esc.html($message.Title)</span>
+											<span class="msg#if($message.Description && $message.Description != "") desc#end">$!message.Title</span>
 											#if($message.Description && $message.Description != "")<div class="description">$!message.Description</div>#end
 										</td>
 										<td class="anchor" #if($rowspan>1) rowspan="$rowspan" #end><a class="smooth" title="$anchor_message" href="#$messageId">a</a></td>
