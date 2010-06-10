@@ -17,7 +17,8 @@ public class Templates {
 			StringWriter sw = new StringWriter();
 			if (Property.get("USE_HTML_COMPACTOR").equalsIgnoreCase("true")) {
 				Framework.getVelocityEngine().mergeTemplate(templateName, "UTF-8", context, sw);
-				writer.append(Compactor.compactString(sw.toString(), templateName));
+				Compactor compactor = new Compactor();
+				writer.append(compactor.compactString(sw.toString(), templateName));
 			} else {
 				Framework.getVelocityEngine().mergeTemplate(templateName, "UTF-8", context, writer);
 			}

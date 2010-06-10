@@ -44,7 +44,13 @@
 		</xs:attribute>
 		<xs:attribute name="rating" type="percent.type"/>
 	</xs:complexType>
-	
+
+	<xs:complexType mixed="true" name="title.type">
+		<xs:sequence>
+			<xs:element name="a" type="xhtml.a.type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType mixed="true" name="description.type">
 		<xs:sequence>
 			<xs:group ref="description.group" minOccurs="0" maxOccurs="unbounded"/>
@@ -67,7 +73,7 @@
 	<xs:complexType name="message.type">
 		<xs:sequence>
 			<xs:element name="context" type="context.type" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="title" type="collapseString.type"/>
+			<xs:element name="title" type="title.type"/>
 			<xs:element name="description" type="description.type" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attribute name="ref" type="xs:anyURI"/>
