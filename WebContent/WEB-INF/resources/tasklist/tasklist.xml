@@ -248,6 +248,9 @@
 			<cond id="param_mobile" result="passed" type="parameter" parameter="tests">
 				<value>mobileok</value>
 			</cond>
+			<cond id="param_feed" result="passed" type="parameter" parameter="tests">
+				<value>feed</value>
+			</cond>
 		</conds>
 
 		<routine>
@@ -263,6 +266,9 @@
 			<if test="param_appc">
 				<then><exec id="appc" value="appc-checker" type="observation" /></then>
 			</if>
+			<if test="param_feed">
+				<then><exec id="feed" value="feed" type="observation" /></then>
+			</if>
 		</routine>
 
 		<parameters>
@@ -271,6 +277,7 @@
 				<value name="css-validator"></value>
 				<value name="appc-checker"></value>
         		<value name="mobileok"></value>
+        		<value name="feed"></value>
 			</parameter>
 			<parameter name="profile" type="dropdown" ui="advanced" observer="css-validator" default="css21"/>
 			<parameter name="warning" type="dropdown" ui="advanced" observer="css-validator" default="2"/>
@@ -283,6 +290,7 @@
 				<observation>appc-checker</observation>
 				<observation>css-validator</observation>
         		<observation>mobileok</observation>
+        		<observation>feed</observation>
 			</group>
 		</output>
 	</task>
