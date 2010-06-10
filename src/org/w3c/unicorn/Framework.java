@@ -127,6 +127,7 @@ public class Framework {
 			initTasklists();
 			initVelocity();
 			isUcnInitialized = true;
+			logger.info("Unicorn initialized successfully.");
 		} catch (InitializationFailedException e) {
 			logger.fatal(e.getMessage(), e);
 		}
@@ -558,9 +559,25 @@ public class Framework {
 	}
 	
 	public static void initVelocity() throws InitializationFailedException {	
-		// Creating velocity contexts
+
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Initializing Velocity");
+		
+		// Creating velocity engine
+		velocityEngine = new VelocityEngine();
+		Properties bProperties = Property.getProps("velocity.properties");
+		bProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH,
+				Property.get("PATH_TO_TEMPLATES") + "," + 
+				Property.get("PATH_TO_TEMPLATES")+"includes/");
+		logger.debug("> Initializing velocity engine with FILE_RESOURCE_LOADER_PATH: " + Property.get("PATH_TO_TEMPLATES"));
+		try {
+			velocityEngine.init(bProperties);
+			logger.debug("> Velocity engine successfully initialized");
+		} catch (Exception e) {
+			throw new InitializationFailedException("Error instanciating velocity engine: " + e.getMessage());
+		}
+		
+		// Creating velocity contexts
 		for (ULocale locale : languageProperties.keySet()) {
 			VelocityContext context = new VelocityContext();
 			Properties langProps = languageProperties.get(locale);
@@ -581,24 +598,7 @@ public class Framework {
 		}
 		logger.debug("> " + languageContexts.size() + " velocity context(s) created");
 		
-		// Creating velocity engine
-		velocityEngine = new VelocityEngine();
-		Properties bProperties = Property.getProps("velocity.properties");
-		bProperties.put(Velocity.FILE_RESOURCE_LOADER_PATH,
-				Property.get("PATH_TO_TEMPLATES") + "," + 
-				Property.get("PATH_TO_TEMPLATES")+"includes/");
-		logger.debug("> Initializing velocity engine with FILE_RESOURCE_LOADER_PATH: " + Property.get("PATH_TO_TEMPLATES"));
-		try {
-			velocityEngine.init(bProperties);
-			logger.debug("> Velocity engine successfully initialized");
-		} catch (Exception e) {
-			throw new InitializationFailedException("Error instanciating velocity engine: " + e.getMessage());
-		}
-		
 		logger.info("OK - Velocity successfully initialized");
-		
-		logger.info("Unicorn initialized successfully.");
-		isUcnInitialized = true;
 	}
 	
 	private static void loadConfigFile(String path, boolean addUnicornHome) throws FileNotFoundException, IOException {		
