@@ -33,7 +33,15 @@ public class DefaultMessageXBeans implements Message {
 	
 	public DefaultMessageXBeans(MessageType message) {
 		
-		title = message.getTitle();
+		XmlOptions opts = new XmlOptions();
+		opts.setSaveCDataLengthThreshold(10000000);
+		opts.setSaveCDataEntityCountThreshold(-1);
+		opts.setUseDefaultNamespace();
+		
+		title = message.getTitle().xmlText(opts)
+				.replaceAll("[ ]*xmlns=\"[^>]*\"", "").replaceAll("</?xml-fragment[^>]*>", "");
+
+		//title = message.getTitle();
 		
 		lang = message.getLang();
 		
@@ -54,10 +62,6 @@ public class DefaultMessageXBeans implements Message {
 			group = message.getGroup();
 		
 		if (message.isSetDescription()) {
-			XmlOptions opts = new XmlOptions();
-			opts.setSaveCDataLengthThreshold(10000000);
-			opts.setSaveCDataEntityCountThreshold(-1);
-			opts.setUseDefaultNamespace();
 			description = message.getDescription().xmlText(opts)
 				.replaceAll("[ ]*xmlns=\"[^>]*\"", "").replaceAll("</?xml-fragment[^>]*>", "");
 		}
