@@ -149,7 +149,6 @@ public class Framework {
 				throw new InitializationFailedException(fatal);
 			} else {
 				unicornHome = ucnHomeFile.toURI();
-				logger.info("OK - JVM parameter \"unicorn.home\" was found: " + unicornHome.getPath());
 			}
 		}
 		
