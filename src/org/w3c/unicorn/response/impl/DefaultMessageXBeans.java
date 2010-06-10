@@ -40,8 +40,6 @@ public class DefaultMessageXBeans implements Message {
 		
 		title = message.getTitle().xmlText(opts)
 				.replaceAll("[ ]*xmlns=\"[^>]*\"", "").replaceAll("</?xml-fragment[^>]*>", "");
-
-		//title = message.getTitle();
 		
 		lang = message.getLang();
 		
