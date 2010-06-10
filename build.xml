@@ -5,6 +5,7 @@
 	<property name="src" location="src"/>
 	<property name="build" location="build"/>
 	<property name="dist" location="dist"/>
+	<property name="serverLibPath" location="/usr/share/jetty/lib/"/>
 	
 	<target name="all" depends="war, jigsaw, jar"/>
 	
@@ -42,6 +43,7 @@
 		<mkdir dir="${build}/classes"/>
 		<javac srcdir="${src}" destdir="${build}/classes" debug="on" debuglevel="lines,vars,source">
 			<classpath>
+				<fileset dir="${serverLibPath}" includes="*.jar"/>
 				<fileset dir="WebContent/WEB-INF/lib" includes="*.jar"/>
 			</classpath>
         </javac>
