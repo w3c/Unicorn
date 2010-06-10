@@ -1,5 +1,4 @@
-/* $Id: base_ucn.css,v 1.65 2010-05-17 14:51:09 tgambet Exp $
-   Author: Thomas GAMBET.
+/* Author: Thomas GAMBET <tgambet@w3.org>.
    (c) COPYRIGHT MIT, ERCIM and Keio, 2009. */
 /* YUI Reset CSS */
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
@@ -686,11 +685,17 @@ fieldset.toggled legend {
 #observations .message .description em {
 	font-style:italic;
 }
-#observations .message .description ul {
+#observations .message .description ul, #observations .message .description ol {
 	margin-left:1em;
 }
 #observations .message .description ul li:before {
 	content:"- ";
+}
+#observations .message .description ol {
+	list-style-type:decimal;
+}
+#observations .message .description ol li {
+	margin-left:1em;
 }
 div.warnings td.level1 {
 	border-left:6px solid #f97c6e !important;
@@ -819,6 +824,10 @@ div#markup-validator td.info img, div#css-validator td.info img, div#css1-valida
 }
 div#markup-validator td.info code, div#css-validator td.info code, div#css1-validator td.info code, div#css2-validator td.info code, div#css21-validator td.info code, div#css3-validator td.info code {
 	color:#444444;
+}
+div#feed td.info img {
+	vertical-align:middle;
+	margin:0 0.3em 0.3em 0.3em;
 }
 #observations span.arrow {
 	display:inline-block;
