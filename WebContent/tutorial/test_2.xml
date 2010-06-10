@@ -33,14 +33,14 @@
 			A message is composed of (in order):
 			<ul>
 				<li>zero, one or more <em>context</em> elements.</li>
-				<li>a required <em>title</em> element which must contain simple text.</li>
+				<li>a required <em>title</em> element which can contain text and links only (<em>a</em> elements).</li>
 				<li>an optional <em>description</em> element.</li>
 			</ul>
 		</description> 
 	</message> 
 	
 	<message type="error"> 
-		<title>A simple error message</title>
+		<title>A simple error message with a <a href="#">link</a> in the title</title>
 	</message>
 	
 	<message type="warning"> 
