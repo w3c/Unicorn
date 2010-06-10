@@ -454,6 +454,7 @@ public class Framework {
 		UCNProperties defaultProps = null;
 		try{
 			defaultProps = Language.load(defaultTaskFile);
+			defaultProps.parse();
 			logger.debug("> Found default tasks metadata file: " + defaultTaskFile.getPath());
 			LanguageAction.addMetadatasProperties(Language.getDefaultLocale(), defaultProps);
 			metadataProperties.put(Language.getDefaultLocale(), defaultProps);
@@ -507,6 +508,7 @@ public class Framework {
 				ULocale fileLocale = Language.getLocaleFromFileName(taskFile.getName());
 				String lang = fileLocale.getName();
 				UCNProperties props = Language.load(taskFile);
+				props.parse();
 				logger.debug("> Found tasks metadata file: " + taskFile.getPath());
 				
 				ArrayList<Object> keys = new ArrayList<Object>();
