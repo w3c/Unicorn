@@ -12,4 +12,8 @@ public class InitializationFailedException extends Exception {
 		super(message);
 	}
 
+	public InitializationFailedException(String message, Throwable cause) {
+        super(message, cause);
+    }
+	
 }
