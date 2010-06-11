@@ -31,7 +31,7 @@ public class IndexAction extends Action {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		if (!Framework.isUcnInitialized) {
-			Framework.init();
+			Framework.initUnicorn();
 			if (!Framework.isUcnInitialized) {
 				resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
 				return;

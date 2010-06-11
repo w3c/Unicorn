@@ -22,7 +22,7 @@ public class InitAction extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public InitAction() {
-		Framework.init();
+		Framework.initUnicorn();
     }
 
 	/**

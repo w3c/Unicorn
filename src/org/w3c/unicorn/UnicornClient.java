@@ -52,7 +52,7 @@ public class UnicornClient {
 			return;
 		}
 
-		Framework.init();
+		Framework.initUnicorn();
 
 		if (!Framework.isUcnInitialized) {
 			System.err.println(">> Unicorn is not properly initialized.");
