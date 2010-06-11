@@ -8,17 +8,10 @@
 
 	<resources base="http://qa-dev.w3.org/wmvs/HEAD/">
 		<resource path="check">
-
 			<doc title="responseType">default</doc>
 		
 			<doc xml:lang="en" title="name">W3C HTML Validator</doc>
 			<doc xml:lang="fr" title="name">W3C Validateur HTML</doc>
-			
-			<doc xml:lang="en" title="description">An observer which validates (X)HTML.</doc>
-			<doc xml:lang="fr" title="description">Un observateur qui valide le (X)HTML.</doc>
-			
-			<doc xml:lang="en" title="help">http://www.w3.org/Unicorn/markup-observer/help</doc>
-			<doc xml:lang="fr" title="help">http://www.w3.org/Unicorn/markup-observer/help_fr</doc>
 			
 			<doc title="mimetype">text/html</doc>
 			<doc title="mimetype">application/xhtml+xml</doc>
@@ -26,13 +19,7 @@
 			<doc title="mimetype">application/mathml+xml</doc>
 			<doc title="mimetype">application/smil+xml</doc>
 			
-			<doc xml:lang="en" title="provider">W3C</doc>
-			<doc xml:lang="fr" title="provider">Le W3C</doc>
-			
-			<doc title="paramLang"></doc>
 			<doc title="paramOutput">output</doc>
-			
-			<doc title="reference">markup-validator</doc>
 		
 			<method name="GET" id="MarkupValidationUri">
 				<doc title="inputMethod">URI</doc>
