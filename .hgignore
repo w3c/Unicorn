@@ -1,0 +1,8 @@
+syntax: glob
+dist/
+build/
+.settings/
+.classpath
+.project
+syntax: regexp
+^WebContent/WEB-INF/classes$
