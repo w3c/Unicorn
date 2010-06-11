@@ -114,7 +114,7 @@ public class Framework {
 	/**
 	 * Initialize Unicorn
 	 */
-	public static void init() {
+	public static void initUnicorn() {
 		isUcnInitialized = false;
 		reset();
 		try {
@@ -159,9 +159,9 @@ public class Framework {
 			DOMConfigurator.configure(log4jPath);
 			logger.info("OK - JVM parameter \"unicorn.home\" was found: " + unicornHome.getPath());
 			logger.info("OK - Log4j successfully initialized");
-			logger.debug("> Used log4j.properties file: " + log4jPath);
+			logger.debug("> Used log4j.xml file: " + log4jPath);
 		} else {
-			logger.warn("Log4j config file \"log4j.properties\" could not be found: " + log4jPath);
+			logger.warn("Log4j config file \"log4j.xml\" could not be found: " + log4jPath);
 			logger.warn("Log4j will not be initialized");
 		}
 	}
@@ -635,4 +635,5 @@ public class Framework {
 	public static Task getDefaultTask() {
 		return mapOfTask.getDefaultTask();
 	}
+
 }
