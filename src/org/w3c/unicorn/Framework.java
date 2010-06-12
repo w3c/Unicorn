@@ -3,15 +3,12 @@
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -81,11 +78,6 @@ public class Framework {
 	public static Log logger = LogFactory.getLog(Framework.class);
 	
 	/**
-	 * URI to unicorn home
-	 */
-	public static URI unicornHome;
-	
-	/**
 	 * True if initialization did not throw any exception
 	 */
 	public static boolean isUcnInitialized;
@@ -99,7 +91,8 @@ public class Framework {
 		"responseImpl.properties",
 		"output.properties",
 		"velocity.properties",
-		"mail.properties"};
+		"mail.properties",
+		"observers.properties"};
 
 	public static void reset() {
 		unicornPropertiesFiles = new Hashtable<String, UCNProperties>();
@@ -130,38 +123,27 @@ public class Framework {
 			logger.info("Unicorn initialized successfully.");
 		} catch (InitializationFailedException e) {
 			logger.fatal(e.getMessage(), e);
+			System.err.println(e.getMessage());
 		}
 	}
 	
 	public static void initCore() throws InitializationFailedException {
-		
-		// Checks that unicorn.home (JVM parameter) is set to an existing directory
-		String ucnHome = System.getProperty("unicorn.home");
-		if (ucnHome == null) {
-			String fatal = "\"unicorn.home\" is not set in the JVM parameters. Please read the README file before trying to install Unicorn";
-			System.err.println("FATAL: " + fatal);
-			throw new InitializationFailedException(fatal);
-		} else {
-			File ucnHomeFile = new File(ucnHome);
-			if (!ucnHomeFile.exists() || !ucnHomeFile.isDirectory()) {
-				String fatal = "JVM parameter \"unicorn.home\" is not an existing directory: " + System.getProperty("unicorn.home");
-				System.err.println("FATAL: " + fatal);
-				throw new InitializationFailedException(fatal);
-			} else {
-				unicornHome = ucnHomeFile.toURI();
-			}
+		try {
+			URL classesDir = Framework.class.getResource("/");
+			File classes = new File(classesDir.toURI());
+			System.setProperty("unicorn.home", classes.getParent());
+		} catch (URISyntaxException e) {
+			throw new InitializationFailedException(e.getMessage(), e);
 		}
 		
 		// Log4j initialization attempt
-		String log4jPath = unicornHome.getPath() + "/WEB-INF/conf/log4j.xml";
-		File log4jFile = new File(log4jPath);
-		if (log4jFile.exists()) {
-			DOMConfigurator.configure(log4jPath);
-			logger.info("OK - JVM parameter \"unicorn.home\" was found: " + unicornHome.getPath());
+		URL log4jURL = Framework.class.getResource("/log4j.xml");
+		if (log4jURL != null) {
+			DOMConfigurator.configure(log4jURL);
 			logger.info("OK - Log4j successfully initialized");
-			logger.debug("> Used log4j.xml file: " + log4jPath);
+			logger.debug("> Used log4j.xml file: " + log4jURL.toString());
 		} else {
-			logger.warn("Log4j config file \"log4j.xml\" could not be found: " + log4jPath);
+			logger.warn("Log4j config file \"log4j.xml\" could not be found in classpath.");
 			logger.warn("Log4j will not be initialized");
 		}
 	}
@@ -169,25 +151,26 @@ public class Framework {
 	public static void initConfig() throws InitializationFailedException {
 		// Load unicorn.properties	
 		logger.debug("-------------------------------------------------------");
-		String unicornPath = unicornHome.getPath() + "/WEB-INF/conf/unicorn.properties";
+		InputStream uniconfStream = Framework.class.getResourceAsStream("/unicorn.properties");
+		if (uniconfStream == null)
+			throw new InitializationFailedException("Unicorn config file \"unicorn.properties\" could not be found in classpath.");
 		try {
-			loadConfigFile(unicornPath, true);
+			String[] uniHome = {"UNICORN_HOME", System.getProperty("unicorn.home")};
+			loadConfigFile(uniconfStream, "unicorn.properties", uniHome);
 			logger.info("OK - Config file unicorn.properties successfully loaded");
-		} catch (FileNotFoundException e) {
-			throw new InitializationFailedException("Unicorn config file \"unicorn.properties\" could not be found: " + unicornPath);
 		} catch (IOException e) {
 			throw new InitializationFailedException("Error reading \"unicorn.properties\": " + e.getMessage());
-		}
+		} 
 
 		// Loading other config files
 		for (String fileName : configFiles) {
-			String path = Property.get("PATH_TO_CONF_FILES") + fileName;
+			InputStream confStream = Framework.class.getResourceAsStream("/" + fileName);
 			logger.debug("-------------------------------------------------------");
+			if (confStream == null)
+				throw new InitializationFailedException("Mandatory config file \"" + fileName + "\" could not be found in classpath.");
 			try {
-				loadConfigFile(path, false);
+				loadConfigFile(confStream, fileName);
 				logger.info("OK - Config file " + fileName + " successfully loaded");
-			} catch (FileNotFoundException e) {
-				throw new InitializationFailedException("Mandatory config file \"" + fileName + "\" could not be found: " + path);
 			} catch (IOException e) {
 				throw new InitializationFailedException("Error reading \"" + fileName + "\": " + e.getMessage());
 			}
@@ -256,48 +239,32 @@ public class Framework {
 	public static void initObservers() throws InitializationFailedException {
 		// Loading observers
 		logger.debug("-------------------------------------------------------");
-		logger.debug("Loading available observers from the observers list file.");
-		BufferedReader aBufferedReader;
-		try {
-			aBufferedReader = new BufferedReader(new FileReader(Property.get("OBSERVER_LIST_FILE")));
-			logger.debug("Using file: " + Property.get("OBSERVER_LIST_FILE"));
-		} catch (FileNotFoundException e) {
-			throw new InitializationFailedException("The list of observers could not be found: " + Property.get("OBSERVER_LIST_FILE"));
-		}
-		String readLine;
-		do {
-			try {
-				readLine = aBufferedReader.readLine();
-				if (readLine == null)
-					break;
-			} catch (IOException e) {
-				throw new InitializationFailedException("Error while reading the observer list file: " + e.getMessage());
-			}
-			if ("".equals(readLine.trim()) || readLine.matches("^#.*$"))
-				continue;
-			String sWADL = readLine;
-			if (!readLine.matches(".*\\.wadl$")) {
-				sWADL += "/" + Property.get("OBSERVER_XML_FILENAME");
-			}
-			logger.debug("- Loading observer contract: " + sWADL);
+		logger.debug("Loading available observers from the observers.properties");
+		Properties observers = Property.getProps("observers.properties");
+		for (Object key : observers.keySet()) {
+			String observerId = key.toString();
+			String observerContract = observers.getProperty(key.toString());
+			if (!observerContract.matches(".*\\.wadl$"))
+				observerContract += "/" + Property.get("OBSERVER_DEFAULT_FILENAME");
+			logger.debug("- Loading observer contract: " + observerContract);
 			Observer obs = new Observer();
 			WADLUnmarshaller unmarshaller;
 			try {
 				unmarshaller = new WADLUnmarshallerXPath();
-				unmarshaller.addURL(new URL(sWADL));
+				unmarshaller.addURL(new URL(observerContract));
 				unmarshaller.unmarshal();
 			} catch (MalformedURLException e) {
-				logger.error("Invalid observer contract URL \"" + sWADL + "\". Check the observers list file.", e);
+				logger.error("Invalid observer contract URL \"" + observerContract + "\". Check the observers list file.", e);
 				logger.warn("> This observer will be skiped");
 				continue;
 			} catch (ParserConfigurationException e) {
 				throw new InitializationFailedException("ParserConfigurationException: " + e.getMessage());
 			} catch (IOException e) {
-				logger.error("Unable to read observer contract: " + sWADL, e);
+				logger.error("Unable to read observer contract: " + observerContract, e);
 				logger.warn("> This observer will be skiped");
 				continue;
 			} catch (Exception e) {
-				logger.error("Error unmarshalling contract: " + sWADL, e);
+				logger.error("Error unmarshalling contract: " + observerContract, e);
 				logger.warn("> This observer will be skiped");
 				continue;
 			}
@@ -311,7 +278,7 @@ public class Framework {
 			obs.setListOfCallMethod(unmarshaller.getListOfCallMethod());
 			obs.setParamLangName(unmarshaller.getNameOfLangParameter());
 			obs.setParamOutputName(unmarshaller.getNameOfOutputParameter());
-			obs.setID(unmarshaller.getID());
+			obs.setID(observerId);
 			obs.setName(unmarshaller.getName());
 			obs.setDescription(unmarshaller.getDescription());
 			obs.setHelpLocation(unmarshaller.getHelpLocation());
@@ -320,7 +287,7 @@ public class Framework {
 			obs.setSupportedMimeTypes(unmarshaller.getSupportedMimeTypes());
 			obs.setIndexURI(unmarshaller.getIndexUri());
 			mapOfObserver.put(new String(obs.getID()), obs);
-		} while (readLine != null);
+		}
 		if (mapOfObserver.size() == 0) {
 			throw new InitializationFailedException("There is no observer loaded. Check the observers list file.");
 		} else {
@@ -602,19 +569,17 @@ public class Framework {
 		logger.info("OK - Velocity successfully initialized");
 	}
 	
-	private static void loadConfigFile(String path, boolean addUnicornHome) throws FileNotFoundException, IOException {		
+	private static void loadConfigFile(InputStream stream, String fileName, String[]... parameters) throws IOException {		
 		UCNProperties properties = new UCNProperties();
-		File configFile = new File(path);
-		String fileName = configFile.getName();
-		if (fileName != null) {
-			logger.debug("Loading config file: " + fileName);
-			if (addUnicornHome)
-				properties.put("UNICORN_HOME", unicornHome.getPath());
-			properties.load(new FileInputStream(configFile));
-			properties.parse();
-			unicornPropertiesFiles.put(fileName, properties);
-			logger.debug("> " + fileName + ":" + properties);
+		logger.debug("Loading config file: " + fileName);
+		for (String[] param : parameters) {
+			if (param.length == 2 && param[1] != null)
+				properties.put(param[0], param[1]);
 		}
+		properties.load(stream);
+		properties.parse();
+		unicornPropertiesFiles.put(fileName, properties);
+		logger.debug("> " + fileName + ":" + properties);
 	}
 	
 	public static Hashtable<String, UCNProperties> getUnicornPropertiesFiles() {
