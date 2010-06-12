@@ -131,7 +131,8 @@ public class Framework {
 		try {
 			URL classesDir = Framework.class.getResource("/");
 			File classes = new File(classesDir.toURI());
-			System.setProperty("unicorn.home", classes.getParent());
+			File webInf = new File(classes.getParent());
+			System.setProperty("unicorn.home", webInf.getParent());
 		} catch (URISyntaxException e) {
 			throw new InitializationFailedException(e.getMessage(), e);
 		}
