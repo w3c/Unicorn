@@ -6,6 +6,7 @@ package org.w3c.unicorn.contract;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,30 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 	/**
 	 * Namespace for the context
 	 */
-	private static NamespaceContext aNamespaceContext;
+	private static NamespaceContext aNamespaceContext = new NamespaceContext() {
+		public String getNamespaceURI(final String sPrefix) {
+			if ("xs".equals(sPrefix)) {
+				return "http://www.w3.org/2001/XMLSchema";
+			} else if ("uco".equals(sPrefix)) {
+				return "http://www.w3.org/unicorn/observationresponse";
+			} else {
+				return null;
+			}
+		}
+		public String getPrefix(final String sNamespaceURI) {
+			if ("http://www.w3.org/2001/XMLSchema".equals(sNamespaceURI)) {
+				return "xs";
+			} else if ("http://www.w3.org/unicorn/observationresponse"
+					.equals(sNamespaceURI)) {
+				return "uco";
+			} else {
+				return null;
+			}
+		}
+		public Iterator<String> getPrefixes(final String sNamespaceURI) {
+			return null;
+		}
+	};
 
 	/**
 	 * List of the different call method

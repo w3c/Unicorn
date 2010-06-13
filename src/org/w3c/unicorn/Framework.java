@@ -12,12 +12,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
@@ -113,7 +111,6 @@ public class Framework {
 		try {
 			initCore();
 			initConfig();
-			initUnmarshallers();
 			initResponseImplementations();
 			initObservers();
 			initLanguages();
@@ -176,34 +173,6 @@ public class Framework {
 				throw new InitializationFailedException("Error reading \"" + fileName + "\": " + e.getMessage());
 			}
 		}
-	}
-	
-	public static void initUnmarshallers() {
-		// Initialize WADLUnmarshallerXPath (Gets the Namespace URI and the prefix)
-		WADLUnmarshallerXPath.setNamespaceContext(new NamespaceContext() {
-			public String getNamespaceURI(final String sPrefix) {
-				if ("xs".equals(sPrefix)) {
-					return "http://www.w3.org/2001/XMLSchema";
-				} else if ("uco".equals(sPrefix)) {
-					return "http://www.w3.org/unicorn/observationresponse";
-				} else {
-					return null;
-				}
-			}
-			public String getPrefix(final String sNamespaceURI) {
-				if ("http://www.w3.org/2001/XMLSchema".equals(sNamespaceURI)) {
-					return "xs";
-				} else if ("http://www.w3.org/unicorn/observationresponse"
-						.equals(sNamespaceURI)) {
-					return "uco";
-				} else {
-					return null;
-				}
-			}
-			public Iterator<String> getPrefixes(final String sNamespaceURI) {
-				return null;
-			}
-		});
 	}
 	
 	@SuppressWarnings("unchecked")
