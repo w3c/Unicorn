@@ -60,4 +60,10 @@
     <auth-method>DIGEST</auth-method>
     <realm-name>Unicorn Initialization</realm-name>
   </login-config>
+  <security-role>
+    <description>
+      Unicorn Administrators
+    </description>
+    <role-name>unicorn_admin</role-name>
+  </security-role>
 </web-app>
