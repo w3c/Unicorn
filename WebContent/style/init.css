@@ -17,3 +17,6 @@
 img.loader {
 	margin:0;
 }
+#init textarea {
+	width:99%;
+}
