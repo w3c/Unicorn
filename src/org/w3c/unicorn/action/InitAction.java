@@ -50,9 +50,7 @@ public class InitAction extends HttpServlet {
 			Templates.write("init.vm", velocityContext, out);
 		} else {
 			response.setContentType("text/plain");
-			
-			
-			
+
 			if (task == null || task.equals("all")) {
 				
 				Framework.reset();
@@ -80,11 +78,6 @@ public class InitAction extends HttpServlet {
 					Framework.isUcnInitialized = false;
 					return;
 				}
-				
-				out.write("Initializing unmarshallers: ");
-				response.flushBuffer();
-				Framework.initUnmarshallers();
-				out.write("OK\n");
 				
 				out.write("Initializing response parsers: ");
 				response.flushBuffer();
