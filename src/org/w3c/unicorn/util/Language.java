@@ -111,7 +111,7 @@ public class Language {
 		for (Object key : defaultProps.keySet()) {
 			if (!props.containsKey(key) && key != "complete") {
 				props.put(key, defaultProps.get(key));
-				Framework.logger.info(">> Missing property in " + fileName + " for key: \"" + (String) key + "\". Added default property for this key: \"" + defaultProps.get(key) + "\""); 
+				Framework.logger.debug(">> Missing property in " + fileName + " for key: \"" + (String) key + "\". Added default property for this key: \"" + defaultProps.get(key) + "\""); 
 			}
 		}
 	}
