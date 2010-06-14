@@ -71,6 +71,11 @@ body {
 	float:left;
 	margin-right:0.245em;
 }
+body.rtl #tabset_tabs li {
+	float:right;
+	margin-left:0.245em;
+	margin-right:0;
+}
 #tabset_tabs li a {
 	display:block;
 	font-size:0.9em;
@@ -320,6 +325,9 @@ p.instructions, span#task_descrip {
 }
 #fields {
 	background:#EAEBEE url(../images/round-tr.png) no-repeat scroll right top;
+}
+body.rtl #fields {
+	background:#EAEBEE url(../images/round-tl.png) no-repeat scroll left top;
 }
 #fields, #menu {
 	background-color:#EAEBEE;
