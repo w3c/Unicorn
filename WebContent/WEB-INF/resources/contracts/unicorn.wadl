@@ -3,7 +3,6 @@
 <grammars/> 
 	<resources base="http://localhost:8080/unicorn/"> 
 		<resource path="check"> 
-			
 			<doc title="responseType">default</doc>
 			
 			<doc xml:lang="en" title="name">Unicorn</doc>
@@ -12,8 +11,6 @@
 			
 			<doc title="paramLang">lang</doc>
 			<doc title="paramOutput">output</doc>
-			
-			<doc title="reference">unicorn</doc>
 		
       		<method name="GET" id="CssValidationUri">
 				<doc title="inputMethod">URI</doc>

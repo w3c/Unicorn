@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd" xmlns="http://research.sun.com/wadl/2006/10"> 
-<grammars/> 
+<application 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd"
+	xmlns="http://research.sun.com/wadl/2006/10"> 
+	<grammars/>  
+	
 	<resources base="http://qa-dev.w3.org:8001/css-validator/"> 
 		<resource path="validator"> 
-			
 			<doc title="responseType">default</doc>
+			
 			<doc xml:lang="en" title="name">W3C CSS Validator (Level 3)</doc>
 			<doc xml:lang="fr" title="name">W3C Validateur CSS (Niveau 3)</doc>
-			
-			<doc xml:lang="en" title="description">Validate CSS stylesheets or (X)HTML documents with CSS</doc>
-			<doc xml:lang="fr" title="description">validation de feuilles de style CSS, seules ou incluses dans du (X)HTML</doc>
-			
-			<doc xml:lang="en" title="help">http://www.w3.org/Unicorn/css-observer/help</doc>
-			<doc xml:lang="fr" title="help">http://www.w3.org/Unicorn/css-observer/help_fr</doc>
 			
 			<doc title="mimetype">text/css</doc>
 			<doc title="mimetype">text/html</doc>
 			<doc title="mimetype">application/xhtml+xml</doc>
 			<doc title="mimetype">image/svg+xml</doc>
 			
-			<doc xml:lang="en" title="provider">W3C</doc>
-			<doc xml:lang="fr" title="provider">Le W3C</doc>
-			
 			<doc title="paramLang">lang</doc>
 			<doc title="paramOutput">output</doc>
-			
-			<doc title="reference">css3-validator</doc>
 		
-      <method name="GET" id="CssValidationUri">
+      		<method name="GET" id="CssValidationUri">
 				<doc title="inputMethod">URI</doc>
 				<doc title="inputParamName">uri</doc>
 				<request>

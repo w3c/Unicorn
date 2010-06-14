@@ -16,7 +16,7 @@
 	<link rel="icon" href="$!{baseUri}images/favicon.ico" type="image/x-icon" />
 #end
 </head>
-<body>
+<body class="$direction">
 	<div id="banner">
 		<h1>
 			<a href="http://www.w3.org/"><img alt="W3C" width="110" height="61" id="logo" src="$!{baseUri}images/w3c.png" /></a>

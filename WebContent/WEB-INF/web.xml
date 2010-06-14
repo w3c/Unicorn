@@ -46,4 +46,24 @@
     <servlet-name>TestObserver</servlet-name>
     <url-pattern>/test</url-pattern>
   </servlet-mapping>
+  <!-- Init servlet security. Add a user with unicorn_admin role in your server configuration. -->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Unicorn Init Servlet</web-resource-name>
+      <url-pattern>/init</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+       <role-name>unicorn_admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>DIGEST</auth-method>
+    <realm-name>Unicorn Initialization</realm-name>
+  </login-config>
+  <security-role>
+    <description>
+      Unicorn Administrators
+    </description>
+    <role-name>unicorn_admin</role-name>
+  </security-role>
 </web-app>

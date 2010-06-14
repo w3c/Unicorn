@@ -78,7 +78,7 @@ public class ObserveAction extends Action {
 		
 		// Protects the action in case that Framework is not initialized
 		if (!Framework.isUcnInitialized) {
-			Framework.init();
+			Framework.initUnicorn();
 			if (!Framework.isUcnInitialized) {
 				resp.sendError(500, "Unicorn is not initialized properly. Check logs.");
 				return;
