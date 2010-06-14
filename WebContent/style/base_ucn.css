@@ -380,8 +380,15 @@ fieldset div.submit input {
 	line-height:22px;
 	padding-left:30px;
 }
+body.rtl #messages .error h4, body.rtl  #messages .warning h4, body.rtl  #messages .info h4 {
+	padding-left:0;
+	padding-right:30px;
+}
 #messages .error h4 {
 	background:url(../images/icone_error_b.png) no-repeat scroll left top;
+}
+body.rtl #messages .error h4 {
+	background-position:right top;
 }
 #messages .warning h4 {
 	background:url(../images/icone_warning_b.png) no-repeat scroll left top;
