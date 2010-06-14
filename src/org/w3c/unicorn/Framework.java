@@ -125,13 +125,15 @@ public class Framework {
 	}
 	
 	public static void initCore() throws InitializationFailedException {
-		try {
-			URL classesDir = Framework.class.getResource("/");
-			File classes = new File(classesDir.toURI());
-			File webInf = new File(classes.getParent());
-			System.setProperty("unicorn.home", webInf.getParent());
-		} catch (URISyntaxException e) {
-			throw new InitializationFailedException(e.getMessage(), e);
+		if (System.getProperty("unicorn.home") == null) {
+			try {
+				URL classesDir = Framework.class.getResource("/");
+				File classes = new File(classesDir.toURI());
+				File webInf = new File(classes.getParent());
+				System.setProperty("unicorn.home", webInf.getParent());
+			} catch (URISyntaxException e) {
+				throw new InitializationFailedException(e.getMessage(), e);
+			}
 		}
 		
 		// Log4j initialization attempt
