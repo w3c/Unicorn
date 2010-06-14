@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.exceptions.InitializationFailedException;
@@ -49,9 +50,9 @@ public class InitAction extends HttpServlet {
 			
 			Templates.write("init.vm", velocityContext, out);
 		} else {
-			response.setContentType("text/plain");
+			response.setContentType("text/plain; charset=UTF-8");
 
-			if (task == null || task.equals("all")) {
+			if (task.equals("all")) {
 				
 				Framework.reset();
 				
@@ -60,6 +61,7 @@ public class InitAction extends HttpServlet {
 				try {
 					Framework.initCore();
 					out.write("OK\n");
+					out.write("\t-> unicorn.home is " + System.getProperty("unicorn.home") + "\n");
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
@@ -72,6 +74,8 @@ public class InitAction extends HttpServlet {
 				try {
 					Framework.initConfig();
 					out.write("OK\n");
+					for (String key : Framework.getUnicornPropertiesFiles().keySet())
+						out.write("\t" + key + "\n");
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
@@ -84,6 +88,8 @@ public class InitAction extends HttpServlet {
 				try {
 					Framework.initResponseImplementations();
 					out.write("OK\n");
+					for (String key : Framework.responseImpl.keySet())
+						out.write("\t" + key + ": " + Framework.responseImpl.get(key).getName() + "\n");
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
@@ -92,9 +98,9 @@ public class InitAction extends HttpServlet {
 				}
 			}
 			
-			if (task == null || task.equals("all") || task.equals("observers")) {
+			if (task.equals("all") || task.equals("observers")) {
 				
-				if (!Framework.isUcnInitialized && task != null && task.equals("observers")) {
+				if (!Framework.isUcnInitialized && task.equals("observers")) {
 					out.write("Unable to reload the observers because Unicorn is not initialized.\n" +
 							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
 					out.close();
@@ -106,6 +112,8 @@ public class InitAction extends HttpServlet {
 				try {
 					Framework.initObservers();
 					out.write("OK\n");
+					for (String key : Framework.mapOfObserver.keySet())
+						out.write("\t" + key + ": " + Framework.mapOfObserver.get(key).getIndexURI() + "\n");
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
@@ -114,9 +122,9 @@ public class InitAction extends HttpServlet {
 				}
 			}
 			
-			if (task == null || task.equals("all") || task.equals("language")) {
+			if (task.equals("all") || task.equals("languages")) {
 				
-				if (!Framework.isUcnInitialized && task != null && task.equals("language")) {
+				if (!Framework.isUcnInitialized && task.equals("language")) {
 					out.write("Unable to reload the language files because Unicorn is not initialized.\n" +
 							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
 					out.close();
@@ -128,6 +136,8 @@ public class InitAction extends HttpServlet {
 				try {
 					Framework.initLanguages();
 					out.write("OK\n");
+					for (ULocale key : Framework.getLanguageProperties().keySet())
+						out.write("\t" + key.getName() + ": " + StringEscapeUtils.escapeHtml(key.getDisplayName(Language.getDefaultLocale())) + "\n");
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
@@ -136,9 +146,9 @@ public class InitAction extends HttpServlet {
 				}
 			}
 			
-			if (task == null || task.equals("all") || task.equals("tasklist")) {
+			if (task.equals("all") || task.equals("tasklist")) {
 				
-				if (!Framework.isUcnInitialized && task != null && task.equals("tasklist")) {
+				if (!Framework.isUcnInitialized && task.equals("tasklist")) {
 					out.write("Unable to reload the tasklist because Unicorn is not initialized.\n" +
 							"You should initialize Unicorn fully and successfully one time before trying to perform this task (/init?task=all).");
 					out.close();
@@ -150,6 +160,8 @@ public class InitAction extends HttpServlet {
 				try {
 					Framework.initTasklists();
 					out.write("OK\n");
+					for (String key : Framework.mapOfTask.keySet())
+						out.write("\t" + key + ": " + Framework.mapOfTask.get(key).getLongName(Language.getDefaultLocale().getBaseName()) + "\n");
 				} catch (InitializationFailedException e) {
 					Framework.logger.fatal(e.getMessage(), e);
 					out.write("FAILED\n" + e);
