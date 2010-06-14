@@ -30,9 +30,9 @@
 		</copy>
 	</target>
 	
-	<target name="jar" depends="compile" description="Generate unicorn.jar" >
+	<target name="jar" depends="compile" description="Generate unicorn.jar">
 		<mkdir dir="${dist}"/>
-		<jar jarfile="${dist}/unicorn.jar" basedir="${build}"/>
+		<jar jarfile="${dist}/unicorn.jar" basedir="${build}/classes" manifest="WebContent/META-INF/Manifest.MF"/>
 	</target>
 
 	<target name="clean" description="clean up" >
