@@ -83,7 +83,7 @@ public class URIInputParameter extends InputParameter {
 			if (!docUrl.getProtocol().equals("http") && !docUrl.getProtocol().equals("https"))
 				throw new UnicornException(Message.ERROR, "$message_unsupported_protocol", null, docUrl.getProtocol());
 			
-			if (!Property.get("ACCEPT_LOCAL_ADDRESSES").equals("true")) {
+			if (!"true".equals(Property.get("ACCEPT_LOCAL_ADDRESSES"))) {
 				InetAddress add = InetAddress.getByName(docUrl.getHost());
 				if (add.isSiteLocalAddress() || add.isLoopbackAddress())
 					throw new UnicornException(Message.ERROR, "$message_local_address_provided");
