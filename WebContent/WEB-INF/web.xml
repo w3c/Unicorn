@@ -58,7 +58,7 @@
   </security-constraint>
   <login-config>
     <auth-method>DIGEST</auth-method>
-    <realm-name>Unicorn Initialization</realm-name>
+    <realm-name>Unicorn</realm-name>
   </login-config>
   <security-role>
     <description>
