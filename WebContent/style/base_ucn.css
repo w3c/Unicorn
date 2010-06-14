@@ -71,6 +71,11 @@ body {
 	float:left;
 	margin-right:0.245em;
 }
+body.rtl #tabset_tabs li {
+	float:right;
+	margin-left:0.245em;
+	margin-right:0;
+}
 #tabset_tabs li a {
 	display:block;
 	font-size:0.9em;
@@ -321,6 +326,9 @@ p.instructions, span#task_descrip {
 #fields {
 	background:#EAEBEE url(../images/round-tr.png) no-repeat scroll right top;
 }
+body.rtl #fields {
+	background:#EAEBEE url(../images/round-tl.png) no-repeat scroll left top;
+}
 #fields, #menu {
 	background-color:#EAEBEE;
 }
@@ -380,8 +388,15 @@ fieldset div.submit input {
 	line-height:22px;
 	padding-left:30px;
 }
+body.rtl #messages .error h4, body.rtl  #messages .warning h4, body.rtl  #messages .info h4 {
+	padding-left:0;
+	padding-right:30px;
+}
 #messages .error h4 {
 	background:url(../images/icone_error_b.png) no-repeat scroll left top;
+}
+body.rtl #messages .error h4 {
+	background-position:right top;
 }
 #messages .warning h4 {
 	background:url(../images/icone_warning_b.png) no-repeat scroll left top;

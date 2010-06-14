@@ -238,6 +238,7 @@ var W3C = {
 			},
 			onFailure: function() {
 				// TODO
+				W3C.Loader.dispose();
 				return false;
 			}
 		});
