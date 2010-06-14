@@ -401,8 +401,14 @@ body.rtl #messages .error h4 {
 #messages .warning h4 {
 	background:url(../images/icone_warning_b.png) no-repeat scroll left top;
 }
+body.rtl #messages .warning h4 {
+	background-position:right top;
+}
 #messages .info h4 {
 	background:url(../images/icone_info_b.png) no-repeat scroll left top;
+}
+body.rtl #messages .info h4 {
+	background-position:right top;
 }
 #messages .error pre {
 	padding-top:0.6em;
