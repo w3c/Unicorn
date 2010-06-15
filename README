@@ -5,7 +5,6 @@ How to compile and deploy Unicorn:
 		-The main one is unicorn.properties, which contains some properties that you may want to change:
 			UNICORN_URL is the url of your installation of Unicorn.
 			DEFAULT_LANGUAGE, the language Unicorn will use if language negotiation fails.
-			PROTECT_INIT_ACTION is a boolean to specify whether the InitAction servlet (see further) is available only from localhost or from any IP address.
 			You can nest properties in this file, meaning that Unicorn will replace any ${<Property_key>} by its value.
 			There is one property that is not specify in the file but added at runtime, UNICORN_HOME, which is equal to the JVM parameter unicorn.home.
 		-velocity.properties contains properties for the template engine that Unicorn uses: Apache Velocity
