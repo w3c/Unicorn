@@ -137,7 +137,7 @@ public class Framework {
 		}
 		
 		// Log4j initialization attempt
-		URL log4jURL = Framework.class.getResource("/log4j/log4j.xml");
+		URL log4jURL = Framework.class.getResource("/unicorn_log4j.xml");
 		if (log4jURL != null) {
 			DOMConfigurator.configure(log4jURL);
 			logger.info("OK - Log4j successfully initialized");
