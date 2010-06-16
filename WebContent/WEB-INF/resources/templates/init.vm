@@ -1,5 +1,5 @@
 #set ($title = "Unicorn")
-#set ($css = ['base_ucn-yc.css', 'init.css'])
+#set ($css = ['base_ucn.css', 'init.css'])
 #set ($js = ['mootools-1.2.3-core-more-yc.js', 'w3c_unicorn_init.js'])
 #parse('head.vm')
 
