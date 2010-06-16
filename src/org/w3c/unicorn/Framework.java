@@ -10,7 +10,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -534,6 +536,7 @@ public class Framework {
 			context.put("lang", locale.getName());
 			context.put("direction", Language.getLocaleDirection(locale));
 			context.put("defaultLocale", Language.getDefaultLocale());
+			context.put("year", (new SimpleDateFormat("yyyy")).format(new Date()));
 			languageContexts.put(locale, context);
 		}
 		logger.debug("> " + languageContexts.size() + " velocity context(s) created");
