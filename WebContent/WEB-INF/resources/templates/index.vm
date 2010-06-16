@@ -1,6 +1,6 @@
 #set ($title = "Unicorn")
-#set ($css = ['base_ucn-yc.css'])
-#set ($js = ['mootools-1.2.3-core-more-yc.js', 'w3c_unicorn_index-yc.js'])
+#set ($css = ['base_ucn.css'])
+#set ($js = ['mootools-1.2.3-core-more-yc.js', 'w3c_unicorn_index.js'])
 #parse('head.vm')
 
 #if ($messages)
