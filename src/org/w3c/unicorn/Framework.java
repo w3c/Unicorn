@@ -163,7 +163,21 @@ public class Framework {
 		} catch (IOException e) {
 			throw new InitializationFailedException("Error reading \"unicorn.properties\": " + e.getMessage());
 		} 
-
+		
+		// creating uploaded and temporary files directories
+		if ((new File(Property.get("UPLOADED_FILES_REPOSITORY"))).mkdir())
+			logger.debug("> Created uploaded files directory: \n\t" 
+				+ Property.get("UPLOADED_FILES_REPOSITORY"));
+		else 
+			throw new InitializationFailedException("Unable to create uploaded files directory: \n\t"
+				+ Property.get("UPLOADED_FILES_REPOSITORY"));
+		if ((new File(Property.get("PATH_TO_TEMPORARY_FILES"))).mkdir())
+			logger.debug("> Created temporary files directory: \n\t" 
+				+ Property.get("PATH_TO_TEMPORARY_FILES"));
+		else 
+			throw new InitializationFailedException("Unable to create temporary files directory: \n\t"
+				+ Property.get("PATH_TO_TEMPORARY_FILES"));
+		
 		// Loading other config files
 		for (String fileName : configFiles) {
 			InputStream confStream = Framework.class.getResourceAsStream("/" + fileName);
