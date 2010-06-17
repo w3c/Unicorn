@@ -165,16 +165,18 @@ public class Framework {
 		} 
 		
 		// creating uploaded and temporary files directories
-		if ((new File(Property.get("UPLOADED_FILES_REPOSITORY"))).mkdir())
+		File upload_repo = new File(Property.get("UPLOADED_FILES_REPOSITORY"));
+		File temporary_repo = new File(Property.get("UPLOADED_FILES_REPOSITORY"));
+		if (upload_repo.mkdir() || upload_repo.exists())
 			logger.debug("> Created uploaded files directory: \n\t" 
 				+ Property.get("UPLOADED_FILES_REPOSITORY"));
 		else 
 			throw new InitializationFailedException("Unable to create uploaded files directory: \n\t"
 				+ Property.get("UPLOADED_FILES_REPOSITORY"));
-		if ((new File(Property.get("PATH_TO_TEMPORARY_FILES"))).mkdir())
+		if (temporary_repo.mkdir() || temporary_repo.exists())
 			logger.debug("> Created temporary files directory: \n\t" 
 				+ Property.get("PATH_TO_TEMPORARY_FILES"));
-		else 
+		else
 			throw new InitializationFailedException("Unable to create temporary files directory: \n\t"
 				+ Property.get("PATH_TO_TEMPORARY_FILES"));
 		
