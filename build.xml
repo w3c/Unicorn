@@ -51,6 +51,7 @@
 	
 	<target name="war" depends="compile" description="--> compile and package Unicorn as a war">
 		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${build.dir}/medias"/>
 		<war destfile="${dist.dir}/${war.file}" webxml="WebContent/WEB-INF/web.xml" update="true">
 			<classes dir="${build.dir}/classes"/>
 			<lib dir="${lib.dir}" />
