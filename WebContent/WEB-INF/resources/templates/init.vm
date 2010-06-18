@@ -10,6 +10,7 @@
 		<li><a href="init?task=languages" class="init">Reload languages</a></li>
 		<li><a href="init?task=observers" class="init">Reload observers</a></li>
 		<li><a href="init?task=tasklist" class="init">Reload tasklist</a></li>
+		<li><a href="init?task=messages" class="init">Reload messages</a></li>
 	</ul>
 	<textarea name="result" id="result" rows="15" cols="32" disabled="disabled"></textarea>
 </div>
