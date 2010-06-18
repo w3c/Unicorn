@@ -8,10 +8,17 @@ public class MessageList extends ArrayList<Message> {
 
 	private static final long serialVersionUID = -720345110444544838L;
 	
+	private static ArrayList<Message> defaultMessages = new ArrayList<Message>();
+	
 	private ULocale locale;
 
 	public MessageList() {
-		this.locale = Language.getDefaultLocale();
+		this(Language.getDefaultLocale());
+	}
+	
+	public MessageList(ULocale lang) {
+		this.locale = lang;
+		this.addAll(defaultMessages);
 	}
 	
 	public boolean hasInfo() {
@@ -34,10 +41,6 @@ public class MessageList extends ArrayList<Message> {
 				return true;
 		return false;
 	}
-	
-	public MessageList(ULocale lang) {
-		this.locale = lang;
-	}
 
 	public ULocale getLocale() {
 		return locale;
@@ -45,6 +48,14 @@ public class MessageList extends ArrayList<Message> {
 
 	public void setLocale(ULocale locale) {
 		this.locale = locale;
+	}
+
+	public static ArrayList<Message> getDefaultMessages() {
+		return defaultMessages;
+	}
+
+	public static void setDefaultMessages(ArrayList<Message> defaultMessages) {
+		MessageList.defaultMessages = defaultMessages;
 	}
 
 }
