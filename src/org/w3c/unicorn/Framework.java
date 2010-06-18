@@ -563,7 +563,7 @@ public class Framework {
 		logger.info("OK - Velocity successfully initialized");
 	}
 	
-	private static void initDefaultMessages() {
+	public static void initDefaultMessages() {
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Loading messages from messages.properties");
 		
@@ -590,6 +590,7 @@ public class Framework {
 				logger.debug("> Found message id: " + id);
 			}
 		}
+		MessageList.getDefaultMessages().clear();
 		for (String id : messageIds) {
 			Message message = new Message();
 			String level = (String) props.get(id + ".level"); 
