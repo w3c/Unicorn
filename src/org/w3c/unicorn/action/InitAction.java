@@ -14,6 +14,7 @@ import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.exceptions.InitializationFailedException;
 import org.w3c.unicorn.util.Language;
+import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Templates;
 
 import com.ibm.icu.util.ULocale;
@@ -170,18 +171,26 @@ public class InitAction extends HttpServlet {
 				}
 			}
 				
-			out.write("Initializing Velocity: ");
-			response.flushBuffer();
-			try {
-				Framework.initVelocity();
+			if (task.equals("all") || task.equals("messages")) {
+				out.write("Loading default messages: ");
+				Framework.initDefaultMessages();
 				out.write("OK\n");
-			} catch (InitializationFailedException e) {
-				Framework.logger.fatal(e.getMessage(), e);
-				out.write("FAILED\n" + e);
-				Framework.isUcnInitialized = false;
-				return;
+				out.write("\t" + MessageList.getDefaultMessages().size() + " message(s) loaded.\n");
 			}
 			
+			if (!task.equals("messages")) {
+				out.write("Initializing Velocity: ");
+				response.flushBuffer();
+				try {
+					Framework.initVelocity();
+					out.write("OK\n");
+				} catch (InitializationFailedException e) {
+					Framework.logger.fatal(e.getMessage(), e);
+					out.write("FAILED\n" + e);
+					Framework.isUcnInitialized = false;
+					return;
+				}
+			}
 			out.close();
 		}
 	}
