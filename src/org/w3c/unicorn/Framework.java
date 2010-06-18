@@ -567,6 +567,13 @@ public class Framework {
 		logger.debug("-------------------------------------------------------");
 		logger.debug("Loading messages from messages.properties");
 		
+		InputStream stream = Framework.class.getResourceAsStream("/messages.properties");
+		
+		if (stream == null) {
+			logger.info("File messages.properties not found in classpath. No default message has been added.");
+			return;
+		}
+		
 		Properties props = new Properties();
 		try {
 			props.load(Framework.class.getResourceAsStream("/messages.properties"));
