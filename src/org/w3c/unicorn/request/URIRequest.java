@@ -131,9 +131,11 @@ public class URIRequest extends Request {
 			int responseCode = aURLConnection.getResponseCode();
 			switch (responseCode) {
 			case HttpURLConnection.HTTP_NOT_FOUND:
-				throw new UnicornException(Message.ERROR, "$message_observer_not_found", null, observerName);
+				throw new UnicornException(Message.ERROR, "$message_observer_not_found", null, observerName, 
+						aURL.toString().replaceAll("&?" + Framework.mapOfObserver.get(observerId).getParamOutputName() + "=[^&]*", ""));
 			case HttpURLConnection.HTTP_INTERNAL_ERROR:
-				throw new UnicornException(Message.ERROR, "$message_observer_internal_error", null, observerName);
+				throw new UnicornException(Message.ERROR, "$message_observer_internal_error", null, observerName,
+						aURL.toString().replaceAll("&?" + Framework.mapOfObserver.get(observerId).getParamOutputName() + "=[^&]*", ""));
 			}
 			
 			return ResponseFactory.getResponse(aURLConnection.getInputStream(), responseType, aURL.toString(), aURLConnection.getContentEncoding(), observerId);

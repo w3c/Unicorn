@@ -117,10 +117,10 @@ public class UploadRequest extends Request {
 				// TODO How to find the response content encoding here ?
 				return ResponseFactory.getResponse(stream, responseType, sURL.toString(), null, observerId);
 			} catch (FileNotFoundException e) {
-				throw new UnicornException(Message.ERROR, "$message_observer_not_found", null, observerName);
+				throw new UnicornException(Message.ERROR, "$message_observer_not_found", null, observerName, Framework.mapOfObserver.get(observerId).getIndexURI());
 			} catch (IOException e) {
 				if (e.getMessage().contains("Server returned HTTP response code: 500"))
-					throw new UnicornException(Message.ERROR, "$message_observer_internal_error", null, observerName);
+					throw new UnicornException(Message.ERROR, "$message_observer_internal_error", null, observerName, Framework.mapOfObserver.get(observerId).getIndexURI());
 				else
 					throw e;
 			}			
