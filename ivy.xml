@@ -13,6 +13,5 @@
         <dependency org="org.apache.velocity" name="velocity-tools" rev="2.0" conf="*->*,!sources,!javadoc"/>
         <!--<dependency org="com.ibm.icu" name="icu4j" rev="4.0.1"/> revision 4.4.1 needed, not in maven repo -->
         <dependency org="org.apache.xmlbeans" name="xmlbeans" rev="2.4.0" conf="*->*,!sources,!javadoc"/>
-        <dependency org="org.slf4j" name="log4j-over-slf4j" rev="1.6.0" conf="*->*,!sources,!javadoc"/>
     </dependencies>
 </ivy-module>
