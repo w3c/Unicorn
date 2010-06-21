@@ -13,6 +13,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -132,13 +133,14 @@ public class Framework {
 	public static void initCore() throws InitializationFailedException {
 		if (System.getProperty("unicorn.home") == null) {
 			try {
-				URL classesDir = Framework.class.getResource("/");
-				File classes = new File(classesDir.toURI());
-				File webInf = new File(classes.getParent());
-				System.setProperty("unicorn.home", webInf.getParent());
+				URL frameworkDir = Framework.class.getResource("Framework.class");
+				File unicornHome = new File(frameworkDir.toURI());
+				for (int i=0; i<6; i++)
+					unicornHome = unicornHome.getParentFile();
+				System.setProperty("unicorn.home", unicornHome.getAbsolutePath());
 			} catch (URISyntaxException e) {
 				throw new InitializationFailedException(e.getMessage(), e);
-			}
+			} 
 		}
 		
 		// Log4j initialization attempt
