@@ -3,11 +3,14 @@
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.request;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.input.UploadInputModule;
 import org.w3c.unicorn.response.Response;
@@ -91,6 +94,7 @@ public class UploadRequest extends Request {
 	@Override
 	public Response doRequest() throws UnicornException {
 		logger.trace("doRequest");
+		String observerName = Framework.mapOfObserver.get(observerId).getName(sLang.split(",")[0]);
 		try {
 			aClientHttpRequest = new ClientHttpRequest(sURL);
 			logger.debug("Lang : " + this.sLang + ".");
@@ -107,8 +111,19 @@ public class UploadRequest extends Request {
 				aClientHttpRequest.setParameter(sName, sValue);
 			}
 			
-			// TODO How to find the response content encoding here ?
-			return ResponseFactory.getResponse(aClientHttpRequest.post(), responseType, sURL.toString(), null, observerId);
+			InputStream stream = null;
+			try {
+				stream = aClientHttpRequest.post();
+				// TODO How to find the response content encoding here ?
+				return ResponseFactory.getResponse(stream, responseType, sURL.toString(), null, observerId);
+			} catch (FileNotFoundException e) {
+				throw new UnicornException(Message.ERROR, "$message_observer_not_found", null, observerName, Framework.mapOfObserver.get(observerId).getIndexURI());
+			} catch (IOException e) {
+				if (e.getMessage().contains("Server returned HTTP response code: 500"))
+					throw new UnicornException(Message.ERROR, "$message_observer_internal_error", null, observerName, Framework.mapOfObserver.get(observerId).getIndexURI());
+				else
+					throw e;
+			}			
 
 		} catch (MalformedURLException e) {
 			throw new UnicornException(new Message(e));
