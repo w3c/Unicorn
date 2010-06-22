@@ -12,6 +12,8 @@ import java.util.Comparator;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.w3c.unicorn.Framework;
 import org.w3c.unicorn.action.LanguageAction;
@@ -28,6 +30,7 @@ public class Language {
 	private static LocaleMatcher uiLocaleMatcher;
 	private static LocaleMatcher availableLocaleMatcher;
 	private static LocaleMatcher installedLocaleMatcher;
+	public static Log logger = LogFactory.getLog(Language.class);
 	
 	public static void reset() {
 		defaultLocale = null;
@@ -83,21 +86,33 @@ public class Language {
 	}
 	
 	public static ULocale getLocale(String languageCode) {
+		logger.debug("languageCode: " + languageCode);
 		if (languageCode == null)
 			return Language.defaultLocale;
-		return installedLocaleMatcher.getBestMatch(languageCode);
+		ULocale resolved = installedLocaleMatcher.getBestMatch(languageCode);
+		logger.debug("resolved installed locale: " + resolved.getBaseName());
+		return resolved;
 	}
 	
 	public static ULocale getUILocale(String languageCode) {
+		logger.debug("languageCode: " + languageCode);
 		if (languageCode == null)
 			return Language.defaultLocale;
-		return uiLocaleMatcher.getBestMatch(languageCode);
+		ULocale resolved = uiLocaleMatcher.getBestMatch(languageCode);
+		logger.debug("resolved UI locale: " + resolved.getBaseName());
+		return resolved;
 	}
 	
 	public static ULocale getAvailableLocale(String languageCode) {
+		logger.debug("languageCode: " + languageCode);
 		if (languageCode == null)
 			return Language.defaultLocale;
-		return availableLocaleMatcher.getBestMatch(languageCode);
+		ULocale resolved = availableLocaleMatcher.getBestMatch(languageCode);
+		// for some reason the LocaleMatcher will sometimes return zh_Hans instead of zh resulting in a wrong language resolving
+		if (resolved.getName().equals("zh_Hans"))
+			resolved = availableLocaleMatcher.getBestMatch(resolved.getName());
+		logger.debug("resolved available locale: " + resolved.getBaseName());
+		return resolved;
 	}
 	
 	public static VelocityContext getContext(ULocale localeParam) {
