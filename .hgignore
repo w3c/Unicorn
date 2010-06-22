@@ -1,0 +1,6 @@
+syntax: glob
+dist/
+build/
+.settings/
+.classpath
+.project

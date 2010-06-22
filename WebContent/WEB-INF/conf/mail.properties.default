@@ -1,0 +1,17 @@
+#JavaMail properties : see http://java.sun.com/products/javamail/javadocs/com/sun/mail/smtp/package-summary.html
+mail.smtp.host = smtp.example.org
+#mail.smtp.port = 25
+
+#mail.smtp.auth = true
+#mail.smtp.ssl.enable = false
+#mail.smtp.starttls.enable = true
+#mail.smtp.starttls.required = true
+#mail.smtp.user =
+
+#Unicorn specific properties
+#Note that it may be not safe to set your credentials here as this information is logged (in debug mode)
+#unicorn.mail.username = 
+#unicorn.mail.password = 
+unicorn.mail.debug = false
+unicorn.mail.from = your.email@example.com
+unicorn.mail.language.to = your.email+translations@example.com
