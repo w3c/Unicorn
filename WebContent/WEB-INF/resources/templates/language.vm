@@ -1,0 +1,107 @@
+#set ($title = "Unicorn - Translations")
+#set ($css = ['base_ucn.css'])
+#set ($js = ['mootools-1.2.3-core-more-yc.js', 'w3c_unicorn_languages.js'])
+#parse('head.vm')
+
+#if ($messages)
+#displayMessages($messages)
+#end
+
+<div class="text">
+	<h2>Translation of Unicorn</h2>
+	#set($langNb = $uiLocales.size())
+	<p>Unicorn is currently available in $langNb languages. <!--The translations are mainly contributed by <a href="thanks.html">volunteers</a>.--></p>
+
+	<h3>Translate Unicorn in a new language</h3>
+	
+	<p>If Unicorn is not yet available in your native language and you would like to translate it:</p>
+	
+	<ul>
+		<li>You can select your language in the dropdown menu and start translating online: 
+			<form method="get" action="./translations" id="lang_select">
+				<fieldset>
+				<select name="${param_prefix}lang">
+					<optgroup label="Select a language">
+					#foreach ($locale in $availableLocales)
+					#set($localeKey = $locale.getName())
+						<option value="$localeKey" xml:lang="$localeKey" #if($native_lang == $localeKey)selected="selected"#end>$esc.html($strUtils.capitalize($locale.getDisplayName($defaultLocale))) - $esc.html($strUtils.capitalize($locale.getDisplayName($locale)))</option>
+					#end
+					</optgroup>
+				</select>
+				<input id="lang_code" type="submit" value="OK" />
+				</fieldset>
+			</form>
+		</li>
+		<li>Or you can follow these steps:
+			<ol>
+				<li><a href="http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/languages/en.properties">Download the english properties file</a>.</li>
+				<li><a href="http://www.w3.org/Consortium/Translation/#discussions">Get in touch with us</a> <strong>before</strong> you start translating: someone may already be on the job. Someone from the W3C staff or validator development team will get back to you with details about how to translate the validator.</li>
+				<li>Translate.<!-- Congratulations, you have made Unicorn more accessible to a lot more Web developers and designers.--></li>
+			</ol>
+		</li>
+	</ul>
+	
+	
+
+	<h3>Help complete the translation of Unicorn in your language</h3>
+	<p>The table below lists all the text strings used to translate the CSS validator:</p>
+	<ul>
+		<li>Cells marked <span class='missing'>✘</span> need a new or updated translation. You can click on any <span class='missing'>✘</span> to edit the coresponding language.</li>
+		<li>Cells marked <span class='ok'>✔</span> are translated and up-to-date. Hover above <span class='ok'>✔</span> to read the current translation for each string.</li>
+	</ul>
+	<p>You can help fill the blanks and complete the translation in <strong>your</strong> language!</p>
+</div>
+
+<div id="translations">
+	<table>
+		<thead>
+			<tr>
+				<th scope="col">Property</th>
+			#foreach($locale in $uiLocales)
+			#if ($locale != $defaultLocale)
+				#set($prop = $languageProps.get($locale))
+				#set($meta = $metadataProps.get($locale))
+				#set($percent = 100 * $math.div($math.add($prop.size(), $meta.size()), $math.add($defaultProps.size(), $defaultMetadata.size())))
+				<th scope="col">$strUtils.capitalize($locale.getDisplayName($defaultLocale))<br /><span xml:lang="$locale.getName()">$strUtils.capitalize($locale.getDisplayName($locale))</span><br />$percent.intValue()%<br /><a href="./translations?ucn_lang=$locale.getName()">Edit</a></th>
+			#end
+			#end
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($key in $defaultProps.keySet())
+				<tr>
+					<th class="property_name" scope="row">$key <p>$esc.xml($defaultProps.get($key))</p></th>
+					#foreach($locale in $uiLocales)
+					#if ($locale != $defaultLocale)
+						#set($localeKey = $locale.getName())
+						#set($prop = $languageProps.get($locale))
+						#if($prop.get($key))
+						<td class="ok"><span xml:lang="$localeKey" title="$!esc.xml($prop.get($key))">✔</span></td>
+						#{else}
+						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultProps.get($key))&quot; in $locale.getDisplayName($defaultLocale)"><a href="./translations?ucn_lang=$localeKey">✘</a></span></td>
+						#end
+					#end
+					#end
+				</tr>
+			#end
+			#foreach($key in $defaultMetadata.keySet())
+				<tr>
+					<th class="property_name" scope="row">$key <p>$esc.xml($defaultMetadata.get($key))</p></th>
+					#foreach($locale in $uiLocales)
+					#if ($locale != $defaultLocale)
+						#set($localeKey = $locale.getName())
+						#set($meta = $metadataProps.get($locale))
+						#if($meta.get($key))
+						<td class="ok"><span xml:lang="localeKey" title="$!esc.xml($meta.get($key))">✔</span></td>
+						#{else}
+						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultMetadata.get($key))&quot; in $locale.getDisplayName($defaultLocale)"><a href="./translations?ucn_lang=$localeKey">✘</a></span></td>
+						#end
+					#end
+					#end
+				</tr>
+			#end
+		</tbody>
+	</table>
+</div>
+
+#parse('footer.vm')

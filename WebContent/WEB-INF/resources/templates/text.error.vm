@@ -1,0 +1,33 @@
+#if ($messages.size() > 0)
+
+#if ($messages.hasError())
+$error_label
+#foreach ($message in $messages)
+#if ($message.Level == "ERROR")
+	#evaluate($message.Message)
+	$!{message.Content}
+#end
+#end
+#end
+
+#if ($messages.hasWarning())
+$warning_label
+#foreach ($message in $messages)
+#if ($message.Level == "WARNING")
+	#evaluate($message.Message)
+	$!{message.Content}
+#end
+#end
+#end
+
+#if ($messages.hasInfo())
+$info_label
+#foreach ($message in $messages)
+#if ($message.Level == "INFO")
+	#evaluate($message.Message)
+	$!{message.Content}
+#end
+#end
+#end
+
+#end
