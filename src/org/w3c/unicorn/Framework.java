@@ -10,7 +10,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -42,6 +44,8 @@ import org.w3c.unicorn.tasklist.parameters.Parameter;
 import org.w3c.unicorn.tasklist.parameters.Value;
 import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.ListFiles;
+import org.w3c.unicorn.util.Message;
+import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UCNProperties;
 import org.w3c.unicorn.response.Response;
@@ -116,6 +120,7 @@ public class Framework {
 			initLanguages();
 			initTasklists();
 			initVelocity();
+			initDefaultMessages();
 			isUcnInitialized = true;
 			logger.info("Unicorn initialized successfully.");
 		} catch (InitializationFailedException e) {
@@ -127,13 +132,14 @@ public class Framework {
 	public static void initCore() throws InitializationFailedException {
 		if (System.getProperty("unicorn.home") == null) {
 			try {
-				URL classesDir = Framework.class.getResource("/");
-				File classes = new File(classesDir.toURI());
-				File webInf = new File(classes.getParent());
-				System.setProperty("unicorn.home", webInf.getParent());
+				URL frameworkDir = Framework.class.getResource("Framework.class");
+				File unicornHome = new File(frameworkDir.toURI());
+				for (int i=0; i<6; i++)
+					unicornHome = unicornHome.getParentFile();
+				System.setProperty("unicorn.home", unicornHome.getAbsolutePath());
 			} catch (URISyntaxException e) {
 				throw new InitializationFailedException(e.getMessage(), e);
-			}
+			} 
 		}
 		
 		// Log4j initialization attempt
@@ -161,7 +167,23 @@ public class Framework {
 		} catch (IOException e) {
 			throw new InitializationFailedException("Error reading \"unicorn.properties\": " + e.getMessage());
 		} 
-
+		
+		// creating uploaded and temporary files directories
+		File upload_repo = new File(Property.get("UPLOADED_FILES_REPOSITORY"));
+		File temporary_repo = new File(Property.get("PATH_TO_TEMPORARY_FILES"));
+		if (upload_repo.mkdir() || upload_repo.exists())
+			logger.debug("> Created uploaded files directory: \n\t" 
+				+ Property.get("UPLOADED_FILES_REPOSITORY"));
+		else 
+			throw new InitializationFailedException("Unable to create uploaded files directory: \n\t"
+				+ Property.get("UPLOADED_FILES_REPOSITORY"));
+		if (temporary_repo.mkdir() || temporary_repo.exists())
+			logger.debug("> Created temporary files directory: \n\t" 
+				+ Property.get("PATH_TO_TEMPORARY_FILES"));
+		else
+			throw new InitializationFailedException("Unable to create temporary files directory: \n\t"
+				+ Property.get("PATH_TO_TEMPORARY_FILES"));
+		
 		// Loading other config files
 		for (String fileName : configFiles) {
 			InputStream confStream = Framework.class.getResourceAsStream("/" + fileName);
@@ -534,11 +556,73 @@ public class Framework {
 			context.put("lang", locale.getName());
 			context.put("direction", Language.getLocaleDirection(locale));
 			context.put("defaultLocale", Language.getDefaultLocale());
+			context.put("year", (new SimpleDateFormat("yyyy")).format(new Date()));
 			languageContexts.put(locale, context);
 		}
 		logger.debug("> " + languageContexts.size() + " velocity context(s) created");
 		
 		logger.info("OK - Velocity successfully initialized");
+	}
+	
+	public static void initDefaultMessages() {
+		logger.debug("-------------------------------------------------------");
+		logger.debug("Loading messages from messages.properties");
+		
+		InputStream stream = Framework.class.getResourceAsStream("/messages.properties");
+		
+		if (stream == null) {
+			logger.info("File messages.properties not found in classpath. No default message has been added.");
+			return;
+		}
+		
+		Properties props = new Properties();
+		try {
+			props.load(Framework.class.getResourceAsStream("/messages.properties"));
+		} catch (IOException e) {
+			logger.error("Unable to read messages.properties.", e);
+			return;
+		}
+		ArrayList<String> messageIds = new ArrayList<String>(); 
+		for (Object key : props.keySet()) {
+			String prop = key.toString();
+			if (prop.endsWith(".level")) {
+				String id = prop.replace(".level", "");
+				messageIds.add(id);
+				logger.debug("> Found message id: " + id);
+			}
+		}
+		MessageList.getDefaultMessages().clear();
+		for (String id : messageIds) {
+			Message message = new Message();
+			String level = (String) props.get(id + ".level"); 
+			if (level.equals("warning"))
+				message.setLevel(Message.WARNING);
+			else if (level.equals("error"))
+				message.setLevel(Message.ERROR);
+			else if (level.equals("info"))
+				message.setLevel(Message.INFO);
+			else {
+				logger.warn("Level for message id " + id + " is invalid: " + level + ". Must be one of warning, error, or info.");
+				continue;
+			}
+			logger.debug(">> level of " + id + " is: " + level);
+			String mess = (String) props.get(id + ".message");
+			if (props.get(id + ".message") != null)
+				message.setMessage(mess);
+			else {
+				logger.warn("Message for message id " + id + " is not set. Add a " + id + ".message property in messages.properties.");
+				continue;
+			}
+			logger.debug(">> message of " + id + " is:\n\t" + mess);
+			String content = (String) props.get(id + ".content");
+			if (content != null) {
+				message.setContent(content);
+				logger.debug(">> content of " + id + " is:\n\t" + content);
+			}
+			MessageList.getDefaultMessages().add(message);
+		}
+		logger.debug("> " + MessageList.getDefaultMessages().size() + " default messages loaded");
+		logger.info("OK - Default messages succesfully loaded");
 	}
 	
 	private static void loadConfigFile(InputStream stream, String fileName, String[]... parameters) throws IOException {		
