@@ -8,7 +8,7 @@
 
 	<message type="info"> 
 		<title>Unicorn uses a custom XML format.</title>
-		<description>You can download <a href="http://dev.w3.org/2006/unicorn/WebContent/WEB-INF/resources/schemas/observer-response2.xsd">the XML schema file of Unicorn responses</a> on <a href="http://dev.w3.org/2006/">Unicorn public repository</a>.</description> 
+		<description>You can download <a href="http://dvcs.w3.org/hg/unicorn/raw-file/tip/WebContent/WEB-INF/resources/schemas/observer-response.xsd">the XML schema file of Unicorn responses</a> on <a href="http://dvcs.w3.org/hg/unicorn">Unicorn public repository</a>.</description> 
 	</message>
 
 	<message type="info"> 
