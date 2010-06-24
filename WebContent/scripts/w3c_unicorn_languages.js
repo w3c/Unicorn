@@ -65,7 +65,13 @@ var W3C = {
 				element.store('tip:text', span.title);
 				span.removeProperty('title');
 			});
+			var th = $$('#translations th.property_name');
+			th.each(function(element) {
+				element.store('tip:text', element.title);
+				element.removeProperty('title');
+			});
 			new Tips(td);
+			new Tips(th);
 		}
 		
 	},
