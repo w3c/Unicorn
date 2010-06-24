@@ -1,0 +1,84 @@
+#set ($title = "Unicorn")
+#set ($css = ['base_ucn.css'])
+#set ($js = ['mootools-1.2.3-core-more-yc.js', 'w3c_unicorn_index.js'])
+#parse('head.vm')
+
+#if ($messages)
+#displayMessages($messages)
+#end
+	<div id="frontforms">
+		<ul id="tabset_tabs">
+			<li><a href="#validate-by-uri">$validate-by-uri</a></li><li><a href="#validate-by-upload">$validate-by-upload</a></li><li><a href="#validate-by-input">$validate-by-input</a></li>
+		</ul>
+
+		<div id="fields">
+			<form method="get" action="./">
+				<fieldset>
+					<legend>$select-a-task</legend>
+					<div class="input">
+						<p>
+							<label><span>$task_label</span>
+								<select name="${param_prefix}task" id="tasks">
+#foreach( $task in $tasklist )
+									<option value="$task.getID()" title="$task.getDescription($lang)" #if ($task == $current_task) selected="selected" #end>$task.getLongName("${lang}")</option>
+#end
+								</select>
+							</label>
+							#if ($!param_lang)<input type="hidden" name="${param_prefix}lang" value="$lang" class="lang" />#end
+							<input id="task_change" type="submit" value="OK" />
+							<span id="task_descrip">$current_task.getDescription($lang)</span>
+						</p>
+					</div>
+				</fieldset>
+			</form>
+			<form action="check" method="get" id="validate-by-uri" class="ucn_form">
+				<fieldset>
+					<legend>$legend-by-uri</legend>
+					<div class="input">
+						<p class="instructions">$instruction-by-uri</p>
+						<p>
+							<label title="$uri_title" for="ucn_uri"><span>$uri_label</span>
+								<input type="text" name="${param_prefix}uri" id="ucn_uri" size="45" value="#if($param_uri && $param_uri!='referer')$!param_uri#end"/>
+							</label>
+						</p>
+					</div>
+#parse('parameters.vm')
+#submit_button
+				</fieldset>
+			</form>
+			<form action="check" method="post" enctype="multipart/form-data" id="validate-by-upload" class="ucn_form">
+				<fieldset>
+					<legend>$legend-by-upload</legend>
+					<div class="input">
+						<p class="instructions">$instruction-by-upload</p>
+						<p>
+							<label title="$instruction-by-upload" for="ucn_file"><span>$local_file_label</span>
+								<input type="file" id="ucn_file" name="${param_prefix}file" size="30" />
+							</label>
+						</p>
+					</div>
+#parse('parameters.vm')
+#submit_button
+				</fieldset>
+			</form>
+			<form action="check" method="post" id="validate-by-input" class="ucn_form">
+				<fieldset>
+					<legend>$legend-by-input</legend>
+					<div class="input">
+						<p class="instructions">$instruction-by-input</p>
+						<p>
+							<textarea id="ucn_text" name="${param_prefix}text" rows="12" cols="70">$!param_text</textarea>
+							#mimeList($current_task)
+						</p> 
+					</div>
+#parse('parameters.vm')
+#submit_button
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div id="don_program">
+		<script type="text/javascript" src="http://www.w3.org/QA/Tools/don_prog.js"></script>
+	</div>
+
+#parse('footer.vm')

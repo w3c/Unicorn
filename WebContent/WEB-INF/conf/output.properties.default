@@ -1,0 +1,8 @@
+text.formater = SimpleOutputFormater
+text.mimetype = text/plain
+
+xhtml10.formater = XMLOutputFormater
+xhtml10.mimetype = text/html
+
+xml.formater = XMLOutputFormater
+xml.mimetype = application/xml
