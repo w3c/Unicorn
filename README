@@ -1,4 +1,4 @@
-How to compile and deploy Unicorn:
+How to compile and deploy Unicorn: 
 	1. The first thing you have to do in order to make Unicorn work is to add a unicorn.home parameter to your JVM parameters, pointing to the unicorn root directory.
 		example: -Dunicorn.home=/var/lib/tomcat6/webapps/unicorn/ or -Dunicorn.home=/C:/Program%20Files/Tomcat/webapps/unicorn/ (read your servlet engine documentation to know how to add this parameter)
 	2. You will find all the configuration files that Unicorn uses in WEB-INF/conf.
