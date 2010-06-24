@@ -736,14 +736,10 @@ div.warnings td.level2 {
 	border-right:1px solid #CCCCCC;
 	background-color:#EEEEEE;
 	text-align:center;
-	font-weight:bold;
 }
 #translations thead th {
 	background-color:#E1E1E1;
 	font-size:1em;
-}
-#translations th.property_name {
-	padding:0.2em 0 0 !important;
 }
 #translations th p {
 	text-align:left;
