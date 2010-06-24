@@ -70,7 +70,7 @@
 		<tbody>
 			#foreach($key in $defaultProps.keySet())
 				<tr>
-					<th class="property_name" scope="row" title="$esc.xml($defaultProps.get($key))">$key <!--<p>$esc.xml($defaultProps.get($key))</p>--></th>
+					<th class="property_name" scope="row" title="$esc.xml($defaultProps.get($key))">$key</th>
 					#foreach($locale in $uiLocales)
 					#if ($locale != $defaultLocale)
 						#set($localeKey = $locale.getName())
@@ -86,7 +86,7 @@
 			#end
 			#foreach($key in $defaultMetadata.keySet())
 				<tr>
-					<th class="property_name" scope="row" title="$esc.xml($defaultMetadata.get($key))">$key <!--<p>$esc.xml($defaultMetadata.get($key))</p>--></th>
+					<th class="property_name" scope="row" title="$esc.xml($defaultMetadata.get($key))">$key</th>
 					#foreach($locale in $uiLocales)
 					#if ($locale != $defaultLocale)
 						#set($localeKey = $locale.getName())
