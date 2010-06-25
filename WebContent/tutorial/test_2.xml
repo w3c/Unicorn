@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" xml:lang="en" ref="tutorial/test_2.xml">
+	
+	<status value="failed" rating="20" />
+	
+	<message type="info"> 
+		<title>This is an example observation that demonstrates the use of status and message elements</title> 
+		<description>See the <a href="tutorial/test_2.xml">source file</a> of this validation. See <a href="check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_1.xml&amp;ucn_task=test">previous</a> or <a href="./check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_3.xml&amp;ucn_task=test">next example</a>.</description> 
+	</message> 
+	
+	<message type="info"> 
+		<title>The status element</title>
+		<description>
+			To define whether your validation is passed or not you must use a <em>status</em> element at the beginning or the end of the <em>observationresponse</em> element.<br />
+			The status element has two optional attributes. The <em>value</em> attribute can be one of <em>passed</em>, <em>failed</em>, or <em>undef</em>.<br />
+			Passed, failed, and undefined observations will display respectively in green, red, or blue.<br />
+			If you don't set any status element the observation will be considered failed if there are any error messages or undefined otherwise.<br />
+			The <em>rating</em> attribute is used to give the document a score on 100 (set to 20 in this example).
+		</description> 
+	</message>
+	
+	<message type="info"> 
+		<title>The message element</title> 
+		<description>
+			There are 3 message types: <em>info</em>, <em>warning</em>, and <em>error</em>. The message type is defined by the required <em>type</em> attribute. Information messages appear first, then errors and warnings, regardless in which order they are in the response file.<br />
+			There are four other optional attributes:
+			<ul>
+				<li><em>xml:lang</em>, the language of the message. If not set it is inherited from parent elements.</li>
+				<li><em>ref</em>, the URI of the document that the message relates to, inherited from parent elements.</li>
+				<li><em>level</em>, the severity of the message, 0 being the most severe and the default level.</li>
+				<li><em>group</em>, the group of the message (explained in another example).</li>
+			</ul>
+			A message is composed of (in order):
+			<ul>
+				<li>zero, one or more <em>context</em> elements.</li>
+				<li>a required <em>title</em> element which can contain text and links only (<em>a</em> elements).</li>
+				<li>an optional <em>description</em> element.</li>
+			</ul>
+		</description> 
+	</message> 
+	
+	<message type="error"> 
+		<title>A simple error message with a <a href="#">link</a> in the title</title>
+	</message>
+	
+	<message type="warning"> 
+		<title>A simple warning message</title>
+		<description>Warnings are hidden by default.</description>
+	</message>
+	
+	<message type="error" ref="http://www.w3.org"> 
+		<title>An error message that overrides the ref attribute (set to http://www.w3.org)</title>
+		<description>Messages are sorted by alphabetical order of their <em>ref</em> attribute.</description>
+	</message>
+	
+</observationresponse>
