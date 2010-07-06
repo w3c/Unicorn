@@ -404,13 +404,19 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 					final Observer obs = Framework.mapOfObserver.get(condlist
 							.getObserver());
 					myCond.setObserver(obs);
-					myCond
-							.setResult(condlist.getResult().equals("passed") ? true
-									: false);
+					if (!condlist.isSetResult()) {
+						logger.debug("Condition with no result attribute, condition result will be true.");
+						myCond.setResult(true);
+					} else if (condlist.getResult().equals("failed")) {
+						myCond.setResult(false);
+					} else if (condlist.getResult().equals("passed")) {
+						myCond.setResult(true);
+					} else {
+						logger.warn("Result attribute of cond element set to an invalid value: " + condlist.getResult());
+						myCond.setResult(true);
+					}
 					myCond.setType(condlist.getType().toString());
-					
 					myCond.setParameter(condlist.getParameter());
-					
 					myCond.setValue(condlist.getValue());
 
 					ifnode.addCond(myCond);
