@@ -6,12 +6,14 @@ package org.w3c.unicorn.response.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -52,10 +54,20 @@ public class DefaultResponseXBeans implements Response {
 		this.observerID = observerID;
 		
 		try {
+			Collection<XmlError> errorList = new ArrayList<XmlError>();
+			XmlOptions xo = new XmlOptions();
+			xo.setUseDefaultNamespace();
+			xo.setErrorListener(errorList);
 			ord = ObservationresponseDocument.Factory.parse(is, new XmlOptions().setCharacterEncoding(charset));
 			or = ord.getObservationresponse();
-			if (!or.validate())
-				throw new UnicornException(new org.w3c.unicorn.util.Message(2, "$message_response_validation_error", null, Framework.mapOfObserver.get(observerID).getName(Property.get(getLang()))));
+			if (!or.validate(xo)) {
+				String content = "";
+				content += "Errors: " + errorList.size();
+			    for (XmlError error : errorList) {
+			    	content += "\n" + error.getMessage();
+			    }
+				throw new UnicornException(new org.w3c.unicorn.util.Message(2, "$message_response_validation_error", content, Framework.mapOfObserver.get(observerID).getName(Property.get(getLang()))));
+			}
 		} catch (XmlException e) {
 			if (e.getMessage().contains("document element namespace mismatch"))
 				throw new UnicornException(new org.w3c.unicorn.util.Message(org.w3c.unicorn.util.Message.ERROR, "$message_response_invalid_schema", null, Framework.mapOfObserver.get(observerID).getName(Property.get("DEFAULT_LANGUAGE"))));
