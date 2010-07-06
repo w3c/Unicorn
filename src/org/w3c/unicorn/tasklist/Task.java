@@ -322,22 +322,6 @@ public class Task {
 		return supportedMimeTypes;
 	}
 
-	public void mergeSubtask(final Map<String, Task> mapOfTask, Task subtask) {
-		for (TLTExec exec : subtask.getTree().getExecutionList()) {
-			if (exec.getType().equals("observation")) {
-				this.root.addExec(exec);
-			} else if (exec.getType().equals("subtask")) {
-				Task newTask = mapOfTask.get(exec.getValue());
-				newTask.expandNode(mapOfTask, newTask.getTree());
-				mergeSubtask(mapOfTask, newTask);
-			}
-
-		}
-		for (TLTIf tltIf : subtask.getTree().getIfList()) {
-			this.root.addIf(tltIf);
-		}
-	}
-
 	/**
 	 * 
 	 */
@@ -430,14 +414,6 @@ public class Task {
 
 		return aStringBuffer.toString();
 	}
-
-	/*public void setOutputList(List<String> observationList) {
-		this.listOfOutput = observationList;
-	}
-
-	public List<String> getListOfOutput() {
-		return listOfOutput;
-	}*/
 
 	public void setOutput(Output output) {
 		this.output = output;
