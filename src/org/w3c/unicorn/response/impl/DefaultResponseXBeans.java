@@ -56,7 +56,6 @@ public class DefaultResponseXBeans implements Response {
 		try {
 			Collection<XmlError> errorList = new ArrayList<XmlError>();
 			XmlOptions xo = new XmlOptions();
-			xo.setUseDefaultNamespace();
 			xo.setErrorListener(errorList);
 			ord = ObservationresponseDocument.Factory.parse(is, new XmlOptions().setCharacterEncoding(charset));
 			or = ord.getObservationresponse();
