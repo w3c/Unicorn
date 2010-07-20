@@ -233,6 +233,21 @@
 			</group>
 		</output>
 	</task>
+	
+	<task id="feed">
+		<routine>
+			<exec id="feed" value="feed" type="observation" />
+		</routine>
+
+		<parameters>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>feed</observation>
+			</group>
+		</output>
+	</task>
 
 	<task id="custom">
 		<conds>
@@ -306,21 +321,6 @@
 		<output>
 			<group>
 				<observation>cssval2010</observation>
-			</group>
-		</output>
-	</task>
-	
-	<task id="feed">
-		<routine>
-			<exec id="feed" value="feed" type="observation" />
-		</routine>
-
-		<parameters>
-		</parameters>
-
-		<output>
-			<group>
-				<observation>feed</observation>
 			</group>
 		</output>
 	</task>
