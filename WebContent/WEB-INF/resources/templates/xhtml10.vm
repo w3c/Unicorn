@@ -68,7 +68,13 @@
 							<tr>
 								<td colspan="4" class="uri" id="${observationName}_${group.Name}_$uriCount">
 								#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
-								#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+								#if ($unicorncall.getInputMethod() == "UPLOAD")
+									#if ($unicornTool.isTemporaryURL($uri))
+										<span>$submitted_file</span>
+									#else
+										<span>$file_token </span>$esc.html($uri)
+									#end
+								#end
 								#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
 								</td>
 								<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_${group.Name}_$uriCount">a</a></td>
@@ -137,7 +143,13 @@
 									<tr>
 										<td colspan="4" class="uri" id="${observationName}_${group.Name}_$uriCount">
 										#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
-										#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+										#if ($unicorncall.getInputMethod() == "UPLOAD")
+											#if ($unicornTool.isTemporaryURL($uri))
+												<span>$submitted_file</span>
+											#else
+												<span>$file_token </span>$esc.html($uri)
+											#end
+										#end
 										#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
 										</td>
 										<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_${group.Name}_$uriCount">a</a></td>
@@ -214,7 +226,13 @@
 							<tr>
 								<td colspan="4" class="uri" id="${observationName}_info_$uriCount">
 								#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
-								#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+								#if ($unicorncall.getInputMethod() == "UPLOAD")
+									#if ($unicornTool.isTemporaryURL($uri))
+										<span>$submitted_file</span>
+									#else
+										<span>$file_token </span>$esc.html($uri)
+									#end
+								#end
 								#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
 								</td>
 								<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_info_$uriCount">a</a></td>
@@ -278,7 +296,13 @@
 							<tr>
 								<td colspan="4" class="uri" id="${observationName}_error_$uriCount">
 								#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
-								#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+								#if ($unicorncall.getInputMethod() == "UPLOAD")
+									#if ($unicornTool.isTemporaryURL($uri))
+										<span>$submitted_file</span>
+									#else
+										<span>$file_token </span>$esc.html($uri)
+									#end
+								#end
 								#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
 								</td>
 								<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_error_$uriCount">a</a></td>
@@ -341,7 +365,13 @@
 							<tr>
 								<td colspan="4" class="uri" id="${observationName}_warning_$uriCount">
 								#if ($unicorncall.getInputMethod() == "URI")<span>$uri_token </span><a href="$esc.html($uri)">$esc.html($uri)</a>#end
-								#if ($unicorncall.getInputMethod() == "UPLOAD")<span>$file_token </span>$esc.html($uri)#end
+								#if ($unicorncall.getInputMethod() == "UPLOAD")
+									#if ($unicornTool.isTemporaryURL($uri))
+										<span>$submitted_file</span>
+									#else
+										<span>$file_token </span>$esc.html($uri)
+									#end
+								#end
 								#if ($unicorncall.getInputMethod() == "DIRECT")<span>$submitted_file</span>#end
 								</td>
 								<td class="anchor uri"><a class="smooth" title="$anchor_uri" href="#${observationName}_warning_$uriCount">a</a></td>
