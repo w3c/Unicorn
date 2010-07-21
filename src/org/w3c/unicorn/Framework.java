@@ -48,6 +48,7 @@ import org.w3c.unicorn.util.Message;
 import org.w3c.unicorn.util.MessageList;
 import org.w3c.unicorn.util.Property;
 import org.w3c.unicorn.util.UCNProperties;
+import org.w3c.unicorn.util.UnicornVelocityTool;
 import org.w3c.unicorn.response.Response;
 
 import com.ibm.icu.util.ULocale;
@@ -548,6 +549,7 @@ public class Framework {
 		    }
 			context.put("esc", new EscapeTool());
 			context.put("math", new MathTool());
+			context.put("unicornTool", new UnicornVelocityTool());
 			context.put("ucn", new Language());
 			context.put("strUtils", new StringUtils());
 			context.put("tasklist", mapOfTask);
