@@ -20,7 +20,7 @@
 	<div id="banner">
 		<h1>
 			<a href="http://www.w3.org/"><img alt="W3C" width="110" height="61" id="logo" src="$!{baseUri}images/w3c.png" /></a>
-			<a href="$!{baseUri}"><span>Unicorn</span></a>
+			<a href="$!{baseUri}"><span>Unicorn - $unicorn_title</span></a>
 		</h1>
-		<p>$universal_checker</p>
+		<p>$unicorn_subtitle</p>
 	</div>
