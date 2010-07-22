@@ -310,21 +310,6 @@
 		</output>
 	</task>
 
-	<task id="cssval2010">
-		<routine>
-			<exec id="cssval2010" value="cssval2010" type="observation" />
-		</routine>
-
-		<parameters>
-		</parameters>
-
-		<output>
-			<group>
-				<observation>cssval2010</observation>
-			</group>
-		</output>
-	</task>
-
 	<!-- This task allows developers to test their Unicorn output easily. It should removed in production. -->
 	<task id="test">
 		<routine>
