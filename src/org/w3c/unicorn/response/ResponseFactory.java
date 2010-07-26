@@ -1,7 +1,8 @@
-package org.w3c.unicorn.response;
 //Author: Thomas Gambet
-//(c) COPYRIGHT MIT, ERCIM and Keio, 2009.
+//(c) COPYRIGHT MIT, ERCIM and Keio, 2010.
 //Please first read the full copyright statement in file COPYRIGHT.html
+package org.w3c.unicorn.response;
+
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 

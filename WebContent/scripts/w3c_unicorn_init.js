@@ -1,5 +1,5 @@
 // Author: Thomas GAMBET.
-// (c) COPYRIGHT MIT, ERCIM and Keio, 2009.
+// (c) COPYRIGHT MIT, ERCIM and Keio, 2010.
 var W3C = {
 	
 	start: function(){
