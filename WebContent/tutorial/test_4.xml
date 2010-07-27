@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" xml:lang="en" ref="tutorial/test_4.xml">
+	
+	<group name="group1">
+		<title>A group</title>
+		<description>
+			The group <acronym title="Extensible HyperText Markup Language">XHTML</acronym> description.
+		</description>
+	</group>
+	
+	<message type="info" group="group1"> 
+		<title>This is an example observation that demonstrates the use of list and group elements</title> 
+		<description>See the <a href="tutorial/test_4.xml">source file</a> of this validation. See <a href="check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_3.xml&amp;ucn_task=test">previous example</a>.</description> 
+	</message> 
+	
+	<message type="info" group="group1"> 
+		<title>The group element</title>
+		<description>
+			You can define groups anywhere in your response. If a response contains a group, Unicorn identifies a message type (info, warning or error) by an icon next to the message title.<br />
+			A group element contains a required <em>title</em> element and an optional <em>description</em> element.<br />
+			It has two attributes: 
+			<ul>
+				<li>a required <em>name</em> attribute which is a unique identifier of the group</li>
+				<li>an optional <em>parent</em> attribute which is used to nest a group inside another</li>
+			</ul>
+			A message is associated to a group by its <em>group</em> attribute. 
+		</description>
+	</message>
+	
+	<message type="info" group="group1"> 
+		<title>The list element</title>
+		<description>
+			If you have a large list of messages that share the same <em>ref</em> or <em>group</em> attribute you can nest them inside a <em>list</em> element that will define these attributes for all containing messages.<br />
+			Nevertheless a message contained in a list can override one of both of these attributes.
+		</description> 
+	</message>
+	
+	<message type="error"> 
+		<title>This is an error message with no group attribute</title>
+		<description>
+			If a message does not have any <em>group</em> attribute it is associated with the first group defined in the response.
+		</description> 
+	</message>
+	
+	<group name="group2">
+		<title>Another group</title>
+	</group>
+	
+	<group name="group3" parent="group2">
+		<title>A nested group</title>
+		<description>Description</description>
+	</group>
+	
+	<group name="group4" parent="group2">
+		<title>Another nested group</title>
+		<description>Description</description>
+	</group>
+	
+	<list group="group3" ref="http://www.w3.org">
+	
+		<message type="warning">
+			<title>A warning inside a list element</title>
+		</message>
+		
+		<message type="info" ref="http://www.w3.org/standards/">
+			<title>Information</title>
+		</message>
+		
+		<message type="error" group="group4">
+			<title>Error</title>
+		</message>
+	
+	</list>
+	
+</observationresponse>

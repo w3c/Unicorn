@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd" xmlns="http://research.sun.com/wadl/2006/10"> 
+<grammars/> 
+    <resources base="http://qa-dev.w3.org/unicorn/"> 
+        <resource path="test"> 
+            <doc title="responseType">default</doc>
+            
+            <doc xml:lang="en" title="name">Test Validator</doc>
+            
+            <doc title="mimetype">application/xml</doc>
+            <doc title="mimetype">text/xml</doc>
+    
+        	<method name="GET" id="uriMethod">
+                <doc title="inputMethod">URI</doc>
+                <doc title="inputParamName">uri</doc>
+                <request>
+                        <param name="uri" type="xs:anyURI" style="plain" required="true" /> 
+                </request>
+            </method>
+        </resource>
+    </resources>
+</application>

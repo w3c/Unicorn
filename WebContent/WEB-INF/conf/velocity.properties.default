@@ -1,0 +1,11 @@
+runtime.log.logsystem.class=org.apache.velocity.runtime.log.Log4JLogChute
+runtime.log.logsystem.log4j.logger=org.apache.velocity
+input.encoding=UTF-8
+output.encoding=UTF-8
+velocimacro.library = macros_index.vm
+
+file.resource.loader.cache = true
+velocimacro.library.autoreload = false
+file.resource.loader.modificationCheckInterval = 2
+
+parser.pool.size = 20

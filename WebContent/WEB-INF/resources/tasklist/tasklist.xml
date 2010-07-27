@@ -1,0 +1,329 @@
+<?xml version="1.0" ?>
+<tasklist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/unicorn/tasklist ../schemas/tasklist.xsd"
+	xmlns="http://www.w3.org/unicorn/tasklist">
+
+	<task id="conformance" default="true">
+
+		<routine>
+			<exec id="markup-validator" value="markup-validator" type="observation" />
+			<exec id="css2" value="css2-validator" type="observation" />
+			<exec id="css21" value="css21-validator" type="observation" />
+			<exec id="css3" value="css3-validator" type="observation" />
+			<exec id="css1" value="css1-validator" type="observation" />
+			<exec id="feed" value="feed" type="observation" />
+		</routine>
+
+		<parameters>
+			<!-- <parameter name="profile" default="css21" ui="simple" type="dropdown" observer="css-validator"/> -->
+			<parameter name="warning" ui="none" type="dropdown" default="all">
+				<value name="all">
+					<mapped param="warning" observer="css21-validator" value="2" />
+					<mapped param="warning" observer="css2-validator" value="2" />
+					<mapped param="warning" observer="css3-validator" value="2" />
+					<mapped param="warning" observer="css1-validator" value="2" />
+				</value>
+			</parameter>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>markup-validator</observation>
+			</group>
+			<group type="firstPassed">
+				<observation>css21-validator</observation>
+				<observation>css2-validator</observation>
+				<observation>css3-validator</observation>
+				<observation>css1-validator</observation>
+			</group>
+			<group>
+				<observation>feed</observation>
+			</group>
+		</output>
+	</task>
+
+	<task id="full-css">
+		<routine>
+			<exec id="css1" value="css1-validator" type="observation" />
+			<exec id="css2" value="css2-validator" type="observation" />
+			<exec id="css21" value="css21-validator" type="observation" />
+			<exec id="css3" value="css3-validator" type="observation" />
+		</routine>
+
+		<parameters>
+			<parameter name="warning" type="dropdown" default="no">
+				<value name="no">
+					<mapped param="warning" observer="css1-validator"
+						value="no" />
+					<mapped param="warning" observer="css2-validator"
+						value="no" />
+					<mapped param="warning" observer="css21-validator"
+						value="no" />
+					<mapped param="warning" observer="css3-validator"
+						value="no" />
+				</value>
+				<value name="0">
+					<mapped param="warning" observer="css1-validator"
+						value="0" />
+					<mapped param="warning" observer="css2-validator"
+						value="0" />
+					<mapped param="warning" observer="css21-validator"
+						value="0" />
+					<mapped param="warning" observer="css3-validator"
+						value="0" />
+				</value>
+				<value name="1">
+					<mapped param="warning" observer="css1-validator"
+						value="1" />
+					<mapped param="warning" observer="css2-validator"
+						value="1" />
+					<mapped param="warning" observer="css21-validator"
+						value="1" />
+					<mapped param="warning" observer="css3-validator"
+						value="1" />
+				</value>
+				<value name="2">
+					<mapped param="warning" observer="css1-validator"
+						value="2" />
+					<mapped param="warning" observer="css2-validator"
+						value="2" />
+					<mapped param="warning" observer="css21-validator"
+						value="2" />
+					<mapped param="warning" observer="css3-validator"
+						value="2" />
+				</value>
+			</parameter>
+
+			<parameter name="usermedium" type="dropdown"
+				default="all">
+				<value name="all">
+					<mapped param="usermedium" observer="css1-validator"
+						value="all" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="all" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="all" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="all" />
+				</value>
+				<value name="aural">
+					<mapped param="usermedium" observer="css1-validator"
+						value="aural" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="aural" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="aural" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="aural" />
+				</value>
+				<value name="braille">
+					<mapped param="usermedium" observer="css1-validator"
+						value="braille" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="braille" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="braille" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="braille" />
+				</value>
+				<value name="embossed">
+					<mapped param="usermedium" observer="css1-validator"
+						value="embossed" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="embossed" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="embossed" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="embossed" />
+				</value>
+				<value name="handheld">
+					<mapped param="usermedium" observer="css1-validator"
+						value="handheld" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="handheld" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="handheld" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="handheld" />
+				</value>
+				<value name="print">
+					<mapped param="usermedium" observer="css1-validator"
+						value="print" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="print" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="print" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="print" />
+				</value>
+				<value name="projection">
+					<mapped param="usermedium" observer="css1-validator"
+						value="projection" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="projection" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="projection" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="projection" />
+				</value>
+				<value name="screen">
+					<mapped param="usermedium" observer="css1-validator"
+						value="screen" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="screen" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="screen" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="screen" />
+				</value>
+				<value name="tty">
+					<mapped param="usermedium" observer="css1-validator"
+						value="tty" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="tty" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="tty" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="tty" />
+				</value>
+				<value name="tv">
+					<mapped param="usermedium" observer="css1-validator"
+						value="tv" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="tv" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="tv" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="tv" />
+				</value>
+				<value name="presentation">
+					<mapped param="usermedium" observer="css1-validator"
+						value="presentation" />
+					<mapped param="usermedium" observer="css2-validator"
+						value="presentation" />
+					<mapped param="usermedium"
+						observer="css21-validator" value="presentation" />
+					<mapped param="usermedium" observer="css3-validator"
+						value="presentation" />
+				</value>
+			</parameter>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>css21-validator</observation>
+				<observation>css2-validator</observation>
+				<observation>css3-validator</observation>
+				<observation>css1-validator</observation>
+			</group>
+		</output>
+	</task>
+
+	<task id="mobileok">
+		<routine>
+			<exec id="mobileok" value="mobileok" type="observation" />
+		</routine>
+
+		<parameters>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>mobileok</observation>
+			</group>
+		</output>
+	</task>
+	
+	<task id="feed">
+		<routine>
+			<exec id="feed" value="feed" type="observation" />
+		</routine>
+
+		<parameters>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>feed</observation>
+			</group>
+		</output>
+	</task>
+
+	<task id="custom">
+		<conds>
+			<cond id="param_css" result="passed" type="parameter" parameter="tests">
+				<value>css-validator</value>
+			</cond>
+			<cond id="param_html" result="passed" type="parameter" parameter="tests">
+				<value>markup-validator</value>
+			</cond>
+			<cond id="param_appc" result="passed" type="parameter" parameter="tests">
+				<value>appc-checker</value>
+			</cond>
+			<cond id="param_mobile" result="passed" type="parameter" parameter="tests">
+				<value>mobileok</value>
+			</cond>
+			<cond id="param_feed" result="passed" type="parameter" parameter="tests">
+				<value>feed</value>
+			</cond>
+		</conds>
+
+		<routine>
+			<if test="param_html">
+				<then><exec id="markup" value="markup-validator" type="observation" /></then>
+			</if>
+			<if test="param_css">
+				<then><exec id="css" value="css-validator" type="observation" /></then>
+			</if>
+			<if test="param_mobile">
+				<then><exec id="mobileok" value="mobileok" type="observation" /></then>
+			</if>
+			<if test="param_appc">
+				<then><exec id="appc" value="appc-checker" type="observation" /></then>
+			</if>
+			<if test="param_feed">
+				<then><exec id="feed" value="feed" type="observation" /></then>
+			</if>
+		</routine>
+
+		<parameters>
+			<parameter name="tests" type="checkboxlist" default="" ui="simple">
+				<value name="markup-validator"></value>
+				<value name="css-validator"></value>
+				<value name="appc-checker"></value>
+        		<value name="mobileok"></value>
+        		<value name="feed"></value>
+			</parameter>
+			<parameter name="profile" type="dropdown" ui="advanced" observer="css-validator" default="css21"/>
+			<parameter name="warning" type="dropdown" ui="advanced" observer="css-validator" default="2"/>
+			<parameter name="usermedium" type="dropdown" ui="advanced" observer="css-validator" default="screen"/>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>markup-validator</observation>
+				<observation>appc-checker</observation>
+				<observation>css-validator</observation>
+        		<observation>mobileok</observation>
+        		<observation>feed</observation>
+			</group>
+		</output>
+	</task>
+
+	<!-- This task allows developers to test their Unicorn output easily. It should removed in production. -->
+	<task id="test">
+		<routine>
+			<exec id="test" value="test" type="observation" />
+		</routine>
+
+		<parameters>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>test</observation>
+			</group>
+		</output>
+	</task>
+
+</tasklist>
