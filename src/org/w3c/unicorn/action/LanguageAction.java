@@ -297,7 +297,7 @@ public class LanguageAction extends Action {
 			}
 			
 			MessageList messages = new MessageList();
-			messages.add(new Message(Message.INFO, "Thank you for your submission."));
+			messages.add(new Message(Message.INFO, "Thank you for your submission. It has been forwarded to a moderator. You will also receive an email with your translation attached if you'd like to review it."));
 			req.setAttribute("messages", messages);
 			req.setAttribute("submitted", true);
 			doGet(req, resp);
