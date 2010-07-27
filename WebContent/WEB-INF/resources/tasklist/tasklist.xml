@@ -310,6 +310,21 @@
 		</output>
 	</task>
 
+	<task id="cachecheck">
+		<routine>
+			<exec id="cacheability" value="cacheability" type="observation" />
+		</routine>
+
+		<parameters>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>cacheability</observation>
+			</group>
+		</output>
+	</task>
+
 	<!-- This task allows developers to test their Unicorn output easily. It should removed in production. -->
 	<task id="test">
 		<routine>
