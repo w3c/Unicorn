@@ -266,6 +266,9 @@
 			<cond id="param_feed" result="passed" type="parameter" parameter="tests">
 				<value>feed</value>
 			</cond>
+			<cond id="param_http" result="passed" type="parameter" parameter="tests">
+				<value>http</value>
+			</cond>
 		</conds>
 
 		<routine>
@@ -284,6 +287,9 @@
 			<if test="param_feed">
 				<then><exec id="feed" value="feed" type="observation" /></then>
 			</if>
+			<if test="param_http">
+				<then><exec id="cacheability" value="cacheability" type="observation" /></then>
+			</if>
 		</routine>
 
 		<parameters>
@@ -292,7 +298,8 @@
 				<value name="css-validator"></value>
 				<value name="appc-checker"></value>
         		<value name="mobileok"></value>
-        		<value name="feed"></value>
+				<value name="feed"></value>
+				<value name="http"></value>
 			</parameter>
 			<parameter name="profile" type="dropdown" ui="advanced" observer="css-validator" default="css21"/>
 			<parameter name="warning" type="dropdown" ui="advanced" observer="css-validator" default="2"/>
@@ -306,6 +313,7 @@
 				<observation>css-validator</observation>
         		<observation>mobileok</observation>
         		<observation>feed</observation>
+        		<observation>cacheability</observation>
 			</group>
 		</output>
 	</task>
