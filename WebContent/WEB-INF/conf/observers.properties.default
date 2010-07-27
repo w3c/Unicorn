@@ -8,4 +8,5 @@ css21-validator = http://qa-dev.w3.org/~ot/ucn_contracts/css21.wadl
 mobileok = http://qa-dev.w3.org/~ot/ucn_contracts/mobileOk.wadl
 test = http://qa-dev.w3.org/~ot/ucn_contracts/test.wadl
 feed = http://qa-dev.w3.org/~ot/ucn_contracts/feed-validator.wadl
+cacheability = http://qa-dev.w3.org/~ot/ucn_contracts/cacheability.wadl
 #cssval2010 = http://qa-dev.w3.org:8008/cssval/api.wadl
