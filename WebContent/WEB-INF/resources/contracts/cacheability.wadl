@@ -9,11 +9,16 @@
             
             <doc title="mimetype">text/html</doc>
     
+    		<doc title="paramOutput">output</doc>
+    
         	<method name="GET" id="uriMethod">
                 <doc title="inputMethod">URI</doc>
                 <doc title="inputParamName">ca_uri</doc>
                 <request>
                         <param name="ca_uri" type="xs:anyURI" style="plain" required="true" /> 
+                        <param name="output" fixed="ucn" required="true" style="plain">
+							<option value="ucn" />
+						</param>
                 </request>
             </method>
         </resource>
