@@ -310,7 +310,7 @@
 		</output>
 	</task>
 
-	<task id="cachecheck">
+	<task id="cacheability">
 		<routine>
 			<exec id="cacheability" value="cacheability" type="observation" />
 		</routine>
