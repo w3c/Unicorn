@@ -1,7 +1,7 @@
 	<ul id="menu">
 			<li><a href="http://code.w3.org/unicorn" title="$documentation_title">$documentation</a></li>
 			<li><a href="http://code.w3.org/unicorn/wiki/Documentation/Install" title="$download_title">$download</a></li>
-			<li><a href="mailto:public-qa-dev@w3.org" title="$feedback_title">$feedback</a></li>
+			<li><a href="http://code.w3.org/unicorn/#Feedback" title="$feedback_title">$feedback</a></li>
 			<li><a href="${baseUri}translations" hreflang="en" title="$translations_title">$translations</a></li>
 	</ul>
 	<ul id="lang_choice">
