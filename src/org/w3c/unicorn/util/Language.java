@@ -92,6 +92,8 @@ public class Language {
 		if (languageCode == null)
 			return Language.defaultLocale;
 		ULocale resolved = installedLocaleMatcher.getBestMatch(languageCode);
+		if (resolved.getName().equals("zh"))
+			resolved = ULocale.SIMPLIFIED_CHINESE;
 		logger.debug("resolved installed locale: " + resolved.getBaseName());
 		return resolved;
 	}
@@ -101,6 +103,8 @@ public class Language {
 		if (languageCode == null)
 			return Language.defaultLocale;
 		ULocale resolved = uiLocaleMatcher.getBestMatch(languageCode);
+		if (resolved.getName().equals("zh"))
+			resolved = ULocale.SIMPLIFIED_CHINESE;
 		logger.debug("resolved UI locale: " + resolved.getBaseName());
 		return resolved;
 	}
@@ -110,9 +114,8 @@ public class Language {
 		if (languageCode == null)
 			return Language.defaultLocale;
 		ULocale resolved = availableLocaleMatcher.getBestMatch(languageCode);
-		// for some reason the LocaleMatcher will sometimes return zh_Hans instead of zh resulting in a wrong language resolving
-		if (resolved.getName().equals("zh_Hans"))
-			resolved = availableLocaleMatcher.getBestMatch(resolved.getName());
+		if (resolved.getName().equals("zh"))
+			resolved = ULocale.SIMPLIFIED_CHINESE;
 		logger.debug("resolved available locale: " + resolved.getBaseName());
 		return resolved;
 	}
