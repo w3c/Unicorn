@@ -24,7 +24,7 @@
 					<optgroup label="Select a language">
 					#foreach ($locale in $availableLocales)
 					#set($localeKey = $strUtils.replace($locale.getName(), '_', '-'))
-						<option value="$localeKey" xml:lang="$localeKey" #if($native_lang == $localeKey)selected="selected"#end>$esc.html($strUtils.capitalize($locale.getDisplayName($defaultLocale))) - $esc.html($strUtils.capitalize($locale.getDisplayName($locale)))</option>
+						<option value="$localeKey" lang="$localeKey" xml:lang="$localeKey" #if($native_lang == $localeKey)selected="selected"#end>$esc.html($strUtils.capitalize($locale.getDisplayName($defaultLocale))) - $esc.html($strUtils.capitalize($locale.getDisplayName($locale)))</option>
 					#end
 					</optgroup>
 				</select>
@@ -62,7 +62,8 @@
 				#set($prop = $languageProps.get($locale))
 				#set($meta = $metadataProps.get($locale))
 				#set($percent = 100 * $math.div($math.add($prop.size(), $meta.size()), $math.add($defaultProps.size(), $defaultMetadata.size())))
-				<th scope="col">$strUtils.capitalize($locale.getDisplayName($defaultLocale))<br /><span xml:lang="$locale.getName()">$strUtils.capitalize($locale.getDisplayName($locale))</span><br />$percent.intValue()%<br /><a href="./translations?ucn_lang=$locale.getName()">Edit</a></th>
+				#set($localeKey = $strUtils.replace($locale.getName(), '_', '-'))
+				<th scope="col">$strUtils.capitalize($locale.getDisplayName($defaultLocale))<br /><span lang="$localeKey" xml:lang="$localeKey">$strUtils.capitalize($locale.getDisplayName($locale))</span><br />$percent.intValue()%<br /><a href="./translations?ucn_lang=$locale.getName()">Edit</a></th>
 			#end
 			#end
 			</tr>
@@ -73,10 +74,10 @@
 					<th class="property_name" scope="row" title="$esc.xml($defaultProps.get($key))">$key</th>
 					#foreach($locale in $uiLocales)
 					#if ($locale != $defaultLocale)
-						#set($localeKey = $locale.getName())
+						#set($localeKey = $strUtils.replace($locale.getName(), '_', '-'))
 						#set($prop = $languageProps.get($locale))
 						#if($prop.get($key))
-						<td class="ok"><span xml:lang="$localeKey" title="$!esc.xml($prop.get($key))">✔</span></td>
+						<td class="ok"><span lang="$localeKey" xml:lang="$localeKey" title="$!esc.xml($prop.get($key))">✔</span></td>
 						#{else}
 						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultProps.get($key))&quot; in $locale.getDisplayName($defaultLocale)"><a href="./translations?ucn_lang=$localeKey">✘</a></span></td>
 						#end
@@ -89,10 +90,10 @@
 					<th class="property_name" scope="row" title="$esc.xml($defaultMetadata.get($key))">$key</th>
 					#foreach($locale in $uiLocales)
 					#if ($locale != $defaultLocale)
-						#set($localeKey = $locale.getName())
+						#set($localeKey = $strUtils.replace($locale.getName(), '_', '-'))
 						#set($meta = $metadataProps.get($locale))
 						#if($meta.get($key))
-						<td class="ok"><span xml:lang="localeKey" title="$!esc.xml($meta.get($key))">✔</span></td>
+						<td class="ok"><span lang="localeKey" xml:lang="localeKey" title="$!esc.xml($meta.get($key))">✔</span></td>
 						#{else}
 						<td class="missing"><span title="Missing translation of &quot;$esc.xml($defaultMetadata.get($key))&quot; in $locale.getDisplayName($defaultLocale)"><a href="./translations?ucn_lang=$localeKey">✘</a></span></td>
 						#end
