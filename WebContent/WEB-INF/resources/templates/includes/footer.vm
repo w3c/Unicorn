@@ -11,7 +11,7 @@
 			#if ($locale.getName() == $lang)
 			$localeName
 			#else
-			#set($langKey = $locale.getName())
+			#set($langKey = $strUtils.replace($locale.getName(), '_', '-'))
 			<a href="${queryString}ucn_lang=$langKey" lang="$langKey" xml:lang="$langKey" hreflang="$langKey" rel="alternate">$localeName</a>
 			#end
 		</li>
