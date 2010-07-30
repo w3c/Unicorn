@@ -91,6 +91,8 @@ public class Language {
 		logger.debug("languageCode: " + languageCode);
 		if (languageCode == null)
 			return Language.defaultLocale;
+		if (languageCode.equals("lolcat"))
+			return getUILocale("lolcat");
 		ULocale resolved = installedLocaleMatcher.getBestMatch(languageCode);
 		if (resolved.getName().equals("zh"))
 			resolved = ULocale.SIMPLIFIED_CHINESE;
@@ -113,6 +115,8 @@ public class Language {
 		logger.debug("languageCode: " + languageCode);
 		if (languageCode == null)
 			return Language.defaultLocale;
+		if (languageCode.equals("lolcat"))
+			return getUILocale("lolcat");
 		ULocale resolved = availableLocaleMatcher.getBestMatch(languageCode);
 		if (resolved.getName().equals("zh"))
 			resolved = ULocale.SIMPLIFIED_CHINESE;
@@ -165,6 +169,8 @@ public class Language {
 	
 	public static ULocale getLocaleFromFileName(String fileName) throws IllegalArgumentException{
 		String localeString = fileName.split("\\.")[0];
+		if (localeString.equals("lolcat"))
+			return new ULocale("lolcat");
 		ULocale locale = Language.getLocale(localeString);
 		if (locale == null) {
 			throw new IllegalArgumentException("Locale not found for file name: " + fileName);
