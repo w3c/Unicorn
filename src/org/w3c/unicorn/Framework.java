@@ -337,6 +337,8 @@ public class Framework {
 				continue;
 			try {
 				ULocale fileLocale = Language.getLocaleFromFileName(langFile.getName());
+				if (fileLocale == Language.getDefaultLocale())
+					continue;
 				UCNProperties props = Language.load(langFile);
 				logger.debug("> Found language: " + fileLocale.getName() + " - " + fileLocale.getDisplayName(Language.getDefaultLocale()));
 				Language.addUiLocale(fileLocale);
