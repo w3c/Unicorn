@@ -6,7 +6,7 @@
 	</ul>
 	<ul id="lang_choice">
 #foreach( $locale in $languages )
-#if ($locale.getName() != "lolcat")
+#if ($locale.getName() != "lolcat" && $locale.getName() != "l33t" && $locale.getName() != "buccaneer")
 		<li>
 			#set($localeName = $strUtils.capitalize($locale.getDisplayName($locale)))
 			#if ($locale.getName() == $lang)

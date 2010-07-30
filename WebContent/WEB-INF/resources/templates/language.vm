@@ -58,7 +58,7 @@
 			<tr>
 				<th scope="col">Property</th>
 			#foreach($locale in $uiLocales)
-			#if ($locale != $defaultLocale && $locale.Name != 'lolcat')
+			#if ($locale != $defaultLocale && $locale.Name != 'lolcat' && $locale.Name != 'l33t' && $locale.Name != 'buccaneer')
 				#set($prop = $languageProps.get($locale))
 				#set($meta = $metadataProps.get($locale))
 				#set($percent = 100 * $math.div($math.add($prop.size(), $meta.size()), $math.add($defaultProps.size(), $defaultMetadata.size())))
@@ -73,7 +73,7 @@
 				<tr>
 					<th class="property_name" scope="row" title="$esc.xml($defaultProps.get($key))">$key</th>
 					#foreach($locale in $uiLocales)
-					#if ($locale != $defaultLocale && $locale.Name != 'lolcat')
+					#if ($locale != $defaultLocale && $locale.Name != 'lolcat' && $locale.Name != 'l33t' && $locale.Name != 'buccaneer')
 						#set($localeKey = $strUtils.replace($locale.getName(), '_', '-'))
 						#set($prop = $languageProps.get($locale))
 						#if($prop.get($key))
@@ -89,7 +89,7 @@
 				<tr>
 					<th class="property_name" scope="row" title="$esc.xml($defaultMetadata.get($key))">$key</th>
 					#foreach($locale in $uiLocales)
-					#if ($locale != $defaultLocale && $locale.Name != 'lolcat')
+					#if ($locale != $defaultLocale && $locale.Name != 'lolcat' && $locale.Name != 'l33t' && $locale.Name != 'buccaneer')
 						#set($localeKey = $strUtils.replace($locale.getName(), '_', '-'))
 						#set($meta = $metadataProps.get($locale))
 						#if($meta.get($key))
