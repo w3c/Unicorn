@@ -6,6 +6,7 @@
 	</ul>
 	<ul id="lang_choice">
 #foreach( $locale in $languages )
+#if ($locale.getName() != "lolcat")
 		<li>
 			#set($localeName = $strUtils.capitalize($locale.getDisplayName($locale)))
 			#if ($locale.getName() == $lang)
@@ -15,6 +16,7 @@
 			<a href="${queryString}ucn_lang=$langKey" lang="$langKey" xml:lang="$langKey" hreflang="$langKey" rel="alternate">$localeName</a>
 			#end
 		</li>
+#end
 #end
 	</ul>
 	<div id="footer">
