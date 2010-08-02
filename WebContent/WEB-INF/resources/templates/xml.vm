@@ -34,7 +34,9 @@
 		</context>
 		#end
 		<title>$message.getTitle()</title>
+		#if($message.getDescription())
 		<description>$message.getDescription()</description>
+		#end
 	</message>
 #end
 
