@@ -252,20 +252,22 @@ public class ObserveAction extends Action {
 			}
 		}
 		
-		String s = "Resolved parameters:";
-		for (String key : reqParams.keySet()) {
-			s += "\n\t" + key + " - ";
-			if (reqParams.get(key) instanceof String[]) {
-				s += "[";
-				for (int i = 0; i < ((String[]) reqParams.get(key)).length; i ++)
-					s += ((String[]) reqParams.get(key))[i] + ", ";
-				s = s.substring(0, s.length() - 2);
-				s += "]";
-			} else {
-				s += reqParams.get(key);
+		if (logger.isDebugEnabled()) {
+			String s = "Resolved parameters:";
+			for (String key : reqParams.keySet()) {
+				s += "\n\t" + key + " - ";
+				if (reqParams.get(key) instanceof String[]) {
+					s += "[";
+					for (int i = 0; i < ((String[]) reqParams.get(key)).length; i ++)
+						s += ((String[]) reqParams.get(key))[i] + ", ";
+					s = s.substring(0, s.length() - 2);
+					s += "]";
+				} else {
+					s += reqParams.get(key);
+				}
 			}
+			logger.debug(s);
 		}
-		logger.debug(s);
 		
 		// Launch the observation
 		try {
@@ -377,22 +379,24 @@ public class ObserveAction extends Action {
 			}
 		}
 		
-		String s = "Parameters: ";
-		for (String key : params.keySet()) {
-			s += "\n\t" + key + " - ";
-			if (params.get(key) instanceof String[]) {
-				s += "[";
-				for (int i = 0; i < ((String[]) params.get(key)).length; i ++) {
-					s += ((String[]) params.get(key))[i] + ", ";
+		if (logger.isDebugEnabled()) {
+			String s = "Parameters: ";
+			for (String key : params.keySet()) {
+				s += "\n\t" + key + " - ";
+				if (params.get(key) instanceof String[]) {
+					s += "[";
+					for (int i = 0; i < ((String[]) params.get(key)).length; i ++) {
+						s += ((String[]) params.get(key))[i] + ", ";
+					}
+					s = s.substring(0, s.length() - 2);
+					s += "]";
 				}
-				s = s.substring(0, s.length() - 2);
-				s += "]";
+				else {
+					s += params.get(key);
+				}
 			}
-			else {
-				s += params.get(key);
-			}
+			logger.debug(s);
 		}
-		logger.debug(s);
 		
 		return params;
 	}
