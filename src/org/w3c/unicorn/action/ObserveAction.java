@@ -107,6 +107,7 @@ public class ObserveAction extends Action {
 		mapOfStringObject.put("messages", messages);
 		mapOfStringObject.put("unicorncall", aUnicornCall);
 		mapOfStringObject.put("baseUri", "./");
+		mapOfStringObject.put("language_action", "./");
 		
 		// Retrieve the parameters from the request
 		Map<String, Object> reqParams;
@@ -119,6 +120,8 @@ public class ObserveAction extends Action {
 			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 			return;
 		}
+		
+		mapOfStringObject.put("requestParameters", reqParams);
 		
 		// Process the parameters
 		for (String key : reqParams.keySet()) {
@@ -175,6 +178,7 @@ public class ObserveAction extends Action {
 						else
 							uriParam = req.getHeader("Referer");
 					}
+					mapOfStringObject.put("language_action", "check");
 					logger.trace("Uri parameter: " + key + " - " + uriParam);
 					aUnicornCall.setInputParameter(new URIInputParameter(uriParam));
 				} else if (paramName.equals("text")) {

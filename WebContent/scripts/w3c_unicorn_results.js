@@ -3,12 +3,18 @@
 var W3C = {
 	
 	start: function() {
-	
+		
 		W3C.cleanHash();
-	
+		
 		W3C.ContextsToShow = 7;
 		
 		W3C.Observers = $$('.observer');
+		
+		$$('input#lang_change').setStyle('display', 'none');
+		W3C.LanguagesForm = $('lang_choice');
+		W3C.LanguagesForm.addEvent('change', function(event) {
+			window.location = "./" + W3C.LanguagesForm.getProperty('action') + "?" + this.toQueryString() + window.location.hash;
+		});
 		
 		var slideDuration = 500;
 		var invalidObservers = $$('.observer.invalid');
@@ -98,8 +104,8 @@ var W3C = {
 		});
 		
 		var mySmoothScroll = new Fx.SmoothScroll({
-		    links: '.smooth',
-		    wheelStops: true
+			links: '.smooth',
+			wheelStops: true
 		});
 		
 		W3C.parseHash();
@@ -109,18 +115,18 @@ var W3C = {
 		var re = new RegExp(/contextShow:'[^']*'/);
 		var m = re.exec(classes);
 		var s =  "";
-	    for (i = 0; i < m.length; i++) {
-	      s = s + m[i];
-	    }
-	    var showString = s.replace('contextShow:', '').replace(/'/g, '');
-	    
-	    var re = new RegExp(/contextHide:'[^']*'/);
+		for (i = 0; i < m.length; i++) {
+			s = s + m[i];
+		}
+		var showString = s.replace('contextShow:', '').replace(/'/g, '');
+		
+		var re = new RegExp(/contextHide:'[^']*'/);
 		var m = re.exec(classes);
 		var s =  "";
-	    for (i = 0; i < m.length; i++) {
-	      s = s + m[i];
-	    }
-	    var hideString = s.replace('contextHide:', '').replace(/'/g, '');
+		for (i = 0; i < m.length; i++) {
+			s = s + m[i];
+		}
+		var hideString = s.replace('contextHide:', '').replace(/'/g, '');
 		
 		$$('td.message').each(function (td) {
 			if (td.getProperty('rowspan') > W3C.ContextsToShow) {
@@ -180,7 +186,6 @@ var W3C = {
 							}
 							
 						});
-						
 					}
 					
 					tr = tr.getNext('tr');
@@ -197,23 +202,23 @@ var W3C = {
 	toggle: function(section) {
 		var title = section.getElement('.title');
 		var slide = section.retrieve('fxSlide');
-	    if (section.retrieve('open')) {
-	    	W3C.close(section, true);
-	    } else {
-	    	W3C.open(section, true);
-	    }
+		if (section.retrieve('open')) {
+			W3C.close(section, true);
+		} else {
+			W3C.open(section, true);
+		}
 	},
 	
 	close: function(section, withFx) {
 		var opened = section.retrieve('open');
 		var title = section.getElement('.title');
 		var slide = section.retrieve('fxSlide');
-	    title.removeClass('toggled');
-	    section.store('open', false);
+		title.removeClass('toggled');
+		section.store('open', false);
 		if (withFx && opened) {
 			slide.slideOut().chain(function(){
 				section.getElement('div').setStyle('display', 'none');
-		    	slide.callChain();
+				slide.callChain();
 			});
 		} else {
 			slide.hide();
@@ -225,18 +230,18 @@ var W3C = {
 		var closed = !section.retrieve('open');
 		var title = section.getElement('.title');
 		var slide = section.retrieve('fxSlide');
-	    title.addClass('toggled');
-	    section.store('open', true);
-	    section.getElement('div').setStyle('display', '');
-	    if (withFx && closed) {
-	    	slide.slideIn().chain(function(){
-		    	section.getElement('div').setStyle('height', 'auto');
-		    	slide.callChain();
+		title.addClass('toggled');
+		section.store('open', true);
+		section.getElement('div').setStyle('display', '');
+		if (withFx && closed) {
+			slide.slideIn().chain(function(){
+				section.getElement('div').setStyle('height', 'auto');
+				slide.callChain();
 			});
 		} else {
-	    	slide.show();
-	    	section.getElement('div').setStyle('height', 'auto');
-	    }
+			slide.show();
+			section.getElement('div').setStyle('height', 'auto');
+		}
 	},
 	
 	closeAllObserversBut: function(observer, withFx) {

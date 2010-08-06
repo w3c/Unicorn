@@ -558,6 +558,7 @@ public class Framework {
 			context.put("param_prefix", Property.get("UNICORN_PARAMETER_PREFIX"));
 			context.put("languages", Language.getUiLocales());
 			context.put("lang", locale.getName());
+			context.put("currentLocale", locale);
 			context.put("direction", Language.getLocaleDirection(locale));
 			context.put("defaultLocale", Language.getDefaultLocale());
 			context.put("year", (new SimpleDateFormat("yyyy")).format(new Date()));

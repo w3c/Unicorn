@@ -12,6 +12,8 @@ var W3C = {
 		W3C.TaskDescrip = $('task_descrip');
 		W3C.TaskInputs = $$('input.task');
 		
+		W3C.LanguagesForm = $('lang_choice');
+		
 		W3C.LangParameter = $$('html').getProperty('lang')[0];
 		
 		W3C.Forms = $$('form.ucn_form');
@@ -39,11 +41,16 @@ var W3C = {
 	prepareDocument: function(){
 		
 		$$('input#task_change').setStyle('display', 'none');
+		$$('input#lang_change').setStyle('display', 'none');
 		
 		W3C.TaskSelect.addEvent('change', function (event) {
 			event.stop();
 			W3C.selectTask(this.selectedIndex, true);
 			W3C.updateHash();
+		});
+		
+		W3C.LanguagesForm.addEvent('change', function(event) {
+			window.location = "./" + W3C.LanguagesForm.getProperty('action') + "?" + this.toQueryString() + window.location.hash;
 		});
 		
 		W3C.TabLinks.each(function(link, i) {
@@ -73,12 +80,6 @@ var W3C = {
 			}
 		});
 		
-		$$('ul#lang_choice').getElements('a').each(function (a) {
-			a.addEvent('click', function(event) {
-				this.setProperty('href', this.getProperty('href') +  window.location.hash);
-			});
-		});
-		
 		W3C.Forms.filter('form[method=get]').each(function (form) {
 			new FormValidator(form, {
 				onFormValidate: function(passed, form, event) {
@@ -100,7 +101,7 @@ var W3C = {
 				}
 			});
 		});
-
+		
 	},
 	
 	addOptionEvents: function () {
