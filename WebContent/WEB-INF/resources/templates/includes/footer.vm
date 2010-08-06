@@ -14,7 +14,7 @@
 	#end
 #end
 		<label for="ucn_lang">Language</label>
-		<select name="ucn_lang" id="ucn_lang">
+		<select name="ucn_lang" id="ucn_lang" title="Select language">
 #foreach( $locale in $languages )
 #if ($locale.getName() != "lolcat" && $locale.getName() != "l33t" && $locale.getName() != "buccaneer")
 #set($localeName = $locale.getDisplayName($locale))
