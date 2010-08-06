@@ -54,6 +54,7 @@ public class IndexAction extends Action {
 		velocityContext.put("current_task", Framework.mapOfTask.get(task));
 		velocityContext.put("default_task", Framework.mapOfTask.getDefaultTask());
 		velocityContext.put("baseUri", "./");
+		velocityContext.put("language_action", "./");
 		
 		Enumeration<?> paramEnum = req.getParameterNames();
 		while (paramEnum.hasMoreElements()) {
