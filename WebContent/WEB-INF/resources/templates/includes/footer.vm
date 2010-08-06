@@ -4,6 +4,8 @@
 			<li><a href="http://code.w3.org/unicorn/#Feedback" title="$feedback_title">$feedback</a></li>
 			<li><a href="${baseUri}translations" hreflang="en" title="$translations_title">$translations</a></li>
 	</ul>
+	
+#if ($languages.size() > 1)
 	<form action="$!{language_action}" method="get" id="lang_choice">
 		<fieldset>
 #foreach( $key in $requestParameters.keySet() )
@@ -11,7 +13,8 @@
 	<input type="hidden" name="$key" value="$requestParameters.get($key)"/>
 	#end
 #end
-		<select name="ucn_lang">
+		<label for="ucn_lang">Language</label>
+		<select name="ucn_lang" id="ucn_lang">
 #foreach( $locale in $languages )
 #if ($locale.getName() != "lolcat" && $locale.getName() != "l33t" && $locale.getName() != "buccaneer")
 #set($localeName = $locale.getDisplayName($locale))
@@ -19,7 +22,7 @@
 			<option value="$lang" selected="selected">$localeName</option>
 #else
 #set($langKey = $strUtils.replace($locale.getName(), '_', '-'))
-			<option value="$langKey">$localeName ($locale.getDisplayName($currentLocale))</option>
+			<option value="$langKey" lang="$langKey" xml:lang="$langKey">$localeName ($locale.getDisplayName($currentLocale))</option>
 #end
 #end
 #end
@@ -27,6 +30,9 @@
 		<input id="lang_change" type="submit" value="OK" />
 		</fieldset>
 	</form>
+#else
+<div id="lang_choice">$currentLocale.getDisplayLanguage($currentLocale)</div>
+#end
 	
 	<div id="footer">
 		<p id="activity_logos">
