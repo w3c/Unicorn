@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>unicorn</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>Init</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.InitAction</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>Index</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.IndexAction</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Observe</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.ObserveAction</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Language</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.LanguageAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Index</servlet-name>
+    <url-pattern>/index.html</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Observe</servlet-name>
+    <url-pattern>/check</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Init</servlet-name>
+    <url-pattern>/init</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Language</servlet-name>
+    <url-pattern>/translations</url-pattern>
+  </servlet-mapping>
+  <!-- This servlet should not be mapped in production. It is used as a simple test observer. -->
+  <servlet>
+    <servlet-name>TestObserver</servlet-name>
+    <servlet-class>org.w3c.unicorn.action.TestObserver</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestObserver</servlet-name>
+    <url-pattern>/test</url-pattern>
+  </servlet-mapping>
+  <!-- Init servlet security. Add a user with unicorn_admin role in your server configuration. -->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Unicorn Init Servlet</web-resource-name>
+      <url-pattern>/init</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+       <role-name>unicorn_admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>DIGEST</auth-method>
+    <realm-name>Unicorn</realm-name>
+  </login-config>
+  <security-role>
+    <description>
+      Unicorn Administrators
+    </description>
+    <role-name>unicorn_admin</role-name>
+  </security-role>
+</web-app>

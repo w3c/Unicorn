@@ -1,0 +1,17 @@
+<ivy-module version="2.0">
+    <info organisation="org.w3c" module="unicorn"/>
+    <dependencies>
+        <dependency org="javax.servlet" name="servlet-api" rev="2.5" conf="*->*,!sources,!javadoc"/>
+        <dependency org="commons-collections" name="commons-collections" rev="3.2.1" conf="*->*,!sources,!javadoc"/>
+        <dependency org="commons-fileupload" name="commons-fileupload" rev="1.2.1" conf="*->*,!sources,!javadoc"/>
+        <dependency org="commons-io" name="commons-io" rev="1.4" conf="*->*,!sources,!javadoc"/>
+        <dependency org="commons-lang" name="commons-lang" rev="2.5" conf="*->*,!sources,!javadoc"/>
+        <dependency org="commons-logging" name="commons-logging" rev="1.1.1" conf="*->*,!sources,!javadoc"/>
+        <dependency org="javax.mail" name="mail" rev="1.4.1" conf="*->*,!sources,!javadoc"/>
+        <dependency org="com.yahoo.platform.yui" name="yuicompressor" rev="2.3.6" conf="*->*,!sources,!javadoc"/>
+        <dependency org="org.apache.velocity" name="velocity" rev="1.6.4" conf="*->*,!sources,!javadoc"/>
+        <dependency org="org.apache.velocity" name="velocity-tools" rev="2.0" conf="*->*,!sources,!javadoc"/>
+        <!--<dependency org="com.ibm.icu" name="icu4j" rev="4.0.1"/> revision 4.4.1 needed, not in maven repo -->
+        <dependency org="org.apache.xmlbeans" name="xmlbeans" rev="2.4.0" conf="*->*,!sources,!javadoc"/>
+    </dependencies>
+</ivy-module>

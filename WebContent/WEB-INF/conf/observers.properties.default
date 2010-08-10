@@ -1,0 +1,12 @@
+css-validator = http://qa-dev.w3.org/~ot/ucn_contracts/css-validator.wadl
+markup-validator = http://qa-dev.w3.org/~ot/ucn_contracts/markup-validator.wadl
+appc-checker = http://qa-dev.w3.org/~ot/ucn_contracts/appc-checker-validator.wadl
+css1-validator = http://qa-dev.w3.org/~ot/ucn_contracts/css1.wadl
+css2-validator = http://qa-dev.w3.org/~ot/ucn_contracts/css2.wadl
+css3-validator = http://qa-dev.w3.org/~ot/ucn_contracts/css3.wadl
+css21-validator = http://qa-dev.w3.org/~ot/ucn_contracts/css21.wadl
+mobileok = http://qa-dev.w3.org/~ot/ucn_contracts/mobileOk.wadl
+test = http://qa-dev.w3.org/~ot/ucn_contracts/test.wadl
+feed = http://qa-dev.w3.org/~ot/ucn_contracts/feed-validator.wadl
+cacheability = http://qa-dev.w3.org/~ot/ucn_contracts/cacheability.wadl
+#cssval2010 = http://qa-dev.w3.org:8008/cssval/api.wadl

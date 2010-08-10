@@ -1,0 +1,10 @@
+# Use this file to add default messages to unicorn.
+# Syntax is:
+# (messageId).level = {info|error|warning}
+# (messageId).message = This is the message
+# (messageId).content = Additional content of the message, hidden by default (optional)
+#
+#dev.level   = warning
+#dev.message = This instance of Unicorn is a development version used for testing purposes. There is not yet any production instance of Unicorn. \
+#	You can test it and <a href="http://code.w3.org/unicorn">send us your feedback and ideas</a>, \
+#	or <a href="http://code.w3.org/unicorn">download the source code</a>.
