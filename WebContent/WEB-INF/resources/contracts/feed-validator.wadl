@@ -6,7 +6,7 @@
 	xmlns="http://research.sun.com/wadl/2006/10"> 
 	<grammars/>
 	
-    <resources base="http://qa-dev.w3.org/feed/"> 
+    <resources base="http://validator.w3.org/feed/"> 
         <resource path="check.cgi"> 
                 
             <doc title="responseType">default</doc>
