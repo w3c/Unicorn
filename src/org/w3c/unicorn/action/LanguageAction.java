@@ -312,13 +312,13 @@ public class LanguageAction extends Action {
 			
 			OutputFormater fileOutputFormater;
 			if (interfaceChanged) {
-				fileOutputFormater = new FileOutputFormater("language.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter + ".properties");
+				fileOutputFormater = new FileOutputFormater("language.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter.replace("_", "-") + ".properties");
 				outputFormaters.add(fileOutputFormater);
 			}
 			
 			OutputFormater fileOutputFormater2;
 			if (tasklistChanged) {
-				fileOutputFormater2 = new FileOutputFormater("tasklist.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter + ".tasklist.properties");
+				fileOutputFormater2 = new FileOutputFormater("tasklist.properties", Property.get("DEFAULT_LANGUAGE"), "text/plain", languageParameter.replace("_", "-") + ".tasklist.properties");
 				outputFormaters.add(fileOutputFormater2);
 			}
 			
