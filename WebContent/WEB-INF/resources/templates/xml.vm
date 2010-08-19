@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse"
+					 ref="$unicorncall.getDocumentName()"
+					 date="$unicorncall.getDate()"
+					 xml:lang="$unicorncall.getLang()">
+
+<status value="#if($unicorncall.isPassed())passed#{else}failed#end"/>
+
+#set($lang = $unicorncall.getLang())
+#set($uri = $unicorncall.getDocumentName())
+#set($observationList = $unicorncall.ObservationList)
+#foreach ($observationName in $observationList.keySet())
+#set ($observation = $observationList.get($observationName))
+	
+	<group name="$observationName">
+		<title>$unicorncall.getObserverName($observationName, $lang)</title>
+	</group>
+	
+#foreach($group in $observation.getGroups())
+	#if($group.hasParent())#set($parent=$group.getParentName())#else#set($parent=$observationName)#end
+	<group name="$group.getName()" parent="$parent">
+		<title>$group.getTitle()</title>
+		#if($group.getDescription())<description>$group.getDescription()</description>#end
+	</group>
+#end
+
+#foreach($message in $observation.getMessages())
+	#if($message.getType()==2)#set($type="error")#elseif($message.getType()==1)#set($type="warning")#else#set($type="info")#end
+	#if($message.getGroupName())#set($messageGroup=$message.getGroupName())#else#set($messageGroup=$observationName)#end
+	<message type="$type" group="$messageGroup" level="$message.getLevel()" #if($message.getURI()!=$uri)ref="$message.getURI()"#end>
+		#foreach($context in $message.getContexts())
+		<context #if($context.getURI() && $context.getURI()!=$message.getURI())ref="$context.getURI()"#end #if($context.getLine())line="$context.getLine()"#end #if($context.getColumn())column="$context.getColumn()"#end>
+			$!context.getContext()
+		</context>
+		#end
+		<title>$message.getTitle()</title>
+		#if($message.getDescription())
+		<description>$message.getDescription()</description>
+		#end
+	</message>
+#end
+
+#end
+
+</observationresponse>
