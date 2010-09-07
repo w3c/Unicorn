@@ -43,6 +43,11 @@ public class InitAction extends HttpServlet {
 		String task = request.getParameter("task"); 
 		PrintWriter out = response.getWriter();
 		
+		// Check that unicorn.conf is in the classpath
+		if (InitAction.class.getResource("/unicorn.properties") == null) {
+			task = "all";
+		}
+		
 		if (task == null) {
 			response.setContentType("text/html; charset=UTF-8");
 			VelocityContext velocityContext = new VelocityContext(Language.getContext(Language.getDefaultLocale()));
