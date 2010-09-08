@@ -267,8 +267,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 		for (int i = 0; i < aNodeListMethod.getLength(); i++) {
 			final Node aNodeMethod = aNodeListMethod.item(i);
 
-			final Map<String, CallParameter> mapOfCallParameter;
-			mapOfCallParameter = new LinkedHashMap<String, CallParameter>();
+			ArrayList<CallParameter> callParameters = new ArrayList<CallParameter>();
 
 			// URI of the resource (will be appended to the base URI)
 			final String sResourceURI;
@@ -340,14 +339,13 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 							.getAttributes().item(0).getNodeValue());
 				}
 
-				mapOfCallParameter.put(new String(aCallParameter.getName()),
-						aCallParameter);
+				callParameters.add(aCallParameter);
 
 			} // iterate over query_variable list
 
 			final CallMethod aCallMethod = new CallMethod(new URL(sBaseURI
 					+ sResourceURI), bPost, sName, sMethodID,
-					mapOfCallParameter);
+					callParameters);
 			this.listOfCallMethod.add(aCallMethod);
 
 			// fill mapOfInputMethod
