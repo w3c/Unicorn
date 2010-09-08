@@ -4,7 +4,7 @@
 package org.w3c.unicorn.contract;
 
 import java.net.URL;
-import java.util.Map;
+import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,8 +44,8 @@ public class CallMethod {
 	/**
 	 * whether the call is sent or not
 	 */
-	private Map<String, CallParameter> mapOfCallParameter;
-
+	ArrayList<CallParameter> callParameters;
+	
 	/**
 	 * Set the parameter for the object call
 	 * 
@@ -62,16 +62,16 @@ public class CallMethod {
 	 */
 	public CallMethod(final URL aURL, final boolean bPost, final String sName,
 			final String sID,
-			final Map<String, CallParameter> mapOfCallParameter) {
+			final ArrayList<CallParameter> callParameters) {
 		logger.trace("Constructor\n" +
 				     "URL : " + aURL + ".\n" +
 				     "Post : " + bPost + ".\n" +
 				     "Name : " + sName + ".\n" +
 				     "ID : " + sID + ".\n" +
-				     "Map of call parameter : " + mapOfCallParameter + ".");
+				     "Map of call parameter : " + callParameters + ".");
 
 		this.aURL = aURL;
-		this.mapOfCallParameter = mapOfCallParameter;
+		this.callParameters = callParameters;
 		this.bPost = bPost;
 		this.sName = sName;
 		this.sID = sID;
@@ -82,8 +82,8 @@ public class CallMethod {
 	 * 
 	 * @return Returns the parameters.
 	 */
-	public Map<String, CallParameter> getMapOfCallParameter() {
-		return this.mapOfCallParameter;
+	public ArrayList<CallParameter> getListOfCallParameter() {
+		return this.callParameters;
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class CallMethod {
 	 *            a parameter to add
 	 */
 	public void addParameter(final CallParameter aCallParameter) {
-		this.mapOfCallParameter.put(aCallParameter.getName(), aCallParameter);
+		this.callParameters.add(aCallParameter);
 	}
 
 	/**
@@ -104,7 +104,10 @@ public class CallMethod {
 	 * @return the Call parameter researched
 	 */
 	public CallParameter getCallParameterByName(final String sName) {
-		return this.mapOfCallParameter.get(sName);
+		for (CallParameter param : callParameters)
+			if (param.getName().equals(sName))
+				return param;
+		return null;
 	}
 
 	/**
@@ -159,7 +162,7 @@ public class CallMethod {
 		aStringBuffer.append("post=").append(this.bPost);
 		aStringBuffer.append(sVariableSeparator);
 		aStringBuffer.append("parameters=\n");
-		aStringBuffer.append(this.mapOfCallParameter)
+		aStringBuffer.append(this.callParameters)
 				.append(sVariableSeparator);
 
 		return aStringBuffer.toString();

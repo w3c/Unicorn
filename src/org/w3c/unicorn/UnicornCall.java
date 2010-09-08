@@ -98,7 +98,7 @@ public class UnicornCall {
 		logger.debug("Map of string parameter : " + mapOfStringParameter + ".");
 		
 		MimeType aMimeType = inputParameter.getMimeType();
-		if (!aTask.getSupportedMimeTypes().contains(aMimeType.toString()))
+		if (aMimeType != null && !aTask.getSupportedMimeTypes().contains(aMimeType.toString()))
 			throw new UnicornException(Message.ERROR, "$message_unsupported_mime_type", null, aMimeType.toString());
 		
 		doNode(inputParameter, aTask.getTree());
@@ -212,8 +212,8 @@ public class UnicornCall {
 			aRequestList.addRequest(aRequest, aObserver.getID());
 
 			// Add fixed parameter
-			for (final CallParameter aCallParameter : aObserver.getCallMethod(
-					aInputMethod.getMethod()).getMapOfCallParameter().values()) {
+			for (final CallParameter aCallParameter : aObserver.getCallMethod(aInputMethod.getMethod())
+					.getListOfCallParameter()) {
 				if (aCallParameter.isRequired() && aCallParameter.isFixed()) {
 					aRequest.addParameter(aCallParameter.getName(),
 							aCallParameter.getFixed());
