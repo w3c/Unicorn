@@ -5,7 +5,7 @@
 		<resource path="check"> 
 			<doc title="responseType">default</doc>
 			
-			<doc xml:lang="en" title="name">Unicorn</doc>
+			<doc xml:lang="en" title="name">Unicorn Web Service</doc>
 			
 			<doc title="mimetype">text/html</doc>
 			
