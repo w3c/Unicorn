@@ -5,7 +5,7 @@
 			<li><a href="${baseUri}translations" hreflang="en" title="$translations_title">$translations</a></li>
 	</ul>
 	
-#if ($languages.size() > 1)
+#if ($languages && $languages.size() > 1)
 	<form action="$!{language_action}" method="get" id="lang_choice">
 		<fieldset>
 #foreach( $key in $requestParameters.keySet() )
