@@ -226,7 +226,7 @@
 	</logger>
 	
 	<root>
-		<level value="all"/>
+		<level value="info"/>
 		<appender-ref ref="level-error" />
 		<appender-ref ref="level-warning" />
 		<appender-ref ref="level-info" />
