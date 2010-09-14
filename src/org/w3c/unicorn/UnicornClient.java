@@ -77,10 +77,10 @@ public class UnicornClient {
 		String optParamPrefix = Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX");
 		
 		outputParameters.put("output", "simple");
-		outputParameters.put("format", "xhtml10");
-		outputParameters.put("charset", "UTF-8");
-		outputParameters.put("mimetype", "text/html");		
+		outputParameters.put("format", "text");
+		outputParameters.put("charset", "UTF-8");	
 		
+		aUnicornCall.setLang(Property.get("DEFAULT_LANGUAGE"));
 		
 		for(int i=0; i<args.length; i++) {
 			String[] param = args[i].split("=");
@@ -114,42 +114,9 @@ public class UnicornClient {
 			}
 		}
 
-//		// parse input type: "uri=http://flyingman.sophia.w3.org/test" or
-//		// "file=text/css=./style/base.css"
-//		String[] pInput = pageToValid.split("=");
-//		if (pInput[0].equals("uri")) {
-//			aUnicornCall.setInputParameter(new URIInputParameter(pInput[1]));
-//		} else { // direct input
-//			try {
-//				BufferedReader bfr = new BufferedReader(new FileReader(pInput[2]));
-//				String content = "";
-//				String line;
-//				while ((line = bfr.readLine()) != null) {
-//					content = content + line + "\n";
-//				}
-//				bfr.close();
-//
-//				// Ajouter mime type dans map of parameter
-//				// TODO check if this is necessary (mime-type is added to DirectInputParameter object)
-//				/*Map<String, String[]> mapOfParameter = aUnicornCall
-//									.getMapOfStringParameter();
-//							if (mapOfParameter == null) {
-//								mapOfParameter = new LinkedHashMap<String, String[]>();
-//								aUnicornCall.setMapOfStringParameter(mapOfParameter);
-//							}
-//							String[] tmp = { pInput[1] };
-//							mapOfParameter.put(Property.get("UNICORN_PARAMETER_PREFIX")
-//									+ "mime", tmp);*/
-//
-//				aUnicornCall.setInputParameter(new DirectInputParameter(content, pInput[1]));
-//
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-
 		long before = System.currentTimeMillis();
 		try {
+			aUnicornCall.check();
 			aUnicornCall.doTask();
 
 			mapOfStringObject.put("unicorncall", aUnicornCall);
