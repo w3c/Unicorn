@@ -348,5 +348,20 @@
 			</group>
 		</output>
 	</task>
+	
+	<!--<task id="unicorn">
+		<routine>
+			<exec id="unicorn" value="unicorn" type="observation" />
+		</routine>
+
+		<parameters>
+		</parameters>
+
+		<output>
+			<group>
+				<observation>unicorn</observation>
+			</group>
+		</output>
+	</task>-->
 
 </tasklist>
