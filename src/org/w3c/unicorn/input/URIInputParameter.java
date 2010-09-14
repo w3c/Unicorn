@@ -112,8 +112,12 @@ public class URIInputParameter extends InputParameter {
 				throw new UnicornException(Message.ERROR, "$message_document_not_found");
 			}
 			String sMimeType = con.getContentType();
-			sMimeType = sMimeType.split(";")[0];
-			mimeType = new MimeType(sMimeType);
+			if (sMimeType != null) {
+				sMimeType = sMimeType.split(";")[0];
+				mimeType = new MimeType(sMimeType);
+			} else {
+				messages.add(new Message(Message.WARNING, "$message_could_not_guess_mimetype"));
+			}
 			inputModule = new URIInputModule(mimeType, uri);
 		} catch (MalformedURLException e) {
 			throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax", e.getMessage(), uri);
