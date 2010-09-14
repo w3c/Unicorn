@@ -246,6 +246,8 @@ public class Observer {
 	public boolean canHandleMimeType(final MimeType aMimeType) {
 		// return this.supportedMimeTypes.contains(aMimeType);
 		// equals and thus contains doesn't work :(
+		if (aMimeType == null)
+			return true;
 		for (final MimeType mt : this.supportedMimeTypes) {
 			if (mt.match(aMimeType)) {
 				return true;

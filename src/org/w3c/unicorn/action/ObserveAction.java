@@ -310,9 +310,9 @@ public class ObserveAction extends Action {
 			if (req.getMethod().equals("HEAD")) {
 				resp.setHeader("X-W3C-Validator-Status", "Abort");
 			} else {
-				if (e.getUnicornMessage() != null)
+				if (e.getUnicornMessage() != null) {
 					messages.add(e.getUnicornMessage());
-				else if (e.getMessage() != null)
+				} else if (e.getMessage() != null)
 					messages.add(new Message(Message.ERROR, e.getMessage(), null));
 				aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 			}
