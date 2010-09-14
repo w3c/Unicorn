@@ -105,6 +105,12 @@ public class URIInputParameter extends InputParameter {
 				messages.add(message);
 			}
 			int responseCode = con.getResponseCode();
+			if (responseCode == 405) {
+				con = (HttpURLConnection) docUrl.openConnection();
+				con.setRequestMethod("GET");
+				con.connect();
+				responseCode = con.getResponseCode();
+			}
 			switch (responseCode) {
 			case HttpURLConnection.HTTP_UNAUTHORIZED:
 				throw new UnicornException(Message.ERROR, "$message_unauthorized_access");
