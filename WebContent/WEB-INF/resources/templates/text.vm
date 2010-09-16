@@ -31,7 +31,6 @@ $info_label
 #end
 
 #end
-
 #set($observationList = $unicorncall.ObservationList)
 #foreach ($observationName in $observationList.keySet())
 #set ($observation = $observationList.get($observationName))
@@ -39,97 +38,57 @@ $info_label
 #set ($errorCount = $observation.getErrorCount())
 #set ($warningCount = $observation.getWarningCount())
 ==================================================================================================================================================
-#if($observation.isPassed())$test_ok#else$test_fail#end $unicorncall.getObserverName($observationName, $lang)#if($observation.Rating) ($observation.Rating/100)#end
-
+#if($observation.isPassed())#set($ref = "test_ok")#elseif($observation.isUndef())#set($ref = "test_undef")#else#set($ref = "test_fail")#end$ucn.evaluate($lang, $ref, "$unicorncall.getObserverName($observationName, $lang)#if($observation.isSetRating()) ($observation.Rating/100)#end")
 #if($infoCount && $infoCount > 0)$info_label ($infoCount)
 #end#if($errorCount && $errorCount > 0)$error_label ($errorCount)
 #end#if($warningCount && $warningCount > 0)$warning_label ($warningCount)
-#end#if($observation.getFilteredRequestUri())$direct_link_label $observation.getFilteredRequestUri()
-#{else}$direct_link_label $observation.getBaseURI($observationName)#end
+#end
+$direct_link_label -> #if ($unicorncall.getInputMethod() == "URI")$observation.getHTMLRequestUri()#else$observation.getHTMLIndexUri()#end
+
 #if ($infoCount && $infoCount > 0)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 $info_label ($infoCount)
 --------------------------------------------------------------------------------------------------------------------------------------------------
-#foreach($result in $observation.getResultsList())
-#if(!$result.Infos.isEmpty())
-#if ($unicorncall.getInputMethod() == "URI")=> $uri_token $result.Uri#end
-#if ($unicorncall.getInputMethod() == "UPLOAD")=> $file_token $result.Uri#end
-#if ($unicorncall.getInputMethod() == "DIRECT")=> $submitted_file#end
+#set ($messages = $observation.getURISortedMessages(0))
+#foreach ($uri in $messages.keySet())
+#if ($unicorncall.getInputMethod() == "URI")[$uri_token $uri]
+#end#if ($unicorncall.getInputMethod() == "UPLOAD")#if ($unicornTool.isTemporaryURL($uri))[$submitted_file]#else[$file_token -> $uri]#end
+#end#if ($unicorncall.getInputMethod() == "DIRECT")[$submitted_file]
+#end#foreach($message in $messages.get($uri))
+    * $strUtils.trimToEmpty($message.Title).replaceAll("[ \t]*\n[ \t]*", " ")
+#foreach($context in $message.getContexts())
+        -> #if($context.Line)$line_token $context.Line #end#if($context.Column)| $column_token $context.Column #end#if($context.Context && $context.Context != "")| $context_token #if($context.URI && $context.URI != $uri) ($context.URI) #end$strUtils.trimToEmpty($context.Context).replaceAll("[ \t]*\n[ \t]*", " ")#end
 
-#foreach($info in $result.Infos)
-   -#if($info.Line) $line_token $info.Line#end#if($info.Column) $column_token $info.Column#end#if($info.Context) $context_token $info.Context#end
-#if ($info.Line || $info.Column || $info.Context)
-
-    #end
-#foreach($message in $info.Message)
- $message
-#if($velocityHasNext)    #end
-#end
-##foreach($longMessage in $info.Longmessage)
-##foreach($longMessagePiece in $longMessage.Content)
-##$longMessagePiece
-##end
-##end
-#end
-#end
-#end
-#end
-#if ($errorCount && $errorCount > 0)
+#end#end#end#end
+#if($errorCount && $errorCount > 0)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 $error_label ($errorCount)
 --------------------------------------------------------------------------------------------------------------------------------------------------
-#foreach($result in $observation.getResultsList())
-#if(!$result.Errors.isEmpty())
-#if ($unicorncall.getInputMethod() == "URI")=> $uri_token $result.Uri#end
-#if ($unicorncall.getInputMethod() == "UPLOAD")=> $file_token $result.Uri#end
-#if ($unicorncall.getInputMethod() == "DIRECT")=> $submitted_file#end
+#set ($messages = $observation.getURISortedMessages(2))
+#foreach ($uri in $messages.keySet())
+#if ($unicorncall.getInputMethod() == "URI")[$uri_token $uri]
+#end#if ($unicorncall.getInputMethod() == "UPLOAD")#if ($unicornTool.isTemporaryURL($uri))[$submitted_file]#else[$file_token -> $uri]#end
+#end#if ($unicorncall.getInputMethod() == "DIRECT")[$submitted_file]
+#end#foreach($message in $messages.get($uri))
+    * $strUtils.trimToEmpty($message.Title).replaceAll("[ \t]*\n[ \t]*", " ")
+#foreach($context in $message.getContexts())
+        -> #if($context.Line)$line_token $context.Line #end#if($context.Column)| $column_token $context.Column #end#if($context.Context && $context.Context != "")| $context_token #if($context.URI && $context.URI != $uri) ($context.URI) #end$strUtils.trimToEmpty($context.Context).replaceAll("[ \t]*\n[ \t]*", " ")#end
 
-#foreach($error in $result.Errors)
-   -#if($error.Line) $line_token $error.Line#end#if($error.Column) $column_token $error.Column#end#if($error.Context) $context_token $error.Context#end
-#if ($error.Line || $error.Column || $error.Context)
-
-    #end
-#foreach($message in $error.Message)
- $message
-#if($velocityHasNext)    #end
-#end
-##foreach($longMessage in $error.Longmessage)
-##foreach($longMessagePiece in $longMessage.Content)
-##$longMessagePiece
-##end
-##end
-#end
-#end
-#end
-#end
+#end#end#end#end
 #if ($warningCount && $warningCount > 0)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 $warning_label ($warningCount)
 --------------------------------------------------------------------------------------------------------------------------------------------------
-#foreach($result in $observation.getResultsList())
-#if(!$result.Warnings.isEmpty())
-#if ($unicorncall.getInputMethod() == "URI")=> $uri_token $result.Uri#end
-#if ($unicorncall.getInputMethod() == "UPLOAD")=> $file_token $result.Uri#end
-#if ($unicorncall.getInputMethod() == "DIRECT")=> $submitted_file#end
+#set ($messages = $observation.getURISortedMessages(1))
+#foreach ($uri in $messages.keySet())
+#if ($unicorncall.getInputMethod() == "URI")[$uri_token $uri]
+#end#if ($unicorncall.getInputMethod() == "UPLOAD")#if ($unicornTool.isTemporaryURL($uri))[$submitted_file]#else[$file_token -> $uri]#end
+#end#if ($unicorncall.getInputMethod() == "DIRECT")[$submitted_file]
+#end#foreach($message in $messages.get($uri))
+    * $strUtils.trimToEmpty($message.Title).replaceAll("[ \t]*\n[ \t]*", " ")
+#foreach($context in $message.getContexts())
+        -> #if($context.Line)$line_token $context.Line #end#if($context.Column)| $column_token $context.Column #end#if($context.Context && $context.Context != "")| $context_token #if($context.URI && $context.URI != $uri) ($context.URI) #end$strUtils.trimToEmpty($context.Context).replaceAll("[ \t]*\n[ \t]*", " ")#end
 
-#foreach($warning in $result.Warnings)
-   -#if($warning.Line) $line_token $warning.Line#end#if($warning.Column) $column_token $warning.Column#end#if($warning.Context) $context_token $warning.Context#end
-#if ($warning.Line || $warning.Column || $warning.Context)
-
-    #end
-#foreach($message in $warning.Message)
- $message
-#if($velocityHasNext)    #end
-#end
-##foreach($longMessage in $warning.Longmessage)
-##foreach($longMessagePiece in $longMessage.Content)
-##$longMessagePiece
-##end
-##end
-#end
-#end
-#end
-#end
-
+#end#end#end#end
 #end
 ==================================================================================================================================================
