@@ -134,10 +134,12 @@ public class Framework {
 		if (System.getProperty("unicorn.home") == null) {
 			try {
 				URL frameworkDir = Framework.class.getResource("Framework.class");
-				File unicornHome = new File(frameworkDir.toURI());
-				for (int i=0; i<6; i++)
-					unicornHome = unicornHome.getParentFile();
-				System.setProperty("unicorn.home", unicornHome.getAbsolutePath());
+				if (frameworkDir.getProtocol() != "jar") {
+					File unicornHome = new File(frameworkDir.toURI());
+					for (int i=0; i<6; i++)
+						unicornHome = unicornHome.getParentFile();
+					System.setProperty("unicorn.home", unicornHome.getAbsolutePath());
+				}
 			} catch (URISyntaxException e) {
 				throw new InitializationFailedException(e.getMessage(), e);
 			} 
