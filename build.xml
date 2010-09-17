@@ -75,7 +75,7 @@
 	
 	<target name="jar" depends="compile" description="--> compile and package Unicorn as a jar">
 		<mkdir dir="${dist.dir}"/>
-		<jar jarfile="${dist.dir}/unicorn.jar" basedir="${build.dir}/classes" manifest="WebContent/META-INF/Manifest.MF"/>
+		<jar jarfile="${dist.dir}/unicorn.jar" basedir="${build.dir}/classes" manifest="WebContent/META-INF/MANIFEST.MF"/>
 	</target>
 	
 	<target name="compress-css" description="--> compress Unicorn css file using YUI Compressor">
