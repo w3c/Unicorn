@@ -10,7 +10,7 @@
 		<fieldset>
 #foreach( $key in $requestParameters.keySet() )
 	#if($key != 'ucn_lang' && $key != 'ucn_text' && $key != 'ucn_file')
-	<input type="hidden" name="$key" value="$requestParameters.get($key)"/>
+	<input type="hidden" name="$key" value="$esc.html($requestParameters.get($key))"/>
 	#end
 #end
 		<label for="ucn_lang">Language</label>
