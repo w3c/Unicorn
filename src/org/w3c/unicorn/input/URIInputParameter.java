@@ -24,6 +24,7 @@ import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.TrustManager;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.exceptions.UnicornException;
 import org.w3c.unicorn.request.TrustAllManager;
@@ -148,7 +149,7 @@ public class URIInputParameter extends InputParameter {
 
 	@Override
 	public String getDocumentName() {
-		return uri;
+		return StringEscapeUtils.escapeHtml(uri);
 	}
 
 	@Override

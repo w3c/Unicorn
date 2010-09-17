@@ -11,7 +11,6 @@ import java.util.Date;
 
 import javax.activation.MimeType;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.unicorn.contract.EnumInputMethod;
@@ -64,7 +63,6 @@ public class URIInputModule implements InputModule {
 		}
 		this.aMimeType = aMimeType;
 		this.sURI = (String) oInputParameterValue;
-		this.sURI = StringEscapeUtils.escapeHtml(this.sURI);
 	}
 
 	/**
