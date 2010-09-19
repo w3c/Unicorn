@@ -3,7 +3,7 @@
 #set ($js = ['mootools-1.2.4-core-more-yc.js', 'w3c_unicorn_index.js'])
 #parse('head.vm')
 
-#if ($messages)
+#if ($messages && $messages.size() > 0)
 #displayMessages($messages)
 #end
 	<div id="frontforms">
