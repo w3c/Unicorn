@@ -12,7 +12,7 @@
 
 #set($observationList = $unicorncall.ObservationList)
 
-#if ($messages.size() > 0)
+#if ($messages && $messages.size() > 0)
 #displayMessages($messages)
 #end
 <div id="don_program">
