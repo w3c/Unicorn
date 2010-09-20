@@ -1,0 +1,94 @@
+#if ($messages && $messages.size() > 0)
+
+#if ($messages.hasError())
+$error_label
+#foreach ($message in $messages)
+#if ($message.Level == "ERROR")
+	#evaluate($message.Message)
+	$!{message.Content}
+#end
+#end
+#end
+
+#if ($messages.hasWarning())
+$warning_label
+#foreach ($message in $messages)
+#if ($message.Level == "WARNING")
+	#evaluate($message.Message)
+	$!{message.Content}
+#end
+#end
+#end
+
+#if ($messages.hasInfo())
+$info_label
+#foreach ($message in $messages)
+#if ($message.Level == "INFO")
+	#evaluate($message.Message)
+	$!{message.Content}
+#end
+#end
+#end
+
+#end
+#set($observationList = $unicorncall.ObservationList)
+#foreach ($observationName in $observationList.keySet())
+#set ($observation = $observationList.get($observationName))
+#set ($infoCount = $observation.getInfoCount())
+#set ($errorCount = $observation.getErrorCount())
+#set ($warningCount = $observation.getWarningCount())
+==================================================================================================================================================
+#if($observation.isPassed())#set($ref = "test_ok")#elseif($observation.isUndef())#set($ref = "test_undef")#else#set($ref = "test_fail")#end$ucn.evaluate($lang, $ref, "$unicorncall.getObserverName($observationName, $lang)#if($observation.isSetRating()) ($observation.Rating/100)#end")
+#if($infoCount && $infoCount > 0)$info_label ($infoCount)
+#end#if($errorCount && $errorCount > 0)$error_label ($errorCount)
+#end#if($warningCount && $warningCount > 0)$warning_label ($warningCount)
+#end
+$direct_link_label -> #if ($unicorncall.getInputMethod() == "URI")$observation.getHTMLRequestUri()#else$observation.getHTMLIndexUri()#end
+
+#if ($infoCount && $infoCount > 0)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+$info_label ($infoCount)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+#set ($messages = $observation.getURISortedMessages(0))
+#foreach ($uri in $messages.keySet())
+#if ($unicorncall.getInputMethod() == "URI")[$uri_token $uri]
+#end#if ($unicorncall.getInputMethod() == "UPLOAD")#if ($unicornTool.isTemporaryURL($uri))[$submitted_file]#else[$file_token -> $uri]#end
+#end#if ($unicorncall.getInputMethod() == "DIRECT")[$submitted_file]
+#end#foreach($message in $messages.get($uri))
+    * $strUtils.trimToEmpty($message.Title).replaceAll("[ \t]*\n[ \t]*", " ")
+#foreach($context in $message.getContexts())
+        -> #if($context.Line)$line_token $context.Line #end#if($context.Column)| $column_token $context.Column #end#if($context.Context && $context.Context != "")| $context_token #if($context.URI && $context.URI != $uri) ($context.URI) #end$strUtils.trimToEmpty($context.Context).replaceAll("[ \t]*\n[ \t]*", " ")#end
+
+#end#end#end#end
+#if($errorCount && $errorCount > 0)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+$error_label ($errorCount)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+#set ($messages = $observation.getURISortedMessages(2))
+#foreach ($uri in $messages.keySet())
+#if ($unicorncall.getInputMethod() == "URI")[$uri_token $uri]
+#end#if ($unicorncall.getInputMethod() == "UPLOAD")#if ($unicornTool.isTemporaryURL($uri))[$submitted_file]#else[$file_token -> $uri]#end
+#end#if ($unicorncall.getInputMethod() == "DIRECT")[$submitted_file]
+#end#foreach($message in $messages.get($uri))
+    * $strUtils.trimToEmpty($message.Title).replaceAll("[ \t]*\n[ \t]*", " ")
+#foreach($context in $message.getContexts())
+        -> #if($context.Line)$line_token $context.Line #end#if($context.Column)| $column_token $context.Column #end#if($context.Context && $context.Context != "")| $context_token #if($context.URI && $context.URI != $uri) ($context.URI) #end$strUtils.trimToEmpty($context.Context).replaceAll("[ \t]*\n[ \t]*", " ")#end
+
+#end#end#end#end
+#if ($warningCount && $warningCount > 0)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+$warning_label ($warningCount)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+#set ($messages = $observation.getURISortedMessages(1))
+#foreach ($uri in $messages.keySet())
+#if ($unicorncall.getInputMethod() == "URI")[$uri_token $uri]
+#end#if ($unicorncall.getInputMethod() == "UPLOAD")#if ($unicornTool.isTemporaryURL($uri))[$submitted_file]#else[$file_token -> $uri]#end
+#end#if ($unicorncall.getInputMethod() == "DIRECT")[$submitted_file]
+#end#foreach($message in $messages.get($uri))
+    * $strUtils.trimToEmpty($message.Title).replaceAll("[ \t]*\n[ \t]*", " ")
+#foreach($context in $message.getContexts())
+        -> #if($context.Line)$line_token $context.Line #end#if($context.Column)| $column_token $context.Column #end#if($context.Context && $context.Context != "")| $context_token #if($context.URI && $context.URI != $uri) ($context.URI) #end$strUtils.trimToEmpty($context.Context).replaceAll("[ \t]*\n[ \t]*", " ")#end
+
+#end#end#end#end
+#end
+==================================================================================================================================================

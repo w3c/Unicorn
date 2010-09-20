@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd" 
+	xmlns="http://research.sun.com/wadl/2006/10"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<grammars/>
+
+	<resources base="http://validator.w3.org/">
+		<resource path="check">
+			<doc title="responseType">default</doc>
+		
+			<doc xml:lang="en" title="name">W3C HTML Validator</doc>
+			<doc xml:lang="fr" title="name">W3C Validateur HTML</doc>
+			
+			<doc title="mimetype">text/html</doc>
+			<doc title="mimetype">application/xhtml+xml</doc>
+			<doc title="mimetype">image/svg+xml</doc>
+			<doc title="mimetype">application/mathml+xml</doc>
+			<doc title="mimetype">application/smil+xml</doc>
+			
+			<doc title="paramOutput">output</doc>
+		
+			<method name="GET" id="MarkupValidationUri">
+				<doc title="inputMethod">URI</doc>
+				<doc title="inputParamName">url</doc>
+				<request>
+					<param name="url" type="xs:anyURI" style="plain"/>
+					<param name="charset" default="utf-8" style="plain">
+						<option value="(detect automatically)"/>
+						<option value="utf-8"/>
+						<option value="utf-16"/>
+						<option value="iso-8859-1"/>
+						<option value="iso-8859-2"/>
+						<option value="iso-8859-3"/>
+						<option value="iso-8859-4"/>
+						<option value="iso-8859-5"/>
+						<option value="iso-8859-6-i"/>
+						<option value="iso-8859-7"/>
+						<option value="iso-8859-8"/>
+						<option value="iso-8859-8-i"/>
+						<option value="iso-8859-9"/>
+						<option value="iso-8859-10"/>
+						<option value="iso-8859-13"/>
+						<option value="iso-8859-14"/>
+						<option value="iso-8859-15"/>
+						<option value="iso-8859-16"/>
+						<option value="us-ascii"/>
+						<option value="euc-jp"/>
+						<option value="shift_jis"/>
+						<option value="iso-2022-jp"/>
+						<option value="euc-kr"/>
+						<option value="gb2312"/>
+						<option value="gb18030"/>
+						<option value="big5"/>
+						<option value="tis-620"/>
+						<option value="koi8-r"/>
+						<option value="koi8-u"/>
+						<option value="iso-ir-111"/>
+						<option value="macintosh"/>
+						<option value="windows-1250"/>
+						<option value="windows-1251"/>
+						<option value="windows-1252"/>
+						<option value="windows-1253"/>
+						<option value="windows-1254"/>
+						<option value="windows-1255"/>
+						<option value="windows-1256"/>
+						<option value="windows-1257"/>
+					</param>			
+					<param name="doctype" style="plain">
+						<option value="Inline"/>
+						<option value="XHTML 1.1"/>
+						<option value="XHTML Basic 1.0"/>
+						<option value="XHTML 1.0 Strict"/>
+						<option value="XHTML 1.0 Transitional"/>
+						<option value="XHTML 1.0 Frameset"/>
+						<option value="ISO/IEC 15445:2000 (&quot;ISO HTML&quot;)"/>
+						<option value="HTML 4.01 Strict"/>
+						<option value="HTML 4.01 Transitional"/>
+						<option value="HTML 4.01 Frameset"/>
+						<option value="HTML 3.2"/>
+						<option value="HTML 2.0"/>
+						<option value="MathML 2.0"/>
+						<option value="XHTML 1.1 plus MathML 2.0"/>
+					</param>
+					<param name="output" fixed="ucn" required="true" style="plain">
+						<option value="ucn"/>
+					</param>
+				</request>
+			</method>
+
+			<method name="POST" id="MarkupValidationText">
+				<doc title="inputMethod">DIRECT</doc>
+				<doc title="inputParamName">fragment</doc>
+				<request>
+					<param name="fragment" style="plain"/>
+					<param name="charset" default="utf-8" style="plain">
+						<option value="(detect automatically)"/>
+						<option value="utf-8"/>
+						<option value="utf-16"/>
+						<option value="iso-8859-1"/>
+						<option value="iso-8859-2"/>
+						<option value="iso-8859-3"/>
+						<option value="iso-8859-4"/>
+						<option value="iso-8859-5"/>
+						<option value="iso-8859-6-i"/>
+						<option value="iso-8859-7"/>
+						<option value="iso-8859-8"/>
+						<option value="iso-8859-8-i"/>
+						<option value="iso-8859-9"/>
+						<option value="iso-8859-10"/>
+						<option value="iso-8859-13"/>
+						<option value="iso-8859-14"/>
+						<option value="iso-8859-15"/>
+						<option value="iso-8859-16"/>
+						<option value="us-ascii"/>
+						<option value="euc-jp"/>
+						<option value="shift_jis"/>
+						<option value="iso-2022-jp"/>
+						<option value="euc-kr"/>
+						<option value="gb2312"/>
+						<option value="gb18030"/>
+						<option value="big5"/>
+						<option value="tis-620"/>
+						<option value="koi8-r"/>
+						<option value="koi8-u"/>
+						<option value="iso-ir-111"/>
+						<option value="macintosh"/>
+						<option value="windows-1250"/>
+						<option value="windows-1251"/>
+						<option value="windows-1252"/>
+						<option value="windows-1253"/>
+						<option value="windows-1254"/>
+						<option value="windows-1255"/>
+						<option value="windows-1256"/>
+						<option value="windows-1257"/>
+					</param>
+					<param name="doctype" style="plain">
+						<option value="Inline"/>
+						<option value="XHTML 1.1"/>
+						<option value="XHTML Basic 1.0"/>
+						<option value="XHTML 1.0 Strict"/>
+						<option value="XHTML 1.0 Transitional"/>
+						<option value="XHTML 1.0 Frameset"/>
+						<option value="ISO/IEC 15445:2000 (&quot;ISO HTML&quot;)"/>
+						<option value="HTML 4.01 Strict"/>
+						<option value="HTML 4.01 Transitional"/>
+						<option value="HTML 4.01 Frameset"/>
+						<option value="HTML 3.2"/>
+						<option value="HTML 2.0"/>
+						<option value="MathML 2.0"/>
+						<option value="XHTML 1.1 plus MathML 2.0"/>
+					</param>
+					<param name="output" fixed="ucn" required="true" style="plain">
+						<option value="ucn"/>
+					</param>
+				</request>
+			</method>
+
+			<method name="POST" id="MarkupValidationFile">
+				<doc title="inputMethod">UPLOAD</doc>
+				<doc title="inputParamName">uploaded_file</doc>
+				<request>
+					<param name="uploaded_file" style="plain"/>
+					<param name="charset" default="utf-8" style="plain">
+						<option value="(detect automatically)"/>
+						<option value="utf-8"/>
+						<option value="utf-16"/>
+						<option value="iso-8859-1"/>
+						<option value="iso-8859-2"/>
+						<option value="iso-8859-3"/>
+						<option value="iso-8859-4"/>
+						<option value="iso-8859-5"/>
+						<option value="iso-8859-6-i"/>
+						<option value="iso-8859-7"/>
+						<option value="iso-8859-8"/>
+						<option value="iso-8859-8-i"/>
+						<option value="iso-8859-9"/>
+						<option value="iso-8859-10"/>
+						<option value="iso-8859-13"/>
+						<option value="iso-8859-14"/>
+						<option value="iso-8859-15"/>
+						<option value="iso-8859-16"/>
+						<option value="us-ascii"/>
+						<option value="euc-jp"/>
+						<option value="shift_jis"/>
+						<option value="iso-2022-jp"/>
+						<option value="euc-kr"/>
+						<option value="gb2312"/>
+						<option value="gb18030"/>
+						<option value="big5"/>
+						<option value="tis-620"/>
+						<option value="koi8-r"/>
+						<option value="koi8-u"/>
+						<option value="iso-ir-111"/>
+						<option value="macintosh"/>
+						<option value="windows-1250"/>
+						<option value="windows-1251"/>
+						<option value="windows-1252"/>
+						<option value="windows-1253"/>
+						<option value="windows-1254"/>
+						<option value="windows-1255"/>
+						<option value="windows-1256"/>
+						<option value="windows-1257"/>
+					</param>
+					<param name="doctype" style="plain">
+						<option value="Inline"/>
+						<option value="XHTML 1.1"/>
+						<option value="XHTML Basic 1.0"/>
+						<option value="XHTML 1.0 Strict"/>
+						<option value="XHTML 1.0 Transitional"/>
+						<option value="XHTML 1.0 Frameset"/>
+						<option value="ISO/IEC 15445:2000 (&quot;ISO HTML&quot;)"/>
+						<option value="HTML 4.01 Strict"/>
+						<option value="HTML 4.01 Transitional"/>
+						<option value="HTML 4.01 Frameset"/>
+						<option value="HTML 3.2"/>
+						<option value="HTML 2.0"/>
+						<option value="MathML 2.0"/>
+						<option value="XHTML 1.1 plus MathML 2.0"/>
+					</param>
+					<param name="output" fixed="ucn" required="true" style="plain">
+						<option value="ucn"/>
+					</param>
+				</request>
+			</method>
+		</resource>
+	</resources>
+
+</application>
