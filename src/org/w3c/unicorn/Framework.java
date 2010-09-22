@@ -427,8 +427,10 @@ public class Framework {
 				Task task = mapOfTask.get(taskKey);
 				if (defaultProps.containsKey(taskKey)) 
 					task.addLongName(defaultLang, defaultProps.getProperty(taskKey));
-				else
+				else {
+					task.addLongName(defaultLang, taskKey);
 					logger.warn(">> No default longname found for the task: " + taskKey + ". This task longname will be its key and it won't appear in the translation form.");
+				}
 				if (defaultProps.containsKey(taskKey + ".description"))
 					task.addDescription(defaultLang, defaultProps.getProperty(taskKey + ".description"));
 				else
