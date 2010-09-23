@@ -277,12 +277,12 @@ public class LanguageAction extends Action {
 			contextObjects.put("tasklistChangeLog", tasklistChangeLog);
 			contextObjects.put("interfaceChanged", interfaceChanged);
 			contextObjects.put("tasklistChanged", tasklistChanged);
-			contextObjects.put("host", req.getHeader("Host"));
+			contextObjects.put("host", Property.get("UNICORN_URL"));
 			
 			if (interfaceChanged) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
-				langProps.store(osw, "Submitted by " + req.getParameter("translator_name") + " <" + req.getParameter("translator_mail") + ">");
+				langProps.store(osw, "Submitted by " + req.getParameter("translator_name"));
 				osw.close();
 				baos.close();
 				contextObjects.put("interfaceProperties", baos.toString("UTF-8"));
