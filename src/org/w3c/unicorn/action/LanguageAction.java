@@ -69,6 +69,7 @@ public class LanguageAction extends Action {
 		velocityContext.put("queryString", "./");
 		velocityContext.put("messages", messages);
 		velocityContext.put("baseUri", "./");
+		velocityContext.put("host", req.getHeader("Host"));
 		velocityContext.put("availableLocales", Language.getAvailableLocales());
 		if (req.getHeader("Accept-Language") != null)
 			velocityContext.put("native_lang", Language.getAvailableLocale(req.getHeader("Accept-Language")).getName());
