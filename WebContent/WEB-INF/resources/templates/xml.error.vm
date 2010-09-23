@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse"
+					 ref="$unicorncall.getDocumentName()"
+					 date="$unicorncall.getDate()"
+					 xml:lang="$unicorncall.getLang()">
+
+<status value="undef"/>
+
+#set($lang = $unicorncall.getLang())
+#set($uri = $unicorncall.getDocumentName())
+
+#foreach ($message in $messages)
+#if ($message.Level == 0)
+#set ($level = "info")
+#elseif ($message.Level == 1)
+#set ($level = "warning") 
+#elseif ($message.Level == 2)
+#set ($level = "error") 
+#end
+<message type="$level">
+	<title>$message.getMessage($lang)</title>
+	#if ($message.Content)
+	<description><pre>#if($message.doEvaluateContent())#evaluate($message.Content)#else$!esc.html($message.Content)#end</pre></description>
+	#end
+</message>
+#end
+
+</observationresponse>
