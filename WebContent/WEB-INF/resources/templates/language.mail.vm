@@ -1,3 +1,5 @@
+Submitted from $host
+-----------------------------------------------
 #if(${new_interface_translation})
 New interface translation in $language 
 #elseif ($interfaceChanged)
@@ -7,7 +9,7 @@ Updated interface $language translation
 New tasklist translation in $language#elseif ($tasklistChanged)
 Updated tasklist $language translation#end
 
-Submitter: $translator_name <$translator_mail>
+Submitter: $translator_name
 #if($translator_comments)
 Submitter comments:
 $translator_comments
