@@ -9,7 +9,7 @@ Updated interface $language translation
 New tasklist translation in $language#elseif ($tasklistChanged)
 Updated tasklist $language translation#end
 
-Submitter: $translator_name
+Submitter: $translator_name <$translator_mail>
 #if($translator_comments)
 Submitter comments:
 $translator_comments
