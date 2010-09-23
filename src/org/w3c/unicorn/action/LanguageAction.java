@@ -69,7 +69,6 @@ public class LanguageAction extends Action {
 		velocityContext.put("queryString", "./");
 		velocityContext.put("messages", messages);
 		velocityContext.put("baseUri", "./");
-		velocityContext.put("host", req.getHeader("Host"));
 		velocityContext.put("availableLocales", Language.getAvailableLocales());
 		if (req.getHeader("Accept-Language") != null)
 			velocityContext.put("native_lang", Language.getAvailableLocale(req.getHeader("Accept-Language")).getName());
@@ -278,6 +277,7 @@ public class LanguageAction extends Action {
 			contextObjects.put("tasklistChangeLog", tasklistChangeLog);
 			contextObjects.put("interfaceChanged", interfaceChanged);
 			contextObjects.put("tasklistChanged", tasklistChanged);
+			contextObjects.put("host", req.getHeader("Host"));
 			
 			if (interfaceChanged) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
