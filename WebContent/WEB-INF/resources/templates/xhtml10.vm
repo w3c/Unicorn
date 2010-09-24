@@ -1,6 +1,6 @@
 #set ($title = "$ucn.evaluate($lang, 'result_for', $unicorncall.DocumentName)")
 #set ($css = ['base_ucn.css'])
-#set ($js = ['mootools-1.2.4-core-more-yc.js', 'w3c_unicorn_results.js'])
+#set ($js = ['mootools-1.2.5-core-more-yc.js', 'w3c_unicorn_results.js'])
 #if ($unicorncall.getStatus() == "passed")
 #set ($fav = "favicon_green.ico")
 #elseif ($unicorncall.getStatus() == "failed")
