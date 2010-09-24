@@ -291,7 +291,7 @@ public class LanguageAction extends Action {
 			if (tasklistChanged) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
-				metaProps.store(osw, "Submitted by " + req.getParameter("translator_name") + " <" + req.getParameter("translator_mail") + ">");
+				metaProps.store(osw, "Submitted by " + req.getParameter("translator_name"));
 				osw.close();
 				baos.close();
 				contextObjects.put("tasklistProperties", baos.toString("UTF-8"));
