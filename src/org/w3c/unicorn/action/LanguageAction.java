@@ -282,7 +282,7 @@ public class LanguageAction extends Action {
 			if (interfaceChanged) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
-				langProps.store(osw, "Submitted by " + req.getParameter("translator_name"));
+				langProps.store(osw, "Last submission by " + req.getParameter("translator_name"));
 				osw.close();
 				baos.close();
 				contextObjects.put("interfaceProperties", baos.toString("UTF-8"));
@@ -291,7 +291,7 @@ public class LanguageAction extends Action {
 			if (tasklistChanged) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-8");
-				metaProps.store(osw, "Submitted by " + req.getParameter("translator_name"));
+				metaProps.store(osw, "Last submission by " + req.getParameter("translator_name"));
 				osw.close();
 				baos.close();
 				contextObjects.put("tasklistProperties", baos.toString("UTF-8"));
@@ -304,7 +304,7 @@ public class LanguageAction extends Action {
 			doGet(req, resp);
 			
 			String[] recipients = {Property.getProps("mail.properties").getProperty("unicorn.mail.language.to"), req.getParameter("translator_mail")};
-			String subject = "Unicorn - Translation in " + contextObjects.get("language") + " (submitted by " + req.getParameter("translator_name") + ")";
+			String subject = "Unicorn - Translation in " + contextObjects.get("language") + " submitted by " + req.getParameter("translator_name");
 			
 			List<OutputFormater> outputFormaters = new ArrayList<OutputFormater>();
 			
