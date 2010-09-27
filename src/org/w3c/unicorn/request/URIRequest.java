@@ -138,7 +138,9 @@ public class URIRequest extends Request {
 						aURL.toString().replaceAll("&?" + Framework.mapOfObserver.get(observerId).getParamOutputName() + "=[^&]*", ""));
 			}
 			
-			return ResponseFactory.getResponse(aURLConnection.getInputStream(), responseType, aURL.toString(), aURLConnection.getContentEncoding(), observerId);
+			Response res = ResponseFactory.getResponse(aURLConnection.getInputStream(), responseType, aURL.toString(), aURLConnection.getContentEncoding(), observerId);
+			aURLConnection.disconnect();
+			return res;
 		
 		} catch (MalformedURLException e) {
 			throw new UnicornException(new Message(e));
