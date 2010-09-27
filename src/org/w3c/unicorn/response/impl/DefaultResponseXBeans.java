@@ -58,6 +58,7 @@ public class DefaultResponseXBeans implements Response {
 			XmlOptions xo = new XmlOptions();
 			xo.setErrorListener(errorList);
 			ord = ObservationresponseDocument.Factory.parse(is, new XmlOptions().setCharacterEncoding(charset));
+			is.close();
 			or = ord.getObservationresponse();
 			if (!or.validate(xo)) {
 				String content = "";
