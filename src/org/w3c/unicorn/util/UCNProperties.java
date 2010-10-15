@@ -3,12 +3,11 @@
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.util;
 
-import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,14 +55,18 @@ public class UCNProperties extends Properties {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public Enumeration keys() {
-		Enumeration keysEnum = super.keys();
-		Vector<String> keyList = new Vector<String>();
-		while(keysEnum.hasMoreElements())
-			keyList.add((String)keysEnum.nextElement());
-		Collections.sort(keyList);
-		return keyList.elements();
+	public Enumeration<Object> keys() {
+		final Iterator<Object> i = this.keySet().iterator();
+		return new Enumeration<Object>() {
+			@Override
+			public boolean hasMoreElements() {
+				return i.hasNext();
+			}
+			@Override
+			public Object nextElement() {
+				return i.next();
+			}
+		};
 	}
 	
 	@Override
