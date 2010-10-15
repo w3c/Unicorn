@@ -21,6 +21,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,8 +31,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.unicorn.util.LocalizedString;
 import org.xml.sax.SAXException;
-
-import com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl;
 
 /**
  * WADLUnmarshallerXPath<br />
@@ -142,7 +141,7 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 
 		this.aDocumentBuilder = this.aDocumentBuilderFactory
 				.newDocumentBuilder();
-		this.aXPath = new XPathFactoryImpl().newXPath();
+		this.aXPath = XPathFactory.newInstance().newXPath();
 		this.aXPath
 				.setNamespaceContext(WADLUnmarshallerXPath.getNamespaceContext());
 	}
