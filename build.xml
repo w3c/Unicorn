@@ -46,7 +46,7 @@
 	
 	<target name="compile" description="--> compile Unicorn">
 		<mkdir dir="${build.dir}/classes"/>
-		<javac srcdir="${src.dir}" destdir="${build.dir}/classes" classpathref="lib.path.id" debug="on" debuglevel="lines,vars,source" />
+		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}/classes" classpathref="lib.path.id" debug="on" debuglevel="lines,vars,source" />
 	</target>
 	
 	<target name="war" depends="compile" description="--> compile and package Unicorn as a war">
