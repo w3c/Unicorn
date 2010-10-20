@@ -38,7 +38,7 @@
 						<p class="instructions">$instruction-by-uri</p>
 						<p>
 							<label title="$uri_title" for="ucn_uri"><span>$uri_label</span>
-								<input type="text" name="${param_prefix}uri" id="ucn_uri" size="45" value="#if($param_uri && $param_uri!='referer')$esc.xml($param_uri)#end"/>
+								<input type="text" name="${param_prefix}uri" id="ucn_uri" size="45" value="#if($param_uri && $param_uri!='referer')$esc.html($param_uri)#end"/>
 							</label>
 						</p>
 					</div>
@@ -67,7 +67,7 @@
 					<div class="input">
 						<p class="instructions">$instruction-by-input</p>
 						<p>
-							<textarea id="ucn_text" name="${param_prefix}text" rows="12" cols="70">$esc.xml($!param_text)</textarea>
+							<textarea id="ucn_text" name="${param_prefix}text" rows="12" cols="70">$!esc.html($!param_text)</textarea>
 							#mimeList($current_task)
 						</p> 
 					</div>
