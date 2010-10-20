@@ -85,7 +85,7 @@ public class URIInputParameter extends InputParameter {
 			}
 			
 			if (!docUrl.getProtocol().equals("http") && !docUrl.getProtocol().equals("https"))
-				throw new UnicornException(Message.ERROR, "$message_unsupported_protocol", null, docUrl.getProtocol());
+				throw new UnicornException(Message.ERROR, "$message_unsupported_protocol", null, StringEscapeUtils.escapeHtml(docUrl.getProtocol()));
 			
 			if (!"true".equals(Property.get("ACCEPT_LOCAL_ADDRESSES"))) {
 				InetAddress add = InetAddress.getByName(docUrl.getHost());
@@ -127,11 +127,11 @@ public class URIInputParameter extends InputParameter {
 			}
 			inputModule = new URIInputModule(mimeType, uri);
 		} catch (MalformedURLException e) {
-			throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax", e.getMessage(), uri);
+			throw new UnicornException(Message.ERROR, "$message_invalid_url_syntax", e.getMessage(), StringEscapeUtils.escapeHtml(uri));
 		} catch (MimeTypeParseException e) {
 			throw new UnicornException(Message.ERROR, "$message_invalid_mime_type");
 		} catch (UnknownHostException e) { 
-			throw new UnicornException(Message.ERROR, "$message_unknown_host" , null, docUrl.getHost());
+			throw new UnicornException(Message.ERROR, "$message_unknown_host" , null, StringEscapeUtils.escapeHtml(docUrl.getHost()));
 		} catch (ConnectException e) {
 			throw new UnicornException(Message.ERROR, "$message_connect_exception");
 		} catch (SocketTimeoutException e) {
