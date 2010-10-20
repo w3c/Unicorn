@@ -5,7 +5,7 @@
         <resource path="cacheability-checker"> 
             <doc title="responseType">default</doc>
             
-            <doc xml:lang="en" title="name">Cacheability Checker</doc>
+            <doc xml:lang="en" title="name">HTTP Checker</doc>
             
             <doc title="mimetype">text/html</doc>
     

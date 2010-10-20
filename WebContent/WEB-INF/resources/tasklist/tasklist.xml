@@ -288,7 +288,7 @@
 				<then><exec id="feed" value="feed" type="observation" /></then>
 			</if>
 			<if test="param_http">
-				<then><exec id="cacheability" value="cacheability" type="observation" /></then>
+				<then><exec id="http" value="http" type="observation" /></then>
 			</if>
 		</routine>
 
@@ -313,14 +313,14 @@
 				<observation>css-validator</observation>
         		<observation>mobileok</observation>
         		<observation>feed</observation>
-        		<observation>cacheability</observation>
+        		<observation>http</observation>
 			</group>
 		</output>
 	</task>
 
-	<task id="cacheability">
+	<task id="http">
 		<routine>
-			<exec id="cacheability" value="cacheability" type="observation" />
+			<exec id="http" value="http" type="observation" />
 		</routine>
 
 		<parameters>
@@ -328,7 +328,7 @@
 
 		<output>
 			<group>
-				<observation>cacheability</observation>
+				<observation>http</observation>
 			</group>
 		</output>
 	</task>
