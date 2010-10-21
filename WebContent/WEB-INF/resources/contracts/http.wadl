@@ -2,7 +2,7 @@
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd" xmlns="http://research.sun.com/wadl/2006/10"> 
 <grammars/> 
     <resources base=" http://qa-dev.w3.org/"> 
-        <resource path="cacheability-checker"> 
+        <resource path="http-checker"> 
             <doc title="responseType">default</doc>
             
             <doc xml:lang="en" title="name">HTTP Checker</doc>
