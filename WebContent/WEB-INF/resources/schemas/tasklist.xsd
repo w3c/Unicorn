@@ -61,6 +61,7 @@
   				<xs:enumeration value="parameter"></xs:enumeration>
   				<xs:enumeration value="xpath"></xs:enumeration>
   				<xs:enumeration value="mimetype"></xs:enumeration>
+  				<xs:enumeration value="method"></xs:enumeration>
   			</xs:restriction>
   		</xs:simpleType>
   	</xs:attribute>

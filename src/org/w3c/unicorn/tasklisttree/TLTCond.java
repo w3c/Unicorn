@@ -66,6 +66,8 @@ public abstract class TLTCond {
 			return new ParameterCond();
 		case XPATH:
 			return new XPathCond();
+    case METHOD:
+        return new MethodCond();
 		default:
 			return null;
 		}
