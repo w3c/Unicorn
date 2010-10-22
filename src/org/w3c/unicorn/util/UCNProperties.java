@@ -58,11 +58,9 @@ public class UCNProperties extends Properties {
 	public Enumeration<Object> keys() {
 		final Iterator<Object> i = this.keySet().iterator();
 		return new Enumeration<Object>() {
-			@Override
 			public boolean hasMoreElements() {
 				return i.hasNext();
 			}
-			@Override
 			public Object nextElement() {
 				return i.next();
 			}
