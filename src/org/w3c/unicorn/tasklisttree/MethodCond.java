@@ -9,7 +9,7 @@ public class MethodCond extends TLTCond {
 	@Override
 	public boolean check(UnicornCall unicornCall) {
       // @@ get input type
-		boolean b = value.equals(unicornCall.getInputMethod());
+		boolean b = value.equalsIgnoreCase(unicornCall.getInputMethod());
 		if (getResult())
 			return b;
 		else
