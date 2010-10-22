@@ -134,7 +134,7 @@ public class ObserveAction extends Action {
 			}
 			
 			if (key.startsWith(outParamPrefix)) {
-				logger.trace("Specific parameter: " + key + " - " + (String) reqParams.get(key));
+				logger.trace("Specific parameter: " + key + " - " + reqParams.get(key));
 				String paramName = key.substring(outParamPrefix.length());
 				mapOfSpecificParameter.put(paramName, (String) reqParams.get(key));
 				continue;
@@ -143,7 +143,7 @@ public class ObserveAction extends Action {
 			if (key.startsWith(paramPrefix)) {
 				String paramName = key.substring(paramPrefix.length());
 				if (paramName.equals("lang")) {
-					logger.trace("Lang parameter: " + key + " - " + (String) reqParams.get(key));
+					logger.trace("Lang parameter: " + key + " - " + reqParams.get(key));
 					ULocale locale = getLanguage((String) reqParams.get(key), req, null);
 					String lang = locale.getName();
 					messages.setLocale(locale);
@@ -158,7 +158,7 @@ public class ObserveAction extends Action {
 						reqParams.put(key, lang);
 					}
 				} else if (paramName.equals("task")) {
-					logger.trace("Task parameter: " + key + " - " + (String) reqParams.get(key));
+					logger.trace("Task parameter: " + key + " - " + reqParams.get(key));
 					String task = getTask((String) reqParams.get(key), messages);
 					mapOfStringObject.put("current_task", Framework.mapOfTask.get(task));
 					if (!task.equals(reqParams.get(key))) {
@@ -168,7 +168,7 @@ public class ObserveAction extends Action {
 					}
 					aUnicornCall.setTask(task);
 				} else if (outputParams.contains(paramName)) {
-					logger.trace("Output parameter: " + key + " - " + (String) reqParams.get(key));
+					logger.trace("Output parameter: " + key + " - " + reqParams.get(key));
 					mapOfOutputParameter.put(paramName, (String) reqParams.get(key));
 				} else if (paramName.equals("uri")) {
 					String uriParam = (String) reqParams.get(key);
