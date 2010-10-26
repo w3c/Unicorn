@@ -73,6 +73,28 @@
 		</copy>
 	</target>
 	
+	<target name="cli" depends="jar" description="--> use configuration files to run Unicorn from the command line">
+    <mkdir dir="${dist.dir}/cli"/>
+    <mkdir dir="${dist.dir}/cli/conf"/>
+    <mkdir dir="${dist.dir}/cli/tmp"/>
+
+		<copy todir="${dist.dir}/cli/conf">
+			<fileset dir="WebContent/WEB-INF/conf/cli"/>
+		</copy>
+    
+    <copy todir="${dist.dir}/cli">
+      <fileset dir=".">
+        <include name="lib/*"/>
+      </fileset>
+      <fileset dir="WebContent/WEB-INF">
+        <include name="languages/**"/>
+        <include name="resources/**"/>
+      </fileset>
+      <fileset dir="${dist.dir}" includes="unicorn.jar"/>
+    </copy>
+
+	</target>
+
 	<target name="jar" depends="compile" description="--> compile and package Unicorn as a jar">
 		<mkdir dir="${dist.dir}"/>
 		<jar jarfile="${dist.dir}/unicorn.jar" basedir="${build.dir}/classes" manifest="WebContent/META-INF/MANIFEST.MF"/>
