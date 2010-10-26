@@ -1,0 +1,29 @@
+Submitted from $host
+-----------------------------------------------
+#if(${new_interface_translation})
+New interface translation in $language 
+#elseif ($interfaceChanged)
+Updated interface $language translation
+#end
+#if(${new_tasklist_translation})
+New tasklist translation in $language#elseif ($tasklistChanged)
+Updated tasklist $language translation#end
+
+Submitter: $translator_name <$translator_mail>
+#if($translator_comments)
+Submitter comments:
+$translator_comments
+#end
+
+#if($interfaceChanged)
+-----------------------------------------------
+Interface ChangeLog:
+-----------------------------------------------
+$interfaceChangeLog
+#end
+#if($tasklistChanged)
+-----------------------------------------------
+Tasklist ChangeLog:
+-----------------------------------------------
+$tasklistChangeLog
+#end

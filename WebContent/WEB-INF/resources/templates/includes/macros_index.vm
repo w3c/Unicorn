@@ -1,0 +1,156 @@
+#macro (mimeList $task)
+							<select name="${param_prefix}text_mime" class="ucn_text_mime $task.getID()">
+							#foreach($mime in $task.SupportedMimeTypes)  
+								<option value="$mime" #if($param_text_mime && $param_text_mime == $mime)selected="selected"#end>$mime</option>
+							#end
+							</select>
+#end
+
+#macro (submit_button)
+					<div class="submit">
+						#if ($!param_lang)<input type="hidden" name="${param_prefix}lang" value="$lang" class="lang" />#end
+						<input type="hidden" name="${param_prefix}task" value="$current_task.getID()" class="task" />
+						<input type="submit" value="$submit" />
+					</div>
+#end
+
+#macro(displayMessages $messages)
+<div id="messages">
+#foreach ($message in $messages)
+	#if ($message.Level == 2)
+	<div class="error">
+		<h4>$message.getMessage($lang)</h4>
+		#if ($message.Content)
+		<pre>#if($message.doEvaluateContent())#evaluate($message.Content)#else$!esc.html($message.Content)#end</pre>
+		#end
+	</div>
+	#end
+#end
+#foreach ($message in $messages)
+	#if ($message.Level == 1)
+	<div class="warning">
+		<h4>$message.getMessage($lang)</h4>
+		#if ($message.Content)
+		<pre>#evaluate($message.Content)</pre>
+		#end
+	</div>
+	#end
+#end
+#foreach ($message in $messages)
+	#if ($message.Level == 0)
+	<div class="info">
+		<h4>$message.getMessage($lang)</h4>
+		#if ($message.Content)
+		<pre>#evaluate($message.Content)</pre>
+		#end
+	</div>
+	#end
+#end
+</div>
+
+
+#end
+
+#macro(createParameter $param)
+#set($type = $param.getType())
+#if($type == "CHECKBOX")
+#createCheckbox($param)
+#elseif($type == "CHECKBOXLIST")
+#createCheckboxList($param)
+#elseif($type == "DROPDOWN")
+#createDropdown($param, false)
+#elseif($type == "DROPDOWNLIST")
+#createDropdown($param, true)
+#elseif($type == "RADIO")
+#createRadio($param, true)
+#elseif($type == "TEXTAREA")
+#createTextarea($param, true)
+#elseif($type == "TEXTFIELD")
+#createTextfield($param, true)
+#end
+#end
+
+#macro(createCheckbox $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
+#set($defaults = $param.getMapOfDefaultValue())
+#set( $D = '$' )
+#set ($a = "${D}!{param_${param.Name}}")
+#set ($paramValue = "#evaluate ($a)")
+#set ($s = '')
+#if (($paramValue != "" && $paramValue.equals('checked')) || ($paramValue == "" && $defaults.containsKey('checked'))) #set ($s = 'checked="checked"') #end
+<label><span>$param_name</span> 
+	<input type="checkbox" name="$param.getName()" value="$param.getValue('checked').getName()" $s class="option_input" />
+</label>
+#end
+
+#macro(createCheckboxList $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
+#set($defaults = $param.getMapOfDefaultValue())
+#set( $D = '$' )
+#set ($a = "${D}!{param_${param.Name}}")
+#set ($paramMap = "#evaluate ($a)")
+<label><span>$param_name</span></label> 
+<span class="checkboxlist">
+#foreach ($value in $param.getMapOfValue())
+#set ($s = '')
+#if (($paramMap != "" && $paramMap.contains($value.Name)) || ($paramMap == "" && $defaults.containsKey($value.getName()))) #set ($s = 'checked="checked"') #end
+	<label>
+		<input type="checkbox" name="$param.getName()" value="$value.getName()" $s class="option_input" />
+		$value.getLongName($lang)
+	</label>
+#end
+</span>
+#end
+
+#macro(createDropdown $param $multiple)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
+#set($defaults = $param.getMapOfDefaultValue())
+#set( $D = '$' )
+#set ($a = "${D}!{param_${param.Name}}")
+#set ($paramValue = "#evaluate ($a)")
+<label><span>$param_name</span> 
+	<select name="$param.Name" #if($multiple) multiple="multiple" size="3" #end class="option_input">
+#foreach ($value in $param.getMapOfValue())
+#set ($s = '')
+#if (($paramValue != "" && $paramValue.contains($value.Name)) || ($paramValue == "" && $defaults.containsKey($value.getName()))) #set ($s = 'selected="selected"') #end
+		<option value="$value.Name" $s>$value.getLongName($lang)</option>
+#end
+	</select>
+</label> 
+#end
+
+#macro(createRadio $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
+#set($defaults = $param.getMapOfDefaultValue())
+#set( $D = '$' )
+#set ($a = "${D}!{param_${param.Name}}")
+#set ($paramValue = "#evaluate ($a)")
+<label><span>$param_name</span></label>
+<span class="radiolist">
+#foreach ($value in $param.getMapOfValue())
+#set ($s = '')
+#if (($paramValue != "" && $paramValue.contains($value.Name)) || ($paramValue == "" && $defaults.containsKey($value.getName()))) #set ($s = 'checked="checked"') #end
+	<label>
+		<input type="radio" name="$param.getName()" value="$value.getName()" $s class="option_input" />
+		$value.getLongName($lang)
+	</label>
+#end
+</span>
+#end
+
+#macro(createTextarea $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
+#set($defaults = $param.getMapOfDefaultValue())
+<label><span>$param_name</span> 
+	<textarea name="$param.getName()" class="option_input">#foreach($default in $defaults)$default.Name#end</textarea>
+</label>
+#end
+
+#macro(createTextfield $param)
+#if ($param.getLongName($lang)) #set($param_name=$param.getLongName($lang)) #else #set($param_name=$param.getName()) #end
+#set($defaults = $param.getMapOfDefaultValue())
+<label><span>$param_name</span> 
+	<input type="text" name="$param.getName()" value="#foreach($default in $defaults)$default.Name#end" class="option_input" />
+</label>
+#end
+

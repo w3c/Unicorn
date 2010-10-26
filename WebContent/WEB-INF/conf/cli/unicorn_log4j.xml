@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "../resources/schemas/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+	<appender name="gui" class="org.apache.log4j.lf5.LF5Appender">
+		<param name="MaxNumberOfRecords" value="10000" />
+		<param name="CallSystemExitOnClose" value="false" />
+		<param name="Threshold" value="debug" />
+	</appender>
+
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="trace" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p (%F:%L) : %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="velocity_log" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/velocity.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="level-error" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/level/error.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="error" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+
+	<appender name="level-warning" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/level/warning.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="warning" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+	
+	<appender name="level-info" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/level/info.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="info" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+	
+	<appender name="level-debug" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/level/debug.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="debug" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+	
+	<appender name="level-trace" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/level/trace.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="trace" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter" />
+	</appender>
+	
+	<appender name="package-unicorn" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/all.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>	
+	
+	<appender name="package-action" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/package/action.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>	
+	
+	<appender name="package-contract" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/package/contract.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>	
+	
+	<appender name="package-input" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/package/input.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>	
+	
+	<appender name="package-output" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/package/output.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>	
+	
+	<appender name="package-request" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/package/request.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>	
+	
+	<appender name="package-response" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/package/response.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>	
+	
+	<appender name="package-tasklist" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/package/tasklist.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>	
+	
+	<appender name="package-util" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/package/util.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
+		</layout>
+	</appender>	
+
+	<logger name="org.apache.velocity">
+		<appender-ref ref="velocity_log" />
+	</logger>
+
+	<logger name="org.w3c.unicorn.Framework">
+	</logger>
+	
+	<logger name="org.w3c.unicorn">
+		<appender-ref ref="package-unicorn" />
+	</logger>
+	
+	 <logger name="org.w3c.unicorn.action">
+		<appender-ref ref="package-action" />
+	</logger>
+	
+	<logger name="org.w3c.unicorn.contract">
+		<appender-ref ref="package-contract" />
+	</logger>
+	
+	<logger name="org.w3c.unicorn.input">
+		<appender-ref ref="package-input" />
+	</logger>
+	
+	<logger name="org.w3c.unicorn.output">
+		<appender-ref ref="package-output" />
+	</logger>
+	
+	<logger name="org.w3c.unicorn.request">
+		<appender-ref ref="package-request" />
+	</logger>
+	
+	<logger name="org.w3c.unicorn.response">
+		<appender-ref ref="package-response" />
+	</logger>
+	
+	<logger name="org.w3c.unicorn.tasklist">
+		<appender-ref ref="package-tasklist" />
+	</logger>
+	
+	<logger name="org.w3c.unicorn.tasklistree">
+		<appender-ref ref="package-tasklist" />
+	</logger>
+	
+	<logger name="org.w3c.unicorn.util">
+		<appender-ref ref="package-util" />
+	</logger>
+	
+	<root>
+		<level value="warn"/>
+		<appender-ref ref="level-error" />
+		<appender-ref ref="level-warning" />
+    <!--<appender-ref ref="level-info" />-->
+		<!--<appender-ref ref="level-debug" />-->
+    <!--<appender-ref ref="level-trace" />-->
+    <!--<appender-ref ref="console" />-->
+		<!-- <appender-ref ref="gui" /> -->
+	</root>
+
+</log4j:configuration>
