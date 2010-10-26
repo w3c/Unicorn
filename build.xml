@@ -93,6 +93,8 @@
       <fileset dir="${dist.dir}" includes="unicorn.jar"/>
     </copy>
 
+    <copy file="WebContent/WEB-INF/lib/icu4j-4_4_1.jar" todir="${dist.dir}/cli/lib"/>
+
 	</target>
 
 	<target name="jar" depends="compile" description="--> compile and package Unicorn as a jar">
