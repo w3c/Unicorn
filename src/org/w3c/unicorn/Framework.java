@@ -131,6 +131,7 @@ public class Framework {
 	}
 	
 	public static void initCore() throws InitializationFailedException {
+		java.security.Security.setProperty("networkaddress.cache.ttl", "0");
 		if (System.getProperty("unicorn.home") == null) {
 			try {
 				URL frameworkDir = Framework.class.getResource("Framework.class");
