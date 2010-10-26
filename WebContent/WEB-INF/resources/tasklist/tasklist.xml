@@ -4,6 +4,11 @@
 	xmlns="http://www.w3.org/unicorn/tasklist">
 
 	<task id="conformance" default="true">
+		<conds>
+		  <cond id="is_input_uri" result="passed" type="method">
+		    <value>uri</value>
+		  </cond>
+		</conds>
 
 		<routine>
 			<exec id="markup-validator" value="markup-validator" type="observation" />
@@ -12,6 +17,9 @@
 			<exec id="css3" value="css3-validator" type="observation" />
 			<exec id="css1" value="css1-validator" type="observation" />
 			<exec id="feed" value="feed" type="observation" />
+			<if test="is_input_uri">
+			  <then><exec id="http" value="http" type="observation" /></then>
+			</if>
 		</routine>
 
 		<parameters>
@@ -38,6 +46,7 @@
 			</group>
 			<group>
 				<observation>feed</observation>
+        <observation>http</observation>
 			</group>
 		</output>
 	</task>
@@ -332,7 +341,7 @@
 			</group>
 		</output>
 	</task>
-
+  <!--
 	<task id="i18n">
 		<routine>
 			<exec id="i18n" value="i18n" type="observation" />
@@ -347,7 +356,7 @@
 			</group>
 		</output>
 	</task>
-
+  -->
 	<!-- This task allows developers to test their Unicorn output easily. It should removed in production. -->
 	<task id="test">
 		<routine>
