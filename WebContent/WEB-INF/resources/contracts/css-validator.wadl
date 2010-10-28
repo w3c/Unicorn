@@ -75,7 +75,7 @@
 				</request>
 		    </method>
 		    
-		    <method name="GET" id="CssValidationText">
+		    <method name="POST" id="CssValidationText">
 				<doc title="inputMethod">DIRECT</doc>
 				<doc title="inputParamName">text</doc>
 				<request>    			
