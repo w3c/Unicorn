@@ -12,10 +12,8 @@
 
 		<routine>
 			<exec id="markup-validator" value="markup-validator" type="observation" />
-			<exec id="css2" value="css2-validator" type="observation" />
 			<exec id="css21" value="css21-validator" type="observation" />
 			<exec id="css3" value="css3-validator" type="observation" />
-			<exec id="css1" value="css1-validator" type="observation" />
 			<exec id="feed" value="feed" type="observation" />
 			<if test="is_input_uri">
 			  <then><exec id="http" value="http" type="observation" /></then>
@@ -27,9 +25,7 @@
 			<parameter name="warning" ui="none" type="dropdown" default="all">
 				<value name="all">
 					<mapped param="warning" observer="css21-validator" value="2" />
-					<mapped param="warning" observer="css2-validator" value="2" />
 					<mapped param="warning" observer="css3-validator" value="2" />
-					<mapped param="warning" observer="css1-validator" value="2" />
 				</value>
 			</parameter>
 		</parameters>
@@ -40,9 +36,7 @@
 			</group>
 			<group type="firstPassed">
 				<observation>css21-validator</observation>
-				<observation>css2-validator</observation>
 				<observation>css3-validator</observation>
-				<observation>css1-validator</observation>
 			</group>
 			<group>
 				<observation>feed</observation>
