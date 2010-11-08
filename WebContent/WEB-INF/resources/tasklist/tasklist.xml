@@ -21,7 +21,8 @@
 		</routine>
 
 		<parameters>
-			<!-- <parameter name="profile" default="css21" ui="simple" type="dropdown" observer="css-validator"/> -->
+			<parameter name="charset" default="(detect automatically)" ui="simple" type="dropdown" observer="markup-validator" />
+			<parameter name="doctype" default="Inline" ui="simple" type="dropdown" observer="markup-validator" />
 			<parameter name="warning" ui="none" type="dropdown" default="all">
 				<value name="all">
 					<mapped param="warning" observer="css21-validator" value="2" />
