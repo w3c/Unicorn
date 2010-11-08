@@ -454,8 +454,10 @@ public class Framework {
 							value.addLongName(defaultLang, defaultProps.getProperty(taskKey + ".param." + paramKey + "." + valueKey));
 						else if (defaultProps.containsKey("param." + paramKey + "." + valueKey))
 							value.addLongName(defaultLang, defaultProps.getProperty("param." + paramKey + "." + valueKey));
-						else if (param.getUiLevel() != TUi.NONE) // Warn only if the value is displayed
+						else if (param.getUiLevel() != TUi.NONE && !value.hasLongName(defaultLang)) { // Warn only if the value is displayed and option name is not defined directly in contract
+							value.addLongName(defaultLang, value.getName());
 							logger.warn(">> No default value longname found for the value \"" + valueKey + "\" for the parameter \"" + paramKey + "\" from the task " + taskKey + ". This value longname will be its key and it won't appear in the translation form.");
+						}
 					}
 				}
 			}

@@ -72,32 +72,32 @@ public class CallParameter {
 	/**
 	 * Possible values for this parameter
 	 */
-	private List<String> listOfPossibleValue = null;
+	private List<Option> listOfPossibleOptions = null;
 
 	/**
 	 * Constructor for a parameter
 	 * 
 	 * @param sName
 	 *            Name of the parameter
-	 * @param listOfPossibleValue
+	 * @param listOfPossibleOptions
 	 *            all the possibles values
 	 * @param sFixed
 	 *            Indicates if the parameter can be manually set or not
 	 */
-	public CallParameter(final String sName, final List<String> listOfValue,
+	public CallParameter(final String sName, final List<Option> listOfOptions,
 			final String sFixed, final boolean bRequired,
 			final boolean bRepeating) {
 		super();
 
 		logger.trace("Constructor(String, List<String>, String, boolean, boolean)\n" +
 					 "Name : " + sName + ".\n" +
-					 "List of value : " + listOfValue + ".\n" +
+					 "List of value : " + listOfOptions + ".\n" +
 					 "Fixed : " + sFixed + ".\n" +
 					 "Required : " + bRequired + ".\n" +
 					 "Repeating : " + bRepeating + ".");
 
 		this.sName = sName;
-		this.listOfPossibleValue = listOfValue;
+		this.listOfPossibleOptions = listOfOptions;
 		this.sFixed = sFixed;
 		this.bRequired = bRequired;
 		this.bRepeating = bRepeating;
@@ -110,7 +110,7 @@ public class CallParameter {
 	 *            name of the parameter
 	 */
 	public CallParameter(final String sName) {
-		this(sName, new ArrayList<String>(), null, false, false);
+		this(sName, new ArrayList<Option>(), null, false, false);
 		logger.trace("Constructor(String)");
 	}
 
@@ -118,7 +118,7 @@ public class CallParameter {
 	 * Various constructor with empty name
 	 */
 	public CallParameter() {
-		this("", new ArrayList<String>(), null, false, false);
+		this("", new ArrayList<Option>(), null, false, false);
 		logger.trace("Constructor()");
 	}
 
@@ -165,8 +165,8 @@ public class CallParameter {
 		return this.sPath;
 	}
 
-	public List<String> getListOfPossibleValue() {
-		return listOfPossibleValue;
+	public List<Option> getListOfPossibleOptions() {
+		return listOfPossibleOptions;
 	}
 
 	// ==================
@@ -208,25 +208,27 @@ public class CallParameter {
 		this.sPath = sPath;
 	}
 
-	public void setPossibleValues(final List<String> listOfValue) {
-		this.listOfPossibleValue = listOfValue;
+	public void setPossibleOptions(final List<Option> listOfOptions) {
+		this.listOfPossibleOptions = listOfOptions;
 	}
 
-	public void addValue(final String sValue) {
-		if (this.listOfPossibleValue == null) {
-			this.listOfPossibleValue = new ArrayList<String>();
+	public void addOption(final Option option) {
+		if (this.listOfPossibleOptions == null) {
+			this.listOfPossibleOptions = new ArrayList<Option>();
 		}
-		this.listOfPossibleValue.add(sValue);
+		this.listOfPossibleOptions.add(option);
 	}
 
-	public Object getValue(final int iPosition) {
-		return this.listOfPossibleValue.get(iPosition);
+	public Option getOption(final int iPosition) {
+		return this.listOfPossibleOptions.get(iPosition);
 	}
 
 	public boolean contains(final String sValue) {
-		return this.listOfPossibleValue.contains(sValue)
-				|| (this.listOfPossibleValue.size() == 1 && this.listOfPossibleValue
-						.contains(""));
+		for (Option option : listOfPossibleOptions) {
+			if (option.getValue().equals(sValue))
+				return true;
+		}
+		return false;
 	}
 
 	/**
@@ -243,7 +245,7 @@ public class CallParameter {
 		aStringBuffer.append(sVariableSeparator);
 		aStringBuffer.append("id:=").append(sID);
 		aStringBuffer.append(sVariableSeparator);
-		aStringBuffer.append("possibleValues:=").append(listOfPossibleValue);
+		aStringBuffer.append("possibleValues:=").append(listOfPossibleOptions);
 		aStringBuffer.append(sVariableSeparator);
 		aStringBuffer.append("fixed:=").append(sFixed);
 		aStringBuffer.append(sVariableSeparator);
