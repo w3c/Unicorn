@@ -334,8 +334,8 @@ public class WADLUnmarshallerXPath implements WADLUnmarshaller {
 						.evaluate(aNodeMethod, XPathConstants.NODESET);
 
 				for (int k = 0; k < aOptionNodeListResult.getLength(); k++) {
-					aCallParameter.addValue(aOptionNodeListResult.item(k)
-							.getAttributes().item(0).getNodeValue());
+					aCallParameter.addOption(new Option(aOptionNodeListResult.item(k)
+							.getAttributes().item(0).getNodeValue(), aOptionNodeListResult.item(k).getTextContent()));
 				}
 
 				callParameters.add(aCallParameter);

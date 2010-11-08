@@ -33,6 +33,7 @@ import org.w3c.unicorn.contract.CallParameter;
 import org.w3c.unicorn.contract.EnumInputMethod;
 import org.w3c.unicorn.contract.InputMethod;
 import org.w3c.unicorn.contract.Observer;
+import org.w3c.unicorn.contract.Option;
 import org.w3c.unicorn.exceptions.ParameterException;
 import org.w3c.unicorn.exceptions.UnknownObserverException;
 import org.w3c.unicorn.tasklist.parameters.Mapping;
@@ -43,6 +44,7 @@ import org.w3c.unicorn.tasklisttree.TLTCond;
 import org.w3c.unicorn.tasklisttree.TLTExec;
 import org.w3c.unicorn.tasklisttree.TLTIf;
 import org.w3c.unicorn.tasklisttree.TLTNode;
+import org.w3c.unicorn.util.Language;
 import org.w3c.unicorn.util.LocalizedString;
 
 /**
@@ -315,8 +317,8 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 					.getCallParameterByName(sParamName);
 			// A parameter with this name exists for this method
 			if (aCallParameter != null) {
-				for (final String sValue : aCallParameter
-						.getListOfPossibleValue()) {
+				for (final Option option : aCallParameter.getListOfPossibleOptions()) {
+					String sValue = option.getValue();
 					final Value aValueCurrent = mapOfValue.get(sValue);
 					if (aValueCurrent != null) {
 						// the newly created parameter already contains a
@@ -330,9 +332,8 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 						// similar value
 						final LocalizedString aInternationalizedMessageValueName;
 						aInternationalizedMessageValueName = new LocalizedString();
-						// TODO Add localized names in RDF contract
-						aInternationalizedMessageValueName.addLocalization(
-								"en", sValue);
+						if (option.getName() != null)
+							aInternationalizedMessageValueName.addLocalization(Language.getDefaultLocale().getBaseName(), option.getName());
 
 						final List<EnumInputMethod> mapOfNewInputMethod = new ArrayList<EnumInputMethod>();
 						mapOfNewInputMethod.add(aEnumInputMethod);
