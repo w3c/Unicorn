@@ -79,6 +79,22 @@
 	</div>
 	<div id="don_program">
 		<script type="text/javascript" src="http://www.w3.org/QA/Tools/don_prog.js"></script>
+		<noscript>
+			<div>
+				<span id="don_program_img">
+					<a href="http://www.w3.org/QA/Tools/Donate">
+						<img src="http://www.w3.org/QA/Tools/I_heart_validator_lg" alt="Validators Donation Program Logo"/>
+					</a>
+				</span>
+				<a href="http://flattr.com/thing/65556/W3C-Validator" style="float:right;" title="View W3C-Validator on flattr.com">
+					Flattr us!
+				</a>
+				<span xml:lang="en" lang="en" id="don_program_text" dir="ltr">
+					The W3C validators rely on community support for hosting and development.<br />
+					<a href="http://www.w3.org/QA/Tools/Donate">Donate</a> and help us build better tools for a better web.
+				</span>
+			</div>
+		</noscript>
 	</div>
 
 #parse('footer.vm')
