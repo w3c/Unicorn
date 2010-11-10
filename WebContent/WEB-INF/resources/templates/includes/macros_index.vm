@@ -113,7 +113,7 @@
 #foreach ($value in $param.getMapOfValue())
 #set ($s = '')
 #if (($paramValue != "" && $paramValue.contains($value.Name)) || ($paramValue == "" && $defaults.containsKey($value.getName()))) #set ($s = 'selected="selected"') #end
-		<option value="$value.Name" $s>$value.getLongName($lang)</option>
+		<option value="$esc.html($value.Name)" $s>$esc.html($value.getLongName($lang))</option>
 #end
 	</select>
 </label> 
