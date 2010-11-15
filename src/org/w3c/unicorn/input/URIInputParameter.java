@@ -40,7 +40,6 @@ public class URIInputParameter extends InputParameter {
 	private int connectTimeOut;
 	
 	private static SSLContext sc;
-	private static HostnameVerifier hv;
 	
 	static {
 		try {
