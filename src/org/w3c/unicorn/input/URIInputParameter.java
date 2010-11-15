@@ -18,10 +18,12 @@ import java.util.regex.Pattern;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -38,11 +40,17 @@ public class URIInputParameter extends InputParameter {
 	private int connectTimeOut;
 	
 	private static SSLContext sc;
+	private static HostnameVerifier hv;
 	
 	static {
 		try {
 			sc = SSLContext.getInstance("SSL");
 			sc.init(null, new TrustManager[]{new TrustAllManager()}, new java.security.SecureRandom());
+			HostnameVerifier hv = new HostnameVerifier() {
+				@Override 
+				public boolean verify(String hostname, SSLSession session) {return true;}
+			};
+			HttpsURLConnection.setDefaultHostnameVerifier(hv);
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
