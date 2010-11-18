@@ -21,7 +21,8 @@ class RequestThread extends Thread {
 	/**
 	 * Used for complex logging purpose
 	 */
-	private static final Log logger = LogFactory.getLog(RequestThread.class);;
+	private static final Log logger = LogFactory.getLog(RequestThread.class);
+	private static final Log criticalLogger = LogFactory.getLog("CriticalError");
 	
 	private Response aResponse;
 
@@ -67,6 +68,7 @@ class RequestThread extends Thread {
 			aResponse.setObserverId(obsID);
 		} catch (final UnicornException e) {
 			messages.add(e.getUnicornMessage());
+			criticalLogger.error("Observer request failed: \n\t Request: " +  aRequest.getInputMethod().toString() + " - " + this.aRequest.toString() + "\n " + e.getMessage());
 		} catch (final Exception e) {
 			messages.add(new Message(e));
 			logger.error(e.getMessage(), e);
