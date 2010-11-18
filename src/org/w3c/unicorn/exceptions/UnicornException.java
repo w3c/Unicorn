@@ -38,5 +38,15 @@ public class UnicornException extends Exception {
 	public void setUnicornMessage(Message message) {
 		this.message = message;
 	}
+
+	@Override
+	public String getMessage() {
+		if (super.getMessage() == null || super.getMessage().equals(""))
+			return message.getContent();
+		else
+			return super.getMessage();
+	}
+	
+	
 	
 }

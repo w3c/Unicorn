@@ -49,6 +49,7 @@ public class ObserveAction extends Action {
 	private static final long serialVersionUID = -1375355420965607571L;
 	
 	private static Log logger = LogFactory.getLog(ObserveAction.class);
+	private static Log criticalLogger = LogFactory.getLog("CriticalError");
 	
 	private static DiskFileItemFactory factory;
 	
@@ -317,7 +318,18 @@ public class ObserveAction extends Action {
 				aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 			}
 		} catch (final Exception aException) {
-			logger.error("Exception : " + aException.getMessage(), aException);
+			StringBuilder log = new StringBuilder();
+			for (String key : reqParams.keySet()) {
+				log.append(key + " -> ");
+				if (reqParams.get(key) instanceof String[]) {
+					String[] params = (String[]) reqParams.get(key);
+					for (String param : params)
+						log.append(param + "\n");
+				} else {
+					log.append(reqParams.get(key) + "\n");
+				}
+			}
+			criticalLogger.error("Critical: \n" + log, aException);
 			messages.add(new Message(aException));
 			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 		} finally {
