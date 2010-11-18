@@ -855,6 +855,14 @@ div#feed td.info img {
 	vertical-align:middle;
 	margin:0 0.3em 0.3em 0.3em;
 }
+div#http_response_header ul.headers {
+	border-radius:0.5em;
+	background-color:#000;
+	color:#DDD;
+	margin-bottom:0.5em;
+	padding:0.5em;
+}
+
 #observations span.arrow {
 	display:inline-block;
 	height:0;
