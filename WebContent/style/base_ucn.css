@@ -860,9 +860,10 @@ div#http_response_header ul.headers {
 	color:#DDD;
 	margin-bottom:0.5em;
 	padding:0.5em;
+	font: normal normal normal 10pt/14pt Courier, monospace;
 }
 div#http_response_header ul.headers li::before {
-	content:"";
+	content:"" !important;
 }
 #observations span.arrow {
 	display:inline-block;
