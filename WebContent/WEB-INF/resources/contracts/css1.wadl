@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd"
+	xmlns="http://research.sun.com/wadl/2006/10"> 
+	<grammars/>  
+
+	<resources base="http://jigsaw.w3.org/css-validator/"> 
+		<resource path="validator"> 
+			<doc title="responseType">default</doc>
+			
+			<doc xml:lang="en" title="name">W3C CSS Validator (Level 1)</doc>
+			<doc xml:lang="fr" title="name">W3C Validateur CSS (Niveau 1)</doc>
+			
+			<doc title="mimetype">text/css</doc>
+			<doc title="mimetype">text/html</doc>
+			<doc title="mimetype">application/xhtml+xml</doc>
+			<doc title="mimetype">image/svg+xml</doc>
+			
+			<doc title="paramLang">lang</doc>
+			<doc title="paramOutput">output</doc>
+			
+			<method name="GET" id="CssValidationUri">
+				<doc title="inputMethod">URI</doc>
+				<doc title="inputParamName">uri</doc>
+				<request>
+					<param name="uri" type="xs:anyURI" style="plain" required="true" /> 
+					<param name="warning" style="plain" default="1"> 
+						<option value="no"><doc xml:lang="en" title="No Warning">Warning Output disabled</doc></option>
+						<option value="0"><doc xml:lang="en" title="Important Warnings Only">Warning Output enabled for important, syntax-related warnings</doc></option> 
+						<option value="1"><doc xml:lang="en" title="Normal Report">Warning Output enabled for most warnings, fitering out suggestions for accessibility, etc</doc></option> 
+						<option value="2"><doc xml:lang="en" title="All Warnings">Warning Output enabled for all types of warnings</doc></option> 
+					</param>      
+					<param name="profile" fixed="css1" required="true" style="plain">
+						<option value="css1" />
+					</param>
+					<param name="usermedium" style="plain">
+						<doc xml:lang="en" title="User Medium parameter">Check CSS for a specific medium</doc>
+						<option value="all" />
+						<option value="aural" />
+						<option value="braille" />
+						<option value="embossed" />
+						<option value="handheld" />
+						<option value="print" />
+						<option value="projection" />
+						<option value="screen" />
+						<option value="tty" />
+						<option value="tv" />
+						<option value="presentation" />
+					</param>
+					<param name="lang" style="plain">
+						<doc xml:lang="en" title="output language">Choose language of the output messages</doc>
+						<option value="en" />
+						<option value="fr" />
+						<option value="ja" />
+						<option value="es" />
+						<option value="zh-cn" />
+						<option value="nl" />
+						<option value="de" />
+					</param>
+					<param name="output" fixed="ucn" required="true" style="plain">
+						<option value="ucn" />
+					</param>
+				</request>
+		    </method>
+		    <method name="POST" id="CssValidationText">
+				<doc title="inputMethod">DIRECT</doc>
+				<doc title="inputParamName">text</doc>
+				<request>    			
+					<param name="text" style="plain"/>
+					<param name="warning" style="plain" default="1"> 
+						<option value="no"><doc xml:lang="en" title="No Warning">Warning Output disabled</doc></option>
+						<option value="0"><doc xml:lang="en" title="Important Warnings Only">Warning Output enabled for important, syntax-related warnings</doc></option> 
+						<option value="1"><doc xml:lang="en" title="Normal Report">Warning Output enabled for most warnings, fitering out suggestions for accessibility, etc</doc></option> 
+						<option value="2"><doc xml:lang="en" title="All Warnings">Warning Output enabled for all types of warnings</doc></option> 
+					</param>      
+	      <param name="profile" fixed="css1" required="true" style="plain">
+						<option value="css1" />
+					</param>
+					<param name="usermedium" style="plain">
+						<doc xml:lang="en" title="User Medium parameter">Check CSS for a specific medium</doc>
+						<option value="all" />
+						<option value="aural" />
+						<option value="braille" />
+						<option value="embossed" />
+						<option value="handheld" />
+						<option value="print" />
+						<option value="projection" />
+						<option value="screen" />
+						<option value="tty" />
+						<option value="tv" />
+						<option value="presentation" />
+					</param>
+					<param name="lang" style="plain">
+						<doc xml:lang="en" title="output language">Choose language of the output messages</doc>
+						<option value="en" />
+						<option value="fr" />
+						<option value="ja" />
+						<option value="es" />
+						<option value="zh-cn" />
+						<option value="nl" />
+						<option value="de" />
+					</param>
+					<param name="output" fixed="ucn" required="true" style="plain">
+						<option value="ucn" />
+					</param>
+				</request>
+		    </method>
+			
+		    <method name="POST" id="CssValidationFile">
+				<doc title="inputMethod">UPLOAD</doc>
+				<doc title="inputParamName">file</doc>
+				<request>
+					<param name="file" style="plain"/>
+					<param name="warning" style="plain" default="1"> 
+						<option value="no"><doc xml:lang="en" title="No Warning">Warning Output disabled</doc></option>
+						<option value="0"><doc xml:lang="en" title="Important Warnings Only">Warning Output enabled for important, syntax-related warnings</doc></option> 
+						<option value="1"><doc xml:lang="en" title="Normal Report">Warning Output enabled for most warnings, fitering out suggestions for accessibility, etc</doc></option> 
+						<option value="2"><doc xml:lang="en" title="All Warnings">Warning Output enabled for all types of warnings</doc></option> 
+					</param> 
+	      <param name="profile" fixed="css1" required="true" style="plain">
+						<option value="css1" />
+					</param>          
+					<param name="usermedium" style="plain">
+						<doc xml:lang="en" title="User Medium parameter">Check CSS for a specific medium</doc>
+						<option value="all" />
+						<option value="aural" />
+						<option value="braille" />
+						<option value="embossed" />
+						<option value="handheld" />
+						<option value="print" />
+						<option value="projection" />
+						<option value="screen" />
+						<option value="tty" />
+						<option value="tv" />
+						<option value="presentation" />
+					</param>
+					<param name="lang" style="plain">
+						<doc xml:lang="en" title="output language">Choose language of the output messages</doc>
+						<option value="en" />
+						<option value="fr" />
+						<option value="ja" />
+						<option value="es" />
+						<option value="zh-cn" />
+						<option value="nl" />
+						<option value="de" />
+					</param>
+					<param name="output" fixed="ucn" required="true" style="plain">
+						<option value="ucn" />
+					</param>
+				</request>
+			</method>
+		</resource>
+	</resources>
+</application>

@@ -1,0 +1,22 @@
+#init {
+	margin:0 33px;
+}
+#init h1 {
+	font-size:1.2em;
+	margin-bottom:0.2em;
+}
+#init ul {
+	margin-bottom:0.5em;
+}
+#init ul li:before {
+	content:'-';
+}
+#init ul li a {
+	margin-left:0.2em;
+}
+img.loader {
+	margin:0;
+}
+#init textarea {
+	width:99%;
+}

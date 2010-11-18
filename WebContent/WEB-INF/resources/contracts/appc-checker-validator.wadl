@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd" 
+	xmlns="http://research.sun.com/wadl/2006/10"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<grammars/>
+
+	<resources base="http://validator.w3.org/appc/">
+		<resource path="">
+			<doc title="responseType">default</doc>
+			
+			<doc xml:lang="en" title="name">W3C XHTML 1.0 Appendix C checker</doc>
+			<doc xml:lang="fr" title="name">W3C Validateur XHTML 1.0 Appendice C</doc>
+			
+			<doc title="mimetype">text/html</doc>
+			
+			<doc title="paramOutput">output</doc>
+			
+			<method name="GET" id="AppCCheckerUri">
+				<doc title="inputMethod">URI</doc>
+				<doc title="inputParamName">uri</doc>
+				<request>
+					<param name="uri" type="xs:anyURI" style="plain"/>
+					<param name="output" fixed="xml" required="true" style="plain">
+						<option value="xml"/>
+					</param>
+				</request>
+			</method>
+		</resource>
+	</resources>
+
+</application>
