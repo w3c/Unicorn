@@ -675,7 +675,6 @@ fieldset.toggled legend {
 #observations code {
 	font-family:"Bitstream Vera Sans Mono",Monaco,"Andale Mono",monospace;
 	line-height:100%;
-	font-size:1.2em;
 	margin-top:0.5em;
 }
 #observations strong {
@@ -862,7 +861,9 @@ div#http_response_header ul.headers {
 	margin-bottom:0.5em;
 	padding:0.5em;
 }
-
+div#http_response_header ul.headers li::before {
+	content:"";
+}
 #observations span.arrow {
 	display:inline-block;
 	height:0;
