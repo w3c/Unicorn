@@ -10,7 +10,7 @@ package org.w3c.unicorn.contract;
  */
 public enum EnumInputMethod {
 
-	URI("uri"), UPLOAD("upload"), DIRECT("direct");
+	URI("uri"), DIRECT("direct"), UPLOAD("upload");
 
 	private final String sValue;
 
