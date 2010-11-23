@@ -5,6 +5,7 @@ package org.w3c.unicorn.input;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Date;
@@ -111,9 +112,13 @@ public class URIInputModule implements InputModule {
 	public String getStringContent() throws IOException {
 		logger.trace("getString.");
 		final URL aURL = new URL(this.sURI);
-		final String sResult = (String) aURL.openConnection().getContent();
-		logger.debug("sResult : " + sResult + ".");
-		return sResult;
+		InputStream in = aURL.openConnection().getInputStream();
+	    StringBuffer out = new StringBuffer();
+	    byte[] b = new byte[4096];
+	    for (int n; (n = in.read(b)) != -1;) {
+	        out.append(new String(b, 0, n));
+	    }
+	    return out.toString();
 	}
 
 	public String getURI() {
