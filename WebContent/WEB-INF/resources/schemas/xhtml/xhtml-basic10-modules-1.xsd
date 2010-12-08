@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           xmlns:xh11d="http://www.w3.org/1999/xhtml/datatypes/">
+
+  <xs:import namespace="http://www.w3.org/1999/xhtml/datatypes/" 
+             schemaLocation="xhtml-datatypes-1.xsd" />
+  <xs:annotation>
+    <xs:documentation>
+      This schema includes all modules for XHTML Basic 1.0 Document Type.
+      $Id: xhtml-basic10-modules-1.xsd,v 1.1 2009-10-14 17:27:54 tgambet Exp $
+    </xs:documentation>
+    <xs:documentation source="xhtml-copyright-1.xsd"/>
+  </xs:annotation>
+
+  <xs:annotation>
+    <xs:documentation>
+      This schema includes all modules (and redefinitions)
+      for XHTML Basic 1.0 Document Type.
+      XHTML Basic 1.0 Document Type includes the following Modules
+     
+        XHTML Core modules (Required for XHTML Family Conformance)
+            +  text
+            +  hypertext
+            +  lists
+            +  structure
+            
+        Other XHTML modules
+            +  Link                   
+            +  Meta
+            +  Base          
+            +  Image           
+            +  Object 
+            +  Param         
+            +  Basic forms
+            +  Basic tables        
+    </xs:documentation>
+  </xs:annotation>
+
+ <!--  <xs:include schemaLocation="xhtml-framework-1.xsd">
+    <xs:annotation>
+      <xs:documentation>
+        Schema Framework Component Modules:
+            +  notations
+            +  datatypes
+            +  common attributes
+            +  character entities
+      </xs:documentation>
+      <xs:documentation
+         source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_commonatts"/>
+    </xs:annotation>
+  </xs:include>  -->
+
+  <xs:include schemaLocation="xhtml-text-1.xsd">
+    <xs:annotation>
+      <xs:documentation>
+        Text module
+
+        The Text module includes declarations for all core
+        text container elements and their attributes.
+
+            +  block phrasal
+            +  block structural
+            +  inline phrasal
+            +  inline structural
+
+        Elements defined here:
+          * address, blockquote, pre, h1, h2, h3, h4, h5, h6
+          * div, p
+          * abbr, acronym, cite, code, dfn, em, kbd, q, samp, strong, var
+          * br, span
+      </xs:documentation>
+      <xs:documentation
+        source="http://www.w3.org/TR/2001/REC-xhtml-modularization-20010410/abstract_modules.html#s_textmodule"/>
+    </xs:annotation>
+  </xs:include>
+
+  <xs:include schemaLocation="xhtml-hypertext-1.xsd">
+    <xs:annotation>
+      <xs:documentation>
+         Hypertext module
+
+         Elements defined here:
+          * a
+      </xs:documentation>
+      <xs:documentation
+        source="http://www.w3.org/TR/2001/REC-xhtml-modularization-20010410/abstract_modules.html#s_hypertextmodule"/>
+    </xs:annotation>
+  </xs:include>
+
+  <xs:include schemaLocation="xhtml-list-1.xsd">
+    <xs:annotation>
+      <xs:documentation>
+        Lists module
+
+        Elements defined here:
+          * dt, dd, dl, ol, ul, li
+      </xs:documentation>
+      <xs:documentation
+        source="http://www.w3.org/TR/2001/REC-xhtml-modularization-20010410/abstract_modules.html#s_listmodule"/>
+    </xs:annotation>
+  </xs:include>
+
+  <xs:include schemaLocation="xhtml-image-1.xsd">
+    <xs:annotation>
+      <xs:documentation>
+        Image module
+
+        Elements defined here:
+          * img
+      </xs:documentation>
+      <xs:documentation
+         source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_imagemodule"/>
+    </xs:annotation>
+  </xs:include>
+
+</xs:schema>

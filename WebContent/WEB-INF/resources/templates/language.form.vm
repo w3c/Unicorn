@@ -1,0 +1,80 @@
+#set ($title = "Unicorn - Translations")
+#set ($css = ['base_ucn.css'])
+#set ($js = ['mootools-1.2.5-core-more-yc.js', 'w3c_unicorn_languages.js'])
+#parse('head.vm')
+
+#if ($messages && $messages.size() > 0)
+#displayMessages($messages)
+#end
+
+<div id="translations">
+	<form method="post" action="./translations">
+		
+		<fieldset class="about_you">
+			<legend>About you</legend>
+			<label for="name"><span>Name<b style="color:red">*</b>:</span><input type="text" name="translator_name" id="name" size="50" value="$!translator_name"/></label><br />
+			<label for="mail"><span>Email address<b style="color:red">*</b>:</span><input type="text" name="translator_mail" id="mail" size="50" value="$!translator_mail"/></label><br />
+			<label for="comments"><span>Comments:</span><textarea id="comments" name="translator_comments" rows="5" cols="20">$!translator_comments</textarea></label>
+		</fieldset>
+		
+		<fieldset class="translation">
+			<legend>Translation 
+				<a id="a_miss" title="Display only missings" href="#" style="display: none">Display only missings</a>
+				<a id="a_mod" title="Display only modified" href="#" style="display: none">Display only modified</a>
+				<a id="a_all" title="Display all" href="#" style="display: none">Display all</a>
+			</legend>
+			
+			<table style="width:100%">
+				<thead>
+					<tr>
+						<th scope="col" class="first_col">$strUtils.capitalize($defaultLocale.getDisplayName($defaultLocale)) properties</th>
+						#set($percent = 100 * $math.div($math.add($prop.size(), $metadatas.size()), $math.add($defaultProps.size(), $defaultMetadata.size())))
+						<th scope="col">$strUtils.capitalize($transLocale.getDisplayName($transLocale)) $percent.intValue()%</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($key in $defaultProps.keySet())
+						#if (!$prop.get($key))
+						<tr>
+							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
+							<td class="missing"><input type="text" name="$transLocale.getName()_$key" value="$!esc.html($!prop.get($key))" dir="$transLocaleDir" /></td>
+						</tr>
+						#end
+					#end
+					#foreach($key in $defaultMetadata.keySet())
+						#if (!$metadatas.get($key))
+						<tr>
+							<th class="property_name" scope="row">$key <p>$!esc.html($defaultMetadata.get($key))</p></th>
+							<td class="missing"><input type="text" name="metadata_$transLocale.getName()_$key" value="$!esc.html($!metadatas.get($key))" dir="$transLocaleDir" /></td>
+						</tr>
+						#end
+					#end
+					
+					#foreach($key in $defaultProps.keySet())
+						#if ($prop.get($key))
+						<tr>
+							<th class="property_name" scope="row">$key <p>$!esc.html($defaultProps.get($key))</p></th>
+							<td #if(!$prop.get($key))class="missing"#end><input type="text" name="$transLocale.getName()_$key" value="$!esc.html($!prop.get($key))" dir="$transLocaleDir" /></td>
+						</tr>
+						#end
+					#end
+					#foreach($key in $defaultMetadata.keySet())
+						#if ($metadatas.get($key))
+						<tr>
+							<th class="property_name" scope="row">$key <p>$!esc.html($defaultMetadata.get($key))</p></th>
+							<td #if(!$metadatas.get($key))class="missing"#end><input type="text" name="metadata_$transLocale.getName()_$key" value="$!esc.html($!metadatas.get($key))" dir="$transLocaleDir" /></td>
+						</tr>
+						#end
+					#end
+				</tbody>
+			</table>
+		
+			<div class="submit">
+				<input type="hidden" name="translation_language" value="$transLocale.getName()" />
+				<input type="submit" value="Submit" />
+			</div>
+		</fieldset>
+	</form>
+</div>
+
+#parse('footer.vm')

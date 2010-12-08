@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd" 
+	xmlns="http://research.sun.com/wadl/2006/10"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<grammars/>
+
+	<resources base="http://validator.w3.org/">
+		<resource path="check">
+			<doc title="responseType">default</doc>
+		
+			<doc xml:lang="en" title="name">W3C HTML Validator</doc>
+			<doc xml:lang="fr" title="name">W3C Validateur HTML</doc>
+			
+			<doc title="mimetype">text/html</doc>
+			<doc title="mimetype">application/xhtml+xml</doc>
+			<doc title="mimetype">image/svg+xml</doc>
+			<doc title="mimetype">application/mathml+xml</doc>
+			<doc title="mimetype">application/smil+xml</doc>
+			
+			<doc title="paramOutput">output</doc>
+		
+			<method name="GET" id="MarkupValidationUri">
+				<doc title="inputMethod">URI</doc>
+				<doc title="inputParamName">url</doc>
+				<request>
+					<param name="url" type="xs:anyURI" style="plain"/>
+					<param name="charset" default="utf-8" style="plain">
+		                <option value="(detect automatically)">(detect automatically)</option> 
+		                <option value="utf-8">utf-8 (Unicode, worldwide)</option> 
+		                <option value="utf-16">utf-16 (Unicode, worldwide)</option> 
+		                <option value="iso-8859-1">iso-8859-1 (Western Europe)</option> 
+		                <option value="iso-8859-2">iso-8859-2 (Central Europe)</option> 
+		                <option value="iso-8859-3">iso-8859-3 (Southern Europe)</option> 
+		                <option value="iso-8859-4">iso-8859-4 (North European)</option> 
+		                <option value="iso-8859-5">iso-8859-5 (Cyrillic)</option> 
+		                <option value="iso-8859-6-i">iso-8859-6-i (Arabic)</option> 
+		                <option value="iso-8859-7">iso-8859-7 (Greek)</option> 
+		                <option value="iso-8859-8">iso-8859-8 (Hebrew, visual)</option> 
+		                <option value="iso-8859-8-i">iso-8859-8-i (Hebrew, logical)</option> 
+		                <option value="iso-8859-9">iso-8859-9 (Turkish)</option> 
+		                <option value="iso-8859-10">iso-8859-10 (Latin 6)</option> 
+		                <option value="iso-8859-11">iso-8859-11 (Latin/Thai)</option> 
+		                <option value="iso-8859-13">iso-8859-13 (Latin 7, Baltic Rim)</option> 
+		                <option value="iso-8859-14">iso-8859-14 (Latin 8, Celtic)</option> 
+		                <option value="iso-8859-15">iso-8859-15 (Latin 9)</option> 
+		                <option value="iso-8859-16">iso-8859-16 (Latin 10)</option> 
+		                <option value="us-ascii">us-ascii (basic English)</option> 
+		                <option value="euc-jp">euc-jp (Japanese, Unix)</option> 
+		                <option value="shift_jis">shift_jis (Japanese, Win/Mac)</option> 
+		                <option value="iso-2022-jp">iso-2022-jp (Japanese, email)</option> 
+		                <option value="euc-kr">euc-kr (Korean)</option> 
+		                <option value="ksc_5601">ksc_5601 (Korean)</option> 
+		                <option value="gb2312">gb2312 (Chinese, simplified)</option> 
+		                <option value="gb18030">gb18030 (Chinese, simplified)</option> 
+		                <option value="big5">big5 (Chinese, traditional)</option> 
+		                <option value="big5-HKSCS">Big5-HKSCS (Chinese, Hong Kong)</option> 
+		                <option value="tis-620">tis-620 (Thai)</option> 
+		                <option value="koi8-r">koi8-r (Russian)</option> 
+		                <option value="koi8-u">koi8-u (Ukrainian)</option> 
+		                <option value="iso-ir-111">iso-ir-111 (Cyrillic KOI-8)</option> 
+		                <option value="macintosh">macintosh (MacRoman)</option> 
+		                <option value="windows-1250">windows-1250 (Central Europe)</option> 
+		                <option value="windows-1251">windows-1251 (Cyrillic)</option> 
+		                <option value="windows-1252">windows-1252 (Western Europe)</option> 
+		                <option value="windows-1253">windows-1253 (Greek)</option> 
+		                <option value="windows-1254">windows-1254 (Turkish)</option> 
+		                <option value="windows-1255">windows-1255 (Hebrew)</option> 
+		                <option value="windows-1256">windows-1256 (Arabic)</option> 
+		                <option value="windows-1257">windows-1257 (Baltic Rim)</option> 
+					</param>			
+					<param name="doctype" style="plain">
+						<option value="Inline">(detect automatically)</option> 
+						<option value="HTML5">HTML5 (experimental)</option> 
+						<option value="XHTML 1.0 Strict">XHTML 1.0 Strict</option> 
+						<option value="XHTML 1.0 Transitional">XHTML 1.0 Transitional</option> 
+						<option value="XHTML 1.0 Frameset">XHTML 1.0 Frameset</option> 
+						<option value="HTML 4.01 Strict">HTML 4.01 Strict</option> 
+						<option value="HTML 4.01 Transitional">HTML 4.01 Transitional</option> 
+						<option value="HTML 4.01 Frameset">HTML 4.01 Frameset</option> 
+						<option value="HTML 3.2">HTML 3.2</option> 
+						<option value="HTML 2.0">HTML 2.0</option> 
+						<option value="ISO/IEC 15445:2000 (&quot;ISO HTML&quot;)">ISO/IEC 15445:2000 ("ISO HTML")</option> 
+						<option value="XHTML 1.1">XHTML 1.1</option> 
+						<option value="XHTML + RDFa">XHTML + RDFa</option> 
+						<option value="XHTML Basic 1.0">XHTML Basic 1.0</option> 
+						<option value="XHTML Basic 1.1">XHTML Basic 1.1</option> 
+						<option value="XHTML Mobile Profile 1.2">XHTML Mobile Profile 1.2</option> 
+						<option value="XHTML-Print 1.0">XHTML-Print 1.0</option> 
+						<option value="XHTML 1.1 plus MathML 2.0">XHTML 1.1 plus MathML 2.0</option> 
+						<option value="XHTML 1.1 plus MathML 2.0 plus SVG 1.1">XHTML 1.1 plus MathML 2.0 plus SVG 1.1</option> 
+						<option value="MathML 2.0">MathML 2.0</option> 
+						<option value="SVG 1.0">SVG 1.0</option> 
+						<option value="SVG 1.1">SVG 1.1</option> 
+						<option value="SVG 1.1 Tiny">SVG 1.1 Tiny</option> 
+						<option value="SVG 1.1 Basic">SVG 1.1 Basic</option> 
+						<option value="SMIL 1.0">SMIL 1.0</option> 
+						<option value="SMIL 2.0">SMIL 2.0</option> 
+					</param>
+					<param name="output" fixed="ucn" required="true" style="plain">
+						<option value="ucn"/>
+					</param>
+				</request>
+			</method>
+
+			<method name="POST" id="MarkupValidationText">
+				<doc title="inputMethod">DIRECT</doc>
+				<doc title="inputParamName">fragment</doc>
+				<request>
+					<param name="fragment" style="plain"/>
+					<param name="charset" default="utf-8" style="plain">
+		                <option value="(detect automatically)">(detect automatically)</option> 
+		                <option value="utf-8">utf-8 (Unicode, worldwide)</option> 
+		                <option value="utf-16">utf-16 (Unicode, worldwide)</option> 
+		                <option value="iso-8859-1">iso-8859-1 (Western Europe)</option> 
+		                <option value="iso-8859-2">iso-8859-2 (Central Europe)</option> 
+		                <option value="iso-8859-3">iso-8859-3 (Southern Europe)</option> 
+		                <option value="iso-8859-4">iso-8859-4 (North European)</option> 
+		                <option value="iso-8859-5">iso-8859-5 (Cyrillic)</option> 
+		                <option value="iso-8859-6-i">iso-8859-6-i (Arabic)</option> 
+		                <option value="iso-8859-7">iso-8859-7 (Greek)</option> 
+		                <option value="iso-8859-8">iso-8859-8 (Hebrew, visual)</option> 
+		                <option value="iso-8859-8-i">iso-8859-8-i (Hebrew, logical)</option> 
+		                <option value="iso-8859-9">iso-8859-9 (Turkish)</option> 
+		                <option value="iso-8859-10">iso-8859-10 (Latin 6)</option> 
+		                <option value="iso-8859-11">iso-8859-11 (Latin/Thai)</option> 
+		                <option value="iso-8859-13">iso-8859-13 (Latin 7, Baltic Rim)</option> 
+		                <option value="iso-8859-14">iso-8859-14 (Latin 8, Celtic)</option> 
+		                <option value="iso-8859-15">iso-8859-15 (Latin 9)</option> 
+		                <option value="iso-8859-16">iso-8859-16 (Latin 10)</option> 
+		                <option value="us-ascii">us-ascii (basic English)</option> 
+		                <option value="euc-jp">euc-jp (Japanese, Unix)</option> 
+		                <option value="shift_jis">shift_jis (Japanese, Win/Mac)</option> 
+		                <option value="iso-2022-jp">iso-2022-jp (Japanese, email)</option> 
+		                <option value="euc-kr">euc-kr (Korean)</option> 
+		                <option value="ksc_5601">ksc_5601 (Korean)</option> 
+		                <option value="gb2312">gb2312 (Chinese, simplified)</option> 
+		                <option value="gb18030">gb18030 (Chinese, simplified)</option> 
+		                <option value="big5">big5 (Chinese, traditional)</option> 
+		                <option value="big5-HKSCS">Big5-HKSCS (Chinese, Hong Kong)</option> 
+		                <option value="tis-620">tis-620 (Thai)</option> 
+		                <option value="koi8-r">koi8-r (Russian)</option> 
+		                <option value="koi8-u">koi8-u (Ukrainian)</option> 
+		                <option value="iso-ir-111">iso-ir-111 (Cyrillic KOI-8)</option> 
+		                <option value="macintosh">macintosh (MacRoman)</option> 
+		                <option value="windows-1250">windows-1250 (Central Europe)</option> 
+		                <option value="windows-1251">windows-1251 (Cyrillic)</option> 
+		                <option value="windows-1252">windows-1252 (Western Europe)</option> 
+		                <option value="windows-1253">windows-1253 (Greek)</option> 
+		                <option value="windows-1254">windows-1254 (Turkish)</option> 
+		                <option value="windows-1255">windows-1255 (Hebrew)</option> 
+		                <option value="windows-1256">windows-1256 (Arabic)</option> 
+		                <option value="windows-1257">windows-1257 (Baltic Rim)</option>   
+					</param>
+					<param name="doctype" style="plain">
+						<option value="Inline">(detect automatically)</option> 
+						<option value="HTML5">HTML5 (experimental)</option> 
+						<option value="XHTML 1.0 Strict">XHTML 1.0 Strict</option> 
+						<option value="XHTML 1.0 Transitional">XHTML 1.0 Transitional</option> 
+						<option value="XHTML 1.0 Frameset">XHTML 1.0 Frameset</option> 
+						<option value="HTML 4.01 Strict">HTML 4.01 Strict</option> 
+						<option value="HTML 4.01 Transitional">HTML 4.01 Transitional</option> 
+						<option value="HTML 4.01 Frameset">HTML 4.01 Frameset</option> 
+						<option value="HTML 3.2">HTML 3.2</option> 
+						<option value="HTML 2.0">HTML 2.0</option> 
+						<option value="ISO/IEC 15445:2000 (&quot;ISO HTML&quot;)">ISO/IEC 15445:2000 ("ISO HTML")</option> 
+						<option value="XHTML 1.1">XHTML 1.1</option> 
+						<option value="XHTML + RDFa">XHTML + RDFa</option> 
+						<option value="XHTML Basic 1.0">XHTML Basic 1.0</option> 
+						<option value="XHTML Basic 1.1">XHTML Basic 1.1</option> 
+						<option value="XHTML Mobile Profile 1.2">XHTML Mobile Profile 1.2</option> 
+						<option value="XHTML-Print 1.0">XHTML-Print 1.0</option> 
+						<option value="XHTML 1.1 plus MathML 2.0">XHTML 1.1 plus MathML 2.0</option> 
+						<option value="XHTML 1.1 plus MathML 2.0 plus SVG 1.1">XHTML 1.1 plus MathML 2.0 plus SVG 1.1</option> 
+						<option value="MathML 2.0">MathML 2.0</option> 
+						<option value="SVG 1.0">SVG 1.0</option> 
+						<option value="SVG 1.1">SVG 1.1</option> 
+						<option value="SVG 1.1 Tiny">SVG 1.1 Tiny</option> 
+						<option value="SVG 1.1 Basic">SVG 1.1 Basic</option> 
+						<option value="SMIL 1.0">SMIL 1.0</option> 
+						<option value="SMIL 2.0">SMIL 2.0</option> 
+					</param>
+					<param name="output" fixed="ucn" required="true" style="plain">
+						<option value="ucn"/>
+					</param>
+				</request>
+			</method>
+
+			<method name="POST" id="MarkupValidationFile">
+				<doc title="inputMethod">UPLOAD</doc>
+				<doc title="inputParamName">uploaded_file</doc>
+				<request>
+					<param name="uploaded_file" style="plain"/>
+					<param name="charset" default="utf-8" style="plain">
+		                <option value="(detect automatically)">(detect automatically)</option> 
+		                <option value="utf-8">utf-8 (Unicode, worldwide)</option> 
+		                <option value="utf-16">utf-16 (Unicode, worldwide)</option> 
+		                <option value="iso-8859-1">iso-8859-1 (Western Europe)</option> 
+		                <option value="iso-8859-2">iso-8859-2 (Central Europe)</option> 
+		                <option value="iso-8859-3">iso-8859-3 (Southern Europe)</option> 
+		                <option value="iso-8859-4">iso-8859-4 (North European)</option> 
+		                <option value="iso-8859-5">iso-8859-5 (Cyrillic)</option> 
+		                <option value="iso-8859-6-i">iso-8859-6-i (Arabic)</option> 
+		                <option value="iso-8859-7">iso-8859-7 (Greek)</option> 
+		                <option value="iso-8859-8">iso-8859-8 (Hebrew, visual)</option> 
+		                <option value="iso-8859-8-i">iso-8859-8-i (Hebrew, logical)</option> 
+		                <option value="iso-8859-9">iso-8859-9 (Turkish)</option> 
+		                <option value="iso-8859-10">iso-8859-10 (Latin 6)</option> 
+		                <option value="iso-8859-11">iso-8859-11 (Latin/Thai)</option> 
+		                <option value="iso-8859-13">iso-8859-13 (Latin 7, Baltic Rim)</option> 
+		                <option value="iso-8859-14">iso-8859-14 (Latin 8, Celtic)</option> 
+		                <option value="iso-8859-15">iso-8859-15 (Latin 9)</option> 
+		                <option value="iso-8859-16">iso-8859-16 (Latin 10)</option> 
+		                <option value="us-ascii">us-ascii (basic English)</option> 
+		                <option value="euc-jp">euc-jp (Japanese, Unix)</option> 
+		                <option value="shift_jis">shift_jis (Japanese, Win/Mac)</option> 
+		                <option value="iso-2022-jp">iso-2022-jp (Japanese, email)</option> 
+		                <option value="euc-kr">euc-kr (Korean)</option> 
+		                <option value="ksc_5601">ksc_5601 (Korean)</option> 
+		                <option value="gb2312">gb2312 (Chinese, simplified)</option> 
+		                <option value="gb18030">gb18030 (Chinese, simplified)</option> 
+		                <option value="big5">big5 (Chinese, traditional)</option> 
+		                <option value="big5-HKSCS">Big5-HKSCS (Chinese, Hong Kong)</option> 
+		                <option value="tis-620">tis-620 (Thai)</option> 
+		                <option value="koi8-r">koi8-r (Russian)</option> 
+		                <option value="koi8-u">koi8-u (Ukrainian)</option> 
+		                <option value="iso-ir-111">iso-ir-111 (Cyrillic KOI-8)</option> 
+		                <option value="macintosh">macintosh (MacRoman)</option> 
+		                <option value="windows-1250">windows-1250 (Central Europe)</option> 
+		                <option value="windows-1251">windows-1251 (Cyrillic)</option> 
+		                <option value="windows-1252">windows-1252 (Western Europe)</option> 
+		                <option value="windows-1253">windows-1253 (Greek)</option> 
+		                <option value="windows-1254">windows-1254 (Turkish)</option> 
+		                <option value="windows-1255">windows-1255 (Hebrew)</option> 
+		                <option value="windows-1256">windows-1256 (Arabic)</option> 
+		                <option value="windows-1257">windows-1257 (Baltic Rim)</option> 
+					</param>
+					<param name="doctype" style="plain">
+						<option value="Inline">(detect automatically)</option> 
+						<option value="HTML5">HTML5 (experimental)</option> 
+						<option value="XHTML 1.0 Strict">XHTML 1.0 Strict</option> 
+						<option value="XHTML 1.0 Transitional">XHTML 1.0 Transitional</option> 
+						<option value="XHTML 1.0 Frameset">XHTML 1.0 Frameset</option> 
+						<option value="HTML 4.01 Strict">HTML 4.01 Strict</option> 
+						<option value="HTML 4.01 Transitional">HTML 4.01 Transitional</option> 
+						<option value="HTML 4.01 Frameset">HTML 4.01 Frameset</option> 
+						<option value="HTML 3.2">HTML 3.2</option> 
+						<option value="HTML 2.0">HTML 2.0</option> 
+						<option value="ISO/IEC 15445:2000 (&quot;ISO HTML&quot;)">ISO/IEC 15445:2000 ("ISO HTML")</option> 
+						<option value="XHTML 1.1">XHTML 1.1</option> 
+						<option value="XHTML + RDFa">XHTML + RDFa</option> 
+						<option value="XHTML Basic 1.0">XHTML Basic 1.0</option> 
+						<option value="XHTML Basic 1.1">XHTML Basic 1.1</option> 
+						<option value="XHTML Mobile Profile 1.2">XHTML Mobile Profile 1.2</option> 
+						<option value="XHTML-Print 1.0">XHTML-Print 1.0</option> 
+						<option value="XHTML 1.1 plus MathML 2.0">XHTML 1.1 plus MathML 2.0</option> 
+						<option value="XHTML 1.1 plus MathML 2.0 plus SVG 1.1">XHTML 1.1 plus MathML 2.0 plus SVG 1.1</option> 
+						<option value="MathML 2.0">MathML 2.0</option> 
+						<option value="SVG 1.0">SVG 1.0</option> 
+						<option value="SVG 1.1">SVG 1.1</option> 
+						<option value="SVG 1.1 Tiny">SVG 1.1 Tiny</option> 
+						<option value="SVG 1.1 Basic">SVG 1.1 Basic</option> 
+						<option value="SMIL 1.0">SMIL 1.0</option> 
+						<option value="SMIL 2.0">SMIL 2.0</option> 
+					</param>
+					<param name="output" fixed="ucn" required="true" style="plain">
+						<option value="ucn"/>
+					</param>
+				</request>
+			</method>
+		</resource>
+	</resources>
+
+</application>
