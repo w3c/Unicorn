@@ -101,6 +101,7 @@ public class URIInputParameter extends InputParameter {
 			}
 			
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
+			con.setRequestProperty("User-agent", "Unicorn/1.0");
 			con.setConnectTimeout(connectTimeOut);
 			con.setRequestMethod("HEAD");
 			try {
@@ -115,6 +116,8 @@ public class URIInputParameter extends InputParameter {
 			int responseCode = con.getResponseCode();
 			if (responseCode == 405) {
 				con = (HttpURLConnection) docUrl.openConnection();
+				con.setRequestProperty("User-agent", "Unicorn/1.0");
+				con.setConnectTimeout(connectTimeOut);
 				con.setRequestMethod("GET");
 				con.connect();
 				responseCode = con.getResponseCode();
