@@ -15,6 +15,7 @@
 			
 			<doc title="mimetype">text/html</doc>
 			<doc title="mimetype">application/xhtml+xml</doc>
+			<doc title="mimetype">application/xml</doc>
 			<doc title="mimetype">image/svg+xml</doc>
 			<doc title="mimetype">application/mathml+xml</doc>
 			<doc title="mimetype">application/smil+xml</doc>
