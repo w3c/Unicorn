@@ -73,7 +73,7 @@ public class OutputFactory {
 		logger.debug("Output format : " + sOutputFormat + ".");
 		logger.debug("Language : " + sLang + ".");
 		
-		OutputFormater aOutputFormater;
+		OutputFormater aOutputFormater = null;
 		
 		String sFormaterName = Property.getProps("output.properties").getProperty(sOutputFormat + ".formater");
 		String mimeType = Property.getProps("output.properties").getProperty(sOutputFormat + ".mimetype");
@@ -83,18 +83,13 @@ public class OutputFactory {
 		if (mimeType == null)
 			mimeType = "text/plain";
 		
-		if (null != sFormaterName) {
-			try {
-				final Class<?> aFormaterClass = Class.forName("org.w3c.unicorn.output." + sFormaterName);
-				final Class<?>[] tClassParamType = { String.class, String.class, String.class };
-				final Object[] tObjectParamValue = { sOutputFormat, sLang, mimeType };
-				aOutputFormater = (OutputFormater) aFormaterClass.getConstructor(tClassParamType).newInstance(tObjectParamValue);
-			} catch (Exception e) {
-				logger.error("Error instanciating outputFormater: " + sFormaterName + ". Using SimpleOutputFormater instead.", e);
-				aOutputFormater = new SimpleOutputFormater(sOutputFormat, sLang, mimeType);
-			} 
-		}
-		else {
+		try {
+			final Class<?> aFormaterClass = Class.forName("org.w3c.unicorn.output." + sFormaterName);
+			final Class<?>[] tClassParamType = { String.class, String.class, String.class };
+			final Object[] tObjectParamValue = { sOutputFormat, sLang, mimeType };
+			aOutputFormater = (OutputFormater) aFormaterClass.getConstructor(tClassParamType).newInstance(tObjectParamValue);
+		} catch (Exception e) {
+			logger.error("Error instanciating outputFormater: " + sFormaterName + ". Using SimpleOutputFormater instead.", e);
 			aOutputFormater = new SimpleOutputFormater(sOutputFormat, sLang, mimeType);
 		}
 
