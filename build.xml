@@ -44,7 +44,7 @@
 		<xmlbean schema="WebContent/WEB-INF/resources/schemas/observer-response.xsd" destfile="${lib.dir}/unicorn-response.jar" javasource="1.5" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
 	</target>
 	
-	<target name="compile" description="--> compile Unicorn">
+	<target name="compile" depends="generate_observer, generate_tasklist" description="--> compile Unicorn">
 		<mkdir dir="${build.dir}/classes"/>
 		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}/classes" classpathref="lib.path.id" debug="on" debuglevel="lines,vars,source" />
 	</target>
