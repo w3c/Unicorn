@@ -1,0 +1,8 @@
+syntax: glob
+dist/
+build/
+lib/
+.settings/
+.classpath
+.project
+*.sh

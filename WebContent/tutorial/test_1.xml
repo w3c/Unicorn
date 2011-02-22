@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" xml:lang="en" ref="tutorial/test_1.xml">
+
+	<message type="info"> 
+		<title>This is a simple observation.</title> 
+		<description>See the <a href="tutorial/test_1.xml">source file</a> of this validation. See <a href="check?ucn_uri=qa-dev.w3.org/unicorn/tutorial/test_2.xml&amp;ucn_task=test">next example</a>.</description> 
+	</message> 
+
+	<message type="info"> 
+		<title>Unicorn uses a custom XML format.</title>
+		<description>You can download <a href="http://dvcs.w3.org/hg/unicorn/raw-file/tip/WebContent/WEB-INF/resources/schemas/observer-response.xsd">the XML schema file of Unicorn responses</a> on <a href="http://dvcs.w3.org/hg/unicorn">Unicorn public repository</a>.</description> 
+	</message>
+
+	<message type="info"> 
+		<title>The root element of a Unicorn response file is an observationresponse element.</title> 
+		<description>
+			It has two required attributes: the <em>xml:lang</em> attribute and a <em>ref</em> attribute which are respectively the default language and URI of the checked document. Both can be overridden.<br />
+			It contains an optional <em>status</em> element and some <em>message</em> elements. 
+		</description>
+	</message> 
+
+</observationresponse>

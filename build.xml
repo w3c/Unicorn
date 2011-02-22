@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<project name="unicorn" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="lib.dir" value="lib" />
+	<property name="build.dir" value="build" />
+	<property name="src.dir" value="src" />
+	<property name="dist.dir" location="dist"/>
+	
+	<path id="lib.path.id">
+		<fileset dir="${lib.dir}" />
+		<fileset file="WebContent/WEB-INF/lib/icu4j-4_4_1.jar" />
+	</path>
+	
+	<property name="app.name" value="unicorn"/>
+	<property name="jar.file" value="${app.name}.jar"/>
+	<property name="war.file" value="${app.name}.war"/>
+	
+	<target name="retrieve" description="--> retrieve dependencies with ivy">
+		<ivy:retrieve />
+	</target>
+	
+	<target name="clean-cache" description="--> clean the ivy cache">
+		<ivy:cleancache />
+	</target>
+	
+	<target name="clean" description="--> clean up Unicorn build and dist directories">
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+	</target>
+	
+	<target name="default_conf" description="--> use default configuration files to run Unicorn">
+		<copy todir="${build.dir}/classes">
+			<fileset dir="WebContent/WEB-INF/conf"/>
+			<globmapper from="*.default" to="*"/>
+		</copy>
+	</target>
+	
+	<target name="generate_tasklist" description="--> generate unicorn-tasklist.jar based on tasklist.xsd">
+		<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/tasklist.xsd" destfile="${lib.dir}/unicorn-tasklist.jar" javasource="1.5" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
+	</target>
+	
+	<target name="generate_observer" description="--> generate unicorn-response.jar based on observer-response.xsd">
+		<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/observer-response.xsd" destfile="${lib.dir}/unicorn-response.jar" javasource="1.5" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
+	</target>
+	
+	<target name="compile" depends="generate_observer, generate_tasklist" description="--> compile Unicorn">
+		<mkdir dir="${build.dir}/classes"/>
+		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}/classes" classpathref="lib.path.id" debug="on" debuglevel="lines,vars,source" />
+	</target>
+	
+	<target name="war" depends="compile" description="--> compile and package Unicorn as a war">
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${build.dir}/medias"/>
+		<war destfile="${dist.dir}/${war.file}" webxml="WebContent/WEB-INF/web.xml" update="true">
+			<classes dir="${build.dir}/classes"/>
+			<lib dir="${lib.dir}" />
+			<fileset dir="WebContent">
+				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/conf/"/>
+			</fileset>
+			<fileset dir="${build.dir}/medias" />
+		</war>
+	</target>
+	
+	<target name="deployed" depends="compile" description="--> compile and package Unicorn in a folder" >
+		<mkdir dir="${dist.dir}/unicorn"/>
+		<copy todir="${dist.dir}/unicorn" overwrite="true">
+			<fileset dir="WebContent"/>
+		</copy>
+		<copy todir="${dist.dir}/unicorn/WEB-INF" overwrite="true">
+			<fileset dir="${build.dir}"/>
+		</copy>
+	</target>
+	
+	<target name="cli" depends="jar" description="--> use configuration files to run Unicorn from the command line">
+    <mkdir dir="${dist.dir}/cli"/>
+    <mkdir dir="${dist.dir}/cli/conf"/>
+    <mkdir dir="${dist.dir}/cli/tmp"/>
+
+		<copy todir="${dist.dir}/cli/conf">
+			<fileset dir="WebContent/WEB-INF/conf/cli"/>
+		</copy>
+    
+    <copy todir="${dist.dir}/cli">
+      <fileset dir=".">
+        <include name="lib/*"/>
+      </fileset>
+      <fileset dir="WebContent/WEB-INF">
+        <include name="languages/**"/>
+        <include name="resources/**"/>
+      </fileset>
+      <fileset dir="${dist.dir}" includes="unicorn.jar"/>
+    </copy>
+
+    <copy file="WebContent/WEB-INF/lib/icu4j-4_4_1.jar" todir="${dist.dir}/cli/lib"/>
+
+	</target>
+
+	<target name="jar" depends="compile" description="--> compile and package Unicorn as a jar">
+		<mkdir dir="${dist.dir}"/>
+		<jar jarfile="${dist.dir}/unicorn.jar" basedir="${build.dir}/classes" manifest="WebContent/META-INF/MANIFEST.MF"/>
+	</target>
+	
+	<target name="compress-css" description="--> compress Unicorn css file using YUI Compressor">
+		<mkdir dir="${build.dir}/medias/style"/>
+		<java jar="${lib.dir}/yuicompressor-2.3.6.jar" fork="true" output="${build.dir}/medias/style/base_ucn.css" >
+			<arg path="WebContent/style/base_ucn.css" />
+		</java>
+	</target>
+	
+	<target name="compress-js" description="--> compress Unicorn js files using YUI Compressor">
+		<mkdir dir="${build.dir}/medias/scripts/"/>
+		<java jar="${lib.dir}/yuicompressor-2.3.6.jar" fork="true" output="${build.dir}/medias/scripts/w3c_unicorn_index.js">
+			<arg path="WebContent/scripts/w3c_unicorn_index.js" />
+		</java>
+		<java jar="${lib.dir}/yuicompressor-2.3.6.jar" fork="true" output="${build.dir}/medias/scripts/w3c_unicorn_languages.js" >
+			<arg path="WebContent/scripts/w3c_unicorn_languages.js" />
+		</java>
+		<java jar="${lib.dir}/yuicompressor-2.3.6.jar" fork="true" output="${build.dir}/medias/scripts/w3c_unicorn_results.js" >
+			<arg path="WebContent/scripts/w3c_unicorn_results.js" />
+		</java>
+	</target>
+	
+</project>

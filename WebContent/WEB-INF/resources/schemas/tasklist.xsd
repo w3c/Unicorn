@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.w3.org/unicorn/tasklist" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tas="http://www.w3.org/unicorn/tasklist">
+  <xs:element name="tasklist" type="tas:tasklistType" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+  <xs:complexType name="parametersType">
+    <xs:sequence>
+      <xs:element type="tas:parameterType" name="parameter" maxOccurs="unbounded" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="taskType">
+    <xs:all>
+      <xs:element type="tas:condsType" name="conds" xmlns:tas="http://www.w3.org/unicorn/tasklist" minOccurs="0" />
+      <xs:element type="tas:routineType" name="routine" xmlns:tas="http://www.w3.org/unicorn/tasklist" />
+      <xs:element type="tas:outputType" name="output" xmlns:tas="http://www.w3.org/unicorn/tasklist" />
+      <xs:element type="tas:parametersType" name="parameters" xmlns:tas="http://www.w3.org/unicorn/tasklist" minOccurs="0" />
+    </xs:all>
+    <xs:attribute type="xs:string" name="id" use="required"/>
+    <xs:attribute type="xs:string" name="default" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="parameterType" mixed="true">
+    <xs:sequence>
+      <xs:element type="tas:valueType" name="value" minOccurs="0" maxOccurs="unbounded" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+    </xs:sequence>
+    <xs:attribute type="xs:NCName" name="name" use="required"/>
+    <xs:attribute type="tas:tParamType" name="type" use="required"/>
+    <xs:attribute type="xs:string" name="default" use="optional"/>
+    <xs:attribute type="tas:tUi" name="ui" use="optional" default="advanced"/>
+    <xs:attribute type="xs:NCName" name="observer" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="valueType">
+    <xs:sequence>
+      <xs:element type="tas:mappedType" name="mapped" maxOccurs="unbounded" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name"/>
+  </xs:complexType>
+  <xs:complexType name="outputType">
+    <xs:sequence>
+
+            <xs:element name="group" type="tas:groupType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="paramType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:NCName" name="name"/>
+        <xs:attribute type="xs:NCName" name="observer"/>
+        <xs:attribute type="xs:string" name="value"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="condType">
+  	<xs:sequence>
+  		<xs:element name="value" type="xs:string" minOccurs="1"
+  			maxOccurs="1" />
+  	</xs:sequence>
+  	<xs:attribute type="xs:string" name="id" use="optional" />
+  	<xs:attribute type="xs:string" name="result" use="optional" />
+  	<xs:attribute type="xs:NCName" name="observer" use="optional" />
+  	<xs:attribute name="type" use="optional">
+  		<xs:simpleType>
+  			<xs:restriction base="xs:string">
+  				<xs:enumeration value="parameter"></xs:enumeration>
+  				<xs:enumeration value="xpath"></xs:enumeration>
+  				<xs:enumeration value="mimetype"></xs:enumeration>
+  				<xs:enumeration value="method"></xs:enumeration>
+  			</xs:restriction>
+  		</xs:simpleType>
+  	</xs:attribute>
+  	<xs:attribute name="parameter" type="xs:string" use="optional"></xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="routineType">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element type="tas:ifType" name="if" maxOccurs="unbounded" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+      <xs:element type="tas:execType" name="exec" maxOccurs="unbounded" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="ref"/>
+  </xs:complexType>
+  <xs:complexType name="ifType">
+    <xs:sequence>
+      <xs:element type="tas:routineType" name="then" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+      <xs:element type="tas:routineType" name="else" maxOccurs="1" minOccurs="0" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="test"/>
+  </xs:complexType>
+  <xs:complexType name="tasklistType">
+    <xs:sequence>
+      <xs:element type="tas:taskType" name="task" maxOccurs="unbounded" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mappedType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:NCName" name="param" use="required"/>
+        <xs:attribute type="xs:NCName" name="observer" use="required"/>
+        <xs:attribute type="xs:string" name="value"/>
+	<xs:attribute name="inputmethod" use="optional" default="uri direct file">
+                <xs:simpleType>
+                    <xs:list itemType="tas:tInputMethod"/>
+                </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="condsType">
+    <xs:sequence>
+      <xs:element type="tas:condType" name="cond" maxOccurs="unbounded" minOccurs="1" xmlns:tas="http://www.w3.org/unicorn/tasklist"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="execType" mixed="true">
+  	<xs:sequence>
+  		<xs:element type="tas:paramType" name="param" minOccurs="0"
+  			xmlns:tas="http://www.w3.org/unicorn/tasklist" />
+  	</xs:sequence>
+
+  	<xs:attribute type="xs:string" name="value" use="optional" />
+  	<xs:attribute type="xs:string" name="type" use="optional" />
+
+  	<xs:attribute name="id" type="xs:string" use="required"></xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="tInputMethod" xmlns:tas="http://www.w3.org/unicorn/tasklist">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="file"/>
+            <xs:enumeration value="direct"/>
+            <xs:enumeration value="uri"/>
+        </xs:restriction>     
+    </xs:simpleType>
+    <xs:simpleType name="tUi" xmlns:tas="http://www.w3.org/unicorn/tasklist">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="none"/>
+            <xs:enumeration value="simple"/>
+            <xs:enumeration value="advanced"/>
+        </xs:restriction>     
+    </xs:simpleType>
+    <xs:simpleType name="tParamType" xmlns:tas="http://www.w3.org/unicorn/tasklist">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="checkbox"/>
+            <xs:enumeration value="checkboxlist"/>
+            <xs:enumeration value="dropdown"/>
+            <xs:enumeration value="dropdownlist"/>
+            <xs:enumeration value="textarea"/>
+            <xs:enumeration value="textfield"/>
+            <xs:enumeration value="radio"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="groupType">
+    	<xs:sequence>
+    		<xs:element name="observation" type="xs:string" maxOccurs="unbounded" minOccurs="1"></xs:element>
+    	</xs:sequence>
+    	<xs:attribute name="type" use="optional">
+    		<xs:simpleType>
+    			<xs:restriction base="xs:string">
+    				<xs:enumeration value="firstPassed"></xs:enumeration>
+    			</xs:restriction>
+    		</xs:simpleType>
+    	</xs:attribute>
+    </xs:complexType>
+</xs:schema>
