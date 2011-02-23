@@ -76,6 +76,7 @@
 			<xs:element name="title" type="title.type"/>
 			<xs:element name="description" type="description.type" minOccurs="0"/>
 		</xs:sequence>
+		<xs:attribute name="id" type="xs:token"/>
 		<xs:attribute name="ref" type="xs:anyURI"/>
 		<xs:attribute name="type" use="required" type="message.level"/>
 		<xs:attribute name="group" type="xs:token"/>
