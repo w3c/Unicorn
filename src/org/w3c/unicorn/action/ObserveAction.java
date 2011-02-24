@@ -49,7 +49,6 @@ public class ObserveAction extends Action {
 	private static final long serialVersionUID = -1375355420965607571L;
 	
 	private static Log logger = LogFactory.getLog(ObserveAction.class);
-	private static Log criticalLogger = LogFactory.getLog("CriticalError");
 	
 	private static DiskFileItemFactory factory;
 	
@@ -312,26 +311,27 @@ public class ObserveAction extends Action {
 				resp.setHeader("X-W3C-Validator-Status", "Abort");
 			} else {
 				if (e.getUnicornMessage() != null) {
-					messages.add(e.getUnicornMessage());
+					if (!e.getUnicornMessage().isCritical())
+						messages.add(e.getUnicornMessage());
+					else {
+						StringBuilder log = new StringBuilder();
+						for (String key : reqParams.keySet()) {
+							log.append(key + " -> ");
+							if (reqParams.get(key) instanceof String[]) {
+								String[] params = (String[]) reqParams.get(key);
+								for (String param : params)
+									log.append(param + "\n");
+							} else {
+								log.append(reqParams.get(key) + "\n");
+							}
+						}
+						logger.error("Critical: \n" + log, e);
+						messages.add(new Message(Message.ERROR, "$message_internal_error", null));
+					}
 				} else if (e.getMessage() != null)
 					messages.add(new Message(Message.ERROR, e.getMessage(), null));
 				aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 			}
-		} catch (final Exception aException) {
-			StringBuilder log = new StringBuilder();
-			for (String key : reqParams.keySet()) {
-				log.append(key + " -> ");
-				if (reqParams.get(key) instanceof String[]) {
-					String[] params = (String[]) reqParams.get(key);
-					for (String param : params)
-						log.append(param + "\n");
-				} else {
-					log.append(reqParams.get(key) + "\n");
-				}
-			}
-			criticalLogger.error("Critical: \n" + log, aException);
-			messages.add(new Message(aException));
-			aOutputModule.produceError(mapOfStringObject, resp.getWriter());
 		} finally {
 			aUnicornCall.dispose();
 			if ("true".equals(Property.get("DELETE_UPLOADED_FILES")) && aFileItemUploaded != null)
