@@ -135,7 +135,7 @@ private List<OutputFormater> mailOutputFormaters;
 					outputFormater.produceOutput(mapOfStringObject, outputStreamWriter);
 					outputStreamWriter.close();
 					byteArrayOutputStream.close();
-					bodyPart.setContent(byteArrayOutputStream.toString(), outputFormater.getMimeType());
+					bodyPart.setContent(byteArrayOutputStream.toString("UTF-8"), outputFormater.getMimeType());
 					bodyPart.setHeader("Content-Type", outputFormater.getMimeType() + "; charset=UTF-8");
 					bodyPart.setHeader("Content-Transfer-Encoding", "8bit");
 					mp.addBodyPart(bodyPart);
