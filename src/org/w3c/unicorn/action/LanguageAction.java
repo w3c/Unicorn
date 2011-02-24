@@ -325,7 +325,7 @@ public class LanguageAction extends Action {
 			
 			Mail mailer = new Mail();
 			try {
-				mailer.sendMail(recipients, subject, outputFormaters, contextObjects);
+				mailer.sendMail(recipients, subject, outputFormaters, contextObjects, false);
 			} catch (UnicornException e) {
 				logger.error(e.getMessage(), e);
 			}
