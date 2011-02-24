@@ -32,7 +32,7 @@ public class Mail {
 
 	private static Log logger = LogFactory.getLog(Mail.class);
 	
-	public void sendMail(String[] recipients, String subject, List<OutputFormater> outputFormaters, Map<String, Object> contextObjects) throws UnicornException {
+	public void sendMail(String[] recipients, String subject, List<OutputFormater> outputFormaters, Map<String, Object> contextObjects, boolean alternative) throws UnicornException {
 		
 		try {
 			Properties mailProps = Property.getProps("mail.properties");
@@ -72,7 +72,11 @@ public class Mail {
 			
 			if (outputFormaters.size() > 1) {
 				// New multipart message
-				MimeMultipart mp = new MimeMultipart();
+				MimeMultipart mp;
+				if (alternative)
+					mp = new MimeMultipart("alternative");
+				else
+					mp = new MimeMultipart();
 				for (OutputFormater outputFormater : outputFormaters) {		
 					MimeBodyPart bodyPart = new MimeBodyPart();
 					if (outputFormater instanceof FileOutputFormater)
@@ -90,6 +94,7 @@ public class Mail {
 					}
 					
 					bodyPart.setContent(byteArrayOutputStream.toString("UTF-8"), outputFormater.getMimeType() + "; charset=UTF-8");
+					bodyPart.setHeader("Content-Type", outputFormater.getMimeType() + "; charset=UTF-8");
 					bodyPart.setHeader("Content-Transfer-Encoding", "7bit");
 					mp.addBodyPart(bodyPart);
 				}
@@ -119,10 +124,10 @@ public class Mail {
 		}
 	}
 	
-	public void sendMail(String[] recipients, String subject, OutputFormater outputFormater, Map<String, Object> contextObjects) throws UnicornException {
+	public void sendMail(String[] recipients, String subject, OutputFormater outputFormater, Map<String, Object> contextObjects, boolean alternative) throws UnicornException {
 		List<OutputFormater> outputFormaters = new ArrayList<OutputFormater>();
 		outputFormaters.add(outputFormater);
 		
-		sendMail(recipients, subject, outputFormaters, contextObjects);
+		sendMail(recipients, subject, outputFormaters, contextObjects, alternative);
 	}
 }
