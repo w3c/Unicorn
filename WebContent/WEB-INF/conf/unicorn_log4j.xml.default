@@ -175,15 +175,6 @@
 		</layout>
 	</appender>	
 
-	<appender name="critical" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${unicorn.home}/WEB-INF/logs/critical.log" />
-		<param name="MaxFileSize" value="1024KB" />
-		<param name="MaxBackupIndex" value="1" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss} %-5p (%F:%L) %m%n" />
-		</layout>
-	</appender>	
-
 	<logger name="org.apache.velocity">
 		<level value="debug"/>
 		<appender-ref ref="velocity_log" />
@@ -232,10 +223,6 @@
 	
 	<logger name="org.w3c.unicorn.util">
 		<appender-ref ref="package-util" />
-	</logger>
-	
-	<logger name="Critical">
-		<appender-ref ref="critical" />
 	</logger>
 	
 	<root>

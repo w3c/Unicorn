@@ -13,7 +13,8 @@ public class Message {
 	private String content;
 	private int level;
 	private boolean evaluateContent = false;
-	
+	private boolean isCritical = false;
+
 	private String[] parameters;
 	
 	public Message() {
@@ -28,6 +29,7 @@ public class Message {
 		level = ERROR;
 		message = "$stack_trace_text";
 		evaluateContent = false;
+		isCritical = true;
 	}
 	
 	public Message(int level, String message, String content, String... parameters) {
@@ -77,6 +79,10 @@ public class Message {
 
 	public void setEvaluateContent(boolean evaluateContent) {
 		this.evaluateContent = evaluateContent;
+	}
+	
+	public boolean isCritical() {
+		return isCritical;
 	}
 	
 }
