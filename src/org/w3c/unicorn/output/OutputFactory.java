@@ -3,6 +3,7 @@
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.unicorn.output;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -35,7 +36,7 @@ public class OutputFactory {
 		String module = mapOfOutputParameter.get("output");
 		
 		/* Commented out for now as this is unnecessary and that doesn't seem quite safe */		
-		if(null == module || "".equals(module)) {
+		if(null == module || "".equals(module) || Property.get("ENABLED_MODULES") == null || !Arrays.asList(Property.get("ENABLED_MODULES").split("\\s*,\\s*")).contains(module)) {
 			module = "simple";
 		}
 		
