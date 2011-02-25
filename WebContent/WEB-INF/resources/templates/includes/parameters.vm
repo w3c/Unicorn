@@ -1,0 +1,38 @@
+#set ($simple_parameters = $current_task.getMapOfParameter("simple"))
+#set ($advanced_parameters = $current_task.getMapOfParameter("advanced"))
+#if ($simple_parameters.size() > 0)
+<fieldset class="options $current_task.getID()">
+	<legend>$options</legend>
+	<div class="options">
+		<ul>
+#foreach ($param in $simple_parameters)
+			<li>
+#createParameter($param)
+			</li>
+#end
+		</ul>
+	</div>
+</fieldset>
+#end
+#if ($advanced_parameters.size() > 0)
+<fieldset class="options advanced $current_task.getID()">
+	<legend title="Show/Hide extra options">$extra_options</legend>
+	<div class="options">
+		<ul>
+#foreach ($param in $advanced_parameters)
+			<li>
+#createParameter($param)
+			</li>
+#end
+		</ul>
+	</div>
+</fieldset>
+#end
+#if ($advanced_parameters.size() == 0 && $simple_parameters.size() == 0)
+<fieldset class="options none $current_task.getID()">
+</fieldset>
+#end
+
+#if ($ajaxCall)
+#mimeList($current_task)
+#end
