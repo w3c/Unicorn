@@ -108,6 +108,11 @@ var W3C = {
 			wheelStops: true
 		});
 		
+		if (window.location.hash == '#collapsed')
+			$$('.observer').each(function(observer) {
+				W3C.close(observer, false);
+			});
+		
 		W3C.parseHash();
 		
 		var classes = $('observations').getProperty('class');
@@ -263,7 +268,7 @@ var W3C = {
 	
 	parseHash: function(){
 		var hash = window.location.hash;
-		if (hash == "") {
+		if (hash == "" || hash == '#collapsed') {
 			return;
 		}
 		var tab = hash.replace('#', '').split('_');
