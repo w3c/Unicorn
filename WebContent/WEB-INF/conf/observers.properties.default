@@ -9,4 +9,5 @@ mobileok = http://validator.w3.org/unicorn/contracts/mobileOk.wadl
 test = http://validator.w3.org/unicorn/contracts/test.wadl
 feed = http://validator.w3.org/unicorn/contracts/feed-validator.wadl
 http = http://validator.w3.org/unicorn/contracts/http.wadl
+i18n = http://validator.w3.org/unicorn/contracts/i18n.wadl
 #cssval2010 = http://qa-dev.w3.org:8008/cssval/api.wadl
