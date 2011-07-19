@@ -15,6 +15,7 @@
 			<exec id="css21" value="css21-validator" type="observation" />
 			<exec id="css3" value="css3-validator" type="observation" />
 			<exec id="feed" value="feed" type="observation" />
+			<exec id="i18n" value="i18n" type="observation" />
 			<if test="is_input_uri">
 			  <then><exec id="http" value="http" type="observation" /></then>
 			</if>
@@ -41,7 +42,8 @@
 			</group>
 			<group>
 				<observation>feed</observation>
-        <observation>http</observation>
+        		<observation>http</observation>
+        		<observation>i18n</observation>
 			</group>
 		</output>
 	</task>
