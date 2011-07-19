@@ -13,9 +13,18 @@
     
         	<method name="GET" id="uriMethod">
                 <doc title="inputMethod">URI</doc>
-                <doc title="inputParamName">docAddr</doc>
+                <doc title="inputParamName">uri</doc>
                 <request>
-                        <param name="docAddr" type="xs:anyURI" style="plain" required="true" />
+                        <param name="uri" type="xs:anyURI" style="plain" required="true" />
+                        <param name="format" type="xs:anyURI" style="plain" required="true" fixed="xml" /> 
+                </request>
+            </method>
+            
+		    <method name="POST" id="uploadMethod">
+				<doc title="inputMethod">UPLOAD</doc>
+                <doc title="inputParamName">uri</doc>
+                <request>
+                        <param name="file" style="plain" required="true" />
                         <param name="format" type="xs:anyURI" style="plain" required="true" fixed="xml" /> 
                 </request>
             </method>
