@@ -895,7 +895,7 @@ div#http_response_header ul.headers li::before {
 	margin: 5px 0;
 }
 #i18n .description ol li {
-
+	margin-bottom:5px;
 }
 
 #observations span.arrow {
