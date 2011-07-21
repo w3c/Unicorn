@@ -41,9 +41,9 @@
 				<observation>css3-validator</observation>
 			</group>
 			<group>
+				<observation>i18n</observation>
 				<observation>feed</observation>
         		<observation>http</observation>
-        		<observation>i18n</observation>
 			</group>
 		</output>
 	</task>
