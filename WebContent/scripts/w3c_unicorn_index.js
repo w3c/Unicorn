@@ -5,7 +5,7 @@ var W3C = {
 	start: function(){
 		
 		W3C.Tabs = $('tabset_tabs');
-		W3C.TabLinks = W3C.Tabs.getChildren('li a');
+		W3C.TabLinks = W3C.Tabs.getChildren('li');
 		
 		W3C.TaskSelect = $('tasks');
 		W3C.TaskOptions = W3C.TaskSelect.getChildren('option');
@@ -81,7 +81,16 @@ var W3C = {
 		});
 		
 		W3C.Forms.filter('form[method=get]').each(function (form) {
-			new FormValidator(form, {
+			form.addEvent('submit', function(event) {
+				event.preventDefault();
+				var queryString = form.toQueryString().replace('uri=http%3A%2F%2F', 'uri=');
+				if ("?" + queryString == window.location.search) {
+					window.location.reload(true);
+				} else {
+					window.location = W3C.Action + "?" + queryString + "#" + W3C.getHash();
+				}
+			});
+			/*new FormValidator(form, {
 				onFormValidate: function(passed, form, event) {
 					if (passed) {
 						event.preventDefault();	
@@ -89,17 +98,21 @@ var W3C = {
 						window.location = "./" + W3C.Action + "?" + queryString;
 					}
 				}
-			});
+			});*/
 		});
 		
 		W3C.Forms.filter('form[method=post]').each(function (form) {
-			new FormValidator(form, {
+			form.addEvent('submit', function(event) {
+				form.setProperty('action', form.getProperty('action') + '#' + W3C.getHash());
+			})
+			
+			/*new FormValidator(form, {
 				onFormValidate: function(passed, form, event) {
 					if (passed) {
 						form.setProperty('action', form.getProperty('action') + '#' + W3C.getHash());
 					}
 				}
-			});
+			});*/
 		});
 		
 	},
