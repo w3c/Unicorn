@@ -14,6 +14,7 @@
             <doc xml:lang="en" title="name">Feed Validator</doc>
           
             <doc title="mimetype">application/xml</doc>
+            <doc title="mimetype">application/atom+xml</doc>
             <doc title="mimetype">text/xml</doc>
             <doc title="mimetype">text/html</doc>
             
