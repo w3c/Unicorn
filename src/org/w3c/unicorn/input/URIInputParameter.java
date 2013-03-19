@@ -101,7 +101,7 @@ public class URIInputParameter extends InputParameter {
 			}
 			
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
-			con.setRequestProperty("User-agent", "W3C_Unicorn/1.0");
+			con.setRequestProperty("User-agent", "W3C_Unicorn/1.0 (http://validator.w3.org/services)");
 			con.setConnectTimeout(connectTimeOut);
 			con.setRequestMethod("HEAD");
 			try {
