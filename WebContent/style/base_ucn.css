@@ -41,7 +41,7 @@ body {
 	min-width:40em;
 	padding-bottom:2em;
 }
-#frontforms, #don_program, #menu, #footer, div.text, #translations {
+#frontforms, #menu, #footer, div.text, #translations {
 	margin:1em 2em;
 }
 #banner {
@@ -184,23 +184,7 @@ select.ucn_text_mime {
 img.loader {
 	margin: 1em;
 }
-#don_program {
-	line-height:150%;
-	padding:0.5em;
-	text-align:center;
-}
-#don_program_img {
-	float:left;
-	height:60px;
-	width:150px;
-}
-#don_program_img img {
-	vertical-align:middle;
-}
-#don_program_text a {
-	font-weight:bold;
-	text-decoration:underline;
-}
+#w3c-include {}
 #lang_choice {
 	margin-right:2em;
 	position:absolute;
@@ -347,9 +331,6 @@ fieldset div.input, fieldset div.options, fieldset div.submit {
 }
 fieldset div.submit input {
 	background:url(../images/button.png) no-repeat scroll left 1px;
-}
-#don_program {
-	border:1px solid #55B05A;
 }
 #footer p.copyright {
 	color:#7C8395;
