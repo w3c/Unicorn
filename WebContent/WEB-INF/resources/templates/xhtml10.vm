@@ -17,7 +17,7 @@
 #displayMessages($messages)
 #end
 <div id="w3c-include">
-    <script type="text/javascript" src="http://www.w3.org/QA/Tools/w3c-include.js"></script>
+    <script type="text/javascript" src="//www.w3.org/QA/Tools/w3c-include.js"></script>
 </div>
 <div id="observations" class="contextShow:'$esc.html($contexts_show)' contextHide:'$esc.html($contexts_hide)'">
 #foreach ($observationName in $observationList.keySet())
