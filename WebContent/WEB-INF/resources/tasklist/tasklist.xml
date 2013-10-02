@@ -14,8 +14,9 @@
 			<exec id="markup-validator" value="markup-validator" type="observation" />
 			<exec id="css21" value="css21-validator" type="observation" />
 			<exec id="css3" value="css3-validator" type="observation" />
-			<exec id="feed" value="feed" type="observation" />
 			<exec id="i18n" value="i18n" type="observation" />
+			<exec id="feed" value="feed" type="observation" />
+
 			<if test="is_input_uri">
 			  <then><exec id="http" value="http" type="observation" /></then>
 			</if>
@@ -24,8 +25,8 @@
 		<parameters>
 			<parameter name="charset" default="(detect automatically)" ui="advanced" type="dropdown" observer="markup-validator" />
 			<parameter name="doctype" default="Inline" ui="advanced" type="dropdown" observer="markup-validator" />
-			<parameter name="warning" ui="none" type="dropdown" default="all">
-				<value name="all">
+			<parameter name="warning" ui="none" type="dropdown" default="normal">
+				<value name="normal">
 					<mapped param="warning" observer="css21-validator" value="1" />
 					<mapped param="warning" observer="css3-validator" value="1" />
 				</value>
@@ -37,8 +38,8 @@
 				<observation>markup-validator</observation>
 			</group>
 			<group type="firstPassed">
-				<observation>css21-validator</observation>
 				<observation>css3-validator</observation>
+				<observation>css21-validator</observation>
 			</group>
 			<group>
 				<observation>i18n</observation>
@@ -57,7 +58,7 @@
 		</routine>
 
 		<parameters>
-			<parameter name="warning" type="dropdown" default="no">
+			<parameter name="warning" type="dropdown" default="1">
 				<value name="no">
 					<mapped param="warning" observer="css1-validator"
 						value="no" />
@@ -217,9 +218,9 @@
 
 		<output>
 			<group>
+				<observation>css3-validator</observation>
 				<observation>css21-validator</observation>
 				<observation>css2-validator</observation>
-				<observation>css3-validator</observation>
 				<observation>css1-validator</observation>
 			</group>
 		</output>
@@ -263,9 +264,6 @@
 			<cond id="param_html" result="passed" type="parameter" parameter="tests">
 				<value>markup-validator</value>
 			</cond>
-			<cond id="param_appc" result="passed" type="parameter" parameter="tests">
-				<value>appc-checker</value>
-			</cond>
 			<cond id="param_mobile" result="passed" type="parameter" parameter="tests">
 				<value>mobileok</value>
 			</cond>
@@ -290,9 +288,6 @@
 			<if test="param_mobile">
 				<then><exec id="mobileok" value="mobileok" type="observation" /></then>
 			</if>
-			<if test="param_appc">
-				<then><exec id="appc" value="appc-checker" type="observation" /></then>
-			</if>
 			<if test="param_feed">
 				<then><exec id="feed" value="feed" type="observation" /></then>
 			</if>
@@ -308,21 +303,19 @@
 			<parameter name="tests" type="checkboxlist" default="" ui="simple">
 				<value name="markup-validator"></value>
 				<value name="css-validator"></value>
-				<value name="appc-checker"></value>
         		<value name="mobileok"></value>
 				<value name="feed"></value>
 				<value name="http"></value>
 				<value name="i18n"></value>
 			</parameter>
-			<parameter name="profile" type="dropdown" ui="advanced" observer="css-validator" default="css21"/>
-			<parameter name="warning" type="dropdown" ui="advanced" observer="css-validator" default="2"/>
-			<parameter name="usermedium" type="dropdown" ui="advanced" observer="css-validator" default="screen"/>
+			<parameter name="profile" type="dropdown" ui="advanced" observer="css-validator" default="css3"/>
+			<parameter name="warning" type="dropdown" ui="advanced" observer="css-validator" default="1"/>
+			<parameter name="usermedium" type="dropdown" ui="advanced" observer="css-validator" default="all"/>
 		</parameters>
 
 		<output>
 			<group>
 				<observation>markup-validator</observation>
-				<observation>appc-checker</observation>
 				<observation>css-validator</observation>
         		<observation>mobileok</observation>
         		<observation>feed</observation>
@@ -346,7 +339,7 @@
 			</group>
 		</output>
 	</task>
-  <!--
+
 	<task id="i18n">
 		<routine>
 			<exec id="i18n" value="i18n" type="observation" />
@@ -361,7 +354,7 @@
 			</group>
 		</output>
 	</task>
-  -->
+
 	<!-- This task allows developers to test their Unicorn output easily. It should removed in production. -->
 	<task id="test">
 		<routine>
