@@ -75,7 +75,7 @@
 			<xs:element name="context" type="context.type" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="title" type="title.type"/>
 			<xs:element name="description" type="description.type" minOccurs="0"/>
-      <xs:element name="type" type="xs:string" minOccurs="0" />
+      <xs:element name="typeid" type="xs:string" minOccurs="0" />
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:token"/>
 		<xs:attribute name="ref" type="xs:anyURI"/>
