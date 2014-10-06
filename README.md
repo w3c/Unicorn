@@ -4,9 +4,9 @@ Unicorn is W3C's unified validator, which helps people improve the quality of th
 
 This site addresses these audiences:
 
-Users, those who want to check their Web pages and understand how to fix them based on Unicorn results.
-Developers, those who wish to add new services, work on existing services, or help develop the underlying Unicorn framework.
-Server Managers, those who wish to run their own Unicorn service locally. 
+* Users, those who want to check their Web pages and understand how to fix them based on Unicorn results.
+* Developers, those who wish to add new services, work on existing services, or help develop the underlying Unicorn framework.
+* Server Managers, those who wish to run their own Unicorn service locally. 
 
 ##How to compile and deploy Unicorn:
 
@@ -14,11 +14,11 @@ Server Managers, those who wish to run their own Unicorn service locally.
 
 example : 
 
-	* Dunicorn.home=/var/lib/tomcat6/webapps/unicorn/
+* Dunicorn.home=/var/lib/tomcat6/webapps/unicorn/
 
-	or
+or
 
-	* Dunicorn.home=/C:/Program%20Files/Tomcat/webapps/unicorn/ (read your servlet engine documentation to know how to add this parameter)
+* Dunicorn.home=/C:/Program%20Files/Tomcat/webapps/unicorn/ (read your servlet engine documentation to know how to add this parameter)
 
 
 2. You will find all the configuration files that Unicorn uses in `WEB-INF/conf`. 
