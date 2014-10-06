@@ -10,14 +10,14 @@ This site addresses these audiences:
 
 ##How to compile and deploy Unicorn:
 
-######The first thing you have to do in order to make Unicorn work is to add a `unicorn.home` parameter to your JVM parameters, pointing to the unicorn rot directory.
+######1. The first thing you have to do in order to make Unicorn work is to add a `unicorn.home` parameter to your JVM parameters, pointing to the unicorn rot directory.
 
 example : 
 
 `Dunicorn.home=/var/lib/tomcat6/webapps/unicorn/` or `Dunicorn.home=/C:/Program%20Files/Tomcat/webapps/unicorn/` (read your servlet engine documentation to know how to add this parameter)
 
 
-2. You will find all the configuration files that Unicorn uses in `WEB-INF/conf`. 
+######2. You will find all the configuration files that Unicorn uses in `WEB-INF/conf`. 
 
 * The main one is `unicorn properties`, which contains some properties that you may want to change:
 	* UNICORN_URL is the url of your installation of Unicorn.
@@ -34,14 +34,14 @@ example :
 * observers.list is the list of the observers contract links
 
 
-3. Under `WEB-INF/resources/tasklist` you will find the task related files which are xml files describing tasks and rdf files containing metadata about tasks.
+######3. Under `WEB-INF/resources/tasklist` you will find the task related files which are xml files describing tasks and rdf files containing metadata about tasks.
 
 
-4. Use ant to compile the project. You can use the 'war' task to make a war file of the 'jar' task to package Unicorn in a jar. The files will be written in the dist directory. See build.xml for more info.
+######4. Use ant to compile the project. You can use the 'war' task to make a war file of the 'jar' task to package Unicorn in a jar. The files will be written in the dist directory. See build.xml for more info.
 ex: `ant war`
 
 
-5. As root, copy the file resources/tomcat_policy in the policy directory of tomcat (/etc/tomcat5/policy.d for Debian) and eventually edit it to fit your needs.
+######5. As root, copy the file resources/tomcat_policy in the policy directory of tomcat (/etc/tomcat5/policy.d for Debian) and eventually edit it to fit your needs.
 Note that this file is very important because it will give permissions to read and write files under Unicorn servlet dir, but also to connect to distant hosts (observers).
 
 
