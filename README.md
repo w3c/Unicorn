@@ -14,11 +14,11 @@ This site addresses these audiences:
 
 example : 
 
-* Dunicorn.home=/var/lib/tomcat6/webapps/unicorn/
+`Dunicorn.home=/var/lib/tomcat6/webapps/unicorn/`
 
 or
 
-* Dunicorn.home=/C:/Program%20Files/Tomcat/webapps/unicorn/ (read your servlet engine documentation to know how to add this parameter)
+`Dunicorn.home=/C:/Program%20Files/Tomcat/webapps/unicorn/` (read your servlet engine documentation to know how to add this parameter)
 
 
 2. You will find all the configuration files that Unicorn uses in `WEB-INF/conf`. 
