@@ -10,7 +10,7 @@ This site addresses these audiences:
 
 ##How to compile and deploy Unicorn:
 
-1. The first thing you have to do in order to make Unicorn work is to add a `unicorn.home` parameter to your JVM parameters, pointing to the unicorn rot directory.
+######The first thing you have to do in order to make Unicorn work is to add a `unicorn.home` parameter to your JVM parameters, pointing to the unicorn rot directory.
 
 example : 
 
