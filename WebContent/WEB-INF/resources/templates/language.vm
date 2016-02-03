@@ -64,7 +64,12 @@
 				#set($meta = $metadataProps.get($locale))
 				#set($percent = 100 * $math.div($math.add($prop.size(), $meta.size()), $math.add($defaultProps.size(), $defaultMetadata.size())))
 				#set($localeKey = $strUtils.replace($locale.getName(), '_', '-'))
-				<th scope="col">$strUtils.capitalize($locale.getDisplayName($defaultLocale))<br /><span lang="$localeKey" xml:lang="$localeKey">$strUtils.capitalize($locale.getDisplayName($locale))</span><br />$percent.intValue()%<br /><a href="./translations?ucn_lang=$locale.getName()">Edit</a></th>
+        <th scope="col">
+          $strUtils.capitalize($locale.getDisplayName($defaultLocale))<br /><span lang="$localeKey" xml:lang="$localeKey">$strUtils.capitalize($locale.getDisplayName($locale))</span><br />$percent.intValue()%<br />
+          #if ($enable_translation_contribs)
+            <a href="./translations?ucn_lang=$locale.getName()">Edit</a>
+          #end
+        </th>
 			#end
 			#end
 			</tr>
