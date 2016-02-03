@@ -70,7 +70,9 @@ public abstract class Action extends HttpServlet {
 			parameterLocale = Language.getAvailableLocale(langParameter);
 			matchedLocale = Language.getUILocale(langParameter);
 			if (messages != null && parameterLocale != matchedLocale) {
-				messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, parameterLocale.getDisplayName(parameterLocale), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + parameterLocale.getName()));
+          if ("true".equals(Property.get("ENABLE_TRANSLATION_CONTRIBS"))) {
+              messages.add(new Message(Message.INFO, "$message_unavailable_requested_language", null, parameterLocale.getDisplayName(parameterLocale), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + parameterLocale.getName()));
+          }
 				return matchedLocale;
 			}
 		} else {
@@ -82,14 +84,16 @@ public abstract class Action extends HttpServlet {
 			}
 			
 			if (messages != null && browserLocale != matchedLocale) {
-				messages.add(new Message(Message.INFO, "$message_unavailable_language", null, browserLocale.getDisplayName(browserLocale), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + browserLocale.getName()));
-				return matchedLocale;
+          if ("true".equals(Property.get("ENABLE_TRANSLATION_CONTRIBS"))) {
+              messages.add(new Message(Message.INFO, "$message_unavailable_language", null, browserLocale.getDisplayName(browserLocale), "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + browserLocale.getName()));
+          }
+          return matchedLocale;
 			}
 		}
 		
-		if (messages != null && !Language.isComplete(matchedLocale))
+		if ("true".equals(Property.get("ENABLE_TRANSLATION_CONTRIBS")) && messages != null && !Language.isComplete(matchedLocale)) {
 			messages.add(new Message(Message.INFO, "$message_incomplete_language", null, "", "?" + Property.get("UNICORN_PARAMETER_PREFIX") + "lang=" + matchedLocale.getName()));
-		
+		}
 		return matchedLocale;
 	}
 
