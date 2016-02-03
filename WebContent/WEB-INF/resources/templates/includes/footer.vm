@@ -45,24 +45,11 @@
 				<img src="$!{baseUri}images/I_heart_validator.png" alt="I heart Validator logo"/>
 			</a>
 		</p>
-		<p class="copyright" #if($lang!="en")xml:lang="en" lang="en"#end #if($direction!="ltr")dir="ltr"#end>
-			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 1994-${year}
-			<a href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a>&reg;
-
-			(<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>,
-			<a href="http://www.ercim.eu/"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>,
-			<a href="http://www.keio.ac.jp/">Keio</a>),
-			All Rights Reserved.
-			W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
-			<a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>,
-			<a rel="Copyright" href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
-			and <a rel="Copyright" href="http://www.w3.org/Consortium/Legal/copyright-software">software licensing</a>
-
-			rules apply. Your interactions with this site are in accordance
-			with our <a href="http://www.w3.org/Consortium/Legal/privacy-statement#Public">public</a> and
-			<a href="http://www.w3.org/Consortium/Legal/privacy-statement#Members">Member</a> privacy
-			statements.
-		</p>
+    <p class="copyright" #if($lang!="en")xml:lang="en" lang="en"#end #if($direction!="ltr")dir="ltr"#end>
+      Copyright &#xA9; ${year} W3C <sup>&#xAE;</sup> (<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>, 
+      <a href="http://www.ercim.eu/"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>,
+      <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>) <a href="/Consortium/Legal/ipr-notice">Usage policies apply</a>.
+    </p>
 	</div>
 </body>
 </html>
