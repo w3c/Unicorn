@@ -66,6 +66,12 @@ public class LanguageAction extends Action {
 			messages = new MessageList();
 		
 		VelocityContext velocityContext = new VelocityContext(Language.getContext(Language.getDefaultLocale()));
+    if("false".equals(Property.get("ENABLE_TRANSLATION_CONTRIBS"))) {
+        velocityContext.put("enable_translation_contribs", false);
+    }
+    else {
+        velocityContext.put("enable_translation_contribs", true);
+    }
 		velocityContext.put("queryString", "./");
 		velocityContext.put("messages", messages);
 		velocityContext.put("baseUri", "./");
@@ -98,6 +104,10 @@ public class LanguageAction extends Action {
 		if (langParameter == null || req.getAttribute("submitted") != null)
 			Templates.write("language.vm", velocityContext, writer);
 		else {
+      if ("false".equals(Property.get("ENABLE_TRANSLATION_CONTRIBS"))) {
+        resp.sendError(404, "Translation contributions are disabled on this server");
+        return;
+      }
 			ULocale locale = Language.getAvailableLocale(langParameter);
 			ULocale requestedLocale = Language.getLocale(langParameter);			
 			if (requestedLocale != locale) {
