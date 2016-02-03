@@ -151,7 +151,12 @@ public class LanguageAction extends Action {
 				return;
 			}
 		}
-		
+    
+    if("false".equals(Property.get("ENABLE_TRANSLATION_CONTRIBS"))) {
+        resp.sendError(404, "Translation contributions are disabled on this server");
+        return;
+    }
+    
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
 		
