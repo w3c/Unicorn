@@ -19,7 +19,7 @@
 #foreach ($message in $messages)
 	#if ($message.Level == 2)
 	<div class="error">
-    <h4>$!esc.html($message.getMessage($lang))</h4
+    <h4>$!esc.html($message.getMessage($lang))</h4>
 		#if ($message.Content)
 		<pre>#if($message.doEvaluateContent())#evaluate($message.Content)#else$!esc.html($message.Content)#end</pre>
 		#end
@@ -29,7 +29,7 @@
 #foreach ($message in $messages)
 	#if ($message.Level == 1)
 	<div class="warning">
-    <h4>$!esc.html($message.getMessage($lang))</h4
+    <h4>$!esc.html($message.getMessage($lang))</h4>
 		#if ($message.Content)
 		<pre>#if($message.doEvaluateContent())#evaluate($message.Content)#else$!esc.html($message.Content)#end</pre>
 		#end
@@ -39,7 +39,7 @@
 #foreach ($message in $messages)
 	#if ($message.Level == 0)
 	<div class="info">
-    <h4>$!esc.html($message.getMessage($lang))</h4
+    <h4>$!esc.html($message.getMessage($lang))</h4>
 		#if ($message.Content)
 		<pre>#if($message.doEvaluateContent())#evaluate($message.Content)#else$!esc.html($message.Content)#end</pre>
 		#end
