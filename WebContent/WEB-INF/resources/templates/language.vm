@@ -11,7 +11,7 @@
 <div class="text">
 	<h2>Translation of Unicorn</h2>
 	#set($langNb = $uiLocales.size())
-	<p>Unicorn is currently available in $langNb languages. Many thanks to all the <a href="http://code.w3.org/unicorn/wiki/Translators">volunteer translators</a> who have helped make Unicorn available in different languages.</p>
+	<p>Unicorn is currently available in $langNb languages. Many thanks to all the <a href="https://github.com/w3c/Unicorn/wiki/Translators">volunteer translators</a> who have helped make Unicorn available in different languages.</p>
 #if ($enable_translation_contribs)
 	<h3>Translate Unicorn in a new language</h3>
 	
