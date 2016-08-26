@@ -226,21 +226,6 @@
     </output>
   </task>
 
-  <task id="mobileok">
-    <routine>
-      <exec id="mobileok" value="mobileok" type="observation" />
-    </routine>
-
-    <parameters>
-    </parameters>
-
-    <output>
-      <group>
-        <observation>mobileok</observation>
-      </group>
-    </output>
-  </task>
-
   <task id="feed">
     <routine>
       <exec id="feed" value="feed" type="observation" />
@@ -264,9 +249,6 @@
       <cond id="param_html" result="passed" type="parameter" parameter="tests">
         <value>markup-validator</value>
       </cond>
-      <cond id="param_mobile" result="passed" type="parameter" parameter="tests">
-        <value>mobileok</value>
-      </cond>
       <cond id="param_feed" result="passed" type="parameter" parameter="tests">
         <value>feed</value>
       </cond>
@@ -285,9 +267,6 @@
       <if test="param_css">
         <then><exec id="css" value="css-validator" type="observation" /></then>
       </if>
-      <if test="param_mobile">
-        <then><exec id="mobileok" value="mobileok" type="observation" /></then>
-      </if>
       <if test="param_feed">
         <then><exec id="feed" value="feed" type="observation" /></then>
       </if>
@@ -303,7 +282,6 @@
       <parameter name="tests" type="checkboxlist" default="" ui="simple">
         <value name="markup-validator"></value>
         <value name="css-validator"></value>
-        <value name="mobileok"></value>
         <value name="feed"></value>
         <value name="http"></value>
         <value name="i18n"></value>
@@ -317,7 +295,6 @@
       <group>
         <observation>markup-validator</observation>
         <observation>css-validator</observation>
-        <observation>mobileok</observation>
         <observation>feed</observation>
         <observation>http</observation>
         <observation>i18n</observation>
