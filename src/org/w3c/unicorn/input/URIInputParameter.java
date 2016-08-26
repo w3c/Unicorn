@@ -103,7 +103,7 @@ public class URIInputParameter extends InputParameter {
 			HttpURLConnection con = (HttpURLConnection) docUrl.openConnection();
 			con.setRequestProperty("User-agent", "W3C_Unicorn/1.0 (http://validator.w3.org/services)");
 			con.setConnectTimeout(connectTimeOut);
-			con.setRequestMethod("HEAD");
+			con.setRequestMethod("GET");
 			try {
 				con.connect();
 			} catch (SSLException e) {
@@ -114,14 +114,6 @@ public class URIInputParameter extends InputParameter {
 				messages.add(message);
 			}
 			int responseCode = con.getResponseCode();
-			if (responseCode == 405) {
-				con = (HttpURLConnection) docUrl.openConnection();
-				con.setRequestProperty("User-agent", "W3C_Unicorn/1.0");
-				con.setConnectTimeout(connectTimeOut);
-				con.setRequestMethod("GET");
-				con.connect();
-				responseCode = con.getResponseCode();
-			}
 			switch (responseCode) {
 			case HttpURLConnection.HTTP_UNAUTHORIZED:
 				throw new UnicornException(Message.ERROR, "$message_unauthorized_access");
