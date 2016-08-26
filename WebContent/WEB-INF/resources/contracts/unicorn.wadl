@@ -26,9 +26,6 @@
 					<param name="tests" fixed="markup-validator" required="true" style="plain">
 						<option value="markup-validator" />
 					</param>
-					<param name="tests" fixed="mobileok" required="true" style="plain">
-						<option value="mobileok" />
-					</param>
 					<param name="tests" fixed="css-validator" required="true" style="plain">
 						<option value="css-validator" />
 					</param>
