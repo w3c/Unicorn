@@ -75,14 +75,13 @@ public class UnicornClient {
 		// Retrieve parameter prefixes from unicorn.properties
 		String paramPrefix = Property.get("UNICORN_PARAMETER_PREFIX");
 		String optParamPrefix = Property.get("UNICORN_PARAMETER_OUTPUT_PREFIX");
-		
 		outputParameters.put("output", "simple");
 		outputParameters.put("format", "text");
 		outputParameters.put("charset", "UTF-8");	
 		
 		aUnicornCall.setLang(Property.get("DEFAULT_LANGUAGE"));
 		
-		for(int i=0; i<args.length; i++) {
+		for(int i=1; i<args.length; i++) {
 			String[] param = args[i].split("=");
 			
 			if (param[0].startsWith(optParamPrefix)) {
