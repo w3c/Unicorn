@@ -86,7 +86,7 @@ public class ValidatorNuResponse implements Response {
 	}
 	
 	public Integer getRating() {
-      return 100;
+      return null;
 	}
 	
 	public Iterable<Message> getMessages() {
