@@ -19,7 +19,7 @@ public class ValidatorNuContext implements Context {
     public ValidatorNuContext(JsonObject jsonMessage, String uri) {
       this.uri = uri;
       try {
-          value = jsonMessage.getString("extract");
+          value = jsonMessage.getString("extract").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "&apos;").replace("\"", "&quot;");
       } catch (NullPointerException e) {}
       try {
           lineMin = jsonMessage.getInt("firstLine");
