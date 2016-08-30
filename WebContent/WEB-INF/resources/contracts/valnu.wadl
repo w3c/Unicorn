@@ -10,7 +10,7 @@
     <resource path="/">
       <doc title="responseType">valnu</doc>
       
-      <doc xml:lang="en" title="name">Validator.Nu</doc>
+      <doc xml:lang="en" title="name">Nu Html Checker</doc>
       
       <doc title="mimetype">text/html</doc>
       <doc title="mimetype">application/xhtml+xml</doc>
@@ -19,7 +19,7 @@
       <doc title="mimetype">application/mathml+xml</doc>
       <doc title="mimetype">application/smil+xml</doc>
       
-      <doc title="paramOutput">valnu</doc>
+      <doc title="paramOutput">out</doc>
       
       <method name="GET" id="ValnuValidationUri">
         <doc title="inputMethod">URI</doc>
