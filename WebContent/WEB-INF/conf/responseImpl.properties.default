@@ -1,1 +1,2 @@
 default = org.w3c.unicorn.response.impl.DefaultResponseXBeans
+valnu = org.w3c.unicorn.response.impl.ValidatorNuResponse
