@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://research.sun.com/wadl/2006/10 wadl.xsd" 
+    xmlns="http://research.sun.com/wadl/2006/10"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <grammars/>
+
+  <resources base="http://validator.w3.org/nu">
+    <resource path="/">
+      <doc title="responseType">valnu</doc>
+      
+      <doc xml:lang="en" title="name">Nu Html Checker</doc>
+      
+      <doc title="mimetype">text/html</doc>
+      <doc title="mimetype">application/xhtml+xml</doc>
+      <doc title="mimetype">application/xml</doc>
+      <doc title="mimetype">image/svg+xml</doc>
+      <doc title="mimetype">application/mathml+xml</doc>
+      <doc title="mimetype">application/smil+xml</doc>
+      
+      <doc title="paramOutput">out</doc>
+      
+      <method name="GET" id="ValnuValidationUri">
+        <doc title="inputMethod">URI</doc>
+        <doc title="inputParamName">doc</doc>
+        <request>
+          <param name="doc" type="xs:anyURI" style="plain"/>
+          <param name="out" fixed="json" required="true" style="plain">
+            <option value="json"/>
+          </param>
+        </request>
+      </method>
+    </resource>
+  </resources>
+
+</application>

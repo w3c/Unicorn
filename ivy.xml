@@ -13,5 +13,7 @@
         <dependency org="org.apache.velocity" name="velocity-tools" rev="2.0" conf="*->*,!sources,!javadoc"/>
         <!--<dependency org="com.ibm.icu" name="icu4j" rev="4.0.1"/> revision 4.4.1 needed, not in maven repo -->
         <dependency org="org.apache.xmlbeans" name="xmlbeans" rev="2.4.0" conf="*->*,!sources,!javadoc"/>
+        <dependency org="javax.json" name="javax.json-api" rev="1.0"/>
+        <dependency org="org.glassfish" name="javax.json" rev="1.0"/>
     </dependencies>
 </ivy-module>

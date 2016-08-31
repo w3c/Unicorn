@@ -11,7 +11,7 @@
     </conds>
 
     <routine>
-      <exec id="markup-validator" value="markup-validator" type="observation" />
+      <exec id="valnu" value="valnu" type="observation" />
       <exec id="css21" value="css21-validator" type="observation" />
       <exec id="css3" value="css3-validator" type="observation" />
       <exec id="i18n" value="i18n" type="observation" />
@@ -23,8 +23,6 @@
     </routine>
 
     <parameters>
-      <parameter name="charset" default="(detect automatically)" ui="advanced" type="dropdown" observer="markup-validator" />
-      <parameter name="doctype" default="Inline" ui="advanced" type="dropdown" observer="markup-validator" />
       <parameter name="warning" ui="none" type="dropdown" default="normal">
         <value name="normal">
           <mapped param="warning" observer="css21-validator" value="1" />
@@ -35,7 +33,7 @@
 
     <output>
       <group>
-        <observation>markup-validator</observation>
+        <observation>valnu</observation>
       </group>
       <group type="firstPassed">
         <observation>css3-validator</observation>
@@ -246,6 +244,9 @@
       <cond id="param_css" result="passed" type="parameter" parameter="tests">
         <value>css-validator</value>
       </cond>
+      <cond id="param_valnu" result="passed" type="parameter" parameter="tests">
+        <value>valnu</value>
+      </cond>
       <cond id="param_html" result="passed" type="parameter" parameter="tests">
         <value>markup-validator</value>
       </cond>
@@ -261,6 +262,9 @@
     </conds>
 
     <routine>
+      <if test="param_valnu">
+        <then><exec id="valnu" value="valnu" type="observation" /></then>
+      </if>
       <if test="param_html">
         <then><exec id="markup" value="markup-validator" type="observation" /></then>
       </if>
@@ -280,6 +284,7 @@
 
     <parameters>
       <parameter name="tests" type="checkboxlist" default="" ui="simple">
+        <value name="valnu"></value>
         <value name="markup-validator"></value>
         <value name="css-validator"></value>
         <value name="feed"></value>
@@ -293,6 +298,7 @@
 
     <output>
       <group>
+        <observation>valnu</observation>
         <observation>markup-validator</observation>
         <observation>css-validator</observation>
         <observation>feed</observation>
