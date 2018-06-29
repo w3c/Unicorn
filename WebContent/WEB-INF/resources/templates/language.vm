@@ -35,8 +35,8 @@
 		</li>
 		<li>Or you can follow these steps:
 			<ol>
-				<li>Download the english <a href="http://dvcs.w3.org/hg/unicorn/raw-file/tip/WebContent/WEB-INF/languages/en.properties">UI properties file</a> and the <a href="http://dvcs.w3.org/hg/unicorn/raw-file/tip/WebContent/WEB-INF/languages/tasks/en.tasklist.properties">tasklist properties file</a>.</li>
-				<li><a href="http://www.w3.org/Consortium/Translation/#discussions">Get in touch with us</a> <strong>before</strong> you start translating: someone may already be on the job. Someone from the W3C staff or validator development team will get back to you with details about how to translate the validator.</li>
+				<li>Download the english <a href="https://github.com/w3c/Unicorn/blob/master/WebContent/WEB-INF/languages/en.properties">UI properties file</a> and the <a href="https://github.com/w3c/Unicorn/blob/master/WebContent/WEB-INF/languages/tasks/en.tasklist.properties">tasklist properties file</a>.</li>
+				<li><a href="https://www.w3.org/Consortium/Translation/#discussions">Get in touch with us</a> <strong>before</strong> you start translating: someone may already be on the job. Someone from the W3C staff or validator development team will get back to you with details about how to translate the validator.</li>
 				<li>Translate.<!-- Congratulations, you have made Unicorn more accessible to a lot more Web developers and designers.--></li>
 			</ol>
 		</li>
