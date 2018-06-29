@@ -41,7 +41,7 @@
 			</a>
 		</p>
 		<p id="support_logo">
-			<a href="https://www.w3.org/QA/Tools/Donate" title="$donation_program">
+			<a href="https://www.w3.org/support/" title="$donation_program">
 				<img src="$!{baseUri}images/I_heart_validator.png" alt="I heart Validator logo"/>
 			</a>
 		</p>
