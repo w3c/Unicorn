@@ -1,6 +1,6 @@
 	<ul id="menu">
 			<li><a href="https://github.com/w3c/Unicorn" title="$documentation_title">$documentation</a></li>
-			<li><a href="https://github.com/w3c/Unicorn/wiki/Install" title="$download_title">$download</a></li>
+			<li><a href="https://github.com/w3c/Unicorn" title="$download_title">$download</a></li>
 			<li><a href="https://github.com/w3c/Unicorn/issues" title="$feedback_title">$feedback</a></li>
 			<li><a href="${baseUri}translations" hreflang="en" title="$translations_title">$translations</a></li>
 	</ul>
