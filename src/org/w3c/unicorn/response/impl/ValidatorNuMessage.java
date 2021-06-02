@@ -48,7 +48,7 @@ public class ValidatorNuMessage implements Message {
           break;
       }
       
-      title = jsonMessage.getString("message");
+      title = jsonMessage.getString("message").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "&apos;").replace("\"", "&quot;");
 
       contexts.add(new ValidatorNuContext(jsonMessage, uri));
 	}
