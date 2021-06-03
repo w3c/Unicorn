@@ -36,12 +36,12 @@
 	
 	<target name="generate_tasklist" description="--> generate unicorn-tasklist.jar based on tasklist.xsd">
 		<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
-		<xmlbean schema="WebContent/WEB-INF/resources/schemas/tasklist.xsd" destfile="${lib.dir}/unicorn-tasklist.jar" target="1.8" javasource="1.8" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/tasklist.xsd" destfile="${lib.dir}/unicorn-tasklist.jar" javasource="1.8" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
 	</target>
 	
 	<target name="generate_observer" description="--> generate unicorn-response.jar based on observer-response.xsd">
 		<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
-		<xmlbean schema="WebContent/WEB-INF/resources/schemas/observer-response.xsd" destfile="${lib.dir}/unicorn-response.jar" target="1.8" javasource="1.8" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
+		<xmlbean schema="WebContent/WEB-INF/resources/schemas/observer-response.xsd" destfile="${lib.dir}/unicorn-response.jar" javasource="1.8" classpath="${lib.dir}/xmlbeans-2.4.0.jar"/>
 	</target>
 	
 	<target name="compile" depends="generate_observer, generate_tasklist" description="--> compile Unicorn">
