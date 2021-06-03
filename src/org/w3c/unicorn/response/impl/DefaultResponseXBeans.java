@@ -77,14 +77,14 @@ public class DefaultResponseXBeans implements Response {
 			throw new UnicornException(new org.w3c.unicorn.util.Message(e));
 		}
 		
-		for (GroupType group : or.getGroupList()) {
+		for (GroupType group : or.getGroupArray()) {
 			if (group.getLang() == null)
 				group.setLang(getLang());
 			groups.add(new DefaultGroupXBeans(group));
 		}
 		
-		for (ListType list : or.getListList()) {
-			for (MessageType message : list.getMessageList()) {
+		for (ListType list : or.getListArray()) {
+			for (MessageType message : list.getMessageArray()) {
 				if (message.getLang() == null)
 					message.setLang(getLang());
 				DefaultMessageXBeans m = new DefaultMessageXBeans(message);
@@ -111,7 +111,7 @@ public class DefaultResponseXBeans implements Response {
 			}
 		}
 		
-		for (MessageType message : or.getMessageList()) {
+		for (MessageType message : or.getMessageArray()) {
 			if (message.getLang() == null)
 				message.setLang(getLang());
 			DefaultMessageXBeans m = new DefaultMessageXBeans(message);
@@ -148,7 +148,7 @@ public class DefaultResponseXBeans implements Response {
 	}
 
 	public int getStatus() {
-		if (or.getStatusList().size() == 0) {
+		if (or.getStatusArray().length == 0) {
 			if (getErrorCount() > 0) {
 				return FAILED;
 			} else {
@@ -156,7 +156,7 @@ public class DefaultResponseXBeans implements Response {
 			}
 		} else {
 			// Status element can be added at the top or the end of a document. If there are two status element, only the last one is used.
-			StatusType status = or.getStatusList().get(or.getStatusList().size() - 1);
+			StatusType status = or.getStatusArray()[or.getStatusArray().length - 1];
 			if (status.isSetValue() && status.getValue().equalsIgnoreCase("passed")) {
 				return PASSED;
 			} else if (status.isSetValue() && status.getValue().equalsIgnoreCase("failed")) {
@@ -168,8 +168,8 @@ public class DefaultResponseXBeans implements Response {
 	}
 	
 	public Integer getRating() {
-		if (or.getStatusList().size() != 0) {
-			StatusType status = or.getStatusList().get(or.getStatusList().size() - 1);
+		if (or.getStatusArray().length != 0) {
+			StatusType status = or.getStatusArray()[or.getStatusArray().length - 1];
 			if (status.isSetRating())
 				return status.getRating();
 		}

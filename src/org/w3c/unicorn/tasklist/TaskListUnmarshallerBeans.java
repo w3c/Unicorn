@@ -5,6 +5,7 @@ package org.w3c.unicorn.tasklist;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -98,11 +99,11 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		
 		// Add the OutputList
 		Output output = new Output();
-		for (GroupType groupType : aTask.getOutput().getGroupList()) {
+		for (GroupType groupType : aTask.getOutput().getGroupArray()) {
 			Group group = new Group();
 			if (groupType.isSetType())
 				group.setType(groupType.getType().toString());
-			group.setObservationList(groupType.getObservationList());
+			group.setObservationList(Arrays.asList(groupType.getObservationArray()));
 			output.getGroupList().add(group);
 		}
 		
@@ -112,7 +113,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		final ParametersType aParameters = aTask.getParameters();
 		if (aParameters != null) {
 
-			for (final ParameterType aParameterBeans : aParameters.getParameterList()) {
+			for (final ParameterType aParameterBeans : aParameters.getParameterArray()) {
 
 				final TUi.Enum aTUi = aParameterBeans.getUi();
 				final String sObserver = aParameterBeans.getObserver();
@@ -132,7 +133,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
 					// Values
 					final Map<String, Value> mapOfValue = new LinkedHashMap<String, Value>();
-					for (final ValueType aValue : aParameterBeans.getValueList()) {
+					for (final ValueType aValue : aParameterBeans.getValueArray()) {
 
 						// name of the value
 						String sValueName = aValue.getName();
@@ -142,7 +143,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
 						// Mappings of the value
 						final Map<String, List<Mapping>> mapOfMapping = new LinkedHashMap<String, List<Mapping>>();
-						for (final MappedType aMappedBeans : aValue.getMappedList()) {
+						for (final MappedType aMappedBeans : aValue.getMappedArray()) {
 							final Mapping aMapping = this
 									.createMapping(aMappedBeans);
 							if (aMapping != null) {
@@ -370,14 +371,14 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 		logger.trace("Creation of the tree based on the Task " + myTask.getId());
 		TLTNode root = new TLTNode();
 		root.setID(NodeID++);
-		for (ExecType exec : subroutine.getExecList()) {
+		for (ExecType exec : subroutine.getExecArray()) {
 			final Observer obs = Framework.mapOfObserver.get(exec.getValue());
 			if (obs == null)
 				throw new UnknownObserverException("The observer " + exec.getValue() + " does not exist. Exec ID: " + exec.getId());
 			root.addExec(new TLTExec(exec.getId(), obs, exec.getValue(), exec
 					.getType(), exec.getParam()));
 		}
-		for (IfType iflist : subroutine.getIfList()) {
+		for (IfType iflist : subroutine.getIfArray()) {
 			root.addIf(fillIfs(myTask, iflist));
 		}
 		return root;
@@ -400,7 +401,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 
 		for (String cond : conds) {
 			//TLTCond myCond = new TLTCond();
-			for (CondType condlist : myTask.getConds().getCondList()) {
+			for (CondType condlist : myTask.getConds().getCondArray()) {
 				if (condlist.getId().equals(cond)) {
 					TLTCond myCond = TLTCond.createCond(condlist.getType().toString());
 					logger.trace("Creation of a condition " + cond);
@@ -506,7 +507,7 @@ public class TaskListUnmarshallerBeans implements TasksListUnmarshaller {
 	public void unmarshal() {
 		logger.trace("unmarshal tasklist");
 		// creates the tasklist without computing references
-		for (final TaskType aTask : this.aTaskList.getTasklist().getTaskList()) {
+		for (final TaskType aTask : this.aTaskList.getTasklist().getTaskArray()) {
 			if (this.mapOfTask.containsKey(aTask.getId())) {
 				logger.warn("Task with id " + aTask.getId() + " already defined.");
 			} else {

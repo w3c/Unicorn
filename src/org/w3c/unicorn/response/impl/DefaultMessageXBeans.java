@@ -64,7 +64,7 @@ public class DefaultMessageXBeans implements Message {
 				.replaceAll("[ ]*xmlns=\"[^>]*\"", "").replaceAll("</?xml-fragment[^>]*>", "");
 		}
 		
-		for (ContextType context : message.getContextList())
+		for (ContextType context : message.getContextArray())
 			contexts.add(new DefaultContextXBeans(context));
 	}
 	
