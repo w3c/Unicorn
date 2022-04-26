@@ -6,7 +6,7 @@
 	xmlns="http://research.sun.com/wadl/2006/10"> 
 	<grammars/>  
 	
-	<resources base="http://jigsaw.w3.org/css-validator/"> 
+	<resources base="https://jigsaw.w3.org/css-validator/"> 
 		<resource path="validator"> 
 			<doc title="responseType">default</doc>
 			

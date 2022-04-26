@@ -6,7 +6,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <grammars/>
 
-  <resources base="http://validator.w3.org/">
+  <resources base="https://validator.w3.org/">
     <resource path="check">
       <doc title="responseType">default</doc>
       
