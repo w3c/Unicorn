@@ -1,7 +1,7 @@
-# Doxyfile 1.4.5
+# Roxyfile 1.4.5
 # Auteur : Projet GestAction
 # Usage  : se placer dans le dossier gestaction et lancer
-#  [> doxygen ./doc/Doxyfile
+#  [> Roxygen ./doc/Roxyfile
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project
@@ -20,7 +20,7 @@
 # The PROJECT_NAME tag is a single word (or a sequence of words surrounded 
 # by quotes) that should identify the project.
 
-PROJECT_NAME           = Unicorn
+PROJECT_NAME           = Halo
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. 
 # This could be handy for archiving the generated documentation or 
@@ -31,7 +31,7 @@ PROJECT_NUMBER         = $(VERSION)
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
 # If a relative path is entered, it will be relative to the location 
-# where doxygen was started. If left blank the current directory will be used.
+# where Roxygen was started. If left blank the current directory will be used.
 
 OUTPUT_DIRECTORY       = ./doc
 
