@@ -1,5 +1,13 @@
 # Unicorn
 
+## Status
+
+Note: Due to lack of resources to maintain the Unicorn project, W3C is planning to stop providing this on-line service as of 31 March 2023.
+
+Since there is no resources from W3C nor the community supporting this project at present, we encourage people to fork.
+
+## Summary
+
 Unicorn is W3C's unified validator, which helps people improve the quality of their Web pages by performing a variety of checks. Unicorn gathers the results of the popular HTML and CSS validators, as well as other useful services.
 
 This site addresses these audiences:
