@@ -2,7 +2,7 @@
 
 ## Status
 
-Note: Due to lack of resources to maintain the Unicorn project, W3C is planning to stop providing this on-line service as of 31 March 2023.
+Note: Due to lack of resources to maintain the Unicorn project, W3C is planning to stop providing this on-line service as of 31 March 2023. (See [2023-02-15 W3C Homepage news](https://www.w3.org/blog/news/archives/9826))
 
 Since there is no resources from W3C nor the community supporting this project at present, we encourage people to fork.
 
